@@ -1,0 +1,1 @@
+Rcpp::loadModule(module = "compboost_module", what = TRUE)
