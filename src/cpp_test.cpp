@@ -24,7 +24,6 @@ double timesTwo(std::vector<double> x) {
   for (unsigned int i = 0; i < x.size(); i++) {
     sum = sum + x[i];
   }
-
   return sum;
 }
 
@@ -48,6 +47,5 @@ double timesTwoPtr(std::vector<double> &x) {
   for (unsigned int i = 0; i < x.size(); i++) {
     sum = sum + x[i];
   }
-
   return sum;
 }
