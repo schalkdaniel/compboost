@@ -1,12 +1,14 @@
 Package: compboost
 Type: Package
-Title: What the Package Does (Title Case)
+Title: A c++ implementation of componentwise boosting
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Daniel Schalk
+Maintainer: Daniel Schalk <d-schalk@t-online.de>
+Description: This package is build on a c++ implementation of componentwise
+  boosting. The class then is importat by using Rcpp modules. Finally a R
+  API which wraps the imported class is the accessor for the user to a 
+  high level function within R.
+License: GPL (>= 3)
 Depends: Rcpp (>= 0.11.2)
 Imports: Rcpp (>= 0.11.2)
 LinkingTo: Rcpp, RcppArmadillo

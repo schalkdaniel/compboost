@@ -22,7 +22,8 @@
 # This file contains:
 # -------------------
 #
-#   The function to load the Rcpp module whithin R.
+#   R API which wraps the imported c++ class wrapper of the "Compboost" class
+#   and acts as the accessor for the user to a high level function within R.
 #
 # Written by:
 # -----------
@@ -37,4 +38,23 @@
 #
 # =========================================================================== #
 
-Rcpp::loadModule(module = "compboost_module", what = TRUE)
+#' @title Compboost main R Function
+#'
+#' @description
+#'   This function provides an R API to create the compboost class object
+#'   automatically. Notice that it is also possible to initialize everything
+#'   'by hand'.
+#'
+#' @param name [\code{character(1)}] \cr
+#'   Name to initialize the C++Class object.
+#' @return [\code{C++Class}] \cr
+#'   A object of class 'CompboostWrapper'.
+#' @export
+
+compboost = function (name) {
+
+  if (missing(name)) {
+    stop("'name' is missing!")
+  }
+  return(CompboostWrapper$new(name))
+}
