@@ -48,21 +48,22 @@
 #ifndef COMPBOOST_H_
 #define COMPBOOST_H_
 
-#include <string>
+#include <RcppArmadillo.h>
 
 namespace cboost {
 
 class Compboost
 {
   private:
-    std::string name;
+
+    arma::vec response;
 
   public:
-    Compboost();
-    Compboost(std::string);
 
-    void SetName (std::string);
-    std::string GetName ();
+    Compboost();
+
+    void SetResponse (arma::vec);
+    arma::vec GetResponse ();
 };
 
 } // namespace cboost

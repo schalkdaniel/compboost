@@ -28,13 +28,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// playArma
+arma::vec playArma(arma::vec& x);
+RcppExport SEXP _compboost_playArma(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(playArma(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP _rcpp_module_boot_compboost_module();
+RcppExport SEXP _rcpp_module_boot_loss_module();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_compboost_timesTwo", (DL_FUNC) &_compboost_timesTwo, 1},
     {"_compboost_timesTwoPtr", (DL_FUNC) &_compboost_timesTwoPtr, 1},
+    {"_compboost_playArma", (DL_FUNC) &_compboost_playArma, 1},
     {"_rcpp_module_boot_compboost_module", (DL_FUNC) &_rcpp_module_boot_compboost_module, 0},
+    {"_rcpp_module_boot_loss_module", (DL_FUNC) &_rcpp_module_boot_loss_module, 0},
     {NULL, NULL, 0}
 };
 

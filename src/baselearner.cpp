@@ -37,27 +37,40 @@
 // //
 // // =========================================================================== #
 //
-// #ifndef BASELEARNER_H_
-// #define BASELEARNER_H_
 //
-// #include <RcppArmadillo.h>
-// #include <string>
+// #include "baselearner.h"
+// #include <iostream>
 //
 // namespace blearner {
 //
-// class Baselearner
-// {
-// private:
-//   arma::vec *response_ptr; // Pointer to the response
-//   arma::mat data; // Data for the baselearner e.g. one variable for linear bl
-//   std::string var_name; // Variable name, needed to know which variable are wrapped
-//   std::string blearner_name; // Name of the baselearner
-//   arma::vec parameter; // Vector of parameters. At the moment just numeric params
+// // --------------------------------------------------------------------------- #
+// // Constructors:
+// // --------------------------------------------------------------------------- #
 //
-// public:
-//   Baselearner(arma::vec, arma::mat, std::string, std::string, arma::vec);
-// };
+// Baselearner::Baselearner (arma::vec response_ptr0, arma::mat data0,
+//   std::string var_name0, std::string blearner_name0, arma::vec parameter0)
+// {
+//   std::cout << "A new Baselearner object has ben created!" << std::endl;
+//
+//   response_ptr = &response_ptr0;
+//   data = data0;
+//   var_name = var_name0;
+//   blearner_name = blearner_name0;
+//   parameter = parameter0;
+// }
+//
+// // --------------------------------------------------------------------------- #
+// // Member functions:
+// // --------------------------------------------------------------------------- #
+//
+// void Compboost::SetResponse (arma::vec response0)
+// {
+//   response = response0;
+// }
+//
+// arma::vec Compboost::GetResponse ()
+// {
+//   return response;
+// }
 //
 // } // namespace cboost
-//
-// #endif // BASELEARNER_H_

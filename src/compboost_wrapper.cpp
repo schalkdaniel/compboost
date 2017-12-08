@@ -39,29 +39,27 @@
 //
 // =========================================================================== #
 
-#include <Rcpp.h>
-
 #include "compboost.h"
 
-class CompboostWrapper {
+class CompboostWrapper
+{
   public:
+
     // Constructors
     CompboostWrapper () {
       cboost::Compboost *obj = new cboost::Compboost();
     };
-    CompboostWrapper (std::string name) {
-      cboost::Compboost *obj = new cboost::Compboost(name);
-    };
 
     // Member functions
-    std::string GetName () {
-      return obj.GetName();
+    arma::vec GetResponse () {
+      return obj.GetResponse();
     };
-    void SetName (std::string name) {
-      obj.SetName(name);
+    void SetResponse (arma::vec response) {
+      obj.SetResponse(response);
     };
 
   private:
+
     cboost::Compboost obj;
 };
 
@@ -76,9 +74,8 @@ RCPP_MODULE(compboost_module) {
   class_<CompboostWrapper> ("CompboostWrapper")
 
   .constructor ("Initialize CompboostWrapper (Compboost) object")
-  .constructor <std::string> ("Initialize CompboostWrapper (Compboost) with name")
 
-  .method ("GetName", &CompboostWrapper::GetName, "Get the name of the Compboost object")
-  .method ("SetName", &CompboostWrapper::SetName, "Set the name of the Compboost object")
+  .method ("GetResponse", &CompboostWrapper::GetResponse, "Get the response of the Compboost object")
+  .method ("SetResponse", &CompboostWrapper::SetResponse, "Set the response of the Compboost object")
   ;
 }

@@ -1,6 +1,6 @@
 #include "compboost.h"
 
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
 #include <vector>
 
 using namespace Rcpp;
@@ -48,4 +48,19 @@ double timesTwoPtr(std::vector<double> &x) {
     sum = sum + x[i];
   }
   return sum;
+}
+
+//' @title RcppArmadillo test
+//'
+//' @description
+//'   This function is used to play around with Armadillo.
+//' @param x [\code{numeric}] \cr
+//'   Numeric vector for the armadillo to play around with.
+//' @return [\code{numeric}] \cr
+//'   The vector after the torture.
+//' @export
+// [[Rcpp::export]]
+arma::vec playArma (arma::vec &x) {
+
+  return x * 0.5;
 }

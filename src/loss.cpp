@@ -22,8 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   Constructors and member function implementations for the class
-//   "Compboost".
+//   Implementation for the 'Loss' class.
 //
 // Written by:
 // -----------
@@ -38,33 +37,76 @@
 //
 // =========================================================================== #
 
-#include "compboost.h"
+#include "loss.h"
 
-#include <iostream>
-
-namespace cboost {
+namespace loss {
 
 // --------------------------------------------------------------------------- #
 // Constructors:
 // --------------------------------------------------------------------------- #
 
-Compboost::Compboost ()
+Loss::Loss ()
 {
-  std::cout << "A new Compboost object has ben created!" << std::endl;
+  // for debugging:
+  std::cout << "Create new Loss (default: quadratic): "
+            << &loss_obj
+            << std::endl;
+
+  loss_obj = new Quadratic;
+  loss_type = "quadratic";
+}
+
+Loss::Loss (std::string loss_type0)
+{
+  // for debugging:
+  std::cout << "Create new Loss with a specific type: "
+            << loss_type0
+            << ": "
+            << &loss_obj
+            << std::endl;
+
+  // if statements to dynamically declare loss
+  if (loss_type0 == "quadratic") {
+    loss_obj  = new Quadratic;
+    loss_type = loss_type0;
+  }
+  if (loss_type0 == "absolute") {
+    loss_obj  = new Absolute;
+    loss_type = loss_type0;
+  }
+}
+
+Loss::Loss (std::string loss_type0, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
+{
+  loss_obj = new CustomLoss(lossFun, gradientFun, initFun);
+  loss_type = loss_type0;
 }
 
 // --------------------------------------------------------------------------- #
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::SetResponse (arma::vec response0)
+arma::vec Loss::CalcLoss (arma::vec &true_value, arma::vec &prediction)
 {
-  response = response0;
+  // Call DefinedLoss function of the child class:
+  return loss_obj->DefinedLoss(true_value, prediction);
 }
 
-arma::vec Compboost::GetResponse ()
+arma::vec Loss::CalcGradient (arma::vec &true_value, arma::vec &prediction)
 {
-  return response;
+  // Call DefinedGradient of the child class:
+  return loss_obj->DefinedGradient(true_value, prediction);
 }
 
-} // namespace cboost
+arma::vec Loss::ConstantInitializer (arma::vec &true_value)
+{
+  // Call ConstantInitializer of the child class:
+  return loss_obj->ConstantInitializer(true_value);
+}
+
+std::string Loss::GetLossType ()
+{
+  return loss_type;
+}
+
+} // namespace loss

@@ -38,3 +38,5 @@
 # =========================================================================== #
 
 Rcpp::loadModule(module = "compboost_module", what = TRUE)
+Rcpp::loadModule(module = "loss_module", what = TRUE)
+
