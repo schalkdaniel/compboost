@@ -1,12 +1,12 @@
-// ========================================================================== \\
-//                                 ___.                          __           \\
-//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         \\
-//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\        \\
-//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |          \\
-//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|          \\
-//           \/            \/|__|       \/                  \/                \\
-//                                                                            \\
-// ========================================================================== \\
+// ========================================================================== //
+//                                 ___.                          __           //
+//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         //
+//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\        //
+//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |          //
+//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|          //
+//           \/            \/|__|       \/                  \/                //
+//                                                                            //
+// ========================================================================== //
 //
 // Compboost is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -77,33 +77,33 @@ class LossWrapper
       std::cout << "Create new LossWrapper with std::string "
                 << &obj
                 << std::endl;
-    };
+    }
     LossWrapper (std::string loss_type, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
     {
       loss::Loss *obj_ptr = &obj;
       *obj_ptr = loss::Loss(loss_type, lossFun, gradientFun, initFun);
-    };
+    }
 
     // Member functions
     arma::vec CalcLoss (arma::vec &true_value, arma::vec &response)
     {
       return obj.CalcLoss(true_value, response);
-    };
+    }
 
     arma::vec CalcGradient (arma::vec &true_value, arma::vec &response)
     {
       return obj.CalcGradient(true_value, response);
-    };
+    }
 
     arma::vec ConstantInitializer (arma::vec &true_value)
     {
       return obj.ConstantInitializer(true_value);
-    };
+    }
 
     std::string GetLossName ()
     {
       return obj.GetLossType();
-    };
+    }
 };
 
 // --------------------------------------------------------------------------- #

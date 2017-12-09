@@ -40,6 +40,7 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport SEXP _rcpp_module_boot_baselearner_module();
 RcppExport SEXP _rcpp_module_boot_compboost_module();
 RcppExport SEXP _rcpp_module_boot_loss_module();
 
@@ -47,6 +48,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_compboost_timesTwo", (DL_FUNC) &_compboost_timesTwo, 1},
     {"_compboost_timesTwoPtr", (DL_FUNC) &_compboost_timesTwoPtr, 1},
     {"_compboost_playArma", (DL_FUNC) &_compboost_playArma, 1},
+    {"_rcpp_module_boot_baselearner_module", (DL_FUNC) &_rcpp_module_boot_baselearner_module, 0},
     {"_rcpp_module_boot_compboost_module", (DL_FUNC) &_rcpp_module_boot_compboost_module, 0},
     {"_rcpp_module_boot_loss_module", (DL_FUNC) &_rcpp_module_boot_loss_module, 0},
     {NULL, NULL, 0}

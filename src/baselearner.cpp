@@ -44,15 +44,55 @@
 namespace blearner {
 
 // --------------------------------------------------------------------------- #
-// Constructors:
+// Linear:
 // --------------------------------------------------------------------------- #
 
+Linear::Linear (arma::vec &response, arma::mat data)
+{
+  data_ptr  = &data;
+  parameter = arma::solve(data, response);
+}
+
+arma::vec Linear::GetParameter ()
+{
+  return parameter;
+}
+
+arma::mat Linear::predict ()
+{
+  return *data_ptr * parameter;
+}
+
+arma::mat Linear::predict (arma::mat &newdata)
+{
+  return newdata * parameter;
+}
+
 
 
 // --------------------------------------------------------------------------- #
-// Member functions:
+// LinearFactory:
 // --------------------------------------------------------------------------- #
 
+LinearFactory::LinearFactory (arma::mat &data0, std::string &blearner_identifier0)
+{
+  data = data0;
+  blearner_identifier = blearner_identifier0;
+}
 
+arma::mat LinearFactory::GetData ()
+{
+  return data;
+}
+
+std::string LinearFactory::GetIdentifier ()
+{
+  return blearner_identifier;
+}
+
+Linear *LinearFactory::TrainBaselearner (arma::vec &response)
+{
+  return new Linear (response, data);
+}
 
 } // namespace blearner
