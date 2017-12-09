@@ -1,12 +1,12 @@
-// ========================================================================== \\
-//                                 ___.                          __           \\
-//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         \\
-//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\        \\
-//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |          \\
-//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|          \\
-//           \/            \/|__|       \/                  \/                \\
-//                                                                            \\
-// ========================================================================== \\
+// ========================================================================== //
+//                                 ___.                          __           //
+//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         //
+//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\        //
+//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |          //
+//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|          //
+//           \/            \/|__|       \/                  \/                //
+//                                                                            //
+// ========================================================================== //
 //
 // Compboost is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -22,7 +22,11 @@
 // This file contains:
 // -------------------
 //
-//   "Baselearner" class
+//   "Baselearner" classes. This file implements the factorys as well as the 
+//   classes which are made in those factorys. The reason behind that pattern
+//   is that every baselearner have its own data. This data is stored within
+//   the factory. Every baselearner which is created in the factory points to
+//   that data (if possible).
 //
 // Written by:
 // -----------
@@ -45,53 +49,55 @@
 
 namespace blearner {
 
-// Parent class:
+// linear baselearner:
+// -----------------------
+
+class Linear
+{
+  private:
+    
+    arma::vec parameter;
+    arma::mat *data_ptr;
+    
+  public:
+    
+    Linear (arma::vec &, arma::mat );
+    
+    arma::vec GetParameter ();
+    
+    arma::mat predict ();
+    arma::mat predict (arma::mat &);
+  
+};
+
+// Factory class:
 // -----------------------
 
 // The parent class includes the minimal functionality every baselearner
 // must have.
 
-class Baselearner
+class LinearFactory
 {
   private:
   
+    // The data member should be stored as pointer (to save memory)
     arma::mat data;
     std::string blearner_identifier;
   
   public:
   
-    Baselearner (std::string);
+    LinearFactory (arma::mat &, std::string &);
     
-    void SetData (arma::mat);
     arma::mat GetData ();
+    std::string GetIdentifier ();
     
-    // Functions which will be overloaded by the child functions. 
-    virtual void train () = 0;
-    virtual arma::mat predict () = 0;
-    virtual arma::mat predict (arma::mat newdata) = 0;
-    
-};
-
-// --------------------------------------------------------------------------- #
-// Child classes, acutal the real baselearner:
-// --------------------------------------------------------------------------- #
-
-// linear baselearner:
-// -----------------------
-
-class Linear: public Baselearner
-{
-  private:
-    
-    arma::vec parameter;
-    
-  public:
-    
-    void train ();
-    arma::mat predict ();
-    arma::mat predict (arma::mat newdata);
+    // Factory method which instantly train the baselearner
+    Linear *TrainBaselearner (arma::vec &);
     
 };
+
+
+
 
 } // namespace cboost
 
