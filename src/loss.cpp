@@ -1,12 +1,12 @@
-// =========================================================================== #
-//                                 ___.                          __            #
-//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_          #
-//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\         #
-//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |           #
-//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|           #
-//           \/            \/|__|       \/                  \/                 #
-//                                                                             #
-// =========================================================================== #
+// ========================================================================== \\
+//                                 ___.                          __           \\
+//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         \\
+//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\        \\
+//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |          \\
+//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|          \\
+//           \/            \/|__|       \/                  \/                \\
+//                                                                            \\
+// ========================================================================== \\
 //
 // Compboost is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ Loss::Loss ()
             << &loss_obj
             << std::endl;
 
-  loss_obj = new Quadratic;
+  loss_obj = new lossdef::Quadratic;
   loss_type = "quadratic";
 }
 
@@ -67,18 +67,18 @@ Loss::Loss (std::string loss_type0)
 
   // if statements to dynamically declare loss
   if (loss_type0 == "quadratic") {
-    loss_obj  = new Quadratic;
+    loss_obj  = new lossdef::Quadratic;
     loss_type = loss_type0;
   }
   if (loss_type0 == "absolute") {
-    loss_obj  = new Absolute;
+    loss_obj  = new lossdef::Absolute;
     loss_type = loss_type0;
   }
 }
 
 Loss::Loss (std::string loss_type0, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
 {
-  loss_obj = new CustomLoss(lossFun, gradientFun, initFun);
+  loss_obj = new lossdef::CustomLoss(lossFun, gradientFun, initFun);
   loss_type = loss_type0;
 }
 

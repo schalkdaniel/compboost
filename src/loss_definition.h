@@ -1,12 +1,12 @@
-// =========================================================================== #
-//                                 ___.                          __            #
-//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_          #
-//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\         #
-//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |           #
-//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|           #
-//           \/            \/|__|       \/                  \/                 #
-//                                                                             #
-// =========================================================================== #
+// ========================================================================== \\
+//                                 ___.                          __           \\
+//        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         \\
+//      _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\        \\
+//      \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |          \\
+//       \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|          \\
+//           \/            \/|__|       \/                  \/                \\
+//                                                                            \\
+// ========================================================================== \\
 //
 // Compboost is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
 //
 //   This file contains the different loss implementations. The structure here
 //   is:
-//     - Parent class 'LossDefinition' which virtual member functions. This
+//     - Parent class 'LossDefinition' which are virtual member functions. This
 //       functions are later overwritten by the child member functions which
 //       contains the concrete implementation of the loss.
 //
@@ -60,6 +60,9 @@
 #include <RcppArmadillo.h>
 
 #include <iostream>
+
+namespace lossdef 
+{
 
 // Parent class:
 // -----------------------
@@ -186,5 +189,7 @@ class CustomLoss: public LossDefinition
       return out;
     };
 };
+
+} // namespace lossdef
 
 #endif // LOSSDEFINITION_H_
