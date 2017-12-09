@@ -13,6 +13,9 @@
 
 # Usage
 
+To play around with the classes there are some "tutorial" `R` files within the tutorial folder. The naming corresopnds
+to the class or function which we want to make clearer (e.g. `tutorial/loss_class.R`).
+
 # Implementation
 
 ## Compatibility of the C++ Code for other Languages
