@@ -27,8 +27,8 @@ bl$train(y)
 # Predict:
 bl$predict(y)
 
-X = matrix(1:100000, ncol = 1)
-y = 3 * as.numeric(X) + rnorm(100000, 0, 200)
+X = matrix(1:1000000, ncol = 1)
+y = 3 * as.numeric(X) + rnorm(1000000, 0, 200)
 
 # Create new object:
 bl = LinearWrapper$new(X, "linear baselearner 2")
@@ -39,5 +39,12 @@ microbenchmark::microbenchmark(
   "C++"    = bl$train(y),
   "R"      = lm(y ~ 0 + X),
   "fastLm" = RcppArmadillo::fastLm(X, y),
-  times = 50
+  times = 20
 )
+
+profvis::profvis({
+  cpp_run    = bl$train(y)
+  r_run      = lm(y ~ 0 + X)
+  fastLm_run = RcppArmadillo::fastLm(X, y)
+})
+
