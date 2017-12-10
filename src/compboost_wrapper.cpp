@@ -47,20 +47,20 @@ class CompboostWrapper
 
     // Constructors
     CompboostWrapper () {
-      cboost::Compboost *obj = new cboost::Compboost();
+      obj = new cboost::Compboost();
     }
 
     // Member functions
     arma::vec GetResponse () {
-      return obj.GetResponse();
+      return obj->GetResponse();
     }
     void SetResponse (arma::vec response) {
-      obj.SetResponse(response);
+      obj->SetResponse(response);
     }
 
   private:
 
-    cboost::Compboost obj;
+    cboost::Compboost *obj;
 };
 
 // --------------------------------------------------------------------------- #
