@@ -39,40 +39,40 @@
 //
 // =========================================================================== #
 
-#include "loss.h"
+#include "loss_factory.h"
 
 class LossWrapper
 {
   private:
     // This one leads to a first definition of the class Loss with the empty
     // constructor.
-    loss::Loss obj;
+    lossfactory::LossFactory obj;
 
   public:
     // Constructors
     LossWrapper ()
     {
       // Predefine the firstly created object with the actual wanted structure!
-      loss::Loss *obj_ptr = &obj;
+      lossfactory::LossFactory *obj_ptr = &obj;
 
       // If we dont use pointers here we create two different objects and always
       // use the first one, which was created by an empty constructor, which
       // doesn't contain the object we really want.
-      *obj_ptr = loss::Loss();
-
+      *obj_ptr = lossfactory::LossFactory();
+      
       // for debugging:
       std::cout << "Create new LossWrapper: " << &obj << std::endl;
     }
     LossWrapper (std::string loss_name)
     {
       // Predefine the firstly created object with the actual wanted structure!
-      loss::Loss *obj_ptr = &obj;
-
+      lossfactory::LossFactory *obj_ptr = &obj;
+      
       // If we dont use pointers here we create two different objects and always
       // use the first one, which was created by an empty constructor, which
       // doesn't contain the object we really want.
-      *obj_ptr = loss::Loss(loss_name);
-
+      *obj_ptr = lossfactory::LossFactory(loss_name);
+      
       // for debugging:
       std::cout << "Create new LossWrapper with std::string "
                 << &obj
@@ -80,26 +80,26 @@ class LossWrapper
     }
     LossWrapper (std::string loss_type, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
     {
-      loss::Loss *obj_ptr = &obj;
-      *obj_ptr = loss::Loss(loss_type, lossFun, gradientFun, initFun);
+      lossfactory::LossFactory *obj_ptr = &obj;
+      *obj_ptr = lossfactory::LossFactory(loss_type, lossFun, gradientFun, initFun);
     }
-
+    
     // Member functions
     arma::vec CalcLoss (arma::vec &true_value, arma::vec &response)
     {
       return obj.CalcLoss(true_value, response);
     }
-
+    
     arma::vec CalcGradient (arma::vec &true_value, arma::vec &response)
     {
       return obj.CalcGradient(true_value, response);
     }
-
+    
     double ConstantInitializer (arma::vec &true_value)
     {
       return obj.ConstantInitializer(true_value);
     }
-
+    
     std::string GetLossName ()
     {
       return obj.GetLossType();
@@ -111,13 +111,13 @@ class LossWrapper
 // --------------------------------------------------------------------------- #
 
 RCPP_MODULE(loss_module) {
-
+  
   using namespace Rcpp;
-
+  
   class_<LossWrapper> ("LossWrapper")
-
-  .constructor ("Initialize loss as quadratic")
-  .constructor <std::string> ("Initialize LossWrapper (Loss) object")
+    
+    .constructor ("Initialize loss as quadratic")
+    .constructor <std::string> ("Initialize LossWrapper (Loss) object")
   .constructor <std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize own loss")
 
   .method ("CalcLoss", &LossWrapper::CalcLoss, "Get the loss")
