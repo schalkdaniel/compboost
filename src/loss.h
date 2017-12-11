@@ -76,7 +76,7 @@ class Loss
 
     arma::vec CalcLoss (arma::vec &, arma::vec &);
     arma::vec CalcGradient (arma::vec &, arma::vec &);
-    arma::vec ConstantInitializer (arma::vec &);
+    double ConstantInitializer (arma::vec &);
 
     std::string GetLossType ();
 };
