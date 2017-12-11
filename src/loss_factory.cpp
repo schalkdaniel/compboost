@@ -22,7 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   Implementation for the 'Loss' class.
+//   Implementation for the 'LossFactory' class.
 //
 // Written by:
 // -----------
@@ -37,29 +37,29 @@
 //
 // =========================================================================== #
 
-#include "loss.h"
+#include "loss_factory.h"
 
-namespace loss {
+namespace lossfactory {
 
 // --------------------------------------------------------------------------- #
 // Constructors:
 // --------------------------------------------------------------------------- #
 
-Loss::Loss ()
+LossFactory::LossFactory ()
 {
   // for debugging:
-  std::cout << "Create new Loss (default: quadratic): "
+  std::cout << "Create new LossFactory (default: quadratic): "
             << &loss_obj
             << std::endl;
 
-  loss_obj = new lossdef::Quadratic;
+  loss_obj = new loss::Quadratic;
   loss_type = "quadratic";
 }
 
-Loss::Loss (std::string loss_type0)
+LossFactory::LossFactory (std::string loss_type0)
 {
   // for debugging:
-  std::cout << "Create new Loss with a specific type: "
+  std::cout << "Create new LossFactory with a specific type: "
             << loss_type0
             << ": "
             << &loss_obj
@@ -68,16 +68,16 @@ Loss::Loss (std::string loss_type0)
   loss_type = loss_type0;
 
   // if statements to dynamically declare loss
-  if (loss_type0 == "quadratic") { loss_obj  = new lossdef::Quadratic; }
-  if (loss_type0 == "absolute")  { loss_obj  = new lossdef::Absolute;  }
+  if (loss_type0 == "quadratic") { loss_obj  = new loss::Quadratic; }
+  if (loss_type0 == "absolute")  { loss_obj  = new loss::Absolute;  }
   
   // loss_obj  = LossFactory::LossFactory.CreateInstance(loss_type0)
   // loss_type = loss_type0;
 }
 
-Loss::Loss (std::string loss_type0, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
+LossFactory::LossFactory (std::string loss_type0, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
 {
-  loss_obj = new lossdef::CustomLoss(lossFun, gradientFun, initFun);
+  loss_obj = new loss::CustomLoss(lossFun, gradientFun, initFun);
   loss_type = loss_type0;
 }
 
@@ -85,27 +85,27 @@ Loss::Loss (std::string loss_type0, Rcpp::Function lossFun, Rcpp::Function gradi
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-arma::vec Loss::CalcLoss (arma::vec &true_value, arma::vec &prediction)
+arma::vec LossFactory::CalcLoss (arma::vec &true_value, arma::vec &prediction)
 {
   // Call DefinedLoss function of the child class:
   return loss_obj->DefinedLoss(true_value, prediction);
 }
 
-arma::vec Loss::CalcGradient (arma::vec &true_value, arma::vec &prediction)
+arma::vec LossFactory::CalcGradient (arma::vec &true_value, arma::vec &prediction)
 {
   // Call DefinedGradient of the child class:
   return loss_obj->DefinedGradient(true_value, prediction);
 }
 
-double Loss::ConstantInitializer (arma::vec &true_value)
+double LossFactory::ConstantInitializer (arma::vec &true_value)
 {
   // Call ConstantInitializer of the child class:
   return loss_obj->ConstantInitializer(true_value);
 }
 
-std::string Loss::GetLossType ()
+std::string LossFactory::GetLossType ()
 {
   return loss_type;
 }
 
-} // namespace loss
+} // namespace lossfactory

@@ -22,19 +22,24 @@
 // This file contains:
 // -------------------
 //
-//   "Loss" class
+//   This file contains the different loss implementations. The structure here
+//   is:
+//     - Parent class 'LossDefinition' which are virtual member functions. This
+//       functions are later overwritten by the child member functions which
+//       contains the concrete implementation of the loss.
 //
-//     - Default loss is defined in empty constructor as quadratic loss
-//     - Other losses can be accessed via a string as constructor parameter.
-//       Implemented losses are:
-//         + quadratic
-//         + absolute
-//     - The loss and gradient function are defined in 'loss_definition.h'. The
-//       Strategy is to define a parent class 'LossDefinition' which calls the
-//       child member functions of the child classes 'Quadratic', 'Absolute'
-//       etc.
-//     - The private member 'loss_type' is just for controlling which loss is
-//       selected.
+//     - Child classes have the structure:
+//
+//         class SpecificLoss: public LossDefinition
+//         {
+//           arma::vec DefinedLoss      { IMPLEMENTATION };
+//           arma::vec DefinedGradient  { IMPLEMENTATION };
+//           double ConstantInitializer { IMPLEMENTATION };
+//         }
+//
+//     - There is one special child class, the 'CustomLoss' which allows to
+//       define custom loss functions out of R.
+//
 //
 // Written by:
 // -----------
@@ -47,38 +52,146 @@
 //
 //   https://www.compstat.statistik.uni-muenchen.de
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef LOSS_H_
 #define LOSS_H_
 
-#include "loss_definition.h"
-
 #include <RcppArmadillo.h>
 
 #include <iostream>
-#include <string>
 
-namespace loss {
+namespace loss
+{
+
+// Parent class:
+// -----------------------
 
 class Loss
 {
+  public:
+
+    virtual arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction) = 0;
+    virtual arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction) = 0;
+    virtual double ConstantInitializer (arma::vec &true_value) = 0;
+};
+
+// -------------------------------------------------------------------------- //
+// Loss implementations as child classes:
+// -------------------------------------------------------------------------- //
+
+// Quadratic loss:
+// -----------------------
+
+class Quadratic: public Loss
+{
+  public:
+
+    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction)
+    {
+      // for debugging:
+      std::cout << "Calculate loss of child class Quadratic!" << std::endl;
+      return arma::pow(true_value - prediction, 2) / 2;
+    }
+
+    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+    {
+      // for debugging:
+      std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
+      return true_value - prediction;
+    }
+
+    double ConstantInitializer (arma::vec &true_value)
+    {
+      return arma::mean(true_value);
+    }
+};
+
+// Absolute loss:
+// -----------------------
+
+class Absolute: public Loss
+{
+  public:
+
+    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction)
+    {
+      // for debugging:
+      std::cout << "Calculate loss of child class Absolute!" << std::endl;
+      return arma::abs(true_value - prediction);
+    }
+
+    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+    {
+      // for debugging:
+      std::cout << "Calculate gradient of child class Absolute!" << std::endl;
+      return arma::sign(true_value - prediction);
+    }
+
+    double ConstantInitializer (arma::vec &true_value)
+    {
+      return arma::median(true_value);
+    }
+};
+
+// Custom loss:
+// -----------------------
+
+// This one is a special one. It allows to use a custom loss predefined in R.
+// The convenience here comes from the 'Rcpp::Function' class and the use of
+// a special constructor which defines the three needed functions!
+
+// Note that there is one conversion step. There is no predefined conversion
+// from 'Rcpp::Function' (which acts as SEXP) to 'double'. But it is possible
+// to go the step above 'Rcpp::NumericVector'. Therefore the custom functions
+// returns a 'Rcpp::NumericVector' which then is able to be converted to
+// 'double' by just selecting one element.
+
+class CustomLoss: public Loss
+{
   private:
 
-    lossdef::LossDefinition *loss_obj;
-    std::string loss_type;
+    Rcpp::Function lossFun;
+    Rcpp::Function gradientFun;
+    Rcpp::Function initFun;
 
   public:
 
-    Loss (); // Default is quadratic loss
-    Loss (std::string); // Constructor returns different loss classes e.g. quadratic
-    Loss (std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function); // Constructor for own R losses
+    CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) :
+      lossFun( lossFun ), gradientFun( gradientFun ), initFun( initFun )
+    {
+      std::cout << "Be careful! You are using a custom loss out of R!"
+                << "This will slow down everything!"
+                << std::endl;
+    }
 
-    arma::vec CalcLoss (arma::vec &, arma::vec &);
-    arma::vec CalcGradient (arma::vec &, arma::vec &);
-    double ConstantInitializer (arma::vec &);
+    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction)
+    {
+      // for debugging:
+      std::cout << "Calculate loss for a custom loss!" << std::endl;
+      Rcpp::NumericVector out = lossFun(true_value, prediction);
+      return out;
+    }
 
-    std::string GetLossType ();
+    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+    {
+      // for debugging:
+      std::cout << "Calculate gradient for a custom loss!" << std::endl;
+      Rcpp::NumericVector out = gradientFun(true_value, prediction);
+      return out;
+    }
+
+    // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
+    // knows how to convert a 'SEXP':
+    double ConstantInitializer (arma::vec &true_value)
+    {
+      // for debugging:
+      std::cout << "Initialize custom loss!" << std::endl;
+      
+      Rcpp::NumericVector out = initFun(true_value);
+      
+      return out[0];
+    }
 };
 
 } // namespace loss
