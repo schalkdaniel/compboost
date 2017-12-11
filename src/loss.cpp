@@ -97,7 +97,7 @@ arma::vec Loss::CalcGradient (arma::vec &true_value, arma::vec &prediction)
   return loss_obj->DefinedGradient(true_value, prediction);
 }
 
-arma::vec Loss::ConstantInitializer (arma::vec &true_value)
+double Loss::ConstantInitializer (arma::vec &true_value)
 {
   // Call ConstantInitializer of the child class:
   return loss_obj->ConstantInitializer(true_value);

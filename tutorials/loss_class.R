@@ -68,7 +68,7 @@ initOwn = function (x)
     x   = x,
     method = "BFGS"
   )$par
-  return(rep(optimum, length(x)))
+  return(optimum)
 }
 
 # Two variables to test the functionality:

@@ -32,9 +32,9 @@
 //
 //         class SpecificLoss: public LossDefinition
 //         {
-//           arma::vec DefinedLoss         { IMPLEMENTATION };
-//           arma::vec DefinedGradient     { IMPLEMENTATION };
-//           arma::vec ConstantInitializer { IMPLEMENTATION };
+//           arma::vec DefinedLoss      { IMPLEMENTATION };
+//           arma::vec DefinedGradient  { IMPLEMENTATION };
+//           double ConstantInitializer { IMPLEMENTATION };
 //         }
 //
 //     - There is one special child class, the 'CustomLoss' which allows to
@@ -73,7 +73,7 @@ class LossDefinition
 
     virtual arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction) = 0;
     virtual arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction) = 0;
-    virtual arma::vec ConstantInitializer (arma::vec &true_value) = 0;
+    virtual double ConstantInitializer (arma::vec &true_value) = 0;
 };
 
 // -------------------------------------------------------------------------- //
@@ -101,10 +101,9 @@ class Quadratic: public LossDefinition
       return true_value - prediction;
     }
 
-    arma::vec ConstantInitializer (arma::vec &true_value)
+    double ConstantInitializer (arma::vec &true_value)
     {
-      arma::vec out(true_value.size());
-      return out.fill(arma::mean(true_value));
+      return arma::mean(true_value);
     }
 };
 
@@ -129,10 +128,9 @@ class Absolute: public LossDefinition
       return arma::sign(true_value - prediction);
     }
 
-    arma::vec ConstantInitializer (arma::vec &true_value)
+    double ConstantInitializer (arma::vec &true_value)
     {
-      arma::vec out(true_value.size());
-      return out.fill(arma::median(true_value));
+      return arma::median(true_value);
     }
 };
 
@@ -144,10 +142,10 @@ class Absolute: public LossDefinition
 // a special constructor which defines the three needed functions!
 
 // Note that there is one conversion step. There is no predefined conversion
-// from 'Rcpp::Function' (which acts as SEXP) to 'arma::vec'. But it is possible
+// from 'Rcpp::Function' (which acts as SEXP) to 'double'. But it is possible
 // to go the step above 'Rcpp::NumericVector'. Therefore the custom functions
 // returns a 'Rcpp::NumericVector' which then is able to be converted to
-// 'arma::vec'.
+// 'double' by just selecting one element.
 
 class CustomLoss: public LossDefinition
 {
@@ -183,10 +181,12 @@ class CustomLoss: public LossDefinition
       return out;
     }
 
-    arma::vec ConstantInitializer (arma::vec &true_value)
+    // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
+    // knows how to convert a 'SEXP':
+    double ConstantInitializer (arma::vec &true_value)
     {
       Rcpp::NumericVector out = initFun(true_value);
-      return out;
+      return out[1];
     }
 };
 

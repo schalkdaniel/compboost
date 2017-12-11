@@ -95,7 +95,7 @@ class LossWrapper
       return obj.CalcGradient(true_value, response);
     }
 
-    arma::vec ConstantInitializer (arma::vec &true_value)
+    double ConstantInitializer (arma::vec &true_value)
     {
       return obj.ConstantInitializer(true_value);
     }
