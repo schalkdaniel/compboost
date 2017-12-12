@@ -93,7 +93,6 @@ class LinearFactory
     
     // Factory method which instantly train the baselearner
     Linear *TrainBaselearner (arma::vec &);
-    
 };
 
 
