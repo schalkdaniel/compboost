@@ -13,26 +13,33 @@ X = matrix(1:10, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
 # Create new object:
-bl = LinearWrapper$new(X, "linear baselearner 1")
+bl = BaselearnerWrapper$new("linear", "l1", X)
 
 # Get identifier:
-bl$GetId()
+bl$GetIdentifier()
 
 # Get the data:
 bl$GetData()
 
-# Train:
+# Train with given y:
 bl$train(y)
+mod.r = lm(y ~ 0 + X)
+
+# Get Paramter:
+bl$GetParameter()
+coef(mod.r)
 
 # Predict:
-bl$predict(y)
+bl$predict()
+predict(mod.r)
+
 
 X = matrix(1:1000000, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(1000000, 0, 200)
 
 # Create new object:
-bl = LinearWrapper$new(X, "linear baselearner 2")
-bl$GetId()
+bl = BaselearnerWrapper$new("linear", "baselearner 2", X)
+bl$GetIdentifier()
 
 # Benchmark parameter calculation:
 microbenchmark::microbenchmark(

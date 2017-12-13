@@ -39,23 +39,55 @@
 
 
 #include "baselearner.h"
-#include <iostream>
 
 namespace blearner {
 
-// --------------------------------------------------------------------------- #
-// Linear:
-// --------------------------------------------------------------------------- #
+// -------------------------------------------------------------------------- //
+// Abstract 'Baselearner' class:
+// -------------------------------------------------------------------------- //
 
-Linear::Linear (arma::vec &response, arma::mat data)
+void Baselearner::SetData (arma::mat &data)
 {
-  data_ptr  = &data;
-  parameter = arma::solve(data, response);
+  data_ptr = &data;
 }
 
-arma::vec Linear::GetParameter ()
+arma::mat Baselearner::GetData ()
+{
+  return *data_ptr;
+}
+
+arma::mat Baselearner::GetParameter () 
 {
   return parameter;
+}
+
+void Baselearner::SetIdentifier (std::string id0)
+{
+  blearner_identifier = id0;
+}
+
+std::string Baselearner::GetIdentifier ()
+{
+  return blearner_identifier;
+}
+
+// -------------------------------------------------------------------------- //
+// Baselearner implementations:
+// -------------------------------------------------------------------------- //
+
+// Linear:
+// -----------------------
+
+Linear::Linear (arma::mat &data, std::string &identifier)
+{
+  // Called from parent class 'Baselearner':
+  Baselearner::SetData(data);
+  Baselearner::SetIdentifier(identifier);
+}
+
+void Linear::train (arma::vec &response)
+{
+  parameter = arma::solve(*data_ptr, response);
 }
 
 arma::mat Linear::predict ()
@@ -66,33 +98,6 @@ arma::mat Linear::predict ()
 arma::mat Linear::predict (arma::mat &newdata)
 {
   return newdata * parameter;
-}
-
-
-
-// --------------------------------------------------------------------------- #
-// LinearFactory:
-// --------------------------------------------------------------------------- #
-
-LinearFactory::LinearFactory (arma::mat &data0, std::string &blearner_identifier0)
-{
-  data = data0;
-  blearner_identifier = blearner_identifier0;
-}
-
-arma::mat LinearFactory::GetData ()
-{
-  return data;
-}
-
-std::string LinearFactory::GetIdentifier ()
-{
-  return blearner_identifier;
-}
-
-Linear *LinearFactory::TrainBaselearner (arma::vec &response)
-{
-  return new Linear (response, data);
 }
 
 } // namespace blearner

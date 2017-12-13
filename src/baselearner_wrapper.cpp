@@ -41,43 +41,47 @@
 //
 // =========================================================================== #
 
-#include "baselearner.h"
+#include "baselearner_factory.h"
 
-class LinearWrapper
+class BaselearnerWrapper
 {
 private:
 
-  blearner::LinearFactory *obj;
+  blearner::Baselearner *obj;
 
 public:
-  // Constructors
-  // ------------
+  // Constructor
+  // -----------------
   
-  LinearWrapper (arma::mat X, std::string id)
+  BaselearnerWrapper (std::string learner, std::string identifier, arma::mat data)
   {
-    obj = new blearner::LinearFactory(X, id);
+    blearnerfactory::BaselearnerFactory *factory_obj = new blearnerfactory::BaselearnerFactory(learner, data);
+    obj = factory_obj->CreateBaselearner(identifier);
   }
 
   // Member functions
-  // ----------------
+  // ------------------
   
-  arma::vec train (arma::vec &response)
+  void train (arma::vec &response)
   {
-    blearner::Linear *newobj = obj->TrainBaselearner(response);
-    return newobj->GetParameter();
+    obj->train(response);
+  }
+  
+  std::string GetIdentifier ()
+  {
+    return obj->GetIdentifier();
+  }
+  
+  arma::mat GetParameter ()
+  {
+    return obj->GetParameter();
   }
   
   // Very stupid at the moment since it first calculate the parameter again
   // and then makes the prediction
-  arma::mat predict (arma::vec &response)
+  arma::mat predict ()
   {
-    blearner::Linear *newobj = obj->TrainBaselearner(response);
-    return newobj->predict();
-  }
-  
-  std::string GetId () 
-  {
-    return obj->GetIdentifier();
+    return obj->predict();
   }
   
   arma::mat GetData () 
@@ -94,13 +98,14 @@ RCPP_MODULE(baselearner_module) {
 
   using namespace Rcpp;
 
-  class_<LinearWrapper> ("LinearWrapper")
+  class_<BaselearnerWrapper> ("BaselearnerWrapper")
 
-    .constructor <arma::mat, std::string> ("Initialize LinearWrapper (Baselearner) object")
-
-    .method ("train", &LinearWrapper::train, "Train a linear baselearner")
-    .method ("predict", &LinearWrapper::predict, "Predict a linear baselearner")
-    .method ("GetId", &LinearWrapper::GetId, "Get the identifier")
-    .method ("GetData", &LinearWrapper::GetData, "Get the data")
-    ;
+  .constructor <std::string, std::string, arma::mat> ("Initialize BaselearnerWrapper (Baselearner) object")
+  
+  .method ("train", &BaselearnerWrapper::train, "Train a linear baselearner")
+  .method ("GetIdentifier", &BaselearnerWrapper::GetIdentifier, "Get Identifier of baselearner")
+  .method ("GetParameter", &BaselearnerWrapper::GetParameter, "Get the parameter of the learner")
+  .method ("predict", &BaselearnerWrapper::predict, "Predict a linear baselearner")
+  .method ("GetData", &BaselearnerWrapper::GetData, "Get the data")
+  ;
 }
