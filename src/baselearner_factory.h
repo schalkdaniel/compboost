@@ -22,8 +22,8 @@
 // This file contains:
 // -------------------
 //
-//   "Baselearner" classes. This file implements the factorys as well as the 
-//   classes which are made in those factorys. The reason behind that pattern
+//   "BaselearnerFactory" class. This file implements the factorys as well as  
+//   the classes which are made in those factorys. The reason behind that pattern
 //   is that every baselearner have its own data. This data is stored within
 //   the factory. Every baselearner which is created in the factory points to
 //   that data (if possible).
@@ -41,63 +41,35 @@
 //
 // =========================================================================== #
 
-#ifndef BASELEARNER_H_
-#define BASELEARNER_H_
+#ifndef BASELEARNERFACTORY_H_
+#define BASELEARNERFACTORY_H_
 
 #include <RcppArmadillo.h>
 #include <string>
 
-namespace blearner {
+#include "baselearner.h"
 
-// -------------------------------------------------------------------------- //
-// Abstract 'Baselearner' class:
-// -------------------------------------------------------------------------- //
+namespace blearnerfactory {
 
-class Baselearner
-{
-  public:
-    
-    virtual void train (arma::vec &) = 0;
-    virtual arma::mat predict () = 0;
-    virtual arma::mat predict (arma::mat &) = 0;
-    
-    void SetData (arma::mat &);
-    arma::mat GetData ();
-    
-    arma::mat GetParameter ();
-    
-    void SetIdentifier (std::string);
-    std::string GetIdentifier ();
-    
-  protected:
-    arma::mat parameter;
-    std::string blearner_identifier;
-    arma::mat *data_ptr;
-    
-};
-
-// -------------------------------------------------------------------------- //
-// Baselearner implementations:
-// -------------------------------------------------------------------------- //
-
-// Linear:
+// linear baselearner:
 // -----------------------
 
-// The parent class includes the minimal functionality every baselearner
-// must have.
-
-class Linear : public Baselearner
+class BaselearnerFactory
 {
 
   public:
-  
-    Linear (arma::mat &, std::string &);
     
-    void train (arma::vec &);
-    arma::mat predict ();
-    arma::mat predict (arma::mat &);
+    BaselearnerFactory (std::string, arma::mat);
+    
+    blearner::Baselearner *CreateBaselearner (std::string);
+    
+  private:
+    
+    std::string blearner_type;
+    arma::mat data;
+  
 };
 
-} // namespace blearner
+} // namespace blearnerfactory
 
-#endif // BASELEARNER_H_
+#endif // BASELEARNERFACTORY_H_
