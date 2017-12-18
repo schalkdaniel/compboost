@@ -60,7 +60,12 @@ class Baselearner
     virtual void train (arma::vec &) = 0;
     virtual arma::mat predict () = 0;
     virtual arma::mat predict (arma::mat &) = 0;
+    virtual arma::mat TransformData() = 0;
     
+    // Within 'SetData' the pointer will be setted, while 'TransformData'
+    // overwrite the object on which 'data_ptr' points. This guarantes that 
+    // the data is just stored once in the factory and then called by reference
+    // within the baselearner:
     void SetData (arma::mat &);
     arma::mat GetData ();
     
@@ -93,10 +98,62 @@ class Linear : public Baselearner
   
     Linear (arma::mat &, std::string &);
     
+    arma::mat TransformData ();
+    
     void train (arma::vec &);
     arma::mat predict ();
     arma::mat predict (arma::mat &);
 };
+
+// Quadratic:
+// -----------------------
+
+// The parent class includes the minimal functionality every baselearner
+// must have.
+
+class Quadratic : public Baselearner
+{
+  
+  public:
+    
+    Quadratic (arma::mat &, std::string &);
+    
+    arma::mat TransformData ();
+    
+    void train (arma::vec &);
+    arma::mat predict ();
+    arma::mat predict (arma::mat &);
+};
+
+// Custom Baselearner:
+// -----------------------
+// The parent class includes the minimal functionality every baselearner
+// must have.
+
+class Custom : public Baselearner
+{
+  private:
+    
+    SEXP model_frame;
+    
+    Rcpp::Function transformDataFun;
+    Rcpp::Function trainFun;
+    Rcpp::Function predictFun;
+    Rcpp::Function predictNewdataFun;
+    Rcpp::Function extractParameter;
+    
+  public:
+    
+    Custom (arma::mat &, std::string &, Rcpp::Function, Rcpp::Function, 
+      Rcpp::Function, Rcpp::Function, Rcpp::Function);
+    
+    arma::mat TransformData ();
+    
+    void train (arma::vec &);
+    arma::mat predict ();
+    arma::mat predict (arma::mat &);
+};
+
 
 } // namespace blearner
 

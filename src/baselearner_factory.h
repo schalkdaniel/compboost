@@ -45,6 +45,8 @@
 #define BASELEARNERFACTORY_H_
 
 #include <RcppArmadillo.h>
+
+#include <iostream>
 #include <string>
 
 #include "baselearner.h"
@@ -59,14 +61,22 @@ class BaselearnerFactory
 
   public:
     
+    
     BaselearnerFactory (std::string, arma::mat);
     
+    // Ordinary definition:
     blearner::Baselearner *CreateBaselearner (std::string);
+    // Definition of custom baselearner:
+    blearner::Baselearner *CreateBaselearner (std::string, Rcpp::Function, 
+      Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
+    
+    bool GetCheck ();
     
   private:
     
     std::string blearner_type;
     arma::mat data;
+    bool data_check = false;
   
 };
 

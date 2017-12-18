@@ -13,8 +13,6 @@ using namespace Rcpp;
 //'   Vector which should be multiplied by 2.
 //' @return [\code{numeric}] \cr
 //'   New vector.
-//' @useDynLib compboost
-//' @importFrom Rcpp evalCpp
 //' @export
 // [[Rcpp::export]]
 double timesTwo(std::vector<double> x) {
@@ -36,8 +34,6 @@ double timesTwo(std::vector<double> x) {
 //'   Vector which should be multiplied by 2.
 //' @return [\code{numeric}] \cr
 //'   New vector.
-//' @useDynLib compboost
-//' @importFrom Rcpp evalCpp
 //' @export
 // [[Rcpp::export]]
 double timesTwoPtr(std::vector<double> &x) {

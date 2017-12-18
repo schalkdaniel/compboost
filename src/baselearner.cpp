@@ -85,6 +85,11 @@ Linear::Linear (arma::mat &data, std::string &identifier)
   Baselearner::SetIdentifier(identifier);
 }
 
+arma::mat Linear::TransformData ()
+{
+  return *data_ptr;
+}
+
 void Linear::train (arma::vec &response)
 {
   parameter = arma::solve(*data_ptr, response);
@@ -98,6 +103,77 @@ arma::mat Linear::predict ()
 arma::mat Linear::predict (arma::mat &newdata)
 {
   return newdata * parameter;
+}
+
+// Quadratic:
+// -----------------------
+
+Quadratic::Quadratic (arma::mat &data, std::string &identifier)
+{
+  // Called from parent class 'Baselearner':
+  Baselearner::SetData(data);
+  Baselearner::SetIdentifier(identifier);
+}
+
+arma::mat Quadratic::TransformData ()
+{
+  return arma::join_rows(*data_ptr, arma::pow(*data_ptr, 2));
+}
+
+void Quadratic::train (arma::vec &response)
+{
+  parameter = arma::solve(*data_ptr, response);
+}
+
+arma::mat Quadratic::predict ()
+{
+  return *data_ptr * parameter;
+}
+
+arma::mat Quadratic::predict (arma::mat &newdata)
+{
+  return newdata * parameter;
+}
+
+// Custom Baselearner:
+// -----------------------
+
+Custom::Custom (arma::mat &data, std::string &identifier, Rcpp::Function transformDataFun, 
+  Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function predictNewdataFun,
+  Rcpp::Function extractParameter) 
+    : transformDataFun( transformDataFun ), 
+      trainFun( trainFun ),
+      predictFun( predictFun ),
+      predictNewdataFun( predictNewdataFun ),
+      extractParameter( extractParameter )
+{
+  // Called from parent class 'Baselearner':
+  Baselearner::SetData(data);
+  Baselearner::SetIdentifier(identifier);
+}
+
+arma::mat Custom::TransformData ()
+{
+  Rcpp::NumericMatrix out = transformDataFun(*data_ptr);
+  return Rcpp::as<arma::mat>(out);
+}
+
+void Custom::train (arma::vec &response)
+{
+  model_frame = trainFun(response, *data_ptr);
+  parameter   = Rcpp::as<arma::mat>(extractParameter(model_frame));
+}
+
+arma::mat Custom::predict ()
+{
+  Rcpp::NumericMatrix out = predictFun(model_frame);
+  return Rcpp::as<arma::mat>(out);
+}
+
+arma::mat Custom::predict (arma::mat &newdata)
+{
+  Rcpp::NumericMatrix out = predictNewdataFun(model_frame, newdata);
+  return Rcpp::as<arma::mat>(out);
 }
 
 } // namespace blearner

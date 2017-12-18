@@ -50,13 +50,21 @@ private:
   blearner::Baselearner *obj;
 
 public:
-  // Constructor
+  // Constructors
   // -----------------
   
   BaselearnerWrapper (std::string learner, std::string identifier, arma::mat data)
   {
     blearnerfactory::BaselearnerFactory *factory_obj = new blearnerfactory::BaselearnerFactory(learner, data);
     obj = factory_obj->CreateBaselearner(identifier);
+  }
+  
+  BaselearnerWrapper (std::string identifier, arma::mat data,
+    Rcpp::Function transformDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
+    Rcpp::Function predictNewdataFun, Rcpp::Function extractParameter)
+  {
+    blearnerfactory::BaselearnerFactory *factory_obj = new blearnerfactory::BaselearnerFactory("custom", data);
+    obj = factory_obj->CreateBaselearner(identifier, transformDataFun, trainFun, predictFun, predictNewdataFun, extractParameter);
   }
 
   // Member functions
@@ -101,11 +109,12 @@ RCPP_MODULE(baselearner_module) {
   class_<BaselearnerWrapper> ("BaselearnerWrapper")
 
   .constructor <std::string, std::string, arma::mat> ("Initialize BaselearnerWrapper (Baselearner) object")
+  .constructor <std::string, arma::mat, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize BaselearnerWrapper (Baselearner) object with custom baselearner")
   
-  .method ("train", &BaselearnerWrapper::train, "Train a linear baselearner")
+  .method ("train",         &BaselearnerWrapper::train, "Train a linear baselearner")
   .method ("GetIdentifier", &BaselearnerWrapper::GetIdentifier, "Get Identifier of baselearner")
-  .method ("GetParameter", &BaselearnerWrapper::GetParameter, "Get the parameter of the learner")
-  .method ("predict", &BaselearnerWrapper::predict, "Predict a linear baselearner")
-  .method ("GetData", &BaselearnerWrapper::GetData, "Get the data")
+  .method ("GetParameter",  &BaselearnerWrapper::GetParameter, "Get the parameter of the learner")
+  .method ("predict",       &BaselearnerWrapper::predict, "Predict a linear baselearner")
+  .method ("GetData",       &BaselearnerWrapper::GetData, "Get the data")
   ;
 }
