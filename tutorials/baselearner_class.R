@@ -142,7 +142,7 @@ bl.inline$GetIdentifier()
 bl.inline$train(y)
 
 # Create custom baselearner
-bl.custom = BaselearnerWrapper$new("linear custom", X, transformDataFun, trainFun, predictFun, predictNewdataFun)
+bl.custom = BaselearnerWrapper$new("linear custom", X, transformDataFun, trainFun, predictFun, predictNewdataFun, extractParameter)
 bl.custom$GetIdentifier()
 bl.custom$train(y)
 
