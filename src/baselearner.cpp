@@ -117,7 +117,7 @@ Quadratic::Quadratic (arma::mat &data, std::string &identifier)
 
 arma::mat Quadratic::TransformData ()
 {
-  return arma::join_rows(*data_ptr, arma::pow(*data_ptr, 2));
+  return arma::pow(*data_ptr, 2);
 }
 
 void Quadratic::train (arma::vec &response)

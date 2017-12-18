@@ -72,6 +72,8 @@ class BaselearnerFactory
     
     bool GetCheck ();
     
+    std::string GetBaselearnerType ();
+    
   private:
     
     std::string blearner_type;
