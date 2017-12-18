@@ -57,7 +57,7 @@ profvis::profvis({
 # =====================================
 
 X = matrix(1:10, ncol = 1)
-y = 8 * 1:10 + 2 * (1:10)^2 + rnorm(10, 0, 20)
+y = 2 * (1:10)^2 + rnorm(10, 0, 20)
 
 # Create new object:
 bl = BaselearnerWrapper$new("quadratic", "q1", X)
@@ -71,7 +71,7 @@ bl$GetData()
 # Train with given y:
 bl$train(y)
 
-X0 = cbind(X, X^2)
+X0 = X^2
 mod.r = lm(y ~ 0 + X0)
 
 # Get Paramter:

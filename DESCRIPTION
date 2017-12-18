@@ -1,6 +1,6 @@
 Package: compboost
 Type: Package
-Title: A c++ implementation of componentwise boosting
+Title: C++ implementation of componentwise boosting
 Version: 0.1.0
 Author: Daniel Schalk
 Maintainer: Daniel Schalk <d-schalk@t-online.de>
@@ -9,8 +9,12 @@ Description: This package is build on a c++ implementation of componentwise
   API which wraps the imported class is the accessor for the user to a 
   function within R.
 License: GPL (>= 3)
-Imports: Rcpp (>= 0.11.2), RcppArmadillo (>= 0.7.900.2.0)
-LinkingTo: Rcpp, RcppArmadillo
+Imports: 
+    Rcpp (>= 0.11.2), 
+    RcppArmadillo (>= 0.7.900.2.0)
+LinkingTo: 
+    Rcpp, 
+    RcppArmadillo
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

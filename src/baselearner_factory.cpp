@@ -111,4 +111,9 @@ bool BaselearnerFactory::GetCheck ()
   return data_check;
 }
 
+std::string BaselearnerFactory::GetBaselearnerType()
+{
+  return blearner_type;
+}
+
 } // namespace blearnerfactory
