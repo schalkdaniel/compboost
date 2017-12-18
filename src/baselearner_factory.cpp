@@ -45,17 +45,70 @@ namespace blearnerfactory {
 BaselearnerFactory::BaselearnerFactory (std::string blearner_type0, arma::mat data0)
 {
   blearner_type = blearner_type0;
+  
+  // Initialize data with the pointer to the original ones. The data will be
+  // transformed to the data used for modelling within the function 
+  // 'CreateBaselearner'.
   data = data0;
 }
 
-blearner::Baselearner *BaselearnerFactory::CreateBaselearner (std::string identifier)
+blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier)
 {
+  std::cout << "New " 
+            << blearner_type 
+            << " baselearner "   
+            << identifier 
+            << " will be created." 
+            << std::endl;
+  
   blearner::Baselearner *blearner_obj;
   
+  // Create new baselearner. This one will be returned by the factory:
   if (blearner_type == "linear") {
     blearner_obj = new blearner::Linear(data, identifier);
   }
+  if (blearner_type == "quadratic") {
+    blearner_obj = new blearner::Quadratic(data, identifier);
+  }
+  // Check if the data is already set. If not, run 'TransformData' from the
+  // baselearner:
+  if (! data_check) {
+    std::cout << "Transform data as specified in 'TransformData'." << std::endl;
+    data = blearner_obj->TransformData();
+    
+    data_check = true;
+  }
   return blearner_obj;
+}
+
+blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier,
+  Rcpp::Function transformDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
+  Rcpp::Function predictNewdataFun, Rcpp::Function extractParameter)
+{
+  std::cout << "New custom baselearner "   
+            << identifier 
+            << " will be created." 
+            << std::endl;
+  
+  blearner::Baselearner *blearner_obj;
+  
+  blearner_obj = new blearner::Custom(data, identifier, transformDataFun, 
+    trainFun, predictFun, predictNewdataFun, extractParameter);
+  
+  // Check if the data is already set. If not, run 'TransformData' from the
+  // baselearner:
+  if (! data_check) {
+    std::cout << "Transform data as specified in 'TransformData'." << std::endl;
+    data = blearner_obj->TransformData();
+    
+    data_check = true;
+  }
+  return blearner_obj;
+}
+
+bool BaselearnerFactory::GetCheck ()
+{
+  return data_check;
 }
 
 } // namespace blearnerfactory

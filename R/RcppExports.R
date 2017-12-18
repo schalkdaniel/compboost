@@ -9,8 +9,6 @@
 #'   Vector which should be multiplied by 2.
 #' @return [\code{numeric}] \cr
 #'   New vector.
-#' @useDynLib compboost
-#' @importFrom Rcpp evalCpp
 #' @export
 timesTwo <- function(x) {
     .Call('_compboost_timesTwo', PACKAGE = 'compboost', x)
@@ -24,8 +22,6 @@ timesTwo <- function(x) {
 #'   Vector which should be multiplied by 2.
 #' @return [\code{numeric}] \cr
 #'   New vector.
-#' @useDynLib compboost
-#' @importFrom Rcpp evalCpp
 #' @export
 timesTwoPtr <- function(x) {
     .Call('_compboost_timesTwoPtr', PACKAGE = 'compboost', x)
