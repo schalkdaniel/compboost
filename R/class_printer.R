@@ -42,7 +42,7 @@
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_BaselearnerWrapper")
-setMethod("show", "Rcpp_BaselearnerWrapper", function (object) {
+ignore.me = setMethod("show", "Rcpp_BaselearnerWrapper", function (object) {
   cat("\nThis is a >>", object$GetBaselearnerType(), "<< baselearner:\n", sep = "")
   cat("\n  Formal S4 class:       ", class(object))
   cat("\n  Baselearner Identifier:", object$GetIdentifier())
@@ -55,7 +55,7 @@ setMethod("show", "Rcpp_BaselearnerWrapper", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_LossWrapper")
-setMethod("show", "Rcpp_LossWrapper", function (object) {
+ignore.me = setMethod("show", "Rcpp_LossWrapper", function (object) {
   cat("\nThis is a >>", object$GetLossName(), "<< loss:\n", sep = "")
   cat("\n  Formal S4 class:", class(object))
   cat("\n\n")
