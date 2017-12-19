@@ -1,0 +1,19 @@
+language: r
+sudo : false
+cache: packages
+
+
+r:
+  - release
+
+r_packages:
+  - Rcpp
+  - RcppArmadillo
+
+r_github_packages:
+  - jimhester/covr
+
+warnings_are_errors: true
+
+after_success:
+  - Rscript -e 'covr::coveralls()'
