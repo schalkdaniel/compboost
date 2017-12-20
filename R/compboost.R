@@ -40,10 +40,9 @@
 
 #' @title Compboost main R Function
 #'
-#' @description
-#'   This function provides an R API to create the compboost class object
-#'   automatically. Notice that it is also possible to initialize everything
-#'   'by hand'.
+#' @description This function provides an R API to create the compboost class 
+#'   object automatically. Notice that it is also possible to initialize 
+#'   everything by hand'.
 #'
 #' @param name [\code{character(1)}] \cr
 #'   Name to initialize the C++Class object.

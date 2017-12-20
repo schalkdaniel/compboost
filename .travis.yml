@@ -9,6 +9,7 @@ r:
 r_packages:
   - Rcpp
   - RcppArmadillo
+  - methods
 
 r_github_packages:
   - jimhester/covr

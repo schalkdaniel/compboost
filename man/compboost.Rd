@@ -15,7 +15,7 @@ Name to initialize the C++Class object.}
   A object of class 'CompboostWrapper'.
 }
 \description{
-This function provides an R API to create the compboost class object
-  automatically. Notice that it is also possible to initialize everything
-  'by hand'.
+This function provides an R API to create the compboost class 
+  object automatically. Notice that it is also possible to initialize 
+  everything by hand'.
 }

@@ -3,8 +3,7 @@
 
 #' @title timesTwo test
 #'
-#' @description
-#'   Multiplied by two!
+#' @description Multiplied by two!
 #' @param x [\code{numeric}] \cr
 #'   Vector which should be multiplied by 2.
 #' @return [\code{numeric}] \cr
@@ -16,8 +15,7 @@ timesTwo <- function(x) {
 
 #' @title timesTwo test
 #'
-#' @description
-#'   Multiplied by two!
+#' @description Multiplied by two!
 #' @param x [\code{numeric}] \cr
 #'   Vector which should be multiplied by 2.
 #' @return [\code{numeric}] \cr
@@ -29,8 +27,7 @@ timesTwoPtr <- function(x) {
 
 #' @title RcppArmadillo test
 #'
-#' @description
-#'   This function is used to play around with Armadillo.
+#' @description This function is used to play around with Armadillo.
 #' @param x [\code{numeric}] \cr
 #'   Numeric vector for the armadillo to play around with.
 #' @return [\code{numeric}] \cr

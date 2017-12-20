@@ -1,5 +1,5 @@
 #' @useDynLib compboost
 NULL
 
-#' @import Rcpp RcppArmadillo
+#' @import Rcpp
 NULL

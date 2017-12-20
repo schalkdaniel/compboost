@@ -7,3 +7,7 @@
 *.o
 *.so
 *.dll
+
+src-i386
+src-x64
+..Rcheck

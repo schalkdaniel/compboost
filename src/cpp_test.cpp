@@ -7,8 +7,7 @@ using namespace Rcpp;
 
 //' @title timesTwo test
 //'
-//' @description
-//'   Multiplied by two!
+//' @description Multiplied by two!
 //' @param x [\code{numeric}] \cr
 //'   Vector which should be multiplied by 2.
 //' @return [\code{numeric}] \cr
@@ -28,8 +27,7 @@ double timesTwo(std::vector<double> x) {
 
 //' @title timesTwo test
 //'
-//' @description
-//'   Multiplied by two!
+//' @description Multiplied by two!
 //' @param x [\code{numeric}] \cr
 //'   Vector which should be multiplied by 2.
 //' @return [\code{numeric}] \cr
@@ -48,8 +46,7 @@ double timesTwoPtr(std::vector<double> &x) {
 
 //' @title RcppArmadillo test
 //'
-//' @description
-//'   This function is used to play around with Armadillo.
+//' @description This function is used to play around with Armadillo.
 //' @param x [\code{numeric}] \cr
 //'   Numeric vector for the armadillo to play around with.
 //' @return [\code{numeric}] \cr
