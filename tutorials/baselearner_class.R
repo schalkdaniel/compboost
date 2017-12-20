@@ -153,6 +153,6 @@ all.equal(bl.inline$predict(), bl.custom$predict())
 microbenchmark::microbenchmark(
   "inline" = bl.inline$train(y),
   "custom" = bl.custom$train(y),
-  "R"      = predict(lm(y ~ 0 + X)),
+  "R"      = lm(y ~ 0 + X),
   times = 20
 )
