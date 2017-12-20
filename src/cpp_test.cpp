@@ -1,5 +1,3 @@
-#include "compboost.h"
-
 #include <RcppArmadillo.h>
 #include <vector>
 
