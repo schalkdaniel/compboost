@@ -6,6 +6,24 @@
 
 using namespace Rcpp;
 
+// printRegisteredFactorys
+void printRegisteredFactorys();
+RcppExport SEXP _compboost_printRegisteredFactorys() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    printRegisteredFactorys();
+    return R_NilValue;
+END_RCPP
+}
+// clearRegisteredFactorys
+void clearRegisteredFactorys();
+RcppExport SEXP _compboost_clearRegisteredFactorys() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    clearRegisteredFactorys();
+    return R_NilValue;
+END_RCPP
+}
 // timesTwo
 double timesTwo(std::vector<double> x);
 RcppExport SEXP _compboost_timesTwo(SEXP xSEXP) {
@@ -45,6 +63,8 @@ RcppExport SEXP _rcpp_module_boot_compboost_module();
 RcppExport SEXP _rcpp_module_boot_loss_module();
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_compboost_printRegisteredFactorys", (DL_FUNC) &_compboost_printRegisteredFactorys, 0},
+    {"_compboost_clearRegisteredFactorys", (DL_FUNC) &_compboost_clearRegisteredFactorys, 0},
     {"_compboost_timesTwo", (DL_FUNC) &_compboost_timesTwo, 1},
     {"_compboost_timesTwoPtr", (DL_FUNC) &_compboost_timesTwoPtr, 1},
     {"_compboost_playArma", (DL_FUNC) &_compboost_playArma, 1},
