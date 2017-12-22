@@ -59,9 +59,9 @@ class Baselearner
     
     virtual void train (arma::vec &) = 0;
     virtual arma::mat predict (arma::mat &) = 0;
-    virtual arma::mat TransformData() = 0;
+    virtual arma::mat InstantiateData() = 0;
     
-    // Within 'SetData' the pointer will be setted, while 'TransformData'
+    // Within 'SetData' the pointer will be setted, while 'InstantiateData'
     // overwrite the object on which 'data_ptr' points. This guarantes that 
     // the data is just stored once in the factory and then called by reference
     // within the baselearner:
@@ -85,39 +85,22 @@ class Baselearner
 // Baselearner implementations:
 // -------------------------------------------------------------------------- //
 
-// Linear:
+// Polynomial:
 // -----------------------
 
 // The parent class includes the minimal functionality every baselearner
 // must have.
 
-class Linear : public Baselearner
+class Polynomial : public Baselearner
 {
-
+  private:
+    unsigned int degree;
+    
   public:
   
-    Linear (arma::mat &, std::string &);
+  Polynomial (arma::mat &, std::string &, unsigned int &);
     
-    arma::mat TransformData ();
-    
-    void train (arma::vec &);
-    arma::mat predict (arma::mat &);
-};
-
-// Quadratic:
-// -----------------------
-
-// The parent class includes the minimal functionality every baselearner
-// must have.
-
-class Quadratic : public Baselearner
-{
-  
-  public:
-    
-    Quadratic (arma::mat &, std::string &);
-    
-    arma::mat TransformData ();
+    arma::mat InstantiateData ();
     
     void train (arma::vec &);
     arma::mat predict (arma::mat &);
@@ -134,7 +117,7 @@ class Custom : public Baselearner
     
     SEXP model_frame;
     
-    Rcpp::Function transformDataFun;
+    Rcpp::Function instantiateDataFun;
     Rcpp::Function trainFun;
     Rcpp::Function predictFun;
     Rcpp::Function extractParameter;
@@ -144,7 +127,7 @@ class Custom : public Baselearner
     Custom (arma::mat &, std::string &, Rcpp::Function, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function);
     
-    arma::mat TransformData ();
+    arma::mat InstantiateData ();
     
     void train (arma::vec &);
     arma::mat predict (arma::mat &);

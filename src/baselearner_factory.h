@@ -61,14 +61,19 @@ class BaselearnerFactory
 
   public:
     
-    
     BaselearnerFactory (std::string, arma::mat);
     
-    // Ordinary definition:
-    blearner::Baselearner *CreateBaselearner (std::string);
+    // Base learner initializations:
+    // ---------------------------------------------------------------------- //
+    
+    // Polynomial baselearner definition:
+    blearner::Baselearner *CreateBaselearner (std::string, unsigned int);
+    
     // Definition of custom baselearner:
     blearner::Baselearner *CreateBaselearner (std::string, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function, Rcpp::Function);
+    
+    // End of baselearner initializations ----------------------------------- //
     
     bool GetCheck ();
     
@@ -78,7 +83,7 @@ class BaselearnerFactory
     
     std::string blearner_type;
     arma::mat data;
-    bool data_check = false;
+    bool is_data_instantiated = false;
   
 };
 

@@ -10,11 +10,14 @@ devtools::load_all()
 X = matrix(1:10, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
-# Create new object:
-bl = BaselearnerWrapper$new("linear", "l1", X)
+# Create new object (Note that we call a polynomial with degree 1):
+bl = BaselearnerWrapper$new("l1", X, 1)
 
 # Get identifier:
 bl$GetIdentifier()
+
+# Get the type:
+bl$GetBaselearnerType()
 
 # Get the data:
 bl$GetData()
@@ -36,7 +39,7 @@ X = matrix(1:1000000, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(1000000, 0, 200)
 
 # Create new object:
-bl = BaselearnerWrapper$new("linear", "baselearner 2", X)
+bl = BaselearnerWrapper$new("l2", X, 1)
 bl$GetIdentifier()
 
 # Benchmark parameter calculation:
@@ -60,7 +63,7 @@ X = matrix(1:10, ncol = 1)
 y = 2 * (1:10)^2 + rnorm(10, 0, 20)
 
 # Create new object:
-bl = BaselearnerWrapper$new("quadratic", "q1", X)
+bl = BaselearnerWrapper$new("q1", X, 2)
 
 # Get identifier:
 bl$GetIdentifier()
@@ -85,7 +88,7 @@ predict(mod.r)
 # Define a custom baselearner object:
 # ===================================
 
-transformDataFun = function (X) {
+instantiateDataFun = function (X) {
   return(X)
 }
 
@@ -105,7 +108,7 @@ X = matrix(1:10, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
 # Create custom baselearner:
-bl = BaselearnerWrapper$new("linear custom 1", X, transformDataFun, trainFun, 
+bl = BaselearnerWrapper$new("linear custom 1", X, instantiateDataFun, trainFun, 
   predictFun, extractParameter)
 
 # Get identifier:
@@ -134,12 +137,13 @@ X = matrix(1:1000000, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(1000000, 0, 200)
 
 # Create inline baselearner:
-bl.inline = BaselearnerWrapper$new("linear", "inline", X)
+bl.inline = BaselearnerWrapper$new("inline l1", X, 1)
 bl.inline$GetIdentifier()
 bl.inline$train(y)
 
 # Create custom baselearner
-bl.custom = BaselearnerWrapper$new("linear custom", X, transformDataFun, trainFun, predictFun, predictNewdataFun, extractParameter)
+bl.custom = BaselearnerWrapper$new("linear custom", X, instantiateDataFun, 
+  trainFun, predictFun, extractParameter)
 bl.custom$GetIdentifier()
 bl.custom$train(y)
 

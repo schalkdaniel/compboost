@@ -52,63 +52,62 @@ BaselearnerFactory::BaselearnerFactory (std::string blearner_type0, arma::mat da
   data = data0;
 }
 
-blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier)
+// Base learner initializations:
+// -------------------------------------------------------------------------- //
+
+// Quadratic:
+// ----------
+
+blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier, unsigned int degree)
 {
-  std::cout << "New " 
-            << blearner_type 
-            << " baselearner "   
-            << identifier 
-            << " will be created." 
-            << std::endl;
-  
   blearner::Baselearner *blearner_obj;
   
-  // Create new baselearner. This one will be returned by the factory:
-  if (blearner_type == "linear") {
-    blearner_obj = new blearner::Linear(data, identifier);
-  }
-  if (blearner_type == "quadratic") {
-    blearner_obj = new blearner::Quadratic(data, identifier);
-  }
-  // Check if the data is already set. If not, run 'TransformData' from the
+  // Create new polynomial baselearner. This one will be returned by the 
+  // factory:
+  blearner_obj = new blearner::Polynomial(data, identifier, degree);
+
+  
+  // Check if the data is already set. If not, run 'InstantiateData' from the
   // baselearner:
-  if (! data_check) {
-    std::cout << "Transform data as specified in 'TransformData'." << std::endl;
-    data = blearner_obj->TransformData();
+  if (! is_data_instantiated) {
+    data = blearner_obj->InstantiateData();
     
-    data_check = true;
+    is_data_instantiated = true;
+  }
+  
+  // update baselearner type:
+  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  
+  return blearner_obj;
+}
+
+// Custom:
+// -------
+
+blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier,
+  Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
+  Rcpp::Function extractParameter)
+{
+  blearner::Baselearner *blearner_obj;
+  
+  blearner_obj = new blearner::Custom(data, identifier, instantiateDataFun, 
+    trainFun, predictFun, extractParameter);
+  
+  // Check if the data is already set. If not, run 'InstantiateData' from the
+  // baselearner:
+  if (! is_data_instantiated) {
+    data = blearner_obj->InstantiateData();
+    
+    is_data_instantiated = true;
   }
   return blearner_obj;
 }
 
-blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier,
-  Rcpp::Function transformDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
-  Rcpp::Function extractParameter)
-{
-  std::cout << "New custom baselearner "   
-            << identifier 
-            << " will be created." 
-            << std::endl;
-  
-  blearner::Baselearner *blearner_obj;
-  
-  blearner_obj = new blearner::Custom(data, identifier, transformDataFun, 
-    trainFun, predictFun, extractParameter);
-  
-  // Check if the data is already set. If not, run 'TransformData' from the
-  // baselearner:
-  if (! data_check) {
-    std::cout << "Transform data as specified in 'TransformData'." << std::endl;
-    data = blearner_obj->TransformData();
-    
-    data_check = true;
-  }
-  return blearner_obj;
-}
+// End of baselearner initializations --------------------------------------- //
 
 bool BaselearnerFactory::GetCheck ()
 {
-  return data_check;
+  return is_data_instantiated;
 }
 
 std::string BaselearnerFactory::GetBaselearnerType()
