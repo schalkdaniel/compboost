@@ -83,7 +83,7 @@ blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string ident
 
 blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier,
   Rcpp::Function transformDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
-  Rcpp::Function predictNewdataFun, Rcpp::Function extractParameter)
+  Rcpp::Function extractParameter)
 {
   std::cout << "New custom baselearner "   
             << identifier 
@@ -93,7 +93,7 @@ blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string ident
   blearner::Baselearner *blearner_obj;
   
   blearner_obj = new blearner::Custom(data, identifier, transformDataFun, 
-    trainFun, predictFun, predictNewdataFun, extractParameter);
+    trainFun, predictFun, extractParameter);
   
   // Check if the data is already set. If not, run 'TransformData' from the
   // baselearner:

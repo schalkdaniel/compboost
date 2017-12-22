@@ -38,7 +38,7 @@ test_that("custom baselearner works", {
     return(as.matrix(predict(model)))
   }
   predictNewdataFun = function (model, newdata) {
-    return(as.matrix(predict(model, newdata)))
+    return(as.matrix(predict(model, as.data.frame(newdata))))
   }
   extractParameter = function (model) {
     return(as.matrix(NA))
@@ -52,7 +52,7 @@ test_that("custom baselearner works", {
   
   # Create baselearner:
   bl = BaselearnerWrapper$new("linear custom test", X, transformDataFun, trainFun, 
-    predictFun, predictNewdataFun, extractParameter)
+    predictFun, extractParameter)
   
   # Test type:
   expect_equal(bl$GetBaselearnerType(), "custom")

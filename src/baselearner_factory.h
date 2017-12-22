@@ -68,7 +68,7 @@ class BaselearnerFactory
     blearner::Baselearner *CreateBaselearner (std::string);
     // Definition of custom baselearner:
     blearner::Baselearner *CreateBaselearner (std::string, Rcpp::Function, 
-      Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
+      Rcpp::Function, Rcpp::Function, Rcpp::Function);
     
     bool GetCheck ();
     

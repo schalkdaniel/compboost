@@ -61,6 +61,11 @@ arma::mat Baselearner::GetParameter ()
   return parameter;
 }
 
+arma::mat Baselearner::predict ()
+{
+  return predict(*data_ptr);
+}
+
 void Baselearner::SetIdentifier (std::string id0)
 {
   blearner_identifier = id0;
@@ -95,11 +100,6 @@ void Linear::train (arma::vec &response)
   parameter = arma::solve(*data_ptr, response);
 }
 
-arma::mat Linear::predict ()
-{
-  return *data_ptr * parameter;
-}
-
 arma::mat Linear::predict (arma::mat &newdata)
 {
   return newdata * parameter;
@@ -125,11 +125,6 @@ void Quadratic::train (arma::vec &response)
   parameter = arma::solve(*data_ptr, response);
 }
 
-arma::mat Quadratic::predict ()
-{
-  return *data_ptr * parameter;
-}
-
 arma::mat Quadratic::predict (arma::mat &newdata)
 {
   return newdata * parameter;
@@ -139,12 +134,10 @@ arma::mat Quadratic::predict (arma::mat &newdata)
 // -----------------------
 
 Custom::Custom (arma::mat &data, std::string &identifier, Rcpp::Function transformDataFun, 
-  Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function predictNewdataFun,
-  Rcpp::Function extractParameter) 
+  Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter) 
     : transformDataFun( transformDataFun ), 
       trainFun( trainFun ),
       predictFun( predictFun ),
-      predictNewdataFun( predictNewdataFun ),
       extractParameter( extractParameter )
 {
   // Called from parent class 'Baselearner':
@@ -164,15 +157,9 @@ void Custom::train (arma::vec &response)
   parameter   = Rcpp::as<arma::mat>(extractParameter(model_frame));
 }
 
-arma::mat Custom::predict ()
-{
-  Rcpp::NumericMatrix out = predictFun(model_frame);
-  return Rcpp::as<arma::mat>(out);
-}
-
 arma::mat Custom::predict (arma::mat &newdata)
 {
-  Rcpp::NumericMatrix out = predictNewdataFun(model_frame, newdata);
+  Rcpp::NumericMatrix out = predictFun(model_frame, newdata);
   return Rcpp::as<arma::mat>(out);
 }
 

@@ -93,12 +93,8 @@ trainFun = function (y, X) {
   return(lm(y ~ 0 + X))
 }
 
-predictFun = function (model) {
-  return(as.matrix(predict(model)))
-}
-
-predictNewdataFun = function (model, newdata) {
-  return(as.matrix(predict(model, newdata)))
+predictFun = function (model, newdata) {
+  return(as.matrix(predict(model, as.data.frame(newdata))))
 }
 
 extractParameter = function (model) {
@@ -110,7 +106,7 @@ y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
 # Create custom baselearner:
 bl = BaselearnerWrapper$new("linear custom 1", X, transformDataFun, trainFun, 
-  predictFun, predictNewdataFun, extractParameter)
+  predictFun, extractParameter)
 
 # Get identifier:
 bl$GetIdentifier()
@@ -125,6 +121,7 @@ mod = lm(y ~ 0 + X)
 # Since we specified an 'extractParameter' function we have some parameters 
 # here:
 bl$GetParameter()
+coef(mod)
 
 # But we can predict:
 bl$predict()

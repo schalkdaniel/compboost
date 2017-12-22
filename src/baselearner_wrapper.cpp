@@ -65,15 +65,14 @@ public:
   
   BaselearnerWrapper (std::string identifier, arma::mat data,
     Rcpp::Function transformDataFun, Rcpp::Function trainFun, 
-    Rcpp::Function predictFun, Rcpp::Function predictNewdataFun, 
-    Rcpp::Function extractParameter)
+    Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
     // The custom baselearner have a predefined type 'custom':
     factory_obj = new blearnerfactory::BaselearnerFactory("custom", data);
     
     // Initialize baselearner:
     obj = factory_obj->CreateBaselearner(identifier, transformDataFun, trainFun, 
-      predictFun, predictNewdataFun, extractParameter);
+      predictFun, extractParameter);
   }
 
   // Member functions
@@ -123,7 +122,7 @@ RCPP_MODULE(baselearner_module) {
   class_<BaselearnerWrapper> ("BaselearnerWrapper")
 
   .constructor <std::string, std::string, arma::mat> ("Initialize BaselearnerWrapper (Baselearner) object")
-  .constructor <std::string, arma::mat, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize BaselearnerWrapper (Baselearner) object with custom baselearner")
+  .constructor <std::string, arma::mat, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize BaselearnerWrapper (Baselearner) object with custom baselearner")
   
   .method ("train",              &BaselearnerWrapper::train, "Train a linear baselearner")
   .method ("GetIdentifier",      &BaselearnerWrapper::GetIdentifier, "Get Identifier of baselearner")

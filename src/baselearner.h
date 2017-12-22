@@ -58,7 +58,6 @@ class Baselearner
   public:
     
     virtual void train (arma::vec &) = 0;
-    virtual arma::mat predict () = 0;
     virtual arma::mat predict (arma::mat &) = 0;
     virtual arma::mat TransformData() = 0;
     
@@ -70,6 +69,7 @@ class Baselearner
     arma::mat GetData ();
     
     arma::mat GetParameter ();
+    arma::mat predict ();
     
     void SetIdentifier (std::string);
     std::string GetIdentifier ();
@@ -101,7 +101,6 @@ class Linear : public Baselearner
     arma::mat TransformData ();
     
     void train (arma::vec &);
-    arma::mat predict ();
     arma::mat predict (arma::mat &);
 };
 
@@ -121,7 +120,6 @@ class Quadratic : public Baselearner
     arma::mat TransformData ();
     
     void train (arma::vec &);
-    arma::mat predict ();
     arma::mat predict (arma::mat &);
 };
 
@@ -139,18 +137,16 @@ class Custom : public Baselearner
     Rcpp::Function transformDataFun;
     Rcpp::Function trainFun;
     Rcpp::Function predictFun;
-    Rcpp::Function predictNewdataFun;
     Rcpp::Function extractParameter;
     
   public:
     
     Custom (arma::mat &, std::string &, Rcpp::Function, Rcpp::Function, 
-      Rcpp::Function, Rcpp::Function, Rcpp::Function);
+      Rcpp::Function, Rcpp::Function);
     
     arma::mat TransformData ();
     
     void train (arma::vec &);
-    arma::mat predict ();
     arma::mat predict (arma::mat &);
 };
 
