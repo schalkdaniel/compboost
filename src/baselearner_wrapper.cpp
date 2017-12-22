@@ -55,23 +55,25 @@ public:
   // Constructors
   // -----------------
   
-  BaselearnerWrapper (std::string learner, std::string identifier, arma::mat data)
+  // Polynomial baselearner:
+  BaselearnerWrapper (std::string identifier, arma::mat data, unsigned int degree)
   {
-    factory_obj = new blearnerfactory::BaselearnerFactory(learner, data);
+    factory_obj = new blearnerfactory::BaselearnerFactory("polynomial", data);
     
     // Initialize baselearner:
-    obj = factory_obj->CreateBaselearner(identifier);
+    obj = factory_obj->CreateBaselearner(identifier, degree);
   }
   
+  // Custom baselearner:
   BaselearnerWrapper (std::string identifier, arma::mat data,
-    Rcpp::Function transformDataFun, Rcpp::Function trainFun, 
+    Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
     // The custom baselearner have a predefined type 'custom':
     factory_obj = new blearnerfactory::BaselearnerFactory("custom", data);
     
     // Initialize baselearner:
-    obj = factory_obj->CreateBaselearner(identifier, transformDataFun, trainFun, 
+    obj = factory_obj->CreateBaselearner(identifier, instantiateDataFun, trainFun, 
       predictFun, extractParameter);
   }
 
@@ -121,7 +123,7 @@ RCPP_MODULE(baselearner_module) {
 
   class_<BaselearnerWrapper> ("BaselearnerWrapper")
 
-  .constructor <std::string, std::string, arma::mat> ("Initialize BaselearnerWrapper (Baselearner) object")
+  .constructor <std::string, arma::mat, unsigned int> ("Initialize BaselearnerWrapper (Baselearner) object")
   .constructor <std::string, arma::mat, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize BaselearnerWrapper (Baselearner) object with custom baselearner")
   
   .method ("train",              &BaselearnerWrapper::train, "Train a linear baselearner")

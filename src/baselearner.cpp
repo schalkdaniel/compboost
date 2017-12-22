@@ -80,52 +80,29 @@ std::string Baselearner::GetIdentifier ()
 // Baselearner implementations:
 // -------------------------------------------------------------------------- //
 
-// Linear:
+// Polynomial:
 // -----------------------
 
-Linear::Linear (arma::mat &data, std::string &identifier)
+Polynomial::Polynomial (arma::mat &data, std::string &identifier, unsigned int &degree) 
+  : degree ( degree )
 {
   // Called from parent class 'Baselearner':
   Baselearner::SetData(data);
   Baselearner::SetIdentifier(identifier);
 }
 
-arma::mat Linear::TransformData ()
+arma::mat Polynomial::InstantiateData ()
 {
-  return *data_ptr;
+  
+  return arma::pow(*data_ptr, degree);
 }
 
-void Linear::train (arma::vec &response)
-{
-  parameter = arma::solve(*data_ptr, response);
-}
-
-arma::mat Linear::predict (arma::mat &newdata)
-{
-  return newdata * parameter;
-}
-
-// Quadratic:
-// -----------------------
-
-Quadratic::Quadratic (arma::mat &data, std::string &identifier)
-{
-  // Called from parent class 'Baselearner':
-  Baselearner::SetData(data);
-  Baselearner::SetIdentifier(identifier);
-}
-
-arma::mat Quadratic::TransformData ()
-{
-  return arma::pow(*data_ptr, 2);
-}
-
-void Quadratic::train (arma::vec &response)
+void Polynomial::train (arma::vec &response)
 {
   parameter = arma::solve(*data_ptr, response);
 }
 
-arma::mat Quadratic::predict (arma::mat &newdata)
+arma::mat Polynomial::predict (arma::mat &newdata)
 {
   return newdata * parameter;
 }
@@ -133,21 +110,21 @@ arma::mat Quadratic::predict (arma::mat &newdata)
 // Custom Baselearner:
 // -----------------------
 
-Custom::Custom (arma::mat &data, std::string &identifier, Rcpp::Function transformDataFun, 
+Custom::Custom (arma::mat &data, std::string &identifier, Rcpp::Function instantiateDataFun, 
   Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter) 
-    : transformDataFun( transformDataFun ), 
-      trainFun( trainFun ),
-      predictFun( predictFun ),
-      extractParameter( extractParameter )
+    : instantiateDataFun ( instantiateDataFun ), 
+      trainFun ( trainFun ),
+      predictFun ( predictFun ),
+      extractParameter ( extractParameter )
 {
   // Called from parent class 'Baselearner':
   Baselearner::SetData(data);
   Baselearner::SetIdentifier(identifier);
 }
 
-arma::mat Custom::TransformData ()
+arma::mat Custom::InstantiateData ()
 {
-  Rcpp::NumericMatrix out = transformDataFun(*data_ptr);
+  Rcpp::NumericMatrix out = instantiateDataFun(*data_ptr);
   return Rcpp::as<arma::mat>(out);
 }
 
