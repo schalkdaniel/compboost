@@ -25,6 +25,7 @@ printRegisteredFactorys()
 # Get best Baselearner:
 # ===================================
 
+# Use the greedy algorithm:
 getBestBaselearner(y)
 
 bl.linear$GetParameter()
