@@ -36,16 +36,7 @@
 //
 // ========================================================================== //
 
-#ifndef OPTIMIZER_H_
-#define OPTIMIZER_H_
-
-#include <iostream>
-#include <map>
-
-#include <RcppArmadillo.h>
-
-#include "baselearner.h"
-#include "baselearner_list.h"
+#include "optimizer.h"
 
 namespace optimizer {
 
@@ -53,19 +44,10 @@ namespace optimizer {
 // Abstract 'Optimizer' class:
 // -------------------------------------------------------------------------- //
 
-class Optimizer
+void Optimizer::SetFactoryMap (blearnerlist::BaselearnerList & factory_list)
 {
-  public:
-    
-    virtual blearner::Baselearner *FindBestBaselearner (std::string &, arma::vec &) = 0;
-
-    void SetFactoryMap (blearnerlist::BaselearnerList &);
-
-  protected:
-    
-    blearner_factory_map my_blearner_factory_map;
-
-};
+  my_blearner_factory_map = factory_list.GetMap();
+}
 
 // -------------------------------------------------------------------------- //
 // Optimizer implementations:
@@ -74,17 +56,51 @@ class Optimizer
 // Greedy:
 // -----------------------
 
-class Greedy : public Optimizer
+Greedy::Greedy (blearnerlist::BaselearnerList & factory_list)
 {
-  public:
+  SetFactoryMap(factory_list);
+}
+
+blearner::Baselearner *Greedy::FindBestBaselearner (std::string &iteration_id, arma::vec &pseudo_residuals)
+{
+  double ssq_temp;
+  double ssq_best = 0;
+  
+  blearner::Baselearner *blearner_temp;
+  blearner::Baselearner *blearner_best;
+  
+  // The use of k crashes the system???? 
+  // unsigned int k = 0;
+  // arma::vec ssq(my_blearner_factory_map.size());
+
+  for (blearner_factory_map::iterator it = my_blearner_factory_map.begin(); it != my_blearner_factory_map.end(); ++it) {
+
+    std::string id = "(" + iteration_id + ") " + it->second->GetBaselearnerType();
     
-    // No special initialization necessary:
-    Greedy (blearnerlist::BaselearnerList &);
-
-    blearner::Baselearner *FindBestBaselearner (std::string &, arma::vec &);
-};
-
+    blearner_temp = it->second->CreateBaselearner(id);
+    blearner_temp->train(pseudo_residuals);
+    
+    ssq_temp = arma::accu(arma::pow(blearner_temp->predict() - pseudo_residuals, 2)) / pseudo_residuals.size();
+    // ssq[k] = arma::accu(arma::pow(blearner_temp->predict() - pseudo_residuals, 2)) / pseudo_residuals.size();
+    
+    if (ssq_best == 0) {
+      ssq_best = ssq_temp;
+      blearner_best = blearner_temp->Clone();
+    }
+    
+    if (ssq_temp < ssq_best) {
+      ssq_best = ssq_temp;
+      blearner_best = blearner_temp->Clone();
+    }
+    
+    // if (k > 0) {
+    //   if (ssq[k] < ssq[k - 1]) {
+    //     blearner_best = blearner_temp->Clone();
+    //   }
+    // }
+    // k += 1;
+  }
+  return blearner_best;
+}
 
 } // namespace optimizer
-
-#endif // OPTIMIZER_H_
