@@ -2,6 +2,7 @@
 
 export(clearRegisteredFactorys)
 export(compboost)
+export(getBestBaselearner)
 export(playArma)
 export(printRegisteredFactorys)
 export(timesTwo)
