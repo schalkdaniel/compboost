@@ -43,6 +43,7 @@
 
 #include "baselearner_factory.h"
 #include "baselearner_list.h"
+#include "optimizer.h"
 
 class BaselearnerWrapper
 {
@@ -62,10 +63,10 @@ class BaselearnerWrapper
     // Polynomial baselearner:
     BaselearnerWrapper (std::string identifier, arma::mat data, unsigned int degree)
     {
-      factory_obj = new blearnerfactory::BaselearnerFactory("polynomial", data);
+      factory_obj = new blearnerfactory::PolynomialFactory(identifier + ": polynomial", data, degree);
       
       // Initialize baselearner:
-      obj = factory_obj->CreateBaselearner(identifier, degree);
+      obj = factory_obj->CreateBaselearner(identifier);
     }
     
     // Custom baselearner:
@@ -74,11 +75,11 @@ class BaselearnerWrapper
       Rcpp::Function predictFun, Rcpp::Function extractParameter)
     {
       // The custom baselearner have a predefined type 'custom':
-      factory_obj = new blearnerfactory::BaselearnerFactory("custom", data);
+      factory_obj = new blearnerfactory::CustomFactory(identifier + ": custom", data, 
+        instantiateDataFun, trainFun, predictFun, extractParameter);
       
       // Initialize baselearner:
-      obj = factory_obj->CreateBaselearner(identifier, instantiateDataFun, trainFun, 
-        predictFun, extractParameter);
+      obj = factory_obj->CreateBaselearner(identifier);
     }
   
     // Member functions
@@ -117,7 +118,7 @@ class BaselearnerWrapper
     // Register Factory in 'BaselearnerList':
     void RegisterFactory (std::string id)
     {
-      blearner_factory_list->RegisterBaselearnerFactory (factory_obj->GetBaselearnerType() + " - " + id, *factory_obj);
+      blearner_factory_list->RegisterBaselearnerFactory (factory_obj->GetBaselearnerType() + " - " + id, factory_obj);
     }
 };
 
@@ -134,6 +135,7 @@ void printRegisteredFactorys ()
 {
   BaselearnerWrapper::blearner_factory_list->PrintRegisteredFactorys();
 }
+
 //' @title Clear the existing Hash Map of 'BaselearnerFactorys'
 //'
 //' @description This function delets all registered factorys. This may be
@@ -146,6 +148,30 @@ void clearRegisteredFactorys ()
   std::cout << "Clear all registered factorys!" << std::endl;
 }
 
+//' @title Optimize over registered Baselearner
+//'
+//' @description This function train every baselearner within the registered
+//'   list and returns a list of specifica about the best baselearner since
+//'   we are not supposed to give back a not exported C++ class in R.
+//' @param pseudo_residuals [\code{numeric}] \cr
+//'   Pseudo residuals to train the baselearner.
+//' @return [\code{list}] \cr
+//'   List of specifica about the best baselearner.
+//' @export
+// [[Rcpp::export]]
+Rcpp::List getBestBaselearner (arma::vec &pseudo_residuals)
+{
+  optimizer::Optimizer *opt = new optimizer::Greedy (*BaselearnerWrapper::blearner_factory_list);
+  
+  std::string temp_string = "test run";
+  
+  blearner::Baselearner *blearner = opt->FindBestBaselearner(temp_string, pseudo_residuals);
+  
+  return Rcpp::List::create(
+    blearner->GetIdentifier(), 
+    blearner->GetParameter()
+  );
+}
 
 // --------------------------------------------------------------------------- #
 // Rcpp module:

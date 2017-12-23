@@ -43,7 +43,7 @@
 
 #include "baselearner_factory.h"
 
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory> blearner_factory_map;
+typedef std::map<std::string, blearnerfactory::BaselearnerFactory *> blearner_factory_map;
 
 namespace blearnerlist
 {
@@ -56,7 +56,7 @@ class BaselearnerList
   public:
     BaselearnerList ();
     
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory);
+    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory *);
     void PrintRegisteredFactorys ();
     
     blearner_factory_map GetMap ();

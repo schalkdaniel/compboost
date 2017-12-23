@@ -46,9 +46,9 @@ BaselearnerList::BaselearnerList ()
   // std::cout << "Initialize Baselearnerlist!" << std::endl;
 }
 
-void BaselearnerList::RegisterBaselearnerFactory (std::string factory_id, blearnerfactory::BaselearnerFactory blearner_factory)
+void BaselearnerList::RegisterBaselearnerFactory (std::string factory_id, blearnerfactory::BaselearnerFactory *blearner_factory)
 {
-  my_factory_map.insert(std::pair<std::string, blearnerfactory::BaselearnerFactory>(factory_id, blearner_factory));
+  my_factory_map.insert(std::pair<std::string, blearnerfactory::BaselearnerFactory *>(factory_id, blearner_factory));
 }
 
 void BaselearnerList::PrintRegisteredFactorys ()

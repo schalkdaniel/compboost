@@ -20,6 +20,20 @@ clearRegisteredFactorys <- function() {
     invisible(.Call('_compboost_clearRegisteredFactorys', PACKAGE = 'compboost'))
 }
 
+#' @title Optimize over registered Baselearner
+#'
+#' @description This function train every baselearner within the registered
+#'   list and returns a list of specifica about the best baselearner since
+#'   we are not supposed to give back a not exported C++ class in R.
+#' @param pseudo_residuals [\code{numeric}] \cr
+#'   Pseudo residuals to train the baselearner.
+#' @return [\code{list}] \cr
+#'   List of specifica about the best baselearner.
+#' @export
+getBestBaselearner <- function(pseudo_residuals) {
+    .Call('_compboost_getBestBaselearner', PACKAGE = 'compboost', pseudo_residuals)
+}
+
 #' @title timesTwo test
 #'
 #' @description Multiplied by two!

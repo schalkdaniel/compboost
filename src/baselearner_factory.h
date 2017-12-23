@@ -53,38 +53,85 @@
 
 namespace blearnerfactory {
 
-// linear baselearner:
-// -----------------------
+// -------------------------------------------------------------------------- //
+// Abstract 'BaselearnerFactory' class:
+// -------------------------------------------------------------------------- //
+
 
 class BaselearnerFactory
 {
 
   public:
     
-    BaselearnerFactory (std::string, arma::mat);
+    void InitializeFactory (std::string, arma::mat);
     
-    // Base learner initializations:
-    // ---------------------------------------------------------------------- //
+    virtual blearner::Baselearner *CreateBaselearner (std::string &) = 0;
     
-    // Polynomial baselearner definition:
-    blearner::Baselearner *CreateBaselearner (std::string, unsigned int);
+    // BaselearnerFactory (std::string, arma::mat);
     
-    // Definition of custom baselearner:
-    blearner::Baselearner *CreateBaselearner (std::string, Rcpp::Function, 
-      Rcpp::Function, Rcpp::Function, Rcpp::Function);
+    // // Base learner initializations:
+    // // ---------------------------------------------------------------------- //
+    // 
+    // // Polynomial baselearner definition:
+    // blearner::Baselearner *CreateBaselearner (std::string, unsigned int);
+    // 
+    // // Definition of custom baselearner:
+    // blearner::Baselearner *CreateBaselearner (std::string, Rcpp::Function, 
+    //   Rcpp::Function, Rcpp::Function, Rcpp::Function);
+    // 
+    // // End of baselearner initializations ----------------------------------- //
     
-    // End of baselearner initializations ----------------------------------- //
-    
-    bool GetCheck ();
+    bool IsDataInstantiated ();
     
     std::string GetBaselearnerType ();
     
-  private:
+  protected:
     
     std::string blearner_type;
     arma::mat data;
     bool is_data_instantiated = false;
   
+};
+
+// -------------------------------------------------------------------------- //
+// BaselearnerFactory implementations:
+// -------------------------------------------------------------------------- //
+
+// Polynomial:
+// -----------------------
+
+class PolynomialFactory : public BaselearnerFactory
+{
+  private:
+    
+    unsigned int degree;
+    
+  public:
+    
+    PolynomialFactory (std::string, arma::mat, unsigned int);
+    
+    blearner::Baselearner *CreateBaselearner (std::string &);
+};
+
+// Custom:
+// -----------------------
+
+class CustomFactory : public BaselearnerFactory
+{
+  private:
+    
+    Rcpp::Function instantiateDataFun;
+    Rcpp::Function trainFun;
+    Rcpp::Function predictFun;
+    Rcpp::Function extractParameter;
+    
+  public:
+    
+    CustomFactory (std::string, arma::mat, Rcpp::Function, Rcpp::Function, 
+      Rcpp::Function, Rcpp::Function);
+    
+    blearner::Baselearner *CreateBaselearner (std::string &);
+    
 };
 
 } // namespace blearnerfactory

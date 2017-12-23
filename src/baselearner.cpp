@@ -46,6 +46,13 @@ namespace blearner {
 // Abstract 'Baselearner' class:
 // -------------------------------------------------------------------------- //
 
+void Baselearner::CopyMembers (arma::mat parameter0, std::string blearner_identifier0, arma::mat &data0)
+{
+  parameter = parameter0;
+  blearner_identifier = blearner_identifier0;
+  data_ptr = &data0;
+}
+
 void Baselearner::SetData (arma::mat &data)
 {
   data_ptr = &data;
@@ -91,6 +98,14 @@ Polynomial::Polynomial (arma::mat &data, std::string &identifier, unsigned int &
   Baselearner::SetIdentifier(identifier);
 }
 
+Baselearner *Polynomial::Clone ()
+{
+  Baselearner *newbl = new Polynomial (*this);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
+  
+  return newbl;
+}
+
 arma::mat Polynomial::InstantiateData ()
 {
   
@@ -120,6 +135,14 @@ Custom::Custom (arma::mat &data, std::string &identifier, Rcpp::Function instant
   // Called from parent class 'Baselearner':
   Baselearner::SetData(data);
   Baselearner::SetIdentifier(identifier);
+}
+
+Baselearner *Custom::Clone ()
+{
+  Baselearner *newbl = new Custom (*this);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
+  
+  return newbl;
 }
 
 arma::mat Custom::InstantiateData ()

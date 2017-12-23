@@ -24,6 +24,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// getBestBaselearner
+Rcpp::List getBestBaselearner(arma::vec& pseudo_residuals);
+RcppExport SEXP _compboost_getBestBaselearner(SEXP pseudo_residualsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::vec& >::type pseudo_residuals(pseudo_residualsSEXP);
+    rcpp_result_gen = Rcpp::wrap(getBestBaselearner(pseudo_residuals));
+    return rcpp_result_gen;
+END_RCPP
+}
 // timesTwo
 double timesTwo(std::vector<double> x);
 RcppExport SEXP _compboost_timesTwo(SEXP xSEXP) {
@@ -65,6 +76,7 @@ RcppExport SEXP _rcpp_module_boot_loss_module();
 static const R_CallMethodDef CallEntries[] = {
     {"_compboost_printRegisteredFactorys", (DL_FUNC) &_compboost_printRegisteredFactorys, 0},
     {"_compboost_clearRegisteredFactorys", (DL_FUNC) &_compboost_clearRegisteredFactorys, 0},
+    {"_compboost_getBestBaselearner", (DL_FUNC) &_compboost_getBestBaselearner, 1},
     {"_compboost_timesTwo", (DL_FUNC) &_compboost_timesTwo, 1},
     {"_compboost_timesTwoPtr", (DL_FUNC) &_compboost_timesTwoPtr, 1},
     {"_compboost_playArma", (DL_FUNC) &_compboost_playArma, 1},

@@ -42,7 +42,11 @@
 
 namespace blearnerfactory {
 
-BaselearnerFactory::BaselearnerFactory (std::string blearner_type0, arma::mat data0)
+// -------------------------------------------------------------------------- //
+// Abstract 'BaselearnerFactory' class:
+// -------------------------------------------------------------------------- //
+
+void BaselearnerFactory::InitializeFactory (std::string blearner_type0, arma::mat data0)
 {
   blearner_type = blearner_type0;
   
@@ -52,20 +56,37 @@ BaselearnerFactory::BaselearnerFactory (std::string blearner_type0, arma::mat da
   data = data0;
 }
 
-// Base learner initializations:
+bool BaselearnerFactory::IsDataInstantiated ()
+{
+  return is_data_instantiated;
+}
+
+std::string BaselearnerFactory::GetBaselearnerType()
+{
+  return blearner_type;
+}
+
+// -------------------------------------------------------------------------- //
+// BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// Quadratic:
-// ----------
+// Polynomial:
+// -----------------------
 
-blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier, unsigned int degree)
+PolynomialFactory::PolynomialFactory (std::string blearner_type, arma::mat data, unsigned int degree)
+  : degree ( degree )
+{
+  InitializeFactory(blearner_type, data);
+}
+
+blearner::Baselearner *PolynomialFactory::CreateBaselearner (std::string &identifier)
 {
   blearner::Baselearner *blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
   blearner_obj = new blearner::Polynomial(data, identifier, degree);
-
+  
   
   // Check if the data is already set. If not, run 'InstantiateData' from the
   // baselearner:
@@ -73,20 +94,28 @@ blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string ident
     data = blearner_obj->InstantiateData();
     
     is_data_instantiated = true;
+    
+    // update baselearner type:
+    blearner_type = blearner_type + " with degree " + std::to_string(degree);
   }
-  
-  // update baselearner type:
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
-  
   return blearner_obj;
 }
 
 // Custom:
-// -------
+// -----------------------
 
-blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string identifier,
-  Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
-  Rcpp::Function extractParameter)
+CustomFactory::CustomFactory (std::string blearner_type, arma::mat data, 
+  Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
+  Rcpp::Function predictFun, Rcpp::Function extractParameter)
+  : instantiateDataFun ( instantiateDataFun ),
+    trainFun ( trainFun ),
+    predictFun ( predictFun ),
+    extractParameter ( extractParameter )
+{
+  InitializeFactory(blearner_type, data);
+}
+
+blearner::Baselearner *CustomFactory::CreateBaselearner (std::string &identifier)
 {
   blearner::Baselearner *blearner_obj;
   
@@ -101,18 +130,6 @@ blearner::Baselearner * BaselearnerFactory::CreateBaselearner (std::string ident
     is_data_instantiated = true;
   }
   return blearner_obj;
-}
-
-// End of baselearner initializations --------------------------------------- //
-
-bool BaselearnerFactory::GetCheck ()
-{
-  return is_data_instantiated;
-}
-
-std::string BaselearnerFactory::GetBaselearnerType()
-{
-  return blearner_type;
 }
 
 } // namespace blearnerfactory
