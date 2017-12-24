@@ -36,36 +36,44 @@
 //
 // =========================================================================== #
 
-#ifndef BASELEARNERLIST_H_
-#define BASELEARNERLIST_H_
+#ifndef TACKBASELEARNER_H_
+#define TACKBASELEARNER_H_
 
 #include <map>
+#include <RcppArmadillo.h>
 
-#include "baselearner_factory.h"
+#include "baselearner.h"
+#include "baselearner_list.h"
+#include "loggerlist.h"
 
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory *> blearner_factory_map;
+typedef std::map<unsigned int, blearner::Baselearner *> selected_blearner_map;
 
-namespace blearnerlist
+namespace trackblearner
 {
 
-class BaselearnerList 
+class TrackBaselearner
 {
   private:
     
-    blearner_factory_map my_factory_map;
+    selected_blearner_map blearner_map;
     
-  public:
+    loggerlist::LoggerList blearner_log;
     
-    BaselearnerList ();
+  public: 
     
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory *);
-    void PrintRegisteredFactorys ();
+    TrackBaselearner (blearnerlist::BaselearnerList);
     
-    blearner_factory_map GetMap ();
-    void ClearMap();
+    blearner::Baselearner GetBaselearnerNumber (unsigned int);
+    
+    arma::mat GetParameterEstimator ();
+    arma::mat GetParameterEstimator (unsigned int);
+    
+    arma::mat GetParameterMatrix ();
+    
+    arma::mat PredictEnsemble ();
+    arma::mat PredictEnsemble (arma::mat &);
 };
 
-} // namespace blearnerlist
-  
-#endif // BASELEARNERLIST_H_
+} // namespace trackblearner
 
+#endif // TRACKBASELEARNER_H_

@@ -36,36 +36,67 @@
 //
 // =========================================================================== #
 
-#ifndef BASELEARNERLIST_H_
-#define BASELEARNERLIST_H_
+#ifndef LOGGER_H_
+#define LOGGER_H_
 
-#include <map>
+#include "loss.h"
 
-#include "baselearner_factory.h"
-
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory *> blearner_factory_map;
-
-namespace blearnerlist
+namespace logger
 {
 
-class BaselearnerList 
+// -------------------------------------------------------------------------- //
+// Abstract 'Logger' class:
+// -------------------------------------------------------------------------- //
+
+class Logger
 {
   private:
+  
+    loss::Loss *used_loss;
+    arma::mat evaluation_data;
     
-    blearner_factory_map my_factory_map;
-    
+    bool is_a_stopper;
+
   public:
     
-    BaselearnerList ();
+    virtual void LogStep () = 0;
     
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory *);
-    void PrintRegisteredFactorys ();
+    // This one should check if the stop criteria is reached. If not it should
+    // return 'true' otherwise 'false'. Every function should have this 
+    // structure:
     
-    blearner_factory_map GetMap ();
-    void ClearMap();
+    // bool ReachedStopCriteria ()
+    // {
+    //   bool stop_criteria_is_reached;
+    //
+    //   if (is_a_stopper) {
+    //     if (CHECK IF STOP CRITERIA IS FULLFILLED!) {
+    //       stop_criteria_is_reached = true;
+    //     }      
+    //   } else {
+    //     stop_criteria_is_reached = false;
+    //   }
+    //   return stop_criteria_is_reached;
+    // }
+    virtual bool ReachedStopCriteria () = 0;
+     
 };
 
-} // namespace blearnerlist
-  
-#endif // BASELEARNERLIST_H_
+// -------------------------------------------------------------------------- //
+// Logger implementations:
+// -------------------------------------------------------------------------- //
 
+// LogIteration:
+// -----------------------
+
+// LogRisk:
+// -----------------------
+
+// LogTime:
+// -----------------------
+
+
+
+} // namespace logger
+
+#endif // LOGGER_H_

@@ -67,20 +67,6 @@ class BaselearnerFactory
     
     virtual blearner::Baselearner *CreateBaselearner (std::string &) = 0;
     
-    // BaselearnerFactory (std::string, arma::mat);
-    
-    // // Base learner initializations:
-    // // ---------------------------------------------------------------------- //
-    // 
-    // // Polynomial baselearner definition:
-    // blearner::Baselearner *CreateBaselearner (std::string, unsigned int);
-    // 
-    // // Definition of custom baselearner:
-    // blearner::Baselearner *CreateBaselearner (std::string, Rcpp::Function, 
-    //   Rcpp::Function, Rcpp::Function, Rcpp::Function);
-    // 
-    // // End of baselearner initializations ----------------------------------- //
-    
     bool IsDataInstantiated ();
     
     std::string GetBaselearnerType ();

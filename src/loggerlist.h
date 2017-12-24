@@ -36,36 +36,52 @@
 //
 // =========================================================================== #
 
-#ifndef BASELEARNERLIST_H_
-#define BASELEARNERLIST_H_
+#ifndef LOGGERLIST_H_
+#define LOGGERLIST_H_
 
-#include <map>
+#include "logger.h"
 
-#include "baselearner_factory.h"
+typedef std::map<std::string, logger::Logger *> logger_map;
 
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory *> blearner_factory_map;
-
-namespace blearnerlist
+namespace loggerlist
 {
 
-class BaselearnerList 
+class LoggerList
 {
+
   private:
     
-    blearner_factory_map my_factory_map;
+    logger_map log_list;
+    
+    // Pointer to the data which should be used for evaluation. If the pointer
+    // is a null pointer, than the training data should be used.
+    // if (! evaluation_data_ptr) { USE TRAINING DATA } ele { USE GIVEN DATA }
+    arma::mat *evaluation_data_ptr;
     
   public:
+  
+    LoggerList (arma::mat &);
     
-    BaselearnerList ();
+    // String for logger, the logger itselfe and a bool if this one should be
+    // used as stopper:
+    void RegisterLogger (std::string, logger::Logger *, bool);
+    void PrintRegisteredLogger ();
     
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory *);
-    void PrintRegisteredFactorys ();
+    logger_map GetMap ();
+    void ClearMap ();
     
-    blearner_factory_map GetMap ();
-    void ClearMap();
+    // This function should iterate over all registered logger, check if it is
+    // a stopper and returns just one bool, aggregated over a vector of bools
+    // from the single logger. This could be e.g. a priority check (risk is
+    // more important than iterations) or an all check (all stopper has to be
+    // fullfilled). The priority comes with the map identifier since it sorts
+    // the entrys after name.
+    
+    // If the argument is 'true', than all stopper has to be fullfilled.
+    bool GetStopperStatus (bool);
+    
 };
 
-} // namespace blearnerlist
-  
-#endif // BASELEARNERLIST_H_
+} // namespace loggerlist
 
+#endif // LOGGERLIST_H_

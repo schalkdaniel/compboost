@@ -35,37 +35,3 @@
 //   https://www.compstat.statistik.uni-muenchen.de
 //
 // =========================================================================== #
-
-#ifndef BASELEARNERLIST_H_
-#define BASELEARNERLIST_H_
-
-#include <map>
-
-#include "baselearner_factory.h"
-
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory *> blearner_factory_map;
-
-namespace blearnerlist
-{
-
-class BaselearnerList 
-{
-  private:
-    
-    blearner_factory_map my_factory_map;
-    
-  public:
-    
-    BaselearnerList ();
-    
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory *);
-    void PrintRegisteredFactorys ();
-    
-    blearner_factory_map GetMap ();
-    void ClearMap();
-};
-
-} // namespace blearnerlist
-  
-#endif // BASELEARNERLIST_H_
-

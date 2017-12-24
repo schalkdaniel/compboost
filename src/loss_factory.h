@@ -63,22 +63,22 @@ namespace lossfactory {
 
 class LossFactory
 {
-private:
-  
-  loss::Loss *loss_obj;
-  std::string loss_type;
-  
-public:
-  
-  LossFactory (); // Default is quadratic loss
-  LossFactory (std::string); // Constructor returns different loss classes e.g. quadratic
-  LossFactory (std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function); // Constructor for own R losses
-  
-  arma::vec CalcLoss (arma::vec &, arma::vec &);
-  arma::vec CalcGradient (arma::vec &, arma::vec &);
-  double ConstantInitializer (arma::vec &);
-  
-  std::string GetLossType ();
+  private:
+    
+    loss::Loss *loss_obj;
+    std::string loss_type;
+    
+  public:
+    
+    LossFactory (); // Default is quadratic loss
+    LossFactory (std::string); // Constructor returns different loss classes e.g. quadratic
+    LossFactory (std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function); // Constructor for own R losses
+    
+    arma::vec CalcLoss (arma::vec &, arma::vec &);
+    arma::vec CalcGradient (arma::vec &, arma::vec &);
+    double ConstantInitializer (arma::vec &);
+    
+    std::string GetLossType ();
 };
 
 } // namespace lossfactory
