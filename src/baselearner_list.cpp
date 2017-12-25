@@ -53,7 +53,12 @@ void BaselearnerList::RegisterBaselearnerFactory (std::string factory_id, blearn
 
 void BaselearnerList::PrintRegisteredFactorys ()
 {
-  std::cout << "Registered Factorys:\n";
+  if (my_factory_map.size() >= 1) {
+    std::cout << "Registered Factorys:\n";
+  } else {
+    std::cout << "No registered Factorys!";
+  }
+
   for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
     std::cout << "\t>>" << it->first << "<< Factory" << std::endl;
   }
