@@ -80,7 +80,7 @@ bool LoggerList::GetStopperStatus (bool use_global_stop)
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
     status.push_back(it->second->ReachedStopCriteria());
   }
-  int status_sum = std::accumulate(status.begin(), status.end(), 0);
+  unsigned int status_sum = std::accumulate(status.begin(), status.end(), 0);
   
   if (use_global_stop) {
     if (status_sum == status.size()) {
