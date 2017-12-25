@@ -39,6 +39,8 @@
 #ifndef LOGGERLIST_H_
 #define LOGGERLIST_H_
 
+#include <chrono>
+
 #include "logger.h"
 
 typedef std::map<std::string, logger::Logger *> logger_map;
@@ -58,13 +60,18 @@ class LoggerList
     // if (! evaluation_data_ptr) { USE TRAINING DATA } ele { USE GIVEN DATA }
     arma::mat *evaluation_data_ptr;
     
+    // Base time of initialization:
+    std::chrono::system_clock::time_point init_time;
+    
+    // Base Risk at initialization:
+    double init_risk;
+    
   public:
   
-    LoggerList (arma::mat &);
+    LoggerList (arma::mat &, std::chrono::system_clock::time_point, double);
     
-    // String for logger, the logger itselfe and a bool if this one should be
-    // used as stopper:
-    void RegisterLogger (std::string, logger::Logger *, bool);
+    // String for logger and the logger itselfe:
+    void RegisterLogger (std::string, logger::Logger *);
     void PrintRegisteredLogger ();
     
     logger_map GetMap ();
@@ -72,13 +79,20 @@ class LoggerList
     
     // This function should iterate over all registered logger, check if it is
     // a stopper and returns just one bool, aggregated over a vector of bools
-    // from the single logger. This could be e.g. a priority check (risk is
-    // more important than iterations) or an all check (all stopper has to be
-    // fullfilled). The priority comes with the map identifier since it sorts
-    // the entrys after name.
+    // from the single logger. This could be e.g. one is fullfilled or an all 
+    // check (all stopper has to be fullfilled). The priority comes with the 
+    // map identifier since it sorts the entrys after name.
     
     // If the argument is 'true', than all stopper has to be fullfilled.
     bool GetStopperStatus (bool);
+    
+    // Get a matrix of tracked logger (iterator over all logger and paste 
+    // all columns of the private member):
+    std::pair<std::vector<std::string>, arma::mat> GetLoggerData ();
+    
+    // Log the current step (structure <iteration, actual time, actual risk>).
+    // This is given to the instantiated logger:
+    void LogCurrent (unsigned int, std::chrono::system_clock::time_point, double);
     
 };
 

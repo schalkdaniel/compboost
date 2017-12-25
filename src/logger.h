@@ -39,6 +39,8 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
+#include <vector>
+
 #include "loss.h"
 
 namespace logger
@@ -50,16 +52,16 @@ namespace logger
 
 class Logger
 {
-  private:
-  
-    loss::Loss *used_loss;
-    arma::mat evaluation_data;
-    
-    bool is_a_stopper;
 
   public:
     
-    virtual void LogStep () = 0;
+    // Initialize a logger with the important things like the used loss, the 
+    // data for evaluation, the information if it is a stopper or not, the 
+    // initial time point and the initial risk:
+    void InitializeLogger (loss::Loss &, arma::mat &, bool, 
+      std::chrono::system_clock::time_point &, double &);
+    
+    virtual void LogStep (unsigned int, std::chrono::system_clock::time_point, double &) = 0;
     
     // This one should check if the stop criteria is reached. If not it should
     // return 'true' otherwise 'false'. Every function should have this 
@@ -79,6 +81,20 @@ class Logger
     //   return stop_criteria_is_reached;
     // }
     virtual bool ReachedStopCriteria () = 0;
+    
+    virtual arma::vec GetLoggedData () = 0;
+    
+  protected:
+    
+    loss::Loss *used_loss;
+    arma::mat *evaluation_data;
+    
+    bool is_a_stopper;
+    
+    // Pointer to the publics of the loggerlist. The child classes then change
+    // the value of the pointed values to update the steps.
+    std::chrono::system_clock::time_point *init_time;
+    double *init_risk;
      
 };
 
@@ -88,6 +104,26 @@ class Logger
 
 // LogIteration:
 // -----------------------
+
+// This one is the default one:
+
+class LogIteration : public Logger 
+{
+  private:
+    
+    unsigned int max_iterations;
+    std::vector<unsigned int> iterations;
+    
+  public:
+    
+    LogIteration (unsigned int);
+    
+    // This just loggs the iteration (unsigned int):
+    void LogStep (unsigned int, std::chrono::system_clock::time_point, double &);
+    bool ReachedStopCriteria ();
+    arma::vec GetLoggedData ();
+    
+};
 
 // LogRisk:
 // -----------------------
