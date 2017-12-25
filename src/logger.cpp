@@ -66,7 +66,7 @@ void Logger::InitializeLogger(loss::Loss &used_loss0, arma::mat &evaluation_data
 LogIteration::LogIteration (unsigned int max_iterations) : max_iterations ( max_iterations ) {};
 
 void LogIteration::LogStep (unsigned int current_iteration, 
-  std::chrono::system_clock::time_point current_time, double current_risk)
+  std::chrono::system_clock::time_point current_time, double &current_risk)
 {
   iterations.push_back(current_iteration);
 }
