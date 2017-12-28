@@ -36,8 +36,8 @@
 //
 // =========================================================================== #
 
-#ifndef TACKBASELEARNER_H_
-#define TACKBASELEARNER_H_
+#ifndef BASELEARNERTACK_H_
+#define BASELEARNERTACK_H_
 
 #include <map>
 #include <RcppArmadillo.h>
@@ -48,10 +48,10 @@
 
 typedef std::map<unsigned int, blearner::Baselearner *> selected_blearner_map;
 
-namespace trackblearner
+namespace blearnertrack
 {
 
-class TrackBaselearner
+class BaselearnerTrack
 {
   private:
     
@@ -61,7 +61,7 @@ class TrackBaselearner
     
   public: 
     
-    TrackBaselearner (blearnerlist::BaselearnerList);
+    BaselearnerTrack (blearnerlist::BaselearnerList);
     
     blearner::Baselearner GetBaselearnerNumber (unsigned int);
     
@@ -74,6 +74,6 @@ class TrackBaselearner
     arma::mat PredictEnsemble (arma::mat &);
 };
 
-} // namespace trackblearner
+} // namespace blearnertrack
 
-#endif // TRACKBASELEARNER_H_
+#endif // BASELEARNERTRACK_H_
