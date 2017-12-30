@@ -55,7 +55,7 @@ void BaselearnerList::PrintRegisteredFactorys ()
 {
   std::cout << "Registered Factorys:\n";
   for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
-    std::cout << "\t>>" << it->first << "<< Factory" << std::endl;
+    std::cout << "\t- " << it->first << std::endl;
   }
 }
 

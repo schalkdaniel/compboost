@@ -69,6 +69,9 @@ class BaselearnerFactory
     
     bool IsDataInstantiated ();
     
+    arma::mat GetData ();
+    std::string GetDataIdentifier ();
+    
     std::string GetBaselearnerType ();
     
   protected:

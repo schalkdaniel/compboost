@@ -58,6 +58,16 @@ void BaselearnerFactory::InitializeFactory (std::string blearner_type0,
   data_identifier = data_identifier0;
 }
 
+arma::mat BaselearnerFactory::GetData ()
+{
+  return data;
+}
+
+std::string BaselearnerFactory::GetDataIdentifier ()
+{
+  return data_identifier;
+}
+
 bool BaselearnerFactory::IsDataInstantiated ()
 {
   return is_data_instantiated;

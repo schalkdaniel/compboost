@@ -7,7 +7,7 @@ test_that("linear baselearner works", {
   y = 3 * as.numeric(X) + rnorm(10, 0, 2)
   
   # Create Baselearner:
-  bl = BaselearnerWrapper$new("l1", X, 1)
+  bl = BaselearnerWrapper$new("l1", X, "variable_1", 1)
   
   # Check the baselearner type:
   expect_equal(bl$GetBaselearnerType(), "polynomial with degree 1")
@@ -47,7 +47,7 @@ test_that("custom baselearner works", {
   y = sin(as.numeric(X)) + rnorm(10, 0, 0.6)
   
   # Create baselearner:
-  bl = BaselearnerWrapper$new("linear custom test", X, instantiateDataFun, trainFun, 
+  bl = BaselearnerWrapper$new("linear custom test", X, "variable_1", instantiateDataFun, trainFun, 
     predictFun, extractParameter)
   
   # Test type:
