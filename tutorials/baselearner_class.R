@@ -10,8 +10,10 @@ devtools::load_all()
 X = matrix(1:10, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
-# Create new object (Note that we call a polynomial with degree 1):
-bl = BaselearnerWrapper$new("l1", X, 1)
+# Create new object (Note that we call a polynomial with degree 1). Note that
+# the data identifier (third argument) has to be exactly the same string as
+# the corresponding colname in a dataframe later on:
+bl = BaselearnerWrapper$new("l1", X, "my_name_is_important", 1)
 
 # Get identifier:
 bl$GetIdentifier()
@@ -39,7 +41,7 @@ X = matrix(1:1000000, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(1000000, 0, 200)
 
 # Create new object:
-bl = BaselearnerWrapper$new("l2", X, 1)
+bl = BaselearnerWrapper$new("l2", X, "my_name_is_important", 1)
 bl$GetIdentifier()
 
 # Benchmark parameter calculation:
@@ -63,7 +65,7 @@ X = matrix(1:10, ncol = 1)
 y = 2 * (1:10)^2 + rnorm(10, 0, 20)
 
 # Create new object:
-bl = BaselearnerWrapper$new("q1", X, 2)
+bl = BaselearnerWrapper$new("q1", X, "my_name_is_also_important", 2)
 
 # Get identifier:
 bl$GetIdentifier()
@@ -108,7 +110,7 @@ X = matrix(1:10, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
 # Create custom baselearner:
-bl = BaselearnerWrapper$new("linear custom 1", X, instantiateDataFun, trainFun, 
+bl = BaselearnerWrapper$new("linear custom 1", X, "and_my_name_too", instantiateDataFun, trainFun, 
   predictFun, extractParameter)
 
 # Get identifier:
@@ -137,12 +139,12 @@ X = matrix(1:1000000, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(1000000, 0, 200)
 
 # Create inline baselearner:
-bl.inline = BaselearnerWrapper$new("inline l1", X, 1)
+bl.inline = BaselearnerWrapper$new("inline l1", X, "x_variable", 1)
 bl.inline$GetIdentifier()
 bl.inline$train(y)
 
 # Create custom baselearner
-bl.custom = BaselearnerWrapper$new("linear custom", X, instantiateDataFun, 
+bl.custom = BaselearnerWrapper$new("linear custom", X, "x_variable", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 bl.custom$GetIdentifier()
 bl.custom$train(y)

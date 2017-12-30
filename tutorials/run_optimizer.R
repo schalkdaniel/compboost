@@ -5,10 +5,10 @@ X = matrix(1:10, ncol = 1)
 y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
 # Create some stupid baselearner (obviously the linear one is the best):
-bl.linear = BaselearnerWrapper$new("l1", X, 1)
-bl.quadratic = BaselearnerWrapper$new("q1", X, 2)
-bl.cubic = BaselearnerWrapper$new("c1", X, 3)
-bl.linear2 = BaselearnerWrapper$new("l0", 2 * X, 1)
+bl.linear = BaselearnerWrapper$new("l1", X, "x", 1)
+bl.quadratic = BaselearnerWrapper$new("q1", X, "x", 2)
+bl.cubic = BaselearnerWrapper$new("c1", X, "x", 3)
+bl.linear2 = BaselearnerWrapper$new("l0", 2 * X, "x", 1)
 
 # Register the learner:
 bl.quadratic$RegisterFactory("x")
