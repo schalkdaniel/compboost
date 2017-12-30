@@ -65,7 +65,7 @@ class Baselearner
     virtual Baselearner *Clone () = 0;
     
     // Copy function to set all members within the copy:
-    void CopyMembers (arma::mat, std::string, arma::mat &);
+    void CopyMembers (arma::mat, std::string, arma::mat &, std::string &);
     
     // Within 'SetData' the pointer will be setted, while 'InstantiateData'
     // overwrite the object on which 'data_ptr' points. This guarantes that 
@@ -73,6 +73,9 @@ class Baselearner
     // within the baselearner:
     void SetData (arma::mat &);
     arma::mat GetData ();
+    
+    void SetDataIdentifier (std::string &);
+    std::string GetDataIdentifier ();
     
     arma::mat GetParameter ();
     arma::mat predict ();
@@ -84,6 +87,7 @@ class Baselearner
     arma::mat parameter;
     std::string blearner_identifier;
     arma::mat *data_ptr;
+    std::string *data_identifier_ptr;
     
 };
 
@@ -104,7 +108,7 @@ class Polynomial : public Baselearner
     
   public:
   
-    Polynomial (arma::mat &, std::string &, unsigned int &);
+    Polynomial (arma::mat &, std::string &, std::string &, unsigned int &);
     
     Baselearner *Clone ();
     
@@ -133,7 +137,7 @@ class Custom : public Baselearner
     
   public:
     
-    Custom (arma::mat &, std::string &, Rcpp::Function, Rcpp::Function, 
+    Custom (arma::mat &, std::string &, std::string &, Rcpp::Function, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function);
     
     Baselearner *Clone ();

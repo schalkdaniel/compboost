@@ -1,9 +1,7 @@
 # Install the package:
 # ====================
 
-library(Rcpp)
-
-compileAttributes()
+Rcpp::compileAttributes()
 devtools::load_all()
 
 # Define a loss object with default loss:
