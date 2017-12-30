@@ -122,7 +122,9 @@ class BaselearnerWrapper
     // Register Factory in 'BaselearnerList':
     void RegisterFactory (std::string id)
     {
-      std::string factory_registry = factory_obj->GetBaselearnerType() + " with id " + id + " of variable " + factory_obj->GetDataIdentifier();
+      std::string factory_registry = factory_obj->GetBaselearnerType() + 
+        " with id " + id + " of variable " + factory_obj->GetDataIdentifier();
+      
       blearner_factory_list->RegisterBaselearnerFactory (factory_registry, factory_obj);
     }
 };
