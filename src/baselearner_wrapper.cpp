@@ -63,7 +63,7 @@ class BaselearnerWrapper
     // Polynomial baselearner:
     BaselearnerWrapper (std::string identifier, arma::mat data, std::string data_identifier, unsigned int degree)
     {
-      factory_obj = new blearnerfactory::PolynomialFactory(identifier + ": polynomial", data, data_identifier, degree);
+      factory_obj = new blearnerfactory::PolynomialFactory("polynomial", data, data_identifier, degree);
       
       // Initialize baselearner:
       obj = factory_obj->CreateBaselearner(identifier);
@@ -75,7 +75,7 @@ class BaselearnerWrapper
       Rcpp::Function predictFun, Rcpp::Function extractParameter)
     {
       // The custom baselearner have a predefined type 'custom':
-      factory_obj = new blearnerfactory::CustomFactory(identifier + ": custom", data, data_identifier,
+      factory_obj = new blearnerfactory::CustomFactory("custom", data, data_identifier,
         instantiateDataFun, trainFun, predictFun, extractParameter);
       
       // Initialize baselearner:
@@ -112,16 +112,18 @@ class BaselearnerWrapper
     
     arma::mat GetData () 
     {
-      std::cout << "My data identifier is: " << obj->GetDataIdentifier() << std::endl;
-      std::cout << std::endl;
-      
+
+      // std::cout << "My data identifier is: " << obj->GetDataIdentifier() << std::endl;
+      // std::cout << std::endl;
+
       return obj->GetData();
     }
     
     // Register Factory in 'BaselearnerList':
     void RegisterFactory (std::string id)
     {
-      blearner_factory_list->RegisterBaselearnerFactory (factory_obj->GetBaselearnerType() + " - " + id, factory_obj);
+      std::string factory_registry = factory_obj->GetBaselearnerType() + " with id " + id + " of variable " + factory_obj->GetDataIdentifier();
+      blearner_factory_list->RegisterBaselearnerFactory (factory_registry, factory_obj);
     }
 };
 
