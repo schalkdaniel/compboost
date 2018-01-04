@@ -39,14 +39,11 @@
 #ifndef BASELEARNERTACK_H_
 #define BASELEARNERTACK_H_
 
-#include <map>
 #include <RcppArmadillo.h>
 
 #include "baselearner.h"
 #include "baselearner_list.h"
 #include "loggerlist.h"
-
-typedef std::map<unsigned int, blearner::Baselearner *> selected_blearner_map;
 
 namespace blearnertrack
 {
@@ -55,23 +52,37 @@ class BaselearnerTrack
 {
   private:
     
-    selected_blearner_map blearner_map;
+    // Vector of selected baselearner:
+    std::vector<blearner::Baselearner> blearner_vector;
     
-    loggerlist::LoggerList blearner_log;
+    // Pointer to loggerlist:
+    loggerlist::LoggerList *blearner_logger_list;
+    
+    // This vector contains when which baselearner type was selected:
+    std::vector<std::string> blearner_type_vector;
+    
+    // Parameter map.The first element contains the baselearner type and the
+    // second element the parameter. This one will be updated in every
+    // iteration:
+    std::map<std::string, arma::mat> my_parameter_map;
     
   public: 
     
-    BaselearnerTrack (blearnerlist::BaselearnerList);
+    BaselearnerTrack ();
     
-    blearner::Baselearner GetBaselearnerNumber (unsigned int);
+    // ???
+    // blearner::Baselearner GetBaselearnerNumber (unsigned int);
     
-    arma::mat GetParameterEstimator ();
-    arma::mat GetParameterEstimator (unsigned int);
+    // Insert a baselearner into vector and update parameter:
+    void InsertBaselearner (blearner::Baselearner&);
     
-    arma::mat GetParameterMatrix ();
+    std::vector<blearner::Baselearner> GetBaselearnerVector ();
     
-    arma::mat PredictEnsemble ();
-    arma::mat PredictEnsemble (arma::mat &);
+    // 
+    // arma::mat GetParameterEstimator ();
+    // arma::mat GetParameterEstimator (unsigned int);
+    // 
+    // arma::mat GetParameterMatrix ();
 };
 
 } // namespace blearnertrack

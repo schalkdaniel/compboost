@@ -98,7 +98,7 @@ class Quadratic: public Loss
     {
       // for debugging:
       std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
-      return true_value - prediction;
+      return prediction - true_value;
     }
 
     double ConstantInitializer (arma::vec &true_value)

@@ -61,7 +61,7 @@ Greedy::Greedy (blearnerlist::BaselearnerList & factory_list)
   SetFactoryMap(factory_list);
 }
 
-blearner::Baselearner *Greedy::FindBestBaselearner (std::string &iteration_id, arma::vec &pseudo_residuals)
+blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id, arma::vec& pseudo_residuals)
 {
   double ssq_temp;
   double ssq_best = 0;

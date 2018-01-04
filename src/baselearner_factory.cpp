@@ -92,14 +92,14 @@ PolynomialFactory::PolynomialFactory (std::string blearner_type, arma::mat data,
   InitializeFactory(blearner_type, data, data_identifier);
 }
 
-blearner::Baselearner *PolynomialFactory::CreateBaselearner (std::string &identifier)
+blearner::Baselearner* PolynomialFactory::CreateBaselearner (std::string &identifier)
 {
-  blearner::Baselearner *blearner_obj;
+  blearner::Baselearner* blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
   blearner_obj = new blearner::Polynomial(data, data_identifier, identifier, degree);
-  
+  blearner_obj->SetBaselearnerType(blearner_type);
   
   // Check if the data is already set. If not, run 'InstantiateData' from the
   // baselearner:

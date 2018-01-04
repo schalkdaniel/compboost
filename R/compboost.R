@@ -49,11 +49,4 @@
 #' @return [\code{C++Class}] \cr
 #'   A object of class 'CompboostWrapper'.
 #' @export
-
-compboost = function (name) {
-
-  if (missing(name)) {
-    stop("'name' is missing!")
-  }
-  return(CompboostWrapper$new(name))
-}
+NULL

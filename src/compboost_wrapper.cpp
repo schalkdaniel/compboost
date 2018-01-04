@@ -39,43 +39,43 @@
 //
 // =========================================================================== #
 
-#include "compboost.h"
-
-class CompboostWrapper
-{
-  public:
-
-    // Constructors
-    CompboostWrapper () {
-      obj = new cboost::Compboost();
-    }
-
-    // Member functions
-    arma::vec GetResponse () {
-      return obj->GetResponse();
-    }
-    void SetResponse (arma::vec response) {
-      obj->SetResponse(response);
-    }
-
-  private:
-
-    cboost::Compboost *obj;
-};
-
-// --------------------------------------------------------------------------- #
-// Rcpp module:
-// --------------------------------------------------------------------------- #
-
-RCPP_MODULE(compboost_module) {
-
-  using namespace Rcpp;
-
-  class_<CompboostWrapper> ("CompboostWrapper")
-
-  .constructor ("Initialize CompboostWrapper (Compboost) object")
-
-  .method ("GetResponse", &CompboostWrapper::GetResponse, "Get the response of the Compboost object")
-  .method ("SetResponse", &CompboostWrapper::SetResponse, "Set the response of the Compboost object")
-  ;
-}
+// #include "compboost.h"
+// 
+// class CompboostWrapper
+// {
+//   public:
+// 
+//     // Constructors
+//     CompboostWrapper () {
+//       obj = new cboost::Compboost();
+//     }
+// 
+//     // Member functions
+//     arma::vec GetResponse () {
+//       return obj->GetResponse();
+//     }
+//     void SetResponse (arma::vec response) {
+//       obj->SetResponse(response);
+//     }
+// 
+//   private:
+// 
+//     cboost::Compboost *obj;
+// };
+// 
+// // --------------------------------------------------------------------------- #
+// // Rcpp module:
+// // --------------------------------------------------------------------------- #
+// 
+// RCPP_MODULE(compboost_module) {
+// 
+//   using namespace Rcpp;
+// 
+//   class_<CompboostWrapper> ("CompboostWrapper")
+// 
+//   .constructor ("Initialize CompboostWrapper (Compboost) object")
+// 
+//   .method ("GetResponse", &CompboostWrapper::GetResponse, "Get the response of the Compboost object")
+//   .method ("SetResponse", &CompboostWrapper::SetResponse, "Set the response of the Compboost object")
+//   ;
+// }

@@ -37,7 +37,6 @@
 //
 // =========================================================================== #
 
-
 #include "baselearner.h"
 
 namespace blearner {
@@ -90,6 +89,11 @@ void Baselearner::SetIdentifier (std::string id0)
   blearner_identifier = id0;
 }
 
+void Baselearner::SetBaselearnerType (std::string& blearner_type0)
+{
+  blearner_type = &blearner_type0;
+}
+
 std::string Baselearner::GetIdentifier ()
 {
   return blearner_identifier;
@@ -111,9 +115,9 @@ Polynomial::Polynomial (arma::mat &data, std::string &data_identifier, std::stri
   Baselearner::SetDataIdentifier(data_identifier);
 }
 
-Baselearner *Polynomial::Clone ()
+Baselearner* Polynomial::Clone ()
 {
-  Baselearner *newbl = new Polynomial(*this);
+  Baselearner* newbl = new Polynomial(*this);
   newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr, *this->data_identifier_ptr);
   
   return newbl;
@@ -125,6 +129,12 @@ arma::mat Polynomial::InstantiateData ()
   return arma::pow(*data_ptr, degree);
 }
 
+arma::mat Polynomial::InstantiateData (arma::mat& newdata)
+{
+  
+  return arma::pow(newdata, degree);
+}
+
 void Polynomial::train (arma::vec &response)
 {
   parameter = arma::solve(*data_ptr, response);
@@ -132,7 +142,7 @@ void Polynomial::train (arma::vec &response)
 
 arma::mat Polynomial::predict (arma::mat &newdata)
 {
-  return newdata * parameter;
+  return InstantiateData(newdata) * parameter;
 }
 
 // Custom Baselearner:
@@ -152,9 +162,9 @@ Custom::Custom (arma::mat &data, std::string &data_identifier, std::string &iden
   Baselearner::SetDataIdentifier(data_identifier);
 }
 
-Baselearner *Custom::Clone ()
+Baselearner* Custom::Clone ()
 {
-  Baselearner *newbl = new Custom (*this);
+  Baselearner* newbl = new Custom (*this);
   newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr, *this->data_identifier_ptr);
   
   return newbl;
@@ -166,15 +176,21 @@ arma::mat Custom::InstantiateData ()
   return Rcpp::as<arma::mat>(out);
 }
 
+arma::mat Custom::InstantiateData (arma::mat& newdata)
+{
+  Rcpp::NumericMatrix out = instantiateDataFun(newdata);
+  return Rcpp::as<arma::mat>(out);
+}
+
 void Custom::train (arma::vec &response)
 {
-  model_frame = trainFun(response, *data_ptr);
-  parameter   = Rcpp::as<arma::mat>(extractParameter(model_frame));
+  model     = trainFun(response, *data_ptr);
+  parameter = Rcpp::as<arma::mat>(extractParameter(model));
 }
 
 arma::mat Custom::predict (arma::mat &newdata)
 {
-  Rcpp::NumericMatrix out = predictFun(model_frame, newdata);
+  Rcpp::NumericMatrix out = predictFun(model, newdata);
   return Rcpp::as<arma::mat>(out);
 }
 

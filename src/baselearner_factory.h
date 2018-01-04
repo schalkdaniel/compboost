@@ -65,7 +65,7 @@ class BaselearnerFactory
     
     void InitializeFactory (std::string, arma::mat, std::string);
     
-    virtual blearner::Baselearner *CreateBaselearner (std::string &) = 0;
+    virtual blearner::Baselearner* CreateBaselearner (std::string&) = 0;
     
     bool IsDataInstantiated ();
     
@@ -100,7 +100,7 @@ class PolynomialFactory : public BaselearnerFactory
     
     PolynomialFactory (std::string, arma::mat, std::string, unsigned int);
     
-    blearner::Baselearner *CreateBaselearner (std::string &);
+    blearner::Baselearner *CreateBaselearner (std::string&);
 };
 
 // Custom:
@@ -120,7 +120,7 @@ class CustomFactory : public BaselearnerFactory
     CustomFactory (std::string, arma::mat, std::string, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function, Rcpp::Function);
     
-    blearner::Baselearner *CreateBaselearner (std::string &);
+    blearner::Baselearner *CreateBaselearner (std::string&);
     
 };
 

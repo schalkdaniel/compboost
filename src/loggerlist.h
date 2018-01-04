@@ -68,10 +68,10 @@ class LoggerList
     
   public:
   
-    LoggerList (arma::mat &, std::chrono::system_clock::time_point, double);
+    LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
     
     // String for logger and the logger itselfe:
-    void RegisterLogger (std::string, logger::Logger *);
+    void RegisterLogger (std::string, logger::Logger*);
     void PrintRegisteredLogger ();
     
     logger_map GetMap ();
@@ -87,7 +87,9 @@ class LoggerList
     bool GetStopperStatus (bool);
     
     // Get a matrix of tracked logger (iterator over all logger and paste 
-    // all columns of the private member):
+    // all columns of the private member). The return is a pair with a
+    // string vector containing the logger type and a matrix with corresponging
+    // columns for each logger type:
     std::pair<std::vector<std::string>, arma::mat> GetLoggerData ();
     
     // Log the current step (structure <iteration, actual time, actual risk>).

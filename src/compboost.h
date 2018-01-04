@@ -48,7 +48,10 @@
 #ifndef COMPBOOST_H_
 #define COMPBOOST_H_
 
-#include <RcppArmadillo.h>
+#include "baselearner_track.h"
+#include "optimizer.h"
+#include "loss.h"
+#include "loggerlist.h"
 
 namespace cboost {
 
@@ -56,14 +59,29 @@ class Compboost
 {
   private:
 
-    arma::vec response;
+    arma::vec* response;
+    arma::vec pseudo_residuals;
+    
+    double learning_rate;
+    double initialization;
+    
+    bool use_global_stop_criteria;
+    
+    // Pieces to run the algorithm:
+    blearnertrack::BaselearnerTrack* blearner_track;
+    optimizer::Optimizer* used_optimizer;
+    loss::Loss* used_loss;
+    blearnerlist::BaselearnerList* used_baselearner_list;
+    loggerlist::LoggerList* used_logger;
 
   public:
 
-    Compboost();
+    Compboost(arma::vec&, optimizer::Optimizer&, loss::Loss&, bool);
+    
+    void TrainCompboost ();
 
-    void SetResponse (arma::vec);
-    arma::vec GetResponse ();
+    arma::vec PredictEnsemble ();
+    // arma::vec PredictEnsemble (arma::mat &);
 };
 
 } // namespace cboost

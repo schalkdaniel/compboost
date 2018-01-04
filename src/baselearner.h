@@ -57,9 +57,10 @@ class Baselearner
 {
   public:
     
-    virtual void train (arma::vec &) = 0;
-    virtual arma::mat predict (arma::mat &) = 0;
-    virtual arma::mat InstantiateData() = 0;
+    virtual void train (arma::vec&) = 0;
+    virtual arma::mat predict (arma::mat&) = 0;
+    virtual arma::mat InstantiateData () = 0;
+    virtual arma::mat InstantiateData (arma::mat&) = 0;
     
     // Clone function (needed for the main algorithm)
     virtual Baselearner *Clone () = 0;
@@ -71,10 +72,10 @@ class Baselearner
     // overwrite the object on which 'data_ptr' points. This guarantes that 
     // the data is just stored once in the factory and then called by reference
     // within the baselearner:
-    void SetData (arma::mat &);
+    void SetData (arma::mat&);
     arma::mat GetData ();
     
-    void SetDataIdentifier (std::string &);
+    void SetDataIdentifier (std::string&);
     std::string GetDataIdentifier ();
     
     arma::mat GetParameter ();
@@ -83,11 +84,15 @@ class Baselearner
     void SetIdentifier (std::string);
     std::string GetIdentifier ();
     
+    void SetBaselearnerType (std::string&);
+    std::string GetBaselearnerType ();
+    
   protected:
     arma::mat parameter;
     std::string blearner_identifier;
-    arma::mat *data_ptr;
-    std::string *data_identifier_ptr;
+    std::string* blearner_type;
+    arma::mat* data_ptr;
+    std::string* data_identifier_ptr;
     
 };
 
@@ -113,6 +118,7 @@ class Polynomial : public Baselearner
     Baselearner *Clone ();
     
     arma::mat InstantiateData ();
+    arma::mat InstantiateData (arma::mat&);
     
     void train (arma::vec &);
     arma::mat predict (arma::mat &);
@@ -128,7 +134,7 @@ class Custom : public Baselearner
 {
   private:
     
-    SEXP model_frame;
+    SEXP model;
     
     Rcpp::Function instantiateDataFun;
     Rcpp::Function trainFun;
@@ -143,6 +149,7 @@ class Custom : public Baselearner
     Baselearner *Clone ();
     
     arma::mat InstantiateData ();
+    arma::mat InstantiateData (arma::mat &);
     
     void train (arma::vec &);
     arma::mat predict (arma::mat &);

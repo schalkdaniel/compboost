@@ -40,6 +40,7 @@
 #define LOGGER_H_
 
 #include <vector>
+#include <chrono>
 
 #include "loss.h"
 
@@ -86,15 +87,15 @@ class Logger
     
   protected:
     
-    loss::Loss *used_loss;
-    arma::mat *evaluation_data;
+    loss::Loss* used_loss;
+    arma::mat* evaluation_data;
     
     bool is_a_stopper;
     
     // Pointer to the publics of the loggerlist. The child classes then change
     // the value of the pointed values to update the steps.
-    std::chrono::system_clock::time_point *init_time;
-    double *init_risk;
+    std::chrono::system_clock::time_point* init_time;
+    double* init_risk;
      
 };
 
