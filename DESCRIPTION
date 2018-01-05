@@ -24,6 +24,6 @@ Suggests:
     testthat,
     rpart
 RcppModules: 
-    compboost_module, 
+    compboost_module,
     loss_module, 
     baselearner_module

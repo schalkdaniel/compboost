@@ -59,7 +59,7 @@ class Compboost
 {
   private:
 
-    arma::vec* response;
+    arma::vec response;
     arma::vec pseudo_residuals;
     
     double learning_rate;
@@ -76,11 +76,12 @@ class Compboost
 
   public:
 
-    Compboost(arma::vec&, optimizer::Optimizer&, loss::Loss&, bool);
+    Compboost(arma::vec, optimizer::Optimizer*, loss::Loss*, 
+      loggerlist::LoggerList*, bool, double);
     
     void TrainCompboost ();
 
-    arma::vec PredictEnsemble ();
+    // arma::vec PredictEnsemble ();
     // arma::vec PredictEnsemble (arma::mat &);
 };
 

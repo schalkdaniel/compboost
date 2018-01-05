@@ -39,8 +39,6 @@
 #ifndef BASELEARNERTACK_H_
 #define BASELEARNERTACK_H_
 
-#include <RcppArmadillo.h>
-
 #include "baselearner.h"
 #include "baselearner_list.h"
 #include "loggerlist.h"
@@ -53,10 +51,10 @@ class BaselearnerTrack
   private:
     
     // Vector of selected baselearner:
-    std::vector<blearner::Baselearner> blearner_vector;
+    std::vector<blearner::Baselearner*> blearner_vector;
     
     // Pointer to loggerlist:
-    loggerlist::LoggerList *blearner_logger_list;
+    // loggerlist::LoggerList* blearner_logger_list;
     
     // This vector contains when which baselearner type was selected:
     std::vector<std::string> blearner_type_vector;
@@ -74,9 +72,9 @@ class BaselearnerTrack
     // blearner::Baselearner GetBaselearnerNumber (unsigned int);
     
     // Insert a baselearner into vector and update parameter:
-    void InsertBaselearner (blearner::Baselearner&);
+    void InsertBaselearner (blearner::Baselearner*, double);
     
-    std::vector<blearner::Baselearner> GetBaselearnerVector ();
+    std::vector<blearner::Baselearner*> GetBaselearnerVector ();
     
     // 
     // arma::mat GetParameterEstimator ();

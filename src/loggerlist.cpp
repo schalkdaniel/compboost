@@ -77,10 +77,16 @@ bool LoggerList::GetStopperStatus (bool use_global_stop)
   bool return_algorithm = true;
   std::vector<bool> status;
   
+  std::cout << "logger: Assign first stuff. Now running over the registered logger:" << std::endl;
+  
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
+    std::cout << "logger: Now taking a look at " << it->first << std::endl;
     status.push_back(it->second->ReachedStopCriteria());
   }
   unsigned int status_sum = std::accumulate(status.begin(), status.end(), 0);
+  
+  std::cout << "logger: The sum over the vector was: " << status_sum << std::endl;
+
   
   if (use_global_stop) {
     if (status_sum == status.size()) {

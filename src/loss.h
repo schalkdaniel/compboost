@@ -90,14 +90,14 @@ class Quadratic: public Loss
     arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction)
     {
       // for debugging:
-      std::cout << "Calculate loss of child class Quadratic!" << std::endl;
+      // std::cout << "Calculate loss of child class Quadratic!" << std::endl;
       return arma::pow(true_value - prediction, 2) / 2;
     }
 
     arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction)
     {
       // for debugging:
-      std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
+      // std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
       return prediction - true_value;
     }
 
@@ -117,14 +117,14 @@ class Absolute: public Loss
     arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction)
     {
       // for debugging:
-      std::cout << "Calculate loss of child class Absolute!" << std::endl;
+      // std::cout << "Calculate loss of child class Absolute!" << std::endl;
       return arma::abs(true_value - prediction);
     }
 
     arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction)
     {
       // for debugging:
-      std::cout << "Calculate gradient of child class Absolute!" << std::endl;
+      // std::cout << "Calculate gradient of child class Absolute!" << std::endl;
       return arma::sign(true_value - prediction);
     }
 
@@ -168,7 +168,7 @@ class CustomLoss: public Loss
     arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction)
     {
       // for debugging:
-      std::cout << "Calculate loss for a custom loss!" << std::endl;
+      // std::cout << "Calculate loss for a custom loss!" << std::endl;
       Rcpp::NumericVector out = lossFun(true_value, prediction);
       return out;
     }
@@ -176,7 +176,7 @@ class CustomLoss: public Loss
     arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction)
     {
       // for debugging:
-      std::cout << "Calculate gradient for a custom loss!" << std::endl;
+      // std::cout << "Calculate gradient for a custom loss!" << std::endl;
       Rcpp::NumericVector out = gradientFun(true_value, prediction);
       return out;
     }
@@ -186,7 +186,7 @@ class CustomLoss: public Loss
     double ConstantInitializer (arma::vec &true_value)
     {
       // for debugging:
-      std::cout << "Initialize custom loss!" << std::endl;
+      // std::cout << "Initialize custom loss!" << std::endl;
       
       Rcpp::NumericVector out = initFun(true_value);
       

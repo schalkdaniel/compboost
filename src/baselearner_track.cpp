@@ -43,29 +43,52 @@ namespace blearnertrack
 
 BaselearnerTrack::BaselearnerTrack () {};
 
-void BaselearnerTrack::InsertBaselearner (blearner::Baselearner& blearner)
+void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
+  double learning_rate)
 {
+  // blearner::Baselearner* blearner_temp = blearner->Clone();
   blearner_vector.push_back(blearner);
-  blearner_type_vector.push_back(blearner.GetBaselearnerType());
+  
+  std::cout << "Insert new baselearner" << std::endl;
+  
+  blearner_type_vector.push_back(blearner->GetBaselearnerType());
+  
+  std::cout << "Insert new baselearner type" << std::endl;
   
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
-  std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(blearner.GetBaselearnerType());
+  std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(blearner->GetBaselearnerType());
   
-  arma::mat parameter_temp = blearner.GetParameter();
+  std::cout << "Check if this was the first baselearner!" << std::endl;
   
-  if (it != my_parameter_map.end()) {
-    my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner.GetBaselearnerType(), parameter_temp * 0));
+  arma::mat parameter_temp = learning_rate * blearner->GetParameter();
+  
+  std::cout << "Parameter dim: rows = " << parameter_temp.n_rows << " cols = " << parameter_temp.n_cols << std::endl;
+  
+  if (it == my_parameter_map.end()) {
+    
+    arma::mat z(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
+    
+    // double erase = 0;
+    // parameter_temp = parameter_temp * erase;
+    
+    std::cout << "Parameter dim: rows = " << z.n_rows << " cols = " << z.n_cols << std::endl;
+    
+    my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), z));
+    
+    std::cout << "The answer is YES!" << std::endl;
   }
   
   // Accumulating parameter. If there is a nan, then this will be ignored and 
   // the non  nan entries are added up:
-  arma::mat parameter_insert = parameter_temp + my_parameter_map.find((blearner.GetBaselearnerType()))->second;
-  my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner.GetBaselearnerType(), parameter_temp * 0));
+  arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->GetBaselearnerType())->second;
+  my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), parameter_insert));
+  
+  std::cout << "Know I have insert the new accumulated parameter" << std::endl;
   
 }
 
-std::vector<blearner::Baselearner> BaselearnerTrack::GetBaselearnerVector ()
+std::vector<blearner::Baselearner*> BaselearnerTrack::GetBaselearnerVector ()
 {
   return blearner_vector;
 }

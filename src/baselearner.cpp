@@ -94,6 +94,11 @@ void Baselearner::SetBaselearnerType (std::string& blearner_type0)
   blearner_type = &blearner_type0;
 }
 
+std::string Baselearner::GetBaselearnerType ()
+{
+  return *blearner_type;
+}
+
 std::string Baselearner::GetIdentifier ()
 {
   return blearner_identifier;
@@ -106,7 +111,8 @@ std::string Baselearner::GetIdentifier ()
 // Polynomial:
 // -----------------------
 
-Polynomial::Polynomial (arma::mat &data, std::string &data_identifier, std::string &identifier, unsigned int &degree) 
+Polynomial::Polynomial (arma::mat &data, std::string &data_identifier, 
+  std::string &identifier, unsigned int &degree) 
   : degree ( degree )
 {
   // Called from parent class 'Baselearner':
