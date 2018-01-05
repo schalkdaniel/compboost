@@ -22,11 +22,19 @@
 // This file contains:
 // -------------------
 //
-//   "Baselearner" classes. This file implements the factorys as well as the 
-//   classes which are made in those factorys. The reason behind that pattern
-//   is that every baselearner have its own data. This data is stored within
-//   the factory. Every baselearner which is created in the factory points to
-//   that data (if possible).
+//   Implementation of the "Baselearner" class. The abstract parent class
+//   has the following virtual functions which has to be declared in the 
+//   child classes:
+//
+//      - virtual void train (arma::vec&) = 0;
+//      - virtual arma::mat predict (arma::mat&) = 0;
+//      - virtual arma::mat InstantiateData () = 0;
+//      - virtual arma::mat InstantiateData (arma::mat&) = 0;
+//      - virtual Baselearner *Clone () = 0;
+//      - void CopyMembers (arma::mat, std::string, arma::mat &, std::string &);
+//
+//   The "Baselearner" class contains, as expected, the information about the
+//   data transformation and the way the training and prediction is done.
 //
 // Written by:
 // -----------
@@ -59,35 +67,51 @@ class Baselearner
     
     virtual void train (arma::vec&) = 0;
     virtual arma::mat predict (arma::mat&) = 0;
+    
+    // Specify how the data has to be transformed. E. g. for splines a mapping
+    // to the higher dimension space. The overloading function with the 
+    // arma mat as parameter is used for newdata:
     virtual arma::mat InstantiateData () = 0;
     virtual arma::mat InstantiateData (arma::mat&) = 0;
     
-    // Clone function (needed for the main algorithm)
+    // Clone function (in some places needed e. g. "optimizer.cpp"):
     virtual Baselearner *Clone () = 0;
     
-    // Copy function to set all members within the copy:
+    // Copy function to set all members within the copy. It is more convenient
+    // to do this once instead of copy and pasting every element every time:
     void CopyMembers (arma::mat, std::string, arma::mat &, std::string &);
     
     // Within 'SetData' the pointer will be setted, while 'InstantiateData'
-    // overwrite the object on which 'data_ptr' points. This guarantes that 
+    // overwrite the object on which 'data_ptr' points. This guarantees that 
     // the data is just stored once in the factory and then called by reference
     // within the baselearner:
     void SetData (arma::mat&);
     arma::mat GetData ();
     
+    // Set an identifier for the data. This is important for fitting to new
+    // data:
     void SetDataIdentifier (std::string&);
     std::string GetDataIdentifier ();
     
     arma::mat GetParameter ();
+    
+    // This function just calls the virtual one with the data pointer. This is
+    // done to avoid duplicates within the child classes:
     arma::mat predict ();
     
+    // Set and get identifier of a specific baselearner (this is unique):
     void SetIdentifier (std::string);
     std::string GetIdentifier ();
     
+    // Set and get baselearner type (this can be the same for multiple 
+    // baselearner e. g. linear baselearner for variable x1 and x2).
+    // This one is setted by the factory which later creates the objects:
     void SetBaselearnerType (std::string&);
     std::string GetBaselearnerType ();
     
   protected:
+    
+    // Members which should be directly accessible through the child classes:
     arma::mat parameter;
     std::string blearner_identifier;
     std::string* blearner_type;
@@ -103,32 +127,36 @@ class Baselearner
 // Polynomial:
 // -----------------------
 
-// The parent class includes the minimal functionality every baselearner
-// must have.
+
+// This baselearner trains a linear model without intercept and covariable
+// x^degree:
 
 class Polynomial : public Baselearner
 {
   private:
+    
     unsigned int degree;
     
   public:
   
-    Polynomial (arma::mat &, std::string &, std::string &, unsigned int &);
+    // (data pointer, data identifier, baselearner identifier, degree) 
+    Polynomial (arma::mat&, std::string&, std::string&, unsigned int&);
     
-    Baselearner *Clone ();
+    Baselearner* Clone ();
     
     arma::mat InstantiateData ();
     arma::mat InstantiateData (arma::mat&);
     
-    void train (arma::vec &);
-    arma::mat predict (arma::mat &);
+    void train (arma::vec&);
+    arma::mat predict (arma::mat&);
 	
 };
 
 // Custom Baselearner:
 // -----------------------
-// The parent class includes the minimal functionality every baselearner
-// must have.
+
+// This class can be used to define custom baselearner in R and expose thi
+// to the c++ class:
 
 class Custom : public Baselearner
 {
@@ -136,6 +164,7 @@ class Custom : public Baselearner
     
     SEXP model;
     
+    // R functions for a custom baselearner:
     Rcpp::Function instantiateDataFun;
     Rcpp::Function trainFun;
     Rcpp::Function predictFun;
@@ -143,16 +172,19 @@ class Custom : public Baselearner
     
   public:
     
-    Custom (arma::mat &, std::string &, std::string &, Rcpp::Function, Rcpp::Function, 
+    // (data pointer, data identifier, baselearner identifier, R function for
+    // data instantiation, R function for training, R function for prediction,
+    // R function to extract parameter):
+    Custom (arma::mat&, std::string&, std::string&, Rcpp::Function, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function);
     
-    Baselearner *Clone ();
+    Baselearner* Clone ();
     
     arma::mat InstantiateData ();
-    arma::mat InstantiateData (arma::mat &);
+    arma::mat InstantiateData (arma::mat&);
     
-    void train (arma::vec &);
-    arma::mat predict (arma::mat &);
+    void train (arma::vec&);
+    arma::mat predict (arma::mat&);
 	
 };
 

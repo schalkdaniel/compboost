@@ -22,9 +22,10 @@
 // This file contains:
 // -------------------
 //
-//   The "CompboostWrapper" class which is exported to R by using the Rcpp
-//   modules. For a tutorial see
-//   <http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf>.
+//   Wrapper of the "Baselearner" and "Compboost" class. Those are in one file
+//   since we have a static "BaselearnerList" object which should be used by
+//   both wrapper. This classes are exposed within this class using the
+//   Rcpp modules.
 //
 // Written by:
 // -----------
@@ -64,7 +65,8 @@ public:
   // -----------------
   
   // Polynomial baselearner:
-  BaselearnerWrapper (std::string identifier, arma::mat data, std::string data_identifier, unsigned int degree)
+  BaselearnerWrapper (std::string identifier, arma::mat data, std::string data_identifier, 
+    unsigned int degree)
   {
     factory_obj = new blearnerfactory::PolynomialFactory("polynomial", data, data_identifier, degree);
     
@@ -74,8 +76,8 @@ public:
   
   // Custom baselearner:
   BaselearnerWrapper (std::string identifier, arma::mat data, std::string data_identifier,
-                      Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
-                      Rcpp::Function predictFun, Rcpp::Function extractParameter)
+    Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
+    Rcpp::Function extractParameter)
   {
     // The custom baselearner have a predefined type 'custom':
     factory_obj = new blearnerfactory::CustomFactory("custom", data, data_identifier,
@@ -87,6 +89,8 @@ public:
   
   // Member functions
   // ------------------
+  
+  // This ones just calles the member functions of the baselearner object:
   
   void train (arma::vec &response)
   {
@@ -132,6 +136,7 @@ public:
   }
 };
 
+// Instantiate static BaselearnerList object:
 blearnerlist::BaselearnerList *BaselearnerWrapper::blearner_factory_list = new blearnerlist::BaselearnerList();
 
 //' @title Print Registered Factorys
@@ -187,6 +192,10 @@ Rcpp::List getBestBaselearner (arma::vec &pseudo_residuals)
 // -------------------------------------------------------------------------- //
 //                       Wrapper of Compboost Class                           //
 // -------------------------------------------------------------------------- //
+
+
+// IN PROGRESS!
+
 
 class CompboostWrapper
 {

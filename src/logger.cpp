@@ -22,6 +22,7 @@
 // This file contains:
 // -------------------
 //
+//   Implementation of "Logger" class.
 //
 // Written by:
 // -----------
@@ -45,6 +46,9 @@ namespace logger
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
 
+
+// Initialize the logger. This are some initial values which are important to
+// be setted in the beginning:
 void Logger::InitializeLogger(loss::Loss &used_loss0, arma::mat &evaluation_data0, 
   bool is_a_stopper0, std::chrono::system_clock::time_point &init_time0, 
   double &init_risk0)

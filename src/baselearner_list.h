@@ -22,6 +22,10 @@
 // This file contains:
 // -------------------
 //
+//   This file contains the impolementation of a list of baselearner factorys.
+//   This class applies when optimizing. The iterator then can access every
+//   element in this list (which is a baselearner) and do somehting with that
+//   learner.
 //
 // Written by:
 // -----------
@@ -43,25 +47,35 @@
 
 #include "baselearner_factory.h"
 
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory *> blearner_factory_map;
+// Define the type for the list (because we are lazy :))
+typedef std::map<std::string, blearnerfactory::BaselearnerFactory*> blearner_factory_map;
 
 namespace blearnerlist
 {
+
+// Later we will create one static object of this class. This is a workaround
+// to register new factorys from R.
 
 class BaselearnerList 
 {
   private:
     
+    // Main list object:
     blearner_factory_map my_factory_map;
     
   public:
     
     BaselearnerList ();
     
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory *);
+    // Functions to register a baselearner factory and print all registered
+    // factorys:
+    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory*);
     void PrintRegisteredFactorys ();
     
+    // Get the actual map:
     blearner_factory_map GetMap ();
+    
+    // Clear all elements wich were registered:
     void ClearMap();
 };
 

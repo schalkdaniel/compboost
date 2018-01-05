@@ -22,6 +22,13 @@
 // This file contains:
 // -------------------
 //
+//   Implementation of tracking all baselearners within the main algorithm.
+//   This is more convenient, multifunctional and (most important) it keeps
+//   the main algorithm cleaner.
+//
+//   The idea is, that every returned baselearner from the optimizer ìs 
+//   registered in a vector of baselearner (the track). Later on we can
+//   predict by using this vector.
 //
 // Written by:
 // -----------
@@ -53,13 +60,7 @@ class BaselearnerTrack
     // Vector of selected baselearner:
     std::vector<blearner::Baselearner*> blearner_vector;
     
-    // Pointer to loggerlist:
-    // loggerlist::LoggerList* blearner_logger_list;
-    
-    // // This vector contains when which baselearner type was selected:
-    // std::vector<std::string> blearner_type_vector;
-    
-    // Parameter map.The first element contains the baselearner type and the
+    // Parameter map. The first element contains the baselearner type and the
     // second element the parameter. This one will be updated in every
     // iteration:
     std::map<std::string, arma::mat> my_parameter_map;
@@ -68,18 +69,13 @@ class BaselearnerTrack
     
     BaselearnerTrack ();
     
-    // ???
-    // blearner::Baselearner GetBaselearnerNumber (unsigned int);
-    
     // Insert a baselearner into vector and update parameter:
     void InsertBaselearner (blearner::Baselearner*, double);
     
+    // Return the vector of baselearner:
     std::vector<blearner::Baselearner*> GetBaselearnerVector ();
     
-    // 
-    // arma::mat GetParameterEstimator ();
-    // arma::mat GetParameterEstimator (unsigned int);
-    // 
+    // Returns a matrix of parameters for every iteration:
     // arma::mat GetParameterMatrix ();
 };
 

@@ -22,8 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   Constructors and member function implementations for the class
-//   "Compboost".
+//   Implementation of the "Compboost" class.
 //
 // Written by:
 // -----------
@@ -38,6 +37,11 @@
 //
 // =========================================================================== #
 
+
+
+// THIS ONE IS UNDER PROGRESS!
+
+
 #include "compboost.h"
 
 #include <iostream>
@@ -45,7 +49,7 @@
 namespace cboost {
 
 // --------------------------------------------------------------------------- #
-// Constructors:
+// Constructor:
 // --------------------------------------------------------------------------- #
 
 // todo: response as call by reference!

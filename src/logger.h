@@ -22,6 +22,15 @@
 // This file contains:
 // -------------------
 //
+//   Logger implementations. This file also includes if a logger is used as
+//   stopper and a function to determine if the algorithm should stop or not.
+//   The logger childs can just use some basic objects which are given from
+//   the main algorithm:
+//
+//     - Current Iteration (unsigned int): Classic way to stop the algorithm
+//     - Current time point (chrono::system_clock::time_point): With that it
+//       is possible to run the algorithm just for 2 hours and then stop it
+//     - https://github.com/schalkdaniel/compboost/issues/56
 //
 // Written by:
 // -----------
