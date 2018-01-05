@@ -46,14 +46,15 @@ BaselearnerTrack::BaselearnerTrack () {};
 void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
   double learning_rate)
 {
-  // blearner::Baselearner* blearner_temp = blearner->Clone();
+  // Insert new baselearner:
   blearner_vector.push_back(blearner);
   
   std::cout << "Insert new baselearner" << std::endl;
   
-  blearner_type_vector.push_back(blearner->GetBaselearnerType());
-  
-  std::cout << "Insert new baselearner type" << std::endl;
+  // // Insert new baselearner type into vector of baselearner:
+  // blearner_type_vector.push_back(blearner->GetBaselearnerType());
+  // 
+  // std::cout << "Insert new baselearner type" << std::endl;
   
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
@@ -67,14 +68,9 @@ void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
   
   if (it == my_parameter_map.end()) {
     
-    arma::mat z(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
-    
-    // double erase = 0;
-    // parameter_temp = parameter_temp * erase;
-    
-    std::cout << "Parameter dim: rows = " << z.n_rows << " cols = " << z.n_cols << std::endl;
-    
-    my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), z));
+    // If this is the first entry, initialize it with zeros:
+    arma::mat init_parameter(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
+    my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), init_parameter));
     
     std::cout << "The answer is YES!" << std::endl;
   }
@@ -84,7 +80,11 @@ void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
   arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->GetBaselearnerType())->second;
   my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), parameter_insert));
   
-  std::cout << "Know I have insert the new accumulated parameter" << std::endl;
+  std::cout << "Know I have insert the new accumulated parameter:" << std::endl;
+  for (unsigned int i = 0; i < parameter_insert.size(); i++) {
+    std::cout << parameter_insert[i] << " ";
+  }
+  std::cout << std::endl;
   
 }
 

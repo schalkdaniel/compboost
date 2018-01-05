@@ -48,17 +48,21 @@ namespace cboost {
 // Constructors:
 // --------------------------------------------------------------------------- #
 
-// response as call by reference!
+// todo: response as call by reference!
 
-Compboost::Compboost (arma::vec response, optimizer::Optimizer* used_optimizer, 
-  loss::Loss* used_loss, loggerlist::LoggerList* used_logger, 
-  bool use_global_stop_criteria, double learning_rate)
-  : response ( response ),
+Compboost::Compboost (arma::vec response, double learning_rate, 
+  bool use_global_stop_criteria, optimizer::Optimizer* used_optimizer, 
+  loss::Loss* used_loss, loggerlist::LoggerList* used_logger)
+  : response ( response ), 
+    learning_rate ( learning_rate ),
+    use_global_stop_criteria ( use_global_stop_criteria ),
     used_optimizer ( used_optimizer ),
     used_loss ( used_loss ),
-    used_logger ( used_logger ),
-    use_global_stop_criteria ( use_global_stop_criteria ),
-    learning_rate ( learning_rate ){}
+    used_logger ( used_logger )
+{
+  // Declare the vector of selected baselearner:
+  blearner_track = new blearnertrack::BaselearnerTrack();
+}
 
 // --------------------------------------------------------------------------- #
 // Member functions:
@@ -75,13 +79,11 @@ void Compboost::TrainCompboost ()
   pseudo_residuals = used_loss->DefinedGradient(response, pseudo_residuals_init);
   std::cout << "First pseudo residuals are defined" << std::endl;
   
-  blearner_track = new blearnertrack::BaselearnerTrack();
-  
   arma::vec prediction(response.size());
   prediction.fill(initialization);
   
   std::cout << "The new prediction was done and is:" << std::endl;
-  for (int i = 0; i < prediction.size(); i++) {
+  for (unsigned int i = 0; i < prediction.size(); i++) {
     std::cout << prediction[i] << " ";
   }
   std::cout << std::endl;
@@ -89,15 +91,17 @@ void Compboost::TrainCompboost ()
   bool stop_the_algorithm = false;
   unsigned int k = 1;
   
+  // Main Algorithm. While the stop criteria isn't fullfilled, run the 
+  // algorithm:
   while (! stop_the_algorithm) {
     
-    std::cout << k << "th iteration of the algorithm!" << std::endl;
+    std::cout << std::endl;
+    std::cout << "--- " << k << "th iteration of the algorithm!" << std::endl;
     
     std::string temp_string = std::to_string(k);
     blearner::Baselearner* selected_blearner = used_optimizer->FindBestBaselearner(temp_string, pseudo_residuals);
     
     std::cout << "Select: " << selected_blearner->GetBaselearnerType() << selected_blearner->GetIdentifier() << std::endl;
-    std::cout << "optimize and find best baselearner" << std::endl;
     
     blearner_track->InsertBaselearner(selected_blearner, learning_rate);
     
@@ -112,7 +116,7 @@ void Compboost::TrainCompboost ()
     prediction += learning_rate * selected_blearner->predict();
     
     std::cout << "The new prediction was done and is:" << std::endl;
-    for (int i = 0; i < prediction.size(); i++) {
+    for (unsigned int i = 0; i < prediction.size(); i++) {
       std::cout << prediction[i] << " ";
     }
     std::cout << std::endl;

@@ -39,9 +39,14 @@
 //
 // =========================================================================== #
 
+#include "compboost.h"
 #include "baselearner_factory.h"
 #include "baselearner_list.h"
-#include "optimizer.h"
+
+
+// -------------------------------------------------------------------------- //
+//                  Wrapper of the baselearner class                          //
+// -------------------------------------------------------------------------- //
 
 class BaselearnerWrapper
 {
@@ -178,46 +183,26 @@ Rcpp::List getBestBaselearner (arma::vec &pseudo_residuals)
   );
 }
 
-// --------------------------------------------------------------------------- #
-// Rcpp module:
-// --------------------------------------------------------------------------- #
 
-RCPP_MODULE(baselearner_module) {
-  
-  using namespace Rcpp;
-  
-  class_<BaselearnerWrapper> ("BaselearnerWrapper")
-    
-    .constructor <std::string, arma::mat, std::string, unsigned int> ("Initialize BaselearnerWrapper (Baselearner) object")
-    .constructor <std::string, arma::mat, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize BaselearnerWrapper (Baselearner) object with custom baselearner")
-    
-    .method ("train",                 &BaselearnerWrapper::train, "Train a linear baselearner")
-    .method ("GetIdentifier",         &BaselearnerWrapper::GetIdentifier, "Get Identifier of baselearner")
-    .method ("GetBaselearnerType",    &BaselearnerWrapper::GetBaselearnerType, "Get the type of the baselearner")
-    .method ("GetParameter",          &BaselearnerWrapper::GetParameter, "Get the parameter of the learner")
-    .method ("predict",               &BaselearnerWrapper::predict, "Predict a linear baselearner")
-    .method ("GetData",               &BaselearnerWrapper::GetData, "Get the data")
-    .method ("RegisterFactory",       &BaselearnerWrapper::RegisterFactory, "Register a factory")
-    ;
-}
-
-
-
-
-#include "compboost.h"
-//#include "baselearner_wrapper.cpp"
+// -------------------------------------------------------------------------- //
+//                       Wrapper of Compboost Class                           //
+// -------------------------------------------------------------------------- //
 
 class CompboostWrapper
 {
   public:
 
     // Constructor
-    CompboostWrapper (arma::vec response, unsigned int max_iterations0) {
+    CompboostWrapper (arma::vec response, unsigned int max_iterations0, 
+      double learning_rate0) {
       
       std::cout << "Create Compbost!" << std::endl;
       
       max_iterations = max_iterations0;
       std::cout << "Max iterations are setted" << std::endl;
+      
+      learning_rate = learning_rate0;
+      std::cout << "Learning rate is setted" << std::endl;
       
       optimizer::Optimizer* used_optimizer = new optimizer::Greedy(*BaselearnerWrapper::blearner_factory_list);
       std::cout << "New Optimizer is created!" << std::endl;
@@ -238,7 +223,7 @@ class CompboostWrapper
       used_logger->RegisterLogger("iterations", log_iterations);
       std::cout << "Logger was registered" << std::endl;
       
-      obj = new cboost::Compboost(response, used_optimizer, used_loss, used_logger, false, 0.05);
+      obj = new cboost::Compboost(response, learning_rate, false, used_optimizer, used_loss, used_logger);
       std::cout << "Compboost object was declared" << std::endl;
     }
 
@@ -255,11 +240,37 @@ class CompboostWrapper
     cboost::Compboost* obj;
     arma::mat* eval_data;
     unsigned int max_iterations;
+    double learning_rate;
 };
 
-// --------------------------------------------------------------------------- #
-// Rcpp module:
-// --------------------------------------------------------------------------- #
+// -------------------------------------------------------------------------- //
+//                            Rcpp Modules                                    //
+// -------------------------------------------------------------------------- //
+
+// Expose Baselearner:
+// -------------------
+
+RCPP_MODULE(baselearner_module) {
+  
+  using namespace Rcpp;
+  
+  class_<BaselearnerWrapper> ("BaselearnerWrapper")
+    
+    .constructor <std::string, arma::mat, std::string, unsigned int> ("Initialize BaselearnerWrapper (Baselearner) object")
+    .constructor <std::string, arma::mat, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ("Initialize BaselearnerWrapper (Baselearner) object with custom baselearner")
+    
+    .method ("train",                 &BaselearnerWrapper::train, "Train a linear baselearner")
+    .method ("GetIdentifier",         &BaselearnerWrapper::GetIdentifier, "Get Identifier of baselearner")
+    .method ("GetBaselearnerType",    &BaselearnerWrapper::GetBaselearnerType, "Get the type of the baselearner")
+    .method ("GetParameter",          &BaselearnerWrapper::GetParameter, "Get the parameter of the learner")
+    .method ("predict",               &BaselearnerWrapper::predict, "Predict a linear baselearner")
+    .method ("GetData",               &BaselearnerWrapper::GetData, "Get the data")
+    .method ("RegisterFactory",       &BaselearnerWrapper::RegisterFactory, "Register a factory")
+    ;
+}
+
+// Expose Compboost:
+// -----------------
 
 RCPP_MODULE(compboost_module) {
 
@@ -267,7 +278,7 @@ RCPP_MODULE(compboost_module) {
 
   class_<CompboostWrapper> ("CompboostWrapper")
 
-  .constructor<arma::vec, unsigned int> ("Initialize CompboostWrapper (Compboost) object")
+  .constructor<arma::vec, unsigned int, double> ("Initialize CompboostWrapper (Compboost) object")
 
   .method ("Train", &CompboostWrapper::Train, "Get the response of the Compboost object")
   // .method ("Predict", &CompboostWrapper::Predict, "Set the response of the Compboost object")
