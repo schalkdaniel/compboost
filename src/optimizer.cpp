@@ -61,13 +61,14 @@ Greedy::Greedy (blearnerlist::BaselearnerList & factory_list)
   SetFactoryMap(factory_list);
 }
 
-blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id, arma::vec& pseudo_residuals)
+blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id, 
+  arma::vec& pseudo_residuals)
 {
   double ssq_temp;
   double ssq_best = 0;
   
-  blearner::Baselearner *blearner_temp;
-  blearner::Baselearner *blearner_best;
+  blearner::Baselearner* blearner_temp;
+  blearner::Baselearner* blearner_best;
   
   // The use of k crashes the system???? 
   // unsigned int k = 0;

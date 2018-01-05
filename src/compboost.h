@@ -57,8 +57,9 @@ namespace cboost {
 
 class Compboost
 {
-  private:
 
+  private:
+    
     arma::vec response;
     arma::vec pseudo_residuals;
     
@@ -73,16 +74,17 @@ class Compboost
     loss::Loss* used_loss;
     blearnerlist::BaselearnerList* used_baselearner_list;
     loggerlist::LoggerList* used_logger;
-
+  
   public:
 
-    Compboost(arma::vec, optimizer::Optimizer*, loss::Loss*, 
-      loggerlist::LoggerList*, bool, double);
+    Compboost(arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
+      loggerlist::LoggerList*);
     
     void TrainCompboost ();
 
     // arma::vec PredictEnsemble ();
     // arma::vec PredictEnsemble (arma::mat &);
+    
 };
 
 } // namespace cboost

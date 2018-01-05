@@ -56,8 +56,8 @@ class BaselearnerTrack
     // Pointer to loggerlist:
     // loggerlist::LoggerList* blearner_logger_list;
     
-    // This vector contains when which baselearner type was selected:
-    std::vector<std::string> blearner_type_vector;
+    // // This vector contains when which baselearner type was selected:
+    // std::vector<std::string> blearner_type_vector;
     
     // Parameter map.The first element contains the baselearner type and the
     // second element the parameter. This one will be updated in every

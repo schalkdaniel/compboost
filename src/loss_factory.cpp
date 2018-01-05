@@ -75,7 +75,8 @@ LossFactory::LossFactory (std::string loss_type0)
   // loss_type = loss_type0;
 }
 
-LossFactory::LossFactory (std::string loss_type0, Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun)
+LossFactory::LossFactory (std::string loss_type0, Rcpp::Function lossFun, 
+  Rcpp::Function gradientFun, Rcpp::Function initFun)
 {
   loss_obj = new loss::CustomLoss(lossFun, gradientFun, initFun);
   loss_type = loss_type0;
