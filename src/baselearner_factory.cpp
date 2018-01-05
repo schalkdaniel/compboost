@@ -22,7 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   "BaselearnerFactory" class
+//   Implementation of the "BaselearnerFactory".
 //
 // Written by:
 // -----------

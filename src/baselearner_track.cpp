@@ -22,6 +22,7 @@
 // This file contains:
 // -------------------
 //
+//   Implementation of "BaselearnerTrack".
 //
 // Written by:
 // -----------
@@ -41,8 +42,11 @@
 namespace blearnertrack
 {
 
+// Just an empty constructor:
 BaselearnerTrack::BaselearnerTrack () {};
 
+// Insert a baselearner to the vector. We also want to add up the parameter
+// in there to get an estimator in the end:
 void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
   double learning_rate)
 {
@@ -51,17 +55,13 @@ void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
   
   std::cout << "Insert new baselearner" << std::endl;
   
-  // // Insert new baselearner type into vector of baselearner:
-  // blearner_type_vector.push_back(blearner->GetBaselearnerType());
-  // 
-  // std::cout << "Insert new baselearner type" << std::endl;
-  
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
   std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(blearner->GetBaselearnerType());
   
   std::cout << "Check if this was the first baselearner!" << std::endl;
   
+  // Prune parameter by multiplying it with the learning rate:
   arma::mat parameter_temp = learning_rate * blearner->GetParameter();
   
   std::cout << "Parameter dim: rows = " << parameter_temp.n_rows << " cols = " << parameter_temp.n_cols << std::endl;
@@ -88,6 +88,7 @@ void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
   
 }
 
+// Get the vector of baselearner:
 std::vector<blearner::Baselearner*> BaselearnerTrack::GetBaselearnerVector ()
 {
   return blearner_vector;

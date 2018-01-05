@@ -22,15 +22,9 @@
 // This file contains:
 // -------------------
 //
-//   Main "Compboost" class
-//
-//     - Collect all other necessary components to define the algorithm:
-//         + Loss function and gradient
-//         + Baselearner
-//         + Optimizer
-//         + Logger/Stopper
-//     - Member function to train the model
-//     - Member function to refit the model
+//   The main "Compboost" class collects all used elements of the algorithm
+//   like loss, optimizer and logger and runs the main algorithm by calling
+//   the "Train" member function.
 //
 // Written by:
 // -----------
@@ -45,6 +39,13 @@
 //
 // =========================================================================== #
 
+
+
+
+// THIS ONE IS UNDER PROGRESS!
+
+
+
 #ifndef COMPBOOST_H_
 #define COMPBOOST_H_
 
@@ -54,6 +55,8 @@
 #include "loggerlist.h"
 
 namespace cboost {
+
+// Main class:
 
 class Compboost
 {
