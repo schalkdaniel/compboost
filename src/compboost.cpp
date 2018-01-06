@@ -79,9 +79,6 @@ void Compboost::TrainCompboost ()
   std::cout << "Instantiate constant initializer" << std::endl;
   
   arma::vec pseudo_residuals_init (response.size());
-  pseudo_residuals_init.fill(initialization);
-  pseudo_residuals = used_loss->DefinedGradient(response, pseudo_residuals_init);
-  std::cout << "First pseudo residuals are defined" << std::endl;
   
   arma::vec prediction(response.size());
   prediction.fill(initialization);
@@ -101,6 +98,9 @@ void Compboost::TrainCompboost ()
     
     std::cout << std::endl;
     std::cout << "--- " << k << "th iteration of the algorithm!" << std::endl;
+    
+    pseudo_residuals = -used_loss->DefinedGradient(response, prediction);
+    std::cout << "The new pseudo residuals were calculated!" << std::endl;
     
     std::string temp_string = std::to_string(k);
     blearner::Baselearner* selected_blearner = used_optimizer->FindBestBaselearner(temp_string, pseudo_residuals);
@@ -125,11 +125,6 @@ void Compboost::TrainCompboost ()
     }
     std::cout << std::endl;
     
-    
-    pseudo_residuals = -used_loss->DefinedGradient(response, prediction);
-    
-    std::cout << "The new pseudo residuals were calculated!" << std::endl;
-    
     // The last term has to be the prediction or anything like that. This is
     // important to track the risk (inbag or oob)!!!!
     
@@ -147,6 +142,12 @@ void Compboost::TrainCompboost ()
     std::cout << "The actual stopper status is: " << stop_the_algorithm << std::endl;
     k += 1;
   }
+  model_prediction = prediction;
+}
+
+arma::vec Compboost::GetPrediction ()
+{
+  return model_prediction;
 }
 
 // arma::vec Compboost::PredictEnsemble ()

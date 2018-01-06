@@ -65,6 +65,7 @@ class Compboost
     
     arma::vec response;
     arma::vec pseudo_residuals;
+    arma::vec model_prediction;
     
     double learning_rate;
     double initialization;
@@ -84,6 +85,8 @@ class Compboost
       loggerlist::LoggerList*);
     
     void TrainCompboost ();
+    
+    arma::vec GetPrediction ();
 
     // arma::vec PredictEnsemble ();
     // arma::vec PredictEnsemble (arma::mat &);
