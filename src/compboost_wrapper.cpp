@@ -237,8 +237,14 @@ class CompboostWrapper
     }
 
     // Member functions
-    void Train () {
+    void Train () 
+    {
       obj->TrainCompboost();
+    }
+    
+    arma::vec GetPrediction ()
+    {
+      return obj->GetPrediction();
     }
     // arma::vec Predict () {
     //   return obj->PredictEnsemble();
@@ -290,6 +296,7 @@ RCPP_MODULE(compboost_module) {
   .constructor<arma::vec, unsigned int, double> ("Initialize CompboostWrapper (Compboost) object")
 
   .method ("Train", &CompboostWrapper::Train, "Get the response of the Compboost object")
+  .method ("GetPrediction", &CompboostWrapper::GetPrediction, "Get prediction of the model")
   // .method ("Predict", &CompboostWrapper::Predict, "Set the response of the Compboost object")
   ;
 }
