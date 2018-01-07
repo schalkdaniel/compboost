@@ -251,9 +251,24 @@ class CompboostWrapper
       }
       // return out;
     }
+    
+    std::vector<std::string> GetSelectedBaselearner ()
+    {
+      return obj->GetSelectedBaselearner();
+    }
     // arma::vec Predict () {
     //   return obj->PredictEnsemble();
     // }
+    
+    Rcpp::List GetModelFrame ()
+    {
+      std::pair<std::vector<std::string>, arma::mat> raw_frame = obj->GetModelFrame();
+      
+      return Rcpp::List::create(
+        Rcpp::Named("colnames")    = raw_frame.first, 
+        Rcpp::Named("model.frame") = raw_frame.second
+      );
+    }
 
   private:
 
@@ -303,6 +318,8 @@ RCPP_MODULE(compboost_module) {
   .method ("Train",         &CompboostWrapper::Train, "Get the response of the Compboost object")
   .method ("GetPrediction", &CompboostWrapper::GetPrediction, "Get prediction of the model")
   .method ("GetParameter",  &CompboostWrapper::GetParameter, "Get parameter of the model")
+  .method ("GetSelectedBaselearner", &CompboostWrapper::GetSelectedBaselearner, "Get a character vector of selected baselearner")
+  .method ("GetModelFrame",          &CompboostWrapper::GetModelFrame, "Get the model frame")
   // .method ("Predict", &CompboostWrapper::Predict, "Set the response of the Compboost object")
   ;
 }

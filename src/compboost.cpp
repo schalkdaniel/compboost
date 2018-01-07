@@ -35,7 +35,7 @@
 //
 //   https://www.compstat.statistik.uni-muenchen.de
 //
-// =========================================================================== #
+// ========================================================================== //
 
 
 
@@ -131,6 +131,36 @@ arma::vec Compboost::GetPrediction ()
 std::map<std::string, arma::mat> Compboost::GetParameter ()
 {
   return blearner_track->GetParameterMap();
+}
+
+std::vector<std::string> Compboost::GetSelectedBaselearner ()
+{
+  std::vector<std::string> selected_blearner;
+  
+  for (std::vector<blearner::Baselearner*>::iterator it = blearner_track->GetBaselearnerVector().begin(); it != blearner_track->GetBaselearnerVector().end(); ++it) {
+    selected_blearner.push_back((*it)->GetBaselearnerType());
+  }
+  return selected_blearner;
+}
+
+std::pair<std::vector<std::string>, arma::mat> Compboost::GetModelFrame ()
+{
+  arma::mat out_matrix;
+  std::vector<std::string> rownames;
+  
+  for (blearner_factory_map::iterator it = used_baselearner_list->GetMap().begin(); it != used_baselearner_list->GetMap().end(); ++it) {
+    arma::mat data_temp = it->second->GetData();
+    out_matrix = arma::join_rows(out_matrix, data_temp);
+    
+    if (data_temp.n_cols > 1) {
+      for (unsigned int i = 0; i < data_temp.n_cols; i++) {
+        rownames.push_back(it->first + std::to_string(i + 1));
+      }
+    } else {
+      rownames.push_back(it->first);
+    }
+  }
+  return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
 }
 
 // arma::vec Compboost::PredictEnsemble ()
