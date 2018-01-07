@@ -75,6 +75,9 @@ class BaselearnerTrack
     // Return the vector of baselearner:
     std::vector<blearner::Baselearner*> GetBaselearnerVector ();
     
+    // Return so far estimated parameter map:
+    std::map<std::string, arma::mat> GetParameterMap ();
+    
     // Returns a matrix of parameters for every iteration:
     // arma::mat GetParameterMatrix ();
 };
