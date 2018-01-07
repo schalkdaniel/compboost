@@ -205,35 +205,24 @@ class CompboostWrapper
     CompboostWrapper (arma::vec response, unsigned int max_iterations0, 
       double learning_rate0) {
       
-      std::cout << "Create Compbost!" << std::endl;
-      
       max_iterations = max_iterations0;
-      std::cout << "Max iterations are setted" << std::endl;
       
       learning_rate = learning_rate0;
-      std::cout << "Learning rate is setted" << std::endl;
       
       optimizer::Optimizer* used_optimizer = new optimizer::Greedy(*BaselearnerWrapper::blearner_factory_list);
-      std::cout << "New Optimizer is created!" << std::endl;
       
       loss::Loss* used_loss = new loss::Quadratic();
-      std::cout << "New Loss is created!" << std::endl;
       
       std::chrono::system_clock::time_point init_time;
       init_time = std::chrono::high_resolution_clock::now();
-      std::cout << "New time was instantiated" << std::endl;
       
       loggerlist::LoggerList* used_logger = new loggerlist::LoggerList(*eval_data, init_time, 4);
-      std::cout << "New loggerlist was instantiated" << std::endl;
       
       logger::Logger* log_iterations = new logger::LogIteration(max_iterations);
-      std::cout << "New logger (Greed) was instantiated" << std::endl;
       
       used_logger->RegisterLogger("iterations", log_iterations);
-      std::cout << "Logger was registered" << std::endl;
       
       obj = new cboost::Compboost(response, learning_rate, false, used_optimizer, used_loss, used_logger);
-      std::cout << "Compboost object was declared" << std::endl;
     }
 
     // Member functions
@@ -245,6 +234,22 @@ class CompboostWrapper
     arma::vec GetPrediction ()
     {
       return obj->GetPrediction();
+    }
+    
+    void GetParameter ()
+    {
+      // Rcpp::List out;
+
+      for (std::map<std::string, arma::mat>::iterator it = obj->GetParameter().begin(); it != obj->GetParameter().end(); ++it) {
+        // out[ it->first ] = it->second;
+        std::cout << it->first << ":" << std::endl;
+        
+        for (unsigned int i = 0; it->second.size(); i++) {
+          std::cout << " " << it->second[i];
+        }
+        std::cout << std::endl;
+      }
+      // return out;
     }
     // arma::vec Predict () {
     //   return obj->PredictEnsemble();
@@ -295,8 +300,9 @@ RCPP_MODULE(compboost_module) {
 
   .constructor<arma::vec, unsigned int, double> ("Initialize CompboostWrapper (Compboost) object")
 
-  .method ("Train", &CompboostWrapper::Train, "Get the response of the Compboost object")
+  .method ("Train",         &CompboostWrapper::Train, "Get the response of the Compboost object")
   .method ("GetPrediction", &CompboostWrapper::GetPrediction, "Get prediction of the model")
+  .method ("GetParameter",  &CompboostWrapper::GetParameter, "Get parameter of the model")
   // .method ("Predict", &CompboostWrapper::Predict, "Set the response of the Compboost object")
   ;
 }

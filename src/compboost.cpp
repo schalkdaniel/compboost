@@ -74,21 +74,15 @@ Compboost::Compboost (arma::vec response, double learning_rate,
 
 void Compboost::TrainCompboost ()
 {
-  // Initialize pseudo residuals and the zero model:
+  // Initialize zero model and pseudo residuals:
   initialization = used_loss->ConstantInitializer(response);
-  std::cout << "Instantiate constant initializer" << std::endl;
-  
   arma::vec pseudo_residuals_init (response.size());
   
+  // Initialize prediction and fill with zero model:
   arma::vec prediction(response.size());
   prediction.fill(initialization);
   
-  std::cout << "The new prediction was done and is:" << std::endl;
-  for (unsigned int i = 0; i < prediction.size(); i++) {
-    std::cout << prediction[i] << " ";
-  }
-  std::cout << std::endl;
-  
+  // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
   unsigned int k = 1;
   
@@ -96,58 +90,47 @@ void Compboost::TrainCompboost ()
   // algorithm:
   while (! stop_the_algorithm) {
     
-    std::cout << std::endl;
-    std::cout << "--- " << k << "th iteration of the algorithm!" << std::endl;
-    
+    // Define pseudo residuals as negative gradient:
     pseudo_residuals = -used_loss->DefinedGradient(response, prediction);
-    std::cout << "The new pseudo residuals were calculated!" << std::endl;
     
+    // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
     blearner::Baselearner* selected_blearner = used_optimizer->FindBestBaselearner(temp_string, pseudo_residuals);
-    
-    std::cout << "Select: " << selected_blearner->GetBaselearnerType() << selected_blearner->GetIdentifier() << std::endl;
-    
+
+    // Insert new baselearner to vector of selected baselearner:    
     blearner_track->InsertBaselearner(selected_blearner, learning_rate);
     
-    std::cout << "Insert best baselearner to list" << std::endl;
-    
-    // This has to be done better!!!
-    //
-    // For instance, calculating the prediction in each step and just add the
-    // new prediction for the baselearner on top!
-    // arma::vec predict_temp = PredictEnsemble();
-    
+    // Update model (prediction) and shrink by learning rate:
     prediction += learning_rate * selected_blearner->predict();
     
-    std::cout << "The new prediction was done and is:" << std::endl;
-    for (unsigned int i = 0; i < prediction.size(); i++) {
-      std::cout << prediction[i] << " ";
-    }
-    std::cout << std::endl;
+    // Log the current step:
     
     // The last term has to be the prediction or anything like that. This is
     // important to track the risk (inbag or oob)!!!!
-    
     std::chrono::system_clock::time_point current_time;
     current_time = std::chrono::high_resolution_clock::now();
     
-    std::cout << "The current time was stored" << std::endl;
-    
     used_logger->LogCurrent(k, current_time, 6);
     
-    std::cout << "The iteration was logged" << std::endl;
-    
+    // Get status of the algorithm (is stopping criteria reached):
     stop_the_algorithm = ! used_logger->GetStopperStatus(use_global_stop_criteria);
     
-    std::cout << "The actual stopper status is: " << stop_the_algorithm << std::endl;
+    // Increment k:
     k += 1;
   }
+  
+  // Set model prediction:
   model_prediction = prediction;
 }
 
 arma::vec Compboost::GetPrediction ()
 {
   return model_prediction;
+}
+
+std::map<std::string, arma::mat> Compboost::GetParameter ()
+{
+  return blearner_track->GetParameterMap();
 }
 
 // arma::vec Compboost::PredictEnsemble ()

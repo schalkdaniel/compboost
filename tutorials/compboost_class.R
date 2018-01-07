@@ -1,14 +1,16 @@
 # mboost comparison:
 set.seed(pi)
 
-X = matrix(1:10, ncol = 1)
-y = 3 * as.numeric(X) + rnorm(10, 0, 2)
+n.test = 100
+
+X = matrix(runif(n.test, 0, 2), ncol = 1)
+y = 3 * as.numeric(X) + rnorm(n.test, 0, 2)
 
 learning.rate = 0.05
 iter.max = 20
 
 # for mboost:
-df = data.frame(y = y, x1 = X)
+df = data.frame(y = y, x1 = X, x2 = X^2)
 
 # Create new object (Note that we call a polynomial with degree 1):
 bl.linear = BaselearnerWrapper$new("l1", X, "var1", 1)
@@ -25,24 +27,23 @@ printRegisteredFactorys()
 cboost = CompboostWrapper$new(y, iter.max, learning.rate)
 cboost$Train()
 
-cboost$GetPrediction()
-
 # mboost:
 library(mboost)
 
 mod = mboost(
-  formula = y ~ bols(x1, intercept = FALSE), 
+  formula = y ~ bols(x1, intercept = FALSE) + bols(x2, intercept = FALSE), 
   data    = df, 
   control = boost_control(mstop = iter.max, nu = learning.rate)
 )
 
-predict(mod)
+all.equal(predict(mod), cboost$GetPrediction())
+# cboost$GetParameter()
 
 # Benchmark:
 microbenchmark::microbenchmark(
   "compboost" = cboost$Train(),
   "mboost"    = mboost(
-    formula = y ~ bols(x1, intercept = FALSE), 
+    formula = y ~ bols(x1, intercept = FALSE) + bols(x2, intercept = FALSE), 
     data    = df, 
     control = boost_control(mstop = iter.max, nu = learning.rate)
   )
@@ -51,9 +52,10 @@ microbenchmark::microbenchmark(
 p = profvis::profvis({
   cboost$Train()
   mboost(
-    formula = y ~ bols(x1, intercept = FALSE), 
+    formula = y ~ bols(x1, intercept = FALSE) + bols(x2, intercept = FALSE),
     data    = df, 
     control = boost_control(mstop = iter.max, nu = learning.rate)
   )
 })
+
 p

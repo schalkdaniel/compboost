@@ -74,20 +74,22 @@ void LoggerList::ClearMap ()
 
 bool LoggerList::GetStopperStatus (bool use_global_stop)
 {
+  // Define variables to get the status of the algorithm:
+  
+  // Should the algorithm be returned?
   bool return_algorithm = true;
+  // Get status for every registered logger:
   std::vector<bool> status;
   
-  std::cout << "logger: Assign first stuff. Now running over the registered logger:" << std::endl;
-  
+  // Iterate over logger and get stopper status:
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    std::cout << "logger: Now taking a look at " << it->first << std::endl;
     status.push_back(it->second->ReachedStopCriteria());
   }
+  // Sum over status vector to decide if the stop criteria is fullfilled:
   unsigned int status_sum = std::accumulate(status.begin(), status.end(), 0);
   
-  std::cout << "logger: The sum over the vector was: " << status_sum << std::endl;
-
-  
+  // Check if global stop (all stopper has to be true) or local stop (it is
+  // sufficient to have just one stopper saying true):
   if (use_global_stop) {
     if (status_sum == status.size()) {
       return_algorithm = false;

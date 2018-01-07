@@ -87,6 +87,8 @@ class Compboost
     void TrainCompboost ();
     
     arma::vec GetPrediction ();
+    
+    std::map<std::string, arma::mat> GetParameter ();
 
     // arma::vec PredictEnsemble ();
     // arma::vec PredictEnsemble (arma::mat &);
