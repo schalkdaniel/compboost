@@ -84,6 +84,9 @@ blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id,
     ssq_temp = arma::accu(arma::pow(blearner_temp->predict() - pseudo_residuals, 2)) / pseudo_residuals.size();
     // ssq[k] = arma::accu(arma::pow(blearner_temp->predict() - pseudo_residuals, 2)) / pseudo_residuals.size();
     
+    // First baselearner corresponds to ssq_best = 0. Within the nex
+    // iteration ssq_best is the mean of squared errors of the first 
+    // baselearner:
     if (ssq_best == 0) {
       ssq_best = ssq_temp;
       blearner_best = blearner_temp->Clone();

@@ -1,7 +1,7 @@
 # mboost comparison:
 set.seed(pi)
 
-n.test = 100
+n.test = 10
 
 X = matrix(runif(n.test, 0, 2), ncol = 1)
 y = 3 * as.numeric(X) + rnorm(n.test, 0, 2)
@@ -26,6 +26,9 @@ printRegisteredFactorys()
 # compboost:
 cboost = CompboostWrapper$new(y, iter.max, learning.rate)
 cboost$Train()
+
+cboost$GetSelectedBaselearner()
+cboost$GetModelFrame()
 
 # mboost:
 library(mboost)
