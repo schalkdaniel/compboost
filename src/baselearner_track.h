@@ -80,6 +80,9 @@ class BaselearnerTrack
     
     // Returns a matrix of parameters for every iteration:
     // arma::mat GetParameterMatrix ();
+    
+    // Destructor:
+    ~BaselearnerTrack ();
 };
 
 } // namespace blearnertrack

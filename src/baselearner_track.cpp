@@ -89,4 +89,15 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetParameterMap ()
   return my_parameter_map;
 }
 
+// Destructor:
+BaselearnerTrack::~BaselearnerTrack ()
+{
+  std::cout << "Call BaselearnerTrack Destructor" << std::endl;
+  for (unsigned int i = 0; i< blearner_vector.size(); i++)
+  {
+    delete blearner_vector[i];
+  } 
+  blearner_vector.clear();
+}
+
 } // blearnertrack

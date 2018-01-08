@@ -69,9 +69,9 @@ class Logger
     // data for evaluation, the information if it is a stopper or not, the 
     // initial time point and the initial risk:
     void InitializeLogger (loss::Loss &, arma::mat &, bool, 
-      std::chrono::system_clock::time_point &, double &);
+      std::chrono::system_clock::time_point, double);
     
-    virtual void LogStep (unsigned int, std::chrono::system_clock::time_point, double &) = 0;
+    virtual void LogStep (unsigned int, std::chrono::system_clock::time_point, double) = 0;
     
     // This one should check if the stop criteria is reached. If not it should
     // return 'true' otherwise 'false'. Every function should have this 
@@ -94,6 +94,8 @@ class Logger
     
     virtual arma::vec GetLoggedData () = 0;
     
+    virtual ~Logger ();
+    
   protected:
     
     loss::Loss* used_loss;
@@ -103,8 +105,8 @@ class Logger
     
     // Pointer to the publics of the loggerlist. The child classes then change
     // the value of the pointed values to update the steps.
-    std::chrono::system_clock::time_point* init_time;
-    double* init_risk;
+    std::chrono::system_clock::time_point init_time;
+    double init_risk;
      
 };
 
@@ -129,7 +131,7 @@ class LogIteration : public Logger
     LogIteration (unsigned int);
     
     // This just loggs the iteration (unsigned int):
-    void LogStep (unsigned int, std::chrono::system_clock::time_point, double &);
+    void LogStep (unsigned int, std::chrono::system_clock::time_point, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     

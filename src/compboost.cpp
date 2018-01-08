@@ -44,8 +44,6 @@
 
 #include "compboost.h"
 
-#include <iostream>
-
 namespace cboost {
 
 // --------------------------------------------------------------------------- #
@@ -54,18 +52,23 @@ namespace cboost {
 
 // todo: response as call by reference!
 
+Compboost::Compboost () {}
+
 Compboost::Compboost (arma::vec response, double learning_rate, 
   bool use_global_stop_criteria, optimizer::Optimizer* used_optimizer, 
-  loss::Loss* used_loss, loggerlist::LoggerList* used_logger)
+  loss::Loss* used_loss, loggerlist::LoggerList used_logger,
+  blearnerlist::BaselearnerList used_baselearner_list)
   : response ( response ), 
     learning_rate ( learning_rate ),
     use_global_stop_criteria ( use_global_stop_criteria ),
     used_optimizer ( used_optimizer ),
     used_loss ( used_loss ),
+    used_baselearner_list ( used_baselearner_list ),
     used_logger ( used_logger )
+
 {
   // Declare the vector of selected baselearner:
-  blearner_track = new blearnertrack::BaselearnerTrack();
+  blearner_track = blearnertrack::BaselearnerTrack();
 }
 
 // --------------------------------------------------------------------------- #
@@ -77,10 +80,12 @@ void Compboost::TrainCompboost ()
   // Initialize zero model and pseudo residuals:
   initialization = used_loss->ConstantInitializer(response);
   arma::vec pseudo_residuals_init (response.size());
+  // std::cout << "<<Compboost>> Initialize zero model and pseudo residuals" << std::endl;
   
   // Initialize prediction and fill with zero model:
   arma::vec prediction(response.size());
   prediction.fill(initialization);
+  // std::cout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
   
   // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
@@ -92,16 +97,20 @@ void Compboost::TrainCompboost ()
     
     // Define pseudo residuals as negative gradient:
     pseudo_residuals = -used_loss->DefinedGradient(response, prediction);
+    // std::cout << "\n<<Compboost>> Define pseudo residuals as negative gradient" << std::endl;
     
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
-    blearner::Baselearner* selected_blearner = used_optimizer->FindBestBaselearner(temp_string, pseudo_residuals);
-
+    blearner::Baselearner* selected_blearner = used_optimizer->FindBestBaselearner(temp_string, pseudo_residuals, used_baselearner_list.GetMap());
+    // std::cout << "<<Compboost>> Cast integer k to string for baselearner identifier" << std::endl;
+    
     // Insert new baselearner to vector of selected baselearner:    
-    blearner_track->InsertBaselearner(selected_blearner, learning_rate);
+    blearner_track.InsertBaselearner(selected_blearner, learning_rate);
+    // std::cout << "<<Compboost>> Insert new baselearner to vector of selected baselearner" << std::endl;
     
     // Update model (prediction) and shrink by learning rate:
     prediction += learning_rate * selected_blearner->predict();
+    // std::cout << "<<Compboost>> Update model (prediction) and shrink by learning rate" << std::endl;
     
     // Log the current step:
     
@@ -110,10 +119,11 @@ void Compboost::TrainCompboost ()
     std::chrono::system_clock::time_point current_time;
     current_time = std::chrono::high_resolution_clock::now();
     
-    used_logger->LogCurrent(k, current_time, 6);
+    used_logger.LogCurrent(k, current_time, 6);
+    // std::cout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):
-    stop_the_algorithm = ! used_logger->GetStopperStatus(use_global_stop_criteria);
+    stop_the_algorithm = ! used_logger.GetStopperStatus(use_global_stop_criteria);
     
     // Increment k:
     k += 1;
@@ -130,15 +140,23 @@ arma::vec Compboost::GetPrediction ()
 
 std::map<std::string, arma::mat> Compboost::GetParameter ()
 {
-  return blearner_track->GetParameterMap();
+  return blearner_track.GetParameterMap();
 }
 
 std::vector<std::string> Compboost::GetSelectedBaselearner ()
 {
   std::vector<std::string> selected_blearner;
   
-  for (std::vector<blearner::Baselearner*>::iterator it = blearner_track->GetBaselearnerVector().begin(); it != blearner_track->GetBaselearnerVector().end(); ++it) {
-    selected_blearner.push_back((*it)->GetBaselearnerType());
+  // Issue: https://github.com/schalkdaniel/compboost/issues/62
+  
+  // Doesn't work:
+  // for (std::vector<blearner::Baselearner*>::iterator it = blearner_track->GetBaselearnerVector().begin(); it != blearner_track->GetBaselearnerVector().end(); ++it) {
+  //   selected_blearner.push_back((*it)->GetBaselearnerType());
+  // }
+  
+  // Does work:
+  for (unsigned int i = 0; i < blearner_track.GetBaselearnerVector().size(); i++) {
+    selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
   }
   return selected_blearner;
 }
@@ -148,7 +166,10 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::GetModelFrame ()
   arma::mat out_matrix;
   std::vector<std::string> rownames;
   
-  for (blearner_factory_map::iterator it = used_baselearner_list->GetMap().begin(); it != used_baselearner_list->GetMap().end(); ++it) {
+  // Issue: https://github.com/schalkdaniel/compboost/issues/62
+  
+  // Doesn't work:
+  for (blearner_factory_map::iterator it = used_baselearner_list.GetMap().begin(); it != used_baselearner_list.GetMap().end(); ++it) {
     arma::mat data_temp = it->second->GetData();
     out_matrix = arma::join_rows(out_matrix, data_temp);
     
@@ -177,5 +198,13 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::GetModelFrame ()
 //   }
 //   return prediction;
 // }
+
+// Destructor:
+Compboost::~Compboost ()
+{
+  std::cout << "Call Compboost Destructor" << std::endl;
+  delete used_optimizer;
+  delete used_loss;
+}
 
 } // namespace cboost

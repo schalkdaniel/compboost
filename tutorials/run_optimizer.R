@@ -2,7 +2,7 @@
 # ===================================
 
 X = matrix(1:10, ncol = 1)
-y = 3 * as.numeric(X) + rnorm(10, 0, 2)
+y = 3 * as.numeric(X^3) + rnorm(10, 0, 2)
 
 # Create some stupid baselearner (obviously the linear one is the best):
 bl.linear = BaselearnerWrapper$new("l1", X, "x", 1)

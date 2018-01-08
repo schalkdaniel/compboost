@@ -53,13 +53,13 @@ class BaselearnerWrapper
 {
 private:
   
-  blearner::Baselearner *obj;
-  blearnerfactory::BaselearnerFactory *factory_obj;
+  blearner::Baselearner* obj;
+  blearnerfactory::BaselearnerFactory* factory_obj;
   
 public:
   
   // Baselearnerlist for all the baselearner:
-  static blearnerlist::BaselearnerList *blearner_factory_list;
+  static blearnerlist::BaselearnerList blearner_factory_list;
   
   // Constructors
   // -----------------
@@ -132,12 +132,12 @@ public:
     std::string factory_registry = factory_obj->GetBaselearnerType() + 
       " with id " + id + " of variable " + factory_obj->GetDataIdentifier();
     
-    blearner_factory_list->RegisterBaselearnerFactory (factory_registry, factory_obj);
+    blearner_factory_list.RegisterBaselearnerFactory (factory_registry, factory_obj);
   }
 };
 
 // Instantiate static BaselearnerList object:
-blearnerlist::BaselearnerList *BaselearnerWrapper::blearner_factory_list = new blearnerlist::BaselearnerList();
+blearnerlist::BaselearnerList BaselearnerWrapper::blearner_factory_list = blearnerlist::BaselearnerList();
 
 //' @title Print Registered Factorys
 //'
@@ -148,7 +148,7 @@ blearnerlist::BaselearnerList *BaselearnerWrapper::blearner_factory_list = new b
 // [[Rcpp::export]]
 void printRegisteredFactorys ()
 {
-  BaselearnerWrapper::blearner_factory_list->PrintRegisteredFactorys();
+  BaselearnerWrapper::blearner_factory_list.PrintRegisteredFactorys();
 }
 
 //' @title Clear the existing Hash Map of 'BaselearnerFactorys'
@@ -159,7 +159,7 @@ void printRegisteredFactorys ()
 // [[Rcpp::export]]
 void clearRegisteredFactorys ()
 {
-  BaselearnerWrapper::blearner_factory_list->ClearMap();
+  BaselearnerWrapper::blearner_factory_list.ClearMap();
   std::cout << "Clear all registered factorys!" << std::endl;
 }
 
@@ -174,18 +174,25 @@ void clearRegisteredFactorys ()
 //'   List of specifica about the best baselearner.
 //' @export
 // [[Rcpp::export]]
-Rcpp::List getBestBaselearner (arma::vec &pseudo_residuals)
+Rcpp::List getBestBaselearner (arma::vec& pseudo_residuals)
 {
-  optimizer::Optimizer *opt = new optimizer::Greedy (*BaselearnerWrapper::blearner_factory_list);
+  optimizer::Optimizer* opt = new optimizer::Greedy ();
+  std::cout << "Create new Optimizer" << std::endl;
   
   std::string temp_string = "test run";
   
-  blearner::Baselearner *blearner = opt->FindBestBaselearner(temp_string, pseudo_residuals);
+  blearner::Baselearner *blearner = opt->FindBestBaselearner(temp_string, pseudo_residuals, BaselearnerWrapper::blearner_factory_list.GetMap());
+  std::cout << "Run optimizer and find baselearner" << std::endl;
   
-  return Rcpp::List::create(
+  Rcpp::List out = Rcpp::List::create(
     blearner->GetIdentifier(), 
     blearner->GetParameter()
   );
+  
+  delete opt;
+  delete blearner;
+  
+  return out;
 }
 
 
@@ -209,20 +216,29 @@ class CompboostWrapper
       
       learning_rate = learning_rate0;
       
-      optimizer::Optimizer* used_optimizer = new optimizer::Greedy(*BaselearnerWrapper::blearner_factory_list);
+      used_optimizer = new optimizer::Greedy();
+      // std::cout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
       
-      loss::Loss* used_loss = new loss::Quadratic();
+      used_loss = new loss::Quadratic();
+      // std::cout << "<<CompboostWrapper>> Create new Loss" << std::endl;
       
       std::chrono::system_clock::time_point init_time;
       init_time = std::chrono::high_resolution_clock::now();
       
-      loggerlist::LoggerList* used_logger = new loggerlist::LoggerList(*eval_data, init_time, 4);
+      loggerlist::LoggerList used_logger = loggerlist::LoggerList(*eval_data, init_time, 4);
+      // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
       
       logger::Logger* log_iterations = new logger::LogIteration(max_iterations);
+      // std::cout << "<<CompboostWrapper>> Create new Logger" << std::endl;
       
-      used_logger->RegisterLogger("iterations", log_iterations);
+      used_logger.RegisterLogger("iterations", log_iterations);
+      // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
       
-      obj = new cboost::Compboost(response, learning_rate, false, used_optimizer, used_loss, used_logger);
+      obj = new cboost::Compboost(response, learning_rate, false, used_optimizer, 
+        used_loss, used_logger, BaselearnerWrapper::blearner_factory_list);
+      // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
+
+      log_iterations = NULL;
     }
 
     // Member functions
@@ -270,10 +286,21 @@ class CompboostWrapper
       );
     }
 
+    // Destructor:
+    ~CompboostWrapper ()
+    {
+      delete used_optimizer;
+      delete eval_data;
+      delete used_loss;
+      delete obj;
+    }
+    
   private:
 
+    optimizer::Optimizer* used_optimizer = NULL;
+    loss::Loss* used_loss = NULL;
     cboost::Compboost* obj;
-    arma::mat* eval_data;
+    arma::mat* eval_data = NULL;
     unsigned int max_iterations;
     double learning_rate;
 };

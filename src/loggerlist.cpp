@@ -43,6 +43,8 @@
 namespace loggerlist 
 {
 
+LoggerList::LoggerList () {};
+
 LoggerList::LoggerList (arma::mat &evaluation_data, std::chrono::system_clock::time_point init_time, 
   double init_risk)
   : evaluation_data_ptr ( &evaluation_data ),
@@ -131,6 +133,13 @@ void LoggerList::LogCurrent (unsigned int current_iteration,
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
     it->second->LogStep(current_iteration, current_time, current_risk);
   }
+}
+
+// Destructor:
+LoggerList::~LoggerList ()
+{
+  std::cout << "Call LoggerList Destructor" << std::endl;
+  delete evaluation_data_ptr;
 }
 
 } // namespace loggerlist

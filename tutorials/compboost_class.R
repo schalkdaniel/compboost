@@ -28,7 +28,7 @@ cboost = CompboostWrapper$new(y, iter.max, learning.rate)
 cboost$Train()
 
 cboost$GetSelectedBaselearner()
-cboost$GetModelFrame()
+# cboost$GetModelFrame()
 
 # mboost:
 library(mboost)

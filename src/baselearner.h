@@ -97,7 +97,7 @@ class Baselearner
     
     // This function just calls the virtual one with the data pointer. This is
     // done to avoid duplicates within the child classes:
-    arma::mat predict ();
+    virtual arma::mat predict () = 0;
     
     // Set and get identifier of a specific baselearner (this is unique):
     void SetIdentifier (std::string);
@@ -108,6 +108,9 @@ class Baselearner
     // This one is setted by the factory which later creates the objects:
     void SetBaselearnerType (std::string&);
     std::string GetBaselearnerType ();
+    
+    // Destructor:
+    virtual ~Baselearner ();
     
   protected:
     
@@ -149,6 +152,9 @@ class Polynomial : public Baselearner
     
     void train (arma::vec&);
     arma::mat predict (arma::mat&);
+    arma::mat predict ();
+    
+    ~Polynomial ();
 	
 };
 
@@ -178,13 +184,21 @@ class Custom : public Baselearner
     Custom (arma::mat&, std::string&, std::string&, Rcpp::Function, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function);
     
+    // Copy constructor:
     Baselearner* Clone ();
+    
+    // Function to delete parent members. This is called by the child 
+    // destructor:
+    void CleanUp ();
     
     arma::mat InstantiateData ();
     arma::mat InstantiateData (arma::mat&);
     
     void train (arma::vec&);
     arma::mat predict (arma::mat&);
+    arma::mat predict ();
+    
+    ~Custom ();
 	
 };
 
