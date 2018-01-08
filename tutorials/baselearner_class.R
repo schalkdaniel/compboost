@@ -1,9 +1,3 @@
-# Install the package:
-# ====================
-
-Rcpp::compileAttributes()
-devtools::load_all()
-
 # Define a linear baselearner object:
 # ===================================
 

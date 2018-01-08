@@ -78,6 +78,8 @@ std::string BaselearnerFactory::GetBaselearnerType()
   return blearner_type;
 }
 
+BaselearnerFactory::~BaselearnerFactory () {};
+
 // -------------------------------------------------------------------------- //
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //

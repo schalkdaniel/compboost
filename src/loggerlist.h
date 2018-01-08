@@ -43,7 +43,7 @@
 
 #include "logger.h"
 
-typedef std::map<std::string, logger::Logger *> logger_map;
+typedef std::map<std::string, logger::Logger*> logger_map;
 
 namespace loggerlist
 {
@@ -68,6 +68,7 @@ class LoggerList
     
   public:
   
+    LoggerList ();
     LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
     
     // String for logger and the logger itselfe:
@@ -96,6 +97,8 @@ class LoggerList
     // This is given to the instantiated logger:
     void LogCurrent (unsigned int, std::chrono::system_clock::time_point, double);
     
+    // Destructor:
+    ~LoggerList ();
 };
 
 } // namespace loggerlist

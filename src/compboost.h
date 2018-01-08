@@ -73,16 +73,18 @@ class Compboost
     bool use_global_stop_criteria;
     
     // Pieces to run the algorithm:
-    blearnertrack::BaselearnerTrack* blearner_track;
+    blearnertrack::BaselearnerTrack blearner_track;
     optimizer::Optimizer* used_optimizer;
     loss::Loss* used_loss;
-    blearnerlist::BaselearnerList* used_baselearner_list;
-    loggerlist::LoggerList* used_logger;
+    blearnerlist::BaselearnerList used_baselearner_list;
+    loggerlist::LoggerList used_logger;
   
   public:
 
-    Compboost(arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
-      loggerlist::LoggerList*);
+    Compboost ();
+    
+    Compboost (arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
+      loggerlist::LoggerList, blearnerlist::BaselearnerList);
     
     void TrainCompboost ();
     
@@ -94,6 +96,9 @@ class Compboost
 
     // arma::vec PredictEnsemble ();
     // arma::vec PredictEnsemble (arma::mat &);
+    
+    // Destructor:
+    ~Compboost ();
     
 };
 

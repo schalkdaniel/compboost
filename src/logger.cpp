@@ -50,14 +50,22 @@ namespace logger
 // Initialize the logger. This are some initial values which are important to
 // be setted in the beginning:
 void Logger::InitializeLogger(loss::Loss &used_loss0, arma::mat &evaluation_data0, 
-  bool is_a_stopper0, std::chrono::system_clock::time_point &init_time0, 
-  double &init_risk0)
+  bool is_a_stopper0, std::chrono::system_clock::time_point init_time0, 
+  double init_risk0)
 {
   used_loss       = &used_loss0;
   evaluation_data = &evaluation_data0;
   is_a_stopper    = is_a_stopper0;
-  init_time       = &init_time0;
-  init_risk       = &init_risk0;
+  init_time       = init_time0;
+  init_risk       = init_risk0;
+}
+
+// Destructor:
+Logger::~Logger ()
+{
+  // Shouldn't be deleted. This are pointers needed in other contextes to!
+  // delete used_loss;
+  // delete evaluation_data;
 }
 
 // -------------------------------------------------------------------------- //
@@ -70,7 +78,7 @@ void Logger::InitializeLogger(loss::Loss &used_loss0, arma::mat &evaluation_data
 LogIteration::LogIteration (unsigned int max_iterations) : max_iterations ( max_iterations ) {};
 
 void LogIteration::LogStep (unsigned int current_iteration, 
-  std::chrono::system_clock::time_point current_time, double &current_risk)
+  std::chrono::system_clock::time_point current_time, double current_risk)
 {
   iterations.push_back(current_iteration);
 }

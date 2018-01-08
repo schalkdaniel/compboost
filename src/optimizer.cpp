@@ -44,9 +44,9 @@ namespace optimizer {
 // Abstract 'Optimizer' class:
 // -------------------------------------------------------------------------- //
 
-void Optimizer::SetFactoryMap (blearnerlist::BaselearnerList & factory_list)
-{
-  my_blearner_factory_map = factory_list.GetMap();
+// Destructor:
+Optimizer::~Optimizer () {
+  std::cout << "Call Optimizer Destructor" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //
@@ -56,13 +56,10 @@ void Optimizer::SetFactoryMap (blearnerlist::BaselearnerList & factory_list)
 // Greedy:
 // -----------------------
 
-Greedy::Greedy (blearnerlist::BaselearnerList & factory_list)
-{
-  SetFactoryMap(factory_list);
-}
+Greedy::Greedy () {}
 
 blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id, 
-  arma::vec& pseudo_residuals)
+  arma::vec& pseudo_residuals, blearner_factory_map my_blearner_factory_map)
 {
   double ssq_temp;
   double ssq_best = 0;
@@ -81,7 +78,7 @@ blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id,
     blearner_temp = it->second->CreateBaselearner(id);
     blearner_temp->train(pseudo_residuals);
     
-    ssq_temp = arma::accu(arma::pow(blearner_temp->predict() - pseudo_residuals, 2)) / pseudo_residuals.size();
+    ssq_temp = arma::accu(arma::pow(pseudo_residuals - blearner_temp->predict(), 2)) / pseudo_residuals.size();
     // ssq[k] = arma::accu(arma::pow(blearner_temp->predict() - pseudo_residuals, 2)) / pseudo_residuals.size();
     
     // First baselearner corresponds to ssq_best = 0. Within the nex
@@ -89,13 +86,15 @@ blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id,
     // baselearner:
     if (ssq_best == 0) {
       ssq_best = ssq_temp;
-      blearner_best = blearner_temp->Clone();
+      blearner_best = blearner_temp;
     }
     
     if (ssq_temp < ssq_best) {
       ssq_best = ssq_temp;
-      blearner_best = blearner_temp->Clone();
+      blearner_best = blearner_temp;
     }
+    
+    blearner_temp = NULL;
     
     // if (k > 0) {
     //   if (ssq[k] < ssq[k - 1]) {

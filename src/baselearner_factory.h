@@ -97,6 +97,9 @@ class BaselearnerFactory
     
     std::string GetBaselearnerType ();
     
+    // Destructor:
+    virtual ~BaselearnerFactory ();
+    
   protected:
     
     // Minimal functionality every baselearner should have:

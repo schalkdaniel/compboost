@@ -86,10 +86,10 @@ arma::mat Baselearner::GetParameter ()
 }
 
 // Predict function. This one calls the virtual function with the data pointer:
-arma::mat Baselearner::predict ()
-{
-  return predict(*data_ptr);
-}
+// arma::mat Baselearner::predict ()
+// {
+//   return predict(*data_ptr);
+// }
 
 // Function to set the identifier (should be unique over all baselearner):
 void Baselearner::SetIdentifier (std::string id0)
@@ -113,6 +113,16 @@ void Baselearner::SetBaselearnerType (std::string& blearner_type0)
 std::string Baselearner::GetBaselearnerType ()
 {
   return *blearner_type;
+}
+
+// Destructor:
+Baselearner::~Baselearner ()
+{
+  std::cout << "Call Baselearner Destructor" << std::endl;
+  
+  delete blearner_type;
+  delete data_ptr;
+  delete data_identifier_ptr;
 }
 
 // -------------------------------------------------------------------------- //
@@ -162,11 +172,20 @@ void Polynomial::train (arma::vec& response)
   parameter = arma::solve(*data_ptr, response);
 }
 
+
+arma::mat Polynomial::predict ()
+{
+  return *data_ptr * parameter;
+}
+
 // Predict the learner:
 arma::mat Polynomial::predict (arma::mat& newdata)
 {
   return InstantiateData(newdata) * parameter;
 }
+
+// Destructor:
+Polynomial::~Polynomial () {}
 
 // Custom Baselearner:
 // -----------------------
@@ -213,6 +232,8 @@ arma::mat Custom::InstantiateData (arma::mat& newdata)
   return Rcpp::as<arma::mat>(out);
 }
 
+
+
 // Train by using the R function 'trainFun'.
 
 // NOTE: It is highly recommended to specify an explicit extractParameter
@@ -227,8 +248,17 @@ void Custom::train (arma::vec& response)
 // Predict by using the R function 'predictFun':
 arma::mat Custom::predict (arma::mat& newdata)
 {
-  Rcpp::NumericMatrix out = predictFun(model, newdata);
+  Rcpp::NumericMatrix out = predictFun(model, InstantiateData(newdata));
   return Rcpp::as<arma::mat>(out);
 }
+
+arma::mat Custom::predict ()
+{
+  Rcpp::NumericMatrix out = predictFun(model, *data_ptr);
+  return Rcpp::as<arma::mat>(out);
+}
+
+// Destructor:
+Custom::~Custom () {}
 
 } // namespace blearner
