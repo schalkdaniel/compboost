@@ -156,7 +156,7 @@ std::vector<std::string> Compboost::GetSelectedBaselearner ()
   
   // Does work:
   for (unsigned int i = 0; i < blearner_track.GetBaselearnerVector().size(); i++) {
-    selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
+    selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetDataIdentifier() + ": " + blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
   }
   return selected_blearner;
 }
