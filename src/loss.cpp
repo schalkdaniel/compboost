@@ -22,23 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   This file contains the different loss implementations. The structure here
-//   is:
-//     - Parent class 'LossDefinition' which are virtual member functions. This
-//       functions are later overwritten by the child member functions which
-//       contains the concrete implementation of the loss.
-//
-//     - Child classes have the structure:
-//
-//         class SpecificLoss: public LossDefinition
-//         {
-//           arma::vec DefinedLoss      { IMPLEMENTATION };
-//           arma::vec DefinedGradient  { IMPLEMENTATION };
-//           double ConstantInitializer { IMPLEMENTATION };
-//         }
-//
-//     - There is one special child class, the 'CustomLoss' which allows to
-//       define custom loss functions out of R.
+//   Implementation of the Loss class.
 //
 //
 // Written by:
@@ -54,12 +38,7 @@
 //
 // ========================================================================== //
 
-#ifndef LOSS_H_
-#define LOSS_H_
-
-#include <RcppArmadillo.h>
-
-#include <iostream>
+#include "loss.h"
 
 namespace loss
 {
@@ -67,48 +46,60 @@ namespace loss
 // Parent class:
 // -----------------------
 
-class Loss
-{
-  public:
-
-    virtual arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction) = 0;
-    virtual arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction) = 0;
-    virtual double ConstantInitializer (arma::vec &true_value) = 0;
-    
-    virtual ~Loss ();
-};
+Loss::~Loss () {
+  std::cout << "Call Loss Destructor" << std::endl;
+}
 
 // -------------------------------------------------------------------------- //
-// Loss implementations as child classes:
+// Child classes:
 // -------------------------------------------------------------------------- //
 
 // Quadratic loss:
 // -----------------------
 
-class Quadratic : public Loss
+arma::vec Quadratic::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
-  public:
+  // for debugging:
+  // std::cout << "Calculate loss of child class Quadratic!" << std::endl;
+  return arma::pow(true_value - prediction, 2) / 2;
+}
 
-    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction);
+arma::vec Quadratic::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+{
+  // for debugging:
+  // std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
+  return prediction - true_value;
+}
 
-    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction);
+double Quadratic::ConstantInitializer (arma::vec &true_value)
+{
+  return arma::mean(true_value);
+}
 
-    double ConstantInitializer (arma::vec &true_value);
-};
 
 // Absolute loss:
 // -----------------------
 
-class Absolute : public Loss
+
+arma::vec Absolute::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
-  public:
+  // for debugging:
+  // std::cout << "Calculate loss of child class Absolute!" << std::endl;
+  return arma::abs(true_value - prediction);
+}
 
-    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction);
+arma::vec Absolute::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+{
+  // for debugging:
+  // std::cout << "Calculate gradient of child class Absolute!" << std::endl;
+  return arma::sign(true_value - prediction);
+}
 
-    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction);
+double Absolute::ConstantInitializer (arma::vec &true_value)
+{
+  return arma::median(true_value);
+}
 
-    double ConstantInitializer (arma::vec &true_value);
-};
 
 // Custom loss:
 // -----------------------
@@ -123,27 +114,42 @@ class Absolute : public Loss
 // returns a 'Rcpp::NumericVector' which then is able to be converted to
 // 'double' by just selecting one element.
 
-class CustomLoss : public Loss
+
+CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) :
+lossFun( lossFun ), gradientFun( gradientFun ), initFun( initFun )
 {
-  private:
+  std::cout << "Be careful! You are using a custom loss out of R!"
+            << "This will slow down everything!"
+            << std::endl;
+}
 
-    Rcpp::Function lossFun;
-    Rcpp::Function gradientFun;
-    Rcpp::Function initFun;
+arma::vec CustomLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
+{
+  // for debugging:
+  // std::cout << "Calculate loss for a custom loss!" << std::endl;
+  Rcpp::NumericVector out = lossFun(true_value, prediction);
+  return out;
+}
 
-  public:
+arma::vec CustomLoss::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+{
+  // for debugging:
+  // std::cout << "Calculate gradient for a custom loss!" << std::endl;
+  Rcpp::NumericVector out = gradientFun(true_value, prediction);
+  return out;
+}
 
-    CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun);
+// Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
+// knows how to convert a 'SEXP':
+double CustomLoss::ConstantInitializer (arma::vec &true_value)
+{
+  // for debugging:
+  // std::cout << "Initialize custom loss!" << std::endl;
+  
+  Rcpp::NumericVector out = initFun(true_value);
+  
+  return out[0];
+}
 
-    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction);
-
-    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction);
-
-    // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
-    // knows how to convert a 'SEXP':
-    double ConstantInitializer (arma::vec &true_value);
-};
 
 } // namespace loss
-
-#endif // LOSS_H_
