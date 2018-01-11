@@ -45,11 +45,11 @@ namespace loggerlist
 
 LoggerList::LoggerList () {};
 
-LoggerList::LoggerList (arma::mat &evaluation_data, std::chrono::system_clock::time_point init_time, 
-  double init_risk)
-  : evaluation_data_ptr ( &evaluation_data ),
-    init_time ( init_time ),
-    init_risk ( init_risk ) {};
+// LoggerList::LoggerList (arma::mat &evaluation_data, std::chrono::system_clock::time_point init_time, 
+//   double init_risk)
+//   : evaluation_data_ptr ( &evaluation_data ),
+//     init_time ( init_time ),
+//     init_risk ( init_risk ) {};
 
 void LoggerList::RegisterLogger (std::string logger_id, logger::Logger *which_logger)
 {
@@ -117,7 +117,7 @@ std::pair<std::vector<std::string>, arma::mat> LoggerList::GetLoggerData ()
 }
 
 void LoggerList::LogCurrent (unsigned int current_iteration, 
-  std::chrono::system_clock::time_point current_time, double current_risk)
+  std::chrono::steady_clock::time_point current_time, double current_risk)
 {
   // Think about how to implement this the best way. I think the computations 
   // e.g. for the risk should be done within the logger object. If so, the
@@ -139,7 +139,7 @@ void LoggerList::LogCurrent (unsigned int current_iteration,
 LoggerList::~LoggerList ()
 {
   std::cout << "Call LoggerList Destructor" << std::endl;
-  delete evaluation_data_ptr;
+  // delete evaluation_data_ptr;
 }
 
 } // namespace loggerlist

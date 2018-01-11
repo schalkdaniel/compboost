@@ -55,21 +55,21 @@ class LoggerList
     
     logger_map log_list;
     
-    // Pointer to the data which should be used for evaluation. If the pointer
-    // is a null pointer, than the training data should be used.
-    // if (! evaluation_data_ptr) { USE TRAINING DATA } ele { USE GIVEN DATA }
-    arma::mat *evaluation_data_ptr;
-    
-    // Base time of initialization:
-    std::chrono::system_clock::time_point init_time;
-    
-    // Base Risk at initialization:
-    double init_risk;
+    // // Pointer to the data which should be used for evaluation. If the pointer
+    // // is a null pointer, than the training data should be used.
+    // // if (! evaluation_data_ptr) { USE TRAINING DATA } ele { USE GIVEN DATA }
+    // arma::mat *evaluation_data_ptr;
+    // 
+    // // Base time of initialization:
+    // std::chrono::system_clock::time_point init_time;
+    // 
+    // // Base Risk at initialization:
+    // double init_risk;
     
   public:
   
     LoggerList ();
-    LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
+    // LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
     
     // String for logger and the logger itselfe:
     void RegisterLogger (std::string, logger::Logger*);
@@ -95,7 +95,7 @@ class LoggerList
     
     // Log the current step (structure <iteration, actual time, actual risk>).
     // This is given to the instantiated logger:
-    void LogCurrent (unsigned int, std::chrono::system_clock::time_point, double);
+    void LogCurrent (unsigned int, std::chrono::steady_clock::time_point, double);
     
     // Destructor:
     ~LoggerList ();

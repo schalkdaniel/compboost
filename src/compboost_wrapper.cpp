@@ -210,7 +210,7 @@ class CompboostWrapper
 
     // Constructor
     CompboostWrapper (arma::vec response, unsigned int max_iterations0, 
-      double learning_rate0) {
+      double learning_rate0, unsigned int max_time) {
       
       max_iterations = max_iterations0;
       
@@ -222,16 +222,21 @@ class CompboostWrapper
       used_loss = new loss::Quadratic();
       // std::cout << "<<CompboostWrapper>> Create new Loss" << std::endl;
       
-      std::chrono::system_clock::time_point init_time;
-      init_time = std::chrono::high_resolution_clock::now();
+      // for the time logger:
+      bool use_log_time = false;
+      if (max_time > 0) {
+        use_log_time = true;
+      }
       
-      loggerlist::LoggerList used_logger = loggerlist::LoggerList(*eval_data, init_time, 4);
+      used_logger = new loggerlist::LoggerList();
       // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
       
-      logger::Logger* log_iterations = new logger::LogIteration(max_iterations);
+      logger::Logger* log_iterations = new logger::LogIteration(true, max_iterations);
+      logger::Logger* log_time       = new logger::LogTime(use_log_time, max_time, "microseconds");
       // std::cout << "<<CompboostWrapper>> Create new Logger" << std::endl;
       
-      used_logger.RegisterLogger("iterations", log_iterations);
+      used_logger->RegisterLogger("iterations", log_iterations);
+      used_logger->RegisterLogger("microseconds", log_time);
       // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
       
       obj = new cboost::Compboost(response, learning_rate, false, used_optimizer, 
@@ -285,6 +290,14 @@ class CompboostWrapper
         Rcpp::Named("model.frame") = raw_frame.second
       );
     }
+    
+    Rcpp::List GetLoggerData ()
+    {
+      return Rcpp::List::create(
+        Rcpp::Named("logger_names") = used_logger->GetLoggerData().first,
+        Rcpp::Named("logger_data")  = used_logger->GetLoggerData().second
+      );
+    }
 
     // Destructor:
     ~CompboostWrapper ()
@@ -293,10 +306,12 @@ class CompboostWrapper
       delete eval_data;
       delete used_loss;
       delete obj;
+      delete used_logger;
     }
     
   private:
 
+    loggerlist::LoggerList *used_logger;
     optimizer::Optimizer* used_optimizer = NULL;
     loss::Loss* used_loss = NULL;
     cboost::Compboost* obj;
@@ -340,13 +355,14 @@ RCPP_MODULE(compboost_module) {
 
   class_<CompboostWrapper> ("CompboostWrapper")
 
-  .constructor<arma::vec, unsigned int, double> ("Initialize CompboostWrapper (Compboost) object")
+  .constructor<arma::vec, unsigned int, double, unsigned int> ("Initialize CompboostWrapper (Compboost) object")
 
   .method ("Train",         &CompboostWrapper::Train, "Get the response of the Compboost object")
   .method ("GetPrediction", &CompboostWrapper::GetPrediction, "Get prediction of the model")
   .method ("GetParameter",  &CompboostWrapper::GetParameter, "Get parameter of the model")
   .method ("GetSelectedBaselearner", &CompboostWrapper::GetSelectedBaselearner, "Get a character vector of selected baselearner")
   .method ("GetModelFrame",          &CompboostWrapper::GetModelFrame, "Get the model frame")
+  .method ("GetLoggerData",          &CompboostWrapper::GetLoggerData, "Get logger data")
   // .method ("Predict", &CompboostWrapper::Predict, "Set the response of the Compboost object")
   ;
 }

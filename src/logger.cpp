@@ -46,20 +46,6 @@ namespace logger
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
 
-
-// Initialize the logger. This are some initial values which are important to
-// be setted in the beginning:
-void Logger::InitializeLogger(loss::Loss &used_loss0, arma::mat &evaluation_data0, 
-  bool is_a_stopper0, std::chrono::system_clock::time_point init_time0, 
-  double init_risk0)
-{
-  used_loss       = &used_loss0;
-  evaluation_data = &evaluation_data0;
-  is_a_stopper    = is_a_stopper0;
-  init_time       = init_time0;
-  init_risk       = init_risk0;
-}
-
 // Destructor:
 Logger::~Logger ()
 {
@@ -75,10 +61,14 @@ Logger::~Logger ()
 // LogIteration:
 // -----------------------
 
-LogIteration::LogIteration (unsigned int max_iterations) : max_iterations ( max_iterations ) {};
+LogIteration::LogIteration (bool is_a_stopper0, unsigned int max_iterations) 
+  : max_iterations ( max_iterations ) 
+{
+  is_a_stopper = is_a_stopper0;
+};
 
 void LogIteration::LogStep (unsigned int current_iteration, 
-  std::chrono::system_clock::time_point current_time, double current_risk)
+                            std::chrono::steady_clock::time_point current_time, double current_risk)
 {
   iterations.push_back(current_iteration);
 }
@@ -109,5 +99,47 @@ arma::vec LogIteration::GetLoggedData ()
 
 // LogTime:
 // -----------------------
+
+LogTime::LogTime (bool is_a_stopper0, unsigned int max_time, std::string time_precision)
+  : max_time ( max_time ),
+    time_precision ( time_precision )
+{
+  is_a_stopper = is_a_stopper0;
+}
+
+void LogTime::LogStep (unsigned int current_iteration, 
+                       std::chrono::steady_clock::time_point current_time, double current_risk)
+{
+  if (times_seconds.size() == 0) {
+    init_time = current_time;
+  }
+  if (time_precision == "seconds") {
+    times_seconds.push_back(std::chrono::duration_cast<std::chrono::seconds>(current_time - init_time).count());
+  } 
+  if (time_precision == "microseconds") {
+    times_seconds.push_back(std::chrono::duration_cast<std::chrono::microseconds>(current_time - init_time).count());
+  }
+}
+
+bool LogTime::ReachedStopCriteria ()
+{
+  bool stop_criteria_is_reached = false;
+  
+  if (is_a_stopper) {
+    if (times_seconds.back() >= max_time) {
+      stop_criteria_is_reached = true;
+    }
+  }
+  return stop_criteria_is_reached;
+}
+
+arma::vec LogTime::GetLoggedData ()
+{
+  // Cast integer vector to double:
+  std::vector<double> seconds_double (times_seconds.begin(), times_seconds.end());
+  
+  arma::vec out (seconds_double);
+  return out;
+}
 
 } // namespace logger
