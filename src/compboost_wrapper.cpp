@@ -275,9 +275,6 @@ class CompboostWrapper
     {
       return obj->GetSelectedBaselearner();
     }
-    // arma::vec Predict () {
-    //   return obj->PredictEnsemble();
-    // }
     
     Rcpp::List GetModelFrame ()
     {
@@ -361,6 +358,5 @@ RCPP_MODULE(compboost_module) {
   .method ("GetSelectedBaselearner", &CompboostWrapper::GetSelectedBaselearner, "Get a character vector of selected baselearner")
   .method ("GetModelFrame",          &CompboostWrapper::GetModelFrame, "Get the model frame")
   .method ("GetLoggerData",          &CompboostWrapper::GetLoggerData, "Get logger data")
-  // .method ("Predict", &CompboostWrapper::Predict, "Set the response of the Compboost object")
   ;
 }

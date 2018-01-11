@@ -60,7 +60,7 @@ Compboost::Compboost (arma::vec response, double learning_rate,
   blearnerlist::BaselearnerList used_baselearner_list)
   : response ( response ), 
     learning_rate ( learning_rate ),
-    use_global_stop_criteria ( use_global_stop_criteria ),
+    stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
     used_optimizer ( used_optimizer ),
     used_loss ( used_loss ),
     used_baselearner_list ( used_baselearner_list ),
@@ -117,7 +117,7 @@ void Compboost::TrainCompboost ()
     // std::cout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):
-    stop_the_algorithm = ! used_logger->GetStopperStatus(use_global_stop_criteria);
+    stop_the_algorithm = ! used_logger->GetStopperStatus(stop_if_all_stopper_fulfilled);
     
     // Increment k:
     k += 1;

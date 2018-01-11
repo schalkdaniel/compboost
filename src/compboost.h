@@ -70,7 +70,7 @@ class Compboost
     double learning_rate;
     double initialization;
     
-    bool use_global_stop_criteria;
+    bool stop_if_all_stopper_fulfilled;
     
     // Pieces to run the algorithm:
     blearnertrack::BaselearnerTrack blearner_track = blearnertrack::BaselearnerTrack();

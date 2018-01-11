@@ -47,7 +47,7 @@
 //
 //   https://www.compstat.statistik.uni-muenchen.de
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef BASELEARNERFACTORY_H_
 #define BASELEARNERFACTORY_H_
