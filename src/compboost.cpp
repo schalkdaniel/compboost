@@ -56,7 +56,7 @@ Compboost::Compboost () {}
 
 Compboost::Compboost (arma::vec response, double learning_rate, 
   bool use_global_stop_criteria, optimizer::Optimizer* used_optimizer, 
-  loss::Loss* used_loss, loggerlist::LoggerList used_logger,
+  loss::Loss* used_loss, loggerlist::LoggerList* used_logger,
   blearnerlist::BaselearnerList used_baselearner_list)
   : response ( response ), 
     learning_rate ( learning_rate ),
@@ -64,12 +64,7 @@ Compboost::Compboost (arma::vec response, double learning_rate,
     used_optimizer ( used_optimizer ),
     used_loss ( used_loss ),
     used_baselearner_list ( used_baselearner_list ),
-    used_logger ( used_logger )
-
-{
-  // Declare the vector of selected baselearner:
-  blearner_track = blearnertrack::BaselearnerTrack();
-}
+    used_logger ( used_logger ) {}
 
 // --------------------------------------------------------------------------- #
 // Member functions:
@@ -116,14 +111,13 @@ void Compboost::TrainCompboost ()
     
     // The last term has to be the prediction or anything like that. This is
     // important to track the risk (inbag or oob)!!!!
-    std::chrono::system_clock::time_point current_time;
-    current_time = std::chrono::high_resolution_clock::now();
+    std::chrono::steady_clock::time_point current_time = std::chrono::steady_clock::now();
     
-    used_logger.LogCurrent(k, current_time, 6);
+    used_logger->LogCurrent(k, current_time, 6);
     // std::cout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):
-    stop_the_algorithm = ! used_logger.GetStopperStatus(use_global_stop_criteria);
+    stop_the_algorithm = ! used_logger->GetStopperStatus(use_global_stop_criteria);
     
     // Increment k:
     k += 1;
@@ -205,6 +199,7 @@ Compboost::~Compboost ()
   std::cout << "Call Compboost Destructor" << std::endl;
   delete used_optimizer;
   delete used_loss;
+  delete used_logger;
 }
 
 } // namespace cboost

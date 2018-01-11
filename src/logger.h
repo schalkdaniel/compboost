@@ -65,13 +65,7 @@ class Logger
 
   public:
     
-    // Initialize a logger with the important things like the used loss, the 
-    // data for evaluation, the information if it is a stopper or not, the 
-    // initial time point and the initial risk:
-    void InitializeLogger (loss::Loss &, arma::mat &, bool, 
-      std::chrono::system_clock::time_point, double);
-    
-    virtual void LogStep (unsigned int, std::chrono::system_clock::time_point, double) = 0;
+    virtual void LogStep (unsigned int, std::chrono::steady_clock::time_point, double) = 0;
     
     // This one should check if the stop criteria is reached. If not it should
     // return 'true' otherwise 'false'. Every function should have this 
@@ -105,7 +99,6 @@ class Logger
     
     // Pointer to the publics of the loggerlist. The child classes then change
     // the value of the pointed values to update the steps.
-    std::chrono::system_clock::time_point init_time;
     double init_risk;
      
 };
@@ -122,16 +115,16 @@ class Logger
 class LogIteration : public Logger 
 {
   private:
-    
+  
     unsigned int max_iterations;
     std::vector<unsigned int> iterations;
     
   public:
     
-    LogIteration (unsigned int);
+    LogIteration (bool, unsigned int);
     
     // This just loggs the iteration (unsigned int):
-    void LogStep (unsigned int, std::chrono::system_clock::time_point, double);
+    void LogStep (unsigned int, std::chrono::steady_clock::time_point, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     
@@ -143,7 +136,24 @@ class LogIteration : public Logger
 // LogTime:
 // -----------------------
 
-
+class LogTime : public Logger
+{
+  private:
+    
+    std::chrono::steady_clock::time_point init_time;
+    std::vector<unsigned int> times_seconds;
+    unsigned int max_time;
+    std::string time_precision;
+    
+  public:
+    
+    LogTime (bool, unsigned int, std::string);
+    
+    void LogStep (unsigned int, std::chrono::steady_clock::time_point, double);
+    bool ReachedStopCriteria ();
+    arma::vec GetLoggedData ();
+    
+};
 
 } // namespace logger
 

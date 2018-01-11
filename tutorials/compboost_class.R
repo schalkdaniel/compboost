@@ -43,8 +43,8 @@ printRegisteredFactorys()
 # Run compboost:
 # --------------
 
-# Initialize object:
-cboost = CompboostWrapper$new(y, iter.max, learning.rate)
+# Initialize object (Response, maximal iterations, learning maximal seconds):
+cboost = CompboostWrapper$new(y, iter.max, learning.rate, 0)
 
 # Train the model:
 cboost$Train()
@@ -52,6 +52,7 @@ cboost$Train()
 # Get vector selected baselearner:
 cboost$GetSelectedBaselearner()
 # cboost$GetModelFrame()
+cboost$GetLoggerData()
 
 # Do the same with mboost:
 # ------------------------
