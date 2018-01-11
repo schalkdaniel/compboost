@@ -242,8 +242,6 @@ class CompboostWrapper
       obj = new cboost::Compboost(response, learning_rate, false, used_optimizer, 
         used_loss, used_logger, BaselearnerWrapper::blearner_factory_list);
       // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
-
-      log_iterations = NULL;
     }
 
     // Member functions
