@@ -115,8 +115,10 @@ double Absolute::ConstantInitializer (arma::vec &true_value)
 // 'double' by just selecting one element.
 
 
-CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) :
-lossFun( lossFun ), gradientFun( gradientFun ), initFun( initFun )
+CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) 
+  : lossFun( lossFun ), 
+    gradientFun( gradientFun ), 
+    initFun( initFun )
 {
   std::cout << "Be careful! You are using a custom loss out of R!"
             << "This will slow down everything!"

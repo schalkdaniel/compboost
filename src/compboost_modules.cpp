@@ -41,6 +41,7 @@
 #include "compboost.h"
 #include "baselearner_factory.h"
 #include "baselearner_list.h"
+#include "loss.h"
 
 // -------------------------------------------------------------------------- //
 //                         BASELEARNER FACTORYS                               //
@@ -148,6 +149,42 @@ public:
   }
 };
 
+// -------------------------------------------------------------------------- //
+//                                    LOSS                                    //
+// -------------------------------------------------------------------------- //
+
+class LossWrapper
+{
+  public:
+    
+    loss::Loss* getLoss () { return obj; }
+  
+  protected:
+    
+    loss::Loss* obj;
+};
+
+class QuadraticWrapper : public LossWrapper
+{
+  public:
+    QuadraticWrapper () { obj = new loss::Quadratic(); }
+};
+
+class AbsoluteWrapper : public LossWrapper
+{
+  public:
+    AbsoluteWrapper () { obj = new loss::Absolute(); }
+};
+
+class CustomWrapper : public LossWrapper
+{
+  public:
+    CustomWrapper (Rcpp::Function lossFun, Rcpp::Function gradientFun, 
+      Rcpp::Function initFun) 
+    { 
+      obj = new loss::CustomLoss(lossFun, gradientFun, initFun); 
+    }
+};
 
 // -------------------------------------------------------------------------- //
 //                                 COMPBOOST                                  //
@@ -159,7 +196,8 @@ public:
   
   CompboostWrapper (arma::vec response, double learning_rate0, 
     unsigned int max_iterations0, bool stop_if_all_stopper_fulfilled0, 
-    unsigned int max_time, BaselearnerListWrapper factory_wrapper) 
+    unsigned int max_time, BaselearnerListWrapper factory_wrapper,
+    LossWrapper loss_wrapper) 
   {
     
     max_iterations = max_iterations0;
@@ -167,9 +205,6 @@ public:
     
     used_optimizer = new optimizer::Greedy();
     // std::cout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
-    
-    used_loss = new loss::Quadratic();
-    // std::cout << "<<CompboostWrapper>> Create new Loss" << std::endl;
     
     used_logger = new loggerlist::LoggerList();
     // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
@@ -183,7 +218,7 @@ public:
     // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
     
     obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled0, 
-      used_optimizer, used_loss, used_logger, factory_wrapper.getFactoryList());
+      used_optimizer, loss_wrapper.getLoss(), used_logger, factory_wrapper.getFactoryList());
     // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
   }
   
@@ -194,7 +229,6 @@ public:
     
     delete used_optimizer;
     delete eval_data;
-    delete used_loss;
     delete obj;
     delete used_logger;
   }
@@ -237,7 +271,6 @@ private:
   
   loggerlist::LoggerList* used_logger;
   optimizer::Optimizer* used_optimizer = NULL;
-  loss::Loss* used_loss = NULL;
   cboost::Compboost* obj;
   arma::mat* eval_data = NULL;
   
@@ -254,6 +287,7 @@ private:
 // Class which we want to give as parameter or which receives the parameter:
 RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
 RCPP_EXPOSED_CLASS(BaselearnerListWrapper);
+RCPP_EXPOSED_CLASS(LossWrapper);
 RCPP_EXPOSED_CLASS(CompboostWrapper);
 
 // BaselearnerFactory:
@@ -301,15 +335,42 @@ RCPP_MODULE (baselearner_list_module)
   ;
 }
 
+// Loss:
+// -----
+
+RCPP_MODULE (loss_module)
+{
+  using namespace Rcpp;
+  
+  class_<LossWrapper> ("Loss")
+    .constructor ()
+  ;
+  
+  class_<QuadraticWrapper> ("QuadraticLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+  ;
+  
+  class_<AbsoluteWrapper> ("AbsoluteLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+  ;
+  
+  class_<CustomWrapper> ("CustomLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+  ;
+}
+
 // Compboost:
 // ----------
 
-RCPP_MODULE (compboost_module_new)
+RCPP_MODULE (compboost_module)
 {
   using namespace Rcpp;
   
   class_<CompboostWrapper> ("Compboost")
-    .constructor<arma::vec, double, unsigned int, bool, unsigned int, BaselearnerListWrapper> ()
+    .constructor<arma::vec, double, unsigned int, bool, unsigned int, BaselearnerListWrapper, LossWrapper> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")
