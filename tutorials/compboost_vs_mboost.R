@@ -44,12 +44,15 @@ factory.list$registerFactory(quadratic.factory.hp)
 
 factory.list$printRegisteredFactorys()
 
+# We use quadratic loss:
+loss = QuadraticLoss$new()
+
 # Run compboost:
 # --------------
 
 # Initialize object (Response, learning rate, maximal iterations, stop if all
 # stopper are fulfilled?, maximal microseconds, factory list):
-cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list)
+cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss)
 
 # Train the model:
 cboost$train()

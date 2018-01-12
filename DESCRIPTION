@@ -25,7 +25,6 @@ Suggests:
     rpart
 RcppModules: 
     compboost_module,
-    compboost_module_new,
     loss_module, 
     baselearner_module,
     baselearner_factory_module,

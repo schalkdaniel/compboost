@@ -38,8 +38,6 @@
 # =========================================================================== #
 
 Rcpp::loadModule(module = "compboost_module", what = TRUE)
-Rcpp::loadModule(module = "compboost_module_new", what = TRUE)
 Rcpp::loadModule(module = "loss_module", what = TRUE)
-Rcpp::loadModule(module = "baselearner_module", what = TRUE)
 Rcpp::loadModule(module = "baselearner_factory_module", what = TRUE)
 Rcpp::loadModule(module = "baselearner_list_module", what = TRUE)
