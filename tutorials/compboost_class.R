@@ -1,9 +1,12 @@
 # ============================================================================ #
-#                            compboost vs mboost                               #
+#                                  compboost                                   #
 # ============================================================================ #
 
-# Just a small comparison, maybe more a check if compboost does the same
-# as mboost using mtcars.
+# We want to model the miles per gallon (mpg) dependent of the horse power 
+# (hp) as linear and quadratic learner and the weight (wt) just as linear 
+# learner.
+
+# We want to use a 500 iterations as maxium and a lerning rate of 0.05.
 
 # Prepare Data:
 # -------------
@@ -23,96 +26,39 @@ y = df[["mpg"]]
 learning.rate = 0.05
 iter.max = 500
 
+
 # Prepare compboost:
 # ------------------
 
 # Create new linear baselearner of hp and wt:
-bl.linear.hp = BaselearnerWrapper$new("l1", X.hp, "hp", 1)
-bl.linear.wt = BaselearnerWrapper$new("l2", X.wt, "wt", 1)
+linear.factory.hp = PolynomialFactory$new(X.hp, "hp", 1)
+linear.factory.wt = PolynomialFactory$new(X.wt, "wt", 1)
 
 # Create new quadratic baselearner of hp:
-bl.quadratic.hp = BaselearnerWrapper$new("q1", X.hp, "hp", 2)
+quadratic.factory.hp = PolynomialFactory$new(X.hp, "hp", 2)
+
+# Create new factory list:
+factory.list = FactoryList$new()
 
 # Register factorys:
-bl.linear.hp$RegisterFactory("linear factory 1")
-bl.linear.wt$RegisterFactory("linear factory 2")
-bl.quadratic.hp$RegisterFactory("quadratic factory 1")
+factory.list$registerFactory(linear.factory.hp)
+factory.list$registerFactory(linear.factory.wt)
+factory.list$registerFactory(quadratic.factory.hp)
 
-printRegisteredFactorys()
+# Print the registered factorys:
+factory.list$printRegisteredFactorys()
 
 # Run compboost:
 # --------------
 
-# Initialize object (Response, maximal iterations, learning maximal seconds):
-cboost = CompboostWrapper$new(y, iter.max, learning.rate, 0)
+# Initialize object (Response, learning rate, maximal iterations, stop if all
+# stopper are fulfilled?, maximal microseconds, factory list):
+cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list)
 
 # Train the model:
-cboost$Train()
+cboost$train()
 
 # Get vector selected baselearner:
-cboost$GetSelectedBaselearner()
+cboost$getSelectedBaselearner()
 # cboost$GetModelFrame()
-cboost$GetLoggerData()
-
-# Do the same with mboost:
-# ------------------------
-
-library(mboost)
-
-mod = mboost(
-  formula = mpg ~ bols(hp, intercept = FALSE) + 
-    bols(wt, intercept = FALSE) +
-    bols(hp2, intercept = FALSE), 
-  data    = df, 
-  control = boost_control(mstop = iter.max, nu = learning.rate)
-)
-
-# Check if the selected baselearner are the same:
-# -----------------------------------------------
-
-cboost.xselect = match(
-  x     = cboost$GetSelectedBaselearner(), 
-  table = c(
-    "hp: polynomial with degree 1", 
-    "wt: polynomial with degree 1", 
-    "hp: polynomial with degree 2"
-    )
-  )
-
-all.equal(predict(mod), cboost$GetPrediction())
-
-# Check if the prediction is the same:
-# ------------------------------------
-
-all.equal(mod$xselect(), cboost.xselect)
-# cboost$GetParameter()
-
-# Benchmark:
-# ----------
-
-# Time comparison:
-microbenchmark::microbenchmark(
-  "compboost" = cboost$Train(),
-  "mboost"    = mboost(
-    formula = mpg ~ bols(hp, intercept = FALSE) + 
-      bols(wt, intercept = FALSE) +
-      bols(hp2, intercept = FALSE), 
-    data    = df, 
-    control = boost_control(mstop = iter.max, nu = learning.rate)
-  ),
-  times = 10L
-)
-
-# Profiling to compare used memory:
-p = profvis::profvis({
-  cboost$Train()
-  mboost(
-    formula = mpg ~ bols(hp, intercept = FALSE) + 
-      bols(wt, intercept = FALSE) +
-      bols(hp2, intercept = FALSE), 
-    data    = df, 
-    control = boost_control(mstop = iter.max, nu = learning.rate)
-  )
-})
-
-print(p)
+cboost$getLoggerData()

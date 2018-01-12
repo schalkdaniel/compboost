@@ -67,8 +67,7 @@ LogIteration::LogIteration (bool is_a_stopper0, unsigned int max_iterations)
   is_a_stopper = is_a_stopper0;
 };
 
-void LogIteration::LogStep (unsigned int current_iteration, 
-                            std::chrono::steady_clock::time_point current_time, double current_risk)
+void LogIteration::LogStep (unsigned int current_iteration, double current_risk)
 {
   iterations.push_back(current_iteration);
 }
@@ -107,17 +106,16 @@ LogTime::LogTime (bool is_a_stopper0, unsigned int max_time, std::string time_pr
   is_a_stopper = is_a_stopper0;
 }
 
-void LogTime::LogStep (unsigned int current_iteration, 
-                       std::chrono::steady_clock::time_point current_time, double current_risk)
+void LogTime::LogStep (unsigned int current_iteration, double current_risk)
 {
   if (times_seconds.size() == 0) {
-    init_time = current_time;
+    init_time = std::chrono::steady_clock::now();
   }
   if (time_precision == "seconds") {
-    times_seconds.push_back(std::chrono::duration_cast<std::chrono::seconds>(current_time - init_time).count());
+    times_seconds.push_back(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count());
   } 
   if (time_precision == "microseconds") {
-    times_seconds.push_back(std::chrono::duration_cast<std::chrono::microseconds>(current_time - init_time).count());
+    times_seconds.push_back(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - init_time).count());
   }
 }
 

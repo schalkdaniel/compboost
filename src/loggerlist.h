@@ -95,7 +95,7 @@ class LoggerList
     
     // Log the current step (structure <iteration, actual time, actual risk>).
     // This is given to the instantiated logger:
-    void LogCurrent (unsigned int, std::chrono::steady_clock::time_point, double);
+    void LogCurrent (unsigned int, double);
     
     // Destructor:
     ~LoggerList ();
