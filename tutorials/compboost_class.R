@@ -6,7 +6,8 @@
 # (hp) as linear and quadratic learner and the weight (wt) just as linear 
 # learner.
 
-# We want to use a 500 iterations as maxium and a lerning rate of 0.05.
+# We want to use a 500 iterations as maxium, a lerning rate of 0.05 and 
+# quadratic loss.
 
 # Prepare Data:
 # -------------
@@ -48,12 +49,15 @@ factory.list$registerFactory(quadratic.factory.hp)
 # Print the registered factorys:
 factory.list$printRegisteredFactorys()
 
+# Use quadratic loss:
+loss.quadratic = QuadraticLoss$new()
+
 # Run compboost:
 # --------------
 
 # Initialize object (Response, learning rate, maximal iterations, stop if all
 # stopper are fulfilled?, maximal microseconds, factory list):
-cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list)
+cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss.quadratic)
 
 # Train the model:
 cboost$train()
