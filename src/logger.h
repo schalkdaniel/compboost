@@ -65,7 +65,7 @@ class Logger
 
   public:
     
-    virtual void LogStep (unsigned int, std::chrono::steady_clock::time_point, double) = 0;
+    virtual void LogStep (unsigned int, double) = 0;
     
     // This one should check if the stop criteria is reached. If not it should
     // return 'true' otherwise 'false'. Every function should have this 
@@ -124,7 +124,7 @@ class LogIteration : public Logger
     LogIteration (bool, unsigned int);
     
     // This just loggs the iteration (unsigned int):
-    void LogStep (unsigned int, std::chrono::steady_clock::time_point, double);
+    void LogStep (unsigned int, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     
@@ -149,7 +149,7 @@ class LogTime : public Logger
     
     LogTime (bool, unsigned int, std::string);
     
-    void LogStep (unsigned int, std::chrono::steady_clock::time_point, double);
+    void LogStep (unsigned int, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     

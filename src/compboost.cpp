@@ -55,7 +55,7 @@ namespace cboost {
 Compboost::Compboost () {}
 
 Compboost::Compboost (arma::vec response, double learning_rate, 
-  bool use_global_stop_criteria, optimizer::Optimizer* used_optimizer, 
+  bool stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, 
   loss::Loss* used_loss, loggerlist::LoggerList* used_logger,
   blearnerlist::BaselearnerList used_baselearner_list)
   : response ( response ), 
@@ -111,9 +111,8 @@ void Compboost::TrainCompboost ()
     
     // The last term has to be the prediction or anything like that. This is
     // important to track the risk (inbag or oob)!!!!
-    std::chrono::steady_clock::time_point current_time = std::chrono::steady_clock::now();
     
-    used_logger->LogCurrent(k, current_time, 6);
+    used_logger->LogCurrent(k, 6);
     // std::cout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):

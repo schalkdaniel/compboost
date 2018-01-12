@@ -84,9 +84,11 @@ blearner_factory_map BaselearnerList::GetMap ()
 // Remove all registered factorys:
 void BaselearnerList::ClearMap ()
 {
-  for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
-    delete it->second;
-  }
+  // This deletes all the data which are sometimes necessary to re register 
+  // factorys!
+  // for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
+  //   delete it->second;
+  // }
   my_factory_map.clear();
 }
 
