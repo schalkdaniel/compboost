@@ -190,7 +190,7 @@ Polynomial::~Polynomial () {}
 // Custom Baselearner:
 // -----------------------
 
-Custom::Custom (arma::mat &data, std::string &data_identifier, std::string &identifier, 
+Custom::Custom (arma::mat& data, std::string& data_identifier, std::string& identifier, 
   Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
   Rcpp::Function extractParameter) 
     : instantiateDataFun ( instantiateDataFun ), 
@@ -199,9 +199,9 @@ Custom::Custom (arma::mat &data, std::string &data_identifier, std::string &iden
       extractParameter ( extractParameter )
 {
   // Called from parent class 'Baselearner':
-  Baselearner::SetData(data);
-  Baselearner::SetIdentifier(identifier);
-  Baselearner::SetDataIdentifier(data_identifier);
+  Baselearner::SetData (data);
+  Baselearner::SetIdentifier (identifier);
+  Baselearner::SetDataIdentifier (data_identifier);
 }
 
 // Copy member:
@@ -260,5 +260,83 @@ arma::mat Custom::predict ()
 
 // Destructor:
 Custom::~Custom () {}
+
+
+// CustomCpp Baselearner:
+// -----------------------
+
+CustomCpp::CustomCpp (arma::mat& data, std::string& data_identifier, std::string& identifier, 
+  SEXP instantiateDataFun0, SEXP trainFun0, SEXP predictFun0)
+{
+  // Called from parent class 'Baselearner':
+  Baselearner::SetData (data);
+  Baselearner::SetIdentifier (identifier);
+  Baselearner::SetDataIdentifier (data_identifier);
+  
+  // Set functions:
+  Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun0);
+  instantiateDataFun = *myTempInstantiation;
+  
+  Rcpp::XPtr<trainFunPtr> myTempTrain (trainFun0);
+  trainFun = *myTempTrain;
+  
+  Rcpp::XPtr<predictFunPtr> myTempPredict (predictFun0);
+  predictFun = *myTempPredict;
+  
+}
+
+// Copy member:
+Baselearner* CustomCpp::Clone ()
+{
+  Baselearner* newbl = new CustomCpp (*this);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr, *this->data_identifier_ptr);
+  
+  return newbl;
+}
+
+// Transform data.
+
+// NOTE: It is highly recommended to specify an explicit instantiateDataFun
+//       function! Otherwise, the data are stored within model and are 
+//       calculated in each iteration again and again:
+arma::mat CustomCpp::InstantiateData ()
+{
+  return instantiateDataFun(*data_ptr);
+}
+
+// Transform data. This is done twice since it makes the prediction
+// of the whole compboost object so much easier:
+arma::mat CustomCpp::InstantiateData (arma::mat& newdata)
+{
+  return instantiateDataFun(newdata);
+}
+
+
+
+// Train by using the R function 'trainFun'.
+
+// NOTE: It is highly recommended to specify an explicit extractParameter
+//       function! Otherwise, it is not possible to estimate the parameter
+//       during the whole process:
+void CustomCpp::train (arma::vec& response)
+{
+  parameter = trainFun(response, *data_ptr);
+}
+
+// Predict by using the R function 'predictFun':
+arma::mat CustomCpp::predict (arma::mat& newdata)
+{
+  arma::mat temp_mat = InstantiateData(newdata);
+  return predictFun (temp_mat, parameter);
+}
+
+arma::mat CustomCpp::predict ()
+{
+  return predictFun (*data_ptr, parameter);
+}
+
+// Destructor:
+CustomCpp::~CustomCpp () {}
+
 
 } // namespace blearner

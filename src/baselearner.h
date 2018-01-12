@@ -202,6 +202,54 @@ class Custom : public Baselearner
 	
 };
 
+// Custom Cpp Baselearner:
+// -----------------------
+
+// This is a  bit tricky. The key is that we store the cpp functions as 
+// pointer. Therefore we can go with R and use the XPtr class of Rcpp to
+// give the pointer as SEXP. To try a working example see 
+// "tutorial/stages_of_custom_learner.html".
+
+// Please note, that the result of the train function should be a matrix
+// containing the estimated parameter.
+
+typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
+typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
+typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+
+class CustomCpp : public Baselearner
+{
+private:
+  
+  // Cpp functions for a custom baselearner:
+  instantiateDataFunPtr instantiateDataFun;
+  trainFunPtr trainFun;
+  predictFunPtr predictFun;
+  
+public:
+  
+  // (data pointer, data identifier, baselearner identifier, R function for
+  // data instantiation, R function for training, R function for prediction,
+  // R function to extract parameter):
+  CustomCpp (arma::mat&, std::string&, std::string&, SEXP, SEXP, SEXP);
+  
+  // Copy constructor:
+  Baselearner* Clone ();
+  
+  // Function to delete parent members. This is called by the child 
+  // destructor:
+  void CleanUp ();
+  
+  arma::mat InstantiateData ();
+  arma::mat InstantiateData (arma::mat&);
+  
+  void train (arma::vec&);
+  arma::mat predict (arma::mat&);
+  arma::mat predict ();
+  
+  ~CustomCpp ();
+  
+};
 
 } // namespace blearner
 

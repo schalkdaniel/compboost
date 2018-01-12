@@ -112,6 +112,30 @@ class CustomFactoryWrapper : public BaselearnerFactoryWrapper
     std::string getBaselearnerType () { return obj->GetBaselearnerType(); }
 };
 
+// Wrapper around the CustomCppFactory:
+class CustomCppFactoryWrapper : public BaselearnerFactoryWrapper
+{
+public:
+  
+  CustomCppFactoryWrapper (arma::mat data, std::string data_identifier, 
+    SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
+  {
+    obj = new blearnerfactory::CustomCppFactory("custom cpp", data, 
+      data_identifier, instantiateDataFun, trainFun, predictFun);
+    
+    std::string test = "custom cpp test";
+    test_obj = obj->CreateBaselearner(test);
+  }
+  
+  void testTrain (arma::vec& y) { test_obj->train(y); }
+  arma::mat testPredict () { return test_obj->predict(); }
+  arma::mat testGetParameter () { return test_obj->GetParameter(); }
+  
+  arma::mat getData () { return obj->GetData(); }
+  std::string getDataIdentifier () { return obj->GetDataIdentifier(); }
+  std::string getBaselearnerType () { return obj->GetBaselearnerType(); }
+};
+
 
 // -------------------------------------------------------------------------- //
 //                              BASELEARNERLIST                               //
@@ -302,7 +326,7 @@ RCPP_MODULE (baselearner_factory_module)
   ;
   
   class_<PolynomialFactoryWrapper> ("PolynomialFactory")
-    .derives<BaselearnerFactoryWrapper> ("PolynomialFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<arma::mat, std::string, unsigned int> ()
     .method("testTrain",        &PolynomialFactoryWrapper::testTrain, "Test the train function of the created baselearner")
     .method("testPredict",      &PolynomialFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
@@ -311,12 +335,21 @@ RCPP_MODULE (baselearner_factory_module)
   ;
   
   class_<CustomFactoryWrapper> ("CustomFactory")
-    .derives<BaselearnerFactoryWrapper> ("PolynomialFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<arma::mat, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
     .method("testTrain",        &CustomFactoryWrapper::testTrain, "Test the train function of the created baselearner")
     .method("testPredict",      &CustomFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
     .method("testGetParameter", &CustomFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
     .method("getData",          &CustomFactoryWrapper::getData, "Get the data which the factory uses")
+  ;
+  
+  class_<CustomCppFactoryWrapper> ("CustomCppFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor<arma::mat, std::string, SEXP, SEXP, SEXP> ()
+    .method("testTrain",        &CustomCppFactoryWrapper::testTrain, "Test the train function of the created baselearner")
+    .method("testPredict",      &CustomCppFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
+    .method("testGetParameter", &CustomCppFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
+    .method("getData",          &CustomCppFactoryWrapper::getData, "Get the data which the factory uses")
   ;
 }
 

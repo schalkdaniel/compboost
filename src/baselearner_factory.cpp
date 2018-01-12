@@ -147,4 +147,34 @@ blearner::Baselearner *CustomFactory::CreateBaselearner (std::string &identifier
   return blearner_obj;
 }
 
+// CustomCpp:
+// -----------------------
+
+CustomCppFactory::CustomCppFactory (std::string blearner_type, arma::mat data, 
+  std::string data_identifier, SEXP instantiateDataFun, SEXP trainFun, 
+  SEXP predictFun)
+  : instantiateDataFun ( instantiateDataFun ),
+    trainFun ( trainFun ),
+    predictFun ( predictFun )
+{
+  InitializeFactory(blearner_type, data, data_identifier);
+}
+
+blearner::Baselearner *CustomCppFactory::CreateBaselearner (std::string &identifier)
+{
+  blearner::Baselearner *blearner_obj;
+  
+  blearner_obj = new blearner::CustomCpp(data, data_identifier, identifier, instantiateDataFun, 
+    trainFun, predictFun);
+  
+  // Check if the data is already set. If not, run 'InstantiateData' from the
+  // baselearner:
+  if (! is_data_instantiated) {
+    data = blearner_obj->InstantiateData();
+    
+    is_data_instantiated = true;
+  }
+  return blearner_obj;
+}
+
 } // namespace blearnerfactory
