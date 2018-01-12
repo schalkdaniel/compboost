@@ -160,6 +160,26 @@ class CustomFactory : public BaselearnerFactory
     
 };
 
+// CustomCpp:
+// -----------------------
+
+class CustomCppFactory : public BaselearnerFactory
+{
+private:
+  
+  // Cpp functions for a custom baselearner:
+  SEXP instantiateDataFun;
+  SEXP trainFun;
+  SEXP predictFun;
+  
+public:
+  
+  CustomCppFactory (std::string, arma::mat, std::string, SEXP, SEXP, SEXP);
+  
+  blearner::Baselearner* CreateBaselearner (std::string&);
+  
+};
+
 } // namespace blearnerfactory
 
 #endif // BASELEARNERFACTORY_H_
