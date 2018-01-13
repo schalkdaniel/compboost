@@ -46,6 +46,11 @@ namespace logger
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
 
+bool Logger::GetIfLoggerIsStopper ()
+{
+  return is_a_stopper;
+}
+
 // Destructor:
 Logger::~Logger ()
 {
@@ -113,9 +118,9 @@ std::string LogIteration::PrintLoggerStatus ()
 // LogTime:
 // -----------------------
 
-LogTime::LogTime (bool is_a_stopper0, unsigned int max_time, std::string time_precision)
+LogTime::LogTime (bool is_a_stopper0, unsigned int max_time, std::string time_unit)
   : max_time ( max_time ),
-    time_precision ( time_precision )
+    time_unit ( time_unit )
 {
   is_a_stopper = is_a_stopper0;
 }
@@ -125,13 +130,13 @@ void LogTime::LogStep (unsigned int current_iteration, double current_risk)
   if (times_seconds.size() == 0) {
     init_time = std::chrono::steady_clock::now();
   }
-  if (time_precision == "minutes") {
+  if (time_unit == "minutes") {
     times_seconds.push_back(std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - init_time).count());
   } 
-  if (time_precision == "seconds") {
+  if (time_unit == "seconds") {
     times_seconds.push_back(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count());
   } 
-  if (time_precision == "microseconds") {
+  if (time_unit == "microseconds") {
     times_seconds.push_back(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - init_time).count());
   }
 }
@@ -160,7 +165,7 @@ arma::vec LogTime::GetLoggedData ()
 std::string LogTime::InitializeLoggerPrinter ()
 {
   std::stringstream ss;
-  ss << std::setw(17) << time_precision;
+  ss << std::setw(17) << time_unit;
 
   return ss.str();
 }

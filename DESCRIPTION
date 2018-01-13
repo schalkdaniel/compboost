@@ -28,4 +28,5 @@ RcppModules:
     loss_module, 
     baselearner_module,
     baselearner_factory_module,
-    baselearner_list_module
+    baselearner_list_module,
+    logger_module

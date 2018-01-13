@@ -55,6 +55,7 @@ class LoggerList
   private:
     
     logger_map log_list;
+    unsigned int sum_of_stopper = 0;
     
     // // Pointer to the data which should be used for evaluation. If the pointer
     // // is a null pointer, than the training data should be used.
