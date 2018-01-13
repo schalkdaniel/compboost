@@ -93,6 +93,8 @@ class Logger
     virtual std::string InitializeLoggerPrinter () = 0;
     virtual std::string PrintLoggerStatus () = 0;
     
+    bool GetIfLoggerIsStopper ();
+    
     virtual ~Logger ();
     
   protected:
@@ -151,7 +153,7 @@ class LogTime : public Logger
     std::chrono::steady_clock::time_point init_time;
     std::vector<unsigned int> times_seconds;
     unsigned int max_time;
-    std::string time_precision;
+    std::string time_unit;
     
   public:
     

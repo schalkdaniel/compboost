@@ -179,7 +179,7 @@ extractParameter = function (model) {
 custom.r.factory1$testTrain(y)
 custom.r.factory1$testGetParameter()
 ##          [,1]
-## [1,] 15.12614
+## [1,] 15.00463
 
 trainFun(y, X)
 ## 
@@ -187,8 +187,8 @@ trainFun(y, X)
 ## lm(formula = y ~ 0 + X)
 ## 
 ## Coefficients:
-##     X  
-## 15.13</code></pre>
+##  X  
+## 15</code></pre>
 <p>Looks nice. Now we can get to the next stage.</p>
 </div>
 <div id="a-smarter-custom-r-learner" class="section level1">
@@ -228,11 +228,11 @@ extractParameter = function (model) {
 custom.r.factory2$testTrain(y)
 custom.r.factory2$testGetParameter()
 ##          [,1]
-## [1,] 15.12614
+## [1,] 15.00463
 
 trainFun(y, X)
 ##          [,1]
-## [1,] 15.12614</code></pre>
+## [1,] 15.00463</code></pre>
 </div>
 <div id="a-more-smarter-custom-r-learner" class="section level1">
 <h1>A more smarter Custom <code>R</code> Learner</h1>
@@ -288,11 +288,11 @@ custom.r.factory3$getData()
 custom.r.factory3$testTrain(y)
 custom.r.factory3$testGetParameter()
 ##          [,1]
-## [1,] 15.12614
+## [1,] 15.00463
 
 trainFun(y, X)
 ##          [,1]
-## [1,] 15.12614</code></pre>
+## [1,] 15.00463</code></pre>
 <p>Looks alright!</p>
 </div>
 <div id="own-c-function" class="section level1">
@@ -321,7 +321,7 @@ custom.cpp.factory$getData()
 custom.cpp.factory$testTrain(y)
 custom.cpp.factory$testGetParameter()
 ##          [,1]
-## [1,] 15.12614</code></pre>
+## [1,] 15.00463</code></pre>
 <p>This also seems to work, nice!</p>
 </div>
 <div id="the-implemented-one" class="section level1">
@@ -344,7 +344,7 @@ linear.factory$getData()
 linear.factory$testTrain(y)
 linear.factory$testGetParameter()
 ##          [,1]
-## [1,] 15.12614</code></pre>
+## [1,] 15.00463</code></pre>
 <p>This works as expected.</p>
 </div>
 <div id="benchmark" class="section level1">
@@ -358,12 +358,12 @@ linear.factory$testGetParameter()
   &quot;pre_installed&quot; = linear.factory$testTrain(y)
 )
 ## Unit: microseconds
-##           expr     min       lq      mean   median      uq      max neval
-##     custom_r_1 576.769 598.7850 670.82085 622.4650 684.161 2088.449   100
-##     custom_r_2  62.465  70.7850  89.00961  77.8250  83.457  973.313   100
-##     custom_r_3  44.545  49.6650  62.01191  53.1215  60.801  590.337   100
-##     custom_cpp   8.961  11.7770  15.61702  14.9770  19.969   37.633   100
-##  pre_installed   8.961  12.0325  15.16387  13.8245  17.793   57.089   100
+##           expr     min       lq      mean  median       uq      max neval
+##     custom_r_1 577.025 617.8565 737.53435 651.393 720.3850 2397.955   100
+##     custom_r_2  65.792  72.5760  98.35786  82.688  93.9520 1026.305   100
+##     custom_r_3  44.288  51.2000  68.82828  56.960  71.4245  626.945   100
+##     custom_cpp   8.704  12.0320  17.96102  14.848  20.2245  109.312   100
+##  pre_installed   8.448  12.8000  17.92258  17.280  20.2240   51.456   100
 ##  cld
 ##    c
 ##   b 

@@ -210,6 +210,122 @@ class CustomWrapper : public LossWrapper
     }
 };
 
+
+
+// -------------------------------------------------------------------------- //
+//                                  LOGGER                                    //
+// -------------------------------------------------------------------------- //
+
+// Logger classes:
+// ---------------
+
+class LoggerWrapper
+{
+public:
+  
+  LoggerWrapper () {};
+  
+  logger::Logger* getLogger ()
+  {
+    return obj;
+  }
+  
+  std::string getLoggerId ()
+  {
+    return logger_id;
+  }
+  
+protected:
+  logger::Logger* obj;
+  std::string logger_id;
+};
+
+class LogIterationWrapper : public LoggerWrapper
+{
+public:
+  LogIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
+  {
+    obj = new logger::LogIteration(use_as_stopper, max_iterations);
+    logger_id = "iterations";
+  }
+};
+
+class LogTimeWrapper : public LoggerWrapper
+{
+public:
+  LogTimeWrapper (bool use_as_stopper, unsigned int max_time, 
+    std::string time_unit)
+  {
+    obj = new logger::LogTime(use_as_stopper, max_time, time_unit);
+    logger_id = "time";
+  }
+};
+
+
+
+// Logger List:
+// ------------
+
+class LoggerListWrapper
+{
+private:
+  
+  loggerlist::LoggerList* obj = new loggerlist::LoggerList();
+  
+public:
+  
+  LoggerListWrapper () {};
+  
+  loggerlist::LoggerList* getLoggerList ()
+  {
+    return obj;
+  }
+  
+  void registerLogger (LoggerWrapper logger_wrapper)
+  {
+    obj->RegisterLogger(logger_wrapper.getLoggerId(), logger_wrapper.getLogger());
+  }
+  
+  void printRegisteredLogger ()
+  {
+    obj->PrintRegisteredLogger();
+  }
+  
+  void clearRegisteredLogger ()
+  {
+    obj->ClearMap();  
+  }
+};
+
+RCPP_EXPOSED_CLASS(LoggerWrapper);
+RCPP_EXPOSED_CLASS(LoggerListWrapper);
+
+RCPP_MODULE(logger_module)
+{
+  using namespace Rcpp;
+  
+  class_<LoggerWrapper> ("Logger")
+    .constructor ()
+  ;
+  
+  class_<LogIterationWrapper> ("LogIterations")
+    .derives<LoggerWrapper> ("Logger")
+    .constructor<bool, unsigned int> ()
+  ;
+  
+  class_<LogTimeWrapper> ("LogTime")
+    .derives<LoggerWrapper> ("Logger")
+    .constructor<bool, unsigned int, std::string> ()
+  ;
+  
+  class_<LoggerListWrapper> ("LoggerList")
+    .constructor ()
+    .method("registerLogger", &LoggerListWrapper::registerLogger, "Register Logger")
+    .method("printRegisteredLogger", &LoggerListWrapper::printRegisteredLogger, "Print registered logger")
+    .method("clearRegisteredLogger", &LoggerListWrapper::clearRegisteredLogger, "Clear registered logger")
+  ;
+}
+
 // -------------------------------------------------------------------------- //
 //                                 COMPBOOST                                  //
 // -------------------------------------------------------------------------- //
@@ -219,27 +335,26 @@ class CompboostWrapper
 public:
   
   CompboostWrapper (arma::vec response, double learning_rate0, 
-    unsigned int max_iterations0, bool stop_if_all_stopper_fulfilled0, 
-    unsigned int max_time, BaselearnerListWrapper factory_wrapper,
-    LossWrapper loss_wrapper) 
+    bool stop_if_all_stopper_fulfilled0, BaselearnerListWrapper factory_wrapper,
+    LossWrapper loss_wrapper, LoggerListWrapper logger_list) 
   {
     
-    max_iterations = max_iterations0;
     learning_rate = learning_rate0;
+    used_logger = logger_list.getLoggerList();
     
     used_optimizer = new optimizer::Greedy();
     // std::cout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
     
-    used_logger = new loggerlist::LoggerList();
-    // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
-    
-    logger::Logger* log_iterations = new logger::LogIteration(true, max_iterations);
-    logger::Logger* log_time       = new logger::LogTime(stop_if_all_stopper_fulfilled0, max_time, "microseconds");
-    // std::cout << "<<CompboostWrapper>> Create new Logger" << std::endl;
-    
-    used_logger->RegisterLogger("iterations", log_iterations);
-    used_logger->RegisterLogger("microseconds", log_time);
-    // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
+    // used_logger = new loggerlist::LoggerList();
+    // // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
+    // 
+    // logger::Logger* log_iterations = new logger::LogIteration(true, max_iterations);
+    // logger::Logger* log_time       = new logger::LogTime(stop_if_all_stopper_fulfilled0, max_time, "microseconds");
+    // // std::cout << "<<CompboostWrapper>> Create new Logger" << std::endl;
+    // 
+    // used_logger->RegisterLogger("iterations", log_iterations);
+    // used_logger->RegisterLogger("microseconds", log_time);
+    // // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
     
     obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled0, 
       used_optimizer, loss_wrapper.getLoss(), used_logger, factory_wrapper.getFactoryList());
@@ -250,11 +365,10 @@ public:
   ~CompboostWrapper ()
   {
     // std::cout << "Call CompboostWrapper Destructor" << std::endl;
-    
+    delete used_logger;
     delete used_optimizer;
     delete eval_data;
     delete obj;
-    delete used_logger;
   }
   
   // Member functions
@@ -403,7 +517,7 @@ RCPP_MODULE (compboost_module)
   using namespace Rcpp;
   
   class_<CompboostWrapper> ("Compboost")
-    .constructor<arma::vec, double, unsigned int, bool, unsigned int, BaselearnerListWrapper, LossWrapper> ()
+    .constructor<arma::vec, double, bool, BaselearnerListWrapper, LossWrapper, LoggerListWrapper> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")

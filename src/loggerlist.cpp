@@ -54,6 +54,9 @@ LoggerList::LoggerList () {};
 void LoggerList::RegisterLogger (std::string logger_id, logger::Logger *which_logger)
 {
   log_list.insert(std::pair<std::string, logger::Logger *>(logger_id, which_logger));
+  if (which_logger->GetIfLoggerIsStopper()) {
+    sum_of_stopper += 1;
+  }
 }
 
 void LoggerList::PrintRegisteredLogger ()
@@ -93,7 +96,7 @@ bool LoggerList::GetStopperStatus (bool use_global_stop)
   // Check if global stop (all stopper has to be true) or local stop (it is
   // sufficient to have just one stopper saying true):
   if (use_global_stop) {
-    if (status_sum == status.size()) {
+    if (status_sum == sum_of_stopper) {
       return_algorithm = false;
     }
   } else {

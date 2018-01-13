@@ -52,12 +52,23 @@ factory.list$printRegisteredFactorys()
 # Use quadratic loss:
 loss.quadratic = QuadraticLoss$new()
 
+# Define logger. We want just the iterations as stopper but also track the
+# time:
+log.iterations = LogIterations$new(TRUE, iter.max)
+log.time       = LogTime$new(FALSE, 500, "microseconds")
+
+logger.list = LoggerList$new()
+logger.list$registerLogger(log.iterations)
+logger.list$registerLogger(log.time)
+
+logger.list$printRegisteredLogger()
+
 # Run compboost:
 # --------------
 
-# Initialize object (Response, learning rate, maximal iterations, stop if all
-# stopper are fulfilled?, maximal microseconds, factory list):
-cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss.quadratic)
+# Initialize object (Response, learning rate, stop if all stopper are fulfilled?,
+# factory list, used loss, logger list):
+cboost = Compboost$new(y, learning.rate, TRUE, factory.list, loss.quadratic, logger.list)
 
 # Train the model (we want to print the trace):
 cboost$train(TRUE)
