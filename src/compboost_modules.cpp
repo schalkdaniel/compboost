@@ -79,6 +79,7 @@ class PolynomialFactoryWrapper : public BaselearnerFactoryWrapper
     
     void testTrain (arma::vec& y) { test_obj->train(y); }
     arma::mat testPredict () { return test_obj->predict(); }
+    arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
     arma::mat testGetParameter () { return test_obj->GetParameter(); }
     
     arma::mat getData () { return obj->GetData(); }
@@ -105,6 +106,7 @@ class CustomFactoryWrapper : public BaselearnerFactoryWrapper
     
     void testTrain (arma::vec& y) { test_obj->train(y); }
     arma::mat testPredict () { return test_obj->predict(); }
+    arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
     arma::mat testGetParameter () { return test_obj->GetParameter(); }
     
     arma::mat getData () { return obj->GetData(); }
@@ -129,12 +131,54 @@ public:
   
   void testTrain (arma::vec& y) { test_obj->train(y); }
   arma::mat testPredict () { return test_obj->predict(); }
+  arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
   arma::mat testGetParameter () { return test_obj->GetParameter(); }
   
   arma::mat getData () { return obj->GetData(); }
   std::string getDataIdentifier () { return obj->GetDataIdentifier(); }
   std::string getBaselearnerType () { return obj->GetBaselearnerType(); }
 };
+
+RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
+RCPP_MODULE (baselearner_factory_module) 
+{
+  using namespace Rcpp;
+  
+  class_<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor ("Create BaselearnerFactory class")
+  ;
+  
+  class_<PolynomialFactoryWrapper> ("PolynomialFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor<arma::mat, std::string, unsigned int> ()
+    .method("testTrain",        &PolynomialFactoryWrapper::testTrain, "Test the train function of the created baselearner")
+    .method("testPredict",      &PolynomialFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
+    .method("testGetParameter", &PolynomialFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
+    .method("getData",          &PolynomialFactoryWrapper::getData, "Get the data which the factory uses")
+    .method("testPredictNewdata", &PolynomialFactoryWrapper::testPredictNewdata, "Predict with newdata")
+  ;
+  
+  class_<CustomFactoryWrapper> ("CustomFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor<arma::mat, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .method("testTrain",        &CustomFactoryWrapper::testTrain, "Test the train function of the created baselearner")
+    .method("testPredict",      &CustomFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
+    .method("testGetParameter", &CustomFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
+    .method("getData",          &CustomFactoryWrapper::getData, "Get the data which the factory uses")
+    .method("testPredictNewdata", &CustomFactoryWrapper::testPredictNewdata, "Predict with newdata")
+  ;
+  
+  class_<CustomCppFactoryWrapper> ("CustomCppFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor<arma::mat, std::string, SEXP, SEXP, SEXP> ()
+    .method("testTrain",        &CustomCppFactoryWrapper::testTrain, "Test the train function of the created baselearner")
+    .method("testPredict",      &CustomCppFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
+    .method("testGetParameter", &CustomCppFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
+    .method("getData",          &CustomCppFactoryWrapper::getData, "Get the data which the factory uses")
+    .method("testPredictNewdata", &CustomCppFactoryWrapper::testPredictNewdata, "Predict with newdata")
+  ;
+}
+
 
 
 // -------------------------------------------------------------------------- //
@@ -173,6 +217,20 @@ public:
   }
 };
 
+
+RCPP_EXPOSED_CLASS(BaselearnerListWrapper);
+RCPP_MODULE (baselearner_list_module)
+{
+  using  namespace Rcpp;
+  
+  class_<BaselearnerListWrapper> ("FactoryList")
+    .constructor ()
+    .method("registerFactory", &BaselearnerListWrapper::registerFactory, "Register new factory")
+    .method("printRegisteredFactorys", &BaselearnerListWrapper::printRegisteredFactorys, "Print all registered factorys")
+    .method("clearRegisteredFactorys", &BaselearnerListWrapper::clearRegisteredFactorys, "Clear factory map")
+  ;
+}
+
 // -------------------------------------------------------------------------- //
 //                                    LOSS                                    //
 // -------------------------------------------------------------------------- //
@@ -209,6 +267,33 @@ class CustomWrapper : public LossWrapper
       obj = new loss::CustomLoss(lossFun, gradientFun, initFun); 
     }
 };
+
+
+
+RCPP_EXPOSED_CLASS(LossWrapper);
+RCPP_MODULE (loss_module)
+{
+  using namespace Rcpp;
+  
+  class_<LossWrapper> ("Loss")
+    .constructor ()
+  ;
+  
+  class_<QuadraticWrapper> ("QuadraticLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+  ;
+  
+  class_<AbsoluteWrapper> ("AbsoluteLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+  ;
+  
+  class_<CustomWrapper> ("CustomLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+  ;
+}
 
 
 
@@ -334,12 +419,12 @@ class CompboostWrapper
 {
 public:
   
-  CompboostWrapper (arma::vec response, double learning_rate0, 
-    bool stop_if_all_stopper_fulfilled0, BaselearnerListWrapper factory_wrapper,
-    LossWrapper loss_wrapper, LoggerListWrapper logger_list) 
+  CompboostWrapper (arma::vec response, double learning_rate, 
+    bool stop_if_all_stopper_fulfilled, BaselearnerListWrapper factory_list,
+    LossWrapper loss, LoggerListWrapper logger_list) 
   {
     
-    learning_rate = learning_rate0;
+    learning_rate0 = learning_rate;
     used_logger = logger_list.getLoggerList();
     
     used_optimizer = new optimizer::Greedy();
@@ -356,8 +441,8 @@ public:
     // used_logger->RegisterLogger("microseconds", log_time);
     // // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
     
-    obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled0, 
-      used_optimizer, loss_wrapper.getLoss(), used_logger, factory_wrapper.getFactoryList());
+    obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled, 
+      used_optimizer, loss.getLoss(), used_logger, factory_list.getFactoryList());
     // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
   }
   
@@ -413,105 +498,11 @@ private:
   arma::mat* eval_data = NULL;
   
   unsigned int max_iterations;
-  double learning_rate;
+  double learning_rate0;
 };
 
 
-
-// -------------------------------------------------------------------------- //
-//                                 MODULES                                    //
-// -------------------------------------------------------------------------- //
-
-// Class which we want to give as parameter or which receives the parameter:
-RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
-RCPP_EXPOSED_CLASS(BaselearnerListWrapper);
-RCPP_EXPOSED_CLASS(LossWrapper);
 RCPP_EXPOSED_CLASS(CompboostWrapper);
-
-// BaselearnerFactory:
-// -------------------
-
-RCPP_MODULE (baselearner_factory_module) 
-{
-  using namespace Rcpp;
-  
-  class_<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor ("Create BaselearnerFactory class")
-  ;
-  
-  class_<PolynomialFactoryWrapper> ("PolynomialFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<arma::mat, std::string, unsigned int> ()
-    .method("testTrain",        &PolynomialFactoryWrapper::testTrain, "Test the train function of the created baselearner")
-    .method("testPredict",      &PolynomialFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
-    .method("testGetParameter", &PolynomialFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
-    .method("getData",          &PolynomialFactoryWrapper::getData, "Get the data which the factory uses")
-  ;
-  
-  class_<CustomFactoryWrapper> ("CustomFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<arma::mat, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-    .method("testTrain",        &CustomFactoryWrapper::testTrain, "Test the train function of the created baselearner")
-    .method("testPredict",      &CustomFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
-    .method("testGetParameter", &CustomFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
-    .method("getData",          &CustomFactoryWrapper::getData, "Get the data which the factory uses")
-  ;
-  
-  class_<CustomCppFactoryWrapper> ("CustomCppFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<arma::mat, std::string, SEXP, SEXP, SEXP> ()
-    .method("testTrain",        &CustomCppFactoryWrapper::testTrain, "Test the train function of the created baselearner")
-    .method("testPredict",      &CustomCppFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
-    .method("testGetParameter", &CustomCppFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
-    .method("getData",          &CustomCppFactoryWrapper::getData, "Get the data which the factory uses")
-  ;
-}
-
-// FactoryList:
-// ------------
-
-RCPP_MODULE (baselearner_list_module)
-{
-  using  namespace Rcpp;
-  
-  class_<BaselearnerListWrapper> ("FactoryList")
-    .constructor ()
-    .method("registerFactory", &BaselearnerListWrapper::registerFactory, "Register new factory")
-    .method("printRegisteredFactorys", &BaselearnerListWrapper::printRegisteredFactorys, "Print all registered factorys")
-    .method("clearRegisteredFactorys", &BaselearnerListWrapper::clearRegisteredFactorys, "Clear factory map")
-  ;
-}
-
-// Loss:
-// -----
-
-RCPP_MODULE (loss_module)
-{
-  using namespace Rcpp;
-  
-  class_<LossWrapper> ("Loss")
-    .constructor ()
-  ;
-  
-  class_<QuadraticWrapper> ("QuadraticLoss")
-    .derives<LossWrapper> ("Loss")
-    .constructor ()
-  ;
-  
-  class_<AbsoluteWrapper> ("AbsoluteLoss")
-    .derives<LossWrapper> ("Loss")
-    .constructor ()
-  ;
-  
-  class_<CustomWrapper> ("CustomLoss")
-    .derives<LossWrapper> ("Loss")
-    .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-  ;
-}
-
-// Compboost:
-// ----------
-
 RCPP_MODULE (compboost_module)
 {
   using namespace Rcpp;
@@ -524,3 +515,4 @@ RCPP_MODULE (compboost_module)
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
   ;
 }
+

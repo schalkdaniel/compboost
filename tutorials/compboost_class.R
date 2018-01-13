@@ -68,10 +68,17 @@ logger.list$printRegisteredLogger()
 
 # Initialize object (Response, learning rate, stop if all stopper are fulfilled?,
 # factory list, used loss, logger list):
-cboost = Compboost$new(y, learning.rate, TRUE, factory.list, loss.quadratic, logger.list)
+cboost = Compboost$new(
+  response      = y, 
+  learning_rate = learning.rate, 
+  stop_if_all_stopper_fulfilled = TRUE, 
+  factory_list = factory.list, 
+  loss         = loss.quadratic, 
+  logger_list  = logger.list
+)
 
 # Train the model (we want to print the trace):
-cboost$train(TRUE)
+cboost$train(trace = TRUE)
 
 # Get vector selected baselearner:
 cboost$getSelectedBaselearner()

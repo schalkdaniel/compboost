@@ -11,8 +11,7 @@ timesTwoPtr(x)
 Vector which should be multiplied by 2.}
 }
 \value{
-[\code{numeric}] \cr
-  New vector.
+New vector.
 }
 \description{
 Multiplied by two!

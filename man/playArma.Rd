@@ -11,8 +11,7 @@ playArma(x)
 Numeric vector for the armadillo to play around with.}
 }
 \value{
-[\code{numeric}] \cr
-  The vector after the torture.
+The vector after the torture.
 }
 \description{
 This function is used to play around with Armadillo.

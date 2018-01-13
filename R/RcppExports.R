@@ -6,7 +6,7 @@
 #' @description Multiplied by two!
 #' @param x [\code{numeric}] \cr
 #'   Vector which should be multiplied by 2.
-#' @return [\code{numeric}] \cr
+#' @return
 #'   New vector.
 #' @export
 timesTwo <- function(x) {
@@ -18,7 +18,7 @@ timesTwo <- function(x) {
 #' @description Multiplied by two!
 #' @param x [\code{numeric}] \cr
 #'   Vector which should be multiplied by 2.
-#' @return [\code{numeric}] \cr
+#' @return
 #'   New vector.
 #' @export
 timesTwoPtr <- function(x) {
@@ -30,7 +30,7 @@ timesTwoPtr <- function(x) {
 #' @description This function is used to play around with Armadillo.
 #' @param x [\code{numeric}] \cr
 #'   Numeric vector for the armadillo to play around with.
-#' @return [\code{numeric}] \cr
+#' @return 
 #'   The vector after the torture.
 #' @export
 playArma <- function(x) {

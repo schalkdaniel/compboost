@@ -77,7 +77,7 @@ class Compboost
     optimizer::Optimizer* used_optimizer;
     loss::Loss* used_loss;
     blearnerlist::BaselearnerList used_baselearner_list;
-    loggerlist::LoggerList *used_logger;
+    loggerlist::LoggerList* used_logger;
   
   public:
 
