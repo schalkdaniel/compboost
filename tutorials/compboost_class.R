@@ -59,8 +59,8 @@ loss.quadratic = QuadraticLoss$new()
 # stopper are fulfilled?, maximal microseconds, factory list):
 cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss.quadratic)
 
-# Train the model:
-cboost$train()
+# Train the model (we want to print the trace):
+cboost$train(TRUE)
 
 # Get vector selected baselearner:
 cboost$getSelectedBaselearner()

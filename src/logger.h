@@ -50,6 +50,8 @@
 
 #include <vector>
 #include <chrono>
+#include <iomanip> // ::setw
+#include <sstream> // ::stringstream
 
 #include "loss.h"
 
@@ -87,6 +89,9 @@ class Logger
     virtual bool ReachedStopCriteria () = 0;
     
     virtual arma::vec GetLoggedData () = 0;
+    
+    virtual std::string InitializeLoggerPrinter () = 0;
+    virtual std::string PrintLoggerStatus () = 0;
     
     virtual ~Logger ();
     
@@ -128,6 +133,9 @@ class LogIteration : public Logger
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     
+    std::string InitializeLoggerPrinter ();
+    std::string PrintLoggerStatus ();
+    
 };
 
 // LogRisk:
@@ -152,6 +160,9 @@ class LogTime : public Logger
     void LogStep (unsigned int, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
+    
+    std::string InitializeLoggerPrinter ();
+    std::string PrintLoggerStatus ();
     
 };
 
