@@ -79,7 +79,7 @@ class PolynomialFactoryWrapper : public BaselearnerFactoryWrapper
     
     void testTrain (arma::vec& y) { test_obj->train(y); }
     arma::mat testPredict () { return test_obj->predict(); }
-    arma::mat testPredictNewdata (arma::mat newdata) { return test_obj->predict(newdata); }
+    arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
     arma::mat testGetParameter () { return test_obj->GetParameter(); }
     
     arma::mat getData () { return obj->GetData(); }
@@ -106,7 +106,7 @@ class CustomFactoryWrapper : public BaselearnerFactoryWrapper
     
     void testTrain (arma::vec& y) { test_obj->train(y); }
     arma::mat testPredict () { return test_obj->predict(); }
-    arma::mat testPredictNewdata (arma::mat newdata) { return test_obj->predict(newdata); }
+    arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
     arma::mat testGetParameter () { return test_obj->GetParameter(); }
     
     arma::mat getData () { return obj->GetData(); }
@@ -131,7 +131,7 @@ public:
   
   void testTrain (arma::vec& y) { test_obj->train(y); }
   arma::mat testPredict () { return test_obj->predict(); }
-  arma::mat testPredictNewdata (arma::mat newdata) { return test_obj->predict(newdata); }
+  arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
   arma::mat testGetParameter () { return test_obj->GetParameter(); }
   
   arma::mat getData () { return obj->GetData(); }

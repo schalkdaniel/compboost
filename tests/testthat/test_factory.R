@@ -54,7 +54,7 @@ test_that("polynomial factory works", {
   )
   expect_equal(
     as.numeric(cubic.factory$testPredictNewdata(X.test)), 
-    unname(predict(mod.cubic, data.frame(X.cubic = X.test[,1])))
+    unname(predict(mod.cubic, data.frame(X.cubic = X.test[,1]^3)))
   )
 })
 
