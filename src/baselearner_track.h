@@ -48,7 +48,6 @@
 
 #include "baselearner.h"
 #include "baselearner_list.h"
-#include "loggerlist.h"
 
 namespace blearnertrack
 {
