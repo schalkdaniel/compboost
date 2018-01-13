@@ -134,6 +134,27 @@ void LoggerList::LogCurrent (unsigned int current_iteration, double current_risk
   }
 }
 
+// Initialize logger printer:
+void LoggerList::InitializeLoggerPrinter ()
+{
+  std::string printer;
+  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
+    printer += it->second->InitializeLoggerPrinter() + " |";
+  }
+  std::cout << printer << std::endl;
+  std::cout << std::string(printer.size(), '-') << std::endl;
+}
+
+// Print logger:
+void LoggerList::PrintLoggerStatus ()
+{
+  std::string printer;
+  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
+    printer += it->second->PrintLoggerStatus() + " |";
+  }
+  std::cout << printer << std::endl;
+}
+
 // Destructor:
 LoggerList::~LoggerList ()
 {

@@ -86,7 +86,7 @@ class Compboost
     Compboost (arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
       loggerlist::LoggerList*, blearnerlist::BaselearnerList);
     
-    void TrainCompboost ();
+    void TrainCompboost (bool);
     
     arma::vec GetPrediction ();
     

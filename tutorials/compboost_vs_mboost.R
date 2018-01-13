@@ -54,8 +54,8 @@ loss = QuadraticLoss$new()
 # stopper are fulfilled?, maximal microseconds, factory list):
 cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss)
 
-# Train the model:
-cboost$train()
+# Train the model (here we don't need the trace):
+cboost$train(FALSE)
 
 # Get vector selected baselearner:
 cboost$getSelectedBaselearner()
@@ -101,7 +101,7 @@ all.equal(mod$xselect(), cboost.xselect)
 
 # Time comparison:
 microbenchmark::microbenchmark(
-  "compboost" = cboost$train(),
+  "compboost" = cboost$train(FALSE),
   "mboost"    = mboost(
     formula = mpg ~ bols(hp, intercept = FALSE) + 
       bols(wt, intercept = FALSE) +
@@ -114,7 +114,7 @@ microbenchmark::microbenchmark(
 
 # Profiling to compare used memory:
 p = profvis::profvis({
-  cboost$train()
+  cboost$train(FALSE)
   mboost(
     formula = mpg ~ bols(hp, intercept = FALSE) + 
       bols(wt, intercept = FALSE) +

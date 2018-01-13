@@ -40,6 +40,7 @@
 #define LOGGERLIST_H_
 
 #include <chrono>
+#include <string>
 
 #include "logger.h"
 
@@ -96,6 +97,12 @@ class LoggerList
     // Log the current step (structure <iteration, actual time, actual risk>).
     // This is given to the instantiated logger:
     void LogCurrent (unsigned int, double);
+    
+    // Initialize logger printer:
+    void InitializeLoggerPrinter ();
+    
+    // Print the logger status:
+    void PrintLoggerStatus ();
     
     // Destructor:
     ~LoggerList ();

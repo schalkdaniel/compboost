@@ -258,9 +258,9 @@ public:
   }
   
   // Member functions
-  void train () 
+  void train (bool trace) 
   {
-    obj->TrainCompboost();
+    obj->TrainCompboost(trace);
   }
   
   arma::vec getPrediction ()

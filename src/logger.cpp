@@ -93,6 +93,20 @@ arma::vec LogIteration::GetLoggedData ()
   return out;
 }
 
+std::string LogIteration::InitializeLoggerPrinter ()
+{
+  // 15 characters:
+  return "      Iteration";
+}
+
+std::string LogIteration::PrintLoggerStatus ()
+{
+  std::stringstream ss;
+  ss << std::setw(15) << std::to_string(iterations.back()) + "/" + std::to_string(max_iterations);
+  
+  return ss.str();
+}
+
 // LogRisk:
 // -----------------------
 
@@ -111,6 +125,9 @@ void LogTime::LogStep (unsigned int current_iteration, double current_risk)
   if (times_seconds.size() == 0) {
     init_time = std::chrono::steady_clock::now();
   }
+  if (time_precision == "minutes") {
+    times_seconds.push_back(std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - init_time).count());
+  } 
   if (time_precision == "seconds") {
     times_seconds.push_back(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count());
   } 
@@ -138,6 +155,22 @@ arma::vec LogTime::GetLoggedData ()
   
   arma::vec out (seconds_double);
   return out;
+}
+
+std::string LogTime::InitializeLoggerPrinter ()
+{
+  std::stringstream ss;
+  ss << std::setw(17) << time_precision;
+
+  return ss.str();
+}
+
+std::string LogTime::PrintLoggerStatus ()
+{
+  std::stringstream ss;
+  ss << std::setw(17) << std::setprecision(2) << times_seconds.back();
+  
+  return ss.str();
 }
 
 } // namespace logger

@@ -70,7 +70,7 @@ Compboost::Compboost (arma::vec response, double learning_rate,
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::TrainCompboost ()
+void Compboost::TrainCompboost (bool trace)
 {
   // Initialize zero model and pseudo residuals:
   initialization = used_loss->ConstantInitializer(response);
@@ -81,6 +81,12 @@ void Compboost::TrainCompboost ()
   arma::vec prediction(response.size());
   prediction.fill(initialization);
   // std::cout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
+  
+  // Initialize trace:
+  if (trace) {
+    std::cout << std::endl;
+    used_logger->InitializeLoggerPrinter(); 
+  }
   
   // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
@@ -118,8 +124,18 @@ void Compboost::TrainCompboost ()
     // Get status of the algorithm (is stopping criteria reached):
     stop_the_algorithm = ! used_logger->GetStopperStatus(stop_if_all_stopper_fulfilled);
     
+    // Print trace:
+    if (trace) {
+      used_logger->PrintLoggerStatus(); 
+    }
+    
     // Increment k:
     k += 1;
+  }
+  
+  if (trace) {
+    std::cout << std::endl;
+    std::cout << std::endl; 
   }
   
   // Set model prediction:
