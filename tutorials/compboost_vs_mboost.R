@@ -47,12 +47,15 @@ factory.list$printRegisteredFactorys()
 # We use quadratic loss:
 loss = QuadraticLoss$new()
 
+# Use the greedy optimizer:
+optimizer = GreedyOptimizer$new()
+
 # Run compboost:
 # --------------
 
 # Initialize object (Response, learning rate, maximal iterations, stop if all
 # stopper are fulfilled?, maximal microseconds, factory list):
-cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss)
+cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss, optimizer)
 
 # Train the model (here we don't need the trace):
 cboost$train(FALSE)

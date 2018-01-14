@@ -447,6 +447,54 @@ RCPP_MODULE(logger_module)
   ;
 }
 
+
+// -------------------------------------------------------------------------- //
+//                                 OPTIMIZER                                  //
+// -------------------------------------------------------------------------- //
+
+class OptimizerWrapper 
+{
+public:
+  OptimizerWrapper () {};
+  optimizer::Optimizer* getOptimizer () { return obj; }
+  
+protected:
+  optimizer::Optimizer* obj;
+};
+
+class GreedyOptimizer : public OptimizerWrapper
+{
+public:
+  GreedyOptimizer () { obj = new optimizer::Greedy(); }
+  Rcpp::List testOptimizer (arma::vec& response, BaselearnerListWrapper factory_list)
+  {
+    std::string temp_str = "test run";
+    blearner::Baselearner* blearner_test = obj->FindBestBaselearner(temp_str, response, factory_list.getFactoryList().GetMap());
+    
+    return Rcpp::List::create(
+      Rcpp::Named("selected.learner") = blearner_test->GetIdentifier(),
+      Rcpp::Named("parameter")        = blearner_test->GetParameter()
+    );
+  }
+};
+
+RCPP_EXPOSED_CLASS(OptimizerWrapper);
+RCPP_MODULE(optimizer_module)
+{
+  using namespace Rcpp;
+  
+  class_<OptimizerWrapper> ("Optimizer")
+    .constructor ()
+  ;
+  
+  class_<GreedyOptimizer> ("GreedyOptimizer")
+    .derives<OptimizerWrapper> ("Optimizer")
+    .constructor ()
+    .method("testOptimizer", &GreedyOptimizer::testOptimizer, "Test the optimizer on a given list of factorys")
+  ;
+}
+
+
 // -------------------------------------------------------------------------- //
 //                                 COMPBOOST                                  //
 // -------------------------------------------------------------------------- //
@@ -457,13 +505,14 @@ public:
   
   CompboostWrapper (arma::vec response, double learning_rate, 
     bool stop_if_all_stopper_fulfilled, BaselearnerListWrapper factory_list,
-    LossWrapper loss, LoggerListWrapper logger_list) 
+    LossWrapper loss, LoggerListWrapper logger_list, OptimizerWrapper optimizer) 
   {
     
     learning_rate0 = learning_rate;
-    used_logger = logger_list.getLoggerList();
+    used_logger    = logger_list.getLoggerList();
+    used_optimizer = optimizer.getOptimizer();
     
-    used_optimizer = new optimizer::Greedy();
+    // used_optimizer = new optimizer::Greedy();
     // std::cout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
     
     // used_logger = new loggerlist::LoggerList();
@@ -544,7 +593,7 @@ RCPP_MODULE (compboost_module)
   using namespace Rcpp;
   
   class_<CompboostWrapper> ("Compboost")
-    .constructor<arma::vec, double, bool, BaselearnerListWrapper, LossWrapper, LoggerListWrapper> ()
+    .constructor<arma::vec, double, bool, BaselearnerListWrapper, LossWrapper, LoggerListWrapper, OptimizerWrapper> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")

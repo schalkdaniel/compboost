@@ -44,6 +44,7 @@ RcppExport SEXP _rcpp_module_boot_baselearner_factory_module();
 RcppExport SEXP _rcpp_module_boot_baselearner_list_module();
 RcppExport SEXP _rcpp_module_boot_loss_module();
 RcppExport SEXP _rcpp_module_boot_logger_module();
+RcppExport SEXP _rcpp_module_boot_optimizer_module();
 RcppExport SEXP _rcpp_module_boot_compboost_module();
 
 static const R_CallMethodDef CallEntries[] = {
@@ -54,6 +55,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_rcpp_module_boot_baselearner_list_module", (DL_FUNC) &_rcpp_module_boot_baselearner_list_module, 0},
     {"_rcpp_module_boot_loss_module", (DL_FUNC) &_rcpp_module_boot_loss_module, 0},
     {"_rcpp_module_boot_logger_module", (DL_FUNC) &_rcpp_module_boot_logger_module, 0},
+    {"_rcpp_module_boot_optimizer_module", (DL_FUNC) &_rcpp_module_boot_optimizer_module, 0},
     {"_rcpp_module_boot_compboost_module", (DL_FUNC) &_rcpp_module_boot_compboost_module, 0},
     {NULL, NULL, 0}
 };

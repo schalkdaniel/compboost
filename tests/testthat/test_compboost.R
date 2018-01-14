@@ -44,6 +44,9 @@ test_that("compboost does the same as mboost", {
   # Use quadratic loss:
   loss.quadratic = QuadraticLoss$new()
   
+  # Use the greedy optimizer:
+  optimizer = GreedyOptimizer$new()
+  
   # Define logger. We want just the iterations as stopper but also track the
   # time:
   log.iterations = LogIterations$new(TRUE, iter.max)
@@ -66,7 +69,8 @@ test_that("compboost does the same as mboost", {
     stop_if_all_stopper_fulfilled = TRUE, 
     factory_list = factory.list, 
     loss         = loss.quadratic, 
-    logger_list  = logger.list
+    logger_list  = logger.list,
+    optimizer    = optimizer
   )
   
   # Train the model (we want to print the trace):
