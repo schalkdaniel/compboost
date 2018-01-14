@@ -71,9 +71,9 @@ class Loss
 {
   public:
 
-    virtual arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction) = 0;
-    virtual arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction) = 0;
-    virtual double ConstantInitializer (arma::vec &true_value) = 0;
+    virtual arma::vec DefinedLoss (arma::vec& true_value, arma::vec& prediction) = 0;
+    virtual arma::vec DefinedGradient (arma::vec& true_value, arma::vec& prediction) = 0;
+    virtual double ConstantInitializer (arma::vec& true_value) = 0;
     
     virtual ~Loss ();
 };

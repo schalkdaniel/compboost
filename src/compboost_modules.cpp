@@ -250,12 +250,30 @@ class QuadraticWrapper : public LossWrapper
 {
   public:
     QuadraticWrapper () { obj = new loss::Quadratic(); }
+    arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
+      return obj->DefinedLoss(true_value, prediction);
+    }
+    arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
+      return obj->DefinedGradient(true_value, prediction);
+    }
+    double testConstantInitializer (arma::vec& true_value) {
+      return obj->ConstantInitializer(true_value);
+    }
 };
 
 class AbsoluteWrapper : public LossWrapper
 {
   public:
     AbsoluteWrapper () { obj = new loss::Absolute(); }
+    arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
+      return obj->DefinedLoss(true_value, prediction);
+    }
+    arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
+      return obj->DefinedGradient(true_value, prediction);
+    }
+    double testConstantInitializer (arma::vec& true_value) {
+      return obj->ConstantInitializer(true_value);
+    }
 };
 
 class CustomWrapper : public LossWrapper
@@ -265,6 +283,15 @@ class CustomWrapper : public LossWrapper
       Rcpp::Function initFun) 
     { 
       obj = new loss::CustomLoss(lossFun, gradientFun, initFun); 
+    }
+    arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
+      return obj->DefinedLoss(true_value, prediction);
+    }
+    arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
+      return obj->DefinedGradient(true_value, prediction);
+    }
+    double testConstantInitializer (arma::vec& true_value) {
+      return obj->ConstantInitializer(true_value);
     }
 };
 
@@ -282,16 +309,25 @@ RCPP_MODULE (loss_module)
   class_<QuadraticWrapper> ("QuadraticLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
+    .method("testLoss", &QuadraticWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &QuadraticWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &QuadraticWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
   
   class_<AbsoluteWrapper> ("AbsoluteLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
+    .method("testLoss", &AbsoluteWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &AbsoluteWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &AbsoluteWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
   
   class_<CustomWrapper> ("CustomLoss")
     .derives<LossWrapper> ("Loss")
     .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .method("testLoss", &CustomWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &CustomWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &CustomWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 }
 

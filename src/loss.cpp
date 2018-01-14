@@ -92,7 +92,7 @@ arma::vec Absolute::DefinedGradient (arma::vec &true_value, arma::vec &predictio
 {
   // for debugging:
   // std::cout << "Calculate gradient of child class Absolute!" << std::endl;
-  return arma::sign(true_value - prediction);
+  return arma::sign(prediction - true_value);
 }
 
 double Absolute::ConstantInitializer (arma::vec &true_value)

@@ -22,7 +22,8 @@ LinkingTo:
     RcppArmadillo
 Suggests: 
     testthat,
-    rpart
+    rpart,
+    mboost
 RcppModules: 
     compboost_module,
     loss_module, 

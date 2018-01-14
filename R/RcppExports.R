@@ -10,7 +10,7 @@
 #'   New vector.
 #' @export
 timesTwo <- function(x) {
-    .Call('_compboost_timesTwo', PACKAGE = 'compboost', x)
+    .Call(`_compboost_timesTwo`, x)
 }
 
 #' @title timesTwo test
@@ -22,7 +22,7 @@ timesTwo <- function(x) {
 #'   New vector.
 #' @export
 timesTwoPtr <- function(x) {
-    .Call('_compboost_timesTwoPtr', PACKAGE = 'compboost', x)
+    .Call(`_compboost_timesTwoPtr`, x)
 }
 
 #' @title RcppArmadillo test
@@ -34,6 +34,6 @@ timesTwoPtr <- function(x) {
 #'   The vector after the torture.
 #' @export
 playArma <- function(x) {
-    .Call('_compboost_playArma', PACKAGE = 'compboost', x)
+    .Call(`_compboost_playArma`, x)
 }
 
