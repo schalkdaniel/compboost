@@ -5,6 +5,11 @@ This repository is still under development. If you like you can follow the proce
 
 # Installation
 
+#### Developer version:
+```r
+devtools::install_github("schalkdaniel/compboost")
+```
+
 # Idea
 
 # Usage
