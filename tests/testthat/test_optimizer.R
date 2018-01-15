@@ -3,9 +3,9 @@ context("The optimizer workds")
 test_that("greedy optimizer works", {
   
   X = as.matrix(runif(100))
-  y.linear = as.numeric(4 * X + rnorm(100))
-  y.quadratic = as.numeric(8 * X^2 + rnorm(100))
-  y.cubic = as.numeric(16 * X^3 + rnorm(100))
+  y.linear = as.numeric(4 * X)
+  y.quadratic = as.numeric(8 * X^2)
+  y.cubic = as.numeric(16 * X^3)
   
   # Create new linear baselearner of hp and wt:
   linear.factory    = PolynomialFactory$new(X, "X", 1)
@@ -33,7 +33,7 @@ test_that("greedy optimizer works", {
   expect_equal(res.quadratic$selected.learner, "(test run) polynomial with degree 2")
   expect_equal(res.cubic$selected.learner, "(test run) polynomial with degree 3")
   
-  expect_true(abs(round(as.numeric(res.linear$parameter) - 4)) < 1)
-  expect_true(abs(round(as.numeric(res.quadratic$parameter) - 8)) < 1)
-  expect_true(abs(round(as.numeric(res.cubic$parameter) - 16)) < 1)
+  expect_equal(as.numeric(res.linear$parameter), 4)
+  expect_equal(as.numeric(res.quadratic$parameter), 8)
+  expect_equal(as.numeric(res.cubic$parameter), 16)
 })
