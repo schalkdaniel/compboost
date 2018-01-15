@@ -49,6 +49,9 @@ factory.list$registerFactory(quadratic.factory.hp)
 # Print the registered factorys:
 factory.list$printRegisteredFactorys()
 
+# Print model.frame:
+factory.list$getModelFrame()
+
 # Use quadratic loss:
 loss.quadratic = QuadraticLoss$new()
 
@@ -86,5 +89,5 @@ cboost$train(trace = TRUE)
 
 # Get vector selected baselearner:
 cboost$getSelectedBaselearner()
-# cboost$GetModelFrame()
+# cboost$getModelFrame()
 cboost$getLoggerData()

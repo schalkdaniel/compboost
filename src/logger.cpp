@@ -98,6 +98,11 @@ arma::vec LogIteration::GetLoggedData ()
   return out;
 }
 
+void LogIteration::ClearLoggerData ()
+{
+  iterations.clear();
+}
+
 std::string LogIteration::InitializeLoggerPrinter ()
 {
   // 15 characters:
@@ -160,6 +165,11 @@ arma::vec LogTime::GetLoggedData ()
   
   arma::vec out (seconds_double);
   return out;
+}
+
+void LogTime::ClearLoggerData ()
+{
+  times_seconds.clear();
 }
 
 std::string LogTime::InitializeLoggerPrinter ()

@@ -71,9 +71,9 @@ class Loss
 {
   public:
 
-    virtual arma::vec DefinedLoss (arma::vec& true_value, arma::vec& prediction) = 0;
-    virtual arma::vec DefinedGradient (arma::vec& true_value, arma::vec& prediction) = 0;
-    virtual double ConstantInitializer (arma::vec& true_value) = 0;
+    virtual arma::vec DefinedLoss (arma::vec&, arma::vec&) = 0;
+    virtual arma::vec DefinedGradient (arma::vec&, arma::vec&) = 0;
+    virtual double ConstantInitializer (arma::vec&) = 0;
     
     virtual ~Loss ();
 };
@@ -89,11 +89,11 @@ class Quadratic : public Loss
 {
   public:
 
-    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction);
+    arma::vec DefinedLoss (arma::vec&, arma::vec&);
 
-    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction);
+    arma::vec DefinedGradient (arma::vec&, arma::vec&);
 
-    double ConstantInitializer (arma::vec &true_value);
+    double ConstantInitializer (arma::vec&);
 };
 
 // Absolute loss:
@@ -103,11 +103,11 @@ class Absolute : public Loss
 {
   public:
 
-    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction);
+    arma::vec DefinedLoss (arma::vec&, arma::vec&);
 
-    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction);
+    arma::vec DefinedGradient (arma::vec&, arma::vec&);
 
-    double ConstantInitializer (arma::vec &true_value);
+    double ConstantInitializer (arma::vec&);
 };
 
 // Custom loss:
@@ -133,15 +133,15 @@ class CustomLoss : public Loss
 
   public:
 
-    CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun);
+    CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
-    arma::vec DefinedLoss (arma::vec &true_value, arma::vec &prediction);
+    arma::vec DefinedLoss (arma::vec&, arma::vec&);
 
-    arma::vec DefinedGradient (arma::vec &true_value, arma::vec &prediction);
+    arma::vec DefinedGradient (arma::vec&, arma::vec&);
 
     // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
     // knows how to convert a 'SEXP':
-    double ConstantInitializer (arma::vec &true_value);
+    double ConstantInitializer (arma::vec&);
 };
 
 } // namespace loss

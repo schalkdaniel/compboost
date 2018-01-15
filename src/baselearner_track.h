@@ -77,6 +77,9 @@ class BaselearnerTrack
     // Return so far estimated parameter map:
     std::map<std::string, arma::mat> GetParameterMap ();
     
+    // Clear the vector without deleting the data in the factory:
+    void ClearBaselearnerVector ();
+    
     // Returns a matrix of parameters for every iteration:
     // arma::mat GetParameterMatrix ();
     

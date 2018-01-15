@@ -92,7 +92,6 @@ class Compboost
     
     std::map<std::string, arma::mat> GetParameter ();
     std::vector<std::string> GetSelectedBaselearner ();
-    std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
 
     // arma::vec PredictEnsemble ();
     // arma::vec PredictEnsemble (arma::mat &);

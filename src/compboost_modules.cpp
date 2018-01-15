@@ -215,6 +215,16 @@ public:
   {
     return obj;
   }
+  
+  Rcpp::List getModelFrame ()
+  {
+    std::pair<std::vector<std::string>, arma::mat> raw_frame = obj.GetModelFrame();
+    
+    return Rcpp::List::create(
+      Rcpp::Named("colnames")    = raw_frame.first, 
+      Rcpp::Named("model.frame") = raw_frame.second
+    );
+  }
 };
 
 
@@ -228,6 +238,7 @@ RCPP_MODULE (baselearner_list_module)
     .method("registerFactory", &BaselearnerListWrapper::registerFactory, "Register new factory")
     .method("printRegisteredFactorys", &BaselearnerListWrapper::printRegisteredFactorys, "Print all registered factorys")
     .method("clearRegisteredFactorys", &BaselearnerListWrapper::clearRegisteredFactorys, "Clear factory map")
+    .method("getModelFrame", &BaselearnerListWrapper::getModelFrame, "Get the data used for modelling")
   ;
 }
 
@@ -555,16 +566,6 @@ public:
   std::vector<std::string> getSelectedBaselearner ()
   {
     return obj->GetSelectedBaselearner();
-  }
-  
-  Rcpp::List getModelFrame ()
-  {
-    std::pair<std::vector<std::string>, arma::mat> raw_frame = obj->GetModelFrame();
-    
-    return Rcpp::List::create(
-      Rcpp::Named("colnames")    = raw_frame.first, 
-      Rcpp::Named("model.frame") = raw_frame.second
-    );
   }
   
   Rcpp::List getLoggerData ()
