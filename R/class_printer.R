@@ -37,16 +37,42 @@
 #
 # =========================================================================== #
 
+# Helper functions:
+# -----------------
+
+glueLoss = function (name, definition = NULL)
+{
+  if (is.null(definition)) {
+    definition = "No function specified, probably you are using a custom loss."
+  } else {
+    definition = paste0("Loss function: y = ", definition)
+  }
+  
+  ignore.me = glue::glue("
+
+    {name} Loss:
+
+      {definition}
+
+
+    ")
+
+  print(ignore.me)
+  return(invisible(paste0(name, "Printer")))
+}
+
 # ---------------------------------------------------------------------------- #
-# Baselearner:
+# FacotryList:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_BaselearnerWrapper")
-ignore.me = setMethod("show", "Rcpp_BaselearnerWrapper", function (object) {
-  cat("\nThis is a >>", object$GetBaselearnerType(), "<< baselearner:\n", sep = "")
-  cat("\n  Formal S4 class:       ", class(object))
-  cat("\n  Baselearner Identifier:", object$GetIdentifier())
+setClass("Rcpp_FactoryList")
+ignore.me = setMethod("show", "Rcpp_FactoryList", function (object) {
+  cat("\n")
+  object$printRegisteredFactorys()
   cat("\n\n")
+  
+  # For testing:
+  return(invisible("FactoryListPrinter"))
 })
 
 
@@ -54,10 +80,18 @@ ignore.me = setMethod("show", "Rcpp_BaselearnerWrapper", function (object) {
 # Loss:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_LossWrapper")
-ignore.me = setMethod("show", "Rcpp_LossWrapper", function (object) {
-  cat("\nThis is a >>", object$GetLossName(), "<< loss:\n", sep = "")
-  cat("\n  Formal S4 class:", class(object))
-  cat("\n\n")
+setClass("Rcpp_QuadraticLoss")
+ignore.me = setMethod("show", "Rcpp_QuadraticLoss", function (object) {
+  glueLoss("Quadratic", "(y - f(x))^2")
+})
+
+setClass("Rcpp_AbsoluteLoss")
+ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
+  glueLoss("Absolute", "|y - f(x)|")
+})
+
+setClass("Rcpp_CustomLoss")
+ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
+  glueLoss("Custom")
 })
 

@@ -1,4 +1,4 @@
-context("Compboost workds")
+context("Compboost works")
 
 test_that("compboost does the same as mboost", {
   
@@ -38,9 +38,6 @@ test_that("compboost does the same as mboost", {
   factory.list$registerFactory(linear.factory.wt)
   factory.list$registerFactory(quadratic.factory.hp)
   
-  # Print the registered factorys:
-  factory.list$printRegisteredFactorys()
-  
   # Use quadratic loss:
   loss.quadratic = QuadraticLoss$new()
   
@@ -55,8 +52,6 @@ test_that("compboost does the same as mboost", {
   logger.list = LoggerList$new()
   logger.list$registerLogger(log.iterations)
   logger.list$registerLogger(log.time)
-  
-  logger.list$printRegisteredLogger()
   
   # Run compboost:
   # --------------
@@ -76,16 +71,18 @@ test_that("compboost does the same as mboost", {
   # Train the model (we want to print the trace):
   cboost$train(trace = FALSE)
   
-  library(mboost)
   
-  mod = mboost(
-    formula = mpg ~ bols(hp, intercept = FALSE) + 
-      bols(wt, intercept = FALSE) +
-      bols(hp2, intercept = FALSE), 
-    data    = df, 
-    control = boost_control(mstop = iter.max, nu = learning.rate)
-  )
-  
+  suppressWarnings({
+    library(mboost)
+    
+    mod = mboost(
+      formula = mpg ~ bols(hp, intercept = FALSE) + 
+        bols(wt, intercept = FALSE) +
+        bols(hp2, intercept = FALSE), 
+      data    = df, 
+      control = boost_control(mstop = iter.max, nu = learning.rate)
+    )
+  })
   # Create vector of selected baselearner:
   # --------------------------------------
   
@@ -102,6 +99,6 @@ test_that("compboost does the same as mboost", {
   # ------
   expect_equal(predict(mod), cboost$getPrediction())
   expect_equal(mod$xselect(), cboost.xselect)
- 
+  
 })
 
