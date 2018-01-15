@@ -1,4 +1,4 @@
-context("The optimizer workds")
+context("The optimizer works")
 
 test_that("greedy optimizer works", {
   

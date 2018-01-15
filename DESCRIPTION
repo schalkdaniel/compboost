@@ -16,7 +16,8 @@ LazyData: true
 RoxygenNote: 6.0.1
 Imports:
     Rcpp (>= 0.11.2),
-    methods 
+    methods,
+    glue
 LinkingTo:
     Rcpp,
     RcppArmadillo
