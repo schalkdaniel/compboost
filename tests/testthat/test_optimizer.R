@@ -2,7 +2,7 @@ context("The optimizer works")
 
 test_that("greedy optimizer works", {
   
-  X = as.matrix(runif(100))
+  X = as.matrix(runif(100, -4, 4))
   y.linear = as.numeric(32 * X)
   y.cubic  = as.numeric(16 * X^3)
   y.pow5   = as.numeric(8 * X^5)
