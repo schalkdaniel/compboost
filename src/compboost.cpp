@@ -72,6 +72,11 @@ Compboost::Compboost (arma::vec response, double learning_rate,
 
 void Compboost::TrainCompboost (bool trace)
 {
+  // Make sure, that the selected baselearner and logger data is empty:
+  blearner_track.ClearBaselearnerVector();
+  used_logger->ClearLoggerData();
+  
+  
   // Initialize zero model and pseudo residuals:
   initialization = used_loss->ConstantInitializer(response);
   arma::vec pseudo_residuals_init (response.size());
@@ -168,29 +173,6 @@ std::vector<std::string> Compboost::GetSelectedBaselearner ()
     selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetDataIdentifier() + ": " + blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
   }
   return selected_blearner;
-}
-
-std::pair<std::vector<std::string>, arma::mat> Compboost::GetModelFrame ()
-{
-  arma::mat out_matrix;
-  std::vector<std::string> rownames;
-  
-  // Issue: https://github.com/schalkdaniel/compboost/issues/62
-  
-  // Doesn't work:
-  for (blearner_factory_map::iterator it = used_baselearner_list.GetMap().begin(); it != used_baselearner_list.GetMap().end(); ++it) {
-    arma::mat data_temp = it->second->GetData();
-    out_matrix = arma::join_rows(out_matrix, data_temp);
-    
-    if (data_temp.n_cols > 1) {
-      for (unsigned int i = 0; i < data_temp.n_cols; i++) {
-        rownames.push_back(it->first + std::to_string(i + 1));
-      }
-    } else {
-      rownames.push_back(it->first);
-    }
-  }
-  return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
 }
 
 // arma::vec Compboost::PredictEnsemble ()

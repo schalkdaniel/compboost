@@ -105,6 +105,9 @@ class LoggerList
     // Print the logger status:
     void PrintLoggerStatus ();
     
+    // Clear the logger data (should be used in front of every compboost training):
+    void ClearLoggerData ();
+    
     // Destructor:
     ~LoggerList ();
 };

@@ -92,4 +92,24 @@ void BaselearnerList::ClearMap ()
   my_factory_map.clear();
 }
 
+std::pair<std::vector<std::string>, arma::mat> BaselearnerList::GetModelFrame ()
+{
+  arma::mat out_matrix;
+  std::vector<std::string> rownames;
+
+  for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
+    arma::mat data_temp = it->second->GetData();
+    out_matrix = arma::join_rows(out_matrix, data_temp);
+
+    if (data_temp.n_cols > 1) {
+      for (unsigned int i = 0; i < data_temp.n_cols; i++) {
+        rownames.push_back(it->first + " x" + std::to_string(i + 1));
+      }
+    } else {
+      rownames.push_back(it->first);
+    }
+  }
+  return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
+}
+
 } // namespace blearnerlist

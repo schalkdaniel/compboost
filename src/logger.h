@@ -93,6 +93,8 @@ class Logger
     virtual std::string InitializeLoggerPrinter () = 0;
     virtual std::string PrintLoggerStatus () = 0;
     
+    virtual void ClearLoggerData() = 0;
+    
     bool GetIfLoggerIsStopper ();
     
     virtual ~Logger ();
@@ -134,6 +136,7 @@ class LogIteration : public Logger
     void LogStep (unsigned int, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
+    void ClearLoggerData();
     
     std::string InitializeLoggerPrinter ();
     std::string PrintLoggerStatus ();
@@ -162,6 +165,7 @@ class LogTime : public Logger
     void LogStep (unsigned int, double);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
+    void ClearLoggerData();
     
     std::string InitializeLoggerPrinter ();
     std::string PrintLoggerStatus ();

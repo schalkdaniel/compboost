@@ -89,6 +89,18 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetParameterMap ()
   return my_parameter_map;
 }
 
+// Clear baselearner vector:
+void BaselearnerTrack::ClearBaselearnerVector ()
+{
+  // Basically the same as the destructor. But, without deleting the underlying
+  // BaselearnerTrack object.
+  for (unsigned int i = 0; i< blearner_vector.size(); i++)
+  {
+    delete blearner_vector[i];
+  } 
+  blearner_vector.clear();
+}
+
 // Destructor:
 BaselearnerTrack::~BaselearnerTrack ()
 {

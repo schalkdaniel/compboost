@@ -158,6 +158,14 @@ void LoggerList::PrintLoggerStatus ()
   std::cout << printer << std::endl;
 }
 
+// Clear logger data:
+void LoggerList::ClearLoggerData ()
+{
+  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
+    it->second->ClearLoggerData();
+  }
+}
+
 // Destructor:
 LoggerList::~LoggerList ()
 {

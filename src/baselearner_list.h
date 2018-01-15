@@ -77,6 +77,9 @@ class BaselearnerList
     
     // Clear all elements wich were registered:
     void ClearMap();
+    
+    // Get the data used for modelling:
+    std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
 };
 
 } // namespace blearnerlist

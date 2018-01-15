@@ -50,12 +50,28 @@ loss = QuadraticLoss$new()
 # Use the greedy optimizer:
 optimizer = GreedyOptimizer$new()
 
+# Define logger. We want just the iterations as stopper but also track the
+# time:
+log.iterations = LogIterations$new(TRUE, iter.max)
+log.time       = LogTime$new(FALSE, 500, "microseconds")
+
+logger.list = LoggerList$new()
+logger.list$registerLogger(log.iterations)
+logger.list$registerLogger(log.time)
+
 # Run compboost:
 # --------------
 
-# Initialize object (Response, learning rate, maximal iterations, stop if all
-# stopper are fulfilled?, maximal microseconds, factory list):
-cboost = Compboost$new(y, learning.rate, iter.max, TRUE, 0, factory.list, loss, optimizer)
+# Initialize object:
+cboost = Compboost$new(
+  response      = y, 
+  learning_rate = learning.rate, 
+  stop_if_all_stopper_fulfilled = TRUE, 
+  factory_list = factory.list, 
+  loss         = loss, 
+  logger_list  = logger.list,
+  optimizer    = optimizer
+)
 
 # Train the model (here we don't need the trace):
 cboost$train(FALSE)
