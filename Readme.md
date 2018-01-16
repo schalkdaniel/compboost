@@ -3,17 +3,17 @@
 
 This repository is still under development. If you like you can follow the process.
 
-# Installation
+## Installation
 
 #### Developer version:
 ```r
 devtools::install_github("schalkdaniel/compboost")
 ```
 
-# Idea
+## Idea
 
-# Usage
+## Usage
 
-# Implementation
+## Implementation
 
-# References
+## References
