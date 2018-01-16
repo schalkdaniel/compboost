@@ -6,39 +6,6 @@
 
 using namespace Rcpp;
 
-// timesTwo
-double timesTwo(std::vector<double> x);
-RcppExport SEXP _compboost_timesTwo(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double> >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(timesTwo(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// timesTwoPtr
-double timesTwoPtr(std::vector<double>& x);
-RcppExport SEXP _compboost_timesTwoPtr(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::vector<double>& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(timesTwoPtr(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// playArma
-arma::vec playArma(arma::vec& x);
-RcppExport SEXP _compboost_playArma(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec& >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(playArma(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 RcppExport SEXP _rcpp_module_boot_baselearner_factory_module();
 RcppExport SEXP _rcpp_module_boot_baselearner_list_module();
@@ -48,9 +15,6 @@ RcppExport SEXP _rcpp_module_boot_optimizer_module();
 RcppExport SEXP _rcpp_module_boot_compboost_module();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_compboost_timesTwo", (DL_FUNC) &_compboost_timesTwo, 1},
-    {"_compboost_timesTwoPtr", (DL_FUNC) &_compboost_timesTwoPtr, 1},
-    {"_compboost_playArma", (DL_FUNC) &_compboost_playArma, 1},
     {"_rcpp_module_boot_baselearner_factory_module", (DL_FUNC) &_rcpp_module_boot_baselearner_factory_module, 0},
     {"_rcpp_module_boot_baselearner_list_module", (DL_FUNC) &_rcpp_module_boot_baselearner_list_module, 0},
     {"_rcpp_module_boot_loss_module", (DL_FUNC) &_rcpp_module_boot_loss_module, 0},
