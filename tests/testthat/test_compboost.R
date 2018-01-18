@@ -69,7 +69,13 @@ test_that("compboost does the same as mboost", {
   )
   
   # Train the model (we want to print the trace):
-  cboost$train(trace = FALSE)
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  cboost$train(trace = TRUE)
+  
+  sink() 
+  close(tc) 
   
   
   suppressWarnings({
