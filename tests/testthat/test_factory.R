@@ -6,6 +6,7 @@ test_that("polynomial factory works", {
   X.linear = 1:10
   X.cubic  = X.linear^3
   
+  set.seed(pi)
   X.test = as.matrix(runif(200))
   
   y = 3 * X.linear + rnorm(10, 0, 2)
@@ -77,6 +78,7 @@ test_that("custom factory works", {
   }
   
   # Data X and response y:
+  set.seed(pi)
   X = matrix(1:10, ncol = 1)
   y = sin(as.numeric(X)) + rnorm(10, 0, 0.6)
   

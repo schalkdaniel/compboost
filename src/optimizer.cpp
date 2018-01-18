@@ -86,14 +86,15 @@ blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id,
     // baselearner:
     if (ssq_best == 0) {
       ssq_best = ssq_temp;
-      blearner_best = blearner_temp;
+      blearner_best = blearner_temp->Clone();
     }
     
     if (ssq_temp < ssq_best) {
       ssq_best = ssq_temp;
-      blearner_best = blearner_temp;
+      blearner_best = blearner_temp->Clone();
     }
     
+    delete blearner_temp;
     blearner_temp = NULL;
     
     // if (k > 0) {

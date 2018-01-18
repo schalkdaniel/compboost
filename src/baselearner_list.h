@@ -80,6 +80,8 @@ class BaselearnerList
     
     // Get the data used for modelling:
     std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
+    
+    // ~BaselearnerList () {std::cout << "Destroy BaselearnerList!" << std::endl; }
 };
 
 } // namespace blearnerlist

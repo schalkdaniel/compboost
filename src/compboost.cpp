@@ -37,11 +37,6 @@
 //
 // ========================================================================== //
 
-
-
-// THIS ONE IS UNDER PROGRESS!
-
-
 #include "compboost.h"
 
 namespace cboost {
@@ -193,10 +188,10 @@ std::vector<std::string> Compboost::GetSelectedBaselearner ()
 // Destructor:
 Compboost::~Compboost ()
 {
-  std::cout << "Call Compboost Destructor" << std::endl;
-  delete used_optimizer;
-  delete used_loss;
-  delete used_logger;
+  // std::cout << "Call Compboost Destructor" << std::endl;
+  // delete used_optimizer;
+  // delete used_loss;
+  // delete used_logger;
 }
 
 } // namespace cboost
