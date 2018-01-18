@@ -10,6 +10,18 @@ This repository is still under development. If you like you can follow the proce
 devtools::install_github("schalkdaniel/compboost")
 ```
 
+## Road Map
+
+- [ ] Technical Stuff:
+    - [ ] Deal with destructors and remove data cleanly
+    - [ ] Fix compboost that it doesn't crash `R` after some time
+    
+- [ ] Baselearner:
+    - [ ] Spline Learner
+    
+- [ ] Logger:
+    - [ ] OOB Logger
+
 ## Idea
 
 ## Usage
