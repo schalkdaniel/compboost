@@ -17,10 +17,10 @@ devtools::install_github("schalkdaniel/compboost")
     - [ ] Fix compboost that it doesn't crash `R` after some time
     
 - [ ] Baselearner:
-    - [ ] Spline Learner
+    - [ ] Implement spline baselearner
     
 - [ ] Logger:
-    - [ ] OOB Logger
+    - [ ] Implement OOB Logger
 
 ## Idea
 
