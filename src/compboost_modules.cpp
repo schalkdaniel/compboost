@@ -193,6 +193,8 @@ private:
   
   blearnerlist::BaselearnerList obj;
   
+  unsigned int number_of_registered_factorys;
+  
 public:
   
   void registerFactory (BaselearnerFactoryWrapper my_factory_to_register)
@@ -225,6 +227,11 @@ public:
       Rcpp::Named("model.frame") = raw_frame.second
     );
   }
+  
+  unsigned int getNumberOfRegisteredFactorys ()
+  {
+    return obj.GetMap().size();
+  }
 };
 
 
@@ -239,6 +246,7 @@ RCPP_MODULE (baselearner_list_module)
     .method("printRegisteredFactorys", &BaselearnerListWrapper::printRegisteredFactorys, "Print all registered factorys")
     .method("clearRegisteredFactorys", &BaselearnerListWrapper::clearRegisteredFactorys, "Clear factory map")
     .method("getModelFrame", &BaselearnerListWrapper::getModelFrame, "Get the data used for modelling")
+    .method("getNumberOfRegisteredFactorys", &BaselearnerListWrapper::getNumberOfRegisteredFactorys, "Get number of registered factorys. Main purpose is for testing.")
   ;
 }
 
@@ -427,6 +435,20 @@ public:
   {
     obj->ClearMap();  
   }
+  
+  unsigned int getNumberOfRegisteredLogger ()
+  {
+    return obj->GetMap().size();
+  }
+  
+  std::vector<std::string> getNamesOfRegisteredLogger ()
+  {
+    std::vector<std::string> out;
+    for (auto& it : obj->GetMap()) {
+      out.push_back(it.first);
+    }
+    return out;
+  }
 };
 
 RCPP_EXPOSED_CLASS(LoggerWrapper);
@@ -455,6 +477,8 @@ RCPP_MODULE(logger_module)
     .method("registerLogger", &LoggerListWrapper::registerLogger, "Register Logger")
     .method("printRegisteredLogger", &LoggerListWrapper::printRegisteredLogger, "Print registered logger")
     .method("clearRegisteredLogger", &LoggerListWrapper::clearRegisteredLogger, "Clear registered logger")
+    .method("getNumberOfRegisteredLogger", &LoggerListWrapper::getNumberOfRegisteredLogger, "Get number of registered logger. Mainly for testing.")
+    .method("getNamesOfRegisteredLogger",  &LoggerListWrapper::getNamesOfRegisteredLogger, "Get names of registered logger. Mainly for testing.")
   ;
 }
 

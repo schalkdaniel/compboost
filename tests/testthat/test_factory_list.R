@@ -56,4 +56,11 @@ test_that("factory list works", {
   
   expect_equal(factory.list$getModelFrame()$colnames, factory.names)
   expect_equal(factory.list$getModelFrame()$model.frame, model.frame)
+  expect_equal(factory.list$getNumberOfRegisteredFactorys(), 4)
+  
+  factory.list$clearRegisteredFactorys()
+  
+  expect_equal(factory.list$getNumberOfRegisteredFactorys(), 0)
+  
+  
 })

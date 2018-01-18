@@ -100,5 +100,9 @@ test_that("compboost does the same as mboost", {
   expect_equal(predict(mod), cboost$getPrediction())
   expect_equal(mod$xselect(), cboost.xselect)
   
+  expect_equal(dim(cboost$getLoggerData()$logger_data), c(500, 2))
+  expect_equal(cboost$getLoggerData()$logger_data[, 1], 1:500)
+  expect_equal(length(cboost$getLoggerData()$logger_data[, 2]), 500)
+  
 })
 
