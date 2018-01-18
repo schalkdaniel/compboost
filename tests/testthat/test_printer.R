@@ -1,5 +1,25 @@
 context("Printer works")
 
+test_that("factory list printer works", {
+  
+  factory.list = FactoryList$new()
+  
+  # A hack to suppress console output:
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  test.factory.list.printer = show(factory.list)
+  
+  sink() 
+  close(tc) 
+  
+  # Test:
+  # ---------
+  
+  expect_equal(test.factory.list.printer, "FactoryListPrinter")
+  
+})
+
 test_that("Loss printer works", {
   
   quadratic.loss = QuadraticLoss$new()

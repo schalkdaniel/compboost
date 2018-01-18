@@ -107,12 +107,12 @@ cboost.xselect = match(
   )
 )
 
-all.equal(predict(mod), cboost$getPrediction())
+all.equal(mod$xselect(), cboost.xselect)
 
 # Check if the prediction is the same:
 # ------------------------------------
 
-all.equal(mod$xselect(), cboost.xselect)
+all.equal(predict(mod), cboost$getPrediction())
 # cboost$GetParameter()
 
 # Benchmark:

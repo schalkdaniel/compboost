@@ -211,9 +211,9 @@ public:
     obj.ClearMap();
   }
   
-  blearnerlist::BaselearnerList getFactoryList ()
+  blearnerlist::BaselearnerList* getFactoryList ()
   {
-    return obj;
+    return &obj;
   }
   
   Rcpp::List getModelFrame ()
@@ -477,15 +477,20 @@ class GreedyOptimizer : public OptimizerWrapper
 {
 public:
   GreedyOptimizer () { obj = new optimizer::Greedy(); }
+  
   Rcpp::List testOptimizer (arma::vec& response, BaselearnerListWrapper factory_list)
   {
     std::string temp_str = "test run";
-    blearner::Baselearner* blearner_test = obj->FindBestBaselearner(temp_str, response, factory_list.getFactoryList().GetMap());
+    blearner::Baselearner* blearner_test = obj->FindBestBaselearner(temp_str, response, factory_list.getFactoryList()->GetMap());
     
-    return Rcpp::List::create(
+    Rcpp::List out = Rcpp::List::create(
       Rcpp::Named("selected.learner") = blearner_test->GetIdentifier(),
       Rcpp::Named("parameter")        = blearner_test->GetParameter()
     );
+    
+    delete blearner_test;
+    
+    return out;
   }
 };
 
@@ -522,6 +527,7 @@ public:
     learning_rate0 = learning_rate;
     used_logger    = logger_list.getLoggerList();
     used_optimizer = optimizer.getOptimizer();
+    blearner_list_ptr = factory_list.getFactoryList();
     
     // used_optimizer = new optimizer::Greedy();
     // std::cout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
@@ -538,7 +544,7 @@ public:
     // // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
     
     obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled, 
-      used_optimizer, loss.getLoss(), used_logger, factory_list.getFactoryList());
+      used_optimizer, loss.getLoss(), used_logger, *blearner_list_ptr);
     // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
   }
   
@@ -578,10 +584,11 @@ public:
   
 private:
   
+  blearnerlist::BaselearnerList* blearner_list_ptr;
   loggerlist::LoggerList* used_logger;
-  optimizer::Optimizer* used_optimizer = NULL;
+  optimizer::Optimizer* used_optimizer;
   cboost::Compboost* obj;
-  arma::mat* eval_data = NULL;
+  arma::mat* eval_data;
   
   unsigned int max_iterations;
   double learning_rate0;

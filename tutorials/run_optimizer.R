@@ -1,43 +1,29 @@
-# Define a 'BaselearnerList':
-# ===================================
+set.seed(pi)
+X = as.matrix(runif(100, -4, 4))
 
-X = matrix(1:10, ncol = 1)
-y = 3 * as.numeric(X^3) + rnorm(10, 0, 2)
+y.linear = as.numeric(32 * X)
+y.cubic  = as.numeric(16 * X^3)
+y.pow5   = as.numeric(8 * X^5)
 
-# Create some stupid baselearner (obviously the linear one is the best):
-bl.linear = BaselearnerWrapper$new("l1", X, "x", 1)
-bl.quadratic = BaselearnerWrapper$new("q1", X, "x", 2)
-bl.cubic = BaselearnerWrapper$new("c1", X, "x", 3)
-bl.linear2 = BaselearnerWrapper$new("l0", 2 * X, "x", 1)
+# Create new linear baselearner of hp and wt:
+linear.factory = PolynomialFactory$new(X, "X", 1)
+cubic.factory  = PolynomialFactory$new(X, "X", 3)
+pow5.factory   = PolynomialFactory$new(X, "X", 5)
 
-# Register the learner:
-bl.quadratic$RegisterFactory("x")
-bl.cubic$RegisterFactory("x")
-bl.linear2$RegisterFactory("2*x")
-bl.linear$RegisterFactory("x")
+# Create new factory list:
+factory.list = FactoryList$new()
 
-# Train the lienar one to compare with the result of the optimizer:
-bl.linear$train(y)
+# Register factorys:
+factory.list$registerFactory(linear.factory)
+factory.list$registerFactory(cubic.factory)
+factory.list$registerFactory(pow5.factory)
 
-# Print all registered baselearner:
-printRegisteredFactorys()
+# Optimizer:
+greedy.optimizer = GreedyOptimizer$new()
 
-# Get best Baselearner:
-# ===================================
+res.linear = greedy.optimizer$testOptimizer(y.linear, factory.list)
+res.cubic  = greedy.optimizer$testOptimizer(y.cubic, factory.list)
+res.pow5   = greedy.optimizer$testOptimizer(y.pow5, factory.list)
 
-# Use the greedy algorithm:
-getBestBaselearner(y)
-
-bl.linear$GetParameter()
-
-# What happens here? Why aren't we get the linear parameter?
-# Register that we have also used 2*x as linear baselearner which basically
-# is exactly the same as x. The parameter here is just divided by 2:
-bl.linear2$train(y)
-bl.linear2$GetParameter()
-
-# Clear the registry:
-clearRegisteredFactorys()
-
-# Take a look if all registrys were deleted:
-printRegisteredFactorys()
+res.cubic
+res.linear
