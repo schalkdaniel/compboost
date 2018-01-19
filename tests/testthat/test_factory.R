@@ -113,8 +113,9 @@ test_that("custom factory works", {
 
 
 test_that("custom cpp factory works", {
+  
   suppressWarnings(
-    Rcpp::sourceCpp("../../tutorials/custom_cpp_learner.cpp")
+    Rcpp::sourceCpp("../../external_test_files/custom_cpp_learner.cpp")
   )
   
   set.seed(pi)
