@@ -21,6 +21,21 @@ devtools::install_github("schalkdaniel/compboost")
     
 - [ ] Logger:
     - [ ] Implement OOB Logger
+    
+- [ ] General Implementation:
+    - [x] Implement parameter getter
+        - [x] Getter for final parameter
+        - [x] Getter for parameter of iteration `k < iter.max`
+        - [x] Getter for parameter matrix for all iterations
+    - [ ] Prediction:
+        - [x] General predict function on trian data
+        - [ ] Predict function for iteration `k < iter.max`
+        - [ ] Prediction on newdata
+        - [ ] Prediction on newdata for iteration `k < iter.max`
+        
+- [ ] Tests:
+    - [ ] Iterate over tests (they are coded not very well)
+    - [ ] Test for `BaselearnerCpp` see #86
 
 ## Idea
 
