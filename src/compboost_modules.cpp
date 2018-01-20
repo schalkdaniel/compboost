@@ -591,8 +591,8 @@ public:
   Rcpp::List getLoggerData ()
   {
     return Rcpp::List::create(
-      Rcpp::Named("logger_names") = used_logger->GetLoggerData().first,
-      Rcpp::Named("logger_data")  = used_logger->GetLoggerData().second
+      Rcpp::Named("logger.names") = used_logger->GetLoggerData().first,
+      Rcpp::Named("logger.data")  = used_logger->GetLoggerData().second
     );
   }
   
@@ -606,6 +606,28 @@ public:
       out[it.first] = it.second;
     }
     return out;
+  }
+  
+  Rcpp::List getEstimatedParameterOfIteration (unsigned int k)
+  {
+    std::map<std::string, arma::mat> parameter = obj->GetParameterOfIteration(k);
+    
+    Rcpp::List out;
+    
+    for (auto &it : parameter) {
+      out[it.first] = it.second;
+    }
+    return out;
+  }
+  
+  Rcpp::List getParameterMatrix ()
+  {
+    std::pair<std::vector<std::string>, arma::mat> out_pair = obj->GetParameterMatrix();
+    
+    return Rcpp::List::create(
+        Rcpp::Named("parameter.names")   = out_pair.first,
+        Rcpp::Named("parameter.matrix")  = out_pair.second
+      );
   }
   
   // Destructor:
@@ -643,6 +665,8 @@ RCPP_MODULE (compboost_module)
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated paraemter")
+    .method("getEstimatedParameterOfIteration", &CompboostWrapper::getEstimatedParameterOfIteration, "Get the estimated parameter for iteration k < iter.max")
+    .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
   ;
 }
 

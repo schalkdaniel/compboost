@@ -59,7 +59,10 @@ Compboost::Compboost (arma::vec response, double learning_rate,
     used_optimizer ( used_optimizer ),
     used_loss ( used_loss ),
     used_baselearner_list ( used_baselearner_list ),
-    used_logger ( used_logger ) {}
+    used_logger ( used_logger ) 
+{
+  blearner_track = blearnertrack::BaselearnerTrack(learning_rate);
+}
 
 // --------------------------------------------------------------------------- #
 // Member functions:
@@ -106,7 +109,7 @@ void Compboost::TrainCompboost (bool trace)
     // std::cout << "<<Compboost>> Cast integer k to string for baselearner identifier" << std::endl;
     
     // Insert new baselearner to vector of selected baselearner:    
-    blearner_track.InsertBaselearner(selected_blearner, learning_rate);
+    blearner_track.InsertBaselearner(selected_blearner);
     // std::cout << "<<Compboost>> Insert new baselearner to vector of selected baselearner" << std::endl;
     
     // Update model (prediction) and shrink by learning rate:
@@ -170,20 +173,15 @@ std::vector<std::string> Compboost::GetSelectedBaselearner ()
   return selected_blearner;
 }
 
-// arma::vec Compboost::PredictEnsemble ()
-// {
-//   arma::vec prediction(response.size());
-//   prediction.fill(initialization);
-//   
-//   std::cout << "Initialize the b0 model with: " << initialization << std::endl;
-//   std::cout << "Rows = " << prediction.n_rows << " Cols = " << prediction.n_cols << std::endl;
-//   
-//   for (std::vector<blearner::Baselearner*>::iterator it = blearner_track->GetBaselearnerVector().begin(); it != blearner_track->GetBaselearnerVector().end(); ++it) {
-//     std::cout << "Now iterating over baselearner!" << std::endl;
-//     prediction += (*it)->predict();
-//   }
-//   return prediction;
-// }
+std::map<std::string, arma::mat> Compboost::GetParameterOfIteration (unsigned int k) 
+{
+  return blearner_track.GetEstimatedParameterForIteration(k);
+}
+
+std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix ()
+{
+  return blearner_track.GetParameterMatrix();
+}
 
 // Destructor:
 Compboost::~Compboost ()

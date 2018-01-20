@@ -45,10 +45,11 @@ namespace blearnertrack
 // Just an empty constructor:
 BaselearnerTrack::BaselearnerTrack () {};
 
+BaselearnerTrack::BaselearnerTrack (double learning_rate) : learning_rate ( learning_rate ) {};
+
 // Insert a baselearner to the vector. We also want to add up the parameter
 // in there to get an estimator in the end:
-void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner,
-  double learning_rate)
+void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner)
 {
   // Insert new baselearner:
   blearner_vector.push_back(blearner);
@@ -103,10 +104,93 @@ void BaselearnerTrack::ClearBaselearnerVector ()
   blearner_vector.clear();
 }
 
+// Get estimated parameter for specific iteration:
+std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterForIteration (unsigned int k)
+{
+  // Create new parameter map:
+  std::map<std::string, arma::mat> my_new_parameter_map;
+  
+  if (k <= blearner_vector.size()) {
+    
+    for (unsigned int i = 0; i < k; i++) {
+      std::string insert_id = blearner_vector[i]->GetDataIdentifier() + ": " + blearner_vector[i]->GetBaselearnerType();
+      
+      // Check if the baselearner is the first one. If so, the parameter
+      // has to be instantiated with a zero matrix:
+      std::map<std::string, arma::mat>::iterator it = my_new_parameter_map.find(insert_id);
+      
+      // Prune parameter by multiplying it with the learning rate:
+      arma::mat parameter_temp = learning_rate * blearner_vector[i]->GetParameter();
+      
+      // Check if this is the first parameter entry:
+      if (it == my_new_parameter_map.end()) {
+        
+        // If this is the first entry, initialize it with zeros:
+        arma::mat init_parameter(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
+        my_new_parameter_map.insert(std::pair<std::string, arma::mat>(insert_id, init_parameter));
+        
+      }
+      
+      // Accumulating parameter. If there is a nan, then this will be ignored and 
+      // the non  nan entries are added up:
+      // arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->GetBaselearnerType())->second;
+      // my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), parameter_insert));
+      my_new_parameter_map[ insert_id ] = parameter_temp + my_new_parameter_map.find(insert_id)->second;
+    }
+  }
+  return my_new_parameter_map;
+}
+
+// Create parameter matrix:
+std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMatrix ()
+{
+  // Instantiate list to iterate:
+  std::map<std::string, arma::mat> my_new_parameter_map = my_parameter_map;
+  
+  unsigned int cols = 0;
+  
+  // Set all parameter to zero in new map:
+  for (auto& it : my_new_parameter_map) {
+    arma::mat init_parameter (it.second.n_rows, it.second.n_cols, arma::fill::zeros);
+    my_new_parameter_map[ it.first ] = init_parameter;
+    
+    cols += it.second.n_cols;
+  }
+
+  // Initialize matrix:
+  arma::mat parameters (blearner_vector.size(), cols, arma::fill::zeros);
+    
+  for (unsigned int i = 0; i < blearner_vector.size(); i++) {
+    std::string insert_id = blearner_vector[i]->GetDataIdentifier() + ": " + blearner_vector[i]->GetBaselearnerType();
+
+    // Prune parameter by multiplying it with the learning rate:
+    arma::mat parameter_temp = learning_rate * blearner_vector[i]->GetParameter();
+    
+    // Accumulating parameter. If there is a nan, then this will be ignored and 
+    // the non  nan entries are added up:
+    my_new_parameter_map[ insert_id ] = parameter_temp + my_new_parameter_map.find(insert_id)->second;
+    
+    arma::mat param_insert;
+    
+    for (auto& it : my_new_parameter_map) {
+      param_insert = arma::join_rows(param_insert, it.second);
+    }
+    parameters.row(i) = param_insert;
+  }
+  std::pair<std::vector<std::string>, arma::mat> out_pair;
+  
+  for (auto& it : my_new_parameter_map) {
+    out_pair.first.push_back(it.first);
+  }
+  out_pair.second = parameters;
+  
+  return out_pair;
+}
+
 // Destructor:
 BaselearnerTrack::~BaselearnerTrack ()
 {
-  std::cout << "Call BaselearnerTrack Destructor" << std::endl;
+  // std::cout << "Call BaselearnerTrack Destructor" << std::endl;
   for (unsigned int i = 0; i< blearner_vector.size(); i++)
   {
     delete blearner_vector[i];

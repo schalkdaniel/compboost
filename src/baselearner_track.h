@@ -64,12 +64,15 @@ class BaselearnerTrack
     // iteration:
     std::map<std::string, arma::mat> my_parameter_map;
     
+    double learning_rate;
+    
   public: 
     
     BaselearnerTrack ();
+    BaselearnerTrack (double);
     
     // Insert a baselearner into vector and update parameter:
-    void InsertBaselearner (blearner::Baselearner*, double);
+    void InsertBaselearner (blearner::Baselearner*);
     
     // Return the vector of baselearner:
     std::vector<blearner::Baselearner*> GetBaselearnerVector ();
@@ -80,8 +83,11 @@ class BaselearnerTrack
     // Clear the vector without deleting the data in the factory:
     void ClearBaselearnerVector ();
     
+    // Estimate parameter for specific iteration:
+    std::map<std::string, arma::mat> GetEstimatedParameterForIteration (unsigned int);
+    
     // Returns a matrix of parameters for every iteration:
-    // arma::mat GetParameterMatrix ();
+    std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix ();
     
     // Destructor:
     ~BaselearnerTrack ();
