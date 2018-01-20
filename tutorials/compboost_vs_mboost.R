@@ -152,3 +152,16 @@ p = profvis::profvis({
 
 print(p)
 
+# Check if parameter of smaller iteration works:
+# ----------------------------------------------
+
+mod.reduced = mboost(
+  formula = mpg ~ bols(hp, intercept = FALSE) + 
+    bols(wt, intercept = FALSE) +
+    bols(hp2, intercept = FALSE), 
+  data    = df, 
+  control = boost_control(mstop = 200, nu = learning.rate)
+)
+
+mod.reduced$coef()
+cboost$getEstimatedParameterOfIteration(200)

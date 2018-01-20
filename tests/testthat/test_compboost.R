@@ -122,9 +122,45 @@ test_that("compboost does the same as mboost", {
     unname(unlist(cboost$getEstimatedParameter()))
   )
   
-  expect_equal(dim(cboost$getLoggerData()$logger_data), c(500, 2))
-  expect_equal(cboost$getLoggerData()$logger_data[, 1], 1:500)
-  expect_equal(length(cboost$getLoggerData()$logger_data[, 2]), 500)
+  expect_equal(dim(cboost$getLoggerData()$logger.data), c(500, 2))
+  expect_equal(cboost$getLoggerData()$logger.data[, 1], 1:500)
+  expect_equal(length(cboost$getLoggerData()$logger.data[, 2]), 500)
   
+  # Check if paraemter getter of smaller iteration works:
+  suppressWarnings({
+    mod.reduced = mboost(
+      formula = mpg ~ bols(hp, intercept = FALSE) + 
+        bols(wt, intercept = FALSE) +
+        bols(hp2, intercept = FALSE), 
+      data    = df, 
+      control = boost_control(mstop = 200, nu = learning.rate)
+    )
+  })
+  
+  expect_equal(
+    unname(
+      unlist(
+        mod.reduced$coef()[
+          order(
+            unlist(
+              lapply(names(unlist(mod.reduced$coef()[1:3])), function (x) {
+                strsplit(x, "[.]")[[1]][2]
+              })
+            )
+          )
+          ]
+      )
+    ),
+    unname(unlist(cboost$getEstimatedParameterOfIteration(200)))
+  )
+  
+  idx = sample(1:500, 3)
+  matrix.compare = matrix(NA_real_, nrow = 3, ncol = 3)
+  
+  for (i in seq_along(idx)) {
+    matrix.compare[i, ] = unname(unlist(cboost$getEstimatedParameterOfIteration(idx[i])))
+  }
+
+  expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
 })
 

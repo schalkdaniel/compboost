@@ -93,5 +93,11 @@ cboost$getSelectedBaselearner()
 # Get estimated parameter:
 cboost$getEstimatedParameter()
 
+# Get estimated parameter of 200 iteration:
+cboost$getEstimatedParameterOfIteration(200)
+
 # Get logger data:
 cboost$getLoggerData()
+
+# Get parameter matrix:
+param.matrix = cboost$getParameterMatrix()

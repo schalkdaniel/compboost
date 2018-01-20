@@ -73,7 +73,7 @@ class Compboost
     bool stop_if_all_stopper_fulfilled;
     
     // Pieces to run the algorithm:
-    blearnertrack::BaselearnerTrack blearner_track = blearnertrack::BaselearnerTrack();
+    blearnertrack::BaselearnerTrack blearner_track;
     optimizer::Optimizer* used_optimizer;
     loss::Loss* used_loss;
     blearnerlist::BaselearnerList used_baselearner_list;
@@ -93,8 +93,9 @@ class Compboost
     std::map<std::string, arma::mat> GetParameter ();
     std::vector<std::string> GetSelectedBaselearner ();
 
-    // arma::vec PredictEnsemble ();
-    // arma::vec PredictEnsemble (arma::mat &);
+    std::map<std::string, arma::mat> GetParameterOfIteration (unsigned int);
+    
+    std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix ();
     
     // Destructor:
     ~Compboost ();
