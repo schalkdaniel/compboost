@@ -78,9 +78,11 @@ cboost$train(FALSE)
 
 # Get vector selected baselearner:
 cboost$getSelectedBaselearner()
-# cboost$GetModelFrame()
+
+# Get logger data:
 cboost$getLoggerData()
 
+# Get parameter estimator:
 
 # Do the same with mboost:
 # ------------------------
@@ -113,7 +115,12 @@ all.equal(mod$xselect(), cboost.xselect)
 # ------------------------------------
 
 all.equal(predict(mod), cboost$getPrediction())
-# cboost$GetParameter()
+
+# Check if parameter are the same:
+# --------------------------------
+
+mod$coef()
+cboost$getEstimatedParameter()
 
 # Benchmark:
 # ----------
