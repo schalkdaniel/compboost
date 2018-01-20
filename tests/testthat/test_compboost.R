@@ -154,7 +154,7 @@ test_that("compboost does the same as mboost", {
     unname(unlist(cboost$getEstimatedParameterOfIteration(200)))
   )
   
-  idx = sample(1:500, 3)
+  idx = 2:4 * 120
   matrix.compare = matrix(NA_real_, nrow = 3, ncol = 3)
   
   for (i in seq_along(idx)) {
