@@ -572,16 +572,6 @@ public:
     // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
   }
   
-  // Destructor:
-  ~CompboostWrapper ()
-  {
-    // std::cout << "Call CompboostWrapper Destructor" << std::endl;
-    delete used_logger;
-    delete used_optimizer;
-    delete eval_data;
-    delete obj;
-  }
-  
   // Member functions
   void train (bool trace) 
   {
@@ -604,6 +594,28 @@ public:
       Rcpp::Named("logger_names") = used_logger->GetLoggerData().first,
       Rcpp::Named("logger_data")  = used_logger->GetLoggerData().second
     );
+  }
+  
+  Rcpp::List getEstimatedParameter ()
+  {
+    std::map<std::string, arma::mat> parameter = obj->GetParameter();
+    
+    Rcpp::List out;
+    
+    for (auto &it : parameter) {
+      out[it.first] = it.second;
+    }
+    return out;
+  }
+  
+  // Destructor:
+  ~CompboostWrapper ()
+  {
+    // std::cout << "Call CompboostWrapper Destructor" << std::endl;
+    // delete used_logger;
+    // delete used_optimizer;
+    // delete eval_data;
+    // delete obj;
   }
   
 private:
@@ -630,6 +642,7 @@ RCPP_MODULE (compboost_module)
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
+    .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated paraemter")
   ;
 }
 

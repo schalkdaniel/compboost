@@ -89,5 +89,9 @@ cboost$train(trace = TRUE)
 
 # Get vector selected baselearner:
 cboost$getSelectedBaselearner()
-# cboost$getModelFrame()
+
+# Get estimated parameter:
+cboost$getEstimatedParameter()
+
+# Get logger data:
 cboost$getLoggerData()
