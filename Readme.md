@@ -34,7 +34,7 @@ devtools::install_github("schalkdaniel/compboost")
         - [ ] Prediction on newdata for iteration `k < iter.max`
         
 - [ ] Tests:
-    - [ ] Iterate over tests (they are coded not very well)
+    - [ ] Iterate over tests (they are notd coded very well)
     - [ ] Test for `BaselearnerCpp` see #86
 
 ## Idea
