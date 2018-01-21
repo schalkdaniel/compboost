@@ -151,20 +151,20 @@ Baselearner* Polynomial::Clone ()
   return newbl;
 }
 
-// Transform data:
-arma::mat Polynomial::InstantiateData ()
-{
-  
-  return arma::pow(*data_ptr, degree);
-}
-
-// Transform data. This is done twice since it makes the prediction
-// of the whole compboost object so much easier:
-arma::mat Polynomial::InstantiateData (arma::mat& newdata)
-{
-  
-  return arma::pow(newdata, degree);
-}
+// // Transform data:
+// arma::mat Polynomial::InstantiateData ()
+// {
+//   
+//   return arma::pow(*data_ptr, degree);
+// }
+// 
+// // Transform data. This is done twice since it makes the prediction
+// // of the whole compboost object so much easier:
+// arma::mat Polynomial::InstantiateData (arma::mat& newdata)
+// {
+//   
+//   return arma::pow(newdata, degree);
+// }
 
 // Train the learner:
 void Polynomial::train (arma::vec& response)
@@ -181,7 +181,7 @@ arma::mat Polynomial::predict ()
 // Predict the learner:
 arma::mat Polynomial::predict (arma::mat& newdata)
 {
-  return InstantiateData(newdata) * parameter;
+  return newdata * parameter;
 }
 
 // Destructor:
@@ -191,9 +191,10 @@ Polynomial::~Polynomial () {}
 // -----------------------
 
 Custom::Custom (arma::mat& data, std::string& data_identifier, std::string& identifier, 
-  Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
+  // Rcpp::Function instantiateDataFun, 
+  Rcpp::Function trainFun, Rcpp::Function predictFun, 
   Rcpp::Function extractParameter) 
-    : instantiateDataFun ( instantiateDataFun ), 
+    : // instantiateDataFun ( instantiateDataFun ), 
       trainFun ( trainFun ),
       predictFun ( predictFun ),
       extractParameter ( extractParameter )
@@ -213,24 +214,24 @@ Baselearner* Custom::Clone ()
   return newbl;
 }
 
-// Transform data.
+// // Transform data.
+// 
+// // NOTE: It is highly recommended to specify an explicit instantiateDataFun
+// //       function! Otherwise, the data are stored within model and are 
+// //       calculated in each iteration again and again:
+// arma::mat Custom::InstantiateData ()
+// {
+//   Rcpp::NumericMatrix out = instantiateDataFun(*data_ptr);
+//   return Rcpp::as<arma::mat>(out);
+// }
 
-// NOTE: It is highly recommended to specify an explicit instantiateDataFun
-//       function! Otherwise, the data are stored within model and are 
-//       calculated in each iteration again and again:
-arma::mat Custom::InstantiateData ()
-{
-  Rcpp::NumericMatrix out = instantiateDataFun(*data_ptr);
-  return Rcpp::as<arma::mat>(out);
-}
-
-// Transform data. This is done twice since it makes the prediction
-// of the whole compboost object so much easier:
-arma::mat Custom::InstantiateData (arma::mat& newdata)
-{
-  Rcpp::NumericMatrix out = instantiateDataFun(newdata);
-  return Rcpp::as<arma::mat>(out);
-}
+// // Transform data. This is done twice since it makes the prediction
+// // of the whole compboost object so much easier:
+// arma::mat Custom::InstantiateData (arma::mat& newdata)
+// {
+//   Rcpp::NumericMatrix out = instantiateDataFun(newdata);
+//   return Rcpp::as<arma::mat>(out);
+// }
 
 
 
@@ -248,7 +249,7 @@ void Custom::train (arma::vec& response)
 // Predict by using the R function 'predictFun':
 arma::mat Custom::predict (arma::mat& newdata)
 {
-  Rcpp::NumericMatrix out = predictFun(model, InstantiateData(newdata));
+  Rcpp::NumericMatrix out = predictFun(model, newdata);
   return Rcpp::as<arma::mat>(out);
 }
 
@@ -266,7 +267,8 @@ Custom::~Custom () {}
 // -----------------------
 
 CustomCpp::CustomCpp (arma::mat& data, std::string& data_identifier, std::string& identifier, 
-  SEXP instantiateDataFun0, SEXP trainFun0, SEXP predictFun0)
+  // SEXP instantiateDataFun0, 
+  SEXP trainFun0, SEXP predictFun0)
 {
   // Called from parent class 'Baselearner':
   Baselearner::SetData (data);
@@ -274,15 +276,14 @@ CustomCpp::CustomCpp (arma::mat& data, std::string& data_identifier, std::string
   Baselearner::SetDataIdentifier (data_identifier);
   
   // Set functions:
-  Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun0);
-  instantiateDataFun = *myTempInstantiation;
+  // Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun0);
+  // instantiateDataFun = *myTempInstantiation;
   
   Rcpp::XPtr<trainFunPtr> myTempTrain (trainFun0);
   trainFun = *myTempTrain;
   
   Rcpp::XPtr<predictFunPtr> myTempPredict (predictFun0);
   predictFun = *myTempPredict;
-  
 }
 
 // Copy member:
@@ -294,22 +295,22 @@ Baselearner* CustomCpp::Clone ()
   return newbl;
 }
 
-// Transform data.
-
-// NOTE: It is highly recommended to specify an explicit instantiateDataFun
-//       function! Otherwise, the data are stored within model and are 
-//       calculated in each iteration again and again:
-arma::mat CustomCpp::InstantiateData ()
-{
-  return instantiateDataFun(*data_ptr);
-}
-
-// Transform data. This is done twice since it makes the prediction
-// of the whole compboost object so much easier:
-arma::mat CustomCpp::InstantiateData (arma::mat& newdata)
-{
-  return instantiateDataFun(newdata);
-}
+// // Transform data.
+// 
+// // NOTE: It is highly recommended to specify an explicit instantiateDataFun
+// //       function! Otherwise, the data are stored within model and are 
+// //       calculated in each iteration again and again:
+// arma::mat CustomCpp::InstantiateData ()
+// {
+//   return instantiateDataFun(*data_ptr);
+// }
+// 
+// // Transform data. This is done twice since it makes the prediction
+// // of the whole compboost object so much easier:
+// arma::mat CustomCpp::InstantiateData (arma::mat& newdata)
+// {
+//   return instantiateDataFun(newdata);
+// }
 
 
 
@@ -326,8 +327,8 @@ void CustomCpp::train (arma::vec& response)
 // Predict by using the R function 'predictFun':
 arma::mat CustomCpp::predict (arma::mat& newdata)
 {
-  arma::mat temp_mat = InstantiateData(newdata);
-  return predictFun (temp_mat, parameter);
+  // arma::mat temp_mat = InstantiateData(newdata);
+  return predictFun (newdata, parameter);
 }
 
 arma::mat CustomCpp::predict ()

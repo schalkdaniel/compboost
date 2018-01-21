@@ -162,5 +162,6 @@ test_that("compboost does the same as mboost", {
   }
 
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
+
 })
 

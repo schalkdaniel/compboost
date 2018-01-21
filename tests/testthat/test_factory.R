@@ -13,10 +13,10 @@ test_that("polynomial factory works", {
   
   # Create and train test baselearner:
   linear.factory = PolynomialFactory$new(as.matrix(X.linear), "my_variable_name", 1)
-  linear.factory$testTrain(y)
+  # linear.factory$testTrain(y)
   
   cubic.factory = PolynomialFactory$new(as.matrix(X.linear), "my_variable_name", 3)
-  cubic.factory$testTrain(y)
+  # cubic.factory$testTrain(y)
   
   # lm as benchmark:
   mod.linear = lm(y ~ 0 + X.linear)
@@ -28,35 +28,35 @@ test_that("polynomial factory works", {
     linear.factory$getData(), 
     as.matrix(mod.linear$model[["X.linear"]])
   )
-  expect_equal(
-    linear.factory$testGetParameter(), 
-    as.matrix(unname(mod.linear$coef))
-  )
-  expect_equal(
-    as.numeric(linear.factory$testPredict()), 
-    unname(mod.linear$fitted.values)
-  )
-  expect_equal(
-    as.numeric(linear.factory$testPredictNewdata(X.test)), 
-    unname(predict(mod.linear, data.frame(X.linear = X.test[,1])))
-  )
+  # expect_equal(
+  #   linear.factory$testGetParameter(), 
+  #   as.matrix(unname(mod.linear$coef))
+  # )
+  # expect_equal(
+  #   as.numeric(linear.factory$testPredict()), 
+  #   unname(mod.linear$fitted.values)
+  # )
+  # expect_equal(
+  #   as.numeric(linear.factory$testPredictNewdata(X.test)), 
+  #   unname(predict(mod.linear, data.frame(X.linear = X.test[,1])))
+  # )
   
   expect_equal(
     cubic.factory$getData(), 
     as.matrix(mod.cubic$model[["X.cubic"]])
   )
-  expect_equal(
-    cubic.factory$testGetParameter(), 
-    as.matrix(unname(mod.cubic$coef))
-  )
-  expect_equal(
-    as.numeric(cubic.factory$testPredict()), 
-    unname(mod.cubic$fitted.values)
-  )
-  expect_equal(
-    as.numeric(cubic.factory$testPredictNewdata(X.test)), 
-    unname(predict(mod.cubic, data.frame(X.cubic = X.test[,1]^3)))
-  )
+  # expect_equal(
+  #   cubic.factory$testGetParameter(), 
+  #   as.matrix(unname(mod.cubic$coef))
+  # )
+  # expect_equal(
+  #   as.numeric(cubic.factory$testPredict()), 
+  #   unname(mod.cubic$fitted.values)
+  # )
+  # expect_equal(
+  #   as.numeric(cubic.factory$testPredictNewdata(X.test)), 
+  #   unname(predict(mod.cubic, data.frame(X.cubic = X.test[,1]^3)))
+  # )
 })
 
 test_that("custom factory works", {
@@ -89,7 +89,7 @@ test_that("custom factory works", {
   # Create and train test baselearner:
   custom.factory = CustomFactory$new(X, "variable_1", instantiateDataFun, trainFun, 
     predictFun, extractParameter)
-  custom.factory$testTrain(y)
+  # custom.factory$testTrain(y)
   
   # Test:
   # -----
@@ -97,18 +97,18 @@ test_that("custom factory works", {
     custom.factory$getData(), 
     instantiateDataFun(X)
   )
-  expect_equal(
-    custom.factory$testGetParameter(), 
-    as.matrix(NA_real_)
-  )
-  expect_equal(
-    as.numeric(custom.factory$testPredict()), 
-    unname(predict(mod.test))
-  )
-  expect_equal(
-    custom.factory$testPredictNewdata(X.test), 
-    predictFun(mod.test, X.test)
-  )
+  # expect_equal(
+  #   custom.factory$testGetParameter(), 
+  #   as.matrix(NA_real_)
+  # )
+  # expect_equal(
+  #   as.numeric(custom.factory$testPredict()), 
+  #   unname(predict(mod.test))
+  # )
+  # expect_equal(
+  #   custom.factory$testPredictNewdata(X.test), 
+  #   predictFun(mod.test, X.test)
+  # )
 })
 
 
