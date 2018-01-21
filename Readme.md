@@ -21,6 +21,7 @@ devtools::install_github("schalkdaniel/compboost")
     
 - [ ] Logger:
     - [ ] Implement OOB Logger
+    - [ ] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
     
 - [ ] General Implementation:
     - [x] Implement parameter getter
