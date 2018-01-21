@@ -790,6 +790,36 @@ public:
       );
   }
   
+  arma::vec predict (Rcpp::List input_data)
+  {
+    std::map<std::string, arma::mat> data_map;
+    
+    // Create data map:
+    for (unsigned int i = 0; i < input_data.size(); i++) {
+      
+      std::vector<std::string> names = input_data.names();
+      arma::mat temp = Rcpp::as<arma::mat>(input_data[i]);
+      data_map[ names[i] ] = temp;
+      
+    }
+    return obj->Predict(data_map);
+  }
+  
+  arma::vec predictionOfIteration (Rcpp::List input_data, unsigned int k)
+  {
+    std::map<std::string, arma::mat> data_map;
+    
+    // Create data map:
+    for (unsigned int i = 0; i < input_data.size(); i++) {
+      
+      std::vector<std::string> names = input_data.names();
+      arma::mat temp = Rcpp::as<arma::mat>(input_data[i]);
+      data_map[ names[i] ] = temp;
+      
+    }
+    return obj->PredictionOfIteration(data_map, k);
+  }
+  
   // Destructor:
   ~CompboostWrapper ()
   {
@@ -827,6 +857,8 @@ RCPP_MODULE (compboost_module)
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated paraemter")
     .method("getEstimatedParameterOfIteration", &CompboostWrapper::getEstimatedParameterOfIteration, "Get the estimated parameter for iteration k < iter.max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
+    .method("predict", &CompboostWrapper::predict, "Predict newdata")
+    .method("predictionOfIteration", &CompboostWrapper::predictionOfIteration, "Predict newdata for iteration k < iter.max")
   ;
 }
 

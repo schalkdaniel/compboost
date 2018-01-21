@@ -13,11 +13,25 @@ df = mtcars
 # Create new variable to check the polynomial baselearner with degree 2:
 df$hp2 = df[["hp"]]^2
 
-# Data for compboost:
+# Data for compboost, wt with intercept:
 X.hp = as.matrix(df[["hp"]], ncol = 1)
-X.wt = as.matrix(df[["wt"]], ncol = 1)
+X.wt = cbind(1, df[["wt"]])
 
 y = df[["mpg"]]
+
+eval.hp = runif(10)
+eval.wt = runif(10)
+
+eval.data = list(
+  "hp" = as.matrix(eval.hp),
+  "wt" = cbind(1, eval.wt)
+)
+
+eval.df = data.frame(
+  hp  = eval.hp,
+  wt  = eval.wt,
+  hp2 = eval.hp^2
+)
 
 # Hyperparameter for the algorithm:
 learning.rate = 0.05
@@ -91,7 +105,7 @@ library(mboost)
 
 mod = mboost(
   formula = mpg ~ bols(hp, intercept = FALSE) + 
-    bols(wt, intercept = FALSE) +
+    bols(wt) +
     bols(hp2, intercept = FALSE), 
   data    = df, 
   control = boost_control(mstop = iter.max, nu = learning.rate)
@@ -135,7 +149,7 @@ microbenchmark::microbenchmark(
     data    = df, 
     control = boost_control(mstop = iter.max, nu = learning.rate)
   ),
-  times = 10L
+  times = 100L
 )
 
 # Profiling to compare used memory:
@@ -157,7 +171,7 @@ print(p)
 
 mod.reduced = mboost(
   formula = mpg ~ bols(hp, intercept = FALSE) + 
-    bols(wt, intercept = FALSE) +
+    bols(wt) +
     bols(hp2, intercept = FALSE), 
   data    = df, 
   control = boost_control(mstop = 200, nu = learning.rate)
@@ -165,3 +179,9 @@ mod.reduced = mboost(
 
 mod.reduced$coef()
 cboost$getEstimatedParameterOfIteration(200)
+
+
+
+predict(mod.reduced, eval.df)
+cboost$predictionOfIteration(eval.data, 200)
+

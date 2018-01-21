@@ -97,7 +97,8 @@ class Compboost
     
     std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix ();
     
-    // arma::mat Predict (std::map<std::string, arma::mat>);
+    arma::vec Predict (std::map<std::string, arma::mat>);
+    arma::vec PredictionOfIteration (std::map<std::string, arma::mat>, unsigned int);
     
     // Destructor:
     ~Compboost ();

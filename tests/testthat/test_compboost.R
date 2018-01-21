@@ -16,6 +16,20 @@ test_that("compboost does the same as mboost", {
   
   y = df[["mpg"]]
   
+  eval.hp = runif(10)
+  eval.wt = runif(10)
+  
+  eval.data = list(
+    "hp" = as.matrix(eval.hp),
+    "wt" = as.matrix(eval.wt)
+  )
+  
+  eval.df = data.frame(
+    hp  = eval.hp,
+    wt  = eval.wt,
+    hp2 = eval.hp^2
+  )
+  
   # Hyperparameter for the algorithm:
   learning.rate = 0.05
   iter.max = 500
@@ -163,5 +177,11 @@ test_that("compboost does the same as mboost", {
 
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
 
+  # Test if prediction works:
+  # --------------------------
+  
+  expect_equal(cboost$predict(eval.data), predict(mod, eval.df))
+  expect_equal(cboost$predictionOfIteration(eval.data, 200), predict(mod.reduced, eval.df))
+  
 })
 

@@ -23,6 +23,11 @@ X.wt = as.matrix(df[["wt"]], ncol = 1)
 
 y = df[["mpg"]]
 
+eval.data = list(
+  "hp" = as.matrix(mtcars$hp),
+  "wt" = as.matrix(mtcars$wt)
+)
+
 # Hyperparameter for the algorithm:
 learning.rate = 0.05
 iter.max = 500
@@ -101,3 +106,7 @@ cboost$getLoggerData()
 
 # Get parameter matrix:
 param.matrix = cboost$getParameterMatrix()
+
+# Predict for "new data":
+cboost$predict(eval.data)
+cboost$predictionOfIteration(eval.data, 200)
