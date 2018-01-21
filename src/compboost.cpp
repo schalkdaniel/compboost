@@ -183,6 +183,62 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix ()
   return blearner_track.GetParameterMatrix();
 }
 
+arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
+{
+  // std::cout << "Get into Compboost::Predict" << std::endl;
+  
+  std::map<std::string, arma::mat> parameter_map = blearner_track.GetParameterMap();
+
+  arma::vec pred(data_map.begin()->second.n_rows);
+  pred.fill(initialization);
+  
+  // std::cout << "initialize pred vec" << std::endl;
+  
+  for (auto& it : parameter_map) {
+    
+    std::string sel_factory = it.first;
+    
+    // std::cout << "Fatory id of parameter map: " << sel_factory << std::endl;
+    
+    blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.GetMap().find(sel_factory)->second;
+    
+    // std::cout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
+    
+    arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second));
+    pred += data_trafo * it.second;
+    
+  }
+  return pred;
+}
+
+arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> data_map, unsigned int k)
+{
+  // std::cout << "Get into Compboost::Predict" << std::endl;
+  
+  std::map<std::string, arma::mat> parameter_map = blearner_track.GetEstimatedParameterForIteration(k);
+  
+  arma::vec pred(data_map.begin()->second.n_rows);
+  pred.fill(initialization);
+  
+  // std::cout << "initialize pred vec" << std::endl;
+  
+  for (auto& it : parameter_map) {
+    
+    std::string sel_factory = it.first;
+    
+    // std::cout << "Fatory id of parameter map: " << sel_factory << std::endl;
+    
+    blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.GetMap().find(sel_factory)->second;
+    
+    // std::cout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
+    
+    arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second));
+    pred += data_trafo * it.second;
+    
+  }
+  return pred;
+}
+
 // Destructor:
 Compboost::~Compboost ()
 {

@@ -31,8 +31,8 @@ devtools::install_github("schalkdaniel/compboost")
     - [ ] Prediction:
         - [x] General predict function on trian data
         - [ ] Predict function for iteration `k < iter.max`
-        - [ ] Prediction on newdata
-        - [ ] Prediction on newdata for iteration `k < iter.max`
+        - [x] Prediction on newdata
+        - [x] Prediction on newdata for iteration `k < iter.max`
         
 - [ ] Tests:
     - [ ] Iterate over tests (they are notd coded very well)
