@@ -80,22 +80,24 @@ class BaselearnerFactory
   public:
     
     // This function has to be called from every child class:
-    void InitializeFactory (std::string, arma::mat, std::string);
+    void InitializeFactory (std::string, std::string);
     
     // Create new baselearner with id:
     virtual blearner::Baselearner* CreateBaselearner (std::string&) = 0;
     
-    // Check if data is already instantiated. This is important for the first
-    // time the factory creates a new object. Then the data is setted by the
-    // first object. The following objects then doesn't need to instantiate the
-    // data again:
-    bool IsDataInstantiated ();
+    // // Check if data is already instantiated. This is important for the first
+    // // time the factory creates a new object. Then the data is setted by the
+    // // first object. The following objects then doesn't need to instantiate the
+    // // data again:
+    // bool IsDataInstantiated ();
     
     // Getter for data, data identifier and the baselearner type:
     arma::mat GetData ();
     std::string GetDataIdentifier ();
     
     std::string GetBaselearnerType ();
+    
+    virtual arma::mat InstantiateData (arma::mat&) = 0;
     
     // Destructor:
     virtual ~BaselearnerFactory ();
@@ -107,7 +109,7 @@ class BaselearnerFactory
     arma::mat data;
     std::string data_identifier;
     
-    bool is_data_instantiated = false;
+    // bool is_data_instantiated = false;
   
 };
 
@@ -131,6 +133,8 @@ class PolynomialFactory : public BaselearnerFactory
     PolynomialFactory (std::string, arma::mat, std::string, unsigned int);
     
     blearner::Baselearner* CreateBaselearner (std::string&);
+    
+    arma::mat InstantiateData (arma::mat&);
 };
 
 // Custom:
@@ -158,11 +162,14 @@ class CustomFactory : public BaselearnerFactory
     
     blearner::Baselearner* CreateBaselearner (std::string&);
     
+    arma::mat InstantiateData (arma::mat&);
+    
 };
 
 // CustomCpp:
 // -----------------------
 
+typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
 class CustomCppFactory : public BaselearnerFactory
 {
 private:
@@ -174,9 +181,12 @@ private:
   
 public:
   
-  CustomCppFactory (std::string, arma::mat, std::string, SEXP, SEXP, SEXP);
+  CustomCppFactory (std::string, arma::mat, std::string, SEXP, SEXP, 
+    SEXP);
   
   blearner::Baselearner* CreateBaselearner (std::string&);
+  
+  arma::mat InstantiateData (arma::mat&);
   
 };
 

@@ -143,7 +143,10 @@ class LogIteration : public Logger
     
 };
 
-// LogRisk:
+// InbagRisk:
+// -----------------------
+
+// OobRisk:
 // -----------------------
 
 // LogTime:
