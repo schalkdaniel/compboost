@@ -40,12 +40,14 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Changelog
 
-- **21.01.2018:** New structure for factorys and baselearner. The new member
+- **21.01.2018:** New structure for factorys and baselearner. The function
   `InstantiateData` is now member of the factory, not the baselearner. This 
   should also speed up the algorithm, since we don't have to check whether data
   is instantiated or not. We can do that once within the constructor. 
   Additionally, it should be more clear now what the member does since there is
-  no hacky helper baselearner necessary to instantiate the data.
+  no hacky baselearner helper necessary to instantiate the data.
+  
+- **22.01.2018:** Add inbag and out of bag logger.
 
 ## Idea
 
