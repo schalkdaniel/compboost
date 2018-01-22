@@ -27,6 +27,10 @@ eval.data = list(
   "hp" = as.matrix(mtcars$hp),
   "wt" = as.matrix(mtcars$wt)
 )
+eval.oob.test = list(
+  "hp" = X.hp,
+  "wt" = X.wt
+)
 
 # Hyperparameter for the algorithm:
 learning.rate = 0.05
@@ -67,10 +71,14 @@ optimizer = GreedyOptimizer$new()
 # time:
 log.iterations = LogIterations$new(TRUE, iter.max)
 log.time       = LogTime$new(FALSE, 500, "microseconds")
+log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.05)
+log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
 
 logger.list = LoggerList$new()
 logger.list$registerLogger(log.iterations)
 logger.list$registerLogger(log.time)
+logger.list$registerLogger(log.inbag)
+logger.list$registerLogger(log.oob)
 
 logger.list$printRegisteredLogger()
 

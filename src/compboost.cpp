@@ -121,7 +121,8 @@ void Compboost::TrainCompboost (bool trace)
     // The last term has to be the prediction or anything like that. This is
     // important to track the risk (inbag or oob)!!!!
     
-    used_logger->LogCurrent(k, 6);
+    used_logger->LogCurrent(k, response, prediction, selected_blearner, 
+      initialization, learning_rate);
     // std::cout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):

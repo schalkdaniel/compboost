@@ -145,7 +145,7 @@ blearner::Baselearner *CustomFactory::CreateBaselearner (std::string &identifier
 {
   blearner::Baselearner *blearner_obj;
   
-  blearner_obj = new blearner::Custom(data, data_identifier, identifier, // instantiateDataFun, 
+  blearner_obj = new blearner::Custom(data, data_identifier, identifier, instantiateDataFun, 
     trainFun, predictFun, extractParameter);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
@@ -185,7 +185,7 @@ blearner::Baselearner *CustomCppFactory::CreateBaselearner (std::string &identif
 {
   blearner::Baselearner *blearner_obj;
   
-  blearner_obj = new blearner::CustomCpp(data, data_identifier, identifier, //instantiateDataFun, 
+  blearner_obj = new blearner::CustomCpp(data, data_identifier, identifier, instantiateDataFun, 
     trainFun, predictFun);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
