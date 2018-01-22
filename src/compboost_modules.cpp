@@ -561,8 +561,41 @@ class LogIterationWrapper : public LoggerWrapper
 public:
   LogIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
   {
-    obj = new logger::LogIteration(use_as_stopper, max_iterations);
-    logger_id = "iterations";
+    obj = new logger::LogIteration (use_as_stopper, max_iterations);
+    logger_id = " iterations";
+  }
+};
+
+class LogInbagRiskWrapper : public LoggerWrapper
+{
+public:
+  LogInbagRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break)
+  {
+    obj = new logger::LogInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
+    logger_id = "inbag.risk";
+  }
+};
+
+class LogOobRiskWrapper : public LoggerWrapper
+{
+public:
+  LogOobRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break,
+    Rcpp::List oob_data, arma::vec oob_response)
+  {
+    std::map<std::string, arma::mat> oob_data_map;
+    
+    // Create data map:
+    for (unsigned int i = 0; i < oob_data.size(); i++) {
+      
+      std::vector<std::string> names = oob_data.names();
+      arma::mat temp = Rcpp::as<arma::mat>(oob_data[i]);
+      oob_data_map[ names[i] ] = temp;
+      
+    }
+    
+    obj = new logger::LogOobRisk (use_as_stopper, used_loss.getLoss(), eps_for_break,
+      oob_data_map, oob_response);
+    logger_id = "oob.risk";
   }
 };
 
@@ -572,8 +605,8 @@ public:
   LogTimeWrapper (bool use_as_stopper, unsigned int max_time, 
     std::string time_unit)
   {
-    obj = new logger::LogTime(use_as_stopper, max_time, time_unit);
-    logger_id = "time";
+    obj = new logger::LogTime (use_as_stopper, max_time, time_unit);
+    logger_id = "time." + time_unit;
   }
 };
 
@@ -641,6 +674,16 @@ RCPP_MODULE(logger_module)
   class_<LogIterationWrapper> ("LogIterations")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int> ()
+  ;
+  
+  class_<LogInbagRiskWrapper> ("LogInbagRisk")
+    .derives<LoggerWrapper> ("Logger")
+    .constructor<bool, LossWrapper, double> ()
+  ;
+  
+  class_<LogOobRiskWrapper> ("LogOobRisk")
+    .derives<LoggerWrapper> ("Logger")
+    .constructor<bool, LossWrapper, double, Rcpp::List, arma::vec> ()
   ;
   
   class_<LogTimeWrapper> ("LogTime")

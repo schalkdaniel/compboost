@@ -54,6 +54,7 @@
 #include <sstream> // ::stringstream
 
 #include "loss.h"
+#include "baselearner.h"
 
 namespace logger
 {
@@ -67,7 +68,8 @@ class Logger
 
   public:
     
-    virtual void LogStep (unsigned int, double) = 0;
+    virtual void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*,
+      double&, double&) = 0;
     
     // This one should check if the stop criteria is reached. If not it should
     // return 'true' otherwise 'false'. Every function should have this 
@@ -133,7 +135,8 @@ class LogIteration : public Logger
     LogIteration (bool, unsigned int);
     
     // This just loggs the iteration (unsigned int):
-    void LogStep (unsigned int, double);
+    void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
+      double&, double&);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     void ClearLoggerData();
@@ -146,8 +149,55 @@ class LogIteration : public Logger
 // InbagRisk:
 // -----------------------
 
+class LogInbagRisk : public Logger
+{
+  private:
+    loss::Loss* used_loss;
+    std::vector<double> tracked_inbag_risk;
+    double eps_for_break;
+    
+  public:
+    LogInbagRisk (bool, loss::Loss*, double);
+    
+    void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
+      double&, double&);
+    
+    bool ReachedStopCriteria ();
+    arma::vec GetLoggedData ();
+    void ClearLoggerData();
+    
+    std::string InitializeLoggerPrinter ();
+    std::string PrintLoggerStatus ();
+  
+};
+
 // OobRisk:
 // -----------------------
+
+class LogOobRisk : public Logger
+{
+private:
+  loss::Loss* used_loss;
+  std::vector<double> tracked_oob_risk;
+  double eps_for_break;
+  arma::vec oob_prediction;
+  std::map<std::string, arma::mat> oob_data;
+  arma::vec oob_response;
+  
+public:
+  LogOobRisk (bool, loss::Loss*, double, std::map<std::string, arma::mat>, arma::vec&);
+  
+  void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
+    double&, double&);
+  
+  bool ReachedStopCriteria ();
+  arma::vec GetLoggedData ();
+  void ClearLoggerData();
+  
+  std::string InitializeLoggerPrinter ();
+  std::string PrintLoggerStatus ();
+  
+};
 
 // LogTime:
 // -----------------------
@@ -165,7 +215,8 @@ class LogTime : public Logger
     
     LogTime (bool, unsigned int, std::string);
     
-    void LogStep (unsigned int, double);
+    void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
+      double&, double&);
     bool ReachedStopCriteria ();
     arma::vec GetLoggedData ();
     void ClearLoggerData();

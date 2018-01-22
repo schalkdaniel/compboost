@@ -20,8 +20,8 @@ devtools::install_github("schalkdaniel/compboost")
     - [ ] Implement spline baselearner
     
 - [ ] Logger:
-    - [ ] Implement OOB Logger
-    - [ ] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
+    - [x] Implement OOB Logger
+    - [x] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
     
 - [ ] General Implementation:
     - [x] Implement parameter getter

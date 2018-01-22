@@ -119,7 +119,9 @@ std::pair<std::vector<std::string>, arma::mat> LoggerList::GetLoggerData ()
   return std::pair<std::vector<std::string>, arma::mat>(logger_names, out_matrix);
 }
 
-void LoggerList::LogCurrent (unsigned int current_iteration, double current_risk)
+void LoggerList::LogCurrent (unsigned int current_iteration, arma::vec& response, 
+  arma::vec& prediction, blearner::Baselearner* used_blearner, double& offset,
+  double& learning_rate)
 {
   // Think about how to implement this the best way. I think the computations 
   // e.g. for the risk should be done within the logger object. If so, the
@@ -133,7 +135,8 @@ void LoggerList::LogCurrent (unsigned int current_iteration, double current_risk
   // This can be easily extended to an oob risk by just using the evaluation
   // data specified by initializing the logger list.
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    it->second->LogStep(current_iteration, current_risk);
+    it->second->LogStep(current_iteration, response, prediction, used_blearner, 
+      offset, learning_rate);
   }
 }
 

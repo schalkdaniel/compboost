@@ -6,11 +6,12 @@ test_that("register and delete of logger entries works", {
   log.time       = LogTime$new(FALSE, 500, "microseconds")
   
   logger.list = LoggerList$new()
+  
   logger.list$registerLogger(log.iterations)
   logger.list$registerLogger(log.time)
   
   expect_equal(logger.list$getNumberOfRegisteredLogger(), 2)
-  expect_equal(logger.list$getNamesOfRegisteredLogger(), c("iterations", "time"))
+  expect_equal(logger.list$getNamesOfRegisteredLogger(), c(" iterations", "time.microseconds"))
   
   logger.list$clearRegisteredLogger()
   
