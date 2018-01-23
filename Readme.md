@@ -15,9 +15,12 @@ devtools::install_github("schalkdaniel/compboost")
 - [ ] Technical Stuff:
     - [ ] Deal with destructors and remove data cleanly
     - [ ] Fix compboost that it doesn't crash `R` after some time
+    - [ ] Parallel computations:
+        - [ ] Greedy optimizer
+        - [ ] Data transformation for spline learner
     
 - [ ] Baselearner:
-    - [ ] Implement spline baselearner
+    - [ ] Implement P-Spline baselearner
     
 - [ ] Logger:
     - [x] Implement OOB Logger
