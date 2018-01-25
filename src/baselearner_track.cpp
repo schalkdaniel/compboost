@@ -154,7 +154,10 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
     arma::mat init_parameter (it.second.n_rows, it.second.n_cols, arma::fill::zeros);
     my_new_parameter_map[ it.first ] = init_parameter;
     
-    cols += it.second.n_cols;
+    // Note that parameter are stored as col vectors but in the matrix we want
+    // them as row vectors. Therefore we have to use rows to count the columns
+    // of the paraemter matrix. 
+    cols += it.second.n_rows;
   }
 
   // Initialize matrix:
@@ -173,9 +176,9 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
     arma::mat param_insert;
     
     for (auto& it : my_new_parameter_map) {
-      param_insert = arma::join_rows(param_insert, it.second);
+      param_insert = arma::join_cols(param_insert, it.second);
     }
-    parameters.row(i) = param_insert;
+    parameters.row(i) = param_insert.t();
   }
   std::pair<std::vector<std::string>, arma::mat> out_pair;
   
