@@ -212,6 +212,19 @@ arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
   return pred;
 }
 
+void Compboost::SummarizeCompboost ()
+{
+  std::cout << "Compboost object with:" << std::endl;
+  std::cout << "\t- Learning Rate: " << learning_rate << std::endl;
+  std::cout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
+  
+  if (blearner_track.GetBaselearnerVector().size() > 0) {
+    std::cout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
+  }
+  std::cout << std::endl;
+  std::cout << "To get more information check the other objects!" << std::endl;
+}
+
 arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> data_map, unsigned int k)
 {
   // std::cout << "Get into Compboost::Predict" << std::endl;
