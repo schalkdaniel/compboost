@@ -47,12 +47,11 @@ namespace blearner {
 
 // Copy (or initialize) the members in new copied class:
 void Baselearner::CopyMembers (arma::mat parameter0, std::string blearner_identifier0, 
-  arma::mat& data0, std::string& data_identifier0)
+  arma::mat& data0)
 {
   parameter = parameter0;
   blearner_identifier = blearner_identifier0;
   data_ptr = &data0;
-  data_identifier_ptr = &data_identifier0;
 }
 
 // Set the data pointer:
@@ -68,15 +67,15 @@ arma::mat Baselearner::GetData ()
 }
 
 // Set the data identifier:
-void Baselearner::SetDataIdentifier (std::string& data_identifier)
+void Baselearner::SetDataIdentifier (std::string& data_identifier0)
 {
-  data_identifier_ptr = &data_identifier;
+  data_identifier = data_identifier0;
 }
 
 // Get the data identifier:
 std::string Baselearner::GetDataIdentifier ()
 {
-  return *data_identifier_ptr;
+  return data_identifier;
 }
 
 // Get the parameter obtained by training:
@@ -146,7 +145,7 @@ Polynomial::Polynomial (arma::mat &data, std::string &data_identifier,
 Baselearner* Polynomial::Clone ()
 {
   Baselearner* newbl = new Polynomial(*this);
-  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr, *this->data_identifier_ptr);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
   
   return newbl;
 }
@@ -208,7 +207,7 @@ Custom::Custom (arma::mat& data, std::string& data_identifier, std::string& iden
 Baselearner* Custom::Clone ()
 {
   Baselearner* newbl = new Custom (*this);
-  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr, *this->data_identifier_ptr);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
   
   return newbl;
 }
@@ -288,7 +287,7 @@ CustomCpp::CustomCpp (arma::mat& data, std::string& data_identifier, std::string
 Baselearner* CustomCpp::Clone ()
 {
   Baselearner* newbl = new CustomCpp (*this);
-  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr, *this->data_identifier_ptr);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
   
   return newbl;
 }

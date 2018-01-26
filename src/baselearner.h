@@ -79,7 +79,7 @@ class Baselearner
     
     // Copy function to set all members within the copy. It is more convenient
     // to do this once instead of copy and pasting every element every time:
-    void CopyMembers (arma::mat, std::string, arma::mat &, std::string &);
+    void CopyMembers (arma::mat, std::string, arma::mat &);
     
     // Within 'SetData' the pointer will be setted, while 'InstantiateData'
     // overwrite the object on which 'data_ptr' points. This guarantees that 
@@ -119,7 +119,7 @@ class Baselearner
     std::string blearner_identifier;
     std::string* blearner_type;
     arma::mat* data_ptr;
-    std::string* data_identifier_ptr;
+    std::string data_identifier;
     
 };
 

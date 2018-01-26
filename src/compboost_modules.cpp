@@ -62,10 +62,12 @@ class PolynomialWrapper : public BaselearnerWrapper
 {
 private:
   arma::mat data;
+  unsigned int degree;
   
 public:
   
   PolynomialWrapper (arma::mat data0, std::string data_id, unsigned int degree)
+    : degree ( degree )
   {
     std::string temp = "test polynomial of degree " + std::to_string(degree);
     obj = new blearner::Polynomial(data, data_id, temp, degree);
@@ -94,6 +96,25 @@ public:
   arma::vec predictNewdata (arma::mat newdata)
   {
     return obj->predict(newdata);
+  }
+  
+  void summarizeBaselearner ()
+  {
+    if (degree == 1) {
+      std::cout << "Linear baselearner:" << std::endl;
+      
+    }
+    if (degree == 2) {
+      std::cout << "Quadratic baselearner:" << std::endl;
+    }
+    if (degree == 3) {
+      std::cout << "Cubic baselearner:" << std::endl;
+    } 
+    if (degree > 3) {
+      std::cout << "Polynomial baselearner of degree " << degree << std::endl;
+    }
+    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
   }
 };
 
@@ -136,6 +157,14 @@ public:
   {
     return obj->predict(newdata);
   }
+  
+  void summarizeBaselearner ()
+  {
+    std::cout << "Custom baselearner:" << std::endl;
+      
+    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
+  }
 };
 
 class CustomCppWrapper : public BaselearnerWrapper
@@ -177,6 +206,14 @@ public:
   {
     return obj->predict(newdata);
   }
+  
+  void summarizeBaselearner ()
+  {
+    std::cout << "CustomCpp baselearner:" << std::endl;
+    
+    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
+  }
 };
 
 RCPP_MODULE(baselearner_module)
@@ -195,6 +232,7 @@ RCPP_MODULE(baselearner_module)
     .method("predict",        &PolynomialWrapper::predict, "GetParameter function of the baselearner")
     .method("predictNewdata", &PolynomialWrapper::predictNewdata, "Predict with newdata")
     .method("getData",        &PolynomialWrapper::getData, "Get data used for modelling")
+    .method("summarizeBaselearner", &PolynomialWrapper::summarizeBaselearner, "Summarize Baselearner")
   ;
   
   class_<CustomWrapper> ("Custom")
@@ -205,6 +243,7 @@ RCPP_MODULE(baselearner_module)
     .method("predict",        &CustomWrapper::predict, "GetParameter function of the baselearner")
     .method("predictNewdata", &CustomWrapper::predictNewdata, "Predict with newdata")
     .method("getData",        &CustomWrapper::getData, "Get data used for modelling")
+    .method("summarizeBaselearner", &CustomWrapper::summarizeBaselearner, "Summarize Baselearner")
   ;
   
   class_<CustomCppWrapper> ("CustomCpp")
@@ -215,6 +254,7 @@ RCPP_MODULE(baselearner_module)
     .method("predict",        &CustomCppWrapper::predict, "GetParameter function of the baselearner")
     .method("predictNewdata", &CustomCppWrapper::predictNewdata, "Predict with newdata")
     .method("getData",        &CustomCppWrapper::getData, "Get data used for modelling")
+    .method("summarizeBaselearner", &CustomCppWrapper::summarizeBaselearner, "Summarize Baselearner")
   ;
 }
 
@@ -241,26 +281,42 @@ protected:
 // Wrapper around the PolynomialFactory:
 class PolynomialFactoryWrapper : public BaselearnerFactoryWrapper
 {
+  
+private:
+  unsigned int degree;
+  
 public:
   
   PolynomialFactoryWrapper (arma::mat data, std::string data_identifier, 
     unsigned int degree) 
+    : degree ( degree )
   {
     obj = new blearnerfactory::PolynomialFactory("polynomial", data, 
       data_identifier, degree);
-    
-    // std::string test = "polynomial test";
-    // test_obj = obj->CreateBaselearner(test);
   }
-  
-  // void testTrain (arma::vec& y) { test_obj->train(y); }
-  // arma::mat testPredict () { return test_obj->predict(); }
-  // arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
-  // arma::mat testGetParameter () { return test_obj->GetParameter(); }
-  
+
   arma::mat getData () { return obj->GetData(); }
   std::string getDataIdentifier () { return obj->GetDataIdentifier(); }
   std::string getBaselearnerType () { return obj->GetBaselearnerType(); }
+  
+  void summarizeFactory ()
+  {
+    if (degree == 1) {
+      std::cout << "Linear baselearner factory:" << std::endl;
+      
+    }
+    if (degree == 2) {
+      std::cout << "Quadratic baselearner factory:" << std::endl;
+    }
+    if (degree == 3) {
+      std::cout << "Cubic baselearner factory:" << std::endl;
+    } 
+    if (degree > 3) {
+      std::cout << "Polynomial baselearner of degree " << degree << " factory:" << std::endl;
+    }
+    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
+  }
 };
 
 // Wrapper around the CustomFactory:
@@ -275,19 +331,19 @@ public:
     obj = new blearnerfactory::CustomFactory("custom", data, 
       data_identifier, instantiateDataFun, trainFun, predictFun, 
       extractParameter);
-    
-    // std::string test = "custom test";
-    // test_obj = obj->CreateBaselearner(test);
   }
-  
-  // void testTrain (arma::vec& y) { test_obj->train(y); }
-  // arma::mat testPredict () { return test_obj->predict(); }
-  // arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
-  // arma::mat testGetParameter () { return test_obj->GetParameter(); }
-  
+
   arma::mat getData () { return obj->GetData(); }
   std::string getDataIdentifier () { return obj->GetDataIdentifier(); }
   std::string getBaselearnerType () { return obj->GetBaselearnerType(); }
+  
+  void summarizeFactory ()
+  {
+    std::cout << "Custom baselearner Factory:" << std::endl;
+      
+    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
+  }
 };
 
 // Wrapper around the CustomCppFactory:
@@ -300,19 +356,19 @@ public:
   {
     obj = new blearnerfactory::CustomCppFactory("custom cpp", data, 
       data_identifier, instantiateDataFun, trainFun, predictFun);
-    
-    // std::string test = "custom cpp test";
-    // test_obj = obj->CreateBaselearner(test);
   }
-  
-  // void testTrain (arma::vec& y) { test_obj->train(y); }
-  // arma::mat testPredict () { return test_obj->predict(); }
-  // arma::mat testPredictNewdata (arma::mat& newdata) { return test_obj->predict(newdata); }
-  // arma::mat testGetParameter () { return test_obj->GetParameter(); }
   
   arma::mat getData () { return obj->GetData(); }
   std::string getDataIdentifier () { return obj->GetDataIdentifier(); }
   std::string getBaselearnerType () { return obj->GetBaselearnerType(); }
+  
+  void summarizeFactory ()
+  {
+    std::cout << "CustomCpp baselearner Factory:" << std::endl;
+    
+    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
+  }
 };
 
 RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
@@ -327,31 +383,22 @@ RCPP_MODULE (baselearner_factory_module)
   class_<PolynomialFactoryWrapper> ("PolynomialFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<arma::mat, std::string, unsigned int> ()
-  // .method("testTrain",        &PolynomialFactoryWrapper::testTrain, "Test the train function of the created baselearner")
-  // .method("testPredict",      &PolynomialFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
-  // .method("testGetParameter", &PolynomialFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
      .method("getData",          &PolynomialFactoryWrapper::getData, "Get the data which the factory uses")
-  // .method("testPredictNewdata", &PolynomialFactoryWrapper::testPredictNewdata, "Predict with newdata")
+     .method("summarizeFactory", &PolynomialFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
   
   class_<CustomFactoryWrapper> ("CustomFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<arma::mat, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-  // .method("testTrain",        &CustomFactoryWrapper::testTrain, "Test the train function of the created baselearner")
-  // .method("testPredict",      &CustomFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
-  // .method("testGetParameter", &CustomFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
      .method("getData",          &CustomFactoryWrapper::getData, "Get the data which the factory uses")
-  // .method("testPredictNewdata", &CustomFactoryWrapper::testPredictNewdata, "Predict with newdata")
+     .method("summarizeFactory", &CustomFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
   
   class_<CustomCppFactoryWrapper> ("CustomCppFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<arma::mat, std::string, SEXP, SEXP, SEXP> ()
-  // .method("testTrain",        &CustomCppFactoryWrapper::testTrain, "Test the train function of the created baselearner")
-  // .method("testPredict",      &CustomCppFactoryWrapper::testPredict, "Test the predict function of the created baselearner")
-  // .method("testGetParameter", &CustomCppFactoryWrapper::testGetParameter, "Test the GetParameter function of the created baselearner")
      .method("getData",          &CustomCppFactoryWrapper::getData, "Get the data which the factory uses")
-  // .method("testPredictNewdata", &CustomCppFactoryWrapper::testPredictNewdata, "Predict with newdata")
+     .method("summarizeFactory", &CustomCppFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 }
 
@@ -558,26 +605,61 @@ protected:
 
 class LogIterationWrapper : public LoggerWrapper
 {
+  
+private:
+  unsigned int max_iterations;
+  bool use_as_stopper;
+  
 public:
   LogIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
+    : max_iterations ( max_iterations ),
+      use_as_stopper ( use_as_stopper )
   {
     obj = new logger::LogIteration (use_as_stopper, max_iterations);
     logger_id = " iterations";
+  }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Iteration logger:" << std::endl;
+    std::cout << "\t- Maximal iterations: " << max_iterations << std::endl;
+    std::cout << "\t- Use logger as stopper: " << use_as_stopper << std::endl;
   }
 };
 
 class LogInbagRiskWrapper : public LoggerWrapper
 {
+  
+private:
+  double eps_for_break;
+  bool use_as_stopper;
+  
 public:
   LogInbagRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break)
+    : eps_for_break ( eps_for_break ),
+      use_as_stopper ( use_as_stopper)
   {
     obj = new logger::LogInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
     logger_id = "inbag.risk";
+  }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Inbag risk logger:" << std::endl;
+    if (use_as_stopper) {
+      std::cout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+    }
+    std::cout << "\t- Use logger as stopper: " << use_as_stopper;
   }
 };
 
 class LogOobRiskWrapper : public LoggerWrapper
 {
+  
+private:
+  double eps_for_break;
+  bool use_as_stopper;
+  
 public:
   LogOobRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
@@ -597,16 +679,43 @@ public:
       oob_data_map, oob_response);
     logger_id = "oob.risk";
   }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Out of bag risk logger:" << std::endl;
+    if (use_as_stopper) {
+      std::cout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+    }
+    std::cout << "\t- Use logger as stopper: " << use_as_stopper;
+  }
 };
 
 class LogTimeWrapper : public LoggerWrapper
 {
+  
+private:
+  bool use_as_stopper;
+  unsigned int max_time;
+  std::string time_unit;
+  
 public:
   LogTimeWrapper (bool use_as_stopper, unsigned int max_time, 
     std::string time_unit)
+    : use_as_stopper ( use_as_stopper ),
+      max_time ( max_time ),
+      time_unit ( time_unit )
   {
     obj = new logger::LogTime (use_as_stopper, max_time, time_unit);
     logger_id = "time." + time_unit;
+  }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Time logger:" << std::endl;
+    if (use_as_stopper) {
+      std::cout << "\t- Stop algorithm if " << max_time << " " << time_unit << " are over" << std::endl;
+    }
+    std::cout << "\t- Tracked time unit: " << time_unit << std::endl;
   }
 };
 
@@ -674,21 +783,25 @@ RCPP_MODULE(logger_module)
   class_<LogIterationWrapper> ("LogIterations")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int> ()
+    .method("summarizeLogger", &LogIterationWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LogInbagRiskWrapper> ("LogInbagRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper, double> ()
+    .method("summarizeLogger", &LogInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LogOobRiskWrapper> ("LogOobRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper, double, Rcpp::List, arma::vec> ()
+    .method("summarizeLogger", &LogOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LogTimeWrapper> ("LogTime")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int, std::string> ()
+    .method("summarizeLogger", &LogTimeWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LoggerListWrapper> ("LoggerList")
@@ -879,6 +992,11 @@ public:
     return obj->PredictionOfIteration(data_map, k);
   }
   
+  void summarizeCompboost ()
+  {
+    obj->SummarizeCompboost();
+  }
+  
   // Destructor:
   ~CompboostWrapper ()
   {
@@ -918,6 +1036,7 @@ RCPP_MODULE (compboost_module)
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
     .method("predict", &CompboostWrapper::predict, "Predict newdata")
     .method("predictionOfIteration", &CompboostWrapper::predictionOfIteration, "Predict newdata for iteration k < iter.max")
+    .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
   ;
 }
 

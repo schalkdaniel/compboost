@@ -100,6 +100,8 @@ class Compboost
     arma::vec Predict (std::map<std::string, arma::mat>);
     arma::vec PredictionOfIteration (std::map<std::string, arma::mat>, unsigned int);
     
+    void SummarizeCompboost ();
+    
     // Destructor:
     ~Compboost ();
     
