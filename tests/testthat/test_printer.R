@@ -162,6 +162,52 @@ test_that("Baselearner factory printer works", {
   expect_equal(custom.factory.printer, "CustomFactoryPrinter")
 })
 
+test_that("Logger(List) printer works", {
+  loss.quadratic = QuadraticLoss$new()
+  
+  
+  eval.oob.test = list(
+    "hp" = as.matrix(NA_real_),
+    "wt" = as.matrix(NA_real_)
+  )
+  
+  y = NA_real_
+  
+  log.iterations = LogIterations$new(TRUE, 500)
+  log.time       = LogTime$new(FALSE, 500, "microseconds")
+  log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.05)
+  log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
+  
+  # Define new logger list:
+  logger.list = LoggerList$new()
+  
+  # Register the logger:
+  logger.list$registerLogger(log.iterations)
+  logger.list$registerLogger(log.time)
+  logger.list$registerLogger(log.inbag)
+  logger.list$registerLogger(log.oob)
+  
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  log.iterations.printer = show(log.iterations)
+  log.time.printer       = show(log.time)
+  log.inbag              = show(log.inbag)
+  log.oob                = show(log.oob)
+  
+  logger.list.printer    = show(logger.list)
+  
+  sink() 
+  close(tc) 
+  
+  expect_equal(log.iterations.printer, "LogIterationsPrinter")
+  expect_equal(log.time.printer, "LogTimePrinter")
+  expect_equal(log.inbag, "LogInbagRiskPrinter")
+  expect_equal(log.oob, "LogOobRiskPrinter")
+  
+  expect_equal(logger.list.printer, "LoggerListPrinter")
+})
+
 test_that("Compboost printer works", {
   
   df = mtcars

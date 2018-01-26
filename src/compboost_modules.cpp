@@ -605,26 +605,61 @@ protected:
 
 class LogIterationWrapper : public LoggerWrapper
 {
+  
+private:
+  unsigned int max_iterations;
+  bool use_as_stopper;
+  
 public:
   LogIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
+    : max_iterations ( max_iterations ),
+      use_as_stopper ( use_as_stopper )
   {
     obj = new logger::LogIteration (use_as_stopper, max_iterations);
     logger_id = " iterations";
+  }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Iteration logger:" << std::endl;
+    std::cout << "\t- Maximal iterations: " << max_iterations << std::endl;
+    std::cout << "\t- Use logger as stopper: " << use_as_stopper << std::endl;
   }
 };
 
 class LogInbagRiskWrapper : public LoggerWrapper
 {
+  
+private:
+  double eps_for_break;
+  bool use_as_stopper;
+  
 public:
   LogInbagRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break)
+    : eps_for_break ( eps_for_break ),
+      use_as_stopper ( use_as_stopper)
   {
     obj = new logger::LogInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
     logger_id = "inbag.risk";
+  }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Inbag risk logger:" << std::endl;
+    if (use_as_stopper) {
+      std::cout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+    }
+    std::cout << "\t- Use logger as stopper: " << use_as_stopper;
   }
 };
 
 class LogOobRiskWrapper : public LoggerWrapper
 {
+  
+private:
+  double eps_for_break;
+  bool use_as_stopper;
+  
 public:
   LogOobRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
@@ -644,16 +679,43 @@ public:
       oob_data_map, oob_response);
     logger_id = "oob.risk";
   }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Out of bag risk logger:" << std::endl;
+    if (use_as_stopper) {
+      std::cout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+    }
+    std::cout << "\t- Use logger as stopper: " << use_as_stopper;
+  }
 };
 
 class LogTimeWrapper : public LoggerWrapper
 {
+  
+private:
+  bool use_as_stopper;
+  unsigned int max_time;
+  std::string time_unit;
+  
 public:
   LogTimeWrapper (bool use_as_stopper, unsigned int max_time, 
     std::string time_unit)
+    : use_as_stopper ( use_as_stopper ),
+      max_time ( max_time ),
+      time_unit ( time_unit )
   {
     obj = new logger::LogTime (use_as_stopper, max_time, time_unit);
     logger_id = "time." + time_unit;
+  }
+  
+  void summarizeLogger ()
+  {
+    std::cout << "Time logger:" << std::endl;
+    if (use_as_stopper) {
+      std::cout << "\t- Stop algorithm if " << max_time << " " << time_unit << " are over" << std::endl;
+    }
+    std::cout << "\t- Tracked time unit: " << time_unit << std::endl;
   }
 };
 
@@ -721,21 +783,25 @@ RCPP_MODULE(logger_module)
   class_<LogIterationWrapper> ("LogIterations")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int> ()
+    .method("summarizeLogger", &LogIterationWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LogInbagRiskWrapper> ("LogInbagRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper, double> ()
+    .method("summarizeLogger", &LogInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LogOobRiskWrapper> ("LogOobRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper, double, Rcpp::List, arma::vec> ()
+    .method("summarizeLogger", &LogOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LogTimeWrapper> ("LogTime")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int, std::string> ()
+    .method("summarizeLogger", &LogTimeWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LoggerListWrapper> ("LoggerList")

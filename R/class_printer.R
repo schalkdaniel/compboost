@@ -158,6 +158,63 @@ ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
 })
 
 # ---------------------------------------------------------------------------- #
+# Logger:
+# ---------------------------------------------------------------------------- #
+
+setClass("Rcpp_LogIterations")
+ignore.me = setMethod("show", "Rcpp_LogIterations", function (object) {
+  cat("\n")
+  object$summarizeLogger()
+  cat("\n\n")
+  
+  return ("LogIterationsPrinter")
+})
+
+setClass("Rcpp_LogInbagRisk")
+ignore.me = setMethod("show", "Rcpp_LogInbagRisk", function (object) {
+  cat("\n")
+  object$summarizeLogger()
+  cat("\n\n")
+  
+  return ("LogInbagRiskPrinter")
+})
+
+setClass("Rcpp_LogOobRisk")
+ignore.me = setMethod("show", "Rcpp_LogOobRisk", function (object) {
+  cat("\n")
+  object$summarizeLogger()
+  cat("\n\n")
+  
+  return ("LogOobRiskPrinter")
+})
+
+setClass("Rcpp_LogTime")
+ignore.me = setMethod("show", "Rcpp_LogTime", function (object) {
+  cat("\n")
+  object$summarizeLogger()
+  cat("\n\n")
+  
+  return ("LogTimePrinter")
+})
+
+# ---------------------------------------------------------------------------- #
+# Loggerlist:
+# ---------------------------------------------------------------------------- #
+
+setClass("Rcpp_LoggerList")
+ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
+  cat("\n")
+  object$printRegisteredLogger()
+  cat("\n\n")
+  
+  return ("LoggerListPrinter")
+})
+
+# ---------------------------------------------------------------------------- #
+# Optimizer:
+# ---------------------------------------------------------------------------- #
+
+# ---------------------------------------------------------------------------- #
 # Compboost:
 # ---------------------------------------------------------------------------- #
 
