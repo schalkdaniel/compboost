@@ -70,3 +70,84 @@ test_that("custom baselearner works correctly", {
     as.matrix(unname(predict(mod, newdata = data.frame(x = newdata))))
   )
 })
+
+test_that("CustomCpp baselearner works", {
+  
+  sourceCpp(code = '
+    // [[Rcpp::depends(RcppArmadillo)]]
+    #include <RcppArmadillo.h>
+    
+    typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
+    typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
+    typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+    
+    
+    // instantiateDataFun:
+    // -------------------
+    
+    arma::mat instantiateDataFun (arma::mat& X)
+    {
+    return X;
+    }
+    
+    // trainFun:
+    // -------------------
+    
+    arma::mat trainFun (arma::vec& y, arma::mat& X)
+    {
+    return arma::solve(X, y);
+    }
+    
+    // predictFun:
+    // -------------------
+    
+    arma::mat predictFun (arma::mat& newdata, arma::mat& parameter)
+    {
+    return newdata * parameter;
+    }
+    
+    
+    // Setter function:
+    // ------------------
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<instantiateDataFunPtr> dataFunSetter ()
+    {
+    return Rcpp::XPtr<instantiateDataFunPtr> (new instantiateDataFunPtr (&instantiateDataFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<trainFunPtr> trainFunSetter ()
+    {
+    return Rcpp::XPtr<trainFunPtr> (new trainFunPtr (&trainFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<predictFunPtr> predictFunSetter ()
+    {
+    return Rcpp::XPtr<predictFunPtr> (new predictFunPtr (&predictFun));
+    }'
+  )
+  
+  x = 1:10
+  X = matrix(x, ncol = 1)
+  y = 3 * 1:10 + rnorm(10)
+  newdata = runif(10, 1, 10)
+
+  X.test = as.matrix(runif(200))
+
+  custom.cpp.blearner = CustomCpp$new(X, "my_variable_name", dataFunSetter(),
+    trainFunSetter(), predictFunSetter())
+  
+  custom.cpp.blearner$train(y)
+  
+  mod = lm(y ~ 0 + x)
+
+  expect_equal(custom.cpp.blearner$getData(), X)
+  expect_equal(as.numeric(custom.cpp.blearner$getParameter()), unname(coef(mod)))
+  expect_equal(custom.cpp.blearner$predict(), as.matrix(unname(predict(mod))))
+  expect_equal(
+    custom.cpp.blearner$predictNewdata(as.matrix(newdata, ncol = 1)),
+    as.matrix(unname(predict(mod, newdata = data.frame(x = newdata))))
+  )
+})
