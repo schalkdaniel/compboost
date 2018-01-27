@@ -214,6 +214,17 @@ ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
 # Optimizer:
 # ---------------------------------------------------------------------------- #
 
+setClass("Rcpp_GreedyOptimizer")
+ignore.me = setMethod("show", "Rcpp_GreedyOptimizer", function (object) {
+  cat("\n")
+  cat("Greedy optimizer! Optmizing over all baselearner in each iteration and",
+    "choose the one with the lowest SSE.\n")
+  cat("\n\n")
+  
+  return (invisible("GreedyOptimizerPrinter"))
+})
+
+
 # ---------------------------------------------------------------------------- #
 # Compboost:
 # ---------------------------------------------------------------------------- #
