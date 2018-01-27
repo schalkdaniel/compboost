@@ -112,25 +112,72 @@ test_that("custom factory works", {
 })
 
 
-# test_that("custom cpp factory works", {
-#   
-#   suppressWarnings(
-#     Rcpp::sourceCpp("../../external_test_files/custom_cpp_learner.cpp")
-#   )
-#   
-#   set.seed(pi)
-#   X = matrix(1:10, ncol = 1)
-#   y = 3 * as.numeric(X) + rnorm(10, 0, 2)
-#   
-#   X.test = as.matrix(runif(200))
-#   
-#   custom.cpp.factory = CustomCppFactory$new(X, "my_variable_name", dataFunSetter(),
-#     trainFunSetter(), predictFunSetter())
-#   
-#   custom.cpp.factory$testTrain(y)
-#   
-#   expect_equal(custom.cpp.factory$getData(), X)
-#   expect_equal(custom.cpp.factory$testGetParameter(), solve(t(X) %*% X) %*% t(X) %*% y)
-#   expect_equal(custom.cpp.factory$testPredict(), X %*% solve(t(X) %*% X) %*% t(X) %*% y)
-#   expect_equal(custom.cpp.factory$testPredictNewdata(X.test), X.test %*% solve(t(X) %*% X) %*% t(X) %*% y)
-# })
+test_that("custom cpp factory works", {
+
+  Rcpp::sourceCpp(code = '
+    // [[Rcpp::depends(RcppArmadillo)]]
+    #include <RcppArmadillo.h>
+    
+    typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
+    typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
+    typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+    
+    
+    // instantiateDataFun:
+    // -------------------
+    
+    arma::mat instantiateDataFun (arma::mat& X)
+    {
+    return X;
+    }
+    
+    // trainFun:
+    // -------------------
+    
+    arma::mat trainFun (arma::vec& y, arma::mat& X)
+    {
+    return arma::solve(X, y);
+    }
+    
+    // predictFun:
+    // -------------------
+    
+    arma::mat predictFun (arma::mat& newdata, arma::mat& parameter)
+    {
+    return newdata * parameter;
+    }
+    
+    
+    // Setter function:
+    // ------------------
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<instantiateDataFunPtr> dataFunSetter ()
+    {
+    return Rcpp::XPtr<instantiateDataFunPtr> (new instantiateDataFunPtr (&instantiateDataFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<trainFunPtr> trainFunSetter ()
+    {
+    return Rcpp::XPtr<trainFunPtr> (new trainFunPtr (&trainFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<predictFunPtr> predictFunSetter ()
+    {
+    return Rcpp::XPtr<predictFunPtr> (new predictFunPtr (&predictFun));
+    }'
+  )
+  
+  set.seed(pi)
+  X = matrix(1:10, ncol = 1)
+  y = 3 * as.numeric(X) + rnorm(10, 0, 2)
+
+  X.test = as.matrix(runif(200))
+
+  custom.cpp.factory = CustomCppFactory$new(X, "my_variable_name", dataFunSetter(),
+    trainFunSetter(), predictFunSetter())
+
+  expect_equal(custom.cpp.factory$getData(), X)
+})
