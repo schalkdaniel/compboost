@@ -321,7 +321,7 @@ test_that("Compboost printer works", {
   tc = textConnection(NULL, "w") 
   sink(tc) 
   
-  cboost$train(trace = FALSE)
+  cboost$train(trace = TRUE)
   cboost.printer = show(cboost)
   
   sink() 
