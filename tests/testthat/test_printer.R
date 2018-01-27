@@ -162,6 +162,22 @@ test_that("Baselearner factory printer works", {
   expect_equal(custom.factory.printer, "CustomFactoryPrinter")
 })
 
+test_that("Optimizer printer works", {
+  
+  greedy.optimizer = GreedyOptimizer$new()
+  
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  greedy.optimizer.printer = show(greedy.optimizer)
+  
+  sink() 
+  close(tc) 
+  
+  expect_equal(greedy.optimizer.printer, "GreedyOptimizerPrinter")
+  
+})
+
 test_that("Logger(List) printer works", {
   loss.quadratic = QuadraticLoss$new()
   
@@ -255,13 +271,6 @@ test_that("Compboost printer works", {
   factory.list$registerFactory(linear.factory.hp)
   factory.list$registerFactory(linear.factory.wt)
   factory.list$registerFactory(quadratic.factory.hp)
-  
-  # Print the registered factorys:
-  factory.list$printRegisteredFactorys()
-  
-  # Print model.frame:
-  factory.list$getModelFrame()
-  
   
   ## Loss
   

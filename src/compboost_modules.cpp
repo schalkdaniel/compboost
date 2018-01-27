@@ -908,6 +908,7 @@ public:
   void train (bool trace) 
   {
     obj->TrainCompboost(trace);
+    is_trained = true;
   }
   
   arma::vec getPrediction ()
@@ -997,6 +998,11 @@ public:
     obj->SummarizeCompboost();
   }
   
+  bool isTrained ()
+  {
+    return is_trained;
+  }
+  
   // Destructor:
   ~CompboostWrapper ()
   {
@@ -1017,6 +1023,8 @@ private:
   
   unsigned int max_iterations;
   double learning_rate0;
+  
+  bool is_trained = false;
 };
 
 
@@ -1037,6 +1045,7 @@ RCPP_MODULE (compboost_module)
     .method("predict", &CompboostWrapper::predict, "Predict newdata")
     .method("predictionOfIteration", &CompboostWrapper::predictionOfIteration, "Predict newdata for iteration k < iter.max")
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
+    .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
   ;
 }
 

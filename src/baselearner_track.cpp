@@ -183,7 +183,13 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
   std::pair<std::vector<std::string>, arma::mat> out_pair;
   
   for (auto& it : my_new_parameter_map) {
-    out_pair.first.push_back(it.first);
+    if (it.second.n_rows > 1) {
+      for (unsigned int i = 0; i < it.second.n_rows; i++) {
+        out_pair.first.push_back(it.first + " x" + std::to_string(i + 1));
+      }
+    } else {
+      out_pair.first.push_back(it.first);
+    }
   }
   out_pair.second = parameters;
   
