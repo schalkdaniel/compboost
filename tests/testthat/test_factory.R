@@ -114,7 +114,7 @@ test_that("custom factory works", {
 
 test_that("custom cpp factory works", {
 
-  sourceCpp(code = '
+  Rcpp::sourceCpp(code = '
     // [[Rcpp::depends(RcppArmadillo)]]
     #include <RcppArmadillo.h>
     

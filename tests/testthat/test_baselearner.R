@@ -73,7 +73,7 @@ test_that("custom baselearner works correctly", {
 
 test_that("CustomCpp baselearner works", {
   
-  sourceCpp(code = '
+  Rcpp::sourceCpp(code = '
     // [[Rcpp::depends(RcppArmadillo)]]
     #include <RcppArmadillo.h>
     
