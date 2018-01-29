@@ -76,16 +76,16 @@ extractParameter = function (model) {
 Now we define the factory:
 
 ```{r}
-custom.r.factory1 = CustomFactory$new(X, "varname", instantiateDataFun, 
+custom.r.learner1 = CustomBlearner$new(X, "varname", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 ```
 
 And basically thats it. Now we can test if our factory works correctly:
 
 ```{r}
-custom.r.factory1$getData()
-custom.r.factory1$testTrain(y)
-custom.r.factory1$testGetParameter()
+custom.r.learner1$getData()
+custom.r.learner1$train(y)
+custom.r.learner1$getParameter()
 
 trainFun(y, X)
 ```
@@ -119,16 +119,16 @@ extractParameter = function (model) {
 Now we define the factory:
 
 ```{r}
-custom.r.factory2 = CustomFactory$new(X, "varname", instantiateDataFun, 
+custom.r.learner2 = CustomBlearner$new(X, "varname", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 ```
 
 And basically thats it. Now we can test if our factory works correctly:
 
 ```{r}
-custom.r.factory2$getData()
-custom.r.factory2$testTrain(y)
-custom.r.factory2$testGetParameter()
+custom.r.learner2$getData()
+custom.r.learner2$train(y)
+custom.r.learner2$getParameter()
 
 trainFun(y, X)
 ```
@@ -180,12 +180,12 @@ Rcpp::cppFunction(extractParameter.code, depends = "RcppArmadillo")
 Now we can give this function to the new factory and test if it works:
 
 ```{r}
-custom.r.factory3 = CustomFactory$new(X, "varname", instantiateDataFun, 
+custom.r.learner3 = CustomBlearner$new(X, "varname", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 
-custom.r.factory3$getData()
-custom.r.factory3$testTrain(y)
-custom.r.factory3$testGetParameter()
+custom.r.learner3$getData()
+custom.r.learner3$train(y)
+custom.r.learner3$getParameter()
 
 trainFun(y, X)
 ```
@@ -202,12 +202,12 @@ class:
 ```{r}
 Rcpp::sourceCpp(file = "custom_cpp_learner.cpp")
 
-custom.cpp.factory = CustomCppFactory$new(X, "varname", dataFunSetter(),
+custom.cpp.learner = CustomCppBlearner$new(X, "varname", dataFunSetter(),
   trainFunSetter(), predictFunSetter())
 
-custom.cpp.factory$getData()
-custom.cpp.factory$testTrain(y)
-custom.cpp.factory$testGetParameter()
+custom.cpp.learner$getData()
+custom.cpp.learner$train(y)
+custom.cpp.learner$getParameter()
 ```
 
 This also seems to work, nice!
@@ -217,11 +217,11 @@ This also seems to work, nice!
 The last option here is to use the pre implemented one:
 
 ```{r}
-linear.factory = PolynomialFactory$new(X, "varname", 1)
+linear.learner = PolynomialBlearner$new(X, "varname", 1)
 
-linear.factory$getData()
-linear.factory$testTrain(y)
-linear.factory$testGetParameter()
+linear.learner$getData()
+linear.learner$train(y)
+linear.learner$getParameter()
 ```
 
 This works as expected. 
@@ -231,13 +231,14 @@ This works as expected.
 Now we want to see where differences are in terms of performance of the 
 training:
 
-```{r}
+```{r, echo=-1}
+options(width = 800)
 microbenchmark::microbenchmark(
-  "custom_r_1"    = custom.r.factory1$testTrain(y),
-  "custom_r_2"    = custom.r.factory2$testTrain(y),
-  "custom_r_3"    = custom.r.factory3$testTrain(y),
-  "custom_cpp"    = custom.cpp.factory$testTrain(y),
-  "pre_installed" = linear.factory$testTrain(y)
+  "custom_r_1"    = custom.r.learner1$train(y),
+  "custom_r_2"    = custom.r.learner2$train(y),
+  "custom_r_3"    = custom.r.learner3$train(y),
+  "custom_cpp"    = custom.cpp.learner$train(y),
+  "pre_installed" = linear.learner$train(y)
 )
 ```
 

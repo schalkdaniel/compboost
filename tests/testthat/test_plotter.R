@@ -34,14 +34,14 @@ test_that("Parameter plotter works", {
   ## Baselearner
   
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialFactory$new(X.hp, "hp", 1)
-  linear.factory.wt = PolynomialFactory$new(X.wt, "wt", 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 1)
+  linear.factory.wt = PolynomialBlearnerFactory$new(X.wt, "wt", 1)
   
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialFactory$new(X.hp, "hp", 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 2)
   
   # Create new factory list:
-  factory.list = FactoryList$new()
+  factory.list = BlearnerFactoryList$new()
   
   # Register factorys:
   factory.list$registerFactory(linear.factory.hp)

@@ -9,28 +9,28 @@ test_that("polynomial baselearner works correctly", {
   y.cubic = 0.5 * x.cubic + rnorm(10)
   newdata = runif(10, 1, 10)
   
-  linear = Polynomial$new(X, "myvariable", 1)
-  cubic  = Polynomial$new(X, "myvariable", 3)
+  linear.blearner = PolynomialBlearner$new(X, "myvariable", 1)
+  cubic.blearner  = PolynomialBlearner$new(X, "myvariable", 3)
   
-  linear$train(y)
-  cubic$train(y.cubic)
+  linear.blearner$train(y)
+  cubic.blearner$train(y.cubic)
   
   mod = lm(y ~ 0 + x)
   mod.cubic = lm(y.cubic ~ 0 + x.cubic)
   
-  expect_equal(linear$getData(), X)
-  expect_equal(as.numeric(linear$getParameter()), unname(coef(mod)))
-  expect_equal(linear$predict(), as.matrix(unname(predict(mod))))
+  expect_equal(linear.blearner$getData(), X)
+  expect_equal(as.numeric(linear.blearner$getParameter()), unname(coef(mod)))
+  expect_equal(linear.blearner$predict(), as.matrix(unname(predict(mod))))
   expect_equal(
-    linear$predictNewdata(as.matrix(newdata, ncol = 1)),
+    linear.blearner$predictNewdata(as.matrix(newdata, ncol = 1)),
     as.matrix(unname(predict(mod, newdata = data.frame(x = newdata))))
   )
   
-  expect_equal(cubic$getData(), X^3)
-  expect_equal(as.numeric(cubic$getParameter()), unname(coef(mod.cubic)))
-  expect_equal(cubic$predict(), as.matrix(unname(predict(mod.cubic))))
+  expect_equal(cubic.blearner$getData(), X^3)
+  expect_equal(as.numeric(cubic.blearner$getParameter()), unname(coef(mod.cubic)))
+  expect_equal(cubic.blearner$predict(), as.matrix(unname(predict(mod.cubic))))
   expect_equal(
-    cubic$predictNewdata(as.matrix(newdata, ncol = 1)),
+    cubic.blearner$predictNewdata(as.matrix(newdata, ncol = 1)),
     as.matrix(unname(predict(mod.cubic, newdata = data.frame(x.cubic = newdata^3))))
   )
   
@@ -57,16 +57,16 @@ test_that("custom baselearner works correctly", {
   y = 3 * 1:10 + rnorm(10)
   newdata = runif(10, 1, 10)
   
-  custom = Custom$new(X, "myvariable", instantiateData, trainFun, predictFun, extractParameter)
+  custom.blearner = CustomBlearner$new(X, "myvariable", instantiateData, trainFun, predictFun, extractParameter)
   
-  custom$train(y)
+  custom.blearner$train(y)
   mod = lm(y ~ 0 + x)
   
-  expect_equal(custom$getData(), X)
-  expect_equal(as.numeric(custom$getParameter()), unname(coef(mod)))
-  expect_equal(custom$predict(), as.matrix(unname(predict(mod))))
+  expect_equal(custom.blearner$getData(), X)
+  expect_equal(as.numeric(custom.blearner$getParameter()), unname(coef(mod)))
+  expect_equal(custom.blearner$predict(), as.matrix(unname(predict(mod))))
   expect_equal(
-    custom$predictNewdata(as.matrix(newdata, ncol = 1)),
+    custom.blearner$predictNewdata(as.matrix(newdata, ncol = 1)),
     as.matrix(unname(predict(mod, newdata = data.frame(x = newdata))))
   )
 })
@@ -136,7 +136,7 @@ test_that("CustomCpp baselearner works", {
 
   X.test = as.matrix(runif(200))
 
-  custom.cpp.blearner = CustomCpp$new(X, "my_variable_name", dataFunSetter(),
+  custom.cpp.blearner = CustomCppBlearner$new(X, "my_variable_name", dataFunSetter(),
     trainFunSetter(), predictFunSetter())
   
   custom.cpp.blearner$train(y)

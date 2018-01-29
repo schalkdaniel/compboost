@@ -65,76 +65,76 @@ glueLoss = function (name, definition = NULL)
 # Baselearner:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_Polynomial")
-ignore.me = setMethod("show", "Rcpp_Polynomial", function (object) {
+setClass("Rcpp_PolynomialBlearner")
+ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
   
-  return ("PolynomialPrinter")
+  return ("PolynomialBlearnerPrinter")
 })
 
-setClass("Rcpp_Custom")
-ignore.me = setMethod("show", "Rcpp_Custom", function (object) {
+setClass("Rcpp_CustomBlearner")
+ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
   
-  return ("CustomPrinter")
+  return ("CustomBlearnerPrinter")
 })
 
-setClass("Rcpp_CustomCpp")
-ignore.me = setMethod("show", "Rcpp_CustomCpp", function (object) {
+setClass("Rcpp_CustomCppBlearner")
+ignore.me = setMethod("show", "Rcpp_CustomCppBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
   
-  return ("CustomCppPrinter")
+  return ("CustomCppBlearnerPrinter")
 })
 
 # ---------------------------------------------------------------------------- #
 # Factorys:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_PolynomialFactory")
-ignore.me = setMethod("show", "Rcpp_PolynomialFactory", function (object) {
+setClass("Rcpp_PolynomialBlearnerFactory")
+ignore.me = setMethod("show", "Rcpp_PolynomialBlearnerFactory", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
   
-  return ("PolynomialFactoryPrinter")
+  return ("PolynomialBlearnerFactoryPrinter")
 })
 
-setClass("Rcpp_CustomFactory")
-ignore.me = setMethod("show", "Rcpp_CustomFactory", function (object) {
+setClass("Rcpp_CustomBlearnerFactory")
+ignore.me = setMethod("show", "Rcpp_CustomBlearnerFactory", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
   
-  return ("CustomFactoryPrinter")
+  return ("CustomBlearnerFactoryPrinter")
 })
 
-setClass("Rcpp_CustomCppFactory")
-ignore.me = setMethod("show", "Rcpp_CustomCppFactory", function (object) {
+setClass("Rcpp_CustomCppBlearnerFactory")
+ignore.me = setMethod("show", "Rcpp_CustomCppBlearnerFactory", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
   
-  return ("CustomCppFactoryPrinter")
+  return ("CustomCppBlearnerFactoryPrinter")
 })
 
 # ---------------------------------------------------------------------------- #
-# FacotryList:
+# BlearnerFacotryList:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_FactoryList")
-ignore.me = setMethod("show", "Rcpp_FactoryList", function (object) {
+setClass("Rcpp_BlearnerFactoryList")
+ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
   cat("\n")
   object$printRegisteredFactorys()
   cat("\n\n")
   
   # For testing:
-  return(invisible("FactoryListPrinter"))
+  return(invisible("BlearnerFactoryListPrinter"))
 })
 
 
