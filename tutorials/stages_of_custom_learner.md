@@ -1,4 +1,9 @@
-# The four or maybe five Stages of a Custom Learner
+---
+title: "The four or maybe five Stages of a Custom Learner"
+output: 
+  html_document:
+    keep_md: true
+---
 
 
 
@@ -73,7 +78,7 @@ Now we define the factory:
 
 
 ```r
-custom.r.factory1 = CustomFactory$new(X, "varname", instantiateDataFun, 
+custom.r.learner1 = CustomBlearner$new(X, "varname", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 ```
 
@@ -81,7 +86,7 @@ And basically thats it. Now we can test if our factory works correctly:
 
 
 ```r
-custom.r.factory1$getData()
+custom.r.learner1$getData()
 ##       [,1]
 ##  [1,]    1
 ##  [2,]    2
@@ -93,10 +98,10 @@ custom.r.factory1$getData()
 ##  [8,]    8
 ##  [9,]    9
 ## [10,]   10
-custom.r.factory1$testTrain(y)
-custom.r.factory1$testGetParameter()
+custom.r.learner1$train(y)
+custom.r.learner1$getParameter()
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 
 trainFun(y, X)
 ## 
@@ -105,7 +110,7 @@ trainFun(y, X)
 ## 
 ## Coefficients:
 ##     X  
-## 16.65
+## 14.59
 ```
 
 Looks nice. Now we can get to the next stage.
@@ -139,7 +144,7 @@ Now we define the factory:
 
 
 ```r
-custom.r.factory2 = CustomFactory$new(X, "varname", instantiateDataFun, 
+custom.r.learner2 = CustomBlearner$new(X, "varname", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 ```
 
@@ -147,7 +152,7 @@ And basically thats it. Now we can test if our factory works correctly:
 
 
 ```r
-custom.r.factory2$getData()
+custom.r.learner2$getData()
 ##       [,1]
 ##  [1,]    1
 ##  [2,]    2
@@ -159,14 +164,14 @@ custom.r.factory2$getData()
 ##  [8,]    8
 ##  [9,]    9
 ## [10,]   10
-custom.r.factory2$testTrain(y)
-custom.r.factory2$testGetParameter()
+custom.r.learner2$train(y)
+custom.r.learner2$getParameter()
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 
 trainFun(y, X)
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 ```
 
 # A more smarter Custom `R` Learner
@@ -218,10 +223,10 @@ Now we can give this function to the new factory and test if it works:
 
 
 ```r
-custom.r.factory3 = CustomFactory$new(X, "varname", instantiateDataFun, 
+custom.r.learner3 = CustomBlearner$new(X, "varname", instantiateDataFun, 
   trainFun, predictFun, extractParameter)
 
-custom.r.factory3$getData()
+custom.r.learner3$getData()
 ##       [,1]
 ##  [1,]    1
 ##  [2,]    2
@@ -233,14 +238,14 @@ custom.r.factory3$getData()
 ##  [8,]    8
 ##  [9,]    9
 ## [10,]   10
-custom.r.factory3$testTrain(y)
-custom.r.factory3$testGetParameter()
+custom.r.learner3$train(y)
+custom.r.learner3$getParameter()
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 
 trainFun(y, X)
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 ```
 
 Looks alright!
@@ -256,13 +261,13 @@ class:
 ```r
 Rcpp::sourceCpp(file = "custom_cpp_learner.cpp")
 ## Warning in normalizePath(path.expand(path), winslash, mustWork):
-## path[1]="E:/OneDrive/GitHub_repos/compboost/tutorials/../inst/include": Das
-## System kann den angegebenen Pfad nicht finden
+## path[1]="C:/Users/schal/OneDrive/GitHub_repos/compboost/tutorials/../inst/
+## include": Das System kann den angegebenen Pfad nicht finden
 
-custom.cpp.factory = CustomCppFactory$new(X, "varname", dataFunSetter(),
+custom.cpp.learner = CustomCppBlearner$new(X, "varname", dataFunSetter(),
   trainFunSetter(), predictFunSetter())
 
-custom.cpp.factory$getData()
+custom.cpp.learner$getData()
 ##       [,1]
 ##  [1,]    1
 ##  [2,]    2
@@ -274,10 +279,10 @@ custom.cpp.factory$getData()
 ##  [8,]    8
 ##  [9,]    9
 ## [10,]   10
-custom.cpp.factory$testTrain(y)
-custom.cpp.factory$testGetParameter()
+custom.cpp.learner$train(y)
+custom.cpp.learner$getParameter()
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 ```
 
 This also seems to work, nice!
@@ -288,9 +293,9 @@ The last option here is to use the pre implemented one:
 
 
 ```r
-linear.factory = PolynomialFactory$new(X, "varname", 1)
+linear.learner = PolynomialBlearner$new(X, "varname", 1)
 
-linear.factory$getData()
+linear.learner$getData()
 ##       [,1]
 ##  [1,]    1
 ##  [2,]    2
@@ -302,10 +307,10 @@ linear.factory$getData()
 ##  [8,]    8
 ##  [9,]    9
 ## [10,]   10
-linear.factory$testTrain(y)
-linear.factory$testGetParameter()
+linear.learner$train(y)
+linear.learner$getParameter()
 ##          [,1]
-## [1,] 16.65246
+## [1,] 14.58757
 ```
 
 This works as expected. 
@@ -318,25 +323,19 @@ training:
 
 ```r
 microbenchmark::microbenchmark(
-  "custom_r_1"    = custom.r.factory1$testTrain(y),
-  "custom_r_2"    = custom.r.factory2$testTrain(y),
-  "custom_r_3"    = custom.r.factory3$testTrain(y),
-  "custom_cpp"    = custom.cpp.factory$testTrain(y),
-  "pre_installed" = linear.factory$testTrain(y)
+  "custom_r_1"    = custom.r.learner1$train(y),
+  "custom_r_2"    = custom.r.learner2$train(y),
+  "custom_r_3"    = custom.r.learner3$train(y),
+  "custom_cpp"    = custom.cpp.learner$train(y),
+  "pre_installed" = linear.learner$train(y)
 )
 ## Unit: microseconds
-##           expr     min      lq      mean   median       uq      max neval
-##     custom_r_1 580.865 610.689 668.93703 636.6735 679.2975 1831.682   100
-##     custom_r_2  64.001  72.065  90.91943  79.3610  87.4250 1033.473   100
-##     custom_r_3  43.009  48.385  62.88489  53.6330  60.8010  770.817   100
-##     custom_cpp   7.937  11.777  15.87301  14.3370  19.8410   78.082   100
-##  pre_installed   8.193  11.009  15.23300  14.0810  19.2010   39.169   100
-##  cld
-##    c
-##   b 
-##   b 
-##  a  
-##  a
+##           expr     min       lq       mean    median        uq      max neval  cld
+##     custom_r_1 681.534 952.4480 1228.86020 1126.5130 1455.9525 2976.471   100    d
+##     custom_r_2  80.803 104.2125  173.23460  149.9005  172.5555 2572.459   100   c 
+##     custom_r_3  52.484  76.0835  119.18403  102.3250  129.6995 1429.144   100  bc 
+##     custom_cpp  11.706  18.8795   33.98667   28.6965   44.1770   98.549   100 ab  
+##  pre_installed  11.706  22.4665   32.22713   28.5080   40.4015   84.201   100 a
 ```
 
 As expected, the first `R` learner is the slowest. The third `R` one which 
