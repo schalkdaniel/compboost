@@ -2,7 +2,7 @@ context("Printer works")
 
 test_that("factory list printer works", {
   
-  factory.list = FactoryList$new()
+  factory.list = BlearnerFactoryList$new()
   
   # A hack to suppress console output:
   tc = textConnection(NULL, "w") 
@@ -16,7 +16,7 @@ test_that("factory list printer works", {
   # Test:
   # ---------
   
-  expect_equal(test.factory.list.printer, "FactoryListPrinter")
+  expect_equal(test.factory.list.printer, "BlearnerFactoryListPrinter")
   
 })
 
@@ -54,10 +54,10 @@ test_that("Loss printer works", {
 
 test_that("Baselearner printer works", {
   
-  x       = 1:10
+  x = 1:10
   X = matrix(x, ncol = 1)
   
-  linear = Polynomial$new(X, "myvariable", 1)
+  linear = PolynomialBlearner$new(X, "myvariable", 1)
   
   tc = textConnection(NULL, "w") 
   sink(tc) 
@@ -67,7 +67,7 @@ test_that("Baselearner printer works", {
   sink() 
   close(tc) 
   
-  expect_equal(linear.printer, "PolynomialPrinter")
+  expect_equal(linear.printer, "PolynomialBlearnerPrinter")
   
   instantiateData = function (X)
   {
@@ -83,20 +83,89 @@ test_that("Baselearner printer works", {
     return(model)
   }
   
-  x = 1:10
-  X = matrix(x, ncol = 1)
-  
-  custom = Custom$new(X, "myvariable", instantiateData, trainFun, predictFun, extractParameter)
+  custom.blearner = CustomBlearner$new(X, "myvariable", instantiateData, 
+    trainFun, predictFun, extractParameter)
   
   tc = textConnection(NULL, "w") 
   sink(tc) 
   
-  custom.printer = show(custom)
+  custom.printer = show(custom.blearner)
   
   sink() 
   close(tc) 
   
-  expect_equal(custom.printer, "CustomPrinter")
+  expect_equal(custom.printer, "CustomBlearnerPrinter")
+  
+  
+  Rcpp::sourceCpp(code = '
+    // [[Rcpp::depends(RcppArmadillo)]]
+    #include <RcppArmadillo.h>
+    
+    typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
+    typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
+    typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+    
+    
+    // instantiateDataFun:
+    // -------------------
+    
+    arma::mat instantiateDataFun (arma::mat& X)
+    {
+    return X;
+    }
+    
+    // trainFun:
+    // -------------------
+    
+    arma::mat trainFun (arma::vec& y, arma::mat& X)
+    {
+    return arma::solve(X, y);
+    }
+    
+    // predictFun:
+    // -------------------
+    
+    arma::mat predictFun (arma::mat& newdata, arma::mat& parameter)
+    {
+    return newdata * parameter;
+    }
+    
+    
+    // Setter function:
+    // ------------------
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<instantiateDataFunPtr> dataFunSetter ()
+    {
+    return Rcpp::XPtr<instantiateDataFunPtr> (new instantiateDataFunPtr (&instantiateDataFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<trainFunPtr> trainFunSetter ()
+    {
+    return Rcpp::XPtr<trainFunPtr> (new trainFunPtr (&trainFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<predictFunPtr> predictFunSetter ()
+    {
+    return Rcpp::XPtr<predictFunPtr> (new predictFunPtr (&predictFun));
+    }'
+  )
+  
+  custom.cpp.blearner = CustomCppBlearner$new(X, "my_variable_name", dataFunSetter(),
+    trainFunSetter(), predictFunSetter())
+  
+  
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  custom.cpp.printer = show(custom.cpp.blearner)
+  
+  sink() 
+  close(tc) 
+  
+  expect_equal(custom.cpp.printer, "CustomCppBlearnerPrinter")
   
 })
 
@@ -112,11 +181,11 @@ test_that("Baselearner factory printer works", {
   X.wt = cbind(1, df[["wt"]])
   
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialFactory$new(X.hp, "hp", 1)
-  linear.factory.wt = PolynomialFactory$new(X.wt, "wt", 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 1)
+  linear.factory.wt = PolynomialBlearnerFactory$new(X.wt, "wt", 1)
   
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialFactory$new(X.hp, "hp", 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 2)
   
   tc = textConnection(NULL, "w") 
   sink(tc) 
@@ -128,9 +197,9 @@ test_that("Baselearner factory printer works", {
   sink() 
   close(tc) 
   
-  expect_equal(linear.factory.hp.printer, "PolynomialFactoryPrinter")
-  expect_equal(linear.factory.wt.printer, "PolynomialFactoryPrinter")
-  expect_equal(quadratic.factory.hp.printer, "PolynomialFactoryPrinter")
+  expect_equal(linear.factory.hp.printer, "PolynomialBlearnerFactoryPrinter")
+  expect_equal(linear.factory.wt.printer, "PolynomialBlearnerFactoryPrinter")
+  expect_equal(quadratic.factory.hp.printer, "PolynomialBlearnerFactoryPrinter")
   
   
   instantiateData = function (X)
@@ -148,7 +217,7 @@ test_that("Baselearner factory printer works", {
   }
   
   # Create fatorys is very similar:
-  custom.factory = CustomFactory$new(X.hp, "hp", instantiateData, trainFun,
+  custom.factory = CustomBlearnerFactory$new(X.hp, "hp", instantiateData, trainFun,
     predictFun, extractParameter)
   
   tc = textConnection(NULL, "w") 
@@ -159,7 +228,78 @@ test_that("Baselearner factory printer works", {
   sink() 
   close(tc) 
   
-  expect_equal(custom.factory.printer, "CustomFactoryPrinter")
+  expect_equal(custom.factory.printer, "CustomBlearnerFactoryPrinter")
+  
+  
+  
+  Rcpp::sourceCpp(code = '
+    // [[Rcpp::depends(RcppArmadillo)]]
+    #include <RcppArmadillo.h>
+    
+    typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
+    typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
+    typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+    
+    
+    // instantiateDataFun:
+    // -------------------
+    
+    arma::mat instantiateDataFun (arma::mat& X)
+    {
+    return X;
+    }
+    
+    // trainFun:
+    // -------------------
+    
+    arma::mat trainFun (arma::vec& y, arma::mat& X)
+    {
+    return arma::solve(X, y);
+    }
+    
+    // predictFun:
+    // -------------------
+    
+    arma::mat predictFun (arma::mat& newdata, arma::mat& parameter)
+    {
+    return newdata * parameter;
+    }
+    
+    
+    // Setter function:
+    // ------------------
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<instantiateDataFunPtr> dataFunSetter ()
+    {
+    return Rcpp::XPtr<instantiateDataFunPtr> (new instantiateDataFunPtr (&instantiateDataFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<trainFunPtr> trainFunSetter ()
+    {
+    return Rcpp::XPtr<trainFunPtr> (new trainFunPtr (&trainFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<predictFunPtr> predictFunSetter ()
+    {
+    return Rcpp::XPtr<predictFunPtr> (new predictFunPtr (&predictFun));
+    }'
+  )
+  
+  custom.cpp.factory = CustomCppBlearnerFactory$new(X.hp, "hp", dataFunSetter(),
+    trainFunSetter(), predictFunSetter())
+  
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  custom.cpp.factory.printer = show(custom.cpp.factory)
+  
+  sink() 
+  close(tc) 
+  
+  expect_equal(custom.cpp.factory.printer, "CustomCppBlearnerFactoryPrinter")
 })
 
 test_that("Optimizer printer works", {
@@ -258,14 +398,14 @@ test_that("Compboost printer works", {
   ## Baselearner
   
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialFactory$new(X.hp, "hp", 1)
-  linear.factory.wt = PolynomialFactory$new(X.wt, "wt", 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 1)
+  linear.factory.wt = PolynomialBlearnerFactory$new(X.wt, "wt", 1)
   
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialFactory$new(X.hp, "hp", 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 2)
   
   # Create new factory list:
-  factory.list = FactoryList$new()
+  factory.list = BlearnerFactoryList$new()
   
   # Register factorys:
   factory.list$registerFactory(linear.factory.hp)

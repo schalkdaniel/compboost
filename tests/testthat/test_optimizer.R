@@ -10,12 +10,12 @@ test_that("greedy optimizer works", {
   y.pow5   = as.numeric(8 * X^5)
   
   # Create new linear baselearner of hp and wt:
-  linear.factory = PolynomialFactory$new(X, "X", 1)
-  cubic.factory  = PolynomialFactory$new(X, "X", 3)
-  pow5.factory   = PolynomialFactory$new(X, "X", 5)
+  linear.factory = PolynomialBlearnerFactory$new(X, "X", 1)
+  cubic.factory  = PolynomialBlearnerFactory$new(X, "X", 3)
+  pow5.factory   = PolynomialBlearnerFactory$new(X, "X", 5)
   
   # Create new factory list:
-  factory.list = FactoryList$new()
+  factory.list = BlearnerFactoryList$new()
   
   # Register factorys:
   factory.list$registerFactory(linear.factory)
