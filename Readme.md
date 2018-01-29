@@ -22,7 +22,7 @@ devtools::install_github("schalkdaniel/compboost")
 - [ ] Baselearner:
     - [ ] Implement P-Spline baselearner
     
-- [ ] Logger:
+- [x] Logger:
     - [x] Implement OOB Logger
     - [x] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
     
@@ -56,6 +56,9 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **26.01.2018** \
   Add printer for the classes.
+  
+- **29.01.2018** \
+  Update naming to a mroe consistent scheme.
 
 ## Idea
 
