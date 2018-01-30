@@ -2,4 +2,4 @@
 
 export(plotCompboostParameter)
 import(Rcpp)
-useDynLib(compboost, .registration = TRUE)
+useDynLib(compboost)
