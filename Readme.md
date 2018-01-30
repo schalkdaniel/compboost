@@ -18,6 +18,7 @@ devtools::install_github("schalkdaniel/compboost")
     - [ ] Parallel computations:
         - [ ] Greedy optimizer
         - [ ] Data transformation for spline learner
+    - [ ] Make the algorithm more memory friendly by using sparse matrices (if possible)
     
 - [ ] Baselearner:
     - [ ] Implement P-Spline baselearner
