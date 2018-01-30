@@ -65,6 +65,7 @@ glueLoss = function (name, definition = NULL)
 # Baselearner:
 # ---------------------------------------------------------------------------- #
 
+#' @export
 setClass("Rcpp_PolynomialBlearner")
 ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
   cat("\n")
