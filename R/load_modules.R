@@ -37,7 +37,12 @@
 #
 # =========================================================================== #
 
+#' Rcpp module: baselearner_module
+#' @name baselearner_module
+#' @export
+NULL
 Rcpp::loadModule(module = "baselearner_module", what = TRUE)
+
 Rcpp::loadModule(module = "compboost_module", what = TRUE)
 Rcpp::loadModule(module = "loss_module", what = TRUE)
 Rcpp::loadModule(module = "baselearner_factory_module", what = TRUE)
