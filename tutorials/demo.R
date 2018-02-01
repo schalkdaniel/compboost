@@ -111,6 +111,8 @@ cboost = Compboost$new(
 # Train the model (we want to print the trace):
 cboost$train(trace = TRUE)
 
+cboost
+
 # Get some results:
 cboost$getEstimatedParameter()
 cboost$getSelectedBaselearner()

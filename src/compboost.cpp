@@ -220,6 +220,7 @@ void Compboost::SummarizeCompboost ()
   
   if (blearner_track.GetBaselearnerVector().size() > 0) {
     std::cout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
+    std::cout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
   }
   std::cout << std::endl;
   std::cout << "To get more information check the other objects!" << std::endl;
