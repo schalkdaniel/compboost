@@ -1,4 +1,4 @@
-#' @useDynLib compboost
+#' @useDynLib compboost, .registration = TRUE
 NULL
 
 #' @import Rcpp

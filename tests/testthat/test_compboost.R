@@ -263,14 +263,14 @@ test_that("compboost does the same as mboost", {
           ]
       )
     ),
-    unname(unlist(cboost$getEstimatedParameterOfIteration(200)))
+    unname(unlist(cboost$getParameterAtIteration(200)))
   )
   
   idx = 2:4 * 120
   matrix.compare = matrix(NA_real_, nrow = 3, ncol = 3)
   
   for (i in seq_along(idx)) {
-    matrix.compare[i, ] = unname(unlist(cboost$getEstimatedParameterOfIteration(idx[i])))
+    matrix.compare[i, ] = unname(unlist(cboost$getParameterAtIteration(idx[i])))
   }
 
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
@@ -279,7 +279,7 @@ test_that("compboost does the same as mboost", {
   # --------------------------
   
   expect_equal(cboost$predict(eval.data), predict(mod, eval.df))
-  expect_equal(cboost$predictionOfIteration(eval.data, 200), predict(mod.reduced, eval.df))
+  expect_equal(cboost$predictAtIteration(eval.data, 200), predict(mod.reduced, eval.df))
   
 })
 

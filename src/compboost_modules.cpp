@@ -944,7 +944,7 @@ public:
     return out;
   }
   
-  Rcpp::List getEstimatedParameterOfIteration (unsigned int k)
+  Rcpp::List getParameterAtIteration (unsigned int k)
   {
     std::map<std::string, arma::mat> parameter = obj->GetParameterOfIteration(k);
     
@@ -981,7 +981,7 @@ public:
     return obj->Predict(data_map);
   }
   
-  arma::vec predictionOfIteration (Rcpp::List input_data, unsigned int k)
+  arma::vec predictAtIteration (Rcpp::List input_data, unsigned int k)
   {
     std::map<std::string, arma::mat> data_map;
     
@@ -1043,10 +1043,10 @@ RCPP_MODULE (compboost_module)
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated paraemter")
-    .method("getEstimatedParameterOfIteration", &CompboostWrapper::getEstimatedParameterOfIteration, "Get the estimated parameter for iteration k < iter.max")
+    .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter.max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
     .method("predict", &CompboostWrapper::predict, "Predict newdata")
-    .method("predictionOfIteration", &CompboostWrapper::predictionOfIteration, "Predict newdata for iteration k < iter.max")
+    .method("predictAtIteration", &CompboostWrapper::predictAtIteration, "Predict newdata for iteration k < iter.max")
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
   ;

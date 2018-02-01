@@ -16,8 +16,8 @@ df = mtcars
 # df$hp2 = df[["hp"]]^2
 
 # Data for the baselearner are matrices:
-X.hp = cbind(1, df[["hp"]])
-X.wt = cbind(1, df[["wt"]])
+X.hp = as.matrix(df[["hp"]])
+X.wt = as.matrix(df[["wt"]])
 
 # Target variable:
 y = df[["mpg"]]
@@ -27,13 +27,13 @@ y = df[["mpg"]]
 # the same.
 
 # List for oob logging:
-eval.oob.test = list(
+oob.data = list(
   "hp" = X.hp,
   "wt" = X.wt
 )
 
 # List to test prediction on newdata:
-eval.data = eval.oob.test
+test.data = oob.data
 
 
 # Prepare compboost:
@@ -81,7 +81,7 @@ optimizer = GreedyOptimizer$new()
 log.iterations = LogIterations$new(TRUE, 500)
 log.time       = LogTime$new(FALSE, 500, "microseconds")
 log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.05)
-log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
+log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()
@@ -115,17 +115,17 @@ cboost$train(trace = TRUE)
 cboost$getEstimatedParameter()
 cboost$getSelectedBaselearner()
 
-cboost$getEstimatedParameterOfIteration(40)
+cboost$getParameterAtIteration(40)
 parameter.matrix = cboost$getParameterMatrix()
 
-all.equal(cboost$getPrediction(), cboost$predict(eval.data))
+all.equal(cboost$getPrediction(), cboost$predict(test.data))
 
 # ---------------------------------------------------------------------------- #
 # Extend Compboost
 # ---------------------------------------------------------------------------- #
 
 # Linear model as benchmark:
-mod = lm(mpg ~ hp, data = mtcars)
+mod = lm(mpg ~ 0 + hp, data = mtcars)
 
 # R Functions:
 # ------------
@@ -160,6 +160,7 @@ custom.factory = CustomBlearnerFactory$new(X.hp, "hp", instantiateData, trainFun
 # C++ Functions:
 # --------------
 
+file.edit("tutorials/custom_cpp_learner.cpp")
 Rcpp::sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
 
 custom.cpp.learner = CustomCppBlearner$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
@@ -196,7 +197,9 @@ df[["hp2"]] = df[["hp"]]^2
 library(mboost)
 
 mod = mboost(
-  formula = mpg ~ bols(hp) + bols(wt) + bols(hp2),
+  formula = mpg ~ bols(hp, intercept = FALSE) + 
+    bols(wt, intercept = FALSE) + 
+    bols(hp2, intercept = FALSE),
   data    = df,
   control = boost_control(mstop = 500, nu = 0.05)
 )
@@ -229,6 +232,10 @@ microbenchmark::microbenchmark(
   "mboost"    = mboost(
     formula = mpg ~ bols(hp) + bols(wt) + bols(hp2),
     data    = df,
+    control = boost_control(mstop = 500, nu = 0.05)
+  ),
+  "glmboost" = glmboost(mpg ~ 0 + hp + wt + hp2, 
+    data = df, 
     control = boost_control(mstop = 500, nu = 0.05)
   )
 )
