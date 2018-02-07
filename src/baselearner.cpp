@@ -128,10 +128,10 @@ Baselearner::~Baselearner ()
 // Baselearner implementations:
 // -------------------------------------------------------------------------- //
 
-// Polynomial:
+// PolynomialBlearner:
 // -----------------------
 
-Polynomial::Polynomial (arma::mat &data, std::string &data_identifier, 
+PolynomialBlearner::PolynomialBlearner (arma::mat &data, std::string &data_identifier, 
   std::string &identifier, unsigned int &degree) 
   : degree ( degree )
 {
@@ -142,16 +142,16 @@ Polynomial::Polynomial (arma::mat &data, std::string &data_identifier,
 }
 
 // Copy member:
-Baselearner* Polynomial::Clone ()
+Baselearner* PolynomialBlearner::Clone ()
 {
-  Baselearner* newbl = new Polynomial(*this);
+  Baselearner* newbl = new PolynomialBlearner(*this);
   newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
   
   return newbl;
 }
 
 // // Transform data:
-// arma::mat Polynomial::InstantiateData ()
+// arma::mat PolynomialBlearner::InstantiateData ()
 // {
 //   
 //   return arma::pow(*data_ptr, degree);
@@ -159,32 +159,32 @@ Baselearner* Polynomial::Clone ()
 // 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat Polynomial::InstantiateData (arma::mat& newdata)
+arma::mat PolynomialBlearner::InstantiateData (arma::mat& newdata)
 {
 
   return arma::pow(newdata, degree);
 }
 
 // Train the learner:
-void Polynomial::train (arma::vec& response)
+void PolynomialBlearner::train (arma::vec& response)
 {
   parameter = arma::solve(*data_ptr, response);
 }
 
 
-arma::mat Polynomial::predict ()
+arma::mat PolynomialBlearner::predict ()
 {
   return *data_ptr * parameter;
 }
 
 // Predict the learner:
-arma::mat Polynomial::predict (arma::mat& newdata)
+arma::mat PolynomialBlearner::predict (arma::mat& newdata)
 {
   return InstantiateData(newdata) * parameter;
 }
 
 // Destructor:
-Polynomial::~Polynomial () {}
+PolynomialBlearner::~PolynomialBlearner () {}
 
 // Custom Baselearner:
 // -----------------------

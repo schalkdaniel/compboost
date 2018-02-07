@@ -117,12 +117,12 @@ class BaselearnerFactory
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// Polynomial:
+// PolynomialBlearner:
 // -----------------------
 
 // Should be explained by itself:
 
-class PolynomialFactory : public BaselearnerFactory
+class PolynomialBlearnerFactory : public BaselearnerFactory
 {
   private:
     
@@ -130,7 +130,7 @@ class PolynomialFactory : public BaselearnerFactory
     
   public:
     
-    PolynomialFactory (std::string, arma::mat, std::string, unsigned int);
+    PolynomialBlearnerFactory (std::string, arma::mat, std::string, unsigned int);
     
     blearner::Baselearner* CreateBaselearner (std::string&);
     

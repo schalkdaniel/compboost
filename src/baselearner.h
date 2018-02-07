@@ -127,14 +127,14 @@ class Baselearner
 // Baselearner implementations:
 // -------------------------------------------------------------------------- //
 
-// Polynomial:
+// PolynomialBlearner:
 // -----------------------
 
 
 // This baselearner trains a linear model without intercept and covariable
 // x^degree:
 
-class Polynomial : public Baselearner
+class PolynomialBlearner : public Baselearner
 {
   private:
     
@@ -143,7 +143,7 @@ class Polynomial : public Baselearner
   public:
   
     // (data pointer, data identifier, baselearner identifier, degree) 
-    Polynomial (arma::mat&, std::string&, std::string&, unsigned int&);
+    PolynomialBlearner (arma::mat&, std::string&, std::string&, unsigned int&);
     
     Baselearner* Clone ();
     
@@ -154,7 +154,7 @@ class Polynomial : public Baselearner
     arma::mat predict (arma::mat&);
     arma::mat predict ();
     
-    ~Polynomial ();
+    ~PolynomialBlearner ();
 	
 };
 

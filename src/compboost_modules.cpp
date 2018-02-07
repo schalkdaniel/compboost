@@ -73,7 +73,7 @@ public:
     : degree ( degree )
   {
     std::string temp = "test polynomial of degree " + std::to_string(degree);
-    obj = new blearner::Polynomial(data, data_id, temp, degree);
+    obj = new blearner::PolynomialBlearner(data, data_id, temp, degree);
     data = obj->InstantiateData(data0);
   }
   
@@ -281,7 +281,7 @@ protected:
   // blearner::Baselearner* test_obj;
 };
 
-// Wrapper around the PolynomialFactory:
+// Wrapper around the PolynomialBlearnerFactory:
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
   
@@ -294,7 +294,7 @@ public:
     unsigned int degree) 
     : degree ( degree )
   {
-    obj = new blearnerfactory::PolynomialFactory("polynomial", data, 
+    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data, 
       data_identifier, degree);
   }
 

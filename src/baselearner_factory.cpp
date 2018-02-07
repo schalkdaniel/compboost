@@ -84,10 +84,10 @@ BaselearnerFactory::~BaselearnerFactory () {};
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// Polynomial:
+// PolynomialBlearner:
 // -----------------------
 
-PolynomialFactory::PolynomialFactory (std::string blearner_type0, arma::mat data0, 
+PolynomialBlearnerFactory::PolynomialBlearnerFactory (std::string blearner_type0, arma::mat data0, 
   std::string data_identifier, unsigned int degree)
   : degree ( degree )
 {
@@ -96,13 +96,13 @@ PolynomialFactory::PolynomialFactory (std::string blearner_type0, arma::mat data
   blearner_type = blearner_type0 + " with degree " + std::to_string(degree);
 }
 
-blearner::Baselearner* PolynomialFactory::CreateBaselearner (std::string &identifier)
+blearner::Baselearner* PolynomialBlearnerFactory::CreateBaselearner (std::string &identifier)
 {
   blearner::Baselearner* blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::Polynomial(data, data_identifier, identifier, degree);
+  blearner_obj = new blearner::PolynomialBlearner(data, data_identifier, identifier, degree);
   blearner_obj->SetBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
@@ -120,7 +120,7 @@ blearner::Baselearner* PolynomialFactory::CreateBaselearner (std::string &identi
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat PolynomialFactory::InstantiateData (arma::mat& newdata)
+arma::mat PolynomialBlearnerFactory::InstantiateData (arma::mat& newdata)
 {
   return arma::pow(newdata, degree);
 }
