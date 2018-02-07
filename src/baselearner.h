@@ -158,13 +158,13 @@ class PolynomialBlearner : public Baselearner
 	
 };
 
-// Custom Baselearner:
+// CustomBlearner Baselearner:
 // -----------------------
 
 // This class can be used to define custom baselearner in R and expose thi
 // to the c++ class:
 
-class Custom : public Baselearner
+class CustomBlearner : public Baselearner
 {
   private:
     
@@ -181,7 +181,7 @@ class Custom : public Baselearner
     // (data pointer, data identifier, baselearner identifier, R function for
     // data instantiation, R function for training, R function for prediction,
     // R function to extract parameter):
-    Custom (arma::mat&, std::string&, std::string&, Rcpp::Function, Rcpp::Function,
+    CustomBlearner (arma::mat&, std::string&, std::string&, Rcpp::Function, Rcpp::Function,
       Rcpp::Function, Rcpp::Function);
     
     // Copy constructor:
@@ -198,11 +198,11 @@ class Custom : public Baselearner
     arma::mat predict (arma::mat&);
     arma::mat predict ();
     
-    ~Custom ();
+    ~CustomBlearner ();
 	
 };
 
-// Custom Cpp Baselearner:
+// CustomBlearner Cpp Baselearner:
 // -----------------------
 
 // This is a  bit tricky. The key is that we store the cpp functions as 
@@ -217,7 +217,7 @@ typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
 typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
 typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
 
-class CustomCpp : public Baselearner
+class CustomCppBlearner : public Baselearner
 {
 private:
   
@@ -231,7 +231,7 @@ public:
   // (data pointer, data identifier, baselearner identifier, R function for
   // data instantiation, R function for training, R function for prediction,
   // R function to extract parameter):
-  CustomCpp (arma::mat&, std::string&, std::string&, SEXP, SEXP, SEXP);
+  CustomCppBlearner (arma::mat&, std::string&, std::string&, SEXP, SEXP, SEXP);
   
   // Copy constructor:
   Baselearner* Clone ();
@@ -247,7 +247,7 @@ public:
   arma::mat predict (arma::mat&);
   arma::mat predict ();
   
-  ~CustomCpp ();
+  ~CustomCppBlearner ();
   
 };
 

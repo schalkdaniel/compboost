@@ -133,7 +133,7 @@ public:
     Rcpp::Function train, Rcpp::Function predict, Rcpp::Function extractParameter)
   {
     std::string temp = "test custom";
-    obj = new blearner::Custom(data, data_id, temp,instantiateData, train, predict, extractParameter);
+    obj = new blearner::CustomBlearner(data, data_id, temp,instantiateData, train, predict, extractParameter);
     data = obj->InstantiateData(data0);
   }
   
@@ -181,7 +181,7 @@ public:
     SEXP train_ptr, SEXP predict_ptr)
   {
     std::string temp = "test custom cpp learner";
-    obj = new blearner::CustomCpp(data, data_id, temp, instantiate_data_ptr,
+    obj = new blearner::CustomCppBlearner(data, data_id, temp, instantiate_data_ptr,
       train_ptr, predict_ptr);
     data = obj->InstantiateData(data0);
   }
@@ -212,7 +212,7 @@ public:
   
   void summarizeBaselearner ()
   {
-    std::cout << "CustomCpp baselearner:" << std::endl;
+    std::cout << "Custom baselearner:" << std::endl;
     
     std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
     std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
@@ -322,7 +322,7 @@ public:
   }
 };
 
-// Wrapper around the CustomFactory:
+// Wrapper around the CustomBlearnerFactory:
 class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -331,7 +331,7 @@ public:
     Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomFactory("custom", data, 
+    obj = new blearnerfactory::CustomBlearnerFactory("custom", data, 
       data_identifier, instantiateDataFun, trainFun, predictFun, 
       extractParameter);
   }
@@ -349,7 +349,7 @@ public:
   }
 };
 
-// Wrapper around the CustomCppFactory:
+// Wrapper around the CustomCppBlearnerFactory:
 class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -357,7 +357,7 @@ public:
   CustomCppBlearnerFactoryWrapper (arma::mat data, std::string data_identifier, 
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppFactory("custom cpp", data, 
+    obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data, 
       data_identifier, instantiateDataFun, trainFun, predictFun);
   }
   
@@ -367,7 +367,7 @@ public:
   
   void summarizeFactory ()
   {
-    std::cout << "CustomCpp baselearner Factory:" << std::endl;
+    std::cout << "Custom cpp baselearner Factory:" << std::endl;
     
     std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
     std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;

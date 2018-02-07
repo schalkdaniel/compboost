@@ -154,7 +154,7 @@ ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
 
 setClass("Rcpp_CustomLoss")
 ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
-  glueLoss("Custom")
+  glueLoss("CustomBlearner")
 })
 
 # ---------------------------------------------------------------------------- #
