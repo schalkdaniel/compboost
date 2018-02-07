@@ -47,7 +47,7 @@ namespace loss
 // -----------------------
 
 Loss::~Loss () {
-  std::cout << "Call Loss Destructor" << std::endl;
+  Rcpp::Rcout << "Call Loss Destructor" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //
@@ -60,14 +60,14 @@ Loss::~Loss () {
 arma::vec QuadraticLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
-  // std::cout << "Calculate loss of child class Quadratic!" << std::endl;
+  // Rcpp::Rcout << "Calculate loss of child class Quadratic!" << std::endl;
   return arma::pow(true_value - prediction, 2) / 2;
 }
 
 arma::vec QuadraticLoss::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
-  // std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
+  // Rcpp::Rcout << "Calculate gradient of child class Quadratic!" << std::endl;
   return prediction - true_value;
 }
 
@@ -84,14 +84,14 @@ double QuadraticLoss::ConstantInitializer (arma::vec &true_value)
 arma::vec AbsoluteLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
-  // std::cout << "Calculate loss of child class Absolute!" << std::endl;
+  // Rcpp::Rcout << "Calculate loss of child class Absolute!" << std::endl;
   return arma::abs(true_value - prediction);
 }
 
 arma::vec AbsoluteLoss::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
-  // std::cout << "Calculate gradient of child class Absolute!" << std::endl;
+  // Rcpp::Rcout << "Calculate gradient of child class Absolute!" << std::endl;
   return arma::sign(prediction - true_value);
 }
 
@@ -120,7 +120,7 @@ CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp
     gradientFun( gradientFun ), 
     initFun( initFun )
 {
-  // std::cout << "Be careful! You are using a custom loss out of R!"
+  // Rcpp::Rcout << "Be careful! You are using a custom loss out of R!"
   //           << "This will slow down everything!"
   //           << std::endl;
 }
@@ -128,7 +128,7 @@ CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp
 arma::vec CustomLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
-  // std::cout << "Calculate loss for a custom loss!" << std::endl;
+  // Rcpp::Rcout << "Calculate loss for a custom loss!" << std::endl;
   Rcpp::NumericVector out = lossFun(true_value, prediction);
   return out;
 }
@@ -136,7 +136,7 @@ arma::vec CustomLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 arma::vec CustomLoss::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
-  // std::cout << "Calculate gradient for a custom loss!" << std::endl;
+  // Rcpp::Rcout << "Calculate gradient for a custom loss!" << std::endl;
   Rcpp::NumericVector out = gradientFun(true_value, prediction);
   return out;
 }
@@ -146,7 +146,7 @@ arma::vec CustomLoss::DefinedGradient (arma::vec &true_value, arma::vec &predict
 double CustomLoss::ConstantInitializer (arma::vec &true_value)
 {
   // for debugging:
-  // std::cout << "Initialize custom loss!" << std::endl;
+  // Rcpp::Rcout << "Initialize custom loss!" << std::endl;
   
   Rcpp::NumericVector out = initFun(true_value);
   

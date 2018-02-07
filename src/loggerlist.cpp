@@ -61,9 +61,9 @@ void LoggerList::RegisterLogger (std::string logger_id, logger::Logger *which_lo
 
 void LoggerList::PrintRegisteredLogger ()
 {
-  std::cout << "Registered Logger:\n";
+  Rcpp::Rcout << "Registered Logger:\n";
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    std::cout << "\t>>" << it->first << "<< Logger" << std::endl;
+    Rcpp::Rcout << "\t>>" << it->first << "<< Logger" << std::endl;
   }
 }
 
@@ -147,8 +147,8 @@ void LoggerList::InitializeLoggerPrinter ()
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
     printer += it->second->InitializeLoggerPrinter() + " |";
   }
-  std::cout << printer << std::endl;
-  std::cout << std::string(printer.size(), '-') << std::endl;
+  Rcpp::Rcout << printer << std::endl;
+  Rcpp::Rcout << std::string(printer.size(), '-') << std::endl;
 }
 
 // Print logger:
@@ -158,7 +158,7 @@ void LoggerList::PrintLoggerStatus ()
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
     printer += it->second->PrintLoggerStatus() + " |";
   }
-  std::cout << printer << std::endl;
+  Rcpp::Rcout << printer << std::endl;
 }
 
 // Clear logger data:
@@ -172,7 +172,7 @@ void LoggerList::ClearLoggerData ()
 // Destructor:
 LoggerList::~LoggerList ()
 {
-  std::cout << "Call LoggerList Destructor" << std::endl;
+  Rcpp::Rcout << "Call LoggerList Destructor" << std::endl;
   // delete evaluation_data_ptr;
 }
 

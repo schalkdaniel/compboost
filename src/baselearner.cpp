@@ -117,7 +117,7 @@ std::string Baselearner::GetBaselearnerType ()
 // Destructor:
 Baselearner::~Baselearner ()
 {
-  // std::cout << "Call Baselearner Destructor" << std::endl;
+  // Rcpp::Rcout << "Call Baselearner Destructor" << std::endl;
   
   // delete blearner_type;
   // delete data_ptr;

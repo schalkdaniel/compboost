@@ -78,16 +78,16 @@ void Compboost::TrainCompboost (bool trace)
   // Initialize zero model and pseudo residuals:
   initialization = used_loss->ConstantInitializer(response);
   arma::vec pseudo_residuals_init (response.size());
-  // std::cout << "<<Compboost>> Initialize zero model and pseudo residuals" << std::endl;
+  // Rcpp::Rcout << "<<Compboost>> Initialize zero model and pseudo residuals" << std::endl;
   
   // Initialize prediction and fill with zero model:
   arma::vec prediction(response.size());
   prediction.fill(initialization);
-  // std::cout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
+  // Rcpp::Rcout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
   
   // Initialize trace:
   if (trace) {
-    std::cout << std::endl;
+    Rcpp::Rcout << std::endl;
     used_logger->InitializeLoggerPrinter(); 
   }
   
@@ -101,20 +101,20 @@ void Compboost::TrainCompboost (bool trace)
     
     // Define pseudo residuals as negative gradient:
     pseudo_residuals = -used_loss->DefinedGradient(response, prediction);
-    // std::cout << "\n<<Compboost>> Define pseudo residuals as negative gradient" << std::endl;
+    // Rcpp::Rcout << "\n<<Compboost>> Define pseudo residuals as negative gradient" << std::endl;
     
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
     blearner::Baselearner* selected_blearner = used_optimizer->FindBestBaselearner(temp_string, pseudo_residuals, used_baselearner_list.GetMap());
-    // std::cout << "<<Compboost>> Cast integer k to string for baselearner identifier" << std::endl;
+    // Rcpp::Rcout << "<<Compboost>> Cast integer k to string for baselearner identifier" << std::endl;
     
     // Insert new baselearner to vector of selected baselearner:    
     blearner_track.InsertBaselearner(selected_blearner);
-    // std::cout << "<<Compboost>> Insert new baselearner to vector of selected baselearner" << std::endl;
+    // Rcpp::Rcout << "<<Compboost>> Insert new baselearner to vector of selected baselearner" << std::endl;
     
     // Update model (prediction) and shrink by learning rate:
     prediction += learning_rate * selected_blearner->predict();
-    // std::cout << "<<Compboost>> Update model (prediction) and shrink by learning rate" << std::endl;
+    // Rcpp::Rcout << "<<Compboost>> Update model (prediction) and shrink by learning rate" << std::endl;
     
     // Log the current step:
     
@@ -123,7 +123,7 @@ void Compboost::TrainCompboost (bool trace)
     
     used_logger->LogCurrent(k, response, prediction, selected_blearner, 
       initialization, learning_rate);
-    // std::cout << "<<Compboost>> Log the current step" << std::endl;
+    // Rcpp::Rcout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):
     stop_the_algorithm = ! used_logger->GetStopperStatus(stop_if_all_stopper_fulfilled);
@@ -138,8 +138,8 @@ void Compboost::TrainCompboost (bool trace)
   }
   
   if (trace) {
-    std::cout << std::endl;
-    std::cout << std::endl; 
+    Rcpp::Rcout << std::endl;
+    Rcpp::Rcout << std::endl; 
   }
   
   // Set model prediction:
@@ -186,24 +186,24 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix ()
 
 arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
 {
-  // std::cout << "Get into Compboost::Predict" << std::endl;
+  // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
   std::map<std::string, arma::mat> parameter_map = blearner_track.GetParameterMap();
 
   arma::vec pred(data_map.begin()->second.n_rows);
   pred.fill(initialization);
   
-  // std::cout << "initialize pred vec" << std::endl;
+  // Rcpp::Rcout << "initialize pred vec" << std::endl;
   
   for (auto& it : parameter_map) {
     
     std::string sel_factory = it.first;
     
-    // std::cout << "Fatory id of parameter map: " << sel_factory << std::endl;
+    // Rcpp::Rcout << "Fatory id of parameter map: " << sel_factory << std::endl;
     
     blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.GetMap().find(sel_factory)->second;
     
-    // std::cout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
+    // Rcpp::Rcout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
     
     arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second));
     pred += data_trafo * it.second;
@@ -214,38 +214,38 @@ arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
 
 void Compboost::SummarizeCompboost ()
 {
-  std::cout << "Compboost object with:" << std::endl;
-  std::cout << "\t- Learning Rate: " << learning_rate << std::endl;
-  std::cout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
+  Rcpp::Rcout << "Compboost object with:" << std::endl;
+  Rcpp::Rcout << "\t- Learning Rate: " << learning_rate << std::endl;
+  Rcpp::Rcout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
   
   if (blearner_track.GetBaselearnerVector().size() > 0) {
-    std::cout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
-    std::cout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
+    Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
+    Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
   }
-  std::cout << std::endl;
-  std::cout << "To get more information check the other objects!" << std::endl;
+  Rcpp::Rcout << std::endl;
+  Rcpp::Rcout << "To get more information check the other objects!" << std::endl;
 }
 
 arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> data_map, unsigned int k)
 {
-  // std::cout << "Get into Compboost::Predict" << std::endl;
+  // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
   std::map<std::string, arma::mat> parameter_map = blearner_track.GetEstimatedParameterForIteration(k);
   
   arma::vec pred(data_map.begin()->second.n_rows);
   pred.fill(initialization);
   
-  // std::cout << "initialize pred vec" << std::endl;
+  // Rcpp::Rcout << "initialize pred vec" << std::endl;
   
   for (auto& it : parameter_map) {
     
     std::string sel_factory = it.first;
     
-    // std::cout << "Fatory id of parameter map: " << sel_factory << std::endl;
+    // Rcpp::Rcout << "Fatory id of parameter map: " << sel_factory << std::endl;
     
     blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.GetMap().find(sel_factory)->second;
     
-    // std::cout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
+    // Rcpp::Rcout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
     
     arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second));
     pred += data_trafo * it.second;
@@ -257,7 +257,7 @@ arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> dat
 // Destructor:
 Compboost::~Compboost ()
 {
-  // std::cout << "Call Compboost Destructor" << std::endl;
+  // Rcpp::Rcout << "Call Compboost Destructor" << std::endl;
   // delete used_optimizer;
   // delete used_loss;
   // delete used_logger;
