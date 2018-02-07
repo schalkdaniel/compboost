@@ -46,9 +46,9 @@ test_that("Loss printer works", {
   # Test:
   # --------
   
-  expect_equal(test.quadratic.printer, "QuadraticPrinter")
-  expect_equal(test.absolute.printer, "AbsolutePrinter")
-  expect_equal(test.custom.printer, "CustomPrinter")
+  expect_equal(test.quadratic.printer, "QuadraticLossPrinter")
+  expect_equal(test.absolute.printer, "AbsoluteLossPrinter")
+  expect_equal(test.custom.printer, "CustomLossPrinter")
   
 })
 
@@ -329,10 +329,10 @@ test_that("Logger(List) printer works", {
   
   y = NA_real_
   
-  log.iterations = LogIterations$new(TRUE, 500)
-  log.time       = LogTime$new(FALSE, 500, "microseconds")
-  log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.05)
-  log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
+  log.iterations = IterationLogger$new(TRUE, 500)
+  log.time       = TimeLogger$new(FALSE, 500, "microseconds")
+  log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.05)
+  log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
   
   # Define new logger list:
   logger.list = LoggerList$new()
@@ -367,10 +367,10 @@ test_that("Logger(List) printer works", {
   sink() 
   close(tc) 
   
-  expect_equal(log.iterations.printer, "LogIterationsPrinter")
-  expect_equal(log.time.printer, "LogTimePrinter")
-  expect_equal(log.inbag, "LogInbagRiskPrinter")
-  expect_equal(log.oob, "LogOobRiskPrinter")
+  expect_equal(log.iterations.printer, "IterationLoggerPrinter")
+  expect_equal(log.time.printer, "TimeLoggerPrinter")
+  expect_equal(log.inbag, "InbagRiskLoggerPrinter")
+  expect_equal(log.oob, "OobRiskLoggerPrinter")
   
   expect_equal(logger.list.printer, "LoggerListPrinter")
 })
@@ -438,10 +438,10 @@ test_that("Compboost printer works", {
   
   # Define logger. We want just the iterations as stopper but also track the
   # time, inbag risk and oob risk:
-  log.iterations = LogIterations$new(TRUE, 500)
-  log.time       = LogTime$new(FALSE, 500, "microseconds")
-  log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.05)
-  log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
+  log.iterations = IterationLogger$new(TRUE, 500)
+  log.time       = TimeLogger$new(FALSE, 500, "microseconds")
+  log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.05)
+  log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y)
   
   # Define new logger list:
   logger.list = LoggerList$new()

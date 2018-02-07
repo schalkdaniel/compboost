@@ -75,12 +75,12 @@ class Optimizer
 // Greedy:
 // -----------------------
 
-class Greedy : public Optimizer
+class GreedyOptimizer : public Optimizer
 {
   public:
     
     // No special initialization necessary:
-    Greedy ();
+    GreedyOptimizer ();
 
     blearner::Baselearner* FindBestBaselearner (std::string&, arma::vec&, blearner_factory_map);
 };

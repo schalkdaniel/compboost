@@ -82,10 +82,10 @@ class Loss
 // Loss implementations as child classes:
 // -------------------------------------------------------------------------- //
 
-// Quadratic loss:
+// QuadraticLoss loss:
 // -----------------------
 
-class Quadratic : public Loss
+class QuadraticLoss : public Loss
 {
   public:
 
@@ -96,10 +96,10 @@ class Quadratic : public Loss
     double ConstantInitializer (arma::vec&);
 };
 
-// Absolute loss:
+// AbsoluteLoss loss:
 // -----------------------
 
-class Absolute : public Loss
+class AbsoluteLoss : public Loss
 {
   public:
 

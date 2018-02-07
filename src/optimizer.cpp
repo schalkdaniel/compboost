@@ -53,12 +53,12 @@ Optimizer::~Optimizer () {
 // Optimizer implementations:
 // -------------------------------------------------------------------------- //
 
-// Greedy:
+// GreedyOptimizer:
 // -----------------------
 
-Greedy::Greedy () {}
+GreedyOptimizer::GreedyOptimizer () {}
 
-blearner::Baselearner* Greedy::FindBestBaselearner (std::string& iteration_id, 
+blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (std::string& iteration_id, 
   arma::vec& pseudo_residuals, blearner_factory_map my_blearner_factory_map)
 {
   double ssq_temp;
