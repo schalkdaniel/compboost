@@ -22,7 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   Implementation of the "BaselearnerList".
+//   Implementation of the "BaselearnerFactoryList".
 //
 // Written by:
 // -----------
@@ -43,10 +43,10 @@ namespace blearnerlist
 {
 
 // Just an empty constructor:
-BaselearnerList::BaselearnerList () {}
+BaselearnerFactoryList::BaselearnerFactoryList () {}
 
 // Register a factory:
-void BaselearnerList::RegisterBaselearnerFactory (std::string factory_id, 
+void BaselearnerFactoryList::RegisterBaselearnerFactory (std::string factory_id, 
   blearnerfactory::BaselearnerFactory *blearner_factory)
 {
   // Create iterator and check if learner is already registered:
@@ -60,7 +60,7 @@ void BaselearnerList::RegisterBaselearnerFactory (std::string factory_id,
 }
 
 // Print all registered factorys:
-void BaselearnerList::PrintRegisteredFactorys ()
+void BaselearnerFactoryList::PrintRegisteredFactorys ()
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
@@ -76,15 +76,15 @@ void BaselearnerList::PrintRegisteredFactorys ()
 }
 
 // Getter for the map object:
-blearner_factory_map BaselearnerList::GetMap ()
+blearner_factory_map BaselearnerFactoryList::GetMap ()
 {
   return my_factory_map;
 }
 
 // Remove all registered factorys:
-void BaselearnerList::ClearMap ()
+void BaselearnerFactoryList::ClearMap ()
 {
-  // std::cout << "Delete BaselearnerList!" << std::cout;
+  // std::cout << "Delete BaselearnerFactoryList!" << std::cout;
   // This deletes all the data which are sometimes necessary to re register 
   // factorys!
   // for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
@@ -93,7 +93,7 @@ void BaselearnerList::ClearMap ()
   my_factory_map.clear();
 }
 
-std::pair<std::vector<std::string>, arma::mat> BaselearnerList::GetModelFrame ()
+std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::GetModelFrame ()
 {
   arma::mat out_matrix;
   std::vector<std::string> rownames;

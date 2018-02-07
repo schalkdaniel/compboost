@@ -411,13 +411,13 @@ RCPP_MODULE (baselearner_factory_module)
 //                              BASELEARNERLIST                               //
 // -------------------------------------------------------------------------- //
 
-// Wrapper around the BaselearnerList which is in R used as FactoryList
+// Wrapper around the BaselearnerFactoryList which is in R used as FactoryList
 // (which is more intuitive, since we are giving factorys and not lists):
 class BlearnerFactoryListWrapper
 {
 private:
   
-  blearnerlist::BaselearnerList obj;
+  blearnerlist::BaselearnerFactoryList obj;
   
   unsigned int number_of_registered_factorys;
   
@@ -439,7 +439,7 @@ public:
     obj.ClearMap();
   }
   
-  blearnerlist::BaselearnerList* getFactoryList ()
+  blearnerlist::BaselearnerFactoryList* getFactoryList ()
   {
     return &obj;
   }
@@ -1018,7 +1018,7 @@ public:
   
 private:
   
-  blearnerlist::BaselearnerList* blearner_list_ptr;
+  blearnerlist::BaselearnerFactoryList* blearner_list_ptr;
   loggerlist::LoggerList* used_logger;
   optimizer::Optimizer* used_optimizer;
   cboost::Compboost* obj;

@@ -76,7 +76,7 @@ class Compboost
     blearnertrack::BaselearnerTrack blearner_track;
     optimizer::Optimizer* used_optimizer;
     loss::Loss* used_loss;
-    blearnerlist::BaselearnerList used_baselearner_list;
+    blearnerlist::BaselearnerFactoryList used_baselearner_list;
     loggerlist::LoggerList* used_logger;
   
   public:
@@ -84,7 +84,7 @@ class Compboost
     Compboost ();
     
     Compboost (arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
-      loggerlist::LoggerList*, blearnerlist::BaselearnerList);
+      loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
     
     void TrainCompboost (bool);
     

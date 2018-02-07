@@ -52,7 +52,7 @@ Compboost::Compboost () {}
 Compboost::Compboost (arma::vec response, double learning_rate, 
   bool stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, 
   loss::Loss* used_loss, loggerlist::LoggerList* used_logger,
-  blearnerlist::BaselearnerList used_baselearner_list)
+  blearnerlist::BaselearnerFactoryList used_baselearner_list)
   : response ( response ), 
     learning_rate ( learning_rate ),
     stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
