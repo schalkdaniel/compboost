@@ -64,14 +64,14 @@ void BaselearnerFactoryList::PrintRegisteredFactorys ()
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
-    std::cout << "Registered Factorys:\n";
+    Rcpp::Rcout << "Registered Factorys:\n";
   } else {
-    std::cout << "No registered Factorys!";
+    Rcpp::Rcout << "No registered Factorys!";
   }
 
   // Iterate over all registered factorys and print the factory identifier:
   for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
-    std::cout << "\t- " << it->first << std::endl;
+    Rcpp::Rcout << "\t- " << it->first << std::endl;
   }
 }
 
@@ -84,7 +84,7 @@ blearner_factory_map BaselearnerFactoryList::GetMap ()
 // Remove all registered factorys:
 void BaselearnerFactoryList::ClearMap ()
 {
-  // std::cout << "Delete BaselearnerFactoryList!" << std::cout;
+  // Rcpp::Rcout << "Delete BaselearnerFactoryList!" << Rcpp::Rcout;
   // This deletes all the data which are sometimes necessary to re register 
   // factorys!
   // for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {

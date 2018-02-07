@@ -452,7 +452,7 @@ test_that("Compboost printer works", {
   logger.list$registerLogger(log.inbag)
   logger.list$registerLogger(log.oob)
   
-  logger.list$printRegisteredLogger()
+  # logger.list$printRegisteredLogger()
   
   # Run compboost:
   # --------------

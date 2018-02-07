@@ -81,7 +81,7 @@ class BaselearnerFactoryList
     // Get the data used for modelling:
     std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
     
-    // ~BaselearnerFactoryList () {std::cout << "Destroy BaselearnerFactoryList!" << std::endl; }
+    // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
 };
 
 } // namespace blearnerlist

@@ -46,7 +46,7 @@ namespace optimizer {
 
 // Destructor:
 Optimizer::~Optimizer () {
-  std::cout << "Call Optimizer Destructor" << std::endl;
+  Rcpp::Rcout << "Call Optimizer Destructor" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //

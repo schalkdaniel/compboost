@@ -41,7 +41,7 @@ test_that("Compboost loggs correctly", {
   factory.list$registerFactory(quadratic.factory.hp)
   
   # Print the registered factorys:
-  factory.list$printRegisteredFactorys()
+  # factory.list$printRegisteredFactorys()
   
   # Print model.frame:
   factory.list$getModelFrame()
@@ -69,7 +69,7 @@ test_that("Compboost loggs correctly", {
   logger.list$registerLogger(log.inbag)
   logger.list$registerLogger(log.oob)
   
-  logger.list$printRegisteredLogger()
+  # logger.list$printRegisteredLogger()
   
   # Run compboost:
   # --------------

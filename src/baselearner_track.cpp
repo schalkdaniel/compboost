@@ -199,7 +199,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
 // Destructor:
 BaselearnerTrack::~BaselearnerTrack ()
 {
-  // std::cout << "Call BaselearnerTrack Destructor" << std::endl;
+  // Rcpp::Rcout << "Call BaselearnerTrack Destructor" << std::endl;
   for (unsigned int i = 0; i< blearner_vector.size(); i++)
   {
     delete blearner_vector[i];

@@ -104,20 +104,20 @@ public:
   void summarizeBaselearner ()
   {
     if (degree == 1) {
-      std::cout << "Linear baselearner:" << std::endl;
+      Rcpp::Rcout << "Linear baselearner:" << std::endl;
       
     }
     if (degree == 2) {
-      std::cout << "Quadratic baselearner:" << std::endl;
+      Rcpp::Rcout << "Quadratic baselearner:" << std::endl;
     }
     if (degree == 3) {
-      std::cout << "Cubic baselearner:" << std::endl;
+      Rcpp::Rcout << "Cubic baselearner:" << std::endl;
     } 
     if (degree > 3) {
-      std::cout << "Polynomial baselearner of degree " << degree << std::endl;
+      Rcpp::Rcout << "Polynomial baselearner of degree " << degree << std::endl;
     }
-    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
-    std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
   }
 };
 
@@ -163,10 +163,10 @@ public:
   
   void summarizeBaselearner ()
   {
-    std::cout << "Custom baselearner:" << std::endl;
+    Rcpp::Rcout << "Custom baselearner:" << std::endl;
       
-    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
-    std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
   }
 };
 
@@ -212,10 +212,10 @@ public:
   
   void summarizeBaselearner ()
   {
-    std::cout << "Custom baselearner:" << std::endl;
+    Rcpp::Rcout << "Custom baselearner:" << std::endl;
     
-    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
-    std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
   }
 };
 
@@ -305,20 +305,20 @@ public:
   void summarizeFactory ()
   {
     if (degree == 1) {
-      std::cout << "Linear baselearner factory:" << std::endl;
+      Rcpp::Rcout << "Linear baselearner factory:" << std::endl;
       
     }
     if (degree == 2) {
-      std::cout << "Quadratic baselearner factory:" << std::endl;
+      Rcpp::Rcout << "Quadratic baselearner factory:" << std::endl;
     }
     if (degree == 3) {
-      std::cout << "Cubic baselearner factory:" << std::endl;
+      Rcpp::Rcout << "Cubic baselearner factory:" << std::endl;
     } 
     if (degree > 3) {
-      std::cout << "Polynomial baselearner of degree " << degree << " factory:" << std::endl;
+      Rcpp::Rcout << "Polynomial baselearner of degree " << degree << " factory:" << std::endl;
     }
-    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
-    std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
   }
 };
 
@@ -342,10 +342,10 @@ public:
   
   void summarizeFactory ()
   {
-    std::cout << "Custom baselearner Factory:" << std::endl;
+    Rcpp::Rcout << "Custom baselearner Factory:" << std::endl;
       
-    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
-    std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
   }
 };
 
@@ -367,10 +367,10 @@ public:
   
   void summarizeFactory ()
   {
-    std::cout << "Custom cpp baselearner Factory:" << std::endl;
+    Rcpp::Rcout << "Custom cpp baselearner Factory:" << std::endl;
     
-    std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
-    std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
   }
 };
 
@@ -624,9 +624,9 @@ public:
   
   void summarizeLogger ()
   {
-    std::cout << "Iteration logger:" << std::endl;
-    std::cout << "\t- Maximal iterations: " << max_iterations << std::endl;
-    std::cout << "\t- Use logger as stopper: " << use_as_stopper << std::endl;
+    Rcpp::Rcout << "Iteration logger:" << std::endl;
+    Rcpp::Rcout << "\t- Maximal iterations: " << max_iterations << std::endl;
+    Rcpp::Rcout << "\t- Use logger as stopper: " << use_as_stopper << std::endl;
   }
 };
 
@@ -648,11 +648,11 @@ public:
   
   void summarizeLogger ()
   {
-    std::cout << "Inbag risk logger:" << std::endl;
+    Rcpp::Rcout << "Inbag risk logger:" << std::endl;
     if (use_as_stopper) {
-      std::cout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+      Rcpp::Rcout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
     }
-    std::cout << "\t- Use logger as stopper: " << use_as_stopper;
+    Rcpp::Rcout << "\t- Use logger as stopper: " << use_as_stopper;
   }
 };
 
@@ -685,11 +685,11 @@ public:
   
   void summarizeLogger ()
   {
-    std::cout << "Out of bag risk logger:" << std::endl;
+    Rcpp::Rcout << "Out of bag risk logger:" << std::endl;
     if (use_as_stopper) {
-      std::cout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+      Rcpp::Rcout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
     }
-    std::cout << "\t- Use logger as stopper: " << use_as_stopper;
+    Rcpp::Rcout << "\t- Use logger as stopper: " << use_as_stopper;
   }
 };
 
@@ -714,11 +714,11 @@ public:
   
   void summarizeLogger ()
   {
-    std::cout << "Time logger:" << std::endl;
+    Rcpp::Rcout << "Time logger:" << std::endl;
     if (use_as_stopper) {
-      std::cout << "\t- Stop algorithm if " << max_time << " " << time_unit << " are over" << std::endl;
+      Rcpp::Rcout << "\t- Stop algorithm if " << max_time << " " << time_unit << " are over" << std::endl;
     }
-    std::cout << "\t- Tracked time unit: " << time_unit << std::endl;
+    Rcpp::Rcout << "\t- Tracked time unit: " << time_unit << std::endl;
   }
 };
 
@@ -889,22 +889,22 @@ public:
     blearner_list_ptr = factory_list.getFactoryList();
     
     // used_optimizer = new optimizer::Greedy();
-    // std::cout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
+    // Rcpp::Rcout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
     
     // used_logger = new loggerlist::LoggerList();
-    // // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
+    // // Rcpp::Rcout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
     // 
     // logger::Logger* log_iterations = new logger::IterationLogger(true, max_iterations);
     // logger::Logger* log_time       = new logger::TimeLogger(stop_if_all_stopper_fulfilled0, max_time, "microseconds");
-    // // std::cout << "<<CompboostWrapper>> Create new Logger" << std::endl;
+    // // Rcpp::Rcout << "<<CompboostWrapper>> Create new Logger" << std::endl;
     // 
     // used_logger->RegisterLogger("iterations", log_iterations);
     // used_logger->RegisterLogger("microseconds", log_time);
-    // // std::cout << "<<CompboostWrapper>> Register Logger" << std::endl;
+    // // Rcpp::Rcout << "<<CompboostWrapper>> Register Logger" << std::endl;
     
     obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled, 
       used_optimizer, loss.getLoss(), used_logger, *blearner_list_ptr);
-    // std::cout << "<<CompboostWrapper>> Create Compboost" << std::endl;
+    // Rcpp::Rcout << "<<CompboostWrapper>> Create Compboost" << std::endl;
   }
   
   // Member functions
@@ -1009,7 +1009,7 @@ public:
   // Destructor:
   ~CompboostWrapper ()
   {
-    // std::cout << "Call CompboostWrapper Destructor" << std::endl;
+    // Rcpp::Rcout << "Call CompboostWrapper Destructor" << std::endl;
     // delete used_logger;
     // delete used_optimizer;
     // delete eval_data;
