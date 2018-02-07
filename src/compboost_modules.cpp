@@ -43,7 +43,7 @@
 
 #include "compboost.h"
 #include "baselearner_factory.h"
-#include "baselearner_list.h"
+#include "baselearner_factory_list.h"
 #include "loss.h"
 
 // -------------------------------------------------------------------------- //
