@@ -37,6 +37,14 @@ devtools::install_github("schalkdaniel/compboost")
         - [ ] Predict function for iteration `k < iter.max`
         - [x] Prediction on newdata
         - [x] Prediction on newdata for iteration `k < iter.max`
+    - [ ] Data class:
+        - [ ] Abstract class setting
+        - [ ] Ordinary child:
+            - [ ] dataGetter
+            - [ ] dataSetter
+        - [ ] Out of memory child:
+            - [ ] dataGetter
+            - [ ] dataSetter
         
 - [ ] Tests:
     - [ ] Iterate over tests (they are not coded very well)
