@@ -63,6 +63,9 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **29.01.2018** \
   Update naming to a mroe consistent scheme.
+  
+- **07.02.2018** \
+  Naming of the `C++` classes. Those are matching the `R` classes now.
 
 ## Idea
 
