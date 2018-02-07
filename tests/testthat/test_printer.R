@@ -337,6 +337,17 @@ test_that("Logger(List) printer works", {
   # Define new logger list:
   logger.list = LoggerList$new()
   
+  # Test empty printer:
+  tc = textConnection(NULL, "w") 
+  sink(tc) 
+  
+  logger.list.printer = show(logger.list)
+  
+  sink() 
+  close(tc) 
+  
+  expect_equal(logger.list.printer, "LoggerListPrinter")
+  
   # Register the logger:
   logger.list$registerLogger(log.iterations)
   logger.list$registerLogger(log.time)

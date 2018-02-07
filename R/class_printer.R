@@ -204,7 +204,11 @@ ignore.me = setMethod("show", "Rcpp_LogTime", function (object) {
 setClass("Rcpp_LoggerList")
 ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
   cat("\n")
-  object$printRegisteredLogger()
+  if (object$getNumberOfRegisteredLogger() == 0) {
+    cat("No registered logger!")
+  } else {
+    object$printRegisteredLogger()
+  }
   cat("\n\n")
   
   return ("LoggerListPrinter")

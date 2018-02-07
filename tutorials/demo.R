@@ -86,6 +86,8 @@ log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, oob.data, y)
 # Define new logger list:
 logger.list = LoggerList$new()
 
+logger.list
+
 # Register the logger:
 logger.list$registerLogger(log.iterations)
 logger.list$registerLogger(log.time)
@@ -232,11 +234,11 @@ all.equal(mod$xselect(), cboost.xselect)
 microbenchmark::microbenchmark(
   "compboost" = cboost$train(FALSE),
   "mboost"    = mboost(
-    formula = mpg ~ bols(hp) + bols(wt) + bols(hp2),
+    formula = mpg ~ bols(hp, intercept = FALSE) + bols(wt, intercept = FALSE) + bols(hp2, intercept = FALSE),
     data    = df,
     control = boost_control(mstop = 500, nu = 0.05)
   ),
-  "glmboost" = glmboost(mpg ~ 0 + hp + wt + hp2, 
+  "glmboost" = glmboost(mpg ~ hp + wt + hp2, 
     data = df, 
     control = boost_control(mstop = 500, nu = 0.05)
   )
