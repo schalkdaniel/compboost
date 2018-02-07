@@ -118,12 +118,12 @@ class Logger
 // Logger implementations:
 // -------------------------------------------------------------------------- //
 
-// LogIteration:
+// IterationLogger:
 // -----------------------
 
 // This one is the default one:
 
-class LogIteration : public Logger 
+class IterationLogger : public Logger 
 {
   private:
   
@@ -132,7 +132,7 @@ class LogIteration : public Logger
     
   public:
     
-    LogIteration (bool, unsigned int);
+    IterationLogger (bool, unsigned int);
     
     // This just loggs the iteration (unsigned int):
     void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
@@ -149,7 +149,7 @@ class LogIteration : public Logger
 // InbagRisk:
 // -----------------------
 
-class LogInbagRisk : public Logger
+class InbagRiskLogger : public Logger
 {
   private:
     loss::Loss* used_loss;
@@ -157,7 +157,7 @@ class LogInbagRisk : public Logger
     double eps_for_break;
     
   public:
-    LogInbagRisk (bool, loss::Loss*, double);
+    InbagRiskLogger (bool, loss::Loss*, double);
     
     void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
       double&, double&);
@@ -174,7 +174,7 @@ class LogInbagRisk : public Logger
 // OobRisk:
 // -----------------------
 
-class LogOobRisk : public Logger
+class OobRiskLogger : public Logger
 {
 private:
   loss::Loss* used_loss;
@@ -185,7 +185,7 @@ private:
   arma::vec oob_response;
   
 public:
-  LogOobRisk (bool, loss::Loss*, double, std::map<std::string, arma::mat>, arma::vec&);
+  OobRiskLogger (bool, loss::Loss*, double, std::map<std::string, arma::mat>, arma::vec&);
   
   void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
     double&, double&);
@@ -199,10 +199,10 @@ public:
   
 };
 
-// LogTime:
+// TimeLogger:
 // -----------------------
 
-class LogTime : public Logger
+class TimeLogger : public Logger
 {
   private:
     
@@ -213,7 +213,7 @@ class LogTime : public Logger
     
   public:
     
-    LogTime (bool, unsigned int, std::string);
+    TimeLogger (bool, unsigned int, std::string);
     
     void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
       double&, double&);

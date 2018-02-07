@@ -54,24 +54,24 @@ Loss::~Loss () {
 // Child classes:
 // -------------------------------------------------------------------------- //
 
-// Quadratic loss:
+// QuadraticLoss loss:
 // -----------------------
 
-arma::vec Quadratic::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
+arma::vec QuadraticLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
   // std::cout << "Calculate loss of child class Quadratic!" << std::endl;
   return arma::pow(true_value - prediction, 2) / 2;
 }
 
-arma::vec Quadratic::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+arma::vec QuadraticLoss::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
   // std::cout << "Calculate gradient of child class Quadratic!" << std::endl;
   return prediction - true_value;
 }
 
-double Quadratic::ConstantInitializer (arma::vec &true_value)
+double QuadraticLoss::ConstantInitializer (arma::vec &true_value)
 {
   return arma::mean(true_value);
 }
@@ -81,21 +81,21 @@ double Quadratic::ConstantInitializer (arma::vec &true_value)
 // -----------------------
 
 
-arma::vec Absolute::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
+arma::vec AbsoluteLoss::DefinedLoss (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
   // std::cout << "Calculate loss of child class Absolute!" << std::endl;
   return arma::abs(true_value - prediction);
 }
 
-arma::vec Absolute::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
+arma::vec AbsoluteLoss::DefinedGradient (arma::vec &true_value, arma::vec &prediction)
 {
   // for debugging:
   // std::cout << "Calculate gradient of child class Absolute!" << std::endl;
   return arma::sign(prediction - true_value);
 }
 
-double Absolute::ConstantInitializer (arma::vec &true_value)
+double AbsoluteLoss::ConstantInitializer (arma::vec &true_value)
 {
   return arma::median(true_value);
 }

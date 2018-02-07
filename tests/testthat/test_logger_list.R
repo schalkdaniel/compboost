@@ -2,8 +2,8 @@ context("LoggerList works")
 
 test_that("register and delete of logger entries works", {
   
-  log.iterations = LogIterations$new(TRUE, 20)
-  log.time       = LogTime$new(FALSE, 500, "microseconds")
+  log.iterations = IterationLogger$new(TRUE, 20)
+  log.time       = TimeLogger$new(FALSE, 500, "microseconds")
   
   logger.list = LoggerList$new()
   

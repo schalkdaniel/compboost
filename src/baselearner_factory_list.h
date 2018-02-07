@@ -56,7 +56,7 @@ namespace blearnerlist
 // Later we will create one static object of this class. This is a workaround
 // to register new factorys from R.
 
-class BaselearnerList 
+class BaselearnerFactoryList 
 {
   private:
     
@@ -65,7 +65,7 @@ class BaselearnerList
     
   public:
     
-    BaselearnerList ();
+    BaselearnerFactoryList ();
     
     // Functions to register a baselearner factory and print all registered
     // factorys:
@@ -81,7 +81,7 @@ class BaselearnerList
     // Get the data used for modelling:
     std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
     
-    // ~BaselearnerList () {std::cout << "Destroy BaselearnerList!" << std::endl; }
+    // ~BaselearnerFactoryList () {std::cout << "Destroy BaselearnerFactoryList!" << std::endl; }
 };
 
 } // namespace blearnerlist

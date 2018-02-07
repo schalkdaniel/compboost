@@ -54,12 +54,12 @@ test_that("Compboost loggs correctly", {
   
   # Define logger. We want just the iterations as stopper but also track the
   # time:
-  log.iterations = LogIterations$new(TRUE, iter.max)
-  log.time.ms    = LogTime$new(TRUE, 50000, "microseconds")
-  log.time.sec   = LogTime$new(TRUE, 2, "seconds")
-  log.time.min   = LogTime$new(TRUE, 1, "minutes")
-  log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.01)
-  log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y)
+  log.iterations = IterationLogger$new(TRUE, iter.max)
+  log.time.ms    = TimeLogger$new(TRUE, 50000, "microseconds")
+  log.time.sec   = TimeLogger$new(TRUE, 2, "seconds")
+  log.time.min   = TimeLogger$new(TRUE, 1, "minutes")
+  log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.01)
+  log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y)
   
   logger.list = LoggerList$new()
   logger.list$registerLogger(log.iterations)
@@ -158,8 +158,8 @@ test_that("compboost does the same as mboost", {
   
   # Define logger. We want just the iterations as stopper but also track the
   # time:
-  log.iterations = LogIterations$new(TRUE, iter.max)
-  log.time       = LogTime$new(FALSE, 500, "microseconds")
+  log.iterations = IterationLogger$new(TRUE, iter.max)
+  log.time       = TimeLogger$new(FALSE, 500, "microseconds")
   
   logger.list = LoggerList$new()
   logger.list$registerLogger(log.iterations)

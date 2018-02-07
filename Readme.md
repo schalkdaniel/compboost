@@ -41,6 +41,9 @@ devtools::install_github("schalkdaniel/compboost")
 - [ ] Tests:
     - [ ] Iterate over tests (they are not coded very well)
     - [x] Test for `BaselearnerCpp` see #86
+    
+- [x] Naming:
+    - [x] Consistent naming between `R` and `C++`
 
 ## Changelog
 
@@ -60,6 +63,9 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **29.01.2018** \
   Update naming to a mroe consistent scheme.
+  
+- **07.02.2018** \
+  Naming of the `C++` classes. Those are matching the `R` classes now.
 
 ## Idea
 

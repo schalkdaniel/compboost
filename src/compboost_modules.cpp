@@ -43,7 +43,7 @@
 
 #include "compboost.h"
 #include "baselearner_factory.h"
-#include "baselearner_list.h"
+#include "baselearner_factory_list.h"
 #include "loss.h"
 
 // -------------------------------------------------------------------------- //
@@ -73,7 +73,7 @@ public:
     : degree ( degree )
   {
     std::string temp = "test polynomial of degree " + std::to_string(degree);
-    obj = new blearner::Polynomial(data, data_id, temp, degree);
+    obj = new blearner::PolynomialBlearner(data, data_id, temp, degree);
     data = obj->InstantiateData(data0);
   }
   
@@ -133,7 +133,7 @@ public:
     Rcpp::Function train, Rcpp::Function predict, Rcpp::Function extractParameter)
   {
     std::string temp = "test custom";
-    obj = new blearner::Custom(data, data_id, temp,instantiateData, train, predict, extractParameter);
+    obj = new blearner::CustomBlearner(data, data_id, temp,instantiateData, train, predict, extractParameter);
     data = obj->InstantiateData(data0);
   }
   
@@ -181,7 +181,7 @@ public:
     SEXP train_ptr, SEXP predict_ptr)
   {
     std::string temp = "test custom cpp learner";
-    obj = new blearner::CustomCpp(data, data_id, temp, instantiate_data_ptr,
+    obj = new blearner::CustomCppBlearner(data, data_id, temp, instantiate_data_ptr,
       train_ptr, predict_ptr);
     data = obj->InstantiateData(data0);
   }
@@ -212,7 +212,7 @@ public:
   
   void summarizeBaselearner ()
   {
-    std::cout << "CustomCpp baselearner:" << std::endl;
+    std::cout << "Custom baselearner:" << std::endl;
     
     std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
     std::cout << "\t- Baselearner identifier: " << obj->GetIdentifier() << std::endl;
@@ -281,7 +281,7 @@ protected:
   // blearner::Baselearner* test_obj;
 };
 
-// Wrapper around the PolynomialFactory:
+// Wrapper around the PolynomialBlearnerFactory:
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
   
@@ -294,7 +294,7 @@ public:
     unsigned int degree) 
     : degree ( degree )
   {
-    obj = new blearnerfactory::PolynomialFactory("polynomial", data, 
+    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data, 
       data_identifier, degree);
   }
 
@@ -322,7 +322,7 @@ public:
   }
 };
 
-// Wrapper around the CustomFactory:
+// Wrapper around the CustomBlearnerFactory:
 class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -331,7 +331,7 @@ public:
     Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomFactory("custom", data, 
+    obj = new blearnerfactory::CustomBlearnerFactory("custom", data, 
       data_identifier, instantiateDataFun, trainFun, predictFun, 
       extractParameter);
   }
@@ -349,7 +349,7 @@ public:
   }
 };
 
-// Wrapper around the CustomCppFactory:
+// Wrapper around the CustomCppBlearnerFactory:
 class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -357,7 +357,7 @@ public:
   CustomCppBlearnerFactoryWrapper (arma::mat data, std::string data_identifier, 
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppFactory("custom cpp", data, 
+    obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data, 
       data_identifier, instantiateDataFun, trainFun, predictFun);
   }
   
@@ -367,7 +367,7 @@ public:
   
   void summarizeFactory ()
   {
-    std::cout << "CustomCpp baselearner Factory:" << std::endl;
+    std::cout << "Custom cpp baselearner Factory:" << std::endl;
     
     std::cout << "\t- Name of the used data: " << obj->GetDataIdentifier() << std::endl;
     std::cout << "\t- Factory creates the following baselearner: " << obj->GetBaselearnerType() << std::endl;
@@ -411,13 +411,13 @@ RCPP_MODULE (baselearner_factory_module)
 //                              BASELEARNERLIST                               //
 // -------------------------------------------------------------------------- //
 
-// Wrapper around the BaselearnerList which is in R used as FactoryList
+// Wrapper around the BaselearnerFactoryList which is in R used as FactoryList
 // (which is more intuitive, since we are giving factorys and not lists):
 class BlearnerFactoryListWrapper
 {
 private:
   
-  blearnerlist::BaselearnerList obj;
+  blearnerlist::BaselearnerFactoryList obj;
   
   unsigned int number_of_registered_factorys;
   
@@ -439,7 +439,7 @@ public:
     obj.ClearMap();
   }
   
-  blearnerlist::BaselearnerList* getFactoryList ()
+  blearnerlist::BaselearnerFactoryList* getFactoryList ()
   {
     return &obj;
   }
@@ -491,10 +491,10 @@ protected:
   loss::Loss* obj;
 };
 
-class QuadraticWrapper : public LossWrapper
+class QuadraticLossWrapper : public LossWrapper
 {
 public:
-  QuadraticWrapper () { obj = new loss::Quadratic(); }
+  QuadraticLossWrapper () { obj = new loss::QuadraticLoss(); }
   arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
     return obj->DefinedLoss(true_value, prediction);
   }
@@ -506,10 +506,10 @@ public:
   }
 };
 
-class AbsoluteWrapper : public LossWrapper
+class AbsoluteLossWrapper : public LossWrapper
 {
 public:
-  AbsoluteWrapper () { obj = new loss::Absolute(); }
+  AbsoluteLossWrapper () { obj = new loss::AbsoluteLoss(); }
   arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
     return obj->DefinedLoss(true_value, prediction);
   }
@@ -551,20 +551,20 @@ RCPP_MODULE (loss_module)
     .constructor ()
   ;
   
-  class_<QuadraticWrapper> ("QuadraticLoss")
+  class_<QuadraticLossWrapper> ("QuadraticLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
-    .method("testLoss", &QuadraticWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &QuadraticWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &QuadraticWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
+    .method("testLoss", &QuadraticLossWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &QuadraticLossWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &QuadraticLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
   
-  class_<AbsoluteWrapper> ("AbsoluteLoss")
+  class_<AbsoluteLossWrapper> ("AbsoluteLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
-    .method("testLoss", &AbsoluteWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &AbsoluteWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &AbsoluteWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
+    .method("testLoss", &AbsoluteLossWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &AbsoluteLossWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &AbsoluteLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
   
   class_<CustomLossWrapper> ("CustomLoss")
@@ -606,7 +606,7 @@ protected:
   std::string logger_id;
 };
 
-class LogIterationWrapper : public LoggerWrapper
+class IterationLoggerWrapper : public LoggerWrapper
 {
   
 private:
@@ -614,11 +614,11 @@ private:
   bool use_as_stopper;
   
 public:
-  LogIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
+  IterationLoggerWrapper (bool use_as_stopper, unsigned int max_iterations)
     : max_iterations ( max_iterations ),
       use_as_stopper ( use_as_stopper )
   {
-    obj = new logger::LogIteration (use_as_stopper, max_iterations);
+    obj = new logger::IterationLogger (use_as_stopper, max_iterations);
     logger_id = " iterations";
   }
   
@@ -630,7 +630,7 @@ public:
   }
 };
 
-class LogInbagRiskWrapper : public LoggerWrapper
+class InbagRiskLoggerWrapper : public LoggerWrapper
 {
   
 private:
@@ -638,11 +638,11 @@ private:
   bool use_as_stopper;
   
 public:
-  LogInbagRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break)
+  InbagRiskLoggerWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
-    obj = new logger::LogInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
+    obj = new logger::InbagRiskLogger (use_as_stopper, used_loss.getLoss(), eps_for_break);
     logger_id = "inbag.risk";
   }
   
@@ -656,7 +656,7 @@ public:
   }
 };
 
-class LogOobRiskWrapper : public LoggerWrapper
+class OobRiskLoggerWrapper : public LoggerWrapper
 {
   
 private:
@@ -664,7 +664,7 @@ private:
   bool use_as_stopper;
   
 public:
-  LogOobRiskWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break,
+  OobRiskLoggerWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
     std::map<std::string, arma::mat> oob_data_map;
@@ -678,7 +678,7 @@ public:
       
     }
     
-    obj = new logger::LogOobRisk (use_as_stopper, used_loss.getLoss(), eps_for_break,
+    obj = new logger::OobRiskLogger (use_as_stopper, used_loss.getLoss(), eps_for_break,
       oob_data_map, oob_response);
     logger_id = "oob.risk";
   }
@@ -693,7 +693,7 @@ public:
   }
 };
 
-class LogTimeWrapper : public LoggerWrapper
+class TimeLoggerWrapper : public LoggerWrapper
 {
   
 private:
@@ -702,13 +702,13 @@ private:
   std::string time_unit;
   
 public:
-  LogTimeWrapper (bool use_as_stopper, unsigned int max_time, 
+  TimeLoggerWrapper (bool use_as_stopper, unsigned int max_time, 
     std::string time_unit)
     : use_as_stopper ( use_as_stopper ),
       max_time ( max_time ),
       time_unit ( time_unit )
   {
-    obj = new logger::LogTime (use_as_stopper, max_time, time_unit);
+    obj = new logger::TimeLogger (use_as_stopper, max_time, time_unit);
     logger_id = "time." + time_unit;
   }
   
@@ -783,28 +783,28 @@ RCPP_MODULE(logger_module)
     .constructor ()
   ;
   
-  class_<LogIterationWrapper> ("LogIterations")
+  class_<IterationLoggerWrapper> ("IterationLogger")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int> ()
-    .method("summarizeLogger", &LogIterationWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &IterationLoggerWrapper::summarizeLogger, "Summarize logger")
   ;
   
-  class_<LogInbagRiskWrapper> ("LogInbagRisk")
+  class_<InbagRiskLoggerWrapper> ("InbagRiskLogger")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper, double> ()
-    .method("summarizeLogger", &LogInbagRiskWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &InbagRiskLoggerWrapper::summarizeLogger, "Summarize logger")
   ;
   
-  class_<LogOobRiskWrapper> ("LogOobRisk")
+  class_<OobRiskLoggerWrapper> ("OobRiskLogger")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper, double, Rcpp::List, arma::vec> ()
-    .method("summarizeLogger", &LogOobRiskWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &OobRiskLoggerWrapper::summarizeLogger, "Summarize logger")
   ;
   
-  class_<LogTimeWrapper> ("LogTime")
+  class_<TimeLoggerWrapper> ("TimeLogger")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int, std::string> ()
-    .method("summarizeLogger", &LogTimeWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &TimeLoggerWrapper::summarizeLogger, "Summarize logger")
   ;
   
   class_<LoggerListWrapper> ("LoggerList")
@@ -835,7 +835,7 @@ protected:
 class GreedyOptimizer : public OptimizerWrapper
 {
 public:
-  GreedyOptimizer () { obj = new optimizer::Greedy(); }
+  GreedyOptimizer () { obj = new optimizer::GreedyOptimizer(); }
   
   Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
   {
@@ -894,8 +894,8 @@ public:
     // used_logger = new loggerlist::LoggerList();
     // // std::cout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
     // 
-    // logger::Logger* log_iterations = new logger::LogIteration(true, max_iterations);
-    // logger::Logger* log_time       = new logger::LogTime(stop_if_all_stopper_fulfilled0, max_time, "microseconds");
+    // logger::Logger* log_iterations = new logger::IterationLogger(true, max_iterations);
+    // logger::Logger* log_time       = new logger::TimeLogger(stop_if_all_stopper_fulfilled0, max_time, "microseconds");
     // // std::cout << "<<CompboostWrapper>> Create new Logger" << std::endl;
     // 
     // used_logger->RegisterLogger("iterations", log_iterations);
@@ -1018,7 +1018,7 @@ public:
   
 private:
   
-  blearnerlist::BaselearnerList* blearner_list_ptr;
+  blearnerlist::BaselearnerFactoryList* blearner_list_ptr;
   loggerlist::LoggerList* used_logger;
   optimizer::Optimizer* used_optimizer;
   cboost::Compboost* obj;

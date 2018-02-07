@@ -144,57 +144,57 @@ ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
 
 setClass("Rcpp_QuadraticLoss")
 ignore.me = setMethod("show", "Rcpp_QuadraticLoss", function (object) {
-  glueLoss("Quadratic", "(y - f(x))^2")
+  glueLoss("QuadraticLoss", "(y - f(x))^2")
 })
 
 setClass("Rcpp_AbsoluteLoss")
 ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
-  glueLoss("Absolute", "|y - f(x)|")
+  glueLoss("AbsoluteLoss", "|y - f(x)|")
 })
 
 setClass("Rcpp_CustomLoss")
 ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
-  glueLoss("Custom")
+  glueLoss("CustomLoss")
 })
 
 # ---------------------------------------------------------------------------- #
 # Logger:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_LogIterations")
-ignore.me = setMethod("show", "Rcpp_LogIterations", function (object) {
+setClass("Rcpp_IterationLogger")
+ignore.me = setMethod("show", "Rcpp_IterationLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
   
-  return ("LogIterationsPrinter")
+  return ("IterationLoggerPrinter")
 })
 
-setClass("Rcpp_LogInbagRisk")
-ignore.me = setMethod("show", "Rcpp_LogInbagRisk", function (object) {
+setClass("Rcpp_InbagRiskLogger")
+ignore.me = setMethod("show", "Rcpp_InbagRiskLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
   
-  return ("LogInbagRiskPrinter")
+  return ("InbagRiskLoggerPrinter")
 })
 
-setClass("Rcpp_LogOobRisk")
-ignore.me = setMethod("show", "Rcpp_LogOobRisk", function (object) {
+setClass("Rcpp_OobRiskLogger")
+ignore.me = setMethod("show", "Rcpp_OobRiskLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
   
-  return ("LogOobRiskPrinter")
+  return ("OobRiskLoggerPrinter")
 })
 
-setClass("Rcpp_LogTime")
-ignore.me = setMethod("show", "Rcpp_LogTime", function (object) {
+setClass("Rcpp_TimeLogger")
+ignore.me = setMethod("show", "Rcpp_TimeLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
   
-  return ("LogTimePrinter")
+  return ("TimeLoggerPrinter")
 })
 
 # ---------------------------------------------------------------------------- #

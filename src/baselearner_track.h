@@ -47,7 +47,7 @@
 #define BASELEARNERTACK_H_
 
 #include "baselearner.h"
-#include "baselearner_list.h"
+#include "baselearner_factory_list.h"
 
 namespace blearnertrack
 {

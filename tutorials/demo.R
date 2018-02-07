@@ -78,10 +78,10 @@ optimizer = GreedyOptimizer$new()
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations = LogIterations$new(TRUE, 500)
-log.time       = LogTime$new(FALSE, 500, "microseconds")
-log.inbag      = LogInbagRisk$new(FALSE, loss.quadratic, 0.05)
-log.oob        = LogOobRisk$new(FALSE, loss.quadratic, 0.05, oob.data, y)
+log.iterations = IterationLogger$new(TRUE, 500)
+log.time       = TimeLogger$new(FALSE, 500, "microseconds")
+log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.05)
+log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()

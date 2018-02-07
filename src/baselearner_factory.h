@@ -117,12 +117,12 @@ class BaselearnerFactory
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// Polynomial:
+// PolynomialBlearner:
 // -----------------------
 
 // Should be explained by itself:
 
-class PolynomialFactory : public BaselearnerFactory
+class PolynomialBlearnerFactory : public BaselearnerFactory
 {
   private:
     
@@ -130,14 +130,14 @@ class PolynomialFactory : public BaselearnerFactory
     
   public:
     
-    PolynomialFactory (std::string, arma::mat, std::string, unsigned int);
+    PolynomialBlearnerFactory (std::string, arma::mat, std::string, unsigned int);
     
     blearner::Baselearner* CreateBaselearner (std::string&);
     
     arma::mat InstantiateData (arma::mat&);
 };
 
-// Custom:
+// CustomBlearner:
 // -----------------------
 
 // This class stores the R functions which are mentioned and explained a bit
@@ -146,7 +146,7 @@ class PolynomialFactory : public BaselearnerFactory
 
 // Issue: https://github.com/schalkdaniel/compboost/issues/53
 
-class CustomFactory : public BaselearnerFactory
+class CustomBlearnerFactory : public BaselearnerFactory
 {
   private:
     
@@ -157,7 +157,7 @@ class CustomFactory : public BaselearnerFactory
     
   public:
     
-    CustomFactory (std::string, arma::mat, std::string, Rcpp::Function, 
+    CustomBlearnerFactory (std::string, arma::mat, std::string, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function, Rcpp::Function);
     
     blearner::Baselearner* CreateBaselearner (std::string&);
@@ -166,11 +166,11 @@ class CustomFactory : public BaselearnerFactory
     
 };
 
-// CustomCpp:
+// CustomCppBlearner:
 // -----------------------
 
 typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
-class CustomCppFactory : public BaselearnerFactory
+class CustomCppBlearnerFactory : public BaselearnerFactory
 {
 private:
   
@@ -181,7 +181,7 @@ private:
   
 public:
   
-  CustomCppFactory (std::string, arma::mat, std::string, SEXP, SEXP, 
+  CustomCppBlearnerFactory (std::string, arma::mat, std::string, SEXP, SEXP, 
     SEXP);
   
   blearner::Baselearner* CreateBaselearner (std::string&);

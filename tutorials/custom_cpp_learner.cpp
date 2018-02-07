@@ -38,7 +38,7 @@ arma::mat predictFun (arma::mat& newdata, arma::mat& parameter)
 // ------------------
 
 // Now here we wrap the function to an XPtr. This one stores the pointer
-// to the function and can be used as parameter for the CustomCppFactory.
+// to the function and can be used as parameter for the CustomCppBlearnerFactory.
 
 // Note that we don't have to export the upper functions since we are just
 // interested in the pointer of the functions.
