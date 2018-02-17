@@ -58,6 +58,7 @@
 #include <string>
 
 #include "baselearner.h"
+#include "data.h"
 
 namespace blearnerfactory {
 
@@ -80,7 +81,7 @@ class BaselearnerFactory
   public:
     
     // This function has to be called from every child class:
-    void InitializeFactory (std::string, std::string);
+    void InitializeFactory (std::string);
     
     // Create new baselearner with id:
     virtual blearner::Baselearner* CreateBaselearner (std::string&) = 0;
@@ -97,7 +98,7 @@ class BaselearnerFactory
     
     std::string GetBaselearnerType ();
     
-    virtual arma::mat InstantiateData (arma::mat&) = 0;
+    virtual arma::mat InstantiateData (arma::mat) = 0;
     
     // Destructor:
     virtual ~BaselearnerFactory ();
@@ -106,8 +107,8 @@ class BaselearnerFactory
     
     // Minimal functionality every baselearner should have:
     std::string blearner_type;
-    arma::mat data;
-    std::string data_identifier;
+    data::Data* data;
+    // std::string data_identifier;
     
     // bool is_data_instantiated = false;
   
@@ -130,11 +131,11 @@ class PolynomialBlearnerFactory : public BaselearnerFactory
     
   public:
     
-    PolynomialBlearnerFactory (std::string, arma::mat, std::string, unsigned int);
+    PolynomialBlearnerFactory (std::string, data::Data*, unsigned int);
     
     blearner::Baselearner* CreateBaselearner (std::string&);
     
-    arma::mat InstantiateData (arma::mat&);
+    arma::mat InstantiateData (arma::mat);
 };
 
 // CustomBlearner:
@@ -157,12 +158,12 @@ class CustomBlearnerFactory : public BaselearnerFactory
     
   public:
     
-    CustomBlearnerFactory (std::string, arma::mat, std::string, Rcpp::Function, 
+    CustomBlearnerFactory (std::string, data::Data*, Rcpp::Function, 
       Rcpp::Function, Rcpp::Function, Rcpp::Function);
     
     blearner::Baselearner* CreateBaselearner (std::string&);
     
-    arma::mat InstantiateData (arma::mat&);
+    arma::mat InstantiateData (arma::mat);
     
 };
 
@@ -181,12 +182,12 @@ private:
   
 public:
   
-  CustomCppBlearnerFactory (std::string, arma::mat, std::string, SEXP, SEXP, 
+  CustomCppBlearnerFactory (std::string, data::Data*, SEXP, SEXP, 
     SEXP);
   
   blearner::Baselearner* CreateBaselearner (std::string&);
   
-  arma::mat InstantiateData (arma::mat&);
+  arma::mat InstantiateData (arma::mat);
   
 };
 

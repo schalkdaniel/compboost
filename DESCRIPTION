@@ -34,4 +34,5 @@ RcppModules:
     baselearner_factory_module,
     baselearner_list_module,
     logger_module,
-    optimizer_module
+    optimizer_module,
+    data_module

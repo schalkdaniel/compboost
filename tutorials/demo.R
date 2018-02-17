@@ -22,6 +22,10 @@ X.wt = as.matrix(df[["wt"]])
 # Target variable:
 y = df[["mpg"]]
 
+data.hp1 = IdentityData$new(X.hp, "hp")
+data.hp2 = IdentityData$new(X.hp, "hp")
+data.wt = IdentityData$new(X.wt, "wt")
+
 # Next lists are the same as the used data. Then we can have a look if the oob
 # and inbag logger and the train prediction and prediction on newdata are doing
 # the same.
@@ -42,11 +46,11 @@ test.data = oob.data
 ## Baselearner
 
 # Create new linear baselearner of hp and wt:
-linear.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(X.wt, "wt", 1)
+linear.factory.hp = PolynomialBlearnerFactory$new(data.hp1, 1)
+linear.factory.wt = PolynomialBlearnerFactory$new(data.wt, 1)
 
 # Create new quadratic baselearner of hp:
-quadratic.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 2)
+quadratic.factory.hp = PolynomialBlearnerFactory$new(data.hp2, 2)
 
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()

@@ -55,6 +55,8 @@
 #include <RcppArmadillo.h>
 #include <string>
 
+#include "data.h"
+
 namespace blearner {
 
 // -------------------------------------------------------------------------- //
@@ -72,25 +74,25 @@ class Baselearner
     // // to the higher dimension space. The overloading function with the 
     // // arma mat as parameter is used for newdata:
     // virtual arma::mat InstantiateData () = 0;
-    virtual arma::mat InstantiateData (arma::mat&) = 0;
+    virtual arma::mat InstantiateData (arma::mat) = 0;
     
     // Clone function (in some places needed e. g. "optimizer.cpp"):
-    virtual Baselearner *Clone () = 0;
+    virtual Baselearner* Clone () = 0;
     
     // Copy function to set all members within the copy. It is more convenient
     // to do this once instead of copy and pasting every element every time:
-    void CopyMembers (arma::mat, std::string, arma::mat &);
+    void CopyMembers (arma::mat, std::string, data::Data*);
     
     // Within 'SetData' the pointer will be setted, while 'InstantiateData'
     // overwrite the object on which 'data_ptr' points. This guarantees that 
     // the data is just stored once in the factory and then called by reference
     // within the baselearner:
-    void SetData (arma::mat&);
+    void SetData (data::Data*);
     arma::mat GetData ();
     
     // Set an identifier for the data. This is important for fitting to new
     // data:
-    void SetDataIdentifier (std::string&);
+    // void SetDataIdentifier (std::string&);
     std::string GetDataIdentifier ();
     
     arma::mat GetParameter ();
@@ -118,8 +120,8 @@ class Baselearner
     arma::mat parameter;
     std::string blearner_identifier;
     std::string* blearner_type;
-    arma::mat* data_ptr;
-    std::string data_identifier;
+    data::Data* data_ptr;
+    // std::string data_identifier;
     
 };
 
@@ -143,12 +145,12 @@ class PolynomialBlearner : public Baselearner
   public:
   
     // (data pointer, data identifier, baselearner identifier, degree) 
-    PolynomialBlearner (arma::mat&, std::string&, std::string&, unsigned int&);
+    PolynomialBlearner (data::Data*, std::string&, unsigned int&);
     
     Baselearner* Clone ();
     
     // arma::mat InstantiateData ();
-    arma::mat InstantiateData (arma::mat&);
+    arma::mat InstantiateData (arma::mat);
     
     void train (arma::vec&);
     arma::mat predict (arma::mat&);
@@ -181,8 +183,8 @@ class CustomBlearner : public Baselearner
     // (data pointer, data identifier, baselearner identifier, R function for
     // data instantiation, R function for training, R function for prediction,
     // R function to extract parameter):
-    CustomBlearner (arma::mat&, std::string&, std::string&, Rcpp::Function, Rcpp::Function,
-      Rcpp::Function, Rcpp::Function);
+    CustomBlearner (data::Data*, std::string&, Rcpp::Function, 
+      Rcpp::Function, Rcpp::Function, Rcpp::Function);
     
     // Copy constructor:
     Baselearner* Clone ();
@@ -192,7 +194,7 @@ class CustomBlearner : public Baselearner
     void CleanUp ();
     
     // arma::mat InstantiateData ();
-    arma::mat InstantiateData (arma::mat&);
+    arma::mat InstantiateData (arma::mat);
     
     void train (arma::vec&);
     arma::mat predict (arma::mat&);
@@ -213,9 +215,9 @@ class CustomBlearner : public Baselearner
 // Please note, that the result of the train function should be a matrix
 // containing the estimated parameter.
 
-typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
-typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
-typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
+typedef arma::mat (*trainFunPtr) (const arma::vec& y, const arma::mat& X);
+typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& parameter);
 
 class CustomCppBlearner : public Baselearner
 {
@@ -231,7 +233,7 @@ public:
   // (data pointer, data identifier, baselearner identifier, R function for
   // data instantiation, R function for training, R function for prediction,
   // R function to extract parameter):
-  CustomCppBlearner (arma::mat&, std::string&, std::string&, SEXP, SEXP, SEXP);
+  CustomCppBlearner (data::Data*, std::string&, SEXP, SEXP, SEXP);
   
   // Copy constructor:
   Baselearner* Clone ();
@@ -241,7 +243,7 @@ public:
   void CleanUp ();
   
   // arma::mat InstantiateData ();
-  arma::mat InstantiateData (arma::mat&);
+  arma::mat InstantiateData (arma::mat);
   
   void train (arma::vec&);
   arma::mat predict (arma::mat&);

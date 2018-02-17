@@ -47,35 +47,35 @@ namespace blearner {
 
 // Copy (or initialize) the members in new copied class:
 void Baselearner::CopyMembers (arma::mat parameter0, std::string blearner_identifier0, 
-  arma::mat& data0)
+  data::Data* data0)
 {
   parameter = parameter0;
   blearner_identifier = blearner_identifier0;
-  data_ptr = &data0;
+  data_ptr = data0;
 }
 
 // Set the data pointer:
-void Baselearner::SetData (arma::mat& data)
+void Baselearner::SetData (data::Data* data)
 {
-  data_ptr = &data;
+  data_ptr = data;
 }
 
 // Get the data on which data pointer points:
 arma::mat Baselearner::GetData ()
 {
-  return *data_ptr;
+  return data_ptr->getData();
 }
 
 // Set the data identifier:
-void Baselearner::SetDataIdentifier (std::string& data_identifier0)
-{
-  data_identifier = data_identifier0;
-}
+// void Baselearner::SetDataIdentifier (std::string& data_identifier0)
+// {
+//   data_identifier = data_identifier0;
+// }
 
 // Get the data identifier:
 std::string Baselearner::GetDataIdentifier ()
 {
-  return data_identifier;
+  return data_ptr->getDataIdentifier();
 }
 
 // Get the parameter obtained by training:
@@ -131,21 +131,21 @@ Baselearner::~Baselearner ()
 // PolynomialBlearner:
 // -----------------------
 
-PolynomialBlearner::PolynomialBlearner (arma::mat &data, std::string &data_identifier, 
-  std::string &identifier, unsigned int &degree) 
+PolynomialBlearner::PolynomialBlearner (data::Data* data, std::string& identifier, 
+  unsigned int& degree) 
   : degree ( degree )
 {
   // Called from parent class 'Baselearner':
   Baselearner::SetData(data);
   Baselearner::SetIdentifier(identifier);
-  Baselearner::SetDataIdentifier(data_identifier);
+  // Baselearner::SetDataIdentifier(data_identifier);
 }
 
 // Copy member:
 Baselearner* PolynomialBlearner::Clone ()
 {
   Baselearner* newbl = new PolynomialBlearner(*this);
-  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
   
   return newbl;
 }
@@ -159,7 +159,7 @@ Baselearner* PolynomialBlearner::Clone ()
 // 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat PolynomialBlearner::InstantiateData (arma::mat& newdata)
+arma::mat PolynomialBlearner::InstantiateData (arma::mat newdata)
 {
 
   return arma::pow(newdata, degree);
@@ -168,13 +168,13 @@ arma::mat PolynomialBlearner::InstantiateData (arma::mat& newdata)
 // Train the learner:
 void PolynomialBlearner::train (arma::vec& response)
 {
-  parameter = arma::solve(*data_ptr, response);
+  parameter = arma::solve(data_ptr->getData(), response);
 }
 
 
 arma::mat PolynomialBlearner::predict ()
 {
-  return *data_ptr * parameter;
+  return data_ptr->getData() * parameter;
 }
 
 // Predict the learner:
@@ -189,7 +189,7 @@ PolynomialBlearner::~PolynomialBlearner () {}
 // CustomBlearner Baselearner:
 // -----------------------
 
-CustomBlearner::CustomBlearner (arma::mat& data, std::string& data_identifier, std::string& identifier, 
+CustomBlearner::CustomBlearner (data::Data* data, std::string& identifier, 
   Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun, 
   Rcpp::Function extractParameter) 
     : instantiateDataFun ( instantiateDataFun ), 
@@ -200,14 +200,14 @@ CustomBlearner::CustomBlearner (arma::mat& data, std::string& data_identifier, s
   // Called from parent class 'Baselearner':
   Baselearner::SetData (data);
   Baselearner::SetIdentifier (identifier);
-  Baselearner::SetDataIdentifier (data_identifier);
+  // Baselearner::SetDataIdentifier (data_identifier);
 }
 
 // Copy member:
 Baselearner* CustomBlearner::Clone ()
 {
   Baselearner* newbl = new CustomBlearner (*this);
-  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
   
   return newbl;
 }
@@ -225,7 +225,7 @@ Baselearner* CustomBlearner::Clone ()
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat CustomBlearner::InstantiateData (arma::mat& newdata)
+arma::mat CustomBlearner::InstantiateData (arma::mat newdata)
 {
   Rcpp::NumericMatrix out = instantiateDataFun(newdata);
   return Rcpp::as<arma::mat>(out);
@@ -240,7 +240,7 @@ arma::mat CustomBlearner::InstantiateData (arma::mat& newdata)
 //       during the whole process:
 void CustomBlearner::train (arma::vec& response)
 {
-  model     = trainFun(response, *data_ptr);
+  model     = trainFun(response, data_ptr->getData());
   parameter = Rcpp::as<arma::mat>(extractParameter(model));
 }
 
@@ -253,7 +253,7 @@ arma::mat CustomBlearner::predict (arma::mat& newdata)
 
 arma::mat CustomBlearner::predict ()
 {
-  Rcpp::NumericMatrix out = predictFun(model, *data_ptr);
+  Rcpp::NumericMatrix out = predictFun(model, data_ptr->getData());
   return Rcpp::as<arma::mat>(out);
 }
 
@@ -264,13 +264,13 @@ CustomBlearner::~CustomBlearner () {}
 // CustomCppBlearner Baselearner:
 // -----------------------
 
-CustomCppBlearner::CustomCppBlearner (arma::mat& data, std::string& data_identifier, std::string& identifier, 
+CustomCppBlearner::CustomCppBlearner (data::Data* data, std::string& identifier, 
   SEXP instantiateDataFun0, SEXP trainFun0, SEXP predictFun0)
 {
   // Called from parent class 'Baselearner':
   Baselearner::SetData (data);
   Baselearner::SetIdentifier (identifier);
-  Baselearner::SetDataIdentifier (data_identifier);
+  // Baselearner::SetDataIdentifier (data_identifier);
   
   // Set functions:
   Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun0);
@@ -287,7 +287,7 @@ CustomCppBlearner::CustomCppBlearner (arma::mat& data, std::string& data_identif
 Baselearner* CustomCppBlearner::Clone ()
 {
   Baselearner* newbl = new CustomCppBlearner (*this);
-  newbl->CopyMembers(this->parameter, this->blearner_identifier, *this->data_ptr);
+  newbl->CopyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
   
   return newbl;
 }
@@ -304,7 +304,7 @@ Baselearner* CustomCppBlearner::Clone ()
 // 
 // // Transform data. This is done twice since it makes the prediction
 // // of the whole compboost object so much easier:
-arma::mat CustomCppBlearner::InstantiateData (arma::mat& newdata)
+arma::mat CustomCppBlearner::InstantiateData (arma::mat newdata)
 {
   return instantiateDataFun(newdata);
 }
@@ -318,7 +318,7 @@ arma::mat CustomCppBlearner::InstantiateData (arma::mat& newdata)
 //       during the whole process:
 void CustomCppBlearner::train (arma::vec& response)
 {
-  parameter = trainFun(response, *data_ptr);
+  parameter = trainFun(response, data_ptr->getData());
 }
 
 // Predict by using the R function 'predictFun':
@@ -330,7 +330,7 @@ arma::mat CustomCppBlearner::predict (arma::mat& newdata)
 
 arma::mat CustomCppBlearner::predict ()
 {
-  return predictFun (*data_ptr, parameter);
+  return predictFun (data_ptr->getData(), parameter);
 }
 
 // Destructor:
