@@ -4,9 +4,9 @@
 
 #include <RcppArmadillo.h>
 
-typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
-typedef arma::mat (*trainFunPtr) (arma::vec& y, arma::mat& X);
-typedef arma::mat (*predictFunPtr) (arma::mat& newdata, arma::mat& parameter);
+typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
+typedef arma::mat (*trainFunPtr) (const arma::vec& y, const arma::mat& X);
+typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& parameter);
 
 
 // instantiateDataFun:

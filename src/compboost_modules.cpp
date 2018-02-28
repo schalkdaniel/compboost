@@ -348,15 +348,14 @@ class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
   
 private:
-  unsigned int degree;
+  const unsigned int degree;
   
 public:
   
-  PolynomialBlearnerFactoryWrapper (DataWrapper data, unsigned int degree) 
+  PolynomialBlearnerFactoryWrapper (DataWrapper data, const unsigned int& degree) 
     : degree ( degree )
   {
-    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data.getData(), 
-      degree);
+    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data.getData(), degree);
   }
 
   arma::mat getData () { return obj->GetData(); }
@@ -974,6 +973,11 @@ public:
     is_trained = true;
   }
   
+  void continueTraining (bool trace, LoggerListWrapper logger_list) 
+  {
+    obj->ContinueTraining(logger_list.getLoggerList(), trace);
+  }
+  
   arma::vec getPrediction ()
   {
     return obj->GetPrediction();
@@ -986,10 +990,19 @@ public:
   
   Rcpp::List getLoggerData ()
   {
-    return Rcpp::List::create(
-      Rcpp::Named("logger.names") = used_logger->GetLoggerData().first,
-      Rcpp::Named("logger.data")  = used_logger->GetLoggerData().second
-    );
+    Rcpp::List out_list;
+    
+    for (auto& it : obj->GetLoggerList()) {
+      out_list[it.first] = Rcpp::List::create(
+        Rcpp::Named("logger.names") = it.second->GetLoggerData().first,
+        Rcpp::Named("logger.data")  = it.second->GetLoggerData().second
+      );
+    }
+    if (out_list.size() == 1) {
+      return out_list[0];
+    } else {
+      return out_list;
+    }
   }
   
   Rcpp::List getEstimatedParameter ()
@@ -1066,6 +1079,11 @@ public:
     return is_trained;
   }
   
+  void setToIteration (const unsigned int& k)
+  {
+    obj->SetToIteration(k);
+  }
+  
   // Destructor:
   ~CompboostWrapper ()
   {
@@ -1099,6 +1117,7 @@ RCPP_MODULE (compboost_module)
   class_<CompboostWrapper> ("Compboost")
     .constructor<arma::vec, double, bool, BlearnerFactoryListWrapper, LossWrapper, LoggerListWrapper, OptimizerWrapper> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
+    .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected baselearner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
@@ -1109,6 +1128,7 @@ RCPP_MODULE (compboost_module)
     .method("predictAtIteration", &CompboostWrapper::predictAtIteration, "Predict newdata for iteration k < iter.max")
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
+    .method("setToIteration", &CompboostWrapper::setToIteration, "Set state of the model to a given iteration")
   ;
 }
 

@@ -35,7 +35,7 @@
 //
 //   https://www.compstat.statistik.uni-muenchen.de
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #include "baselearner_factory_list.h"
 
@@ -111,6 +111,16 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::GetModelF
     }
   }
   return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
+}
+
+std::map<std::string, arma::mat> BaselearnerFactoryList::GetDataMap ()
+{
+  std::map<std::string, arma::mat> out_map;
+  
+  for (auto& it : my_factory_map) {
+    out_map[it.first] = it.second->GetData();
+  }
+  return out_map;
 }
 
 } // namespace blearnerlist

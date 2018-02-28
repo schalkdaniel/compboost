@@ -71,13 +71,19 @@ class Compboost
     double initialization;
     
     bool stop_if_all_stopper_fulfilled;
+    bool model_is_trained = false;
+    
+    unsigned int actual_state;
     
     // Pieces to run the algorithm:
     blearnertrack::BaselearnerTrack blearner_track;
     optimizer::Optimizer* used_optimizer;
     loss::Loss* used_loss;
     blearnerlist::BaselearnerFactoryList used_baselearner_list;
-    loggerlist::LoggerList* used_logger;
+    
+    // Vector of loggerlists, needed if one want to continue training:
+    std::map<std::string, loggerlist::LoggerList*> used_logger;
+    // loggerlist::LoggerList* used_logger;
   
   public:
 
@@ -86,19 +92,30 @@ class Compboost
     Compboost (arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
       loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
     
-    void TrainCompboost (bool);
+    // Basic train function used by TrainCompbost and ContinueTraining:
+    void Train (const bool&, const arma::vec&, loggerlist::LoggerList*);
+    
+    // Initial training:
+    void TrainCompboost (const bool&);
+    
+    // Retraining after initial training:
+    void ContinueTraining (loggerlist::LoggerList*, const bool&);
     
     arma::vec GetPrediction ();
     
     std::map<std::string, arma::mat> GetParameter ();
     std::vector<std::string> GetSelectedBaselearner ();
-
+    
+    std::map<std::string, loggerlist::LoggerList*> GetLoggerList () const;
     std::map<std::string, arma::mat> GetParameterOfIteration (unsigned int);
     
     std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix ();
     
+    arma::vec Predict ();
     arma::vec Predict (std::map<std::string, arma::mat>);
     arma::vec PredictionOfIteration (std::map<std::string, arma::mat>, unsigned int);
+    
+    void SetToIteration (const unsigned int&);
     
     void SummarizeCompboost ();
     

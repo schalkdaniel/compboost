@@ -119,6 +119,22 @@ cboost$train(trace = TRUE)
 
 cboost
 
+# Continue Training:
+# Define logger. We want just the iterations as stopper but also track the
+# time, inbag risk and oob risk:
+log.iterations.continue = IterationLogger$new(TRUE, 200)
+log.time.continue       = TimeLogger$new(FALSE, 500, "microseconds")
+
+# Define new logger list:
+logger.list.continue = LoggerList$new()
+
+# Register the logger:
+logger.list.continue$registerLogger(log.iterations.continue)
+logger.list.continue$registerLogger(log.time.continue)
+
+cboost$continueTraining(trace = TRUE, logger = logger.list.continue)
+
+
 # Get some results:
 cboost$getEstimatedParameter()
 cboost$getSelectedBaselearner()
@@ -127,6 +143,26 @@ cboost$getParameterAtIteration(40)
 parameter.matrix = cboost$getParameterMatrix()
 
 all.equal(cboost$getPrediction(), cboost$predict(test.data))
+
+# Set model to a specific iteration. This is faster than calling the 
+# predictAtIteration function since predictAtIteration calculates the 
+# parameter at iteration k every time, while in setToIteration this is done
+# once and is then reused for the other functions:
+cboost$setToIteration(10)
+
+all.equal(
+  cboost$getEstimatedParameter(),
+  cboost$getParameterAtIteration(10)
+)
+all.equal(
+  cboost$getPrediction(),
+  cboost$predictAtIteration(oob.data, 10)
+)
+
+microbenchmark::microbenchmark(
+  "After 'setToIteration'"  = cboost$getPrediction(),
+  "Before 'setToIteration'" = cboost$predictAtIteration(oob.data, 10)
+)
 
 # ---------------------------------------------------------------------------- #
 # Extend Compboost
@@ -209,7 +245,7 @@ mod = mboost(
     bols(wt, intercept = FALSE) + 
     bols(hp2, intercept = FALSE),
   data    = df,
-  control = boost_control(mstop = 500, nu = 0.05)
+  control = boost_control(mstop = 700, nu = 0.05)
 )
 
 # Does compboost the same as mboost?

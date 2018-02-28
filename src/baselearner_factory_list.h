@@ -38,7 +38,7 @@
 //
 //   https://www.compstat.statistik.uni-muenchen.de
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef BASELEARNERLIST_H_
 #define BASELEARNERLIST_H_
@@ -80,6 +80,9 @@ class BaselearnerFactoryList
     
     // Get the data used for modelling:
     std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
+    
+    // Get the data as std::map, convenient for Compboost::setToIteration:
+    std::map<std::string, arma::mat> GetDataMap ();
     
     // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
 };

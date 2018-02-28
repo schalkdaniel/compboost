@@ -105,8 +105,12 @@ void BaselearnerTrack::ClearBaselearnerVector ()
 }
 
 // Get estimated parameter for specific iteration:
-std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterForIteration (unsigned int k)
+std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIteration (unsigned int k)
 {
+  if (k > blearner_vector.size()) {
+    Rcpp::stop ("You can't get parameter of a state higher then the maximal iterations.");
+  }
+  
   // Create new parameter map:
   std::map<std::string, arma::mat> my_new_parameter_map;
   
@@ -194,6 +198,15 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
   out_pair.second = parameters;
   
   return out_pair;
+}
+
+void BaselearnerTrack::setToIteration (const unsigned int& k)
+{
+  if (k > blearner_vector.size()) {
+    Rcpp::stop ("You can't set the actual state to a higher state then the maximal iterations.");
+  }
+  
+  my_parameter_map = GetEstimatedParameterOfIteration(k);
 }
 
 // Destructor:

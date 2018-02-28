@@ -84,10 +84,13 @@ class BaselearnerTrack
     void ClearBaselearnerVector ();
     
     // Estimate parameter for specific iteration:
-    std::map<std::string, arma::mat> GetEstimatedParameterForIteration (unsigned int);
+    std::map<std::string, arma::mat> GetEstimatedParameterOfIteration (unsigned int);
     
     // Returns a matrix of parameters for every iteration:
     std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix ();
+    
+    // Set parameter map to a given iteration:
+    void setToIteration (const unsigned int&);
     
     // Destructor:
     ~BaselearnerTrack ();

@@ -51,44 +51,31 @@ Compboost::Compboost () {}
 
 Compboost::Compboost (arma::vec response, double learning_rate, 
   bool stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, 
-  loss::Loss* used_loss, loggerlist::LoggerList* used_logger,
+  loss::Loss* used_loss, loggerlist::LoggerList* used_logger0,
   blearnerlist::BaselearnerFactoryList used_baselearner_list)
   : response ( response ), 
     learning_rate ( learning_rate ),
     stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
     used_optimizer ( used_optimizer ),
     used_loss ( used_loss ),
-    used_baselearner_list ( used_baselearner_list ),
-    used_logger ( used_logger ) 
+    used_baselearner_list ( used_baselearner_list )
 {
   blearner_track = blearnertrack::BaselearnerTrack(learning_rate);
+  used_logger["initial.training"] = used_logger0;
 }
 
 // --------------------------------------------------------------------------- #
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::TrainCompboost (bool trace)
+void Compboost::Train (const bool& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
 {
-  // Make sure, that the selected baselearner and logger data is empty:
-  blearner_track.ClearBaselearnerVector();
-  used_logger->ClearLoggerData();
-  
-  
-  // Initialize zero model and pseudo residuals:
-  initialization = used_loss->ConstantInitializer(response);
-  arma::vec pseudo_residuals_init (response.size());
-  // Rcpp::Rcout << "<<Compboost>> Initialize zero model and pseudo residuals" << std::endl;
-  
-  // Initialize prediction and fill with zero model:
-  arma::vec prediction(response.size());
-  prediction.fill(initialization);
-  // Rcpp::Rcout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
+  arma::vec pred_temp = prediction;
   
   // Initialize trace:
   if (trace) {
     Rcpp::Rcout << std::endl;
-    used_logger->InitializeLoggerPrinter(); 
+    logger->InitializeLoggerPrinter(); 
   }
   
   // Declare variables to stop the algorithm:
@@ -100,7 +87,7 @@ void Compboost::TrainCompboost (bool trace)
   while (! stop_the_algorithm) {
     
     // Define pseudo residuals as negative gradient:
-    pseudo_residuals = -used_loss->DefinedGradient(response, prediction);
+    pseudo_residuals = -used_loss->DefinedGradient(response, pred_temp);
     // Rcpp::Rcout << "\n<<Compboost>> Define pseudo residuals as negative gradient" << std::endl;
     
     // Cast integer k to string for baselearner identifier:
@@ -113,7 +100,7 @@ void Compboost::TrainCompboost (bool trace)
     // Rcpp::Rcout << "<<Compboost>> Insert new baselearner to vector of selected baselearner" << std::endl;
     
     // Update model (prediction) and shrink by learning rate:
-    prediction += learning_rate * selected_blearner->predict();
+    pred_temp += learning_rate * selected_blearner->predict();
     // Rcpp::Rcout << "<<Compboost>> Update model (prediction) and shrink by learning rate" << std::endl;
     
     // Log the current step:
@@ -121,29 +108,78 @@ void Compboost::TrainCompboost (bool trace)
     // The last term has to be the prediction or anything like that. This is
     // important to track the risk (inbag or oob)!!!!
     
-    used_logger->LogCurrent(k, response, prediction, selected_blearner, 
+    logger->LogCurrent(k, response, pred_temp, selected_blearner, 
       initialization, learning_rate);
     // Rcpp::Rcout << "<<Compboost>> Log the current step" << std::endl;
     
     // Get status of the algorithm (is stopping criteria reached):
-    stop_the_algorithm = ! used_logger->GetStopperStatus(stop_if_all_stopper_fulfilled);
+    stop_the_algorithm = ! logger->GetStopperStatus(stop_if_all_stopper_fulfilled);
     
     // Print trace:
     if (trace) {
-      used_logger->PrintLoggerStatus(); 
+      logger->PrintLoggerStatus(); 
     }
     
     // Increment k:
     k += 1;
   }
   
+  // Just for console appearance
   if (trace) {
     Rcpp::Rcout << std::endl;
     Rcpp::Rcout << std::endl; 
   }
   
   // Set model prediction:
-  model_prediction = prediction;
+  model_prediction = pred_temp;
+  
+  // Set actual state to the latest iteration:
+  actual_state = blearner_track.GetBaselearnerVector().size();
+}
+
+void Compboost::TrainCompboost (const bool& trace)
+{
+  // Make sure, that the selected baselearner and logger data is empty:
+  blearner_track.ClearBaselearnerVector();
+  for (auto& it : used_logger) {
+    it.second->ClearLoggerData();
+  }
+  
+  // Initialize zero model and pseudo residuals:
+  initialization = used_loss->ConstantInitializer(response);
+  arma::vec pseudo_residuals_init (response.size());
+  // Rcpp::Rcout << "<<Compboost>> Initialize zero model and pseudo residuals" << std::endl;
+  
+  // Initialize prediction and fill with zero model:
+  arma::vec prediction(response.size());
+  prediction.fill(initialization);
+  // Rcpp::Rcout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
+  
+  // Initial training:
+  Train(trace, prediction, used_logger["initial.training"]);
+  
+  // Set flag if model is trained:
+  model_is_trained = true;
+}
+
+void Compboost::ContinueTraining (loggerlist::LoggerList* logger, const bool& trace)
+{
+  if (! model_is_trained) {
+    Rcpp::stop("Initial training hasn't been done. Use 'train()' first.");
+  }
+  if (actual_state != blearner_track.GetBaselearnerVector().size()) {
+    Rcpp::stop("To avoid unexpected behaviour, compboost wants to start retraining on the maximal iterations. You have called 'setToIteration' prior. Please set iterations to the maximal value.");
+  }
+  
+  // Continue training:
+  Train(trace, model_prediction, logger);
+  
+  // Register logger:
+  std::string logger_id = "retraining" + std::to_string(used_logger.size());
+  used_logger[logger_id] = logger;
+  
+  // Update actual state:
+  actual_state = blearner_track.GetBaselearnerVector().size();
 }
 
 arma::vec Compboost::GetPrediction ()
@@ -168,15 +204,20 @@ std::vector<std::string> Compboost::GetSelectedBaselearner ()
   // }
   
   // Does work:
-  for (unsigned int i = 0; i < blearner_track.GetBaselearnerVector().size(); i++) {
+  for (unsigned int i = 0; i < actual_state; i++) {
     selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetDataIdentifier() + ": " + blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
   }
   return selected_blearner;
 }
 
+std::map<std::string, loggerlist::LoggerList*> Compboost::GetLoggerList () const
+{
+  return used_logger;
+}
+
 std::map<std::string, arma::mat> Compboost::GetParameterOfIteration (unsigned int k) 
 {
-  return blearner_track.GetEstimatedParameterForIteration(k);
+  return blearner_track.GetEstimatedParameterOfIteration(k);
 }
 
 std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix ()
@@ -184,6 +225,27 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix ()
   return blearner_track.GetParameterMatrix();
 }
 
+arma::vec Compboost::Predict ()
+{
+  std::map<std::string, arma::mat> parameter_map  = blearner_track.GetParameterMap();
+  std::map<std::string, arma::mat> train_data_map = used_baselearner_list.GetDataMap();
+  
+  arma::vec pred(train_data_map.begin()->second.n_rows);
+  pred.fill(initialization);
+  
+  for (auto& it : parameter_map) {
+    
+    std::string sel_factory = it.first;
+    pred += train_data_map.find(sel_factory)->second * it.second;
+    
+  }
+  return pred;
+}
+
+// Predict for new data. Note: The data_map contains the raw columns of the used data.
+// Those columns are then transformed by the corresponding transform dat function of the
+// specific factory. After the transformation, the transformed data is multiplied by the
+// corresponding parameter.
 arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
 {
   // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
@@ -218,8 +280,9 @@ void Compboost::SummarizeCompboost ()
   Rcpp::Rcout << "\t- Learning Rate: " << learning_rate << std::endl;
   Rcpp::Rcout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
   
-  if (blearner_track.GetBaselearnerVector().size() > 0) {
+  if (model_is_trained) {
     Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
+    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_state << std::endl;
     Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
   }
   Rcpp::Rcout << std::endl;
@@ -230,7 +293,7 @@ arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> dat
 {
   // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
-  std::map<std::string, arma::mat> parameter_map = blearner_track.GetEstimatedParameterForIteration(k);
+  std::map<std::string, arma::mat> parameter_map = blearner_track.GetEstimatedParameterOfIteration(k);
   
   arma::vec pred(data_map.begin()->second.n_rows);
   pred.fill(initialization);
@@ -252,6 +315,19 @@ arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> dat
     
   }
   return pred;
+}
+
+// Set model to an given iteration. The predictions and everything is then done at this iteration:
+void Compboost::SetToIteration (const unsigned int& k) 
+{
+  // Set parameter:
+  blearner_track.setToIteration(k);
+  
+  // Set prediction:
+  model_prediction = Predict();
+  
+  // Set actual state:
+  actual_state = k;
 }
 
 // Destructor:
