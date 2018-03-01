@@ -46,11 +46,11 @@ namespace blearnerlist
 BaselearnerFactoryList::BaselearnerFactoryList () {}
 
 // Register a factory:
-void BaselearnerFactoryList::RegisterBaselearnerFactory (std::string factory_id, 
+void BaselearnerFactoryList::RegisterBaselearnerFactory (const std::string& factory_id, 
   blearnerfactory::BaselearnerFactory *blearner_factory)
 {
   // Create iterator and check if learner is already registered:
-  std::map<std::string,blearnerfactory::BaselearnerFactory*>::iterator it = my_factory_map.find(factory_id);
+  std::map<std::string, blearnerfactory::BaselearnerFactory*>::iterator it = my_factory_map.find(factory_id);
   
   if (it == my_factory_map.end()) {
     my_factory_map.insert(std::pair<std::string, blearnerfactory::BaselearnerFactory*>(factory_id, blearner_factory));
@@ -60,7 +60,7 @@ void BaselearnerFactoryList::RegisterBaselearnerFactory (std::string factory_id,
 }
 
 // Print all registered factorys:
-void BaselearnerFactoryList::PrintRegisteredFactorys ()
+void BaselearnerFactoryList::PrintRegisteredFactorys () const
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
@@ -68,15 +68,15 @@ void BaselearnerFactoryList::PrintRegisteredFactorys ()
   } else {
     Rcpp::Rcout << "No registered Factorys!";
   }
-
+  
   // Iterate over all registered factorys and print the factory identifier:
-  for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
-    Rcpp::Rcout << "\t- " << it->first << std::endl;
+  for (auto& it : my_factory_map) {
+    Rcpp::Rcout << "\t- " << it.first << std::endl;
   }
 }
 
 // Getter for the map object:
-blearner_factory_map BaselearnerFactoryList::GetMap ()
+blearner_factory_map BaselearnerFactoryList::GetMap () const
 {
   return my_factory_map;
 }
@@ -84,36 +84,32 @@ blearner_factory_map BaselearnerFactoryList::GetMap ()
 // Remove all registered factorys:
 void BaselearnerFactoryList::ClearMap ()
 {
-  // Rcpp::Rcout << "Delete BaselearnerFactoryList!" << Rcpp::Rcout;
-  // This deletes all the data which are sometimes necessary to re register 
-  // factorys!
-  // for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
-  //   delete it->second;
-  // }
+  // Just delete the pointer, so we have a new empty map. The factories which
+  // are behind the pointers should delete themselfe
   my_factory_map.clear();
 }
 
-std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::GetModelFrame ()
+std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::GetModelFrame () const
 {
   arma::mat out_matrix;
   std::vector<std::string> rownames;
-
-  for (blearner_factory_map::iterator it = my_factory_map.begin(); it != my_factory_map.end(); ++it) {
-    arma::mat data_temp = it->second->GetData();
+  
+  for (auto& it : my_factory_map) {
+    arma::mat data_temp = it.second->GetData();
     out_matrix = arma::join_rows(out_matrix, data_temp);
-
+    
     if (data_temp.n_cols > 1) {
       for (unsigned int i = 0; i < data_temp.n_cols; i++) {
-        rownames.push_back(it->first + " x" + std::to_string(i + 1));
+        rownames.push_back(it.first + " x" + std::to_string(i + 1));
       }
     } else {
-      rownames.push_back(it->first);
+      rownames.push_back(it.first);
     }
   }
   return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
 }
 
-std::map<std::string, arma::mat> BaselearnerFactoryList::GetDataMap ()
+std::map<std::string, arma::mat> BaselearnerFactoryList::GetDataMap () const
 {
   std::map<std::string, arma::mat> out_map;
   

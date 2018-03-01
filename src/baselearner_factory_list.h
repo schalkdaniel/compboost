@@ -22,10 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   This file contains the impolementation of a list of baselearner factorys.
-//   This class applies when optimizing. The iterator then can access every
-//   element in this list (which is a baselearner) and do somehting with that
-//   learner.
+//   Definition of the "BaselearnerFactoryList".
 //
 // Written by:
 // -----------
@@ -58,36 +55,36 @@ namespace blearnerlist
 
 class BaselearnerFactoryList 
 {
-  private:
-    
-    // Main list object:
-    blearner_factory_map my_factory_map;
-    
-  public:
-    
-    BaselearnerFactoryList ();
-    
-    // Functions to register a baselearner factory and print all registered
-    // factorys:
-    void RegisterBaselearnerFactory (std::string, blearnerfactory::BaselearnerFactory*);
-    void PrintRegisteredFactorys ();
-    
-    // Get the actual map:
-    blearner_factory_map GetMap ();
-    
-    // Clear all elements wich were registered:
-    void ClearMap();
-    
-    // Get the data used for modelling:
-    std::pair<std::vector<std::string>, arma::mat> GetModelFrame ();
-    
-    // Get the data as std::map, convenient for Compboost::setToIteration:
-    std::map<std::string, arma::mat> GetDataMap ();
-    
-    // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
+private:
+  
+  // Main list object:
+  blearner_factory_map my_factory_map;
+  
+public:
+  
+  BaselearnerFactoryList ();
+  
+  // Functions to register a baselearner factory and print all registered
+  // factorys:
+  void RegisterBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
+  void PrintRegisteredFactorys () const;
+  
+  // Get the actual map:
+  blearner_factory_map GetMap () const;
+  
+  // Clear all elements wich are registered:
+  void ClearMap();
+  
+  // Get the data used for modelling:
+  std::pair<std::vector<std::string>, arma::mat> GetModelFrame () const;
+  
+  // Get the data as std::map, convenient for Compboost::setToIteration:
+  std::map<std::string, arma::mat> GetDataMap () const;
+  
+  // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
 };
 
 } // namespace blearnerlist
-  
+
 #endif // BASELEARNERLIST_H_
 

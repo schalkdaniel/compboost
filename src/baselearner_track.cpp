@@ -81,13 +81,13 @@ void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner)
 }
 
 // Get the vector of baselearner:
-std::vector<blearner::Baselearner*> BaselearnerTrack::GetBaselearnerVector ()
+std::vector<blearner::Baselearner*> BaselearnerTrack::GetBaselearnerVector () const
 {
   return blearner_vector;
 }
 
 // Get parameter map:
-std::map<std::string, arma::mat> BaselearnerTrack::GetParameterMap ()
+std::map<std::string, arma::mat> BaselearnerTrack::GetParameterMap () const
 {
   return my_parameter_map;
 }
@@ -95,9 +95,7 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetParameterMap ()
 // Clear baselearner vector:
 void BaselearnerTrack::ClearBaselearnerVector ()
 {
-  // Basically the same as the destructor. But, without deleting the underlying
-  // BaselearnerTrack object.
-  for (unsigned int i = 0; i< blearner_vector.size(); i++)
+  for (unsigned int i = 0; i < blearner_vector.size(); i++)
   {
     delete blearner_vector[i];
   } 
@@ -105,7 +103,7 @@ void BaselearnerTrack::ClearBaselearnerVector ()
 }
 
 // Get estimated parameter for specific iteration:
-std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIteration (unsigned int k)
+std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIteration (const unsigned int& k) const
 {
   if (k > blearner_vector.size()) {
     Rcpp::stop ("You can't get parameter of a state higher then the maximal iterations.");
@@ -137,8 +135,6 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIterat
       
       // Accumulating parameter. If there is a nan, then this will be ignored and 
       // the non  nan entries are added up:
-      // arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->GetBaselearnerType())->second;
-      // my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), parameter_insert));
       my_new_parameter_map[ insert_id ] = parameter_temp + my_new_parameter_map.find(insert_id)->second;
     }
   }
@@ -146,7 +142,7 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIterat
 }
 
 // Create parameter matrix:
-std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMatrix ()
+std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMatrix () const
 {
   // Instantiate list to iterate:
   std::map<std::string, arma::mat> my_new_parameter_map = my_parameter_map;
@@ -179,13 +175,19 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
     
     arma::mat param_insert;
     
+    // Join columns to one huge column vector:
     for (auto& it : my_new_parameter_map) {
       param_insert = arma::join_cols(param_insert, it.second);
     }
+    // Insert this huge vector at row i, therefore transpose it:
     parameters.row(i) = param_insert.t();
   }
   std::pair<std::vector<std::string>, arma::mat> out_pair;
   
+  // If a baselearner have more than one parameter, than we rename the parameter
+  // with a corresponding number (Note: In my_new_parameter_map is a list 
+  // containing the last state of the parameter, that means a map with an
+  // identifier string and parameter matrix):
   for (auto& it : my_new_parameter_map) {
     if (it.second.n_rows > 1) {
       for (unsigned int i = 0; i < it.second.n_rows; i++) {
@@ -213,11 +215,7 @@ void BaselearnerTrack::setToIteration (const unsigned int& k)
 BaselearnerTrack::~BaselearnerTrack ()
 {
   // Rcpp::Rcout << "Call BaselearnerTrack Destructor" << std::endl;
-  for (unsigned int i = 0; i< blearner_vector.size(); i++)
-  {
-    delete blearner_vector[i];
-  } 
-  blearner_vector.clear();
+  ClearBaselearnerVector();
 }
 
 } // blearnertrack

@@ -134,7 +134,7 @@ void Compboost::Train (const bool& trace, const arma::vec& prediction, loggerlis
   model_prediction = pred_temp;
   
   // Set actual state to the latest iteration:
-  actual_state = blearner_track.GetBaselearnerVector().size();
+  actual_iteration = blearner_track.GetBaselearnerVector().size();
 }
 
 void Compboost::TrainCompboost (const bool& trace)
@@ -167,7 +167,7 @@ void Compboost::ContinueTraining (loggerlist::LoggerList* logger, const bool& tr
   if (! model_is_trained) {
     Rcpp::stop("Initial training hasn't been done. Use 'train()' first.");
   }
-  if (actual_state != blearner_track.GetBaselearnerVector().size()) {
+  if (actual_iteration != blearner_track.GetBaselearnerVector().size()) {
     Rcpp::stop("To avoid unexpected behaviour, compboost wants to start retraining on the maximal iterations. You have called 'setToIteration' prior. Please set iterations to the maximal value.");
   }
   
@@ -179,7 +179,7 @@ void Compboost::ContinueTraining (loggerlist::LoggerList* logger, const bool& tr
   used_logger[logger_id] = logger;
   
   // Update actual state:
-  actual_state = blearner_track.GetBaselearnerVector().size();
+  actual_iteration = blearner_track.GetBaselearnerVector().size();
 }
 
 arma::vec Compboost::GetPrediction ()
@@ -204,7 +204,7 @@ std::vector<std::string> Compboost::GetSelectedBaselearner ()
   // }
   
   // Does work:
-  for (unsigned int i = 0; i < actual_state; i++) {
+  for (unsigned int i = 0; i < actual_iteration; i++) {
     selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetDataIdentifier() + ": " + blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
   }
   return selected_blearner;
@@ -282,7 +282,7 @@ void Compboost::SummarizeCompboost ()
   
   if (model_is_trained) {
     Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
-    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_state << std::endl;
+    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_iteration << std::endl;
     Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
   }
   Rcpp::Rcout << std::endl;
@@ -327,7 +327,7 @@ void Compboost::SetToIteration (const unsigned int& k)
   model_prediction = Predict();
   
   // Set actual state:
-  actual_state = k;
+  actual_iteration = k;
 }
 
 // Destructor:

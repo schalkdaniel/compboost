@@ -73,7 +73,7 @@ class Compboost
     bool stop_if_all_stopper_fulfilled;
     bool model_is_trained = false;
     
-    unsigned int actual_state;
+    unsigned int actual_iteration;
     
     // Pieces to run the algorithm:
     blearnertrack::BaselearnerTrack blearner_track;
