@@ -71,9 +71,9 @@ class Loss
 {
   public:
 
-    virtual arma::vec DefinedLoss (arma::vec&, arma::vec&) = 0;
-    virtual arma::vec DefinedGradient (arma::vec&, arma::vec&) = 0;
-    virtual double ConstantInitializer (arma::vec&) = 0;
+    virtual arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const = 0;
+    virtual arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const = 0;
+    virtual double ConstantInitializer (const arma::vec&) const = 0;
     
     virtual ~Loss ();
 };
@@ -89,11 +89,11 @@ class QuadraticLoss : public Loss
 {
   public:
 
-    arma::vec DefinedLoss (arma::vec&, arma::vec&);
+    arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const;
 
-    arma::vec DefinedGradient (arma::vec&, arma::vec&);
+    arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const;
 
-    double ConstantInitializer (arma::vec&);
+    double ConstantInitializer (const arma::vec&) const;
 };
 
 // AbsoluteLoss loss:
@@ -103,11 +103,11 @@ class AbsoluteLoss : public Loss
 {
   public:
 
-    arma::vec DefinedLoss (arma::vec&, arma::vec&);
+    arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const;
 
-    arma::vec DefinedGradient (arma::vec&, arma::vec&);
+    arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const;
 
-    double ConstantInitializer (arma::vec&);
+    double ConstantInitializer (const arma::vec&) const;
 };
 
 // Custom loss:
@@ -135,13 +135,13 @@ class CustomLoss : public Loss
 
     CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
-    arma::vec DefinedLoss (arma::vec&, arma::vec&);
+    arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const;
 
-    arma::vec DefinedGradient (arma::vec&, arma::vec&);
+    arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const;
 
     // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
     // knows how to convert a 'SEXP':
-    double ConstantInitializer (arma::vec&);
+    double ConstantInitializer (const arma::vec&) const;
 };
 
 } // namespace loss

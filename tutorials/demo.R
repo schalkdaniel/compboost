@@ -22,6 +22,10 @@ X.wt = as.matrix(df[["wt"]])
 # Target variable:
 y = df[["mpg"]]
 
+data.hp1 = IdentityData$new(X.hp, "hp")
+data.hp2 = IdentityData$new(X.hp, "hp")
+data.wt = IdentityData$new(X.wt, "wt")
+
 # Next lists are the same as the used data. Then we can have a look if the oob
 # and inbag logger and the train prediction and prediction on newdata are doing
 # the same.
@@ -42,11 +46,11 @@ test.data = oob.data
 ## Baselearner
 
 # Create new linear baselearner of hp and wt:
-linear.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(X.wt, "wt", 1)
+linear.factory.hp = PolynomialBlearnerFactory$new(data.hp1, 1)
+linear.factory.wt = PolynomialBlearnerFactory$new(data.wt, 1)
 
 # Create new quadratic baselearner of hp:
-quadratic.factory.hp = PolynomialBlearnerFactory$new(X.hp, "hp", 2)
+quadratic.factory.hp = PolynomialBlearnerFactory$new(data.hp2, 2)
 
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()
@@ -115,82 +119,128 @@ cboost$train(trace = TRUE)
 
 cboost
 
+# Continue Training:
+# Define logger. We want just the iterations as stopper but also track the
+# time, inbag risk and oob risk:
+log.iterations.continue = IterationLogger$new(TRUE, 200)
+log.time.continue       = TimeLogger$new(FALSE, 500, "microseconds")
+
+# Define new logger list:
+logger.list.continue = LoggerList$new()
+
+# Register the logger:
+logger.list.continue$registerLogger(log.iterations.continue)
+logger.list.continue$registerLogger(log.time.continue)
+
+cboost$continueTraining(trace = TRUE, logger = logger.list.continue)
+
+
 # Get some results:
 cboost$getEstimatedParameter()
 cboost$getSelectedBaselearner()
 
-cboost$getParameterAtIteration(40)
+cboost$getParameterAtIteration(50)
 parameter.matrix = cboost$getParameterMatrix()
 
 all.equal(cboost$getPrediction(), cboost$predict(test.data))
 
-# ---------------------------------------------------------------------------- #
-# Extend Compboost
-# ---------------------------------------------------------------------------- #
+# Set model to a specific iteration. This is faster than calling the 
+# predictAtIteration function since predictAtIteration calculates the 
+# parameter at iteration k every time, while in setToIteration this is done
+# once and is then reused for the other functions:
+cboost$setToIteration(10)
 
-# Linear model as benchmark:
-mod = lm(mpg ~ 0 + hp, data = mtcars)
-
-# R Functions:
-# ------------
-
-instantiateData = function (X)
-{
-  return(X);
-}
-trainFun = function (y, X) {
-  return(solve(t(X) %*% X) %*% t(X) %*% y)
-}
-predictFun = function (model, newdata) {
-  return(newdata %*% model)
-}
-extractParameter = function (model) {
-  return(model)
-}
-
-custom.learner = CustomBlearner$new(X.hp, "hp", instantiateData, trainFun, predictFun,
-  extractParameter)
-
-# Train learner:
-custom.learner$train(y)
-custom.learner$getParameter()
-
-coef(mod)
-
-# Create fatorys is very similar:
-custom.factory = CustomBlearnerFactory$new(X.hp, "hp", instantiateData, trainFun,
-  predictFun, extractParameter)
-
-# C++ Functions:
-# --------------
-
-file.edit("tutorials/custom_cpp_learner.cpp")
-Rcpp::sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
-
-custom.cpp.learner = CustomCppBlearner$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
-  predictFunSetter())
-
-# Train learner:
-custom.cpp.learner$train(y)
-custom.cpp.learner$getParameter()
-
-coef(mod)
-
-# Create fatorys is very similar:
-custom.cpp.factory = CustomCppBlearnerFactory$new(X.hp, "hp", dataFunSetter(),
-  trainFunSetter(), predictFunSetter())
-
-# Small (unfair) Benchmark:
-# -------------------------
-
-linear.learner = PolynomialBlearner$new(X.hp, "hp", 1)
+all.equal(
+  cboost$getEstimatedParameter(),
+  cboost$getParameterAtIteration(10)
+)
+all.equal(
+  cboost$getPrediction(),
+  cboost$predictAtIteration(oob.data, 10)
+)
 
 microbenchmark::microbenchmark(
-  "Linear Model in R"       = lm(mpg ~ hp, data = mtcars),
-  "Custom Learner (R)"      = custom.learner$train(y),
-  "Custom Learner (C++)"    = custom.cpp.learner$train(y),
-  "Implemented Baselearner" = linear.learner$train(y)
+  "After 'setToIteration'"  = cboost$getPrediction(),
+  "Before 'setToIteration'" = cboost$predictAtIteration(oob.data, 10)
 )
+
+# If one sets the iteration to a higher value than already trained learner,
+# then the model is automatically retrained.
+
+
+
+## The factories should work, the baselearner needs to be adopt to the new
+## data class!
+
+
+# # ---------------------------------------------------------------------------- #
+# # Extend Compboost
+# # ---------------------------------------------------------------------------- #
+# 
+# # Linear model as benchmark:
+# mod = lm(mpg ~ 0 + hp, data = mtcars)
+# 
+# # R Functions:
+# # ------------
+# 
+# instantiateData = function (X)
+# {
+#   return(X);
+# }
+# trainFun = function (y, X) {
+#   return(solve(t(X) %*% X) %*% t(X) %*% y)
+# }
+# predictFun = function (model, newdata) {
+#   return(newdata %*% model)
+# }
+# extractParameter = function (model) {
+#   return(model)
+# }
+# 
+# data.hp3 = IdentityData$new(X.hp, "hp")
+# custom.learner = CustomBlearner$new(data.hp3, instantiateData, trainFun, predictFun,
+#   extractParameter)
+# 
+# # Train learner:
+# custom.learner$train(y)
+# custom.learner$getParameter()
+# 
+# coef(mod)
+# 
+# # Create fatorys is very similar:
+# custom.factory = CustomBlearnerFactory$new(data.hp3, instantiateData, trainFun,
+#   predictFun, extractParameter)
+# 
+# # C++ Functions:
+# # --------------
+# 
+# file.edit("tutorials/custom_cpp_learner.cpp")
+# Rcpp::sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
+# 
+# custom.cpp.learner = CustomCppBlearner$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
+#   predictFunSetter())
+# 
+# # Train learner:
+# custom.cpp.learner$train(y)
+# custom.cpp.learner$getParameter()
+# 
+# coef(mod)
+# 
+# # Create fatorys is very similar:
+# custom.cpp.factory = CustomCppBlearnerFactory$new(data.hp3, dataFunSetter(),
+#   trainFunSetter(), predictFunSetter())
+# 
+# # Small (unfair) Benchmark:
+# # -------------------------
+# 
+# linear.learner = PolynomialBlearner$new(X.hp, "hp", 1)
+# 
+# microbenchmark::microbenchmark(
+#   "Linear Model in R"       = lm(mpg ~ hp, data = mtcars),
+#   "Custom Learner (R)"      = custom.learner$train(y),
+#   "Custom Learner (C++)"    = custom.cpp.learner$train(y),
+#   "Implemented Baselearner" = linear.learner$train(y)
+# )
 
 # ---------------------------------------------------------------------------- #
 # Small Comparison with mboost
@@ -205,7 +255,7 @@ mod = mboost(
     bols(wt, intercept = FALSE) + 
     bols(hp2, intercept = FALSE),
   data    = df,
-  control = boost_control(mstop = 500, nu = 0.05)
+  control = boost_control(mstop = 700, nu = 0.05)
 )
 
 # Does compboost the same as mboost?

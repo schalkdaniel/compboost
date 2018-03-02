@@ -22,11 +22,13 @@ Imports:
 LinkingTo:
     Rcpp,
     RcppArmadillo
-Suggests: 
+Suggests:
     testthat,
     rpart,
-    mboost
-RcppModules: 
+    mboost,
+    knitr,
+    rmarkdown
+RcppModules:
     baselearner_module,
     compboost_module,
     loss_module, 
@@ -34,4 +36,6 @@ RcppModules:
     baselearner_factory_module,
     baselearner_list_module,
     logger_module,
-    optimizer_module
+    optimizer_module,
+    data_module
+VignetteBuilder: knitr

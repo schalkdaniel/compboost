@@ -75,19 +75,22 @@ class BaselearnerTrack
     void InsertBaselearner (blearner::Baselearner*);
     
     // Return the vector of baselearner:
-    std::vector<blearner::Baselearner*> GetBaselearnerVector ();
+    std::vector<blearner::Baselearner*> GetBaselearnerVector () const;
     
     // Return so far estimated parameter map:
-    std::map<std::string, arma::mat> GetParameterMap ();
+    std::map<std::string, arma::mat> GetParameterMap () const;
     
-    // Clear the vector without deleting the data in the factory:
+    // Clear the vector of baselearner:
     void ClearBaselearnerVector ();
     
     // Estimate parameter for specific iteration:
-    std::map<std::string, arma::mat> GetEstimatedParameterForIteration (unsigned int);
+    std::map<std::string, arma::mat> GetEstimatedParameterOfIteration (const unsigned int&) const;
     
     // Returns a matrix of parameters for every iteration:
-    std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix ();
+    std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix () const;
+    
+    // Set parameter map to a given iteration:
+    void setToIteration (const unsigned int&);
     
     // Destructor:
     ~BaselearnerTrack ();

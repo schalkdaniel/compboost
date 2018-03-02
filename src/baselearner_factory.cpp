@@ -37,7 +37,6 @@
 //
 // =========================================================================== #
 
-#include <RcppArmadillo.h>
 #include "baselearner_factory.h"
 
 namespace blearnerfactory {
@@ -46,34 +45,17 @@ namespace blearnerfactory {
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
-void BaselearnerFactory::InitializeFactory (std::string blearner_type0, 
-  std::string data_identifier0)
+arma::mat BaselearnerFactory::GetData () const
 {
-  blearner_type = blearner_type0;
-  
-  // Initialize data with the pointer to the original ones. The data will be
-  // transformed to the data used for modelling within the function 
-  // 'CreateBaselearner'.
-  // data            = data0;
-  data_identifier = data_identifier0;
+  return data->getData();
 }
 
-arma::mat BaselearnerFactory::GetData ()
+std::string BaselearnerFactory::GetDataIdentifier () const
 {
-  return data;
+  return data->getDataIdentifier();
 }
 
-std::string BaselearnerFactory::GetDataIdentifier ()
-{
-  return data_identifier;
-}
-
-// bool BaselearnerFactory::IsDataInstantiated ()
-// {
-//   return is_data_instantiated;
-// }
-
-std::string BaselearnerFactory::GetBaselearnerType()
+std::string BaselearnerFactory::GetBaselearnerType() const
 {
   return blearner_type;
 }
@@ -87,22 +69,23 @@ BaselearnerFactory::~BaselearnerFactory () {};
 // PolynomialBlearner:
 // -----------------------
 
-PolynomialBlearnerFactory::PolynomialBlearnerFactory (std::string blearner_type0, arma::mat data0, 
-  std::string data_identifier, unsigned int degree)
+PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearner_type0, 
+  data::Data* data0, const unsigned int& degree)
   : degree ( degree )
 {
-  InitializeFactory(blearner_type0, data_identifier);
-  data   = InstantiateData(data0);
-  blearner_type = blearner_type0 + " with degree " + std::to_string(degree);
+  blearner_type = blearner_type0;
+  data = data0;
+  data->setData(InstantiateData(data->getData()));
+  blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
-blearner::Baselearner* PolynomialBlearnerFactory::CreateBaselearner (std::string &identifier)
+blearner::Baselearner* PolynomialBlearnerFactory::CreateBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::PolynomialBlearner(data, data_identifier, identifier, degree);
+  blearner_obj = new blearner::PolynomialBlearner(data, identifier, degree);
   blearner_obj->SetBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
@@ -120,7 +103,7 @@ blearner::Baselearner* PolynomialBlearnerFactory::CreateBaselearner (std::string
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat PolynomialBlearnerFactory::InstantiateData (arma::mat& newdata)
+arma::mat PolynomialBlearnerFactory::InstantiateData (const arma::mat& newdata)
 {
   return arma::pow(newdata, degree);
 }
@@ -128,24 +111,24 @@ arma::mat PolynomialBlearnerFactory::InstantiateData (arma::mat& newdata)
 // CustomBlearner:
 // -----------------------
 
-CustomBlearnerFactory::CustomBlearnerFactory (std::string blearner_type, arma::mat data0, 
-  std::string data_identifier, Rcpp::Function instantiateDataFun, 
-  Rcpp::Function trainFun, 
+CustomBlearnerFactory::CustomBlearnerFactory (const std::string& blearner_type0, 
+  data::Data* data0, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
   Rcpp::Function predictFun, Rcpp::Function extractParameter)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
     predictFun ( predictFun ),
     extractParameter ( extractParameter )
 {
-  InitializeFactory(blearner_type, data_identifier);
-  data = InstantiateData(data0);
+  blearner_type = blearner_type0;
+  data = data0;
+  data->setData(InstantiateData(data->getData()));
 }
 
-blearner::Baselearner *CustomBlearnerFactory::CreateBaselearner (std::string &identifier)
+blearner::Baselearner *CustomBlearnerFactory::CreateBaselearner (const std::string &identifier)
 {
   blearner::Baselearner *blearner_obj;
   
-  blearner_obj = new blearner::CustomBlearner(data, data_identifier, identifier, instantiateDataFun, 
+  blearner_obj = new blearner::CustomBlearner(data, identifier, instantiateDataFun, 
     trainFun, predictFun, extractParameter);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
@@ -160,7 +143,7 @@ blearner::Baselearner *CustomBlearnerFactory::CreateBaselearner (std::string &id
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat CustomBlearnerFactory::InstantiateData (arma::mat& newdata)
+arma::mat CustomBlearnerFactory::InstantiateData (const arma::mat& newdata)
 {
   Rcpp::NumericMatrix out = instantiateDataFun(newdata);
   return Rcpp::as<arma::mat>(out);
@@ -169,23 +152,22 @@ arma::mat CustomBlearnerFactory::InstantiateData (arma::mat& newdata)
 // CustomCppBlearner:
 // -----------------------
 
-CustomCppBlearnerFactory::CustomCppBlearnerFactory (std::string blearner_type, arma::mat data0, 
-  std::string data_identifier, SEXP instantiateDataFun, 
-  SEXP trainFun, 
-  SEXP predictFun)
+CustomCppBlearnerFactory::CustomCppBlearnerFactory (const std::string& blearner_type0, 
+  data::Data* data0, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
     predictFun ( predictFun )
 {
-  InitializeFactory(blearner_type, data_identifier);
-  data = InstantiateData(data0);
+  blearner_type = blearner_type0;
+  data = data0;
+  data->setData(InstantiateData(data->getData()));
 }
 
-blearner::Baselearner *CustomCppBlearnerFactory::CreateBaselearner (std::string &identifier)
+blearner::Baselearner* CustomCppBlearnerFactory::CreateBaselearner (const std::string& identifier)
 {
-  blearner::Baselearner *blearner_obj;
+  blearner::Baselearner* blearner_obj;
   
-  blearner_obj = new blearner::CustomCppBlearner(data, data_identifier, identifier, instantiateDataFun, 
+  blearner_obj = new blearner::CustomCppBlearner(data, identifier, instantiateDataFun, 
     trainFun, predictFun);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
@@ -200,7 +182,7 @@ blearner::Baselearner *CustomCppBlearnerFactory::CreateBaselearner (std::string 
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat CustomCppBlearnerFactory::InstantiateData (arma::mat& newdata)
+arma::mat CustomCppBlearnerFactory::InstantiateData (const arma::mat& newdata)
 {
   Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun);
   instantiateDataFunPtr instantiateDataFun0 = *myTempInstantiation;

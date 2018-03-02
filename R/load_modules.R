@@ -44,3 +44,5 @@ Rcpp::loadModule(module = "baselearner_factory_module", what = TRUE)
 Rcpp::loadModule(module = "baselearner_list_module", what = TRUE)
 Rcpp::loadModule(module = "logger_module", what = TRUE)
 Rcpp::loadModule(module = "optimizer_module", what = TRUE)
+Rcpp::loadModule(module = "data_module", what = TRUE)
+

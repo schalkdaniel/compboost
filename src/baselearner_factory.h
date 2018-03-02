@@ -22,19 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   "BaselearnerFactory" class. This file implements the factorys. The reason 
-//   behind that pattern is that every baselearner has its own data. This data 
-//   is stored within the factory. Every baselearner which is created in the 
-//   factory points to that data (if possible). This is more memory friendly 
-//   than copying the whole time. 
-//
-//   The abstract BaselearnerFactory parent class has just the following
-//   virtual function:
-//
-//     - blearner::Baselearner* CreateBaselearner (std::string&) = 0;
-//
-//   This function together with the constructor of the child classes creates
-//   the new baselearner.
+//   "BaselearnerFactory" class. 
 //
 // Written by:
 // -----------
@@ -58,6 +46,7 @@
 #include <string>
 
 #include "baselearner.h"
+#include "data.h"
 
 namespace blearnerfactory {
 
@@ -65,51 +54,28 @@ namespace blearnerfactory {
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
-// The abstract class must have some basic functionality which is defined
-// within itself. This basic functionality is setted by InitializeFactory
-// within the constructor of the child classes. It is also possible to add
-// child specific elements (as done below). 
-
-// The most crucial part is, that the CreateBaseLearner function is for
-// every child class the same. Otherwise it isn't that easy to dynamically
-// instantiate the baselearners within the main algorithm.
-
 class BaselearnerFactory
 {
-
-  public:
-    
-    // This function has to be called from every child class:
-    void InitializeFactory (std::string, std::string);
-    
-    // Create new baselearner with id:
-    virtual blearner::Baselearner* CreateBaselearner (std::string&) = 0;
-    
-    // // Check if data is already instantiated. This is important for the first
-    // // time the factory creates a new object. Then the data is setted by the
-    // // first object. The following objects then doesn't need to instantiate the
-    // // data again:
-    // bool IsDataInstantiated ();
-    
-    // Getter for data, data identifier and the baselearner type:
-    arma::mat GetData ();
-    std::string GetDataIdentifier ();
-    
-    std::string GetBaselearnerType ();
-    
-    virtual arma::mat InstantiateData (arma::mat&) = 0;
-    
-    // Destructor:
-    virtual ~BaselearnerFactory ();
-    
-  protected:
-    
-    // Minimal functionality every baselearner should have:
-    std::string blearner_type;
-    arma::mat data;
-    std::string data_identifier;
-    
-    // bool is_data_instantiated = false;
+public:
+  
+  // Create new baselearner with id:
+  virtual blearner::Baselearner* CreateBaselearner (const std::string&) = 0;
+  
+  // Getter for data, data identifier and the baselearner type:
+  arma::mat GetData () const;
+  std::string GetDataIdentifier () const;
+  std::string GetBaselearnerType () const;
+  
+  virtual arma::mat InstantiateData (const arma::mat&) = 0;
+  
+  // Destructor:
+  virtual ~BaselearnerFactory ();
+  
+protected:
+  
+  // Minimal functionality every baselearner should have:
+  std::string blearner_type;
+  data::Data* data;
   
 };
 
@@ -120,56 +86,51 @@ class BaselearnerFactory
 // PolynomialBlearner:
 // -----------------------
 
-// Should be explained by itself:
-
 class PolynomialBlearnerFactory : public BaselearnerFactory
 {
-  private:
-    
-    unsigned int degree;
-    
-  public:
-    
-    PolynomialBlearnerFactory (std::string, arma::mat, std::string, unsigned int);
-    
-    blearner::Baselearner* CreateBaselearner (std::string&);
-    
-    arma::mat InstantiateData (arma::mat&);
+private:
+  
+  const unsigned int degree;
+  
+public:
+  
+  PolynomialBlearnerFactory (const std::string&, data::Data*, const unsigned int&);
+  
+  blearner::Baselearner* CreateBaselearner (const std::string&);
+  
+  arma::mat InstantiateData (const arma::mat&);
 };
 
 // CustomBlearner:
 // -----------------------
 
-// This class stores the R functions which are mentioned and explained a bit
-// in "baselearner.cpp". The idea is that the factory sets this functions // [[Rcpp::export]]
-// again and again:
-
-// Issue: https://github.com/schalkdaniel/compboost/issues/53
+// This class stores the R functions:
 
 class CustomBlearnerFactory : public BaselearnerFactory
 {
-  private:
-    
-    Rcpp::Function instantiateDataFun;
-    Rcpp::Function trainFun;
-    Rcpp::Function predictFun;
-    Rcpp::Function extractParameter;
-    
-  public:
-    
-    CustomBlearnerFactory (std::string, arma::mat, std::string, Rcpp::Function, 
-      Rcpp::Function, Rcpp::Function, Rcpp::Function);
-    
-    blearner::Baselearner* CreateBaselearner (std::string&);
-    
-    arma::mat InstantiateData (arma::mat&);
-    
+private:
+  
+  Rcpp::Function instantiateDataFun;
+  Rcpp::Function trainFun;
+  Rcpp::Function predictFun;
+  Rcpp::Function extractParameter;
+  
+public:
+  
+  CustomBlearnerFactory (const std::string&, data::Data*, Rcpp::Function, 
+    Rcpp::Function, Rcpp::Function, Rcpp::Function);
+  
+  blearner::Baselearner* CreateBaselearner (const std::string&);
+  
+  arma::mat InstantiateData (const arma::mat&);
+  
 };
 
 // CustomCppBlearner:
 // -----------------------
 
-typedef arma::mat (*instantiateDataFunPtr) (arma::mat& X);
+typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
+
 class CustomCppBlearnerFactory : public BaselearnerFactory
 {
 private:
@@ -181,12 +142,12 @@ private:
   
 public:
   
-  CustomCppBlearnerFactory (std::string, arma::mat, std::string, SEXP, SEXP, 
+  CustomCppBlearnerFactory (const std::string&, data::Data*, SEXP, SEXP, 
     SEXP);
   
-  blearner::Baselearner* CreateBaselearner (std::string&);
+  blearner::Baselearner* CreateBaselearner (const std::string&);
   
-  arma::mat InstantiateData (arma::mat&);
+  arma::mat InstantiateData (const arma::mat&);
   
 };
 

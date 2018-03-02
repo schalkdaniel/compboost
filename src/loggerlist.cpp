@@ -43,15 +43,9 @@
 namespace loggerlist 
 {
 
-LoggerList::LoggerList () {};
+LoggerList::LoggerList () { };
 
-// LoggerList::LoggerList (arma::mat &evaluation_data, std::chrono::system_clock::time_point init_time, 
-//   double init_risk)
-//   : evaluation_data_ptr ( &evaluation_data ),
-//     init_time ( init_time ),
-//     init_risk ( init_risk ) {};
-
-void LoggerList::RegisterLogger (std::string logger_id, logger::Logger *which_logger)
+void LoggerList::RegisterLogger (const std::string& logger_id, logger::Logger *which_logger)
 {
   log_list.insert(std::pair<std::string, logger::Logger *>(logger_id, which_logger));
   if (which_logger->GetIfLoggerIsStopper()) {
@@ -59,15 +53,15 @@ void LoggerList::RegisterLogger (std::string logger_id, logger::Logger *which_lo
   }
 }
 
-void LoggerList::PrintRegisteredLogger ()
+void LoggerList::PrintRegisteredLogger () const
 {
   Rcpp::Rcout << "Registered Logger:\n";
-  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    Rcpp::Rcout << "\t>>" << it->first << "<< Logger" << std::endl;
+  for (auto& it : log_list) {
+    Rcpp::Rcout << "\t>>" << it.first << "<< Logger" << std::endl;
   }
 }
 
-logger_map LoggerList::GetMap ()
+logger_map LoggerList::GetMap () const
 {
   return log_list;
 }
@@ -77,7 +71,7 @@ void LoggerList::ClearMap ()
   log_list.clear();
 }
 
-bool LoggerList::GetStopperStatus (bool use_global_stop)
+bool LoggerList::GetStopperStatus (const bool& use_global_stop) const
 {
   // Define variables to get the status of the algorithm:
   
@@ -87,8 +81,8 @@ bool LoggerList::GetStopperStatus (bool use_global_stop)
   std::vector<bool> status;
   
   // Iterate over logger and get stopper status:
-  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    status.push_back(it->second->ReachedStopCriteria());
+  for (auto& it : log_list) {
+    status.push_back(it.second->ReachedStopCriteria());
   }
   // Sum over status vector to decide if the stop criteria is fullfilled:
   unsigned int status_sum = std::accumulate(status.begin(), status.end(), 0);
@@ -107,21 +101,21 @@ bool LoggerList::GetStopperStatus (bool use_global_stop)
   return return_algorithm;
 }
 
-std::pair<std::vector<std::string>, arma::mat> LoggerList::GetLoggerData ()
+std::pair<std::vector<std::string>, arma::mat> LoggerList::GetLoggerData () const
 {
   arma::mat out_matrix;
   std::vector<std::string> logger_names;
   
-  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    out_matrix = arma::join_rows(out_matrix, it->second->GetLoggedData());
-    logger_names.push_back(it->first);
+  for (auto& it : log_list) {
+    out_matrix = arma::join_rows(out_matrix, it.second->GetLoggedData());
+    logger_names.push_back(it.first);
   }
   return std::pair<std::vector<std::string>, arma::mat>(logger_names, out_matrix);
 }
 
-void LoggerList::LogCurrent (unsigned int current_iteration, arma::vec& response, 
-  arma::vec& prediction, blearner::Baselearner* used_blearner, double& offset,
-  double& learning_rate)
+void LoggerList::LogCurrent (const unsigned int& current_iteration, const arma::vec& response, 
+  const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset,
+  const double& learning_rate)
 {
   // Think about how to implement this the best way. I think the computations 
   // e.g. for the risk should be done within the logger object. If so, the
@@ -141,22 +135,22 @@ void LoggerList::LogCurrent (unsigned int current_iteration, arma::vec& response
 }
 
 // Initialize logger printer:
-void LoggerList::InitializeLoggerPrinter ()
+void LoggerList::InitializeLoggerPrinter () const
 {
   std::string printer;
-  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    printer += it->second->InitializeLoggerPrinter() + " |";
+  for (auto& it : log_list) {
+    printer += it.second->InitializeLoggerPrinter() + " |";
   }
   Rcpp::Rcout << printer << std::endl;
   Rcpp::Rcout << std::string(printer.size(), '-') << std::endl;
 }
 
 // Print logger:
-void LoggerList::PrintLoggerStatus ()
+void LoggerList::PrintLoggerStatus () const
 {
   std::string printer;
-  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    printer += it->second->PrintLoggerStatus() + " |";
+  for (auto& it : log_list) {
+    printer += it.second->PrintLoggerStatus() + " |";
   }
   Rcpp::Rcout << printer << std::endl;
 }
@@ -164,16 +158,17 @@ void LoggerList::PrintLoggerStatus ()
 // Clear logger data:
 void LoggerList::ClearLoggerData ()
 {
-  for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    it->second->ClearLoggerData();
+  for (auto& it : log_list) {
+    it.second->ClearLoggerData();
   }
 }
 
 // Destructor:
 LoggerList::~LoggerList ()
 {
-  Rcpp::Rcout << "Call LoggerList Destructor" << std::endl;
-  // delete evaluation_data_ptr;
+  // Rcpp::Rcout << "Call LoggerList Destructor" << std::endl;
+  // The loggerlist does not have to delete the second map arguments since
+  // the individual logger delets themselfe when they went out of scope in R.
 }
 
 } // namespace loggerlist

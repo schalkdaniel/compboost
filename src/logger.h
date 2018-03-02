@@ -43,7 +43,7 @@
 //
 //   https://www.compstat.statistik.uni-muenchen.de
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef LOGGER_H_
 #define LOGGER_H_
@@ -65,53 +65,52 @@ namespace logger
 
 class Logger
 {
-
-  public:
-    
-    virtual void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*,
-      double&, double&) = 0;
-    
-    // This one should check if the stop criteria is reached. If not it should
-    // return 'true' otherwise 'false'. Every function should have this 
-    // structure:
-    
-    // bool ReachedStopCriteria ()
-    // {
-    //   bool stop_criteria_is_reached;
-    //
-    //   if (is_a_stopper) {
-    //     if (CHECK IF STOP CRITERIA IS FULLFILLED!) {
-    //       stop_criteria_is_reached = true;
-    //     }      
-    //   } else {
-    //     stop_criteria_is_reached = false;
-    //   }
-    //   return stop_criteria_is_reached;
-    // }
-    virtual bool ReachedStopCriteria () = 0;
-    
-    virtual arma::vec GetLoggedData () = 0;
-    
-    virtual std::string InitializeLoggerPrinter () = 0;
-    virtual std::string PrintLoggerStatus () = 0;
-    
-    virtual void ClearLoggerData() = 0;
-    
-    bool GetIfLoggerIsStopper ();
-    
-    virtual ~Logger ();
-    
-  protected:
-    
-    loss::Loss* used_loss;
-    arma::mat* evaluation_data;
-    
-    bool is_a_stopper;
-    
-    // Pointer to the publics of the loggerlist. The child classes then change
-    // the value of the pointed values to update the steps.
-    double init_risk;
-     
+public:
+  
+  virtual void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+    blearner::Baselearner*, const double&, const double&) = 0;
+  
+  // This one should check if the stop criteria is reached. If not it should
+  // return 'true' otherwise 'false'. Every function should have this 
+  // structure:
+  
+  // bool ReachedStopCriteria ()
+  // {
+  //   bool stop_criteria_is_reached;
+  //
+  //   if (is_a_stopper) {
+  //     if (CHECK IF STOP CRITERIA IS FULLFILLED!) {
+  //       stop_criteria_is_reached = true;
+  //     }      
+  //   } else {
+  //     stop_criteria_is_reached = false;
+  //   }
+  //   return stop_criteria_is_reached;
+  // }
+  virtual bool ReachedStopCriteria () const = 0;
+  
+  virtual arma::vec GetLoggedData () const = 0;
+  
+  virtual std::string InitializeLoggerPrinter () const = 0;
+  virtual std::string PrintLoggerStatus () const = 0;
+  
+  virtual void ClearLoggerData() = 0;
+  
+  bool GetIfLoggerIsStopper () const;
+  
+  virtual 
+    ~Logger ();
+  
+protected:
+  
+  loss::Loss* used_loss;
+  
+  bool is_a_stopper;
+  
+  // Pointer to the publics of the loggerlist. The child classes then change
+  // the value of the pointed values to update the steps.
+  double init_risk;
+  
 };
 
 // -------------------------------------------------------------------------- //
@@ -125,25 +124,26 @@ class Logger
 
 class IterationLogger : public Logger 
 {
-  private:
+private:
   
-    unsigned int max_iterations;
-    std::vector<unsigned int> iterations;
-    
-  public:
-    
-    IterationLogger (bool, unsigned int);
-    
-    // This just loggs the iteration (unsigned int):
-    void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
-      double&, double&);
-    bool ReachedStopCriteria ();
-    arma::vec GetLoggedData ();
-    void ClearLoggerData();
-    
-    std::string InitializeLoggerPrinter ();
-    std::string PrintLoggerStatus ();
-    
+  unsigned int max_iterations;
+  std::vector<unsigned int> iterations;
+  
+public:
+  
+  IterationLogger (const bool&, const unsigned int&);
+  
+  // This just loggs the iteration (unsigned int):
+  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+    blearner::Baselearner*, const double&, const double&);
+  
+  bool ReachedStopCriteria () const;
+  arma::vec GetLoggedData () const;
+  void ClearLoggerData();
+  
+  std::string InitializeLoggerPrinter () const;
+  std::string PrintLoggerStatus () const;
+  
 };
 
 // InbagRisk:
@@ -151,23 +151,23 @@ class IterationLogger : public Logger
 
 class InbagRiskLogger : public Logger
 {
-  private:
-    loss::Loss* used_loss;
-    std::vector<double> tracked_inbag_risk;
-    double eps_for_break;
-    
-  public:
-    InbagRiskLogger (bool, loss::Loss*, double);
-    
-    void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
-      double&, double&);
-    
-    bool ReachedStopCriteria ();
-    arma::vec GetLoggedData ();
-    void ClearLoggerData();
-    
-    std::string InitializeLoggerPrinter ();
-    std::string PrintLoggerStatus ();
+private:
+  loss::Loss* used_loss;
+  std::vector<double> tracked_inbag_risk;
+  double eps_for_break;
+  
+public:
+  InbagRiskLogger (const bool&, loss::Loss*, const double&);
+  
+  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+    blearner::Baselearner*, const double&, const double&);
+  
+  bool ReachedStopCriteria () const;
+  arma::vec GetLoggedData () const;
+  void ClearLoggerData();
+  
+  std::string InitializeLoggerPrinter () const;
+  std::string PrintLoggerStatus () const;
   
 };
 
@@ -185,17 +185,18 @@ private:
   arma::vec oob_response;
   
 public:
-  OobRiskLogger (bool, loss::Loss*, double, std::map<std::string, arma::mat>, arma::vec&);
+  OobRiskLogger (const bool&, loss::Loss*, const double&, 
+    std::map<std::string, arma::mat>, const arma::vec&);
   
-  void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
-    double&, double&);
+  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+    blearner::Baselearner*, const double&, const double&);
   
-  bool ReachedStopCriteria ();
-  arma::vec GetLoggedData ();
+  bool ReachedStopCriteria () const;
+  arma::vec GetLoggedData () const;
   void ClearLoggerData();
   
-  std::string InitializeLoggerPrinter ();
-  std::string PrintLoggerStatus ();
+  std::string InitializeLoggerPrinter () const;
+  std::string PrintLoggerStatus () const;
   
 };
 
@@ -204,26 +205,27 @@ public:
 
 class TimeLogger : public Logger
 {
-  private:
-    
-    std::chrono::steady_clock::time_point init_time;
-    std::vector<unsigned int> times_seconds;
-    unsigned int max_time;
-    std::string time_unit;
-    
-  public:
-    
-    TimeLogger (bool, unsigned int, std::string);
-    
-    void LogStep (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*, 
-      double&, double&);
-    bool ReachedStopCriteria ();
-    arma::vec GetLoggedData ();
-    void ClearLoggerData();
-    
-    std::string InitializeLoggerPrinter ();
-    std::string PrintLoggerStatus ();
-    
+private:
+  
+  std::chrono::steady_clock::time_point init_time;
+  std::vector<unsigned int> times_seconds;
+  unsigned int max_time;
+  std::string time_unit;
+  
+public:
+  
+  TimeLogger (const bool&, const unsigned int&, const std::string&);
+  
+  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+    blearner::Baselearner*, const double&, const double&);
+  
+  bool ReachedStopCriteria () const;
+  arma::vec GetLoggedData () const;
+  void ClearLoggerData();
+  
+  std::string InitializeLoggerPrinter () const;
+  std::string PrintLoggerStatus () const;
+  
 };
 
 } // namespace logger

@@ -22,7 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   Definition of the "BaselearnerFactoryList".
+//   
 //
 // Written by:
 // -----------
@@ -37,54 +37,45 @@
 //
 // ========================================================================== //
 
-#ifndef BASELEARNERLIST_H_
-#define BASELEARNERLIST_H_
+#include "data.h"
 
-#include <map>
-
-#include "baselearner_factory.h"
-
-// Define the type for the list (because we are lazy :))
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory*> blearner_factory_map;
-
-namespace blearnerlist
+namespace data
 {
 
-// Later we will create one static object of this class. This is a workaround
-// to register new factorys from R.
+Data::Data () {}
 
-class BaselearnerFactoryList 
+std::string Data::getDataIdentifier () const 
 {
-private:
-  
-  // Main list object:
-  blearner_factory_map my_factory_map;
-  
-public:
-  
-  BaselearnerFactoryList ();
-  
-  // Functions to register a baselearner factory and print all registered
-  // factorys:
-  void RegisterBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
-  void PrintRegisteredFactorys () const;
-  
-  // Get the actual map:
-  blearner_factory_map GetMap () const;
-  
-  // Clear all elements wich are registered:
-  void ClearMap();
-  
-  // Get the data used for modelling:
-  std::pair<std::vector<std::string>, arma::mat> GetModelFrame () const;
-  
-  // Get the data as std::map, convenient for Compboost::setToIteration:
-  std::map<std::string, arma::mat> GetDataMap () const;
-  
-  // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
-};
+  return data_identifier;
+}
 
-} // namespace blearnerlist
 
-#endif // BASELEARNERLIST_H_
 
+// -------------------------------------------------------------------------- //
+// Data implementations:
+// -------------------------------------------------------------------------- //
+
+// IdentityData:
+// -----------------------
+
+IdentityData::IdentityData (const arma::mat& raw_data, const std::string& data_identifier0)
+{
+  data_mat        = raw_data;
+  data_identifier = data_identifier0;
+}
+
+void IdentityData::setData (const arma::mat& transformed_data) 
+{
+  data_mat = transformed_data;
+}
+
+arma::mat IdentityData::getData () const
+{
+  return data_mat;
+}
+
+IdentityData::~IdentityData () {
+  // Rcpp::Rcout << "Delete Data" << std::endl;
+}
+
+} // namespace data

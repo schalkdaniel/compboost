@@ -22,7 +22,7 @@
 // This file contains:
 // -------------------
 //
-//   Definition of the "BaselearnerFactoryList".
+//   
 //
 // Written by:
 // -----------
@@ -37,54 +37,65 @@
 //
 // ========================================================================== //
 
-#ifndef BASELEARNERLIST_H_
-#define BASELEARNERLIST_H_
+#ifndef DATA_H_
+#define DATA_H_
 
-#include <map>
+#include "RcppArmadillo.h"
 
-#include "baselearner_factory.h"
-
-// Define the type for the list (because we are lazy :))
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory*> blearner_factory_map;
-
-namespace blearnerlist
+namespace data 
 {
 
-// Later we will create one static object of this class. This is a workaround
-// to register new factorys from R.
+// -------------------------------------------------------------------------- //
+// Abstract 'Data' class:
+// -------------------------------------------------------------------------- //
 
-class BaselearnerFactoryList 
+class Data
 {
-private:
+protected:
   
-  // Main list object:
-  blearner_factory_map my_factory_map;
+  std::string data_identifier;
   
 public:
   
-  BaselearnerFactoryList ();
+  Data ();
   
-  // Functions to register a baselearner factory and print all registered
-  // factorys:
-  void RegisterBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
-  void PrintRegisteredFactorys () const;
+  virtual void setData (const arma::mat&) = 0;
+  virtual arma::mat getData () const = 0;
   
-  // Get the actual map:
-  blearner_factory_map GetMap () const;
+  virtual 
+    ~Data () { };
   
-  // Clear all elements wich are registered:
-  void ClearMap();
-  
-  // Get the data used for modelling:
-  std::pair<std::vector<std::string>, arma::mat> GetModelFrame () const;
-  
-  // Get the data as std::map, convenient for Compboost::setToIteration:
-  std::map<std::string, arma::mat> GetDataMap () const;
-  
-  // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
+  std::string getDataIdentifier () const;
 };
 
-} // namespace blearnerlist
 
-#endif // BASELEARNERLIST_H_
+// -------------------------------------------------------------------------- //
+// Data implementations:
+// -------------------------------------------------------------------------- //
 
+// IdentityData:
+// -----------------------
+
+// This one does nothing special, just takes the data and use the transformed
+// one as train data.
+
+class IdentityData : public Data
+{
+private:
+  
+  arma::mat data_mat;
+  
+public:
+  
+  IdentityData (const arma::mat&, const std::string&);
+  
+  void setData (const arma::mat&);
+  arma::mat getData() const;
+  
+  ~IdentityData ();
+  
+};
+
+} // namespace data
+
+#endif // DATA_H_
