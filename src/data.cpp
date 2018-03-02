@@ -75,7 +75,7 @@ arma::mat IdentityData::getData () const
 }
 
 IdentityData::~IdentityData () {
-  Rcpp::Rcout << "Delete Data" << std::endl;
+  // Rcpp::Rcout << "Delete Data" << std::endl;
 }
 
 } // namespace data

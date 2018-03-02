@@ -12,7 +12,7 @@ typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& p
 // instantiateDataFun:
 // -------------------
 
-arma::mat instantiateDataFun (arma::mat& X)
+arma::mat instantiateDataFun (const arma::mat& X)
 {
   return X;
 }
@@ -20,7 +20,7 @@ arma::mat instantiateDataFun (arma::mat& X)
 // trainFun:
 // -------------------
 
-arma::mat trainFun (arma::vec& y, arma::mat& X)
+arma::mat trainFun (const arma::vec& y, const arma::mat& X)
 {
   return arma::solve(X, y);
 }
@@ -28,7 +28,7 @@ arma::mat trainFun (arma::vec& y, arma::mat& X)
 // predictFun:
 // -------------------
 
-arma::mat predictFun (arma::mat& newdata, arma::mat& parameter)
+arma::mat predictFun (const arma::mat& newdata, const arma::mat& parameter)
 {
   return newdata * parameter;
 }

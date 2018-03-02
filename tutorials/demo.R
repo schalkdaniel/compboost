@@ -167,73 +167,80 @@ microbenchmark::microbenchmark(
 # If one sets the iteration to a higher value than already trained learner,
 # then the model is automatically retrained.
 
-# ---------------------------------------------------------------------------- #
-# Extend Compboost
-# ---------------------------------------------------------------------------- #
 
-# Linear model as benchmark:
-mod = lm(mpg ~ 0 + hp, data = mtcars)
 
-# R Functions:
-# ------------
+## The factories should work, the baselearner needs to be adopt to the new
+## data class!
 
-instantiateData = function (X)
-{
-  return(X);
-}
-trainFun = function (y, X) {
-  return(solve(t(X) %*% X) %*% t(X) %*% y)
-}
-predictFun = function (model, newdata) {
-  return(newdata %*% model)
-}
-extractParameter = function (model) {
-  return(model)
-}
 
-custom.learner = CustomBlearner$new(X.hp, "hp", instantiateData, trainFun, predictFun,
-  extractParameter)
-
-# Train learner:
-custom.learner$train(y)
-custom.learner$getParameter()
-
-coef(mod)
-
-# Create fatorys is very similar:
-custom.factory = CustomBlearnerFactory$new(X.hp, "hp", instantiateData, trainFun,
-  predictFun, extractParameter)
-
-# C++ Functions:
-# --------------
-
-file.edit("tutorials/custom_cpp_learner.cpp")
-Rcpp::sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
-
-custom.cpp.learner = CustomCppBlearner$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
-  predictFunSetter())
-
-# Train learner:
-custom.cpp.learner$train(y)
-custom.cpp.learner$getParameter()
-
-coef(mod)
-
-# Create fatorys is very similar:
-custom.cpp.factory = CustomCppBlearnerFactory$new(X.hp, "hp", dataFunSetter(),
-  trainFunSetter(), predictFunSetter())
-
-# Small (unfair) Benchmark:
-# -------------------------
-
-linear.learner = PolynomialBlearner$new(X.hp, "hp", 1)
-
-microbenchmark::microbenchmark(
-  "Linear Model in R"       = lm(mpg ~ hp, data = mtcars),
-  "Custom Learner (R)"      = custom.learner$train(y),
-  "Custom Learner (C++)"    = custom.cpp.learner$train(y),
-  "Implemented Baselearner" = linear.learner$train(y)
-)
+# # ---------------------------------------------------------------------------- #
+# # Extend Compboost
+# # ---------------------------------------------------------------------------- #
+# 
+# # Linear model as benchmark:
+# mod = lm(mpg ~ 0 + hp, data = mtcars)
+# 
+# # R Functions:
+# # ------------
+# 
+# instantiateData = function (X)
+# {
+#   return(X);
+# }
+# trainFun = function (y, X) {
+#   return(solve(t(X) %*% X) %*% t(X) %*% y)
+# }
+# predictFun = function (model, newdata) {
+#   return(newdata %*% model)
+# }
+# extractParameter = function (model) {
+#   return(model)
+# }
+# 
+# data.hp3 = IdentityData$new(X.hp, "hp")
+# custom.learner = CustomBlearner$new(data.hp3, instantiateData, trainFun, predictFun,
+#   extractParameter)
+# 
+# # Train learner:
+# custom.learner$train(y)
+# custom.learner$getParameter()
+# 
+# coef(mod)
+# 
+# # Create fatorys is very similar:
+# custom.factory = CustomBlearnerFactory$new(data.hp3, instantiateData, trainFun,
+#   predictFun, extractParameter)
+# 
+# # C++ Functions:
+# # --------------
+# 
+# file.edit("tutorials/custom_cpp_learner.cpp")
+# Rcpp::sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
+# 
+# custom.cpp.learner = CustomCppBlearner$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
+#   predictFunSetter())
+# 
+# # Train learner:
+# custom.cpp.learner$train(y)
+# custom.cpp.learner$getParameter()
+# 
+# coef(mod)
+# 
+# # Create fatorys is very similar:
+# custom.cpp.factory = CustomCppBlearnerFactory$new(data.hp3, dataFunSetter(),
+#   trainFunSetter(), predictFunSetter())
+# 
+# # Small (unfair) Benchmark:
+# # -------------------------
+# 
+# linear.learner = PolynomialBlearner$new(X.hp, "hp", 1)
+# 
+# microbenchmark::microbenchmark(
+#   "Linear Model in R"       = lm(mpg ~ hp, data = mtcars),
+#   "Custom Learner (R)"      = custom.learner$train(y),
+#   "Custom Learner (C++)"    = custom.cpp.learner$train(y),
+#   "Implemented Baselearner" = linear.learner$train(y)
+# )
 
 # ---------------------------------------------------------------------------- #
 # Small Comparison with mboost
