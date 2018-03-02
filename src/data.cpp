@@ -49,6 +49,8 @@ std::string Data::getDataIdentifier () const
   return data_identifier;
 }
 
+
+
 // -------------------------------------------------------------------------- //
 // Data implementations:
 // -------------------------------------------------------------------------- //
@@ -56,20 +58,24 @@ std::string Data::getDataIdentifier () const
 // IdentityData:
 // -----------------------
 
-IdentityData::IdentityData (arma::mat raw_data, std::string data_identifier0)
+IdentityData::IdentityData (const arma::mat& raw_data, const std::string& data_identifier0)
 {
   data_mat        = raw_data;
   data_identifier = data_identifier0;
 }
 
-void IdentityData::setData (arma::mat transformed_data)
+void IdentityData::setData (const arma::mat& transformed_data) 
 {
   data_mat = transformed_data;
 }
 
-arma::mat IdentityData::getData ()
+arma::mat IdentityData::getData () const
 {
   return data_mat;
+}
+
+IdentityData::~IdentityData () {
+  Rcpp::Rcout << "Delete Data" << std::endl;
 }
 
 } // namespace data

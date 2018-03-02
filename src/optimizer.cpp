@@ -46,7 +46,7 @@ namespace optimizer {
 
 // Destructor:
 Optimizer::~Optimizer () {
-  Rcpp::Rcout << "Call Optimizer Destructor" << std::endl;
+  // Rcpp::Rcout << "Call Optimizer Destructor" << std::endl;
 }
 
 // -------------------------------------------------------------------------- //
@@ -58,8 +58,8 @@ Optimizer::~Optimizer () {
 
 GreedyOptimizer::GreedyOptimizer () {}
 
-blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (std::string& iteration_id, 
-  arma::vec& pseudo_residuals, blearner_factory_map my_blearner_factory_map)
+blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (const std::string& iteration_id, 
+  const arma::vec& pseudo_residuals, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
   double ssq_best = 0;
@@ -71,11 +71,11 @@ blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (std::string& iterat
   // unsigned int k = 0;
   // arma::vec ssq(my_blearner_factory_map.size());
 
-  for (blearner_factory_map::iterator it = my_blearner_factory_map.begin(); it != my_blearner_factory_map.end(); ++it) {
+  for (auto& it : my_blearner_factory_map) {
 
-    std::string id = "(" + iteration_id + ") " + it->second->GetBaselearnerType();
+    std::string id = "(" + iteration_id + ") " + it.second->GetBaselearnerType();
     
-    blearner_temp = it->second->CreateBaselearner(id);
+    blearner_temp = it.second->CreateBaselearner(id);
     blearner_temp->train(pseudo_residuals);
     
     ssq_temp = arma::accu(arma::pow(pseudo_residuals - blearner_temp->predict(), 2)) / pseudo_residuals.size();

@@ -59,8 +59,11 @@ public:
   
   Data ();
   
-  virtual void setData (arma::mat) = 0;
-  virtual arma::mat getData () = 0;
+  virtual void setData (const arma::mat&) = 0;
+  virtual arma::mat getData () const = 0;
+  
+  virtual 
+    ~Data () { };
   
   std::string getDataIdentifier () const;
 };
@@ -84,10 +87,12 @@ private:
   
 public:
   
-  IdentityData (arma::mat, std::string);
+  IdentityData (const arma::mat&, const std::string&);
   
-  void setData (arma::mat);
-  arma::mat getData();
+  void setData (const arma::mat&);
+  arma::mat getData() const;
+  
+  ~IdentityData ();
   
 };
 

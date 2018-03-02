@@ -139,7 +139,7 @@ cboost$continueTraining(trace = TRUE, logger = logger.list.continue)
 cboost$getEstimatedParameter()
 cboost$getSelectedBaselearner()
 
-cboost$getParameterAtIteration(40)
+cboost$getParameterAtIteration(50)
 parameter.matrix = cboost$getParameterMatrix()
 
 all.equal(cboost$getPrediction(), cboost$predict(test.data))
@@ -163,6 +163,9 @@ microbenchmark::microbenchmark(
   "After 'setToIteration'"  = cboost$getPrediction(),
   "Before 'setToIteration'" = cboost$predictAtIteration(oob.data, 10)
 )
+
+# If one sets the iteration to a higher value than already trained learner,
+# then the model is automatically retrained.
 
 # ---------------------------------------------------------------------------- #
 # Extend Compboost

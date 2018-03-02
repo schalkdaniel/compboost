@@ -13,8 +13,8 @@ devtools::install_github("schalkdaniel/compboost")
 ## Road Map
 
 - [ ] Technical Stuff:
-    - [ ] Deal with destructors and remove data cleanly
-    - [ ] Fix compboost that it doesn't crash `R` after some time
+    - [x] Deal with destructors and remove data cleanly
+    - [x] Fix compboost that it doesn't crash `R` after some time
     - [ ] Parallel computations:
         - [ ] Greedy optimizer
         - [ ] Data transformation for spline learner

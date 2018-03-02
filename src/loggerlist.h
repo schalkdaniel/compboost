@@ -51,66 +51,54 @@ namespace loggerlist
 
 class LoggerList
 {
-
-  private:
-    
-    logger_map log_list;
-    unsigned int sum_of_stopper = 0;
-    
-    // // Pointer to the data which should be used for evaluation. If the pointer
-    // // is a null pointer, than the training data should be used.
-    // // if (! evaluation_data_ptr) { USE TRAINING DATA } ele { USE GIVEN DATA }
-    // arma::mat *evaluation_data_ptr;
-    // 
-    // // Base time of initialization:
-    // std::chrono::system_clock::time_point init_time;
-    // 
-    // // Base Risk at initialization:
-    // double init_risk;
-    
-  public:
+private:
   
-    LoggerList ();
-    // LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
-    
-    // String for logger and the logger itselfe:
-    void RegisterLogger (std::string, logger::Logger*);
-    void PrintRegisteredLogger ();
-    
-    logger_map GetMap ();
-    void ClearMap ();
-    
-    // This function should iterate over all registered logger, check if it is
-    // a stopper and returns just one bool, aggregated over a vector of bools
-    // from the single logger. This could be e.g. one is fullfilled or an all 
-    // check (all stopper has to be fullfilled). The priority comes with the 
-    // map identifier since it sorts the entrys after name.
-    
-    // If the argument is 'true', than all stopper has to be fullfilled.
-    bool GetStopperStatus (bool);
-    
-    // Get a matrix of tracked logger (iterator over all logger and paste 
-    // all columns of the private member). The return is a pair with a
-    // string vector containing the logger type and a matrix with corresponging
-    // columns for each logger type:
-    std::pair<std::vector<std::string>, arma::mat> GetLoggerData ();
-    
-    // Log the current step (structure <iteration, actual time, actual risk>).
-    // This is given to the instantiated logger:
-    void LogCurrent (unsigned int, arma::vec&, arma::vec&, blearner::Baselearner*,
-      double&, double&);
-    
-    // Initialize logger printer:
-    void InitializeLoggerPrinter ();
-    
-    // Print the logger status:
-    void PrintLoggerStatus ();
-    
-    // Clear the logger data (should be used in front of every compboost training):
-    void ClearLoggerData ();
-    
-    // Destructor:
-    ~LoggerList ();
+  logger_map log_list;
+  unsigned int sum_of_stopper = 0;
+  
+public:
+  
+  LoggerList ();
+  // LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
+  
+  // String for logger and the logger itselfe:
+  void RegisterLogger (const std::string&, logger::Logger*);
+  void PrintRegisteredLogger () const;
+  
+  logger_map GetMap () const;
+  void ClearMap ();
+  
+  // This function should iterate over all registered logger, check if it is
+  // a stopper and returns just one bool, aggregated over a vector of bools
+  // from the single logger. This could be e.g. one is fullfilled or an all 
+  // check (all stopper has to be fullfilled). The priority comes with the 
+  // map identifier since it sorts the entrys after name.
+  
+  // If the argument is 'true', than all stopper has to be fullfilled.
+  bool GetStopperStatus (const bool&) const;
+  
+  // Get a matrix of tracked logger (iterator over all logger and paste 
+  // all columns of the private member). The return is a pair with a
+  // string vector containing the logger type and a matrix with corresponging
+  // columns for each logger type:
+  std::pair<std::vector<std::string>, arma::mat> GetLoggerData () const;
+  
+  // Log the current step (structure <iteration, actual time, actual risk>).
+  // This is given to the instantiated logger:
+  void LogCurrent (const unsigned int&, const arma::vec&, const arma::vec&, 
+    blearner::Baselearner*, const double&, const double&);
+  
+  // Initialize logger printer:
+  void InitializeLoggerPrinter () const;
+  
+  // Print the logger status:
+  void PrintLoggerStatus () const;
+  
+  // Clear the logger data (should be used in front of every compboost training):
+  void ClearLoggerData ();
+  
+  // Destructor:
+  ~LoggerList ();
 };
 
 } // namespace loggerlist

@@ -168,7 +168,11 @@ void Compboost::ContinueTraining (loggerlist::LoggerList* logger, const bool& tr
     Rcpp::stop("Initial training hasn't been done. Use 'train()' first.");
   }
   if (actual_iteration != blearner_track.GetBaselearnerVector().size()) {
-    Rcpp::stop("To avoid unexpected behaviour, compboost wants to start retraining on the maximal iterations. You have called 'setToIteration' prior. Please set iterations to the maximal value.");
+    
+    unsigned int max_iteration = blearner_track.GetBaselearnerVector().size();
+    Rcpp::Rcout << "Set actual iteration to maximal possible value: " << std::to_string(max_iteration) << std::endl;
+    SetToIteration(max_iteration);
+    
   }
   
   // Continue training:
@@ -182,28 +186,20 @@ void Compboost::ContinueTraining (loggerlist::LoggerList* logger, const bool& tr
   actual_iteration = blearner_track.GetBaselearnerVector().size();
 }
 
-arma::vec Compboost::GetPrediction ()
+arma::vec Compboost::GetPrediction () const
 {
   return model_prediction;
 }
 
-std::map<std::string, arma::mat> Compboost::GetParameter ()
+std::map<std::string, arma::mat> Compboost::GetParameter () const
 {
   return blearner_track.GetParameterMap();
 }
 
-std::vector<std::string> Compboost::GetSelectedBaselearner ()
+std::vector<std::string> Compboost::GetSelectedBaselearner () const
 {
   std::vector<std::string> selected_blearner;
   
-  // Issue: https://github.com/schalkdaniel/compboost/issues/62
-  
-  // Doesn't work:
-  // for (std::vector<blearner::Baselearner*>::iterator it = blearner_track->GetBaselearnerVector().begin(); it != blearner_track->GetBaselearnerVector().end(); ++it) {
-  //   selected_blearner.push_back((*it)->GetBaselearnerType());
-  // }
-  
-  // Does work:
   for (unsigned int i = 0; i < actual_iteration; i++) {
     selected_blearner.push_back(blearner_track.GetBaselearnerVector()[i]->GetDataIdentifier() + ": " + blearner_track.GetBaselearnerVector()[i]->GetBaselearnerType());
   }
@@ -215,17 +211,18 @@ std::map<std::string, loggerlist::LoggerList*> Compboost::GetLoggerList () const
   return used_logger;
 }
 
-std::map<std::string, arma::mat> Compboost::GetParameterOfIteration (unsigned int k) 
+std::map<std::string, arma::mat> Compboost::GetParameterOfIteration (const unsigned int& k) const 
 {
+  // Check is done in function GetEstimatedParameterOfIteration in baselearner_track.cpp 
   return blearner_track.GetEstimatedParameterOfIteration(k);
 }
 
-std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix ()
+std::pair<std::vector<std::string>, arma::mat> Compboost::GetParameterMatrix () const
 {
   return blearner_track.GetParameterMatrix();
 }
 
-arma::vec Compboost::Predict ()
+arma::vec Compboost::Predict () const
 {
   std::map<std::string, arma::mat> parameter_map  = blearner_track.GetParameterMap();
   std::map<std::string, arma::mat> train_data_map = used_baselearner_list.GetDataMap();
@@ -243,10 +240,10 @@ arma::vec Compboost::Predict ()
 }
 
 // Predict for new data. Note: The data_map contains the raw columns of the used data.
-// Those columns are then transformed by the corresponding transform dat function of the
+// Those columns are then transformed by the corresponding transform data function of the
 // specific factory. After the transformation, the transformed data is multiplied by the
 // corresponding parameter.
-arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
+arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map) const
 {
   // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
@@ -274,25 +271,11 @@ arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map)
   return pred;
 }
 
-void Compboost::SummarizeCompboost ()
-{
-  Rcpp::Rcout << "Compboost object with:" << std::endl;
-  Rcpp::Rcout << "\t- Learning Rate: " << learning_rate << std::endl;
-  Rcpp::Rcout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
-  
-  if (model_is_trained) {
-    Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
-    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_iteration << std::endl;
-    Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
-  }
-  Rcpp::Rcout << std::endl;
-  Rcpp::Rcout << "To get more information check the other objects!" << std::endl;
-}
-
-arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> data_map, unsigned int k)
+arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> data_map, const unsigned int& k) const
 {
   // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
+  // Check is done in function GetEstimatedParameterOfIteration in baselearner_track.cpp 
   std::map<std::string, arma::mat> parameter_map = blearner_track.GetEstimatedParameterOfIteration(k);
   
   arma::vec pred(data_map.begin()->second.n_rows);
@@ -320,7 +303,24 @@ arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> dat
 // Set model to an given iteration. The predictions and everything is then done at this iteration:
 void Compboost::SetToIteration (const unsigned int& k) 
 {
+  unsigned int max_iteration = blearner_track.GetBaselearnerVector().size();
+  
   // Set parameter:
+  if (k > max_iteration) {
+    unsigned int iteration_diff = k - max_iteration;  
+    logger::Logger* temp_logger = new logger::IterationLogger(true, iteration_diff);
+    loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
+    
+    std::string logger_id = "setToIteration.retraining" + std::to_string(used_logger.size());
+    temp_loggerlist->RegisterLogger(logger_id, temp_logger);
+    
+    Rcpp::Rcout << "\nSet to a iteration bigger than already trained. Train " 
+                << std::to_string(iteration_diff) << " additional baselearner."
+                << std::endl << std::endl;
+    
+    ContinueTraining(temp_loggerlist, false);
+  } 
+  
   blearner_track.setToIteration(k);
   
   // Set prediction:
@@ -330,13 +330,34 @@ void Compboost::SetToIteration (const unsigned int& k)
   actual_iteration = k;
 }
 
+void Compboost::SummarizeCompboost () const
+{
+  Rcpp::Rcout << "Compboost object with:" << std::endl;
+  Rcpp::Rcout << "\t- Learning Rate: " << learning_rate << std::endl;
+  Rcpp::Rcout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
+  
+  if (model_is_trained) {
+    Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.GetBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
+    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_iteration << std::endl;
+    Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
+  }
+  Rcpp::Rcout << std::endl;
+  Rcpp::Rcout << "To get more information check the other objects!" << std::endl;
+}
+
 // Destructor:
 Compboost::~Compboost ()
 {
-  // Rcpp::Rcout << "Call Compboost Destructor" << std::endl;
-  // delete used_optimizer;
-  // delete used_loss;
-  // delete used_logger;
+  // blearner_track will be deleted automatically (allocated on the stack)
+  
+  // used_logger will be deleted automatically (allocated on the stack). BUT we
+  // have to care about self registered logger by setToIteration:
+  for (auto& it : used_logger) {
+    if (it.first.find("setToIteration") != std::string::npos) {
+      // Delets the loggerlist:
+      delete it.second;
+    }
+  }
 }
 
 } // namespace cboost

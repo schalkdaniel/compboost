@@ -56,10 +56,9 @@ class DataWrapper
 public:
   DataWrapper () {}
 
-  data::Data* getData ()
-  {
-    return obj;
-  }
+  data::Data* getData () { return obj; }
+  
+  virtual ~DataWrapper () { delete obj; }
 
 protected:
   data::Data* obj;
@@ -113,6 +112,8 @@ class BaselearnerWrapper
 public:
 
   BaselearnerWrapper () {}
+  
+  virtual ~BaselearnerWrapper () { delete obj; }
 
 protected:
 
@@ -127,7 +128,7 @@ private:
 
 public:
 
-  PolynomialBlearnerWrapper (DataWrapper data0, unsigned int degree)
+  PolynomialBlearnerWrapper (DataWrapper& data0, unsigned int degree)
     : degree ( degree )
   {
     data = data0.getData();
@@ -188,7 +189,7 @@ private:
 
 public:
 
-  CustomBlearnerWrapper (DataWrapper data0, Rcpp::Function instantiateData,
+  CustomBlearnerWrapper (DataWrapper& data0, Rcpp::Function instantiateData,
     Rcpp::Function train, Rcpp::Function predict, Rcpp::Function extractParameter)
   {
     data = data0.getData();
@@ -237,7 +238,7 @@ private:
 
 public:
 
-  CustomCppBlearnerWrapper (DataWrapper data0, SEXP instantiate_data_ptr,
+  CustomCppBlearnerWrapper (DataWrapper& data0, SEXP instantiate_data_ptr,
     SEXP train_ptr, SEXP predict_ptr)
   {
     data = data0.getData();
@@ -291,7 +292,7 @@ RCPP_MODULE(baselearner_module)
 
   class_<PolynomialBlearnerWrapper> ("PolynomialBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper, unsigned int> ()
+    .constructor<DataWrapper&, unsigned int> ()
     .method("train",          &PolynomialBlearnerWrapper::train, "Train function of the baselearner")
     .method("getParameter",   &PolynomialBlearnerWrapper::getParameter, "Predict function of the baselearner")
     .method("predict",        &PolynomialBlearnerWrapper::predict, "GetParameter function of the baselearner")
@@ -302,7 +303,7 @@ RCPP_MODULE(baselearner_module)
 
   class_<CustomBlearnerWrapper> ("CustomBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
     .method("train",          &CustomBlearnerWrapper::train, "Train function of the baselearner")
     .method("getParameter",   &CustomBlearnerWrapper::getParameter, "Predict function of the baselearner")
     .method("predict",        &CustomBlearnerWrapper::predict, "GetParameter function of the baselearner")
@@ -313,7 +314,7 @@ RCPP_MODULE(baselearner_module)
 
   class_<CustomCppBlearnerWrapper> ("CustomCppBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, SEXP, SEXP, SEXP> ()
     .method("train",          &CustomCppBlearnerWrapper::train, "Train function of the baselearner")
     .method("getParameter",   &CustomCppBlearnerWrapper::getParameter, "Predict function of the baselearner")
     .method("predict",        &CustomCppBlearnerWrapper::predict, "GetParameter function of the baselearner")
@@ -336,6 +337,7 @@ class BaselearnerFactoryWrapper
 public:
 
   blearnerfactory::BaselearnerFactory* getFactory () { return obj; }
+  virtual ~BaselearnerFactoryWrapper () { delete obj; }
 
 protected:
 
@@ -352,7 +354,7 @@ private:
 
 public:
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper data, const unsigned int& degree)
+  PolynomialBlearnerFactoryWrapper (DataWrapper& data, const unsigned int& degree)
     : degree ( degree )
   {
     obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data.getData(), degree);
@@ -366,7 +368,6 @@ public:
   {
     if (degree == 1) {
       Rcpp::Rcout << "Linear baselearner factory:" << std::endl;
-
     }
     if (degree == 2) {
       Rcpp::Rcout << "Quadratic baselearner factory:" << std::endl;
@@ -387,7 +388,7 @@ class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomBlearnerFactoryWrapper (DataWrapper data,
+  CustomBlearnerFactoryWrapper (DataWrapper& data,
     Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
@@ -413,7 +414,7 @@ class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomCppBlearnerFactoryWrapper (DataWrapper data,
+  CustomCppBlearnerFactoryWrapper (DataWrapper& data,
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
     obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data.getData(),
@@ -444,21 +445,21 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper, unsigned int> ()
+    .constructor<DataWrapper&, unsigned int> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
   class_<CustomBlearnerFactoryWrapper> ("CustomBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
   class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
@@ -482,7 +483,7 @@ private:
 
 public:
 
-  void registerFactory (BaselearnerFactoryWrapper my_factory_to_register)
+  void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
   {
     std::string factory_id = my_factory_to_register.getFactory()->GetDataIdentifier() + ": " + my_factory_to_register.getFactory()->GetBaselearnerType();
     obj.RegisterBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
@@ -517,6 +518,9 @@ public:
   {
     return obj.GetMap().size();
   }
+  
+  // Nothing needs to be done since we allocate the object on the stack
+  ~BlearnerFactoryListWrapper () {}
 };
 
 
@@ -544,6 +548,7 @@ class LossWrapper
 public:
 
   loss::Loss* getLoss () { return obj; }
+  virtual ~LossWrapper () { delete obj; }
 
 protected:
 
@@ -659,6 +664,8 @@ public:
   {
     return logger_id;
   }
+  
+  virtual ~LoggerWrapper () { delete obj; }
 
 protected:
   logger::Logger* obj;
@@ -697,7 +704,7 @@ private:
   bool use_as_stopper;
 
 public:
-  InbagRiskLoggerWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break)
+  InbagRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
@@ -723,7 +730,7 @@ private:
   bool use_as_stopper;
 
 public:
-  OobRiskLoggerWrapper (bool use_as_stopper, LossWrapper used_loss, double eps_for_break,
+  OobRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
     std::map<std::string, arma::mat> oob_data_map;
@@ -801,7 +808,7 @@ public:
     return obj;
   }
 
-  void registerLogger (LoggerWrapper logger_wrapper)
+  void registerLogger (LoggerWrapper& logger_wrapper)
   {
     obj->RegisterLogger(logger_wrapper.getLoggerId(), logger_wrapper.getLogger());
   }
@@ -829,6 +836,8 @@ public:
     }
     return out;
   }
+  
+  virtual ~LoggerListWrapper () { delete obj; }
 };
 
 RCPP_EXPOSED_CLASS(LoggerWrapper);
@@ -850,13 +859,13 @@ RCPP_MODULE(logger_module)
 
   class_<InbagRiskLoggerWrapper> ("InbagRiskLogger")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, LossWrapper, double> ()
+    .constructor<bool, LossWrapper&, double> ()
     .method("summarizeLogger", &InbagRiskLoggerWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<OobRiskLoggerWrapper> ("OobRiskLogger")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, LossWrapper, double, Rcpp::List, arma::vec> ()
+    .constructor<bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
     .method("summarizeLogger", &OobRiskLoggerWrapper::summarizeLogger, "Summarize logger")
   ;
 
@@ -886,6 +895,8 @@ class OptimizerWrapper
 public:
   OptimizerWrapper () {};
   optimizer::Optimizer* getOptimizer () { return obj; }
+  
+  virtual ~OptimizerWrapper () { delete obj; }
 
 protected:
   optimizer::Optimizer* obj;
@@ -938,8 +949,8 @@ class CompboostWrapper
 public:
 
   CompboostWrapper (arma::vec response, double learning_rate,
-    bool stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper factory_list,
-    LossWrapper loss, LoggerListWrapper logger_list, OptimizerWrapper optimizer)
+    bool stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
+    LossWrapper& loss, LoggerListWrapper& logger_list, OptimizerWrapper& optimizer)
   {
 
     learning_rate0 = learning_rate;
@@ -973,7 +984,7 @@ public:
     is_trained = true;
   }
 
-  void continueTraining (bool trace, LoggerListWrapper logger_list)
+  void continueTraining (bool trace, LoggerListWrapper& logger_list)
   {
     obj->ContinueTraining(logger_list.getLoggerList(), trace);
   }
@@ -1087,11 +1098,7 @@ public:
   // Destructor:
   ~CompboostWrapper ()
   {
-    // Rcpp::Rcout << "Call CompboostWrapper Destructor" << std::endl;
-    // delete used_logger;
-    // delete used_optimizer;
-    // delete eval_data;
-    // delete obj;
+    delete obj;
   }
 
 private:
@@ -1115,7 +1122,7 @@ RCPP_MODULE (compboost_module)
   using namespace Rcpp;
 
   class_<CompboostWrapper> ("Compboost")
-    .constructor<arma::vec, double, bool, BlearnerFactoryListWrapper, LossWrapper, LoggerListWrapper, OptimizerWrapper> ()
+    .constructor<arma::vec, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
     .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
