@@ -49,11 +49,11 @@ devtools::install_github("schalkdaniel/compboost")
         - [x] Prediction on newdata
         - [x] Prediction on newdata for iteration `k < iter.max`
         
-- [ ] Tests:
+- [ ] **Tests:**
     - [ ] Iterate over tests (they are not coded very well)
     - [x] Test for `BaselearnerCpp` see #86
     
-- [x] Naming:
+- [x] **Naming:**
     - [x] Consistent class naming between `R` and `C++`
     - [ ] Use unified function naming
 
