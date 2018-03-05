@@ -20,7 +20,8 @@ devtools::install_github("schalkdaniel/compboost")
         - [ ] Data transformation for spline learner
     - [ ] Make the algorithm more memory friendly by using sparse matrices (if possible)
     
-- [ ] Baselearner:
+- [ ] Baselearner Class:
+    - [ ] Implement B-Spline baselearner
     - [ ] Implement P-Spline baselearner
     
 - [x] Logger:
@@ -74,6 +75,9 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **07.02.2018** \
   Naming of the `C++` classes. Those are matching the `R` classes now.
+  
+- **01.03.2018** \
+  Compboost should now run stable and without memory leaks.
 
 ## Idea
 
