@@ -47,17 +47,30 @@ namespace blearnerfactory {
 
 arma::mat BaselearnerFactory::GetData () const
 {
-  return data->getData();
+  return data_target->getData();
 }
 
 std::string BaselearnerFactory::GetDataIdentifier () const
 {
-  return data->getDataIdentifier();
+  return data_target->getDataIdentifier();
 }
 
 std::string BaselearnerFactory::GetBaselearnerType() const
 {
   return blearner_type;
+}
+
+void BaselearnerFactory::InitializeDataObjects (data::Data* data_source0,
+  data::Data* data_target0)
+{
+  data_source = data_source0;
+  data_target = data_target0;
+  
+  // Make sure that the data identifier is setted correctly:
+  data_target->setDataIdentifier(data_source->getDataIdentifier());
+  
+  // Get the data of the source, transform it and write it into the target:
+  data_target->setData(InstantiateData(data_source->getData()));
 }
 
 BaselearnerFactory::~BaselearnerFactory () {};
@@ -70,12 +83,13 @@ BaselearnerFactory::~BaselearnerFactory () {};
 // -----------------------
 
 PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearner_type0, 
-  data::Data* data0, const unsigned int& degree)
+  data::Data* data_source, data::Data* data_target, const unsigned int& degree)
   : degree ( degree )
 {
   blearner_type = blearner_type0;
-  data = data0;
-  data->setData(InstantiateData(data->getData()));
+  
+  InitializeDataObjects(data_source, data_target);
+  
   blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
@@ -85,7 +99,7 @@ blearner::Baselearner* PolynomialBlearnerFactory::CreateBaselearner (const std::
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::PolynomialBlearner(data, identifier, degree);
+  blearner_obj = new blearner::PolynomialBlearner(data_target, identifier, degree);
   blearner_obj->SetBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
@@ -112,24 +126,23 @@ arma::mat PolynomialBlearnerFactory::InstantiateData (const arma::mat& newdata)
 // -----------------------
 
 CustomBlearnerFactory::CustomBlearnerFactory (const std::string& blearner_type0, 
-  data::Data* data0, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, 
-  Rcpp::Function predictFun, Rcpp::Function extractParameter)
+  data::Data* data_source, data::Data* data_target, Rcpp::Function instantiateDataFun, 
+  Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
     predictFun ( predictFun ),
     extractParameter ( extractParameter )
 {
   blearner_type = blearner_type0;
-  data = data0;
-  data->setData(InstantiateData(data->getData()));
+  InitializeDataObjects(data_source, data_target);
 }
 
 blearner::Baselearner *CustomBlearnerFactory::CreateBaselearner (const std::string &identifier)
 {
   blearner::Baselearner *blearner_obj;
   
-  blearner_obj = new blearner::CustomBlearner(data, identifier, instantiateDataFun, 
-    trainFun, predictFun, extractParameter);
+  blearner_obj = new blearner::CustomBlearner(data_target, identifier, 
+    instantiateDataFun, trainFun, predictFun, extractParameter);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
   // // baselearner:
@@ -153,22 +166,22 @@ arma::mat CustomBlearnerFactory::InstantiateData (const arma::mat& newdata)
 // -----------------------
 
 CustomCppBlearnerFactory::CustomCppBlearnerFactory (const std::string& blearner_type0, 
-  data::Data* data0, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
+  data::Data* data_source, data::Data* data_target, SEXP instantiateDataFun, 
+  SEXP trainFun, SEXP predictFun)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
     predictFun ( predictFun )
 {
   blearner_type = blearner_type0;
-  data = data0;
-  data->setData(InstantiateData(data->getData()));
+  InitializeDataObjects(data_source, data_target);
 }
 
 blearner::Baselearner* CustomCppBlearnerFactory::CreateBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
   
-  blearner_obj = new blearner::CustomCppBlearner(data, identifier, instantiateDataFun, 
-    trainFun, predictFun);
+  blearner_obj = new blearner::CustomCppBlearner(data_target, identifier, 
+    instantiateDataFun, trainFun, predictFun);
   
   // // Check if the data is already set. If not, run 'InstantiateData' from the
   // // baselearner:

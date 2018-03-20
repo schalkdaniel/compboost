@@ -53,7 +53,7 @@ class Data
 {
 protected:
   
-  std::string data_identifier;
+  std::string data_identifier = "";
   
 public:
   
@@ -62,10 +62,11 @@ public:
   virtual void setData (const arma::mat&) = 0;
   virtual arma::mat getData () const = 0;
   
+  void setDataIdentifier (const std::string&);
+  std::string getDataIdentifier () const;
+  
   virtual 
     ~Data () { };
-  
-  std::string getDataIdentifier () const;
 };
 
 
@@ -73,26 +74,38 @@ public:
 // Data implementations:
 // -------------------------------------------------------------------------- //
 
-// IdentityData:
+// InMemoryData:
 // -----------------------
 
 // This one does nothing special, just takes the data and use the transformed
 // one as train data.
 
-class IdentityData : public Data
+class InMemoryData : public Data
 {
 private:
   
-  arma::mat data_mat;
+  // Initialize with zeros and null pointer. Idea: The real data object which is
+  // used for modelling is stored in the data_mat. This should only be the case
+  // for the data target. The data source gets a pointer to e.g. the column of
+  // a data.frame:
+  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
+  const arma::mat* data_mat_ptr = NULL;
   
 public:
   
-  IdentityData (const arma::mat&, const std::string&);
+  // Empty constructor for data target
+  InMemoryData ();
+  
+  // Colvec to refer directly to R vectors or data frame columns:
+  InMemoryData (const arma::vec&, const std::string&);
+  
+  // Classical way via data matrix:
+  InMemoryData (const arma::mat&, const std::string&);
   
   void setData (const arma::mat&);
   arma::mat getData() const;
   
-  ~IdentityData ();
+  ~InMemoryData ();
   
 };
 

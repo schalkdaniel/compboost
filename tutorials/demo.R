@@ -22,9 +22,12 @@ X.wt = as.matrix(df[["wt"]])
 # Target variable:
 y = df[["mpg"]]
 
-data.hp1 = IdentityData$new(X.hp, "hp")
-data.hp2 = IdentityData$new(X.hp, "hp")
-data.wt = IdentityData$new(X.wt, "wt")
+data.source.hp = InMemoryData$new(X.hp, "hp")
+data.source.wt = InMemoryData$new(X.wt, "wt")
+
+data.target.hp1 = InMemoryData$new()
+data.target.hp2 = InMemoryData$new()
+data.target.wt  = InMemoryData$new()
 
 # Next lists are the same as the used data. Then we can have a look if the oob
 # and inbag logger and the train prediction and prediction on newdata are doing
@@ -46,11 +49,11 @@ test.data = oob.data
 ## Baselearner
 
 # Create new linear baselearner of hp and wt:
-linear.factory.hp = PolynomialBlearnerFactory$new(data.hp1, 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(data.wt, 1)
+linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
+linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1)
 
 # Create new quadratic baselearner of hp:
-quadratic.factory.hp = PolynomialBlearnerFactory$new(data.hp2, 2)
+quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
 
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()
@@ -257,6 +260,8 @@ mod = mboost(
   data    = df,
   control = boost_control(mstop = 700, nu = 0.05)
 )
+
+cboost$setToIteration(700)
 
 # Does compboost the same as mboost?
 # ----------------------------------
