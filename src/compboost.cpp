@@ -49,8 +49,8 @@ namespace cboost {
 
 Compboost::Compboost () {}
 
-Compboost::Compboost (arma::vec response, double learning_rate, 
-  bool stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, 
+Compboost::Compboost (const arma::vec& response, const double& learning_rate, 
+  const bool& stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, 
   loss::Loss* used_loss, loggerlist::LoggerList* used_logger0,
   blearnerlist::BaselearnerFactoryList used_baselearner_list)
   : response ( response ), 

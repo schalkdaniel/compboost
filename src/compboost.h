@@ -87,7 +87,7 @@ public:
   
   Compboost ();
   
-  Compboost (arma::vec, double, bool, optimizer::Optimizer*, loss::Loss*, 
+  Compboost (const arma::vec&, const double&, const bool&, optimizer::Optimizer*, loss::Loss*, 
     loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
   
   // Basic train function used by TrainCompbost and ContinueTraining:

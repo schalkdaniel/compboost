@@ -44,6 +44,11 @@ namespace data
 
 Data::Data () {}
 
+void Data::setDataIdentifier (const std::string& new_data_identifier)
+{
+  data_identifier = new_data_identifier;
+}
+
 std::string Data::getDataIdentifier () const 
 {
   return data_identifier;
@@ -55,26 +60,39 @@ std::string Data::getDataIdentifier () const
 // Data implementations:
 // -------------------------------------------------------------------------- //
 
-// IdentityData:
+// InMemoryData:
 // -----------------------
 
-IdentityData::IdentityData (const arma::mat& raw_data, const std::string& data_identifier0)
+InMemoryData::InMemoryData () {}
+
+InMemoryData::InMemoryData (const arma::vec& raw_data, const std::string& data_identifier0)
 {
-  data_mat        = raw_data;
+  data_mat_ptr    = &raw_data;
   data_identifier = data_identifier0;
 }
 
-void IdentityData::setData (const arma::mat& transformed_data) 
+InMemoryData::InMemoryData (const arma::mat& raw_data, const std::string& data_identifier0)
+{
+  data_mat_ptr    = &raw_data;
+  data_identifier = data_identifier0;
+}
+
+void InMemoryData::setData (const arma::mat& transformed_data) 
 {
   data_mat = transformed_data;
 }
 
-arma::mat IdentityData::getData () const
+arma::mat InMemoryData::getData () const
 {
-  return data_mat;
+  // Give data depending on source (by reference) or target (by value):
+  if (data_mat_ptr == NULL) {
+    return data_mat;
+  } else {
+    return *data_mat_ptr;
+  }
 }
 
-IdentityData::~IdentityData () {
+InMemoryData::~InMemoryData () {
   // Rcpp::Rcout << "Delete Data" << std::endl;
 }
 

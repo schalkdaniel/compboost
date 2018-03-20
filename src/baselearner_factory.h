@@ -68,6 +68,8 @@ public:
   
   virtual arma::mat InstantiateData (const arma::mat&) = 0;
   
+  void InitializeDataObjects (data::Data*, data::Data*);
+  
   // Destructor:
   virtual ~BaselearnerFactory ();
   
@@ -75,7 +77,8 @@ protected:
   
   // Minimal functionality every baselearner should have:
   std::string blearner_type;
-  data::Data* data;
+  data::Data* data_source;
+  data::Data* data_target;
   
 };
 
@@ -94,7 +97,7 @@ private:
   
 public:
   
-  PolynomialBlearnerFactory (const std::string&, data::Data*, const unsigned int&);
+  PolynomialBlearnerFactory (const std::string&, data::Data*, data::Data*, const unsigned int&);
   
   blearner::Baselearner* CreateBaselearner (const std::string&);
   
@@ -117,8 +120,8 @@ private:
   
 public:
   
-  CustomBlearnerFactory (const std::string&, data::Data*, Rcpp::Function, 
-    Rcpp::Function, Rcpp::Function, Rcpp::Function);
+  CustomBlearnerFactory (const std::string&, data::Data*, data::Data*,
+    Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
   
   blearner::Baselearner* CreateBaselearner (const std::string&);
   
@@ -142,8 +145,8 @@ private:
   
 public:
   
-  CustomCppBlearnerFactory (const std::string&, data::Data*, SEXP, SEXP, 
-    SEXP);
+  CustomCppBlearnerFactory (const std::string&, data::Data*, data::Data*, 
+    SEXP, SEXP, SEXP);
   
   blearner::Baselearner* CreateBaselearner (const std::string&);
   

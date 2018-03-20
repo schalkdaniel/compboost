@@ -56,7 +56,7 @@ class DataWrapper
 public:
   DataWrapper () {}
 
-  data::Data* getData () { return obj; }
+  data::Data* getDataObj () { return obj; }
   
   virtual ~DataWrapper () { delete obj; }
 
@@ -66,12 +66,19 @@ protected:
 };
 
 
-class IdentityDataWrapper : public DataWrapper
+class InMemoryDataWrapper : public DataWrapper
 {
 public:
-  IdentityDataWrapper (arma::mat data0, std::string data_identifier)
+  InMemoryDataWrapper () {}
+  
+  InMemoryDataWrapper (const arma::vec& data0, const std::string& data_identifier)
   {
-    obj = new data::IdentityData (data0, data_identifier);
+    obj = new data::InMemoryData (data0, data_identifier);
+  }
+  
+  InMemoryDataWrapper (const arma::mat& data0, const std::string& data_identifier)
+  {
+    obj = new data::InMemoryData (data0, data_identifier);
   }
   arma::mat getData () const
   {
@@ -94,11 +101,15 @@ RCPP_MODULE (data_module)
     .constructor ("Create Data class")
   ;
 
-  class_<IdentityDataWrapper> ("IdentityData")
+  class_<InMemoryDataWrapper> ("InMemoryData")
     .derives<DataWrapper> ("Data")
-    .constructor<arma::mat, std::string> ()
-    .method("getData"      , &IdentityDataWrapper::getData, "Get data")
-    .method("getIdentifier", &IdentityDataWrapper::getIdentifier, "Get the data identifier")
+  
+    .constructor ()
+    .constructor<const arma::vec&, const std::string&> ()
+    .constructor<const arma::mat&, const std::string&> ()
+  
+    .method("getData",       &InMemoryDataWrapper::getData, "Get data")
+    .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
   ;
 }
 
@@ -131,7 +142,7 @@ public:
   PolynomialBlearnerWrapper (DataWrapper& data0, unsigned int degree)
     : degree ( degree )
   {
-    data = data0.getData();
+    data = data0.getDataObj();
     data->setData(obj->InstantiateData(data->getData()));
     std::string temp = "test polynomial of degree " + std::to_string(degree);
     obj = new blearner::PolynomialBlearner(data, temp, degree);
@@ -192,7 +203,7 @@ public:
   CustomBlearnerWrapper (DataWrapper& data0, Rcpp::Function instantiateData,
     Rcpp::Function train, Rcpp::Function predict, Rcpp::Function extractParameter)
   {
-    data = data0.getData();
+    data = data0.getDataObj();
     data->setData(obj->InstantiateData(data->getData()));
     std::string temp = "test custom";
     obj = new blearner::CustomBlearner(data, temp,instantiateData, train, predict, extractParameter);
@@ -241,7 +252,7 @@ public:
   CustomCppBlearnerWrapper (DataWrapper& data0, SEXP instantiate_data_ptr,
     SEXP train_ptr, SEXP predict_ptr)
   {
-    data = data0.getData();
+    data = data0.getDataObj();
     data->setData(obj->InstantiateData(data->getData()));
     std::string temp = "test custom cpp learner";
     obj = new blearner::CustomCppBlearner(data, temp, instantiate_data_ptr,
@@ -326,7 +337,7 @@ RCPP_MODULE(baselearner_module)
 
 
 // -------------------------------------------------------------------------- //
-//                         BASELEARNER FACTORYS                               //
+//                         BASELEARNER FACTORIES                               //
 // -------------------------------------------------------------------------- //
 
 // Abstract class. This one is given to the factory list. The factory list then
@@ -348,16 +359,17 @@ protected:
 // Wrapper around the PolynomialBlearnerFactory:
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
-
 private:
   const unsigned int degree;
 
 public:
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper& data, const unsigned int& degree)
+  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target, 
+    const unsigned int& degree)
     : degree ( degree )
   {
-    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data.getData(), degree);
+    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data_source.getDataObj(), 
+      data_target.getDataObj(), degree);
   }
 
   arma::mat getData () { return obj->GetData(); }
@@ -388,12 +400,12 @@ class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomBlearnerFactoryWrapper (DataWrapper& data,
+  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomBlearnerFactory("custom", data.getData(),
-      instantiateDataFun, trainFun, predictFun, extractParameter);
+    obj = new blearnerfactory::CustomBlearnerFactory("custom", data_source.getDataObj(),
+      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
   arma::mat getData () { return obj->GetData(); }
@@ -414,11 +426,11 @@ class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomCppBlearnerFactoryWrapper (DataWrapper& data,
+  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data.getData(),
-      instantiateDataFun, trainFun, predictFun);
+    obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data_source.getDataObj(),
+      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
   arma::mat getData () { return obj->GetData(); }
@@ -445,21 +457,21 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper&, unsigned int> ()
+    .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
   class_<CustomBlearnerFactoryWrapper> ("CustomBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
   class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper&, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
@@ -948,8 +960,8 @@ class CompboostWrapper
 {
 public:
 
-  CompboostWrapper (arma::vec response, double learning_rate,
-    bool stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
+  CompboostWrapper (const arma::vec& response, const double& learning_rate,
+    const bool& stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
     LossWrapper& loss, LoggerListWrapper& logger_list, OptimizerWrapper& optimizer)
   {
 
@@ -1122,7 +1134,7 @@ RCPP_MODULE (compboost_module)
   using namespace Rcpp;
 
   class_<CompboostWrapper> ("Compboost")
-    .constructor<arma::vec, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
+    .constructor<const arma::vec&, const double&, const bool&, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
     .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
