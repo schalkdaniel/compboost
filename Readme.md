@@ -30,10 +30,10 @@ devtools::install_github("schalkdaniel/compboost")
         - [x] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
     
     - [ ] Data Class:
-        - [ ] Abstract class setting
-        - [ ] Ordinary child:
-            - [ ] dataGetter
-            - [ ] dataSetter
+        - [x] Abstract class setting
+        - [x] In memory child:
+            - [x] dataGetter
+            - [x] dataSetter
         - [ ] Out of memory child:
             - [ ] dataGetter
             - [ ] dataSetter
