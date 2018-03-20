@@ -22,7 +22,7 @@
 # This file contains:
 # -------------------
 #
-#   The printer function for the 'BaselearnerWrapper'.
+#   The printer function for the exposed classes.
 #
 # Written by:
 # -----------
