@@ -68,17 +68,38 @@ protected:
 
 class InMemoryDataWrapper : public DataWrapper
 {
-public:
-  InMemoryDataWrapper () {}
   
-  InMemoryDataWrapper (const arma::vec& data0, const std::string& data_identifier)
+// Solve this shitty copying issue:
+// https://github.com/schalkdaniel/compboost/issues/123
+private:
+  arma::vec data_vec = arma::vec (1, arma::fill::zeros);
+  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
+  
+public:
+  
+  // Set data type in constructors to
+  //   - arma::mat    -> const arma::mat&
+  //   - arma::vec    -> const arma::vec&
+  //   - std::string  -> const std::string &
+  // crashes the compilation?
+  
+  InMemoryDataWrapper () 
   {
-    obj = new data::InMemoryData (data0, data_identifier);
+    obj = new data::InMemoryData ();  
   }
   
-  InMemoryDataWrapper (const arma::mat& data0, const std::string& data_identifier)
+  InMemoryDataWrapper (arma::vec data0, std::string data_identifier)
   {
-    obj = new data::InMemoryData (data0, data_identifier);
+    data_vec = data0;
+    
+    obj = new data::InMemoryData (data_vec, data_identifier);
+  }
+  
+  InMemoryDataWrapper (arma::mat data0, std::string data_identifier)
+  {
+    data_mat = data0;
+    
+    obj = new data::InMemoryData (data_mat, data_identifier);
   }
   arma::mat getData () const
   {
@@ -105,8 +126,8 @@ RCPP_MODULE (data_module)
     .derives<DataWrapper> ("Data")
   
     .constructor ()
-    .constructor<const arma::vec&, const std::string&> ()
-    .constructor<const arma::mat&, const std::string&> ()
+    .constructor<arma::vec, std::string> ()
+    .constructor<arma::mat, std::string> ()
   
     .method("getData",       &InMemoryDataWrapper::getData, "Get data")
     .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
@@ -960,8 +981,13 @@ class CompboostWrapper
 {
 public:
 
-  CompboostWrapper (const arma::vec& response, const double& learning_rate,
-    const bool& stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
+  // Set data type in constructor to
+  //   - arma::vec -> const arma::vec&
+  //   - double    -> const double &
+  //   - bool      -> const bool&
+  // crashes the compilation?
+  CompboostWrapper (arma::vec response, double learning_rate,
+    bool stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
     LossWrapper& loss, LoggerListWrapper& logger_list, OptimizerWrapper& optimizer)
   {
 
@@ -1134,7 +1160,7 @@ RCPP_MODULE (compboost_module)
   using namespace Rcpp;
 
   class_<CompboostWrapper> ("Compboost")
-    .constructor<const arma::vec&, const double&, const bool&, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
+    .constructor<arma::vec, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
     .method("train", &CompboostWrapper::train, "Run componentwise boosting")
     .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
