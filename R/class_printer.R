@@ -81,7 +81,7 @@ ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
   
   cat("\n\n")
   
-  return ("InMemoryData")
+  return ("InMemoryDataPrinter")
 })
 
 # ---------------------------------------------------------------------------- #

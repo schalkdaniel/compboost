@@ -88,17 +88,18 @@ public:
     obj = new data::InMemoryData ();  
   }
   
-  InMemoryDataWrapper (arma::vec data0, std::string data_identifier)
-  {
-    data_vec = data0;
-    
-    obj = new data::InMemoryData (data_vec, data_identifier);
-  }
+  // Rcpp doesn't detect if vector or matrix if using arma::vec and arma::mat:
+  // InMemoryDataWrapper (Rcpp::NumericVector data0, std::string data_identifier)
+  // {
+  //   data_vec = Rcpp::as<arma::vec>(data0);
+  //   Rcpp::Rcout << "Vector Initializer" << std::endl;
+  //   obj = new data::InMemoryData (data_vec, data_identifier);
+  // }
   
   InMemoryDataWrapper (arma::mat data0, std::string data_identifier)
   {
     data_mat = data0;
-    
+
     obj = new data::InMemoryData (data_mat, data_identifier);
   }
   arma::mat getData () const
@@ -126,7 +127,7 @@ RCPP_MODULE (data_module)
     .derives<DataWrapper> ("Data")
   
     .constructor ()
-    .constructor<arma::vec, std::string> ()
+    // .constructor<Rcpp::NumericVector, std::string> ()
     .constructor<arma::mat, std::string> ()
   
     .method("getData",       &InMemoryDataWrapper::getData, "Get data")
@@ -155,18 +156,24 @@ protected:
 class PolynomialBlearnerWrapper : public BaselearnerWrapper
 {
 private:
-  data::Data* data;
+  data::Data* dummy_data_target;
   unsigned int degree;
 
 public:
 
-  PolynomialBlearnerWrapper (DataWrapper& data0, unsigned int degree)
+  PolynomialBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target, 
+    unsigned int degree)
     : degree ( degree )
   {
-    data = data0.getDataObj();
-    data->setData(obj->InstantiateData(data->getData()));
+    obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree);
+    
+    data_target.getDataObj()->setData(obj->InstantiateData(data_source.getDataObj()->getData()));
+    
+    delete(obj);
     std::string temp = "test polynomial of degree " + std::to_string(degree);
-    obj = new blearner::PolynomialBlearner(data, temp, degree);
+    obj = new blearner::PolynomialBlearner(data_target.getDataObj(), temp, degree);
+    
+    dummy_data_target = data_target.getDataObj();
   }
 
   void train (arma::vec& response)
@@ -176,7 +183,7 @@ public:
 
   arma::mat getData ()
   {
-    return data->getData();
+    return dummy_data_target->getData();
   }
   arma::mat getParameter ()
   {
@@ -217,17 +224,30 @@ public:
 class CustomBlearnerWrapper : public BaselearnerWrapper
 {
 private:
-  data::Data* data;
+  data::Data* dummy_data_target;
 
 public:
 
-  CustomBlearnerWrapper (DataWrapper& data0, Rcpp::Function instantiateData,
-    Rcpp::Function train, Rcpp::Function predict, Rcpp::Function extractParameter)
+  CustomBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target, 
+    Rcpp::Function instantiateData, Rcpp::Function train, Rcpp::Function predict, 
+    Rcpp::Function extractParameter)
   {
-    data = data0.getDataObj();
-    data->setData(obj->InstantiateData(data->getData()));
+    obj = new blearner::CustomBlearner(data_source.getDataObj(), "", instantiateData, 
+      train, predict, extractParameter);
+    
+    data_target.getDataObj()->setData(obj->InstantiateData(data_source.getDataObj()->getData()));
+    
+    delete(obj);
     std::string temp = "test custom";
-    obj = new blearner::CustomBlearner(data, temp,instantiateData, train, predict, extractParameter);
+    obj = new blearner::CustomBlearner(data_target.getDataObj(), temp, instantiateData,
+      train, predict, extractParameter);
+    
+    dummy_data_target = data_target.getDataObj();
+    
+    // data = data0.getDataObj();
+    // data->setData(obj->InstantiateData(data->getData()));
+    // std::string temp = "test custom";
+    // obj = new blearner::CustomBlearner(data, temp,instantiateData, train, predict, extractParameter);
   }
 
   void train (arma::vec& response)
@@ -237,7 +257,7 @@ public:
 
   arma::mat getData ()
   {
-    return data->getData();
+    return dummy_data_target->getData();
   }
   arma::mat getParameter ()
   {
@@ -266,18 +286,30 @@ public:
 class CustomCppBlearnerWrapper : public BaselearnerWrapper
 {
 private:
-  data::Data* data;
+  data::Data* dummy_data_target;
 
 public:
 
-  CustomCppBlearnerWrapper (DataWrapper& data0, SEXP instantiate_data_ptr,
-    SEXP train_ptr, SEXP predict_ptr)
+  CustomCppBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target, 
+    SEXP instantiate_data_ptr, SEXP train_ptr, SEXP predict_ptr)
   {
-    data = data0.getDataObj();
-    data->setData(obj->InstantiateData(data->getData()));
+    obj = new blearner::CustomCppBlearner(data_source.getDataObj(), "", 
+      instantiate_data_ptr, train_ptr, predict_ptr);
+    
+    data_target.getDataObj()->setData(obj->InstantiateData(data_source.getDataObj()->getData()));
+    
+    delete(obj);
     std::string temp = "test custom cpp learner";
-    obj = new blearner::CustomCppBlearner(data, temp, instantiate_data_ptr,
-      train_ptr, predict_ptr);
+    obj = new blearner::CustomCppBlearner(data_target.getDataObj(), temp, 
+      instantiate_data_ptr, train_ptr, predict_ptr);
+    
+    dummy_data_target = data_target.getDataObj();
+    
+    // data = data0.getDataObj();
+    // data->setData(obj->InstantiateData(data->getData()));
+    // std::string temp = "test custom cpp learner";
+    // obj = new blearner::CustomCppBlearner(data, temp, instantiate_data_ptr,
+    //   train_ptr, predict_ptr);
   }
 
   void train (arma::vec& response)
@@ -287,7 +319,7 @@ public:
 
   arma::mat getData ()
   {
-    return obj->GetData();
+    return dummy_data_target->getData();
   }
   arma::mat getParameter ()
   {
@@ -324,7 +356,7 @@ RCPP_MODULE(baselearner_module)
 
   class_<PolynomialBlearnerWrapper> ("PolynomialBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, unsigned int> ()
+    .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
     .method("train",          &PolynomialBlearnerWrapper::train, "Train function of the baselearner")
     .method("getParameter",   &PolynomialBlearnerWrapper::getParameter, "Predict function of the baselearner")
     .method("predict",        &PolynomialBlearnerWrapper::predict, "GetParameter function of the baselearner")
@@ -335,7 +367,7 @@ RCPP_MODULE(baselearner_module)
 
   class_<CustomBlearnerWrapper> ("CustomBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
     .method("train",          &CustomBlearnerWrapper::train, "Train function of the baselearner")
     .method("getParameter",   &CustomBlearnerWrapper::getParameter, "Predict function of the baselearner")
     .method("predict",        &CustomBlearnerWrapper::predict, "GetParameter function of the baselearner")
@@ -346,7 +378,7 @@ RCPP_MODULE(baselearner_module)
 
   class_<CustomCppBlearnerWrapper> ("CustomCppBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
     .method("train",          &CustomCppBlearnerWrapper::train, "Train function of the baselearner")
     .method("getParameter",   &CustomCppBlearnerWrapper::getParameter, "Predict function of the baselearner")
     .method("predict",        &CustomCppBlearnerWrapper::predict, "GetParameter function of the baselearner")
