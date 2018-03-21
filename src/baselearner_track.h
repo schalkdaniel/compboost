@@ -72,22 +72,22 @@ class BaselearnerTrack
     BaselearnerTrack (double);
     
     // Insert a baselearner into vector and update parameter:
-    void InsertBaselearner (blearner::Baselearner*);
+    void insertBaselearner (blearner::Baselearner*);
     
     // Return the vector of baselearner:
-    std::vector<blearner::Baselearner*> GetBaselearnerVector () const;
+    std::vector<blearner::Baselearner*> getBaselearnerVector () const;
     
     // Return so far estimated parameter map:
-    std::map<std::string, arma::mat> GetParameterMap () const;
+    std::map<std::string, arma::mat> getParameterMap () const;
     
     // Clear the vector of baselearner:
-    void ClearBaselearnerVector ();
+    void clearBaselearnerVector ();
     
     // Estimate parameter for specific iteration:
-    std::map<std::string, arma::mat> GetEstimatedParameterOfIteration (const unsigned int&) const;
+    std::map<std::string, arma::mat> getEstimatedParameterOfIteration (const unsigned int&) const;
     
     // Returns a matrix of parameters for every iteration:
-    std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix () const;
+    std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
     
     // Set parameter map to a given iteration:
     void setToIteration (const unsigned int&);

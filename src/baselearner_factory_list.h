@@ -66,20 +66,20 @@ public:
   
   // Functions to register a baselearner factory and print all registered
   // factorys:
-  void RegisterBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
-  void PrintRegisteredFactorys () const;
+  void registerBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
+  void printRegisteredFactorys () const;
   
   // Get the actual map:
-  blearner_factory_map GetMap () const;
+  blearner_factory_map getMap () const;
   
   // Clear all elements wich are registered:
-  void ClearMap();
+  void clearMap();
   
   // Get the data used for modelling:
-  std::pair<std::vector<std::string>, arma::mat> GetModelFrame () const;
+  std::pair<std::vector<std::string>, arma::mat> getModelFrame () const;
   
   // Get the data as std::map, convenient for Compboost::setToIteration:
-  std::map<std::string, arma::mat> GetDataMap () const;
+  std::map<std::string, arma::mat> getDataMap () const;
   
   // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
 };

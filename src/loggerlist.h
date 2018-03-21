@@ -62,11 +62,11 @@ public:
   // LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
   
   // String for logger and the logger itselfe:
-  void RegisterLogger (const std::string&, logger::Logger*);
-  void PrintRegisteredLogger () const;
+  void registerLogger (const std::string&, logger::Logger*);
+  void printRegisteredLogger () const;
   
-  logger_map GetMap () const;
-  void ClearMap ();
+  logger_map getMap () const;
+  void clearMap ();
   
   // This function should iterate over all registered logger, check if it is
   // a stopper and returns just one bool, aggregated over a vector of bools
@@ -75,27 +75,27 @@ public:
   // map identifier since it sorts the entrys after name.
   
   // If the argument is 'true', than all stopper has to be fullfilled.
-  bool GetStopperStatus (const bool&) const;
+  bool getStopperStatus (const bool&) const;
   
   // Get a matrix of tracked logger (iterator over all logger and paste 
   // all columns of the private member). The return is a pair with a
   // string vector containing the logger type and a matrix with corresponging
   // columns for each logger type:
-  std::pair<std::vector<std::string>, arma::mat> GetLoggerData () const;
+  std::pair<std::vector<std::string>, arma::mat> getLoggerData () const;
   
   // Log the current step (structure <iteration, actual time, actual risk>).
   // This is given to the instantiated logger:
-  void LogCurrent (const unsigned int&, const arma::vec&, const arma::vec&, 
+  void logCurrent (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
   // Initialize logger printer:
-  void InitializeLoggerPrinter () const;
+  void initializeLoggerPrinter () const;
   
   // Print the logger status:
-  void PrintLoggerStatus () const;
+  void printLoggerStatus () const;
   
   // Clear the logger data (should be used in front of every compboost training):
-  void ClearLoggerData ();
+  void clearLoggerData ();
   
   // Destructor:
   ~LoggerList ();

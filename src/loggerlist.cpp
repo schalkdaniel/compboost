@@ -45,7 +45,7 @@ namespace loggerlist
 
 LoggerList::LoggerList () { };
 
-void LoggerList::RegisterLogger (const std::string& logger_id, logger::Logger *which_logger)
+void LoggerList::registerLogger (const std::string& logger_id, logger::Logger *which_logger)
 {
   log_list.insert(std::pair<std::string, logger::Logger *>(logger_id, which_logger));
   if (which_logger->GetIfLoggerIsStopper()) {
@@ -53,7 +53,7 @@ void LoggerList::RegisterLogger (const std::string& logger_id, logger::Logger *w
   }
 }
 
-void LoggerList::PrintRegisteredLogger () const
+void LoggerList::printRegisteredLogger () const
 {
   Rcpp::Rcout << "Registered Logger:\n";
   for (auto& it : log_list) {
@@ -61,17 +61,17 @@ void LoggerList::PrintRegisteredLogger () const
   }
 }
 
-logger_map LoggerList::GetMap () const
+logger_map LoggerList::getMap () const
 {
   return log_list;
 }
 
-void LoggerList::ClearMap ()
+void LoggerList::clearMap ()
 {
   log_list.clear();
 }
 
-bool LoggerList::GetStopperStatus (const bool& use_global_stop) const
+bool LoggerList::getStopperStatus (const bool& use_global_stop) const
 {
   // Define variables to get the status of the algorithm:
   
@@ -82,7 +82,7 @@ bool LoggerList::GetStopperStatus (const bool& use_global_stop) const
   
   // Iterate over logger and get stopper status:
   for (auto& it : log_list) {
-    status.push_back(it.second->ReachedStopCriteria());
+    status.push_back(it.second->reachedStopCriteria());
   }
   // Sum over status vector to decide if the stop criteria is fullfilled:
   unsigned int status_sum = std::accumulate(status.begin(), status.end(), 0);
@@ -101,19 +101,19 @@ bool LoggerList::GetStopperStatus (const bool& use_global_stop) const
   return return_algorithm;
 }
 
-std::pair<std::vector<std::string>, arma::mat> LoggerList::GetLoggerData () const
+std::pair<std::vector<std::string>, arma::mat> LoggerList::getLoggerData () const
 {
   arma::mat out_matrix;
   std::vector<std::string> logger_names;
   
   for (auto& it : log_list) {
-    out_matrix = arma::join_rows(out_matrix, it.second->GetLoggedData());
+    out_matrix = arma::join_rows(out_matrix, it.second->getLoggedData());
     logger_names.push_back(it.first);
   }
   return std::pair<std::vector<std::string>, arma::mat>(logger_names, out_matrix);
 }
 
-void LoggerList::LogCurrent (const unsigned int& current_iteration, const arma::vec& response, 
+void LoggerList::logCurrent (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset,
   const double& learning_rate)
 {
@@ -129,37 +129,37 @@ void LoggerList::LogCurrent (const unsigned int& current_iteration, const arma::
   // This can be easily extended to an oob risk by just using the evaluation
   // data specified by initializing the logger list.
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    it->second->LogStep(current_iteration, response, prediction, used_blearner, 
+    it->second->logStep(current_iteration, response, prediction, used_blearner, 
       offset, learning_rate);
   }
 }
 
 // Initialize logger printer:
-void LoggerList::InitializeLoggerPrinter () const
+void LoggerList::initializeLoggerPrinter () const
 {
   std::string printer;
   for (auto& it : log_list) {
-    printer += it.second->InitializeLoggerPrinter() + " |";
+    printer += it.second->initializeLoggerPrinter() + " |";
   }
   Rcpp::Rcout << printer << std::endl;
   Rcpp::Rcout << std::string(printer.size(), '-') << std::endl;
 }
 
 // Print logger:
-void LoggerList::PrintLoggerStatus () const
+void LoggerList::printLoggerStatus () const
 {
   std::string printer;
   for (auto& it : log_list) {
-    printer += it.second->PrintLoggerStatus() + " |";
+    printer += it.second->printLoggerStatus() + " |";
   }
   Rcpp::Rcout << printer << std::endl;
 }
 
 // Clear logger data:
-void LoggerList::ClearLoggerData ()
+void LoggerList::clearLoggerData ()
 {
   for (auto& it : log_list) {
-    it.second->ClearLoggerData();
+    it.second->clearLoggerData();
   }
 }
 

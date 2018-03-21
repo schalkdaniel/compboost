@@ -32,9 +32,9 @@
 //
 //         class SpecificLoss: public LossDefinition
 //         {
-//           arma::vec DefinedLoss      { IMPLEMENTATION };
-//           arma::vec DefinedGradient  { IMPLEMENTATION };
-//           double ConstantInitializer { IMPLEMENTATION };
+//           arma::vec definedLoss      { IMPLEMENTATION };
+//           arma::vec definedGradient  { IMPLEMENTATION };
+//           double constantInitializer { IMPLEMENTATION };
 //         }
 //
 //     - There is one special child class, the 'CustomLoss' which allows to
@@ -71,9 +71,9 @@ class Loss
 {
   public:
 
-    virtual arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const = 0;
-    virtual arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const = 0;
-    virtual double ConstantInitializer (const arma::vec&) const = 0;
+    virtual arma::vec definedLoss (const arma::vec&, const arma::vec&) const = 0;
+    virtual arma::vec definedGradient (const arma::vec&, const arma::vec&) const = 0;
+    virtual double constantInitializer (const arma::vec&) const = 0;
     
     virtual ~Loss ();
 };
@@ -89,11 +89,11 @@ class QuadraticLoss : public Loss
 {
   public:
 
-    arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const;
+    arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
 
-    arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const;
+    arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
 
-    double ConstantInitializer (const arma::vec&) const;
+    double constantInitializer (const arma::vec&) const;
 };
 
 // AbsoluteLoss loss:
@@ -103,11 +103,11 @@ class AbsoluteLoss : public Loss
 {
   public:
 
-    arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const;
+    arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
 
-    arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const;
+    arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
 
-    double ConstantInitializer (const arma::vec&) const;
+    double constantInitializer (const arma::vec&) const;
 };
 
 // Custom loss:
@@ -135,13 +135,13 @@ class CustomLoss : public Loss
 
     CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
-    arma::vec DefinedLoss (const arma::vec&, const arma::vec&) const;
+    arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
 
-    arma::vec DefinedGradient (const arma::vec&, const arma::vec&) const;
+    arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
 
     // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
     // knows how to convert a 'SEXP':
-    double ConstantInitializer (const arma::vec&) const;
+    double constantInitializer (const arma::vec&) const;
 };
 
 } // namespace loss

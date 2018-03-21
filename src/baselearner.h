@@ -56,7 +56,7 @@ class Baselearner
 public:
 
   virtual void train (const arma::vec&) = 0;
-  arma::mat GetParameter () const;
+  arma::mat getParameter () const;
   
   virtual arma::mat predict () = 0;
   virtual arma::mat predict (data::Data*) = 0;
@@ -64,33 +64,33 @@ public:
   // Specify how the data has to be transformed. E. g. for splines a mapping
   // to the higher dimension space. The overloading function with the
   // arma mat as parameter is used for newdata:
-  virtual arma::mat InstantiateData (const arma::mat&) = 0;
+  virtual arma::mat instantiateData (const arma::mat&) = 0;
   
   // Clone function (in some places needed e.g. "optimizer.cpp") and a copy
   // function which is called by clone to avoid copy and pasting of the 
   // protected members:
-  void CopyMembers (const arma::mat&, const std::string&, data::Data*);
-  virtual Baselearner* Clone () = 0;
+  void copyMembers (const arma::mat&, const std::string&, data::Data*);
+  virtual Baselearner* clone () = 0;
   
-  // Within 'SetData' the pointer will be setted, while 'InstantiateData'
+  // Within 'setData' the pointer will be setted, while 'instantiateData'
   // overwrite the object on which 'data_ptr' points. This guarantees that 
   // the data is just stored once in the factory and then called by reference
   // within the baselearner:
-  void SetData (data::Data*);
-  arma::mat GetData () const;
+  void setData (data::Data*);
+  arma::mat getData () const;
   
   // Get data identifier stored within the data object:
-  std::string GetDataIdentifier () const;
+  std::string getDataIdentifier () const;
   
   // Set and get identifier of a specific baselearner (this is unique):
-  void SetIdentifier (const std::string&);
-  std::string GetIdentifier () const;
+  void setIdentifier (const std::string&);
+  std::string getIdentifier () const;
   
   // Set and get baselearner type (this can be the same for multiple 
   // baselearner e.g. linear baselearner for variable x1 and x2).
   // This one is setted by the factory which later creates the objects:
-  void SetBaselearnerType (const std::string&);
-  std::string GetBaselearnerType () const;
+  void setBaselearnerType (const std::string&);
+  std::string getBaselearnerType () const;
   
   // Destructor:
   virtual ~Baselearner ();
@@ -128,10 +128,10 @@ public:
   // (data pointer, data identifier, baselearner identifier, degree) 
   PolynomialBlearner (data::Data*, const std::string&, const unsigned int&);
   
-  Baselearner* Clone ();
+  Baselearner* clone ();
   
-  // arma::mat InstantiateData ();
-  arma::mat InstantiateData (const arma::mat&);
+  // arma::mat instantiateData ();
+  arma::mat instantiateData (const arma::mat&);
   
   void train (const arma::vec&);
   arma::mat predict ();
@@ -168,10 +168,10 @@ public:
     Rcpp::Function, Rcpp::Function, Rcpp::Function);
   
   // Copy constructor:
-  Baselearner* Clone ();
+  Baselearner* clone ();
   
-  // arma::mat InstantiateData ();
-  arma::mat InstantiateData (const arma::mat&);
+  // arma::mat instantiateData ();
+  arma::mat instantiateData (const arma::mat&);
   
   void train (const arma::vec&);
   arma::mat predict ();
@@ -213,10 +213,10 @@ public:
   CustomCppBlearner (data::Data*, const std::string&, SEXP, SEXP, SEXP);
   
   // Copy constructor:
-  Baselearner* Clone ();
+  Baselearner* clone ();
   
-  // arma::mat InstantiateData ();
-  arma::mat InstantiateData (const arma::mat&);
+  // arma::mat instantiateData ();
+  arma::mat instantiateData (const arma::mat&);
   
   void train (const arma::vec&);
   arma::mat predict ();

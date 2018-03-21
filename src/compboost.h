@@ -90,32 +90,32 @@ public:
   Compboost (const arma::vec&, const double&, const bool&, optimizer::Optimizer*, loss::Loss*, 
     loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
   
-  // Basic train function used by TrainCompbost and ContinueTraining:
-  void Train (const bool&, const arma::vec&, loggerlist::LoggerList*);
+  // Basic train function used by trainCompbost and continueTraining:
+  void train (const bool&, const arma::vec&, loggerlist::LoggerList*);
   
   // Initial training:
-  void TrainCompboost (const bool&);
+  void trainCompboost (const bool&);
   
   // Retraining after initial training:
-  void ContinueTraining (loggerlist::LoggerList*, const bool&);
+  void continueTraining (loggerlist::LoggerList*, const bool&);
   
-  arma::vec GetPrediction () const;
+  arma::vec getPrediction () const;
   
-  std::map<std::string, arma::mat> GetParameter () const;
-  std::vector<std::string> GetSelectedBaselearner () const;
+  std::map<std::string, arma::mat> getParameter () const;
+  std::vector<std::string> getSelectedBaselearner () const;
   
-  std::map<std::string, loggerlist::LoggerList*> GetLoggerList () const;
-  std::map<std::string, arma::mat> GetParameterOfIteration (const unsigned int&) const;
+  std::map<std::string, loggerlist::LoggerList*> getLoggerList () const;
+  std::map<std::string, arma::mat> getParameterOfIteration (const unsigned int&) const;
   
-  std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix () const;
+  std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
   
-  arma::vec Predict () const;
-  arma::vec Predict (std::map<std::string, data::Data*>) const;
-  arma::vec PredictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&) const;
+  arma::vec predict () const;
+  arma::vec predict (std::map<std::string, data::Data*>) const;
+  arma::vec predictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&) const;
   
-  void SetToIteration (const unsigned int&);
+  void setToIteration (const unsigned int&);
   
-  void SummarizeCompboost () const;
+  void summarizeCompboost () const;
   
   // Destructor:
   ~Compboost ();

@@ -67,34 +67,20 @@ class Logger
 {
 public:
   
-  virtual void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+  virtual void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&) = 0;
   
   // This one should check if the stop criteria is reached. If not it should
   // return 'true' otherwise 'false'. Every function should have this 
   // structure:
+  virtual bool reachedStopCriteria () const = 0;
   
-  // bool ReachedStopCriteria ()
-  // {
-  //   bool stop_criteria_is_reached;
-  //
-  //   if (is_a_stopper) {
-  //     if (CHECK IF STOP CRITERIA IS FULLFILLED!) {
-  //       stop_criteria_is_reached = true;
-  //     }      
-  //   } else {
-  //     stop_criteria_is_reached = false;
-  //   }
-  //   return stop_criteria_is_reached;
-  // }
-  virtual bool ReachedStopCriteria () const = 0;
+  virtual arma::vec getLoggedData () const = 0;
   
-  virtual arma::vec GetLoggedData () const = 0;
+  virtual std::string initializeLoggerPrinter () const = 0;
+  virtual std::string printLoggerStatus () const = 0;
   
-  virtual std::string InitializeLoggerPrinter () const = 0;
-  virtual std::string PrintLoggerStatus () const = 0;
-  
-  virtual void ClearLoggerData() = 0;
+  virtual void clearLoggerData () = 0;
   
   bool GetIfLoggerIsStopper () const;
   
@@ -134,15 +120,15 @@ public:
   IterationLogger (const bool&, const unsigned int&);
   
   // This just loggs the iteration (unsigned int):
-  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+  void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
-  bool ReachedStopCriteria () const;
-  arma::vec GetLoggedData () const;
-  void ClearLoggerData();
+  bool reachedStopCriteria () const;
+  arma::vec getLoggedData () const;
+  void clearLoggerData ();
   
-  std::string InitializeLoggerPrinter () const;
-  std::string PrintLoggerStatus () const;
+  std::string initializeLoggerPrinter () const;
+  std::string printLoggerStatus () const;
   
 };
 
@@ -159,15 +145,15 @@ private:
 public:
   InbagRiskLogger (const bool&, loss::Loss*, const double&);
   
-  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+  void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
-  bool ReachedStopCriteria () const;
-  arma::vec GetLoggedData () const;
-  void ClearLoggerData();
+  bool reachedStopCriteria () const;
+  arma::vec getLoggedData () const;
+  void clearLoggerData ();
   
-  std::string InitializeLoggerPrinter () const;
-  std::string PrintLoggerStatus () const;
+  std::string initializeLoggerPrinter () const;
+  std::string printLoggerStatus () const;
   
 };
 
@@ -188,15 +174,15 @@ public:
   OobRiskLogger (const bool&, loss::Loss*, const double&, 
     std::map<std::string, data::Data*>, const arma::vec&);
   
-  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+  void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
-  bool ReachedStopCriteria () const;
-  arma::vec GetLoggedData () const;
-  void ClearLoggerData();
+  bool reachedStopCriteria () const;
+  arma::vec getLoggedData () const;
+  void clearLoggerData ();
   
-  std::string InitializeLoggerPrinter () const;
-  std::string PrintLoggerStatus () const;
+  std::string initializeLoggerPrinter () const;
+  std::string printLoggerStatus () const;
   
 };
 
@@ -216,15 +202,15 @@ public:
   
   TimeLogger (const bool&, const unsigned int&, const std::string&);
   
-  void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
+  void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
-  bool ReachedStopCriteria () const;
-  arma::vec GetLoggedData () const;
-  void ClearLoggerData();
+  bool reachedStopCriteria () const;
+  arma::vec getLoggedData () const;
+  void clearLoggerData();
   
-  std::string InitializeLoggerPrinter () const;
-  std::string PrintLoggerStatus () const;
+  std::string initializeLoggerPrinter () const;
+  std::string printLoggerStatus () const;
   
 };
 
