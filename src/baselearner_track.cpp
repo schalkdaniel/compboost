@@ -49,19 +49,19 @@ BaselearnerTrack::BaselearnerTrack (double learning_rate) : learning_rate ( lear
 
 // Insert a baselearner to the vector. We also want to add up the parameter
 // in there to get an estimator in the end:
-void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner)
+void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner)
 {
   // Insert new baselearner:
   blearner_vector.push_back(blearner);
   
-  std::string insert_id = blearner->GetDataIdentifier() + ": " + blearner->GetBaselearnerType();
+  std::string insert_id = blearner->getDataIdentifier() + ": " + blearner->getBaselearnerType();
   
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
   std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(insert_id);
   
   // Prune parameter by multiplying it with the learning rate:
-  arma::mat parameter_temp = learning_rate * blearner->GetParameter();
+  arma::mat parameter_temp = learning_rate * blearner->getParameter();
   
   // Check if this is the first parameter entry:
   if (it == my_parameter_map.end()) {
@@ -74,26 +74,26 @@ void BaselearnerTrack::InsertBaselearner (blearner::Baselearner* blearner)
   
   // Accumulating parameter. If there is a nan, then this will be ignored and 
   // the non  nan entries are added up:
-  // arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->GetBaselearnerType())->second;
-  // my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->GetBaselearnerType(), parameter_insert));
+  // arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->getBaselearnerType())->second;
+  // my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->getBaselearnerType(), parameter_insert));
   my_parameter_map[ insert_id ] = parameter_temp + my_parameter_map.find(insert_id)->second;
   
 }
 
 // Get the vector of baselearner:
-std::vector<blearner::Baselearner*> BaselearnerTrack::GetBaselearnerVector () const
+std::vector<blearner::Baselearner*> BaselearnerTrack::getBaselearnerVector () const
 {
   return blearner_vector;
 }
 
 // Get parameter map:
-std::map<std::string, arma::mat> BaselearnerTrack::GetParameterMap () const
+std::map<std::string, arma::mat> BaselearnerTrack::getParameterMap () const
 {
   return my_parameter_map;
 }
 
 // Clear baselearner vector:
-void BaselearnerTrack::ClearBaselearnerVector ()
+void BaselearnerTrack::clearBaselearnerVector ()
 {
   for (unsigned int i = 0; i < blearner_vector.size(); i++)
   {
@@ -103,7 +103,7 @@ void BaselearnerTrack::ClearBaselearnerVector ()
 }
 
 // Get estimated parameter for specific iteration:
-std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIteration (const unsigned int& k) const
+std::map<std::string, arma::mat> BaselearnerTrack::getEstimatedParameterOfIteration (const unsigned int& k) const
 {
   if (k > blearner_vector.size()) {
     Rcpp::stop ("You can't get parameter of a state higher then the maximal iterations.");
@@ -115,14 +115,14 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIterat
   if (k <= blearner_vector.size()) {
     
     for (unsigned int i = 0; i < k; i++) {
-      std::string insert_id = blearner_vector[i]->GetDataIdentifier() + ": " + blearner_vector[i]->GetBaselearnerType();
+      std::string insert_id = blearner_vector[i]->getDataIdentifier() + ": " + blearner_vector[i]->getBaselearnerType();
       
       // Check if the baselearner is the first one. If so, the parameter
       // has to be instantiated with a zero matrix:
       std::map<std::string, arma::mat>::iterator it = my_new_parameter_map.find(insert_id);
       
       // Prune parameter by multiplying it with the learning rate:
-      arma::mat parameter_temp = learning_rate * blearner_vector[i]->GetParameter();
+      arma::mat parameter_temp = learning_rate * blearner_vector[i]->getParameter();
       
       // Check if this is the first parameter entry:
       if (it == my_new_parameter_map.end()) {
@@ -142,7 +142,7 @@ std::map<std::string, arma::mat> BaselearnerTrack::GetEstimatedParameterOfIterat
 }
 
 // Create parameter matrix:
-std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMatrix () const
+std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::getParameterMatrix () const
 {
   // Instantiate list to iterate:
   std::map<std::string, arma::mat> my_new_parameter_map = my_parameter_map;
@@ -164,10 +164,10 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::GetParameterMat
   arma::mat parameters (blearner_vector.size(), cols, arma::fill::zeros);
     
   for (unsigned int i = 0; i < blearner_vector.size(); i++) {
-    std::string insert_id = blearner_vector[i]->GetDataIdentifier() + ": " + blearner_vector[i]->GetBaselearnerType();
+    std::string insert_id = blearner_vector[i]->getDataIdentifier() + ": " + blearner_vector[i]->getBaselearnerType();
 
     // Prune parameter by multiplying it with the learning rate:
-    arma::mat parameter_temp = learning_rate * blearner_vector[i]->GetParameter();
+    arma::mat parameter_temp = learning_rate * blearner_vector[i]->getParameter();
     
     // Accumulating parameter. If there is a nan, then this will be ignored and 
     // the non  nan entries are added up:
@@ -208,14 +208,14 @@ void BaselearnerTrack::setToIteration (const unsigned int& k)
     Rcpp::stop ("You can't set the actual state to a higher state then the maximal iterations.");
   }
   
-  my_parameter_map = GetEstimatedParameterOfIteration(k);
+  my_parameter_map = getEstimatedParameterOfIteration(k);
 }
 
 // Destructor:
 BaselearnerTrack::~BaselearnerTrack ()
 {
   // Rcpp::Rcout << "Call BaselearnerTrack Destructor" << std::endl;
-  ClearBaselearnerVector();
+  clearBaselearnerVector();
 }
 
 } // blearnertrack

@@ -59,16 +59,16 @@ class BaselearnerFactory
 public:
   
   // Create new baselearner with id:
-  virtual blearner::Baselearner* CreateBaselearner (const std::string&) = 0;
+  virtual blearner::Baselearner* createBaselearner (const std::string&) = 0;
   
   // Getter for data, data identifier and the baselearner type:
-  arma::mat GetData () const;
-  std::string GetDataIdentifier () const;
-  std::string GetBaselearnerType () const;
+  arma::mat getData () const;
+  std::string getDataIdentifier () const;
+  std::string getBaselearnerType () const;
   
-  virtual arma::mat InstantiateData (const arma::mat&) = 0;
+  virtual arma::mat instantiateData (const arma::mat&) = 0;
   
-  void InitializeDataObjects (data::Data*, data::Data*);
+  void initializeDataObjects (data::Data*, data::Data*);
   
   // Destructor:
   virtual ~BaselearnerFactory ();
@@ -99,9 +99,9 @@ public:
   
   PolynomialBlearnerFactory (const std::string&, data::Data*, data::Data*, const unsigned int&);
   
-  blearner::Baselearner* CreateBaselearner (const std::string&);
+  blearner::Baselearner* createBaselearner (const std::string&);
   
-  arma::mat InstantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&);
 };
 
 // CustomBlearner:
@@ -123,9 +123,9 @@ public:
   CustomBlearnerFactory (const std::string&, data::Data*, data::Data*,
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
   
-  blearner::Baselearner* CreateBaselearner (const std::string&);
+  blearner::Baselearner* createBaselearner (const std::string&);
   
-  arma::mat InstantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&);
   
 };
 
@@ -148,9 +148,9 @@ public:
   CustomCppBlearnerFactory (const std::string&, data::Data*, data::Data*, 
     SEXP, SEXP, SEXP);
   
-  blearner::Baselearner* CreateBaselearner (const std::string&);
+  blearner::Baselearner* createBaselearner (const std::string&);
   
-  arma::mat InstantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&);
   
 };
 

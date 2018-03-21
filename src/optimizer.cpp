@@ -58,7 +58,7 @@ Optimizer::~Optimizer () {
 
 GreedyOptimizer::GreedyOptimizer () {}
 
-blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (const std::string& iteration_id, 
+blearner::Baselearner* GreedyOptimizer::findBestBaselearner (const std::string& iteration_id, 
   const arma::vec& pseudo_residuals, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
@@ -73,9 +73,9 @@ blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (const std::string& 
 
   for (auto& it : my_blearner_factory_map) {
 
-    std::string id = "(" + iteration_id + ") " + it.second->GetBaselearnerType();
+    std::string id = "(" + iteration_id + ") " + it.second->getBaselearnerType();
     
-    blearner_temp = it.second->CreateBaselearner(id);
+    blearner_temp = it.second->createBaselearner(id);
     blearner_temp->train(pseudo_residuals);
     
     ssq_temp = arma::accu(arma::pow(pseudo_residuals - blearner_temp->predict(), 2)) / pseudo_residuals.size();
@@ -86,12 +86,12 @@ blearner::Baselearner* GreedyOptimizer::FindBestBaselearner (const std::string& 
     // baselearner:
     if (ssq_best == 0) {
       ssq_best = ssq_temp;
-      blearner_best = blearner_temp->Clone();
+      blearner_best = blearner_temp->clone();
     }
     
     if (ssq_temp < ssq_best) {
       ssq_best = ssq_temp;
-      blearner_best = blearner_temp->Clone();
+      blearner_best = blearner_temp->clone();
     }
     
     delete blearner_temp;

@@ -57,7 +57,7 @@ class Optimizer
 {
   public:
     
-    virtual blearner::Baselearner* FindBestBaselearner (const std::string&, 
+    virtual blearner::Baselearner* findBestBaselearner (const std::string&, 
       const arma::vec&, const blearner_factory_map&) const = 0;
     
     virtual ~Optimizer ();
@@ -82,7 +82,7 @@ class GreedyOptimizer : public Optimizer
     // No special initialization necessary:
     GreedyOptimizer ();
 
-    blearner::Baselearner* FindBestBaselearner (const std::string&, 
+    blearner::Baselearner* findBestBaselearner (const std::string&, 
       const arma::vec&, const blearner_factory_map&) const;
 };
 

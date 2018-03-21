@@ -46,7 +46,7 @@ namespace blearnerlist
 BaselearnerFactoryList::BaselearnerFactoryList () {}
 
 // Register a factory:
-void BaselearnerFactoryList::RegisterBaselearnerFactory (const std::string& factory_id, 
+void BaselearnerFactoryList::registerBaselearnerFactory (const std::string& factory_id, 
   blearnerfactory::BaselearnerFactory *blearner_factory)
 {
   // Create iterator and check if learner is already registered:
@@ -60,7 +60,7 @@ void BaselearnerFactoryList::RegisterBaselearnerFactory (const std::string& fact
 }
 
 // Print all registered factorys:
-void BaselearnerFactoryList::PrintRegisteredFactorys () const
+void BaselearnerFactoryList::printRegisteredFactorys () const
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
@@ -76,26 +76,26 @@ void BaselearnerFactoryList::PrintRegisteredFactorys () const
 }
 
 // Getter for the map object:
-blearner_factory_map BaselearnerFactoryList::GetMap () const
+blearner_factory_map BaselearnerFactoryList::getMap () const
 {
   return my_factory_map;
 }
 
 // Remove all registered factorys:
-void BaselearnerFactoryList::ClearMap ()
+void BaselearnerFactoryList::clearMap ()
 {
   // Just delete the pointer, so we have a new empty map. The factories which
   // are behind the pointers should delete themselfe
   my_factory_map.clear();
 }
 
-std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::GetModelFrame () const
+std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelFrame () const
 {
   arma::mat out_matrix;
   std::vector<std::string> rownames;
   
   for (auto& it : my_factory_map) {
-    arma::mat data_temp = it.second->GetData();
+    arma::mat data_temp = it.second->getData();
     out_matrix = arma::join_rows(out_matrix, data_temp);
     
     if (data_temp.n_cols > 1) {
@@ -109,12 +109,12 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::GetModelF
   return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
 }
 
-std::map<std::string, arma::mat> BaselearnerFactoryList::GetDataMap () const
+std::map<std::string, arma::mat> BaselearnerFactoryList::getDataMap () const
 {
   std::map<std::string, arma::mat> out_map;
   
   for (auto& it : my_factory_map) {
-    out_map[it.first] = it.second->GetData();
+    out_map[it.first] = it.second->getData();
   }
   return out_map;
 }

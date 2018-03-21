@@ -68,14 +68,14 @@ IterationLogger::IterationLogger (const bool& is_a_stopper0,
   is_a_stopper = is_a_stopper0;
 };
 
-void IterationLogger::LogStep (const unsigned int& current_iteration, const arma::vec& response, 
+void IterationLogger::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
   const double& learning_rate)
 {
   iterations.push_back(current_iteration);
 }
 
-bool IterationLogger::ReachedStopCriteria () const
+bool IterationLogger::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
   
@@ -87,7 +87,7 @@ bool IterationLogger::ReachedStopCriteria () const
   return stop_criteria_is_reached;
 }
 
-arma::vec IterationLogger::GetLoggedData () const
+arma::vec IterationLogger::getLoggedData () const
 {
   // Cast integer vector to double:
   std::vector<double> iterations_double (iterations.begin(), iterations.end());
@@ -96,18 +96,18 @@ arma::vec IterationLogger::GetLoggedData () const
   return out;
 }
 
-void IterationLogger::ClearLoggerData ()
+void IterationLogger::clearLoggerData ()
 {
   iterations.clear();
 }
 
-std::string IterationLogger::InitializeLoggerPrinter () const
+std::string IterationLogger::initializeLoggerPrinter () const
 {
   // 15 characters:
   return "      Iteration";
 }
 
-std::string IterationLogger::PrintLoggerStatus () const
+std::string IterationLogger::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << std::setw(15) << std::to_string(iterations.back()) + "/" + std::to_string(max_iterations);
@@ -126,16 +126,16 @@ InbagRiskLogger::InbagRiskLogger (const bool& is_a_stopper0, loss::Loss* used_lo
   is_a_stopper = is_a_stopper0;
 }
 
-void InbagRiskLogger::LogStep (const unsigned int& current_iteration, const arma::vec& response, 
+void InbagRiskLogger::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
   const double& learning_rate)
 {
-  double temp_risk = arma::accu(used_loss->DefinedLoss(response, prediction)) / response.size();
+  double temp_risk = arma::accu(used_loss->definedLoss(response, prediction)) / response.size();
   
   tracked_inbag_risk.push_back(temp_risk);
 }
 
-bool InbagRiskLogger::ReachedStopCriteria () const
+bool InbagRiskLogger::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
   
@@ -152,18 +152,18 @@ bool InbagRiskLogger::ReachedStopCriteria () const
   return stop_criteria_is_reached;
 }
 
-arma::vec InbagRiskLogger::GetLoggedData () const
+arma::vec InbagRiskLogger::getLoggedData () const
 {
   arma::vec out (tracked_inbag_risk);
   return out;
 }
 
-void InbagRiskLogger::ClearLoggerData ()
+void InbagRiskLogger::clearLoggerData ()
 {
   tracked_inbag_risk.clear();
 }
 
-std::string InbagRiskLogger::InitializeLoggerPrinter () const
+std::string InbagRiskLogger::initializeLoggerPrinter () const
 {  
   std::stringstream ss;
   ss << std::setw(17) << "Inbag Risk";
@@ -171,7 +171,7 @@ std::string InbagRiskLogger::InitializeLoggerPrinter () const
   return ss.str();
 }
 
-std::string InbagRiskLogger::PrintLoggerStatus () const
+std::string InbagRiskLogger::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << std::setw(17) << std::fixed << std::setprecision(2) << tracked_inbag_risk.back();
@@ -196,7 +196,7 @@ OobRiskLogger::OobRiskLogger (const bool& is_a_stopper0, loss::Loss* used_loss,
   oob_prediction = temp;
 }
 
-void OobRiskLogger::LogStep (const unsigned int& current_iteration, const arma::vec& response, 
+void OobRiskLogger::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
   const double& learning_rate)
 {
@@ -206,7 +206,7 @@ void OobRiskLogger::LogStep (const unsigned int& current_iteration, const arma::
   
   // Get data of corresponding selected baselearner. E.g. iteration 100 linear 
   // baselearner of feature x_7, then get the data of feature x_7:
-  data::Data* oob_blearner_data = oob_data.find(used_blearner->GetDataIdentifier())->second;
+  data::Data* oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
   
   // Predict this data using the selected baselearner:
   arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);
@@ -215,13 +215,13 @@ void OobRiskLogger::LogStep (const unsigned int& current_iteration, const arma::
   oob_prediction += learning_rate * temp_oob_prediction;
   
   // Calculate empirical risk:
-  double temp_risk = arma::accu(used_loss->DefinedLoss(oob_response, oob_prediction)) / response.size();
+  double temp_risk = arma::accu(used_loss->definedLoss(oob_response, oob_prediction)) / response.size();
   
   // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);
 }
 
-bool OobRiskLogger::ReachedStopCriteria () const
+bool OobRiskLogger::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
   
@@ -238,18 +238,18 @@ bool OobRiskLogger::ReachedStopCriteria () const
   return stop_criteria_is_reached;
 }
 
-arma::vec OobRiskLogger::GetLoggedData () const
+arma::vec OobRiskLogger::getLoggedData () const
 {
   arma::vec out (tracked_oob_risk);
   return out;
 }
 
-void OobRiskLogger::ClearLoggerData ()
+void OobRiskLogger::clearLoggerData ()
 {
   tracked_oob_risk.clear();
 }
 
-std::string OobRiskLogger::InitializeLoggerPrinter () const
+std::string OobRiskLogger::initializeLoggerPrinter () const
 {  
   std::stringstream ss;
   ss << std::setw(17) << "Out of Bag Risk";
@@ -257,7 +257,7 @@ std::string OobRiskLogger::InitializeLoggerPrinter () const
   return ss.str();
 }
 
-std::string OobRiskLogger::PrintLoggerStatus () const
+std::string OobRiskLogger::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << std::setw(17) << std::fixed << std::setprecision(2) << tracked_oob_risk.back();
@@ -276,7 +276,7 @@ TimeLogger::TimeLogger (const bool& is_a_stopper0, const unsigned int& max_time,
   is_a_stopper = is_a_stopper0;
 }
 
-void TimeLogger::LogStep (const unsigned int& current_iteration, const arma::vec& response, 
+void TimeLogger::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
   const double& learning_rate)
 {
@@ -294,7 +294,7 @@ void TimeLogger::LogStep (const unsigned int& current_iteration, const arma::vec
   }
 }
 
-bool TimeLogger::ReachedStopCriteria () const
+bool TimeLogger::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
   
@@ -306,7 +306,7 @@ bool TimeLogger::ReachedStopCriteria () const
   return stop_criteria_is_reached;
 }
 
-arma::vec TimeLogger::GetLoggedData () const
+arma::vec TimeLogger::getLoggedData () const
 {
   // Cast integer vector to double:
   std::vector<double> seconds_double (times_seconds.begin(), times_seconds.end());
@@ -315,12 +315,12 @@ arma::vec TimeLogger::GetLoggedData () const
   return out;
 }
 
-void TimeLogger::ClearLoggerData ()
+void TimeLogger::clearLoggerData ()
 {
   times_seconds.clear();
 }
 
-std::string TimeLogger::InitializeLoggerPrinter () const
+std::string TimeLogger::initializeLoggerPrinter () const
 {
   std::stringstream ss;
   ss << std::setw(17) << time_unit;
@@ -328,7 +328,7 @@ std::string TimeLogger::InitializeLoggerPrinter () const
   return ss.str();
 }
 
-std::string TimeLogger::PrintLoggerStatus () const
+std::string TimeLogger::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << std::setw(17) << std::fixed << std::setprecision(2) << times_seconds.back();
