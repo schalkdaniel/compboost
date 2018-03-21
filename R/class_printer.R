@@ -62,6 +62,29 @@ glueLoss = function (name, definition = NULL)
 }
 
 # ---------------------------------------------------------------------------- #
+# Data:
+# ---------------------------------------------------------------------------- #
+
+setClass("Rcpp_InMemoryData")
+ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
+  
+  cat("\n")
+  
+  if (object$getIdentifier() == "") {
+    # data.type = "target"
+    cat("Empty data object which can be used as target data.")
+  } else {
+    # data.type = "source"
+    cat("Source Data: In memory class of feature ", object$getIdentifier(), ".")
+    cat("\n             Note that using this class as target will override data specified before.")
+  }
+  
+  cat("\n\n")
+  
+  return ("InMemoryData")
+})
+
+# ---------------------------------------------------------------------------- #
 # Baselearner:
 # ---------------------------------------------------------------------------- #
 
