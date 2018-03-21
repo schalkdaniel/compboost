@@ -81,6 +81,9 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **01.03.2018** \
   Compboost should now run stable and without memory leaks.
+  
+- **21.03.2018** \
+  New data structure with independent source and target.
 
 ## Idea
 
