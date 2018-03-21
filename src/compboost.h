@@ -110,8 +110,8 @@ public:
   std::pair<std::vector<std::string>, arma::mat> GetParameterMatrix () const;
   
   arma::vec Predict () const;
-  arma::vec Predict (std::map<std::string, arma::mat>) const;
-  arma::vec PredictionOfIteration (std::map<std::string, arma::mat>, const unsigned int&) const;
+  arma::vec Predict (std::map<std::string, data::Data*>) const;
+  arma::vec PredictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&) const;
   
   void SetToIteration (const unsigned int&);
   

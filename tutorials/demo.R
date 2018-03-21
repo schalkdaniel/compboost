@@ -34,10 +34,7 @@ data.target.wt  = InMemoryData$new()
 # the same.
 
 # List for oob logging:
-oob.data = list(
-  "hp" = X.hp,
-  "wt" = X.wt
-)
+oob.data = list(data.source.hp, data.source.wt)
 
 # List to test prediction on newdata:
 test.data = oob.data
@@ -137,6 +134,9 @@ logger.list.continue$registerLogger(log.time.continue)
 
 cboost$continueTraining(trace = TRUE, logger = logger.list.continue)
 
+# We also could just use cboost$setToIteration(700) which automatically 
+# continue training for 200 iterations. The iterations logger is created 
+# automatically.
 
 # Get some results:
 cboost$getEstimatedParameter()

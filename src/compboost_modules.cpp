@@ -144,7 +144,7 @@ class BaselearnerWrapper
 public:
 
   BaselearnerWrapper () {}
-  
+
   virtual ~BaselearnerWrapper () { delete obj; }
 
 protected:
@@ -188,9 +188,9 @@ public:
     return obj->predict();
   }
 
-  arma::vec predictNewdata (arma::mat newdata)
+  arma::vec predictNewdata (DataWrapper& newdata)
   {
-    return obj->predict(newdata);
+    return obj->predict(newdata.getDataObj());
   }
 
   void summarizeBaselearner ()
@@ -249,9 +249,9 @@ public:
     return obj->predict();
   }
 
-  arma::vec predictNewdata (arma::mat newdata)
+  arma::vec predictNewdata (DataWrapper& newdata)
   {
-    return obj->predict(newdata);
+    return obj->predict(newdata.getDataObj());
   }
 
   void summarizeBaselearner ()
@@ -299,9 +299,9 @@ public:
     return obj->predict();
   }
 
-  arma::vec predictNewdata (arma::mat newdata)
+  arma::vec predictNewdata (DataWrapper& newdata)
   {
-    return obj->predict(newdata);
+    return obj->predict(newdata.getDataObj());
   }
 
   void summarizeBaselearner ()
@@ -766,14 +766,33 @@ public:
   OobRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
-    std::map<std::string, arma::mat> oob_data_map;
-
-    // Create data map:
+    std::map<std::string, data::Data*> oob_data_map;
+    
+    // Rcpp::List* list_ptr = &oob_data;
+    
+    // Create data map with feature name and corresponding data object:
+    // std::vector<std::string> names = oob_data.names();
+    // for (auto& it : oob_data) {
+    //   // Rcpp::as<DataWrapper>(it).getDataObj()->getDataIdentifier()
+    //   oob_data_map[ Rcpp::as<DataWrapper>(it).getDataObj()->getDataIdentifier() ] = Rcpp::as<DataWrapper>(it).getDataObj();
+    // }
+    
+    // Be very careful with the wrappers. For instance: doing something like 
+    // temp = oob_data[i] within the loop will force temp to call its destructor
+    // when it runs out of scope. This will trigger the destructor of the 
+    // underlying data class which deletes the data needed for logging. 
+    // Therefore, the system crashes!
+    //
+    // Additionally auto would be more convenient but doesn't really make 
+    // things better since we need the conversion from SEXP to DataWrapper*.
     for (unsigned int i = 0; i < oob_data.size(); i++) {
 
-      std::vector<std::string> names = oob_data.names();
-      arma::mat temp = Rcpp::as<arma::mat>(oob_data[i]);
-      oob_data_map[ names[i] ] = temp;
+      // Get data wrapper as pointer to prevent the underlying object from
+      // destruction:
+      DataWrapper* temp = oob_data[i];
+
+      // Get the real data pointer:
+      oob_data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
 
     }
 
@@ -1088,32 +1107,36 @@ public:
     );
   }
 
-  arma::vec predict (Rcpp::List input_data)
+  arma::vec predict (Rcpp::List& newdata)
   {
-    std::map<std::string, arma::mat> data_map;
+    std::map<std::string, data::Data*> data_map;
 
-    // Create data map:
-    for (unsigned int i = 0; i < input_data.size(); i++) {
-
-      std::vector<std::string> names = input_data.names();
-      arma::mat temp = Rcpp::as<arma::mat>(input_data[i]);
-      data_map[ names[i] ] = temp;
-
+    // Create data map (see line 780, same applies here):
+    for (unsigned int i = 0; i < newdata.size(); i++) {
+      
+      // Get data wrapper:
+      DataWrapper* temp = newdata[i];
+      
+      // Get the real data pointer:
+      data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
+      
     }
     return obj->Predict(data_map);
   }
 
-  arma::vec predictAtIteration (Rcpp::List input_data, unsigned int k)
+  arma::vec predictAtIteration (Rcpp::List& newdata, unsigned int k)
   {
-    std::map<std::string, arma::mat> data_map;
+    std::map<std::string, data::Data*> data_map;
 
-    // Create data map:
-    for (unsigned int i = 0; i < input_data.size(); i++) {
-
-      std::vector<std::string> names = input_data.names();
-      arma::mat temp = Rcpp::as<arma::mat>(input_data[i]);
-      data_map[ names[i] ] = temp;
-
+    // Create data map (see line 780, same applies here):
+    for (unsigned int i = 0; i < newdata.size(); i++) {
+      
+      // Get data wrapper:
+      DataWrapper* temp = newdata[i];
+      
+      // Get the real data pointer:
+      data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
+      
     }
     return obj->PredictionOfIteration(data_map, k);
   }

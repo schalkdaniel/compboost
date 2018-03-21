@@ -183,7 +183,7 @@ std::string InbagRiskLogger::PrintLoggerStatus () const
 // -----------------------
 
 OobRiskLogger::OobRiskLogger (const bool& is_a_stopper0, loss::Loss* used_loss, 
-  const double& eps_for_break, std::map<std::string, arma::mat> oob_data, 
+  const double& eps_for_break, std::map<std::string, data::Data*> oob_data, 
   const arma::vec& oob_response)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break ),
@@ -204,13 +204,20 @@ void OobRiskLogger::LogStep (const unsigned int& current_iteration, const arma::
     oob_prediction.fill(offset);
   }
   
-  arma::mat oob_blearner_data = oob_data.find(used_blearner->GetDataIdentifier())->second;
+  // Get data of corresponding selected baselearner. E.g. iteration 100 linear 
+  // baselearner of feature x_7, then get the data of feature x_7:
+  data::Data* oob_blearner_data = oob_data.find(used_blearner->GetDataIdentifier())->second;
   
+  // Predict this data using the selected baselearner:
   arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);
   
+  // Cumulate prediction and shrink by learning rate:
   oob_prediction += learning_rate * temp_oob_prediction;
+  
+  // Calculate empirical risk:
   double temp_risk = arma::accu(used_loss->DefinedLoss(oob_response, oob_prediction)) / response.size();
   
+  // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);
 }
 

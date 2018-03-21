@@ -170,9 +170,9 @@ arma::mat PolynomialBlearner::predict ()
 {
   return data_ptr->getData() * parameter;
 }
-arma::mat PolynomialBlearner::predict (const arma::mat& newdata)
+arma::mat PolynomialBlearner::predict (data::Data* newdata)
 {
-  return InstantiateData(newdata) * parameter;
+  return InstantiateData(newdata->getData()) * parameter;
 }
 
 // Destructor:
@@ -229,9 +229,9 @@ arma::mat CustomBlearner::predict ()
   Rcpp::NumericMatrix out = predictFun(model, data_ptr->getData());
   return Rcpp::as<arma::mat>(out);
 }
-arma::mat CustomBlearner::predict (const arma::mat& newdata)
+arma::mat CustomBlearner::predict (data::Data* newdata)
 {
-  Rcpp::NumericMatrix out = predictFun(model, InstantiateData(newdata));
+  Rcpp::NumericMatrix out = predictFun(model, InstantiateData(newdata->getData()));
   return Rcpp::as<arma::mat>(out);
 }
 
@@ -295,9 +295,9 @@ arma::mat CustomCppBlearner::predict ()
 {
   return predictFun (data_ptr->getData(), parameter);
 }
-arma::mat CustomCppBlearner::predict (const arma::mat& newdata)
+arma::mat CustomCppBlearner::predict (data::Data* newdata)
 {
-  arma::mat temp_mat = InstantiateData(newdata);
+  arma::mat temp_mat = InstantiateData(newdata->getData());
   return predictFun (temp_mat, parameter);
 }
 
