@@ -243,19 +243,23 @@ arma::vec Compboost::Predict () const
 // Those columns are then transformed by the corresponding transform data function of the
 // specific factory. After the transformation, the transformed data is multiplied by the
 // corresponding parameter.
-arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map) const
+arma::vec Compboost::Predict (std::map<std::string, data::Data*> data_map) const
 {
   // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
   std::map<std::string, arma::mat> parameter_map = blearner_track.GetParameterMap();
 
-  arma::vec pred(data_map.begin()->second.n_rows);
+  arma::vec pred(data_map.begin()->second->getData().n_rows);
   pred.fill(initialization);
   
   // Rcpp::Rcout << "initialize pred vec" << std::endl;
   
+  // Idea is simply to calculate the vector matrix product of parameter and 
+  // newdata. The problem here is that the newdata comes as raw data and has
+  // to be transformed first:
   for (auto& it : parameter_map) {
     
+    // Name of current feature:
     std::string sel_factory = it.first;
     
     // Rcpp::Rcout << "Fatory id of parameter map: " << sel_factory << std::endl;
@@ -264,21 +268,21 @@ arma::vec Compboost::Predict (std::map<std::string, arma::mat> data_map) const
     
     // Rcpp::Rcout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
     
-    arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second));
+    arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second->getData()));
     pred += data_trafo * it.second;
     
   }
   return pred;
 }
 
-arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> data_map, const unsigned int& k) const
+arma::vec Compboost::PredictionOfIteration (std::map<std::string, data::Data*> data_map, const unsigned int& k) const
 {
   // Rcpp::Rcout << "Get into Compboost::Predict" << std::endl;
   
   // Check is done in function GetEstimatedParameterOfIteration in baselearner_track.cpp 
   std::map<std::string, arma::mat> parameter_map = blearner_track.GetEstimatedParameterOfIteration(k);
   
-  arma::vec pred(data_map.begin()->second.n_rows);
+  arma::vec pred(data_map.begin()->second->getData().n_rows);
   pred.fill(initialization);
   
   // Rcpp::Rcout << "initialize pred vec" << std::endl;
@@ -293,7 +297,7 @@ arma::vec Compboost::PredictionOfIteration (std::map<std::string, arma::mat> dat
     
     // Rcpp::Rcout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
     
-    arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second));
+    arma::mat data_trafo = sel_factory_obj->InstantiateData((data_map.find(sel_factory_obj->GetDataIdentifier())->second->getData()));
     pred += data_trafo * it.second;
     
   }

@@ -59,7 +59,7 @@ public:
   arma::mat GetParameter () const;
   
   virtual arma::mat predict () = 0;
-  virtual arma::mat predict (const arma::mat&) = 0;
+  virtual arma::mat predict (data::Data*) = 0;
   
   // Specify how the data has to be transformed. E. g. for splines a mapping
   // to the higher dimension space. The overloading function with the
@@ -135,7 +135,7 @@ public:
   
   void train (const arma::vec&);
   arma::mat predict ();
-  arma::mat predict (const arma::mat&);
+  arma::mat predict (data::Data*);
 
   ~PolynomialBlearner ();
   
@@ -175,7 +175,7 @@ public:
   
   void train (const arma::vec&);
   arma::mat predict ();
-  arma::mat predict (const arma::mat&);
+  arma::mat predict (data::Data*);
   
   ~CustomBlearner ();
   
@@ -220,7 +220,7 @@ public:
   
   void train (const arma::vec&);
   arma::mat predict ();
-  arma::mat predict (const arma::mat&);
+  arma::mat predict (data::Data*);
   
   ~CustomCppBlearner ();
   

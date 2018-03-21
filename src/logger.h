@@ -181,12 +181,12 @@ private:
   std::vector<double> tracked_oob_risk;
   double eps_for_break;
   arma::vec oob_prediction;
-  std::map<std::string, arma::mat> oob_data;
+  std::map<std::string, data::Data*> oob_data;
   arma::vec oob_response;
   
 public:
   OobRiskLogger (const bool&, loss::Loss*, const double&, 
-    std::map<std::string, arma::mat>, const arma::vec&);
+    std::map<std::string, data::Data*>, const arma::vec&);
   
   void LogStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
