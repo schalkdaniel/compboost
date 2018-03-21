@@ -96,8 +96,8 @@ public:
   // Empty constructor for data target
   InMemoryData ();
   
-  // Colvec to refer directly to R vectors or data frame columns:
-  InMemoryData (const arma::vec&, const std::string&);
+  // // Colvec to refer directly to R vectors or data frame columns:
+  // InMemoryData (const arma::vec&, const std::string&);
   
   // Classical way via data matrix:
   InMemoryData (const arma::mat&, const std::string&);

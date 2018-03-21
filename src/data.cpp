@@ -65,11 +65,12 @@ std::string Data::getDataIdentifier () const
 
 InMemoryData::InMemoryData () {}
 
-InMemoryData::InMemoryData (const arma::vec& raw_data, const std::string& data_identifier0)
-{
-  data_mat_ptr    = &raw_data;
-  data_identifier = data_identifier0;
-}
+// InMemoryData::InMemoryData (const arma::vec& raw_data, const std::string& data_identifier0)
+// {
+//   Rcpp::Rcout << "Vector Initializer" << std::endl;
+//   data_mat_ptr    = &raw_data;
+//   data_identifier = data_identifier0;
+// }
 
 InMemoryData::InMemoryData (const arma::mat& raw_data, const std::string& data_identifier0)
 {
