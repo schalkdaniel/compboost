@@ -1,0 +1,5 @@
+<map id="blearner::Baselearner::copyMembers" name="blearner::Baselearner::copyMembers">
+<area shape="rect" id="node2" href="$classblearner_1_1_polynomial_blearner.html#a4a93ace818c330e5d1f572108ba061c0" title="blearner::PolynomialBlearner\l::clone" alt="" coords="201,5,389,47"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_custom_blearner.html#a7ceeee2b7fffd11f376018bc1d3cfba1" title="blearner::CustomBlearner\l::clone" alt="" coords="210,71,379,112"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_custom_cpp_blearner.html#a8b76705131d397974cd208fdcfd70496" title="blearner::CustomCppBlearner\l::clone" alt="" coords="199,136,391,177"/>
+</map>

@@ -1,0 +1,196 @@
+\hypertarget{class_custom_blearner_wrapper}{}\section{Custom\+Blearner\+Wrapper Class Reference}
+\label{class_custom_blearner_wrapper}\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+
+
+Inheritance diagram for Custom\+Blearner\+Wrapper\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=218pt]{class_custom_blearner_wrapper__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Custom\+Blearner\+Wrapper\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_custom_blearner_wrapper__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_custom_blearner_wrapper_a2fd4bb5e6f0c8fb5cae69ef46a5e2db8}{Custom\+Blearner\+Wrapper}} (\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&data\+\_\+source, \mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&data\+\_\+target, Rcpp\+::\+Function instantiate\+Data, Rcpp\+::\+Function \mbox{\hyperlink{class_custom_blearner_wrapper_a970f89e16f5dc5cfce1e1dc4461d34a5}{train}}, Rcpp\+::\+Function \mbox{\hyperlink{class_custom_blearner_wrapper_ac3c5d68400ea9473815ab2daed218473}{predict}}, Rcpp\+::\+Function extract\+Parameter)
+\item 
+void \mbox{\hyperlink{class_custom_blearner_wrapper_a970f89e16f5dc5cfce1e1dc4461d34a5}{train}} (arma\+::vec \&response)
+\item 
+arma\+::mat \mbox{\hyperlink{class_custom_blearner_wrapper_a3153378a0c0ee8c4633d42680195eeda}{get\+Data}} ()
+\item 
+arma\+::mat \mbox{\hyperlink{class_custom_blearner_wrapper_ae012429cb317fae84ab8028c76c2b70d}{get\+Parameter}} ()
+\item 
+arma\+::vec \mbox{\hyperlink{class_custom_blearner_wrapper_ac3c5d68400ea9473815ab2daed218473}{predict}} ()
+\item 
+arma\+::vec \mbox{\hyperlink{class_custom_blearner_wrapper_a0aba49ca5396f5bd09a745003436dd3f}{predict\+Newdata}} (\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&newdata)
+\item 
+void \mbox{\hyperlink{class_custom_blearner_wrapper_a61e82d619f07ba3e69fa4100be0ed1f2}{summarize\+Baselearner}} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$ \mbox{\hyperlink{class_custom_blearner_wrapper_af70b599670b5c64406e10b7bda9c0bb1}{dummy\+\_\+data\+\_\+target}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_a2fd4bb5e6f0c8fb5cae69ef46a5e2db8}\label{class_custom_blearner_wrapper_a2fd4bb5e6f0c8fb5cae69ef46a5e2db8}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{Custom\+Blearner\+Wrapper()}{CustomBlearnerWrapper()}}
+{\footnotesize\ttfamily Custom\+Blearner\+Wrapper\+::\+Custom\+Blearner\+Wrapper (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&}]{data\+\_\+source,  }\item[{\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&}]{data\+\_\+target,  }\item[{Rcpp\+::\+Function}]{instantiate\+Data,  }\item[{Rcpp\+::\+Function}]{train,  }\item[{Rcpp\+::\+Function}]{predict,  }\item[{Rcpp\+::\+Function}]{extract\+Parameter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_custom_blearner_wrapper_a2fd4bb5e6f0c8fb5cae69ef46a5e2db8_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_a3153378a0c0ee8c4633d42680195eeda}\label{class_custom_blearner_wrapper_a3153378a0c0ee8c4633d42680195eeda}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!get\+Data@{get\+Data}}
+\index{get\+Data@{get\+Data}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{get\+Data()}{getData()}}
+{\footnotesize\ttfamily arma\+::mat Custom\+Blearner\+Wrapper\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{class_custom_blearner_wrapper_a3153378a0c0ee8c4633d42680195eeda_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{class_custom_blearner_wrapper_a3153378a0c0ee8c4633d42680195eeda_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_ae012429cb317fae84ab8028c76c2b70d}\label{class_custom_blearner_wrapper_ae012429cb317fae84ab8028c76c2b70d}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!get\+Parameter@{get\+Parameter}}
+\index{get\+Parameter@{get\+Parameter}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{get\+Parameter()}{getParameter()}}
+{\footnotesize\ttfamily arma\+::mat Custom\+Blearner\+Wrapper\+::get\+Parameter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{class_custom_blearner_wrapper_ae012429cb317fae84ab8028c76c2b70d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{class_custom_blearner_wrapper_ae012429cb317fae84ab8028c76c2b70d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_ac3c5d68400ea9473815ab2daed218473}\label{class_custom_blearner_wrapper_ac3c5d68400ea9473815ab2daed218473}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!predict@{predict}}
+\index{predict@{predict}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{predict()}{predict()}}
+{\footnotesize\ttfamily arma\+::vec Custom\+Blearner\+Wrapper\+::predict (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{class_custom_blearner_wrapper_ac3c5d68400ea9473815ab2daed218473_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_custom_blearner_wrapper_ac3c5d68400ea9473815ab2daed218473_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_a0aba49ca5396f5bd09a745003436dd3f}\label{class_custom_blearner_wrapper_a0aba49ca5396f5bd09a745003436dd3f}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!predict\+Newdata@{predict\+Newdata}}
+\index{predict\+Newdata@{predict\+Newdata}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{predict\+Newdata()}{predictNewdata()}}
+{\footnotesize\ttfamily arma\+::vec Custom\+Blearner\+Wrapper\+::predict\+Newdata (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&}]{newdata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_custom_blearner_wrapper_a0aba49ca5396f5bd09a745003436dd3f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{class_custom_blearner_wrapper_a0aba49ca5396f5bd09a745003436dd3f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_a61e82d619f07ba3e69fa4100be0ed1f2}\label{class_custom_blearner_wrapper_a61e82d619f07ba3e69fa4100be0ed1f2}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!summarize\+Baselearner@{summarize\+Baselearner}}
+\index{summarize\+Baselearner@{summarize\+Baselearner}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{summarize\+Baselearner()}{summarizeBaselearner()}}
+{\footnotesize\ttfamily void Custom\+Blearner\+Wrapper\+::summarize\+Baselearner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_custom_blearner_wrapper_a61e82d619f07ba3e69fa4100be0ed1f2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=329pt]{class_custom_blearner_wrapper_a61e82d619f07ba3e69fa4100be0ed1f2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_a970f89e16f5dc5cfce1e1dc4461d34a5}\label{class_custom_blearner_wrapper_a970f89e16f5dc5cfce1e1dc4461d34a5}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!train@{train}}
+\index{train@{train}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily void Custom\+Blearner\+Wrapper\+::train (\begin{DoxyParamCaption}\item[{arma\+::vec \&}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=348pt]{class_custom_blearner_wrapper_a970f89e16f5dc5cfce1e1dc4461d34a5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_custom_blearner_wrapper_a970f89e16f5dc5cfce1e1dc4461d34a5_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_custom_blearner_wrapper_af70b599670b5c64406e10b7bda9c0bb1}\label{class_custom_blearner_wrapper_af70b599670b5c64406e10b7bda9c0bb1}} 
+\index{Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}!dummy\+\_\+data\+\_\+target@{dummy\+\_\+data\+\_\+target}}
+\index{dummy\+\_\+data\+\_\+target@{dummy\+\_\+data\+\_\+target}!Custom\+Blearner\+Wrapper@{Custom\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{dummy\+\_\+data\+\_\+target}{dummy\_data\_target}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}}$\ast$ Custom\+Blearner\+Wrapper\+::dummy\+\_\+data\+\_\+target\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{compboost__modules_8cpp}{compboost\+\_\+modules.\+cpp}}\end{DoxyCompactItemize}

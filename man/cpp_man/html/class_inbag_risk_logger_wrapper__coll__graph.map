@@ -1,0 +1,4 @@
+<map id="InbagRiskLoggerWrapper" name="InbagRiskLoggerWrapper">
+<area shape="rect" id="node2" href="$class_logger_wrapper.html" title="{LoggerWrapper\n|# logger_id\l|+ LoggerWrapper()\l+ getLogger()\l+ getLoggerId()\l+ ~LoggerWrapper()\l}" alt="" coords="29,248,168,369"/>
+<area shape="rect" id="node3" href="$classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. " alt="" coords="15,5,182,185"/>
+</map>

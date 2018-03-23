@@ -1,0 +1,5 @@
+<map id="blearnerfactory::BaselearnerFactory" name="blearnerfactory::BaselearnerFactory">
+<area shape="rect" id="node2" href="$classblearnerfactory_1_1_custom_blearner_factory.html" title="{blearnerfactory::CustomBlearner\lFactory\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l&#45; extractParameter\l|+ CustomBlearnerFactory()\l+ createBaselearner()\l+ instantiateData()\l}" alt="" coords="5,263,213,428"/>
+<area shape="rect" id="node3" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html" title="{blearnerfactory::CustomCpp\lBlearnerFactory\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l|+ CustomCppBlearnerFactory()\l+ createBaselearner()\l+ instantiateData()\l}" alt="" coords="237,270,440,421"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html" title="{blearnerfactory::Polynomial\lBlearnerFactory\n|&#45; degree\l|+ PolynomialBlearnerFactory()\l+ createBaselearner()\l+ instantiateData()\l}" alt="" coords="465,285,663,406"/>
+</map>

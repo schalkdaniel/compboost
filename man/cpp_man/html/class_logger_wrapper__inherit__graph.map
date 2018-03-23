@@ -1,0 +1,6 @@
+<map id="LoggerWrapper" name="LoggerWrapper">
+<area shape="rect" id="node2" href="$class_inbag_risk_logger_wrapper.html" title="{InbagRiskLoggerWrapper\n|&#45; eps_for_break\l&#45; use_as_stopper\l|+ InbagRiskLoggerWrapper()\l+ summarizeLogger()\l}" alt="" coords="5,197,192,303"/>
+<area shape="rect" id="node3" href="$class_iteration_logger_wrapper.html" title="{IterationLoggerWrapper\n|&#45; max_iterations\l&#45; use_as_stopper\l|+ IterationLoggerWrapper()\l+ summarizeLogger()\l}" alt="" coords="216,197,392,303"/>
+<area shape="rect" id="node4" href="$class_oob_risk_logger_wrapper.html" title="{OobRiskLoggerWrapper\n|&#45; eps_for_break\l&#45; use_as_stopper\l|+ OobRiskLoggerWrapper()\l+ summarizeLogger()\l}" alt="" coords="417,197,597,303"/>
+<area shape="rect" id="node5" href="$class_time_logger_wrapper.html" title="{TimeLoggerWrapper\n|&#45; use_as_stopper\l&#45; max_time\l&#45; time_unit\l|+ TimeLoggerWrapper()\l+ summarizeLogger()\l}" alt="" coords="621,189,779,311"/>
+</map>

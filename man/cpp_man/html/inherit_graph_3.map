@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classblearnerfactory_1_1_baselearner_factory.html" title="blearnerfactory::Baselearner\lFactory" alt="" coords="5,71,189,112"/>
+<area shape="rect" id="node2" href="$classblearnerfactory_1_1_custom_blearner_factory.html" title="blearnerfactory::CustomBlearner\lFactory" alt="" coords="237,5,445,47"/>
+<area shape="rect" id="node3" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html" title="blearnerfactory::CustomCpp\lBlearnerFactory" alt="" coords="250,71,433,112"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html" title="blearnerfactory::Polynomial\lBlearnerFactory" alt="" coords="252,136,431,177"/>
+</map>

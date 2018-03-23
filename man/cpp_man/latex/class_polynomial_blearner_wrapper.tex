@@ -1,0 +1,204 @@
+\hypertarget{class_polynomial_blearner_wrapper}{}\section{Polynomial\+Blearner\+Wrapper Class Reference}
+\label{class_polynomial_blearner_wrapper}\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+
+
+Inheritance diagram for Polynomial\+Blearner\+Wrapper\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{class_polynomial_blearner_wrapper__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Polynomial\+Blearner\+Wrapper\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{class_polynomial_blearner_wrapper__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_polynomial_blearner_wrapper_a07ad5a828b4a46bb2f6a2a6fc56b8f1a}{Polynomial\+Blearner\+Wrapper}} (\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&data\+\_\+source, \mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&data\+\_\+target, unsigned int \mbox{\hyperlink{class_polynomial_blearner_wrapper_aaf529e97ffbb9cdd2822957b5f6b5b0c}{degree}})
+\item 
+void \mbox{\hyperlink{class_polynomial_blearner_wrapper_a7e6cdfd15c354b76ddd217c76b3cfbc5}{train}} (arma\+::vec \&response)
+\item 
+arma\+::mat \mbox{\hyperlink{class_polynomial_blearner_wrapper_a56c92d1dee5e610657437766c13a6a5d}{get\+Data}} ()
+\item 
+arma\+::mat \mbox{\hyperlink{class_polynomial_blearner_wrapper_a40ee4c7ab2c7230d96577d3a588b262f}{get\+Parameter}} ()
+\item 
+arma\+::vec \mbox{\hyperlink{class_polynomial_blearner_wrapper_a24469ccf334749669dc1ee809263dfb2}{predict}} ()
+\item 
+arma\+::vec \mbox{\hyperlink{class_polynomial_blearner_wrapper_aa3e9670a1e8efe6524e7bdf10a43e25c}{predict\+Newdata}} (\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&newdata)
+\item 
+void \mbox{\hyperlink{class_polynomial_blearner_wrapper_ad1eaf84c973c702c999af43fc23aeca2}{summarize\+Baselearner}} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$ \mbox{\hyperlink{class_polynomial_blearner_wrapper_a4d3becc6b8cdfe2e1406611aad5b0d2c}{dummy\+\_\+data\+\_\+target}}
+\item 
+unsigned int \mbox{\hyperlink{class_polynomial_blearner_wrapper_aaf529e97ffbb9cdd2822957b5f6b5b0c}{degree}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_a07ad5a828b4a46bb2f6a2a6fc56b8f1a}\label{class_polynomial_blearner_wrapper_a07ad5a828b4a46bb2f6a2a6fc56b8f1a}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{Polynomial\+Blearner\+Wrapper()}{PolynomialBlearnerWrapper()}}
+{\footnotesize\ttfamily Polynomial\+Blearner\+Wrapper\+::\+Polynomial\+Blearner\+Wrapper (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&}]{data\+\_\+source,  }\item[{\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&}]{data\+\_\+target,  }\item[{unsigned int}]{degree }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_a07ad5a828b4a46bb2f6a2a6fc56b8f1a_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_a56c92d1dee5e610657437766c13a6a5d}\label{class_polynomial_blearner_wrapper_a56c92d1dee5e610657437766c13a6a5d}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!get\+Data@{get\+Data}}
+\index{get\+Data@{get\+Data}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{get\+Data()}{getData()}}
+{\footnotesize\ttfamily arma\+::mat Polynomial\+Blearner\+Wrapper\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_a56c92d1dee5e610657437766c13a6a5d_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_polynomial_blearner_wrapper_a56c92d1dee5e610657437766c13a6a5d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_a40ee4c7ab2c7230d96577d3a588b262f}\label{class_polynomial_blearner_wrapper_a40ee4c7ab2c7230d96577d3a588b262f}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!get\+Parameter@{get\+Parameter}}
+\index{get\+Parameter@{get\+Parameter}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{get\+Parameter()}{getParameter()}}
+{\footnotesize\ttfamily arma\+::mat Polynomial\+Blearner\+Wrapper\+::get\+Parameter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_a40ee4c7ab2c7230d96577d3a588b262f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_polynomial_blearner_wrapper_a40ee4c7ab2c7230d96577d3a588b262f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_a24469ccf334749669dc1ee809263dfb2}\label{class_polynomial_blearner_wrapper_a24469ccf334749669dc1ee809263dfb2}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!predict@{predict}}
+\index{predict@{predict}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{predict()}{predict()}}
+{\footnotesize\ttfamily arma\+::vec Polynomial\+Blearner\+Wrapper\+::predict (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_a24469ccf334749669dc1ee809263dfb2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_polynomial_blearner_wrapper_a24469ccf334749669dc1ee809263dfb2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_aa3e9670a1e8efe6524e7bdf10a43e25c}\label{class_polynomial_blearner_wrapper_aa3e9670a1e8efe6524e7bdf10a43e25c}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!predict\+Newdata@{predict\+Newdata}}
+\index{predict\+Newdata@{predict\+Newdata}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{predict\+Newdata()}{predictNewdata()}}
+{\footnotesize\ttfamily arma\+::vec Polynomial\+Blearner\+Wrapper\+::predict\+Newdata (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_data_wrapper}{Data\+Wrapper}} \&}]{newdata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_aa3e9670a1e8efe6524e7bdf10a43e25c_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_polynomial_blearner_wrapper_aa3e9670a1e8efe6524e7bdf10a43e25c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_ad1eaf84c973c702c999af43fc23aeca2}\label{class_polynomial_blearner_wrapper_ad1eaf84c973c702c999af43fc23aeca2}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!summarize\+Baselearner@{summarize\+Baselearner}}
+\index{summarize\+Baselearner@{summarize\+Baselearner}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{summarize\+Baselearner()}{summarizeBaselearner()}}
+{\footnotesize\ttfamily void Polynomial\+Blearner\+Wrapper\+::summarize\+Baselearner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_ad1eaf84c973c702c999af43fc23aeca2_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_polynomial_blearner_wrapper_ad1eaf84c973c702c999af43fc23aeca2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_a7e6cdfd15c354b76ddd217c76b3cfbc5}\label{class_polynomial_blearner_wrapper_a7e6cdfd15c354b76ddd217c76b3cfbc5}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!train@{train}}
+\index{train@{train}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily void Polynomial\+Blearner\+Wrapper\+::train (\begin{DoxyParamCaption}\item[{arma\+::vec \&}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_polynomial_blearner_wrapper_a7e6cdfd15c354b76ddd217c76b3cfbc5_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=343pt]{class_polynomial_blearner_wrapper_a7e6cdfd15c354b76ddd217c76b3cfbc5_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_aaf529e97ffbb9cdd2822957b5f6b5b0c}\label{class_polynomial_blearner_wrapper_aaf529e97ffbb9cdd2822957b5f6b5b0c}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!degree@{degree}}
+\index{degree@{degree}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{degree}{degree}}
+{\footnotesize\ttfamily unsigned int Polynomial\+Blearner\+Wrapper\+::degree\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_polynomial_blearner_wrapper_a4d3becc6b8cdfe2e1406611aad5b0d2c}\label{class_polynomial_blearner_wrapper_a4d3becc6b8cdfe2e1406611aad5b0d2c}} 
+\index{Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}!dummy\+\_\+data\+\_\+target@{dummy\+\_\+data\+\_\+target}}
+\index{dummy\+\_\+data\+\_\+target@{dummy\+\_\+data\+\_\+target}!Polynomial\+Blearner\+Wrapper@{Polynomial\+Blearner\+Wrapper}}
+\subsubsection{\texorpdfstring{dummy\+\_\+data\+\_\+target}{dummy\_data\_target}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}}$\ast$ Polynomial\+Blearner\+Wrapper\+::dummy\+\_\+data\+\_\+target\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{compboost__modules_8cpp}{compboost\+\_\+modules.\+cpp}}\end{DoxyCompactItemize}

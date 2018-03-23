@@ -1,0 +1,3 @@
+<map id="LoggerListWrapper" name="LoggerListWrapper">
+<area shape="rect" id="node2" href="$classloggerlist_1_1_logger_list.html" title="{loggerlist::LoggerList\n|&#45; log_list\l&#45; sum_of_stopper\l|+ LoggerList()\l+ registerLogger()\l+ printRegisteredLogger()\l+ getMap()\l+ clearMap()\l+ getStopperStatus()\l+ getLoggerData()\l+ logCurrent()\l+ initializeLoggerPrinter()\l+ printLoggerStatus()\l+ clearLoggerData()\l+ ~LoggerList()\l}" alt="" coords="31,5,199,259"/>
+</map>

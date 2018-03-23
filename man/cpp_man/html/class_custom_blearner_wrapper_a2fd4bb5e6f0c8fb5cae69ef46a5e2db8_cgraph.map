@@ -1,0 +1,10 @@
+<map id="CustomBlearnerWrapper::CustomBlearnerWrapper" name="CustomBlearnerWrapper::CustomBlearnerWrapper">
+<area shape="rect" id="node2" href="$class_data_wrapper.html#a5e2993dd02f11ae2da8db95f942eca60" title="DataWrapper::getDataObj" alt="" coords="225,5,396,32"/>
+<area shape="rect" id="node3" href="$class_custom_blearner_wrapper.html#a970f89e16f5dc5cfce1e1dc4461d34a5" title="CustomBlearnerWrapper\l::train" alt="" coords="229,57,393,98"/>
+<area shape="rect" id="node5" href="$class_custom_blearner_wrapper.html#ac3c5d68400ea9473815ab2daed218473" title="CustomBlearnerWrapper\l::predict" alt="" coords="229,122,393,163"/>
+<area shape="rect" id="node7" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="data::Data::setData" alt="" coords="243,188,378,215"/>
+<area shape="rect" id="node8" href="$classblearner_1_1_baselearner.html#af01f1b8c4540927705ff79c3649489f7" title="blearner::Baselearner\l::instantiateData" alt="" coords="238,239,383,281"/>
+<area shape="rect" id="node9" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="data::Data::getData" alt="" coords="243,305,378,332"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#a40e03ad070b9a03aae706d9ee8094b80" title="blearner::Baselearner\l::train" alt="" coords="444,57,589,98"/>
+<area shape="rect" id="node6" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="444,122,589,163"/>
+</map>

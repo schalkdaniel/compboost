@@ -1,0 +1,4 @@
+<map id="blearnerfactory::CustomCppBlearnerFactory" name="blearnerfactory::CustomCppBlearnerFactory">
+<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html" title="{blearnerfactory::Baselearner\lFactory\n|# blearner_type\l|+ createBaselearner()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ instantiateData()\l+ initializeDataObjects()\l+ ~BaselearnerFactory()\l}" alt="" coords="15,233,199,413"/>
+<area shape="rect" id="node3" href="$classdata_1_1_data.html" title="{data::Data\n|# data_identifier\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ ~Data()\l}" alt="" coords="39,5,174,156"/>
+</map>

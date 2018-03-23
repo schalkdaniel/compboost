@@ -1,0 +1,18 @@
+<map id="RCPP_MODULE" name="RCPP_MODULE">
+<area shape="rect" id="node2" href="$class_iteration_logger_wrapper.html#a8b5276c1c6bea1ee5fceac5d4b03acee" title="IterationLoggerWrapper\l::summarizeLogger" alt="" coords="195,5,351,47"/>
+<area shape="rect" id="node3" href="$class_inbag_risk_logger_wrapper.html#ad6c58bd912b715cd6ef3a82573f4b142" title="InbagRiskLoggerWrapper\l::summarizeLogger" alt="" coords="189,71,356,112"/>
+<area shape="rect" id="node4" href="$class_oob_risk_logger_wrapper.html#a9fa91f33c8b15c466ee95d764ad47ecd" title="OobRiskLoggerWrapper\l::summarizeLogger" alt="" coords="193,136,353,177"/>
+<area shape="rect" id="node5" href="$class_time_logger_wrapper.html#a85e2772d6dbb9de70b3a99eb1f858c83" title="TimeLoggerWrapper::\lsummarizeLogger" alt="" coords="199,201,346,243"/>
+<area shape="rect" id="node6" href="$class_logger_list_wrapper.html#a428932ced69ba53f256b832a94563524" title="LoggerListWrapper::\lregisterLogger" alt="" coords="203,267,342,308"/>
+<area shape="rect" id="node11" href="$class_logger_list_wrapper.html#a9b23823777868fc0f0e9778f7eb48fcf" title="LoggerListWrapper::\lprintRegisteredLogger" alt="" coords="199,332,347,373"/>
+<area shape="rect" id="node13" href="$class_logger_list_wrapper.html#a501bae5e1dda3dba04b2915d7dbbe3a7" title="LoggerListWrapper::\lclearRegisteredLogger" alt="" coords="197,397,348,439"/>
+<area shape="rect" id="node15" href="$class_logger_list_wrapper.html#aa95c80ea66ee0237ba97adaaddbb991d" title="LoggerListWrapper::\lgetNumberOfRegisteredLogger" alt="" coords="173,463,372,504"/>
+<area shape="rect" id="node17" href="$class_logger_list_wrapper.html#a0bb53b6ac23b216e4f2f55757c99a458" title="LoggerListWrapper::\lgetNamesOfRegisteredLogger" alt="" coords="175,528,370,569"/>
+<area shape="rect" id="node7" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="441,164,584,205"/>
+<area shape="rect" id="node9" href="$class_logger_wrapper.html#ad42b6f63cb509a7fa0d7e3aa82a95cb8" title="LoggerWrapper::getLoggerId" alt="" coords="420,230,605,257"/>
+<area shape="rect" id="node10" href="$class_logger_wrapper.html#afbd901f65ae9d2b11614c71265da41f1" title="LoggerWrapper::getLogger" alt="" coords="425,281,600,307"/>
+<area shape="rect" id="node8" href="$classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="653,164,832,205"/>
+<area shape="rect" id="node12" href="$classloggerlist_1_1_logger_list.html#a28cd5371bbd9e31f0cf041d6e73d156c" title="loggerlist::LoggerList\l::printRegisteredLogger" alt="" coords="435,332,591,373"/>
+<area shape="rect" id="node14" href="$classloggerlist_1_1_logger_list.html#affa073a05cdd9391f871f09d5f07ea11" title="loggerlist::LoggerList\l::clearMap" alt="" coords="441,397,584,439"/>
+<area shape="rect" id="node16" href="$classloggerlist_1_1_logger_list.html#a285a608bfb974314cf91e7a0137aa90f" title="loggerlist::LoggerList\l::getMap" alt="" coords="441,495,584,536"/>
+</map>

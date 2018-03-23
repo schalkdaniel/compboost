@@ -19,19 +19,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//   Logger implementations. This file also includes if a logger is used as
-//   stopper and a function to determine if the algorithm should stop or not.
-//   The logger childs can just use some basic objects which are given from
-//   the main algorithm:
-//
-//     - Current Iteration (unsigned int): Classic way to stop the algorithm
-//     - Current time point (chrono::system_clock::time_point): With that it
-//       is possible to run the algorithm just for 2 hours and then stop it
-//     - https://github.com/schalkdaniel/compboost/issues/56
-//
 // Written by:
 // -----------
 //
@@ -63,25 +50,46 @@ namespace logger
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
 
+/**
+ * \class Logger
+ * 
+ * \brief Abstract logger class with minimal requirements to all logger
+ * 
+ * This class is meant to define some minimal functionality any logger must 
+ * have! The key of the logger is nut only the logging of the process, but also
+ * to be able to define a logger as stopper to force an early stopping if one
+ * or all of the used logger have reached a stopping criteria. This is more
+ * explained within the child classes.
+ * 
+ * **Note** that this minimal functionality mentioned above differs for every
+ * class and is explained within the specific class documentation.
+ * 
+ */
+
 class Logger
 {
 public:
   
+  /// Log current step of compboost iteration dependent on the child class
   virtual void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&) = 0;
   
-  // This one should check if the stop criteria is reached. If not it should
-  // return 'true' otherwise 'false'. Every function should have this 
-  // structure:
+  /// Class dependent check if the stopping criteria is fulfilled
   virtual bool reachedStopCriteria () const = 0;
   
+  /// Return the data stored within the logger
   virtual arma::vec getLoggedData () const = 0;
   
-  virtual std::string initializeLoggerPrinter () const = 0;
-  virtual std::string printLoggerStatus () const = 0;
-  
+  /// Clear the logger data
   virtual void clearLoggerData () = 0;
   
+  /// Print the head of the trace which is printed to the console
+  virtual std::string initializeLoggerPrinter () const = 0;
+  
+  /// Print status of current iteration into the console 
+  virtual std::string printLoggerStatus () const = 0;
+  
+  /// Just a getter if the logger is also used as stopper
   bool GetIfLoggerIsStopper () const;
   
   virtual 
@@ -89,47 +97,60 @@ public:
   
 protected:
   
-  loss::Loss* used_loss;
-  
+  /// Tag if the logger is used as stopper
   bool is_a_stopper;
-  
-  // Pointer to the publics of the loggerlist. The child classes then change
-  // the value of the pointed values to update the steps.
-  double init_risk;
-  
 };
 
 // -------------------------------------------------------------------------- //
 // Logger implementations:
 // -------------------------------------------------------------------------- //
 
-// IterationLogger:
-// -----------------------
-
-// This one is the default one:
+/**
+ * \class Iteration Logger
+ * 
+ * \brief Logger class to log the current iteration
+ * 
+ * This class seems to be useless, but it gives more control about the algorithm 
+ * and doesn't violate the idea of object programming here. Additionally, it is 
+ * quite convenient to have this class instead of tracking the iteration at any 
+ * stage of the fitting within the compboost object as another vector.
+ * 
+ */
 
 class IterationLogger : public Logger 
 {
 private:
   
+  /// Maximal number of iterations (only interesting if used as stopper)
   unsigned int max_iterations;
+  
+  /// Vector to log the iterations 
   std::vector<unsigned int> iterations;
+  
   
 public:
   
+  /// Default constructor of class `IterationLogger`
   IterationLogger (const bool&, const unsigned int&);
   
-  // This just loggs the iteration (unsigned int):
+  /// Log current step of compboost iteration of class `IterationLogger`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
+  /// Stop criteria is fulfilled if the current iteration exceed `max_iteration`
   bool reachedStopCriteria () const;
+  
+  /// Return the data stored within the iteration logger
   arma::vec getLoggedData () const;
+  
+  /// Clear the logger data
   void clearLoggerData ();
   
+  /// Print the head of the trace which is printed to the console
   std::string initializeLoggerPrinter () const;
-  std::string printLoggerStatus () const;
   
+  /// Print status of current iteration into the console 
+  std::string printLoggerStatus () const;
 };
 
 // InbagRisk:
@@ -138,21 +159,39 @@ public:
 class InbagRiskLogger : public Logger
 {
 private:
+  
+  /// Used loss. **Note** that you can specify a different loss than the loss used for training
   loss::Loss* used_loss;
+  
+  /// Vector of inbag risk for every iteration
   std::vector<double> tracked_inbag_risk;
+  
+  /// Stopping criteria, stop if \f$(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}\f$
   double eps_for_break;
   
+  
 public:
+  
+  /// Default constructor
   InbagRiskLogger (const bool&, loss::Loss*, const double&);
   
+  /// Log current step of compboost iteration for class `InbagRiskLogger`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
+  /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria () const;
+  
+  /// Return the data stored within the logger
   arma::vec getLoggedData () const;
+  
+  /// Clear the logger data
   void clearLoggerData ();
   
+  /// Print the head of the trace which is printed to the console
   std::string initializeLoggerPrinter () const;
+  
+  /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
   
 };
@@ -163,25 +202,49 @@ public:
 class OobRiskLogger : public Logger
 {
 private:
+  
+  /// Used loss. **Note** that you can specify a different loss than the loss used for training
   loss::Loss* used_loss;
+  
+  /// Vector of OOB risk for every iteration
   std::vector<double> tracked_oob_risk;
+  
+  /// Stopping criteria, stop if \f$(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}\f$
   double eps_for_break;
+  
+  /// OOB prediction which is internally done in every iteration
   arma::vec oob_prediction;
+  
+  /// The OOB data provided by the user
   std::map<std::string, data::Data*> oob_data;
+  
+  /// The response variable which corresponds to the given OOB data
   arma::vec oob_response;
   
+  
 public:
+  
+  /// Default constructor
   OobRiskLogger (const bool&, loss::Loss*, const double&, 
     std::map<std::string, data::Data*>, const arma::vec&);
   
+  /// Log current step of compboost iteration for class `OobRiskLogger`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
+  /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria () const;
+  
+  /// Return the data stored within the logger
   arma::vec getLoggedData () const;
+  
+  /// Clear the logger data
   void clearLoggerData ();
   
+  /// Print the head of the trace which is printed to the console
   std::string initializeLoggerPrinter () const;
+  
+  /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
   
 };
@@ -193,23 +256,41 @@ class TimeLogger : public Logger
 {
 private:
   
+  /// Initial time, important to get the actual elapsed time
   std::chrono::steady_clock::time_point init_time;
-  std::vector<unsigned int> times_seconds;
+  
+  /// Vector of elapsed time at each iteration
+  std::vector<unsigned int> current_time;
+  
+  /// Stopping criteria, stop if \f$\mathrm{current_time} > \mathrm{max_time}\f$
   unsigned int max_time;
+  
+  /// The unit for time measuring, allowed are `minutes`, `seconds` and `microseconds` 
   std::string time_unit;
+  
   
 public:
   
+  /// Default constructor of class `TimeLogger`
   TimeLogger (const bool&, const unsigned int&, const std::string&);
   
+  /// Log current step of compboost iteration for class `TimeLogger`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
+  /// Stop criteria is fulfilled if the passed time exceeds `max_time`
   bool reachedStopCriteria () const;
+  
+  /// Return the data stored within the logger
   arma::vec getLoggedData () const;
+  
+  /// Clear the logger data
   void clearLoggerData();
   
+  /// Print the head of the trace which is printed to the console
   std::string initializeLoggerPrinter () const;
+  
+  /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
   
 };
