@@ -2,10 +2,10 @@ context("The optimizer works")
 
 test_that("greedy optimizer works", {
 
-  set.seed(pi)
+  set.seed(2)
   X = as.matrix(runif(100, -4, 4))
 
-  y.linear = as.numeric(32 * X)
+  y.linear = as.numeric(640 * X)
   y.cubic  = as.numeric(16 * X^3)
   y.pow5   = as.numeric(8 * X^5)
   
@@ -41,7 +41,7 @@ test_that("greedy optimizer works", {
   expect_equal(res.cubic$selected.learner, "(test run) polynomial with degree 3")
   expect_equal(res.pow5$selected.learner, "(test run) polynomial with degree 5")
 
-  expect_equal(as.numeric(res.linear$parameter), 32)
+  expect_equal(as.numeric(res.linear$parameter), 640)
   expect_equal(as.numeric(res.cubic$parameter), 16)
   expect_equal(as.numeric(res.pow5$parameter), 8)
 })
