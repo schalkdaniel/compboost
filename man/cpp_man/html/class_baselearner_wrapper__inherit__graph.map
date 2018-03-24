@@ -1,0 +1,5 @@
+<map id="BaselearnerWrapper" name="BaselearnerWrapper">
+<area shape="rect" id="node2" href="$class_custom_blearner_wrapper.html" title="{CustomBlearnerWrapper\n|&#45; dummy_data_target\l|+ CustomBlearnerWrapper()\l+ train()\l+ getData()\l+ getParameter()\l+ predict()\l+ predictNewdata()\l+ summarizeBaselearner()\l}" alt="" coords="5,153,189,318"/>
+<area shape="rect" id="node3" href="$class_custom_cpp_blearner_wrapper.html" title="{CustomCppBlearnerWrapper\n|&#45; dummy_data_target\l|+ CustomCppBlearnerWrapper()\l+ train()\l+ getData()\l+ getParameter()\l+ predict()\l+ predictNewdata()\l+ summarizeBaselearner()\l}" alt="" coords="214,153,421,318"/>
+<area shape="rect" id="node4" href="$class_polynomial_blearner_wrapper.html" title="{PolynomialBlearnerWrapper\n|&#45; dummy_data_target\l&#45; degree\l|+ PolynomialBlearnerWrapper()\l+ train()\l+ getData()\l+ getParameter()\l+ predict()\l+ predictNewdata()\l+ summarizeBaselearner()\l}" alt="" coords="445,145,648,325"/>
+</map>

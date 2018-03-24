@@ -1,0 +1,5 @@
+<map id="CustomBlearnerFactoryWrapper" name="CustomBlearnerFactoryWrapper">
+<area shape="rect" id="node2" href="$class_baselearner_factory_wrapper.html" title="{BaselearnerFactoryWrapper\n||+ getFactory()\l+ ~BaselearnerFactoryWrapper()\l}" alt="" coords="13,476,225,568"/>
+<area shape="rect" id="node3" href="$classblearnerfactory_1_1_baselearner_factory.html" title="{blearnerfactory::Baselearner\lFactory\n|# blearner_type\l|+ createBaselearner()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ instantiateData()\l+ initializeDataObjects()\l+ ~BaselearnerFactory()\l}" alt="" coords="27,233,211,413"/>
+<area shape="rect" id="node4" href="$classdata_1_1_data.html" title="{data::Data\n|# data_identifier\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ ~Data()\l}" alt="" coords="52,5,187,156"/>
+</map>

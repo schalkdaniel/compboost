@@ -1,0 +1,5 @@
+<map id="CustomBlearnerWrapper" name="CustomBlearnerWrapper">
+<area shape="rect" id="node2" href="$class_baselearner_wrapper.html" title="{BaselearnerWrapper\n||+ BaselearnerWrapper()\l+ ~BaselearnerWrapper()\l}" alt="" coords="112,593,280,685"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_baselearner.html" title="{blearner::Baselearner\n|# parameter\l# blearner_identifier\l# blearner_type\l|+ train()\l+ getParameter()\l+ predict()\l+ predict()\l+ instantiateData()\l+ copyMembers()\l+ clone()\l+ setData()\l+ getData()\l+ getDataIdentifier()\l+ setIdentifier()\l+ getIdentifier()\l+ setBaselearnerType()\l+ getBaselearnerType()\l+ ~Baselearner()\l}" alt="" coords="115,219,272,531"/>
+<area shape="rect" id="node4" href="$classdata_1_1_data.html" title="{data::Data\n|# data_identifier\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ ~Data()\l}" alt="" coords="35,5,170,156"/>
+</map>

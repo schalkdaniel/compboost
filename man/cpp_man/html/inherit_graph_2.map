@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classblearner_1_1_baselearner.html" title="blearner::Baselearner" alt="" coords="5,56,151,83"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_custom_blearner.html" title="blearner::CustomBlearner" alt="" coords="210,5,379,32"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_custom_cpp_blearner.html" title="blearner::CustomCppBlearner" alt="" coords="199,56,391,83"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_polynomial_blearner.html" title="blearner::PolynomialBlearner" alt="" coords="201,107,389,133"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="CompboostWrapper::predict" name="CompboostWrapper::predict">
+<area shape="rect" id="node2" href="$class_data_wrapper.html#a5e2993dd02f11ae2da8db95f942eca60" title="DataWrapper::getDataObj" alt="" coords="243,5,414,32"/>
+<area shape="rect" id="node3" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="237,56,420,83"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="257,107,400,149"/>
+<area shape="rect" id="node5" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="468,74,643,115"/>
+<area shape="rect" id="node6" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="473,139,638,181"/>
+</map>

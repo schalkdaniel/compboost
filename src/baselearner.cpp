@@ -161,7 +161,8 @@ arma::mat PolynomialBlearner::instantiateData (const arma::mat& newdata)
 // Train the learner:
 void PolynomialBlearner::train (const arma::vec& response)
 {
-  parameter = arma::solve(data_ptr->getData(), response);
+  // parameter = arma::solve(data_ptr->getData(), response);
+  parameter = arma::inv(data_ptr->getData().t() * data_ptr->getData()) * data_ptr->getData().t() * response;
 }
 
 // Predict the learner:

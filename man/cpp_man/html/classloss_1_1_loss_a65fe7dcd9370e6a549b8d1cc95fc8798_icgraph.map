@@ -1,0 +1,9 @@
+<map id="loss::Loss::constantInitializer" name="loss::Loss::constantInitializer">
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="250,5,393,47"/>
+<area shape="rect" id="node5" href="$class_quadratic_loss_wrapper.html#a0ed64adb364d6c2c1a0795672c7eb53e" title="QuadraticLossWrapper\l::testConstantInitializer" alt="" coords="244,71,399,112"/>
+<area shape="rect" id="node7" href="$class_absolute_loss_wrapper.html#ad90572ebb3a5bf84793f4bf1b42e56b9" title="AbsoluteLossWrapper\l::testConstantInitializer" alt="" coords="244,136,399,177"/>
+<area shape="rect" id="node8" href="$class_custom_loss_wrapper.html#a43d8b3e4c68d7662cff73a0301542815" title="CustomLossWrapper::\ltestConstantInitializer" alt="" coords="245,201,397,243"/>
+<area shape="rect" id="node3" href="$class_compboost_wrapper.html#a361e455353ee08273d41ed7b8350881d" title="CompboostWrapper::train" alt="" coords="447,13,617,39"/>
+<area shape="rect" id="node4" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="665,13,785,39"/>
+<area shape="rect" id="node6" href="$compboost__modules_8cpp.html#a89d834a66f774b2e640519dfc2d8dc6d" title="RCPP_MODULE" alt="" coords="472,143,592,170"/>
+</map>

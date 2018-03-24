@@ -1,0 +1,5 @@
+<map id="BaselearnerFactoryWrapper" name="BaselearnerFactoryWrapper">
+<area shape="rect" id="node2" href="$class_custom_blearner_factory_wrapper.html" title="{CustomBlearnerFactoryWrapper\n||+ CustomBlearnerFactoryWrapper()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ summarizeFactory()\l}" alt="" coords="5,160,233,296"/>
+<area shape="rect" id="node3" href="$class_custom_cpp_blearner_factory_wrapper.html" title="{CustomCppBlearnerFactory\lWrapper\n||+ CustomCppBlearnerFactory\lWrapper()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ summarizeFactory()\l}" alt="" coords="258,145,453,311"/>
+<area shape="rect" id="node4" href="$class_polynomial_blearner_factory_wrapper.html" title="{PolynomialBlearnerFactory\lWrapper\n|&#45; degree\l|+ PolynomialBlearnerFactory\lWrapper()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ summarizeFactory()\l}" alt="" coords="477,145,668,311"/>
+</map>

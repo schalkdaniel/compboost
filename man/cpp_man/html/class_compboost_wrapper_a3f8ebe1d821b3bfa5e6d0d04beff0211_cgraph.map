@@ -1,0 +1,18 @@
+<map id="CompboostWrapper::setToIteration" name="CompboostWrapper::setToIteration">
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="276,151,419,192"/>
+<area shape="rect" id="node3" href="$classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="949,17,1136,59"/>
+<area shape="rect" id="node4" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="483,72,625,113"/>
+<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="483,151,625,192"/>
+<area shape="rect" id="node13" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="467,220,641,261"/>
+<area shape="rect" id="node15" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="483,311,625,352"/>
+<area shape="rect" id="node5" href="$classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="706,47,885,88"/>
+<area shape="rect" id="node7" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="724,164,867,205"/>
+<area shape="rect" id="node8" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="loss::Loss::definedGradient" alt="" coords="953,83,1133,110"/>
+<area shape="rect" id="node9" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="969,135,1116,176"/>
+<area shape="rect" id="node10" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="961,200,1124,241"/>
+<area shape="rect" id="node11" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="955,265,1130,307"/>
+<area shape="rect" id="node12" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="970,331,1115,372"/>
+<area shape="rect" id="node14" href="$classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="689,230,901,286"/>
+<area shape="rect" id="node16" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="708,311,883,352"/>
+<area shape="rect" id="node17" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="713,376,878,417"/>
+</map>

@@ -1,0 +1,203 @@
+\hypertarget{classblearnertrack_1_1_baselearner_track}{}\section{blearnertrack\+:\+:Baselearner\+Track Class Reference}
+\label{classblearnertrack_1_1_baselearner_track}\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+
+
+{\ttfamily \#include $<$baselearner\+\_\+track.\+h$>$}
+
+
+
+Collaboration diagram for blearnertrack\+:\+:Baselearner\+Track\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=259pt]{classblearnertrack_1_1_baselearner_track__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_ad90a0f286fab221aa2f2ed6401861187}{Baselearner\+Track}} ()
+\item 
+\mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_aaba614b8351a3e5401d3f924059efc65}{Baselearner\+Track}} (double)
+\item 
+void \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_abc5f42093449e665b5b0dfeee8570953}{insert\+Baselearner}} (\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$ $>$ \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a596429982bd5fb1c8ffabc5f93849235}{get\+Baselearner\+Vector}} () const
+\item 
+std\+::map$<$ std\+::string, arma\+::mat $>$ \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a0ba8e3943b998b58375b892f40f12c73}{get\+Parameter\+Map}} () const
+\item 
+void \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_aa178f9d817a01240b6f39075f1f445f2}{clear\+Baselearner\+Vector}} ()
+\item 
+std\+::map$<$ std\+::string, arma\+::mat $>$ \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a9b0678ef3573206959be2068d115c556}{get\+Estimated\+Parameter\+Of\+Iteration}} (const unsigned int \&) const
+\item 
+std\+::pair$<$ std\+::vector$<$ std\+::string $>$, arma\+::mat $>$ \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a4b6d2d8b585148c71ed5b6055c9ab08c}{get\+Parameter\+Matrix}} () const
+\item 
+void \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a06f0ac986a158eecddce64e6c7af0750}{set\+To\+Iteration}} (const unsigned int \&)
+\item 
+\mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a93e9a1268d46808b9d6fe768fa11e22a}{$\sim$\+Baselearner\+Track}} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$ $>$ \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_ad37a3a99c04778146256e50c44f2a292}{blearner\+\_\+vector}}
+\item 
+std\+::map$<$ std\+::string, arma\+::mat $>$ \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a3725470c87e28ea32d4b184f1e6aad39}{my\+\_\+parameter\+\_\+map}}
+\item 
+double \mbox{\hyperlink{classblearnertrack_1_1_baselearner_track_a62d743fe6171c52410e2f5da3dc58ffb}{learning\+\_\+rate}}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_ad90a0f286fab221aa2f2ed6401861187}\label{classblearnertrack_1_1_baselearner_track_ad90a0f286fab221aa2f2ed6401861187}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!Baselearner\+Track@{Baselearner\+Track}}
+\index{Baselearner\+Track@{Baselearner\+Track}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{Baselearner\+Track()}{BaselearnerTrack()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily blearnertrack\+::\+Baselearner\+Track\+::\+Baselearner\+Track (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_aaba614b8351a3e5401d3f924059efc65}\label{classblearnertrack_1_1_baselearner_track_aaba614b8351a3e5401d3f924059efc65}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!Baselearner\+Track@{Baselearner\+Track}}
+\index{Baselearner\+Track@{Baselearner\+Track}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{Baselearner\+Track()}{BaselearnerTrack()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily blearnertrack\+::\+Baselearner\+Track\+::\+Baselearner\+Track (\begin{DoxyParamCaption}\item[{double}]{learning\+\_\+rate }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a93e9a1268d46808b9d6fe768fa11e22a}\label{classblearnertrack_1_1_baselearner_track_a93e9a1268d46808b9d6fe768fa11e22a}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!````~Baselearner\+Track@{$\sim$\+Baselearner\+Track}}
+\index{````~Baselearner\+Track@{$\sim$\+Baselearner\+Track}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{$\sim$\+Baselearner\+Track()}{~BaselearnerTrack()}}
+{\footnotesize\ttfamily blearnertrack\+::\+Baselearner\+Track\+::$\sim$\+Baselearner\+Track (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a93e9a1268d46808b9d6fe768fa11e22a_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_aa178f9d817a01240b6f39075f1f445f2}\label{classblearnertrack_1_1_baselearner_track_aa178f9d817a01240b6f39075f1f445f2}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!clear\+Baselearner\+Vector@{clear\+Baselearner\+Vector}}
+\index{clear\+Baselearner\+Vector@{clear\+Baselearner\+Vector}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{clear\+Baselearner\+Vector()}{clearBaselearnerVector()}}
+{\footnotesize\ttfamily void blearnertrack\+::\+Baselearner\+Track\+::clear\+Baselearner\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_aa178f9d817a01240b6f39075f1f445f2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a596429982bd5fb1c8ffabc5f93849235}\label{classblearnertrack_1_1_baselearner_track_a596429982bd5fb1c8ffabc5f93849235}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!get\+Baselearner\+Vector@{get\+Baselearner\+Vector}}
+\index{get\+Baselearner\+Vector@{get\+Baselearner\+Vector}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{get\+Baselearner\+Vector()}{getBaselearnerVector()}}
+{\footnotesize\ttfamily std\+::vector$<$ \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$ $>$ blearnertrack\+::\+Baselearner\+Track\+::get\+Baselearner\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a596429982bd5fb1c8ffabc5f93849235_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a9b0678ef3573206959be2068d115c556}\label{classblearnertrack_1_1_baselearner_track_a9b0678ef3573206959be2068d115c556}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!get\+Estimated\+Parameter\+Of\+Iteration@{get\+Estimated\+Parameter\+Of\+Iteration}}
+\index{get\+Estimated\+Parameter\+Of\+Iteration@{get\+Estimated\+Parameter\+Of\+Iteration}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{get\+Estimated\+Parameter\+Of\+Iteration()}{getEstimatedParameterOfIteration()}}
+{\footnotesize\ttfamily std\+::map$<$ std\+::string, arma\+::mat $>$ blearnertrack\+::\+Baselearner\+Track\+::get\+Estimated\+Parameter\+Of\+Iteration (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{k }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a9b0678ef3573206959be2068d115c556_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a0ba8e3943b998b58375b892f40f12c73}\label{classblearnertrack_1_1_baselearner_track_a0ba8e3943b998b58375b892f40f12c73}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!get\+Parameter\+Map@{get\+Parameter\+Map}}
+\index{get\+Parameter\+Map@{get\+Parameter\+Map}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{get\+Parameter\+Map()}{getParameterMap()}}
+{\footnotesize\ttfamily std\+::map$<$ std\+::string, arma\+::mat $>$ blearnertrack\+::\+Baselearner\+Track\+::get\+Parameter\+Map (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a0ba8e3943b998b58375b892f40f12c73_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a4b6d2d8b585148c71ed5b6055c9ab08c}\label{classblearnertrack_1_1_baselearner_track_a4b6d2d8b585148c71ed5b6055c9ab08c}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!get\+Parameter\+Matrix@{get\+Parameter\+Matrix}}
+\index{get\+Parameter\+Matrix@{get\+Parameter\+Matrix}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{get\+Parameter\+Matrix()}{getParameterMatrix()}}
+{\footnotesize\ttfamily std\+::pair$<$ std\+::vector$<$ std\+::string $>$, arma\+::mat $>$ blearnertrack\+::\+Baselearner\+Track\+::get\+Parameter\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a4b6d2d8b585148c71ed5b6055c9ab08c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_abc5f42093449e665b5b0dfeee8570953}\label{classblearnertrack_1_1_baselearner_track_abc5f42093449e665b5b0dfeee8570953}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!insert\+Baselearner@{insert\+Baselearner}}
+\index{insert\+Baselearner@{insert\+Baselearner}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{insert\+Baselearner()}{insertBaselearner()}}
+{\footnotesize\ttfamily void blearnertrack\+::\+Baselearner\+Track\+::insert\+Baselearner (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$}]{blearner }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_abc5f42093449e665b5b0dfeee8570953_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a06f0ac986a158eecddce64e6c7af0750}\label{classblearnertrack_1_1_baselearner_track_a06f0ac986a158eecddce64e6c7af0750}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!set\+To\+Iteration@{set\+To\+Iteration}}
+\index{set\+To\+Iteration@{set\+To\+Iteration}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{set\+To\+Iteration()}{setToIteration()}}
+{\footnotesize\ttfamily void blearnertrack\+::\+Baselearner\+Track\+::set\+To\+Iteration (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{k }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a06f0ac986a158eecddce64e6c7af0750_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnertrack_1_1_baselearner_track_a06f0ac986a158eecddce64e6c7af0750_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_ad37a3a99c04778146256e50c44f2a292}\label{classblearnertrack_1_1_baselearner_track_ad37a3a99c04778146256e50c44f2a292}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!blearner\+\_\+vector@{blearner\+\_\+vector}}
+\index{blearner\+\_\+vector@{blearner\+\_\+vector}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{blearner\+\_\+vector}{blearner\_vector}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}}$\ast$$>$ blearnertrack\+::\+Baselearner\+Track\+::blearner\+\_\+vector\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a62d743fe6171c52410e2f5da3dc58ffb}\label{classblearnertrack_1_1_baselearner_track_a62d743fe6171c52410e2f5da3dc58ffb}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!learning\+\_\+rate@{learning\+\_\+rate}}
+\index{learning\+\_\+rate@{learning\+\_\+rate}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{learning\+\_\+rate}{learning\_rate}}
+{\footnotesize\ttfamily double blearnertrack\+::\+Baselearner\+Track\+::learning\+\_\+rate\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classblearnertrack_1_1_baselearner_track_a3725470c87e28ea32d4b184f1e6aad39}\label{classblearnertrack_1_1_baselearner_track_a3725470c87e28ea32d4b184f1e6aad39}} 
+\index{blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}!my\+\_\+parameter\+\_\+map@{my\+\_\+parameter\+\_\+map}}
+\index{my\+\_\+parameter\+\_\+map@{my\+\_\+parameter\+\_\+map}!blearnertrack\+::\+Baselearner\+Track@{blearnertrack\+::\+Baselearner\+Track}}
+\subsubsection{\texorpdfstring{my\+\_\+parameter\+\_\+map}{my\_parameter\_map}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, arma\+::mat$>$ blearnertrack\+::\+Baselearner\+Track\+::my\+\_\+parameter\+\_\+map\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{baselearner__track_8h}{baselearner\+\_\+track.\+h}}\item 
+E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{baselearner__track_8cpp}{baselearner\+\_\+track.\+cpp}}\end{DoxyCompactItemize}

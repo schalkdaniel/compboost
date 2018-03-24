@@ -1,0 +1,4 @@
+<map id="AbsoluteLossWrapper" name="AbsoluteLossWrapper">
+<area shape="rect" id="node2" href="$class_loss_wrapper.html" title="{LossWrapper\n||+ getLoss()\l+ ~LossWrapper()\l}" alt="" coords="27,189,154,281"/>
+<area shape="rect" id="node3" href="$classloss_1_1_loss.html" title="{loss::Loss\n||+ definedLoss()\l+ definedGradient()\l+ constantInitializer()\l+ ~Loss()\l}" alt="" coords="19,5,162,127"/>
+</map>

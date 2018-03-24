@@ -1,0 +1,6 @@
+<map id="LoggerListWrapper::registerLogger" name="LoggerListWrapper::registerLogger">
+<area shape="rect" id="node2" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="213,5,356,47"/>
+<area shape="rect" id="node4" href="$class_logger_wrapper.html#ad42b6f63cb509a7fa0d7e3aa82a95cb8" title="LoggerWrapper::getLoggerId" alt="" coords="192,71,377,98"/>
+<area shape="rect" id="node5" href="$class_logger_wrapper.html#afbd901f65ae9d2b11614c71265da41f1" title="LoggerWrapper::getLogger" alt="" coords="197,122,372,149"/>
+<area shape="rect" id="node3" href="$classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="425,5,604,47"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_loss_wrapper.html" title="LossWrapper" alt="" coords="5,56,104,83"/>
+<area shape="rect" id="node2" href="$class_absolute_loss_wrapper.html" title="AbsoluteLossWrapper" alt="" coords="154,5,305,32"/>
+<area shape="rect" id="node3" href="$class_custom_loss_wrapper.html" title="CustomLossWrapper" alt="" coords="157,56,301,83"/>
+<area shape="rect" id="node4" href="$class_quadratic_loss_wrapper.html" title="QuadraticLossWrapper" alt="" coords="152,107,307,133"/>
+</map>
