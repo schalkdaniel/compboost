@@ -141,7 +141,56 @@ public:
   
 };
 
-// CustomBlearner Baselearner:
+// PSplineBlearner:
+// -----------------------
+
+/**
+ * \class PSplineBlearner
+ * 
+ * \brief P-Spline Baselearner
+ * 
+ * This class implements the P-Spline baselearners. We have used de Boors
+ * algorithm (from the Nurbs Book) to create the basis. The penalty parameter
+ * can be specified directly or by using the degrees of freedom. If you are
+ * using the degrees of freedom insteat of the penalty parameter, then this is
+ * transformed to a penalty parameter using the Demmler-Reinsch 
+ * Orthogonalization.
+ * 
+ * Please note, that this baselearner is just the dummy object. The most 
+ * functionality is done within the corresponding factory object.
+ * 
+ */
+
+// class PSplineBlearner : public Baselearner
+// {
+// private:
+//   
+//   /// Degree of polynomial functions as base models
+//   unsigned int degree;
+//   
+//   /// Number of inner knots
+//   unsigned int n_knots;
+//   
+//   /// Vector of knots used to create the basis
+//   arma::vec* knots;
+//   
+//   /// Penalty parameter
+//   double penalty;
+//   
+//   /// Degree of freedoms (alternative way to define the penalty parameter)
+//   double df;
+//   
+//   /// Differences of penalty matrix
+//   unsigned int differences;
+//   
+//   /// Penalty matrix for differences
+//   arma::sp_mat* K;
+//   
+//   
+//   
+// };
+
+// CustomBlearner:
 // -----------------------
 
 // This class can be used to define custom baselearner in R and expose thi
@@ -181,7 +230,7 @@ public:
   
 };
 
-// CustomBlearner Cpp Baselearner:
+// CustomBlearner:
 // -----------------------
 
 // This is a  bit tricky. The key is that we store the cpp functions as 
