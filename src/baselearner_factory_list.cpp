@@ -95,7 +95,9 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelF
   std::vector<std::string> rownames;
   
   for (auto& it : my_factory_map) {
-    arma::mat data_temp = it.second->getData();
+    // This step converts the matrix from get data to an arma::mat, especially
+    // if getData returns an arma::sp_mat:
+    arma::mat data_temp(it.second->getData());
     out_matrix = arma::join_rows(out_matrix, data_temp);
     
     if (data_temp.n_cols > 1) {
