@@ -24,7 +24,7 @@ knots = attr(bb.mboost, "knots")
 myknots = seq(min(x), max(x), length.out = n.knots + 2)
 
 knot.range = diff(myknots)[1]
-myknots = c(min(x) - 3:1 * knot.range, myknots, max(x) + 1:3 * knot.range)
+myknots = c(min(x) - degree:1 * knot.range, myknots, max(x) + 1:degree * knot.range)
 
 # Knot the same as mboost (degree has to be degree + 1 since splineDesign uses
 # the number of coefficent as ord):
@@ -45,6 +45,8 @@ all.equal(bb, bb.m)
 
 # My stupid but easy algorithm (prototype):
 
+source ("C:/Users/schal/OneDrive/github_repos/compboost/other/bspline_basis_prototype.R")
+
 idx.test = 6
 
 u = x[idx.test]
@@ -63,3 +65,29 @@ for (i in seq_len(nrow(mybb))) {
 }
   
 all.equal(mybb, bb)
+
+# C++ algorithm:
+splines.cpp = "C:/Users/schal/OneDrive/github_repos/compboost/other/splines.cpp"
+
+if (file.exists(splines.cpp)) {
+  Rcpp::sourceCpp(file = splines.cpp, rebuild = TRUE)
+}
+
+knots = createKnots(values = x, n_knots = n.knots, degree = degree)
+mybb.cpp = as.matrix(createBasis(values = x, degree = degree, knots = knots))
+
+mydim = dim(mybb.cpp)
+attributes(mybb.cpp) = NULL
+dim(mybb.cpp) = mydim
+
+all.equal(mybb.cpp, bb)
+
+
+# small benchmark with r's splines library:
+microbenchmark::microbenchmark(
+  "My C++" = createBasis(values = x, degree = degree, knots = knots),
+  "R splines" = splines::splineDesign(myknots, x = x, outer.ok = TRUE, ord = degree + 1), 
+  times = 10L
+)
+
+
