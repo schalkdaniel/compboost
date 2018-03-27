@@ -54,16 +54,53 @@ class Data
 protected:
   
   std::string data_identifier = "";
+  std::string data_type = "ordinary";
   
 public:
   
+  // Declare the data stuff public that every class can access the data 
+  // it needs:
+  
+  // Initialize with zeros and null pointer. Idea: The real data object which is
+  // used for modelling is stored in the data_mat. This should only be the case
+  // for the data target. The data source gets a pointer to e.g. the column of
+  // a data.frame:
+  
+  /// Dense matrix for design matrix (accessed by getData and setData and directly)
+  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
+  
+  /// Sparse matrix for design matrix (directly accessible)
+  arma::sp_mat sparse_data_mat;
+  
+  
+  const arma::mat* data_mat_ptr = NULL;
+  
+  // Some spline specific data stuff (of course they can be used for other
+  // classes to):
+  
+  /// Penalty matrix (directly accesible)
+  arma::sp_mat penalty_mat;
+  
+  /// Vector of knots (directky accesible)
+  arma::vec knots;
+  
+  /// Upper and lower boundary for values, values which are out of range
+  /// have a basis of zeros (directly accesible)
+  arma::vec knot_boundaries;
+  
+  // Member functions:
   Data ();
   
+  /// Set the main data (design matrix)
   virtual void setData (const arma::mat&) = 0;
+  
+  /// Get the design matrix 
   virtual arma::mat getData () const = 0;
   
   void setDataIdentifier (const std::string&);
   std::string getDataIdentifier () const;
+  
+  void setDataType (const std::string&);
   
   virtual 
     ~Data () { };
@@ -82,15 +119,6 @@ public:
 
 class InMemoryData : public Data
 {
-private:
-  
-  // Initialize with zeros and null pointer. Idea: The real data object which is
-  // used for modelling is stored in the data_mat. This should only be the case
-  // for the data target. The data source gets a pointer to e.g. the column of
-  // a data.frame:
-  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
-  const arma::mat* data_mat_ptr = NULL;
-  
 public:
   
   // Empty constructor for data target

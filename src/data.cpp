@@ -54,6 +54,10 @@ std::string Data::getDataIdentifier () const
   return data_identifier;
 }
 
+void Data::setDataType (const std::string& data_type0)
+{
+  data_type = data_type0;
+}
 
 
 // -------------------------------------------------------------------------- //
