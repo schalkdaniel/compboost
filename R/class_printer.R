@@ -97,6 +97,15 @@ ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
   return ("PolynomialBlearnerPrinter")
 })
 
+setClass("Rcpp_PSplineBlearner")
+ignore.me = setMethod("show", "Rcpp_PSplineBlearner", function (object) {
+  cat("\n")
+  object$summarizeBaselearner()
+  cat("\n\n")
+  
+  return ("PSplineBlearnerPrinter")
+})
+
 setClass("Rcpp_CustomBlearner")
 ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
   cat("\n")
@@ -126,6 +135,15 @@ ignore.me = setMethod("show", "Rcpp_PolynomialBlearnerFactory", function (object
   cat("\n\n")
   
   return ("PolynomialBlearnerFactoryPrinter")
+})
+
+setClass("Rcpp_PSplineBlearnerFactory")
+ignore.me = setMethod("show", "Rcpp_PSplineBlearnerFactory", function (object) {
+  cat("\n")
+  object$summarizeFactory()
+  cat("\n\n")
+  
+  return ("PSplineBlearnerFactoryPrinter")
 })
 
 setClass("Rcpp_CustomBlearnerFactory")

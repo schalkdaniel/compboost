@@ -79,6 +79,9 @@ test_that("Baselearner printer works", {
   data.source = InMemoryData$new(X, "myvariable")
   data.target = InMemoryData$new()
 
+  
+  # Polynomial Baselearner:
+  # ---------------------------------
   linear = PolynomialBlearner$new(data.source, data.target, 1)
 
   tc = textConnection(NULL, "w")
@@ -91,6 +94,24 @@ test_that("Baselearner printer works", {
 
   expect_equal(linear.printer, "PolynomialBlearnerPrinter")
 
+  
+  # Spline Baselearner:
+  # ---------------------------------
+  
+  spline.learner = PSplineBlearner$new(data.source, data.target, 3, 5, 2.5, 2)
+  
+  tc = textConnection(NULL, "w")
+  sink(tc)
+  
+  spline.printer = show(spline.learner)
+  
+  sink()
+  close(tc)
+  
+  expect_equal(spline.printer, "PSplineBlearnerPrinter")
+  
+  # Custom Baselearner:
+  # ---------------------------------
   instantiateData = function (X)
   {
     return(X);
@@ -118,7 +139,8 @@ test_that("Baselearner printer works", {
 
   expect_equal(custom.printer, "CustomBlearnerPrinter")
 
-
+  # Custom Cpp Baselearner:
+  # ---------------------------------
   Rcpp::sourceCpp(code = '
     // [[Rcpp::depends(RcppArmadillo)]]
     #include <RcppArmadillo.h>
@@ -196,11 +218,14 @@ test_that("Baselearner factory printer works", {
   df = mtcars
 
   X.hp = cbind(1, df[["hp"]])
+  X.hp.sp = as.matrix(df[["hp"]])
   
-  data.source = InMemoryData$new(X.hp, "hp")
-  data.target = InMemoryData$new()
+  data.source    = InMemoryData$new(X.hp, "hp")
+  data.source.sp = InMemoryData$new(X.hp.sp, "hp")
+  data.target    = InMemoryData$new()
 
-  # Create new linear baselearner of hp and wt:
+  # Polynomial Baselearner Factory:
+  # ------------------------------------
   linear.factory.hp = PolynomialBlearnerFactory$new(data.source, data.target, 1)
 
   tc = textConnection(NULL, "w")
@@ -213,7 +238,22 @@ test_that("Baselearner factory printer works", {
 
   expect_equal(linear.factory.hp.printer, "PolynomialBlearnerFactoryPrinter")
 
-
+  # Spline Baselearner Factory:
+  # ------------------------------------
+  spline.factory = PSplineBlearnerFactory$new(data.source.sp, data.target, 3, 5, 2.5, 2)
+  
+  tc = textConnection(NULL, "w")
+  sink(tc)
+  
+  spline.printer = show(spline.factory)
+  
+  sink()
+  close(tc)
+  
+  expect_equal(spline.printer, "PSplineBlearnerFactoryPrinter")
+  
+  # Custom Baselearner Factory:
+  # ------------------------------------
   instantiateData = function (X)
   {
     return(X);
@@ -243,7 +283,8 @@ test_that("Baselearner factory printer works", {
   expect_equal(custom.factory.printer, "CustomBlearnerFactoryPrinter")
 
 
-
+  # Custom Cpp Baselearner Factory:
+  # ------------------------------------
   Rcpp::sourceCpp(code = '
     // [[Rcpp::depends(RcppArmadillo)]]
     #include <RcppArmadillo.h>
