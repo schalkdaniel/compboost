@@ -1,7 +1,8 @@
-// [[Rcpp::depends(RcppArmadillo)]]
-#include <RcppArmadillo.h>
 
-/*
+
+#include "splines.h"
+
+/**
  * \brief Calculating penalty matrix
  * 
  * This function calculates the penalty matrix for a given number of 
@@ -15,33 +16,29 @@
  * \returns `arma::sp_mat` Sparse penalty matrix used for p splines. 
  */
 
-// [[Rcpp::export]]
-arma::sp_mat penaltyMat (const unsigned int& nparams, const unsigned int& differences)
+arma::mat penaltyMat (const unsigned int& nparams, const unsigned int& differences)
 {
   // Create frame for sparse difference matrix:
-  arma::sp_mat diffs(0, nparams);
+  arma::mat diffs(0, nparams);
   for (unsigned int i = 0; i < nparams - 1; i++) {
-    arma::sp_mat insert(1, nparams);
+    arma::mat insert(1, nparams, arma::fill::zeros);
     insert[i] = -1;
     insert[i + 1] = 1;
-    diffs = join_cols(diffs, insert);
+    diffs = arma::join_cols(diffs, insert);
   }
   
   // Calculate the difference matrix for higher orders:
   if (differences > 1) {
-    arma::sp_mat diffs_reduced = diffs;
+    arma::mat diffs_reduced = diffs;
     for (unsigned int k = 0; k < differences - 1; k++) {
       diffs_reduced = diffs_reduced(arma::span(1, diffs_reduced.n_rows - 1), arma::span(1, diffs_reduced.n_cols - 1));
       diffs = diffs_reduced * diffs;
     }
   }
-  
-  arma::sp_mat K = diffs.t() * diffs;
-  
-  return K;
+  return diffs.t() * diffs;
 }
 
-/*
+/**
  * \brief Binary search to find index of given point within knots
  * 
  * This small functions search for the position of `x` within the
@@ -57,7 +54,6 @@ arma::sp_mat penaltyMat (const unsigned int& nparams, const unsigned int& differ
  * \returns `unsigned int` of position of `x` in `knots`.
  */
 
-// [[Rcpp::export]]
 unsigned int findSpan (const double& x, const arma::vec& knots)
 {
   // Special case which the algorithm can't handle:
@@ -79,7 +75,7 @@ unsigned int findSpan (const double& x, const arma::vec& knots)
   return mid;
 }
 
-/*
+/**
  * \brief De Boors algorithm to find basis functions
  * 
  * \param x `double` Point to search for position in knots.
@@ -90,7 +86,6 @@ unsigned int findSpan (const double& x, const arma::vec& knots)
  * \returns `arma::sp_mat` Sparse matrix containing the basis functions.
  */
 
-// [[Rcpp::export]]
 arma::rowvec basisFuns (const double& x, const unsigned int& degree, 
   const arma::vec& knots)
 {
@@ -138,7 +133,7 @@ arma::rowvec basisFuns (const double& x, const unsigned int& degree,
   return full_base;
 }
 
-/*
+/**
  * \brief Create knots for a specific number, degree and values
  * 
  * This functions takes a vector of points and creates knots used for the
@@ -152,7 +147,6 @@ arma::rowvec basisFuns (const double& x, const unsigned int& degree,
  * \returns `arma::vec` of knots.
  */
 
-// [[Rcpp::export]]
 arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
   const unsigned int& degree)
 {
@@ -179,7 +173,7 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
   return knots;
 }
 
-/*
+/**
  * \brief Transformation from a vector of input points to sparse matrix of basis
  * 
  * This functions takes a vector of points and create a sparse matrix of
@@ -193,7 +187,6 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
  * \returns `sp_mat` sparse matrix of base functions.
  */
 
-// [[Rcpp::export]]
 arma::mat createBasis (const arma::vec& values, const unsigned int& degree, 
   const arma::vec& knots)
 {
@@ -206,30 +199,4 @@ arma::mat createBasis (const arma::vec& values, const unsigned int& degree,
   }
   
   return spline_basis;
-}
-
-// [[Rcpp::export]]
-arma::mat estimateSplines (const arma::vec& response, const arma::vec& x,
-  const unsigned int& degree, const unsigned int& n_knots, 
-  const unsigned int& differences, const double& penalty)
-{
-  arma::vec knots = createKnots(x, n_knots, degree);
-  arma::mat basis = createBasis(x, degree, knots);
-  arma::sp_mat pen = penaltyMat(basis.n_cols, differences);
-  
-  arma::mat params = arma::inv(basis.t() * basis + penalty * pen) * basis.t() * response;
-  
-  return params;
-}
-
-// [[Rcpp::export]]
-arma::mat testSolve (arma::mat X, arma::mat XtX, arma::vec y)
-{
-  return arma::solve(XtX, X.t() * y);
-}
-
-// [[Rcpp::export]]
-arma::mat testInv (arma::mat X, arma::mat XtX, arma::vec y)
-{
-  return arma::inv(XtX) * X.t() * y;
 }

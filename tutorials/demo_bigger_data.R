@@ -9,6 +9,7 @@ size.compboost = pryr::mem_change({
   X.taxiin   = cbind(1, mydata[["TaxiIn"]])
   X.dist     = cbind(1, mydata[["Distance"]])
   X.aet      = cbind(1, mydata[["ActualElapsedTime"]])
+  X.dist.sp  = as.matrix(mydata[["Distance"]])
   
   # Target variable:
   y = mydata[["DepDelay"]]
@@ -17,11 +18,13 @@ size.compboost = pryr::mem_change({
   data.source.taxiin   = InMemoryData$new(X.taxiin, "TaxiIn")
   data.source.dist     = InMemoryData$new(X.dist, "Distance") 
   data.source.aet      = InMemoryData$new(X.aet, "ActualElapsedTime")
+  data.source.dist.sp  = InMemoryData$new(X.dist.sp, "Distance") 
   
   data.target.arrdelay = InMemoryData$new()
   data.target.taxiin   = InMemoryData$new()
   data.target.dist     = InMemoryData$new()
   data.target.aet      = InMemoryData$new()
+  data.target.dist.sp  = InMemoryData$new()
   
   # Prepare compboost:
   # ------------------
@@ -35,6 +38,9 @@ size.compboost = pryr::mem_change({
   linear.factory.dist     = PolynomialBlearnerFactory$new(data.source.dist, data.target.dist, 1)
   linear.factory.aet      = PolynomialBlearnerFactory$new(data.source.aet, data.target.aet, 1)
   
+  # One Spline:
+  
+  spline.factory.dist = PSplineBlearnerFactory$new(data.source.dist.sp, data.target.dist.sp, 3, 10, 2, 2)
   
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()
@@ -44,6 +50,7 @@ size.compboost = pryr::mem_change({
   factory.list$registerFactory(linear.factory.taxiin)
   factory.list$registerFactory(linear.factory.dist)
   factory.list$registerFactory(linear.factory.aet)
+  factory.list$registerFactory(spline.factory.dist)
   
   # Print the registered factorys:
   factory.list$printRegisteredFactorys()
@@ -100,17 +107,13 @@ size.compboost = pryr::mem_change({
   cboost$train(trace = TRUE)
 })
 
-# If we 
-
-
-
-
 library(mboost)
 
 # time = proc.time()
 size.mboost = pryr::mem_change({
   mod = mboost(
-    formula = DepDelay ~ bols(ArrDelay) + bols(TaxiIn) + bols(Distance) + bols(ActualElapsedTime),
+    formula = DepDelay ~ bols(ArrDelay) + bols(TaxiIn) + bols(Distance) + 
+      bols(ActualElapsedTime) + bbs(Distance, knots = 10, degree = 3, differences = 2, lambda = 2),
     data    = mydata,
     control = boost_control(mstop = 500, nu = 0.05, trace = TRUE)
   )
@@ -123,7 +126,8 @@ microbenchmark::microbenchmark(
   },
   "mboost"    = {
     mboost(
-      formula = DepDelay ~ bols(ArrDelay) + bols(TaxiIn) + bols(Distance) + bols(ActualElapsedTime),
+      formula = DepDelay ~ bols(ArrDelay) + bols(TaxiIn) + bols(Distance) + 
+        bols(ActualElapsedTime) + bbs(Distance, knots = 10, degree = 3, differences = 2, lambda = 2),
       data    = mydata,
       control = boost_control(mstop = 500, nu = 0.05, trace = FALSE)
     )

@@ -1,8 +1,26 @@
-splines.cpp = "C:/Users/schal/OneDrive/github_repos/compboost/other/splines.cpp"
+splines.cpp = "E:/OneDrive/github_repos/compboost/other/splines.cpp"
 
 if (file.exists(splines.cpp)) {
   Rcpp::sourceCpp(file = splines.cpp, rebuild = TRUE)
 }
+
+n.sim = 100000
+p.sim = 32
+
+X = matrix(runif(n.sim * p.sim), nrow = n.sim, ncol = p.sim)
+pen = matrix(runif(p.sim^2), nrow = p.sim, ncol = p.sim)
+y = runif(n.sim)
+XtX = t(X) %*% X + 2.5 * pen
+
+all.equal(testSolve(X, XtX, y), testInv(X, pen, y))
+
+microbenchmark::microbenchmark(
+  "solve" = testSolve(X, pen, y),
+  "inv" = testInv(X, pen, y),
+  "R nnlv" = nnls::nnls(t(X) %*% X + 2.5 * pen, t(X) %*% y),
+  times = 10L
+)
+
 
 library(Matrix)
 

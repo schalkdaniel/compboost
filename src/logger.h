@@ -32,6 +32,26 @@
 //
 // ========================================================================== //
 
+/** 
+ *  @file    logger.h
+ *  @author  Daniel Schalk (github: schalkdaniel)
+ *  
+ *  @brief Logger class definition
+ *
+ *  @section DESCRIPTION
+ *  
+ *  This file contains all the available logger which also can be used for
+ *  early stopping. The idea is not just about to use multiple stopping 
+ *  criteria (e.g. maximal number of iterations + a given amount of time), 
+ *  but also to log while training (e.g. the inbag or oob risk).
+ *  
+ *  The logger are collected by the `LoggerList` class. Basicall, that class
+ *  takes as much logger as you like and logs every step. This can be used
+ *  to log different risks for different loss functions. Just create two 
+ *  inbag or oob risk logger with a different loss.
+ *
+ */
+
 #ifndef LOGGER_H_
 #define LOGGER_H_
 

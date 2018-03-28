@@ -79,7 +79,7 @@ public:
   // classes to):
   
   /// Penalty matrix (directly accesible)
-  arma::sp_mat penalty_mat;
+  arma::mat penalty_mat;
   
   /// Vector of knots (directky accesible)
   arma::vec knots;
@@ -87,6 +87,10 @@ public:
   /// Upper and lower boundary for values, values which are out of range
   /// have a basis of zeros (directly accesible)
   arma::vec knot_boundaries;
+  
+  /// This is way to speed up the algorithm (nicked from the mboost guys)
+  /// Genrally we calculate \f$X^T X\f$ once and reuse this in every iteration.
+  arma::mat XtX_inv;
   
   // Member functions:
   Data ();
