@@ -73,7 +73,6 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classdata_1_1_in_memory_data-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">data::InMemoryData Class Reference</div>  </div>
@@ -86,7 +85,7 @@ Inheritance diagram for data::InMemoryData:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_in_memory_data__inherit__graph.png" border="0" usemap="#data_1_1_in_memory_data_inherit__map" alt="Inheritance graph"/></div>
 <map name="data_1_1_in_memory_data_inherit__map" id="data_1_1_in_memory_data_inherit__map">
-<area shape="rect" id="node2" href="classdata_1_1_data.html" title="{data::Data\n|# data_identifier\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ ~Data()\l}" alt="" coords="7,5,142,156"/>
+<area shape="rect" id="node2" href="classdata_1_1_data.html" title="{data::Data\n|+ data_mat\l+ sparse_data_mat\l+ data_mat_ptr\l+ penalty_mat\l+ knots\l+ knot_boundaries\l+ XtX_inv\l# data_identifier\l# data_type\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ setDataType()\l+ ~Data()\l}" alt="" coords="7,5,142,288"/>
 </map>
 </div>
 <div class="dynheader">
@@ -94,7 +93,7 @@ Collaboration diagram for data::InMemoryData:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_in_memory_data__coll__graph.png" border="0" usemap="#data_1_1_in_memory_data_coll__map" alt="Collaboration graph"/></div>
 <map name="data_1_1_in_memory_data_coll__map" id="data_1_1_in_memory_data_coll__map">
-<area shape="rect" id="node2" href="classdata_1_1_data.html" title="{data::Data\n|# data_identifier\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ ~Data()\l}" alt="" coords="7,5,142,156"/>
+<area shape="rect" id="node2" href="classdata_1_1_data.html" title="{data::Data\n|+ data_mat\l+ sparse_data_mat\l+ data_mat_ptr\l+ penalty_mat\l+ knots\l+ knot_boundaries\l+ XtX_inv\l# data_identifier\l# data_type\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ setDataType()\l+ ~Data()\l}" alt="" coords="7,5,142,288"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -105,8 +104,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af9bc156072099d40e45142e4c19f698c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_in_memory_data.html#af9bc156072099d40e45142e4c19f698c">InMemoryData</a> (const arma::mat &amp;, const std::string &amp;)</td></tr>
 <tr class="separator:af9bc156072099d40e45142e4c19f698c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0456d66f7930809211c75bcdd80a7bca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_in_memory_data.html#a0456d66f7930809211c75bcdd80a7bca">setData</a> (const arma::mat &amp;)</td></tr>
+<tr class="memdesc:a0456d66f7930809211c75bcdd80a7bca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the main data (design matrix)  <a href="#a0456d66f7930809211c75bcdd80a7bca">More...</a><br /></td></tr>
 <tr class="separator:a0456d66f7930809211c75bcdd80a7bca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0993c38a9633fa0f1ff787660b86c71"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_in_memory_data.html#ac0993c38a9633fa0f1ff787660b86c71">getData</a> () const</td></tr>
+<tr class="memdesc:ac0993c38a9633fa0f1ff787660b86c71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the design matrix.  <a href="#ac0993c38a9633fa0f1ff787660b86c71">More...</a><br /></td></tr>
 <tr class="separator:ac0993c38a9633fa0f1ff787660b86c71"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a675c78a5c7537ca16b8ce86b3ea1f7b3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_in_memory_data.html#a675c78a5c7537ca16b8ce86b3ea1f7b3">~InMemoryData</a> ()</td></tr>
 <tr class="separator:a675c78a5c7537ca16b8ce86b3ea1f7b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,21 +118,37 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a62bcea680e1a7d1d4ecec60c111936dc inherit pub_methods_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1af63a4e5aa708de31e1ffdd727a4e16 inherit pub_methods_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16">getDataIdentifier</a> () const</td></tr>
 <tr class="separator:a1af63a4e5aa708de31e1ffdd727a4e16 inherit pub_methods_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a349569c170c7e8b78bf4997b47e3f1a8 inherit pub_methods_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a349569c170c7e8b78bf4997b47e3f1a8">setDataType</a> (const std::string &amp;)</td></tr>
+<tr class="separator:a349569c170c7e8b78bf4997b47e3f1a8 inherit pub_methods_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a737d2c889ffb7c08d60b5af5846b586b inherit pub_methods_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a737d2c889ffb7c08d60b5af5846b586b">~Data</a> ()</td></tr>
 <tr class="separator:a737d2c889ffb7c08d60b5af5846b586b inherit pub_methods_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a16d9adacd263125f72fac8717c2ee62b"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_in_memory_data.html#a16d9adacd263125f72fac8717c2ee62b">data_mat</a> = arma::mat (1, 1, arma::fill::zeros)</td></tr>
-<tr class="separator:a16d9adacd263125f72fac8717c2ee62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c84c30085f5615c9014cba217b6caed"><td class="memItemLeft" align="right" valign="top">const arma::mat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_in_memory_data.html#a5c84c30085f5615c9014cba217b6caed">data_mat_ptr</a> = NULL</td></tr>
-<tr class="separator:a5c84c30085f5615c9014cba217b6caed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_attribs_classdata_1_1_data"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_classdata_1_1_data')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="classdata_1_1_data.html">data::Data</a></td></tr>
+<tr class="memitem:ae78ec61bd569e32f3b34056d3f6f48f4 inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#ae78ec61bd569e32f3b34056d3f6f48f4">data_mat</a> = arma::mat (1, 1, arma::fill::zeros)</td></tr>
+<tr class="memdesc:ae78ec61bd569e32f3b34056d3f6f48f4 inherit pub_attribs_classdata_1_1_data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dense matrix for design matrix (accessed by getData and setData and directly)  <a href="classdata_1_1_data.html#ae78ec61bd569e32f3b34056d3f6f48f4">More...</a><br /></td></tr>
+<tr class="separator:ae78ec61bd569e32f3b34056d3f6f48f4 inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5c5380b4aa8120cdda74195b90955f inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">arma::sp_mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#abc5c5380b4aa8120cdda74195b90955f">sparse_data_mat</a></td></tr>
+<tr class="memdesc:abc5c5380b4aa8120cdda74195b90955f inherit pub_attribs_classdata_1_1_data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sparse matrix for design matrix (directly accessible)  <a href="classdata_1_1_data.html#abc5c5380b4aa8120cdda74195b90955f">More...</a><br /></td></tr>
+<tr class="separator:abc5c5380b4aa8120cdda74195b90955f inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aa3b54f91bede8726e22ccfe8751b31 inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">const arma::mat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a3aa3b54f91bede8726e22ccfe8751b31">data_mat_ptr</a> = NULL</td></tr>
+<tr class="separator:a3aa3b54f91bede8726e22ccfe8751b31 inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fd248ad8885deae217b8720fcf22e78 inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a1fd248ad8885deae217b8720fcf22e78">penalty_mat</a></td></tr>
+<tr class="memdesc:a1fd248ad8885deae217b8720fcf22e78 inherit pub_attribs_classdata_1_1_data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Penalty matrix (directly accesible)  <a href="classdata_1_1_data.html#a1fd248ad8885deae217b8720fcf22e78">More...</a><br /></td></tr>
+<tr class="separator:a1fd248ad8885deae217b8720fcf22e78 inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe246684192000f9a0d85bc84bfcccdf inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#abe246684192000f9a0d85bc84bfcccdf">knots</a></td></tr>
+<tr class="memdesc:abe246684192000f9a0d85bc84bfcccdf inherit pub_attribs_classdata_1_1_data"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of knots (directky accesible)  <a href="classdata_1_1_data.html#abe246684192000f9a0d85bc84bfcccdf">More...</a><br /></td></tr>
+<tr class="separator:abe246684192000f9a0d85bc84bfcccdf inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfe89753c5bbb4a9361b5aa0f6d7f015 inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#acfe89753c5bbb4a9361b5aa0f6d7f015">knot_boundaries</a></td></tr>
+<tr class="separator:acfe89753c5bbb4a9361b5aa0f6d7f015 inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31bdf7564f8589487a0ee9952ebef0c0 inherit pub_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a31bdf7564f8589487a0ee9952ebef0c0">XtX_inv</a></td></tr>
+<tr class="separator:a31bdf7564f8589487a0ee9952ebef0c0 inherit pub_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classdata_1_1_data"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classdata_1_1_data')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classdata_1_1_data.html">data::Data</a></td></tr>
 <tr class="memitem:ad61ef163c5ec01dd46be054a688d2be8 inherit pro_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#ad61ef163c5ec01dd46be054a688d2be8">data_identifier</a> = &quot;&quot;</td></tr>
 <tr class="separator:ad61ef163c5ec01dd46be054a688d2be8 inherit pro_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2331c9e9c2b0905c6a2eedc68889a698 inherit pro_attribs_classdata_1_1_data"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a2331c9e9c2b0905c6a2eedc68889a698">data_type</a> = &quot;ordinary&quot;</td></tr>
+<tr class="separator:a2331c9e9c2b0905c6a2eedc68889a698 inherit pro_attribs_classdata_1_1_data"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a85adf030d1a4a1f31f6d852c41750268"></a>
@@ -220,6 +237,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the design matrix. </p>
+
 <p>Implements <a class="el" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4">data::Data</a>.</p>
 
 </div>
@@ -237,7 +256,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">void data::InMemoryData::setData </td>
           <td>(</td>
           <td class="paramtype">const arma::mat &amp;&#160;</td>
-          <td class="paramname"><em>transformed_data</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -248,52 +267,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Set the main data (design matrix) </p>
+
 <p>Implements <a class="el" href="classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70">data::Data</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a16d9adacd263125f72fac8717c2ee62b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16d9adacd263125f72fac8717c2ee62b">&#9670;&nbsp;</a></span>data_mat</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">arma::mat data::InMemoryData::data_mat = arma::mat (1, 1, arma::fill::zeros)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a5c84c30085f5615c9014cba217b6caed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c84c30085f5615c9014cba217b6caed">&#9670;&nbsp;</a></span>data_mat_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const arma::mat* data::InMemoryData::data_mat_ptr = NULL</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

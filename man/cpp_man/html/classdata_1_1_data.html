@@ -73,6 +73,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classdata_1_1_data-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -86,13 +87,15 @@ Inheritance diagram for data::Data:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data__inherit__graph.png" border="0" usemap="#data_1_1_data_inherit__map" alt="Inheritance graph"/></div>
 <map name="data_1_1_data_inherit__map" id="data_1_1_data_inherit__map">
-<area shape="rect" id="node2" href="classdata_1_1_in_memory_data.html" title="{data::InMemoryData\n|&#45; data_mat\l&#45; data_mat_ptr\l|+ InMemoryData()\l+ InMemoryData()\l+ setData()\l+ getData()\l+ ~InMemoryData()\l}" alt="" coords="5,204,144,355"/>
+<area shape="rect" id="node2" href="classdata_1_1_in_memory_data.html" title="{data::InMemoryData\n||+ InMemoryData()\l+ InMemoryData()\l+ setData()\l+ getData()\l+ ~InMemoryData()\l}" alt="" coords="5,336,144,472"/>
 </map>
 </div>
 <div class="dynheader">
 Collaboration diagram for data::Data:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data__coll__graph.png" border="0" usemap="#data_1_1_data_coll__map" alt="Collaboration graph"/></div>
+<map name="data_1_1_data_coll__map" id="data_1_1_data_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -100,20 +103,47 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae571957bf5380fe4b3233dd799063f1e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#ae571957bf5380fe4b3233dd799063f1e">Data</a> ()</td></tr>
 <tr class="separator:ae571957bf5380fe4b3233dd799063f1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e928c49b31f803e7984cc24e2f73f70"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70">setData</a> (const arma::mat &amp;)=0</td></tr>
+<tr class="memdesc:a0e928c49b31f803e7984cc24e2f73f70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the main data (design matrix)  <a href="#a0e928c49b31f803e7984cc24e2f73f70">More...</a><br /></td></tr>
 <tr class="separator:a0e928c49b31f803e7984cc24e2f73f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4073af1bc8ccc7c50809e1676436eb4"><td class="memItemLeft" align="right" valign="top">virtual arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4">getData</a> () const =0</td></tr>
+<tr class="memdesc:aa4073af1bc8ccc7c50809e1676436eb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the design matrix.  <a href="#aa4073af1bc8ccc7c50809e1676436eb4">More...</a><br /></td></tr>
 <tr class="separator:aa4073af1bc8ccc7c50809e1676436eb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62bcea680e1a7d1d4ecec60c111936dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc">setDataIdentifier</a> (const std::string &amp;)</td></tr>
 <tr class="separator:a62bcea680e1a7d1d4ecec60c111936dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1af63a4e5aa708de31e1ffdd727a4e16"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16">getDataIdentifier</a> () const</td></tr>
 <tr class="separator:a1af63a4e5aa708de31e1ffdd727a4e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a349569c170c7e8b78bf4997b47e3f1a8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a349569c170c7e8b78bf4997b47e3f1a8">setDataType</a> (const std::string &amp;)</td></tr>
+<tr class="separator:a349569c170c7e8b78bf4997b47e3f1a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a737d2c889ffb7c08d60b5af5846b586b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a737d2c889ffb7c08d60b5af5846b586b">~Data</a> ()</td></tr>
 <tr class="separator:a737d2c889ffb7c08d60b5af5846b586b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ae78ec61bd569e32f3b34056d3f6f48f4"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#ae78ec61bd569e32f3b34056d3f6f48f4">data_mat</a> = arma::mat (1, 1, arma::fill::zeros)</td></tr>
+<tr class="memdesc:ae78ec61bd569e32f3b34056d3f6f48f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dense matrix for design matrix (accessed by getData and setData and directly)  <a href="#ae78ec61bd569e32f3b34056d3f6f48f4">More...</a><br /></td></tr>
+<tr class="separator:ae78ec61bd569e32f3b34056d3f6f48f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc5c5380b4aa8120cdda74195b90955f"><td class="memItemLeft" align="right" valign="top">arma::sp_mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#abc5c5380b4aa8120cdda74195b90955f">sparse_data_mat</a></td></tr>
+<tr class="memdesc:abc5c5380b4aa8120cdda74195b90955f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sparse matrix for design matrix (directly accessible)  <a href="#abc5c5380b4aa8120cdda74195b90955f">More...</a><br /></td></tr>
+<tr class="separator:abc5c5380b4aa8120cdda74195b90955f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3aa3b54f91bede8726e22ccfe8751b31"><td class="memItemLeft" align="right" valign="top">const arma::mat *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a3aa3b54f91bede8726e22ccfe8751b31">data_mat_ptr</a> = NULL</td></tr>
+<tr class="separator:a3aa3b54f91bede8726e22ccfe8751b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fd248ad8885deae217b8720fcf22e78"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a1fd248ad8885deae217b8720fcf22e78">penalty_mat</a></td></tr>
+<tr class="memdesc:a1fd248ad8885deae217b8720fcf22e78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Penalty matrix (directly accesible)  <a href="#a1fd248ad8885deae217b8720fcf22e78">More...</a><br /></td></tr>
+<tr class="separator:a1fd248ad8885deae217b8720fcf22e78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe246684192000f9a0d85bc84bfcccdf"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#abe246684192000f9a0d85bc84bfcccdf">knots</a></td></tr>
+<tr class="memdesc:abe246684192000f9a0d85bc84bfcccdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of knots (directky accesible)  <a href="#abe246684192000f9a0d85bc84bfcccdf">More...</a><br /></td></tr>
+<tr class="separator:abe246684192000f9a0d85bc84bfcccdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfe89753c5bbb4a9361b5aa0f6d7f015"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#acfe89753c5bbb4a9361b5aa0f6d7f015">knot_boundaries</a></td></tr>
+<tr class="separator:acfe89753c5bbb4a9361b5aa0f6d7f015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31bdf7564f8589487a0ee9952ebef0c0"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a31bdf7564f8589487a0ee9952ebef0c0">XtX_inv</a></td></tr>
+<tr class="separator:a31bdf7564f8589487a0ee9952ebef0c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:ad61ef163c5ec01dd46be054a688d2be8"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#ad61ef163c5ec01dd46be054a688d2be8">data_identifier</a> = &quot;&quot;</td></tr>
 <tr class="separator:ad61ef163c5ec01dd46be054a688d2be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2331c9e9c2b0905c6a2eedc68889a698"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classdata_1_1_data.html#a2331c9e9c2b0905c6a2eedc68889a698">data_type</a> = &quot;ordinary&quot;</td></tr>
+<tr class="separator:a2331c9e9c2b0905c6a2eedc68889a698"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae571957bf5380fe4b3233dd799063f1e"></a>
@@ -182,37 +212,44 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Get the design matrix. </p>
+
 <p>Implemented in <a class="el" href="classdata_1_1_in_memory_data.html#ac0993c38a9633fa0f1ff787660b86c71">data::InMemoryData</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_aa4073af1bc8ccc7c50809e1676436eb4_icgraph.png" border="0" usemap="#classdata_1_1_data_aa4073af1bc8ccc7c50809e1676436eb4_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_aa4073af1bc8ccc7c50809e1676436eb4_icgraph" id="classdata_1_1_data_aa4073af1bc8ccc7c50809e1676436eb4_icgraph">
-<area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#af3a360bb039447610e9928956384c05d" title="blearner::Baselearner\l::getData" alt="" coords="213,5,358,47"/>
-<area shape="rect" id="node3" href="classblearner_1_1_polynomial_blearner.html#acf24025a73293a2569450dd4659e0997" title="blearner::PolynomialBlearner\l::train" alt="" coords="191,71,379,112"/>
-<area shape="rect" id="node4" href="classblearner_1_1_polynomial_blearner.html#a422569884414d31db5a2b770b22176c3" title="blearner::PolynomialBlearner\l::predict" alt="" coords="191,136,379,177"/>
-<area shape="rect" id="node5" href="classblearner_1_1_custom_blearner.html#a4726c5b861b67817f7b3eb61d8f6c0d7" title="blearner::CustomBlearner\l::train" alt="" coords="201,201,370,243"/>
-<area shape="rect" id="node6" href="classblearner_1_1_custom_blearner.html#a20b5fe06512aa73478b9f934e1c81c31" title="blearner::CustomBlearner\l::predict" alt="" coords="201,267,370,308"/>
-<area shape="rect" id="node7" href="classblearner_1_1_custom_cpp_blearner.html#aa71b777d7092a3d9b47a9bed125eb0f9" title="blearner::CustomCppBlearner\l::train" alt="" coords="189,332,381,373"/>
-<area shape="rect" id="node8" href="classblearner_1_1_custom_cpp_blearner.html#aa17db5f5627b8251b2d8484d92e783b9" title="blearner::CustomCppBlearner\l::predict" alt="" coords="189,397,381,439"/>
-<area shape="rect" id="node9" href="classblearnerfactory_1_1_baselearner_factory.html#ad9da09739f04e5c8bd268551251801be" title="blearnerfactory::Baselearner\lFactory::getData" alt="" coords="193,463,377,504"/>
-<area shape="rect" id="node14" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="189,528,382,569"/>
-<area shape="rect" id="node18" href="class_in_memory_data_wrapper.html#a69c754048807d42d8178914e8339a808" title="InMemoryDataWrapper\l::getData" alt="" coords="208,593,363,635"/>
-<area shape="rect" id="node20" href="class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="190,659,381,700"/>
-<area shape="rect" id="node21" href="class_polynomial_blearner_wrapper.html#a56c92d1dee5e610657437766c13a6a5d" title="PolynomialBlearnerWrapper\l::getData" alt="" coords="194,724,377,765"/>
-<area shape="rect" id="node23" href="class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="199,789,371,831"/>
-<area shape="rect" id="node24" href="class_custom_blearner_wrapper.html#a3153378a0c0ee8c4633d42680195eeda" title="CustomBlearnerWrapper\l::getData" alt="" coords="203,855,367,896"/>
-<area shape="rect" id="node25" href="class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="188,920,383,961"/>
-<area shape="rect" id="node26" href="class_custom_cpp_blearner_wrapper.html#a015410ca4260c3e5586ab7923ef2d624" title="CustomCppBlearnerWrapper\l::getData" alt="" coords="192,985,379,1027"/>
-<area shape="rect" id="node10" href="class_polynomial_blearner_factory_wrapper.html#a7949c6384e31e69033cfe0cd96ea9746" title="PolynomialBlearnerFactory\lWrapper::getData" alt="" coords="461,324,639,365"/>
-<area shape="rect" id="node12" href="class_custom_blearner_factory_wrapper.html#a70a976e3608e37e0740df932b227de60" title="CustomBlearnerFactoryWrapper\l::getData" alt="" coords="446,389,654,431"/>
-<area shape="rect" id="node13" href="class_custom_cpp_blearner_factory_wrapper.html#a0fa7f0c2574f895b66ddc363b5d869ad" title="CustomCppBlearnerFactory\lWrapper::getData" alt="" coords="459,455,641,496"/>
-<area shape="rect" id="node11" href="compboost__modules_8cpp.html#ac5c8ce33b1c0dbdaf7a96a25ac31bdce" title="RCPP_MODULE" alt="" coords="717,397,837,423"/>
-<area shape="rect" id="node15" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="433,521,667,577"/>
-<area shape="rect" id="node16" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="445,601,655,643"/>
-<area shape="rect" id="node17" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="431,667,669,723"/>
-<area shape="rect" id="node19" href="compboost__modules_8cpp.html#a369d9233d5a32cd4a2a7a3d7560e692d" title="RCPP_MODULE" alt="" coords="490,747,610,774"/>
-<area shape="rect" id="node22" href="compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="490,862,610,889"/>
+<area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#af3a360bb039447610e9928956384c05d" title="blearner::Baselearner\l::getData" alt="" coords="233,5,378,47"/>
+<area shape="rect" id="node3" href="classblearner_1_1_polynomial_blearner.html#acf24025a73293a2569450dd4659e0997" title="blearner::PolynomialBlearner\l::train" alt="" coords="211,71,399,112"/>
+<area shape="rect" id="node4" href="classblearner_1_1_polynomial_blearner.html#a422569884414d31db5a2b770b22176c3" title="blearner::PolynomialBlearner\l::predict" alt="" coords="211,136,399,177"/>
+<area shape="rect" id="node5" href="classblearner_1_1_p_spline_blearner.html#a9d35aeb36c403c167fb7519379825873" title="Predict on newdata. " alt="" coords="221,201,390,243"/>
+<area shape="rect" id="node6" href="classblearner_1_1_custom_blearner.html#a4726c5b861b67817f7b3eb61d8f6c0d7" title="blearner::CustomBlearner\l::train" alt="" coords="221,267,390,308"/>
+<area shape="rect" id="node7" href="classblearner_1_1_custom_blearner.html#a20b5fe06512aa73478b9f934e1c81c31" title="blearner::CustomBlearner\l::predict" alt="" coords="221,332,390,373"/>
+<area shape="rect" id="node8" href="classblearner_1_1_custom_cpp_blearner.html#aa71b777d7092a3d9b47a9bed125eb0f9" title="blearner::CustomCppBlearner\l::train" alt="" coords="209,397,401,439"/>
+<area shape="rect" id="node9" href="classblearner_1_1_custom_cpp_blearner.html#aa17db5f5627b8251b2d8484d92e783b9" title="blearner::CustomCppBlearner\l::predict" alt="" coords="209,463,401,504"/>
+<area shape="rect" id="node10" href="classblearnerfactory_1_1_baselearner_factory.html#ad9da09739f04e5c8bd268551251801be" title="blearnerfactory::Baselearner\lFactory::getData" alt="" coords="213,528,397,569"/>
+<area shape="rect" id="node16" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="209,593,402,635"/>
+<area shape="rect" id="node19" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="188,659,423,715"/>
+<area shape="rect" id="node20" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="198,739,413,795"/>
+<area shape="rect" id="node21" href="class_in_memory_data_wrapper.html#a69c754048807d42d8178914e8339a808" title="InMemoryDataWrapper\l::getData" alt="" coords="228,820,383,861"/>
+<area shape="rect" id="node23" href="class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="210,885,401,927"/>
+<area shape="rect" id="node24" href="class_polynomial_blearner_wrapper.html#a56c92d1dee5e610657437766c13a6a5d" title="PolynomialBlearnerWrapper\l::getData" alt="" coords="214,951,397,992"/>
+<area shape="rect" id="node26" href="class_p_spline_blearner_wrapper.html#a1272a29283aa7815d2f4d06ba70cecf6" title="PSplineBlearnerWrapper\l::PSplineBlearnerWrapper" alt="" coords="219,1016,391,1057"/>
+<area shape="rect" id="node27" href="class_p_spline_blearner_wrapper.html#ad18db8163e5356b45e5196a51d2561a8" title="PSplineBlearnerWrapper\l::getData" alt="" coords="223,1081,387,1123"/>
+<area shape="rect" id="node28" href="class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="219,1147,391,1188"/>
+<area shape="rect" id="node29" href="class_custom_blearner_wrapper.html#a3153378a0c0ee8c4633d42680195eeda" title="CustomBlearnerWrapper\l::getData" alt="" coords="223,1212,387,1253"/>
+<area shape="rect" id="node30" href="class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="208,1277,403,1319"/>
+<area shape="rect" id="node31" href="class_custom_cpp_blearner_wrapper.html#a015410ca4260c3e5586ab7923ef2d624" title="CustomCppBlearnerWrapper\l::getData" alt="" coords="212,1343,399,1384"/>
+<area shape="rect" id="node11" href="class_polynomial_blearner_factory_wrapper.html#a7949c6384e31e69033cfe0cd96ea9746" title="PolynomialBlearnerFactory\lWrapper::getData" alt="" coords="501,365,679,407"/>
+<area shape="rect" id="node13" href="class_p_spline_blearner_factory_wrapper.html#a7613c56ca05f36f8365a1d5987bbf823" title="PSplineBlearnerFactoryWrapper\l::getData" alt="" coords="486,431,694,472"/>
+<area shape="rect" id="node14" href="class_custom_blearner_factory_wrapper.html#a70a976e3608e37e0740df932b227de60" title="CustomBlearnerFactoryWrapper\l::getData" alt="" coords="486,496,694,537"/>
+<area shape="rect" id="node15" href="class_custom_cpp_blearner_factory_wrapper.html#a0fa7f0c2574f895b66ddc363b5d869ad" title="CustomCppBlearnerFactory\lWrapper::getData" alt="" coords="499,561,681,603"/>
+<area shape="rect" id="node12" href="compboost__modules_8cpp.html#ac5c8ce33b1c0dbdaf7a96a25ac31bdce" title="RCPP_MODULE" alt="" coords="757,471,877,498"/>
+<area shape="rect" id="node17" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="485,627,695,668"/>
+<area shape="rect" id="node18" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="471,693,709,749"/>
+<area shape="rect" id="node22" href="compboost__modules_8cpp.html#a369d9233d5a32cd4a2a7a3d7560e692d" title="RCPP_MODULE" alt="" coords="530,827,650,854"/>
+<area shape="rect" id="node25" href="compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="530,1154,650,1181"/>
 </map>
 </div>
 
@@ -237,34 +274,38 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph.png" border="0" usemap="#classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph" id="classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph">
-<area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="260,136,405,177"/>
-<area shape="rect" id="node8" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="241,613,425,655"/>
-<area shape="rect" id="node11" href="class_compboost_wrapper.html#a72b9c303a13fb3f6f8346c0af0796496" title="CompboostWrapper::predict\lAtIteration" alt="" coords="764,841,948,883"/>
-<area shape="rect" id="node22" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="236,965,429,1007"/>
-<area shape="rect" id="node26" href="class_in_memory_data_wrapper.html#a2a81d397debd1c568f638004090cbdef" title="InMemoryDataWrapper\l::getIdentifier" alt="" coords="255,1136,410,1177"/>
-<area shape="rect" id="node28" href="class_oob_risk_logger_wrapper.html#a5d5aabfad52c12922c892a3ddf29c2d4" title="OobRiskLoggerWrapper\l::OobRiskLoggerWrapper" alt="" coords="249,1031,417,1072"/>
-<area shape="rect" id="node29" href="class_compboost_wrapper.html#a62637fbc8c50160b411b817b7e99432e" title="CompboostWrapper::predict" alt="" coords="764,271,948,298"/>
-<area shape="rect" id="node3" href="class_polynomial_blearner_wrapper.html#ad1eaf84c973c702c999af43fc23aeca2" title="PolynomialBlearnerWrapper\l::summarizeBaselearner" alt="" coords="505,5,688,47"/>
-<area shape="rect" id="node5" href="class_custom_blearner_wrapper.html#a61e82d619f07ba3e69fa4100be0ed1f2" title="CustomBlearnerWrapper\l::summarizeBaselearner" alt="" coords="515,71,679,112"/>
-<area shape="rect" id="node6" href="class_custom_cpp_blearner_wrapper.html#a832effb3868e124cb149fd06e6033304" title="CustomCppBlearnerWrapper\l::summarizeBaselearner" alt="" coords="503,201,690,243"/>
-<area shape="rect" id="node7" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="519,136,674,177"/>
-<area shape="rect" id="node4" href="compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="796,78,916,105"/>
-<area shape="rect" id="node9" href="classcboost_1_1_compboost.html#a1779a0c89cf9da32b250c0c083631c58" title="cboost::Compboost::\lpredict" alt="" coords="525,384,668,425"/>
-<area shape="rect" id="node10" href="classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="525,841,668,883"/>
-<area shape="rect" id="node13" href="class_polynomial_blearner_factory_wrapper.html#a1711f3a9554faf63a03bf625fe39491a" title="PolynomialBlearnerFactory\lWrapper::getDataIdentifier" alt="" coords="507,449,686,491"/>
-<area shape="rect" id="node14" href="class_polynomial_blearner_factory_wrapper.html#a299f322f5ffddec00791bbba97c92093" title="PolynomialBlearnerFactory\lWrapper::summarizeFactory" alt="" coords="503,515,690,556"/>
-<area shape="rect" id="node16" href="class_custom_blearner_factory_wrapper.html#a67eba4cecf4cbde07ce5dca73a909f0f" title="CustomBlearnerFactoryWrapper\l::getDataIdentifier" alt="" coords="493,580,701,621"/>
-<area shape="rect" id="node17" href="class_custom_blearner_factory_wrapper.html#a5247b68ba5b66b7ad70fc408b0c9da2c" title="CustomBlearnerFactoryWrapper\l::summarizeFactory" alt="" coords="493,645,701,687"/>
-<area shape="rect" id="node18" href="class_custom_cpp_blearner_factory_wrapper.html#a0ec23af6dd4dc8a390465d41be516983" title="CustomCppBlearnerFactory\lWrapper::getDataIdentifier" alt="" coords="505,711,688,752"/>
-<area shape="rect" id="node19" href="class_custom_cpp_blearner_factory_wrapper.html#a434199d8e50058abcec1ba82c566ef0c" title="CustomCppBlearnerFactory\lWrapper::summarizeFactory" alt="" coords="503,776,690,817"/>
-<area shape="rect" id="node20" href="class_blearner_factory_list_wrapper.html#a672ddef75775ba1d5f930a20a9027247" title="BlearnerFactoryListWrapper\l::registerFactory" alt="" coords="505,319,689,360"/>
-<area shape="rect" id="node12" href="compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="996,561,1116,587"/>
-<area shape="rect" id="node15" href="compboost__modules_8cpp.html#ac5c8ce33b1c0dbdaf7a96a25ac31bdce" title="RCPP_MODULE" alt="" coords="796,653,916,679"/>
-<area shape="rect" id="node21" href="compboost__modules_8cpp.html#a1e3989e28ec2cd43aeedcae52874af37" title="RCPP_MODULE" alt="" coords="796,326,916,353"/>
-<area shape="rect" id="node23" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="479,1038,714,1094"/>
-<area shape="rect" id="node24" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="491,1119,702,1160"/>
-<area shape="rect" id="node25" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="477,958,716,1014"/>
-<area shape="rect" id="node27" href="compboost__modules_8cpp.html#a369d9233d5a32cd4a2a7a3d7560e692d" title="RCPP_MODULE" alt="" coords="537,1185,657,1211"/>
+<area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="281,168,426,209"/>
+<area shape="rect" id="node9" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="261,743,445,784"/>
+<area shape="rect" id="node12" href="class_compboost_wrapper.html#a72b9c303a13fb3f6f8346c0af0796496" title="CompboostWrapper::predict\lAtIteration" alt="" coords="805,384,989,425"/>
+<area shape="rect" id="node25" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="257,1155,450,1196"/>
+<area shape="rect" id="node28" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="236,1221,471,1277"/>
+<area shape="rect" id="node29" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="246,1301,461,1357"/>
+<area shape="rect" id="node30" href="class_in_memory_data_wrapper.html#a2a81d397debd1c568f638004090cbdef" title="InMemoryDataWrapper\l::getIdentifier" alt="" coords="276,1381,431,1423"/>
+<area shape="rect" id="node32" href="class_oob_risk_logger_wrapper.html#a5d5aabfad52c12922c892a3ddf29c2d4" title="OobRiskLoggerWrapper\l::OobRiskLoggerWrapper" alt="" coords="269,1447,437,1488"/>
+<area shape="rect" id="node33" href="class_compboost_wrapper.html#a62637fbc8c50160b411b817b7e99432e" title="CompboostWrapper::predict" alt="" coords="805,903,989,930"/>
+<area shape="rect" id="node3" href="class_polynomial_blearner_wrapper.html#ad1eaf84c973c702c999af43fc23aeca2" title="PolynomialBlearnerWrapper\l::summarizeBaselearner" alt="" coords="547,136,729,177"/>
+<area shape="rect" id="node5" href="class_p_spline_blearner_wrapper.html#a7796ee928de438649ede7aa1aa57263a" title="PSplineBlearnerWrapper\l::summarizeBaselearner" alt="" coords="556,201,720,243"/>
+<area shape="rect" id="node6" href="class_custom_blearner_wrapper.html#a61e82d619f07ba3e69fa4100be0ed1f2" title="CustomBlearnerWrapper\l::summarizeBaselearner" alt="" coords="556,267,720,308"/>
+<area shape="rect" id="node7" href="class_custom_cpp_blearner_wrapper.html#a832effb3868e124cb149fd06e6033304" title="CustomCppBlearnerWrapper\l::summarizeBaselearner" alt="" coords="545,71,731,112"/>
+<area shape="rect" id="node8" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="561,5,715,47"/>
+<area shape="rect" id="node4" href="compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="837,177,957,203"/>
+<area shape="rect" id="node10" href="classcboost_1_1_compboost.html#a1779a0c89cf9da32b250c0c083631c58" title="cboost::Compboost::\lpredict" alt="" coords="567,1037,709,1079"/>
+<area shape="rect" id="node11" href="classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="567,384,709,425"/>
+<area shape="rect" id="node14" href="class_polynomial_blearner_factory_wrapper.html#a1711f3a9554faf63a03bf625fe39491a" title="PolynomialBlearnerFactory\lWrapper::getDataIdentifier" alt="" coords="549,515,727,556"/>
+<area shape="rect" id="node15" href="class_polynomial_blearner_factory_wrapper.html#a299f322f5ffddec00791bbba97c92093" title="PolynomialBlearnerFactory\lWrapper::summarizeFactory" alt="" coords="545,580,731,621"/>
+<area shape="rect" id="node17" href="class_p_spline_blearner_factory_wrapper.html#a909646ea1efe420d71c8159ab2305fc8" title="PSplineBlearnerFactoryWrapper\l::getDataIdentifier" alt="" coords="534,841,742,883"/>
+<area shape="rect" id="node18" href="class_p_spline_blearner_factory_wrapper.html#a930b000d5fad67c58bade22c7cd54149" title="PSplineBlearnerFactoryWrapper\l::summarizeFactory" alt="" coords="534,645,742,687"/>
+<area shape="rect" id="node19" href="class_custom_blearner_factory_wrapper.html#a67eba4cecf4cbde07ce5dca73a909f0f" title="CustomBlearnerFactoryWrapper\l::getDataIdentifier" alt="" coords="534,907,742,948"/>
+<area shape="rect" id="node20" href="class_custom_blearner_factory_wrapper.html#a5247b68ba5b66b7ad70fc408b0c9da2c" title="CustomBlearnerFactoryWrapper\l::summarizeFactory" alt="" coords="534,711,742,752"/>
+<area shape="rect" id="node21" href="class_custom_cpp_blearner_factory_wrapper.html#a0ec23af6dd4dc8a390465d41be516983" title="CustomCppBlearnerFactory\lWrapper::getDataIdentifier" alt="" coords="547,972,729,1013"/>
+<area shape="rect" id="node22" href="class_custom_cpp_blearner_factory_wrapper.html#a434199d8e50058abcec1ba82c566ef0c" title="CustomCppBlearnerFactory\lWrapper::summarizeFactory" alt="" coords="545,776,731,817"/>
+<area shape="rect" id="node23" href="class_blearner_factory_list_wrapper.html#a672ddef75775ba1d5f930a20a9027247" title="BlearnerFactoryListWrapper\l::registerFactory" alt="" coords="546,449,730,491"/>
+<area shape="rect" id="node13" href="compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="1037,647,1157,674"/>
+<area shape="rect" id="node16" href="compboost__modules_8cpp.html#ac5c8ce33b1c0dbdaf7a96a25ac31bdce" title="RCPP_MODULE" alt="" coords="837,686,957,713"/>
+<area shape="rect" id="node24" href="compboost__modules_8cpp.html#a1e3989e28ec2cd43aeedcae52874af37" title="RCPP_MODULE" alt="" coords="837,457,957,483"/>
+<area shape="rect" id="node26" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="533,1235,743,1276"/>
+<area shape="rect" id="node27" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="519,1154,757,1210"/>
+<area shape="rect" id="node31" href="compboost__modules_8cpp.html#a369d9233d5a32cd4a2a7a3d7560e692d" title="RCPP_MODULE" alt="" coords="578,1389,698,1415"/>
 </map>
 </div>
 
@@ -294,19 +335,23 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Set the main data (design matrix) </p>
+
 <p>Implemented in <a class="el" href="classdata_1_1_in_memory_data.html#a0456d66f7930809211c75bcdd80a7bca">data::InMemoryData</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph.png" border="0" usemap="#classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph" id="classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph">
-<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="189,86,382,127"/>
-<area shape="rect" id="node6" href="class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="190,151,381,193"/>
-<area shape="rect" id="node7" href="class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="199,217,371,258"/>
-<area shape="rect" id="node8" href="class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="188,282,383,323"/>
-<area shape="rect" id="node3" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="433,5,667,61"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="445,86,655,127"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="431,152,669,208"/>
+<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="209,41,402,83"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="188,107,423,163"/>
+<area shape="rect" id="node6" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="198,187,413,243"/>
+<area shape="rect" id="node7" href="class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="210,268,401,309"/>
+<area shape="rect" id="node8" href="class_p_spline_blearner_wrapper.html#a1272a29283aa7815d2f4d06ba70cecf6" title="PSplineBlearnerWrapper\l::PSplineBlearnerWrapper" alt="" coords="219,333,391,375"/>
+<area shape="rect" id="node9" href="class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="219,399,391,440"/>
+<area shape="rect" id="node10" href="class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="208,464,403,505"/>
+<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="485,5,695,47"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="471,71,709,127"/>
 </map>
 </div>
 
@@ -332,12 +377,31 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph.png" border="0" usemap="#classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph" id="classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph">
-<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="236,86,429,127"/>
-<area shape="rect" id="node3" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="479,5,714,61"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="491,86,702,127"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="477,152,716,208"/>
+<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="257,41,450,83"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="236,107,471,163"/>
+<area shape="rect" id="node6" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="246,187,461,243"/>
+<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="533,5,743,47"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="519,71,757,127"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a349569c170c7e8b78bf4997b47e3f1a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a349569c170c7e8b78bf4997b47e3f1a8">&#9670;&nbsp;</a></span>setDataType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void data::Data::setDataType </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>data_type0</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -361,6 +425,136 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae78ec61bd569e32f3b34056d3f6f48f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae78ec61bd569e32f3b34056d3f6f48f4">&#9670;&nbsp;</a></span>data_mat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::mat data::Data::data_mat = arma::mat (1, 1, arma::fill::zeros)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Dense matrix for design matrix (accessed by getData and setData and directly) </p>
+
+</div>
+</div>
+<a id="a3aa3b54f91bede8726e22ccfe8751b31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3aa3b54f91bede8726e22ccfe8751b31">&#9670;&nbsp;</a></span>data_mat_ptr</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const arma::mat* data::Data::data_mat_ptr = NULL</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2331c9e9c2b0905c6a2eedc68889a698"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2331c9e9c2b0905c6a2eedc68889a698">&#9670;&nbsp;</a></span>data_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string data::Data::data_type = &quot;ordinary&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acfe89753c5bbb4a9361b5aa0f6d7f015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfe89753c5bbb4a9361b5aa0f6d7f015">&#9670;&nbsp;</a></span>knot_boundaries</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::vec data::Data::knot_boundaries</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Upper and lower boundary for values, values which are out of range have a basis of zeros (directly accesible) </p>
+
+</div>
+</div>
+<a id="abe246684192000f9a0d85bc84bfcccdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe246684192000f9a0d85bc84bfcccdf">&#9670;&nbsp;</a></span>knots</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::vec data::Data::knots</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Vector of knots (directky accesible) </p>
+
+</div>
+</div>
+<a id="a1fd248ad8885deae217b8720fcf22e78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fd248ad8885deae217b8720fcf22e78">&#9670;&nbsp;</a></span>penalty_mat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::mat data::Data::penalty_mat</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Penalty matrix (directly accesible) </p>
+
+</div>
+</div>
+<a id="abc5c5380b4aa8120cdda74195b90955f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc5c5380b4aa8120cdda74195b90955f">&#9670;&nbsp;</a></span>sparse_data_mat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::sp_mat data::Data::sparse_data_mat</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Sparse matrix for design matrix (directly accessible) </p>
+
+</div>
+</div>
+<a id="a31bdf7564f8589487a0ee9952ebef0c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31bdf7564f8589487a0ee9952ebef0c0">&#9670;&nbsp;</a></span>XtX_inv</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::mat data::Data::XtX_inv</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>This is way to speed up the algorithm (nicked from the mboost guys) Genrally we calculate \(X^T X\) once and reuse this in every iteration. </p>
 
 </div>
 </div>

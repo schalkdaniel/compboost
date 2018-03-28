@@ -1,12 +1,12 @@
 <map id="E:/OneDrive/github_repos/compboost/src/data.h" name="E:/OneDrive/github_repos/compboost/src/data.h">
 <area shape="rect" id="node2" href="$baselearner_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner.h" alt="" coords="427,109,578,165"/>
-<area shape="rect" id="node4" href="$baselearner__factory_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory.h" alt="" coords="311,213,462,269"/>
+<area shape="rect" id="node4" href="$baselearner__factory_8h.html" title="Definition of baselearner factory classes. " alt="" coords="311,213,462,269"/>
 <area shape="rect" id="node12" href="$compboost__modules_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost_modules.cpp" alt="" coords="161,659,332,715"/>
 <area shape="rect" id="node19" href="$data_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/data.cpp" alt="" coords="602,109,753,165"/>
 <area shape="rect" id="node3" href="$baselearner_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner.cpp" alt="" coords="541,213,691,269"/>
 <area shape="rect" id="node8" href="$baselearner__track_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_track.h" alt="" coords="659,443,810,499"/>
 <area shape="rect" id="node13" href="$optimizer_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/optimizer.h" alt="" coords="485,443,635,499"/>
-<area shape="rect" id="node15" href="$logger_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/logger.h" alt="" coords="773,213,923,269"/>
+<area shape="rect" id="node15" href="$logger_8h.html" title="Logger class definition. " alt="" coords="773,213,923,269"/>
 <area shape="rect" id="node5" href="$baselearner__factory_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory.cpp" alt="" coords="43,325,207,381"/>
 <area shape="rect" id="node6" href="$baselearner__factory__list_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory\l_list.h" alt="" coords="311,317,462,388"/>
 <area shape="rect" id="node7" href="$baselearner__factory__list_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory\l_list.cpp" alt="" coords="310,436,461,507"/>

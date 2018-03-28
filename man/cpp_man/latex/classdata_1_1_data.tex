@@ -6,7 +6,8 @@
 
 
 
-Inheritance diagram for data\+:\+:Data\+:\nopagebreak
+Inheritance diagram for data\+:\+:Data\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -15,7 +16,8 @@ Inheritance diagram for data\+:\+:Data\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for data\+:\+:Data\+:\nopagebreak
+Collaboration diagram for data\+:\+:Data\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -28,19 +30,40 @@ Collaboration diagram for data\+:\+:Data\+:\nopagebreak
 \mbox{\hyperlink{classdata_1_1_data_ae571957bf5380fe4b3233dd799063f1e}{Data}} ()
 \item 
 virtual void \mbox{\hyperlink{classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70}{set\+Data}} (const arma\+::mat \&)=0
-\item 
+\begin{DoxyCompactList}\small\item\em Set the main data (design matrix) \end{DoxyCompactList}\item 
 virtual arma\+::mat \mbox{\hyperlink{classdata_1_1_data_aa4073af1bc8ccc7c50809e1676436eb4}{get\+Data}} () const =0
-\item 
+\begin{DoxyCompactList}\small\item\em Get the design matrix. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc}{set\+Data\+Identifier}} (const std\+::string \&)
 \item 
 std\+::string \mbox{\hyperlink{classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16}{get\+Data\+Identifier}} () const
 \item 
+void \mbox{\hyperlink{classdata_1_1_data_a349569c170c7e8b78bf4997b47e3f1a8}{set\+Data\+Type}} (const std\+::string \&)
+\item 
 virtual \mbox{\hyperlink{classdata_1_1_data_a737d2c889ffb7c08d60b5af5846b586b}{$\sim$\+Data}} ()
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+arma\+::mat \mbox{\hyperlink{classdata_1_1_data_ae78ec61bd569e32f3b34056d3f6f48f4}{data\+\_\+mat}} = arma\+::mat (1, 1, arma\+::fill\+::zeros)
+\begin{DoxyCompactList}\small\item\em Dense matrix for design matrix (accessed by get\+Data and set\+Data and directly) \end{DoxyCompactList}\item 
+arma\+::sp\+\_\+mat \mbox{\hyperlink{classdata_1_1_data_abc5c5380b4aa8120cdda74195b90955f}{sparse\+\_\+data\+\_\+mat}}
+\begin{DoxyCompactList}\small\item\em Sparse matrix for design matrix (directly accessible) \end{DoxyCompactList}\item 
+const arma\+::mat $\ast$ \mbox{\hyperlink{classdata_1_1_data_a3aa3b54f91bede8726e22ccfe8751b31}{data\+\_\+mat\+\_\+ptr}} = N\+U\+LL
+\item 
+arma\+::mat \mbox{\hyperlink{classdata_1_1_data_a1fd248ad8885deae217b8720fcf22e78}{penalty\+\_\+mat}}
+\begin{DoxyCompactList}\small\item\em Penalty matrix (directly accesible) \end{DoxyCompactList}\item 
+arma\+::vec \mbox{\hyperlink{classdata_1_1_data_abe246684192000f9a0d85bc84bfcccdf}{knots}}
+\begin{DoxyCompactList}\small\item\em Vector of knots (directky accesible) \end{DoxyCompactList}\item 
+arma\+::vec \mbox{\hyperlink{classdata_1_1_data_acfe89753c5bbb4a9361b5aa0f6d7f015}{knot\+\_\+boundaries}}
+\item 
+arma\+::mat \mbox{\hyperlink{classdata_1_1_data_a31bdf7564f8589487a0ee9952ebef0c0}{Xt\+X\+\_\+inv}}
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
 std\+::string \mbox{\hyperlink{classdata_1_1_data_ad61ef163c5ec01dd46be054a688d2be8}{data\+\_\+identifier}} = \char`\"{}\char`\"{}
+\item 
+std\+::string \mbox{\hyperlink{classdata_1_1_data_a2331c9e9c2b0905c6a2eedc68889a698}{data\+\_\+type}} = \char`\"{}ordinary\char`\"{}
 \end{DoxyCompactItemize}
 
 
@@ -68,9 +91,14 @@ std\+::string \mbox{\hyperlink{classdata_1_1_data_ad61ef163c5ec01dd46be054a688d2
 
 
 
+Get the design matrix. 
+
+
+
 Implemented in \mbox{\hyperlink{classdata_1_1_in_memory_data_ac0993c38a9633fa0f1ff787660b86c71}{data\+::\+In\+Memory\+Data}}.
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -83,7 +111,8 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{get\+Data\+Identifier()}{getDataIdentifier()}}
 {\footnotesize\ttfamily std\+::string data\+::\+Data\+::get\+Data\+Identifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -98,9 +127,14 @@ Here is the caller graph for this function\+:\nopagebreak
 
 
 
+Set the main data (design matrix) 
+
+
+
 Implemented in \mbox{\hyperlink{classdata_1_1_in_memory_data_a0456d66f7930809211c75bcdd80a7bca}{data\+::\+In\+Memory\+Data}}.
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -113,13 +147,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{set\+Data\+Identifier()}{setDataIdentifier()}}
 {\footnotesize\ttfamily void data\+::\+Data\+::set\+Data\+Identifier (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{new\+\_\+data\+\_\+identifier }\end{DoxyParamCaption})}
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph}
 \end{center}
 \end{figure}
+\mbox{\Hypertarget{classdata_1_1_data_a349569c170c7e8b78bf4997b47e3f1a8}\label{classdata_1_1_data_a349569c170c7e8b78bf4997b47e3f1a8}} 
+\index{data\+::\+Data@{data\+::\+Data}!set\+Data\+Type@{set\+Data\+Type}}
+\index{set\+Data\+Type@{set\+Data\+Type}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{set\+Data\+Type()}{setDataType()}}
+{\footnotesize\ttfamily void data\+::\+Data\+::set\+Data\+Type (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{data\+\_\+type0 }\end{DoxyParamCaption})}
+
 
 
 \subsection{Member Data Documentation}
@@ -129,7 +170,71 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{data\+\_\+identifier}{data\_identifier}}
 {\footnotesize\ttfamily std\+::string data\+::\+Data\+::data\+\_\+identifier = \char`\"{}\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
 
+\mbox{\Hypertarget{classdata_1_1_data_ae78ec61bd569e32f3b34056d3f6f48f4}\label{classdata_1_1_data_ae78ec61bd569e32f3b34056d3f6f48f4}} 
+\index{data\+::\+Data@{data\+::\+Data}!data\+\_\+mat@{data\+\_\+mat}}
+\index{data\+\_\+mat@{data\+\_\+mat}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{data\+\_\+mat}{data\_mat}}
+{\footnotesize\ttfamily arma\+::mat data\+::\+Data\+::data\+\_\+mat = arma\+::mat (1, 1, arma\+::fill\+::zeros)}
 
+
+
+Dense matrix for design matrix (accessed by get\+Data and set\+Data and directly) 
+
+\mbox{\Hypertarget{classdata_1_1_data_a3aa3b54f91bede8726e22ccfe8751b31}\label{classdata_1_1_data_a3aa3b54f91bede8726e22ccfe8751b31}} 
+\index{data\+::\+Data@{data\+::\+Data}!data\+\_\+mat\+\_\+ptr@{data\+\_\+mat\+\_\+ptr}}
+\index{data\+\_\+mat\+\_\+ptr@{data\+\_\+mat\+\_\+ptr}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{data\+\_\+mat\+\_\+ptr}{data\_mat\_ptr}}
+{\footnotesize\ttfamily const arma\+::mat$\ast$ data\+::\+Data\+::data\+\_\+mat\+\_\+ptr = N\+U\+LL}
+
+\mbox{\Hypertarget{classdata_1_1_data_a2331c9e9c2b0905c6a2eedc68889a698}\label{classdata_1_1_data_a2331c9e9c2b0905c6a2eedc68889a698}} 
+\index{data\+::\+Data@{data\+::\+Data}!data\+\_\+type@{data\+\_\+type}}
+\index{data\+\_\+type@{data\+\_\+type}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{data\+\_\+type}{data\_type}}
+{\footnotesize\ttfamily std\+::string data\+::\+Data\+::data\+\_\+type = \char`\"{}ordinary\char`\"{}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classdata_1_1_data_acfe89753c5bbb4a9361b5aa0f6d7f015}\label{classdata_1_1_data_acfe89753c5bbb4a9361b5aa0f6d7f015}} 
+\index{data\+::\+Data@{data\+::\+Data}!knot\+\_\+boundaries@{knot\+\_\+boundaries}}
+\index{knot\+\_\+boundaries@{knot\+\_\+boundaries}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{knot\+\_\+boundaries}{knot\_boundaries}}
+{\footnotesize\ttfamily arma\+::vec data\+::\+Data\+::knot\+\_\+boundaries}
+
+Upper and lower boundary for values, values which are out of range have a basis of zeros (directly accesible) \mbox{\Hypertarget{classdata_1_1_data_abe246684192000f9a0d85bc84bfcccdf}\label{classdata_1_1_data_abe246684192000f9a0d85bc84bfcccdf}} 
+\index{data\+::\+Data@{data\+::\+Data}!knots@{knots}}
+\index{knots@{knots}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{knots}{knots}}
+{\footnotesize\ttfamily arma\+::vec data\+::\+Data\+::knots}
+
+
+
+Vector of knots (directky accesible) 
+
+\mbox{\Hypertarget{classdata_1_1_data_a1fd248ad8885deae217b8720fcf22e78}\label{classdata_1_1_data_a1fd248ad8885deae217b8720fcf22e78}} 
+\index{data\+::\+Data@{data\+::\+Data}!penalty\+\_\+mat@{penalty\+\_\+mat}}
+\index{penalty\+\_\+mat@{penalty\+\_\+mat}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{penalty\+\_\+mat}{penalty\_mat}}
+{\footnotesize\ttfamily arma\+::mat data\+::\+Data\+::penalty\+\_\+mat}
+
+
+
+Penalty matrix (directly accesible) 
+
+\mbox{\Hypertarget{classdata_1_1_data_abc5c5380b4aa8120cdda74195b90955f}\label{classdata_1_1_data_abc5c5380b4aa8120cdda74195b90955f}} 
+\index{data\+::\+Data@{data\+::\+Data}!sparse\+\_\+data\+\_\+mat@{sparse\+\_\+data\+\_\+mat}}
+\index{sparse\+\_\+data\+\_\+mat@{sparse\+\_\+data\+\_\+mat}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{sparse\+\_\+data\+\_\+mat}{sparse\_data\_mat}}
+{\footnotesize\ttfamily arma\+::sp\+\_\+mat data\+::\+Data\+::sparse\+\_\+data\+\_\+mat}
+
+
+
+Sparse matrix for design matrix (directly accessible) 
+
+\mbox{\Hypertarget{classdata_1_1_data_a31bdf7564f8589487a0ee9952ebef0c0}\label{classdata_1_1_data_a31bdf7564f8589487a0ee9952ebef0c0}} 
+\index{data\+::\+Data@{data\+::\+Data}!Xt\+X\+\_\+inv@{Xt\+X\+\_\+inv}}
+\index{Xt\+X\+\_\+inv@{Xt\+X\+\_\+inv}!data\+::\+Data@{data\+::\+Data}}
+\subsubsection{\texorpdfstring{Xt\+X\+\_\+inv}{XtX\_inv}}
+{\footnotesize\ttfamily arma\+::mat data\+::\+Data\+::\+Xt\+X\+\_\+inv}
+
+This is way to speed up the algorithm (nicked from the mboost guys) Genrally we calculate $X^T X$ once and reuse this in every iteration. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

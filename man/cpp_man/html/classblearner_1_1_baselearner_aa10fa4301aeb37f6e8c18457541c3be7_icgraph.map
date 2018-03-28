@@ -1,8 +1,9 @@
 <map id="blearner::Baselearner::getIdentifier" name="blearner::Baselearner::getIdentifier">
 <area shape="rect" id="node2" href="$class_polynomial_blearner_wrapper.html#ad1eaf84c973c702c999af43fc23aeca2" title="PolynomialBlearnerWrapper\l::summarizeBaselearner" alt="" coords="211,5,393,47"/>
-<area shape="rect" id="node4" href="$class_custom_blearner_wrapper.html#a61e82d619f07ba3e69fa4100be0ed1f2" title="CustomBlearnerWrapper\l::summarizeBaselearner" alt="" coords="220,71,384,112"/>
-<area shape="rect" id="node5" href="$class_custom_cpp_blearner_wrapper.html#a832effb3868e124cb149fd06e6033304" title="CustomCppBlearnerWrapper\l::summarizeBaselearner" alt="" coords="209,136,395,177"/>
-<area shape="rect" id="node6" href="$class_greedy_optimizer.html#a30925396579c7cfb5b90b8c131495f3a" title="GreedyOptimizer::testOptimizer" alt="" coords="199,202,405,229"/>
-<area shape="rect" id="node3" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="453,78,573,105"/>
-<area shape="rect" id="node7" href="$compboost__modules_8cpp.html#a9240fd6e8085bc6119a16c1bfad44983" title="RCPP_MODULE" alt="" coords="453,202,573,229"/>
+<area shape="rect" id="node4" href="$class_p_spline_blearner_wrapper.html#a7796ee928de438649ede7aa1aa57263a" title="PSplineBlearnerWrapper\l::summarizeBaselearner" alt="" coords="220,71,384,112"/>
+<area shape="rect" id="node5" href="$class_custom_blearner_wrapper.html#a61e82d619f07ba3e69fa4100be0ed1f2" title="CustomBlearnerWrapper\l::summarizeBaselearner" alt="" coords="220,136,384,177"/>
+<area shape="rect" id="node6" href="$class_custom_cpp_blearner_wrapper.html#a832effb3868e124cb149fd06e6033304" title="CustomCppBlearnerWrapper\l::summarizeBaselearner" alt="" coords="209,201,395,243"/>
+<area shape="rect" id="node7" href="$class_greedy_optimizer.html#a30925396579c7cfb5b90b8c131495f3a" title="GreedyOptimizer::testOptimizer" alt="" coords="199,267,405,294"/>
+<area shape="rect" id="node3" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="453,111,573,138"/>
+<area shape="rect" id="node8" href="$compboost__modules_8cpp.html#a9240fd6e8085bc6119a16c1bfad44983" title="RCPP_MODULE" alt="" coords="453,267,573,294"/>
 </map>

@@ -1,18 +1,26 @@
 \hypertarget{baselearner__factory_8h}{}\section{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/baselearner\+\_\+factory.h File Reference}
 \label{baselearner__factory_8h}\index{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/baselearner\+\_\+factory.\+h@{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/baselearner\+\_\+factory.\+h}}
+
+
+Definition of baselearner factory classes.  
+
+
 {\ttfamily \#include $<$Rcpp\+Armadillo.\+h$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$string$>$}\newline
 {\ttfamily \#include \char`\"{}baselearner.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}data.\+h\char`\"{}}\newline
-Include dependency graph for baselearner\+\_\+factory.\+h\+:\nopagebreak
+{\ttfamily \#include \char`\"{}splines.\+h\char`\"{}}\newline
+Include dependency graph for baselearner\+\_\+factory.\+h\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=307pt]{baselearner__factory_8h__incl}
+\includegraphics[width=350pt]{baselearner__factory_8h__incl}
 \end{center}
 \end{figure}
-This graph shows which files directly or indirectly include this file\+:\nopagebreak
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -25,6 +33,8 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 class \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_factory}{blearnerfactory\+::\+Baselearner\+Factory}}
 \item 
 class \mbox{\hyperlink{classblearnerfactory_1_1_polynomial_blearner_factory}{blearnerfactory\+::\+Polynomial\+Blearner\+Factory}}
+\item 
+class \mbox{\hyperlink{classblearnerfactory_1_1_p_spline_blearner_factory}{blearnerfactory\+::\+P\+Spline\+Blearner\+Factory}}
 \item 
 class \mbox{\hyperlink{classblearnerfactory_1_1_custom_blearner_factory}{blearnerfactory\+::\+Custom\+Blearner\+Factory}}
 \item 
@@ -40,3 +50,15 @@ class \mbox{\hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory}{ble
 \item 
 typedef arma\+::mat($\ast$ \mbox{\hyperlink{namespaceblearnerfactory_a74e80c9723f4fa8866e09a04dfa3035b}{blearnerfactory\+::instantiate\+Data\+Fun\+Ptr}}) (const arma\+::mat \&X)
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Definition of baselearner factory classes. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Schalk (github\+: schalkdaniel)
+\end{DoxyAuthor}
+\hypertarget{logger_8h_DESCRIPTION}{}\subsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{logger_8h_DESCRIPTION}
+This file defines the baselearner factory classes. Every baselearner should have a corresponding factory class. This factory class just exists to crate baselearner objects.
+
+the factories are also there to instantiate the data at the moment the factory is instantiated. This is done by taking a data source and transform it baselearner dependent into a data target object. This data object is then used the whole time. 
