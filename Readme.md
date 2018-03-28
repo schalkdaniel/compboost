@@ -20,10 +20,10 @@ devtools::install_github("schalkdaniel/compboost")
         - [ ] Data transformation for spline learner
     - [ ] Make the algorithm more memory friendly by using sparse matrices (if possible)
     
-- [ ] **Classes:**    
-    - [ ] Baselearner Class:
-        - [ ] Implement B-Spline baselearner
-        - [ ] Implement P-Spline baselearner
+- [x] **Classes:**    
+    - [x] Baselearner Class:
+        - [x] Implement B-Spline baselearner
+        - [x] Implement P-Spline baselearner
     
     - [x] Logger Class:
         - [x] Implement OOB Logger
@@ -55,7 +55,7 @@ devtools::install_github("schalkdaniel/compboost")
     
 - [x] **Naming:**
     - [x] Consistent class naming between `R` and `C++`
-    - [ ] Use unified function naming
+    - [x] Use unified function naming
 
 ## Changelog/Updates
 
@@ -84,6 +84,11 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **21.03.2018** \
   New data structure with independent source and target.
+  
+- **28.03.2018** \
+  P-Splines are now availalbe as baselearner. Additionally the Polynomial and P-Spline learner
+  are speeded up using a more gneeral data structure which stores the inverse once and reuse it for
+  every iteration.
 
 ## Idea
 
