@@ -44,6 +44,7 @@
 #include <string>
 
 #include "data.h"
+#include "splines.h"
 
 namespace blearner {
 
@@ -157,38 +158,52 @@ public:
  * Orthogonalization.
  * 
  * Please note, that this baselearner is just the dummy object. The most 
- * functionality is done within the corresponding factory object.
+ * functionality is done while creating the data target which contains the
+ * most object which are used here.
  * 
  */
 
-// class PSplineBlearner : public Baselearner
-// {
-// private:
-//   
-//   /// Degree of polynomial functions as base models
-//   unsigned int degree;
-//   
-//   /// Number of inner knots
-//   unsigned int n_knots;
-//   
-//   /// Vector of knots used to create the basis
-//   arma::vec* knots;
-//   
-//   /// Penalty parameter
-//   double penalty;
-//   
-//   /// Degree of freedoms (alternative way to define the penalty parameter)
-//   double df;
-//   
-//   /// Differences of penalty matrix
-//   unsigned int differences;
-//   
-//   /// Penalty matrix for differences
-//   arma::sp_mat* K;
-//   
-//   
-//   
-// };
+class PSplineBlearner : public Baselearner
+{
+private:
+
+  /// Degree of polynomial functions as base models
+  unsigned int degree;
+
+  /// Number of inner knots
+  unsigned int n_knots;
+
+  /// Penalty parameter
+  double penalty;
+
+  /// Differences of penalty matrix
+  unsigned int differences;
+
+public:
+  /// Default constructor of `PSplineBlearner` class
+  PSplineBlearner (data::Data*, const std::string&, const unsigned int&,
+    const unsigned int&, const double&, const unsigned int&);
+  
+  /// Clean copy of baselearner
+  Baselearner* clone ();
+  
+  /// Instatiate data matrix (design matrix)
+  arma::mat instantiateData (const arma::mat&);
+  
+  /// Trianing of a baselearner
+  void train (const arma::vec&);
+  
+  /// Predict on training data
+  arma::mat predict ();
+  
+  /// Predict on newdata
+  arma::mat predict (data::Data*);
+  
+  
+  /// Destructor
+  ~PSplineBlearner ();
+
+};
 
 // CustomBlearner:
 // -----------------------

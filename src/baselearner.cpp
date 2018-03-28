@@ -162,7 +162,7 @@ arma::mat PolynomialBlearner::instantiateData (const arma::mat& newdata)
 void PolynomialBlearner::train (const arma::vec& response)
 {
   // parameter = arma::solve(data_ptr->getData(), response);
-  parameter = arma::inv(data_ptr->getData().t() * data_ptr->getData()) * data_ptr->getData().t() * response;
+  parameter = data_ptr->XtX_inv * data_ptr->getData().t() * response;
 }
 
 // Predict the learner:
@@ -178,7 +178,132 @@ arma::mat PolynomialBlearner::predict (data::Data* newdata)
 // Destructor:
 PolynomialBlearner::~PolynomialBlearner () {}
 
-// CustomBlearner Baselearner:
+// PSplienBlearner:
+// ----------------------
+
+/**
+ * \brief Constructor of `PSplineBlearner` class
+ * 
+ * This constructor sets the members such as n_knots etc. The more computational
+ * complex data are stored within the data object which should be initialized
+ * first (e.g. in the factory or otherwise). 
+ * 
+ * One note about the used knots. The number of inner knots is specified
+ * by `n_knots`. These inner knots are then wrapped by the minimal and maximal
+ * value of the given data. For instance we have a feature 
+ * \f[
+ *   x = (1, 2, \dots, 2.5, 6)
+ * \f]
+ * and we want to have 3 knots, then the inner knots with boundaries are:
+ * \f[
+ *   U = (1.00, 2.25, 3.50, 4.75, 6.00)
+ * \f]
+ * To get a full base these knots are wrapped by `degree` (\f$p\f$) numbers 
+ * on either side. If we choose `degree = 2` then we have 
+ * \f$n_\mathrm{knots} + 2(p + 1) = 3 + 2(2 + 1) 9\f$ final knots:
+ * \f[
+ *   U = (-1.50, -0.25, 1.00, 2.25, 3.50, 4.75, 6.00, 7.25, 8.50)
+ * \f]
+ * Finally we get a \f$9 - (p + 1)\f$ splines for which we can calculate the
+ * base.  
+ * 
+ * \param data `data::Data*` Target data used for training etc.
+ * \param identifier `std::string` Identifier for one specific baselearner
+ * \param degree `unsigned int` Polynomial degree of the splines
+ * \param n_knots `unsigned int` Number of inner knots used 
+ * \param penalty `double` Regularization parameter `penalty = 0` yields
+ *   b splines while a bigger penalty forces the splines into a global
+ *   polynomial form.
+ * \param differences `unsigned int` Number of differences used for the 
+ *   penalty matrix.
+ */
+
+PSplineBlearner::PSplineBlearner (data::Data* data, const std::string& identifier,
+  const unsigned int& degree, const unsigned int& n_knots, const double& penalty, 
+  const unsigned int& differences)
+  : degree ( degree ),
+    n_knots ( n_knots ),
+    penalty ( penalty ),
+    differences ( differences )
+{ 
+  // Called from parent class 'Baselearner':
+  Baselearner::setData(data);
+  Baselearner::setIdentifier(identifier);
+}
+
+/**
+ * \brief Clean copy of baselearner
+ * 
+ * \returns `Baselearner*` An exact copy of the actual baselearner.
+ */
+Baselearner* PSplineBlearner::clone ()
+{
+  Baselearner* newbl = new PSplineBlearner (*this);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
+  
+  return newbl;
+}
+
+/**
+ * \brief Instantiate data matrix (design matrix)
+ * 
+ * This function is ment to create the design matrix which is then stored
+ * within the data object. This should be done just once and then reused all
+ * the time.
+ * 
+ * Note that this function sets the `data_mat` object of the data object!
+ * 
+ * \param newdata `arma::mat` Input data which is transformed to the design matrix
+ * 
+ * \returns `arma::mat` of transformed data
+ */
+arma::mat PSplineBlearner::instantiateData (const arma::mat& newdata)
+{
+  // Data object has to be created prior! That means that data_ptr must have
+  // initialized knots, and penalty matrix!
+  return createBasis (newdata, degree, data_ptr->knots);
+}
+
+/**
+ * \brief Training of a baselearner
+ * 
+ * This function sets the `parameter` member of the parent class `Baselearner`.
+ * 
+ * \param response `arma::vec` Response variable of the training.
+ */
+void PSplineBlearner::train (const arma::vec& response)
+{
+  parameter = data_ptr->XtX_inv * data_ptr->data_mat.t() * response;
+}
+
+/**
+ * \brief Predict on training data
+ * 
+ * \returns `arma::mat` of predicted values
+ */
+arma::mat PSplineBlearner::predict ()
+{
+  return data_ptr->data_mat * parameter;
+}
+
+/**
+ * \brief Predict on newdata
+ * 
+ * \param newdata `data::Data*` new source data object
+ * 
+ * \returns `arma::mat` of predicted values
+ */
+arma::mat PSplineBlearner::predict (data::Data* newdata)
+{
+  return instantiateData(newdata->getData()) * parameter;
+}
+
+
+/// Destructor
+PSplineBlearner::~PSplineBlearner () {}
+
+
+// CustomBlearner:
 // -----------------------
 
 CustomBlearner::CustomBlearner (data::Data* data, const std::string& identifier, 
@@ -238,7 +363,7 @@ arma::mat CustomBlearner::predict (data::Data* newdata)
 CustomBlearner::~CustomBlearner () {}
 
 
-// CustomCppBlearner Baselearner:
+// CustomCppBlearner:
 // -----------------------
 
 CustomCppBlearner::CustomCppBlearner (data::Data* data, const std::string& identifier, 

@@ -27,7 +27,8 @@ data.source.wt = InMemoryData$new(X.wt, "wt")
 
 data.target.hp1 = InMemoryData$new()
 data.target.hp2 = InMemoryData$new()
-data.target.wt  = InMemoryData$new()
+data.target.wt1 = InMemoryData$new()
+data.target.wt2 = InMemoryData$new()
 
 # Next lists are the same as the used data. Then we can have a look if the oob
 # and inbag logger and the train prediction and prediction on newdata are doing
@@ -47,10 +48,18 @@ test.data = oob.data
 
 # Create new linear baselearner of hp and wt:
 linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1)
+linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1)
 
 # Create new quadratic baselearner of hp:
 quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+
+# Create spline factory for wt with:
+#   - degree: 2
+#   - 10 knots
+#   - penalty parameter: 2
+#   - differences: 2
+spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+
 
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()
@@ -59,6 +68,7 @@ factory.list = BlearnerFactoryList$new()
 factory.list$registerFactory(linear.factory.hp)
 factory.list$registerFactory(linear.factory.wt)
 factory.list$registerFactory(quadratic.factory.hp)
+factory.list$registerFactory(spline.factory.wt)
 
 # Print the registered factorys:
 factory.list$printRegisteredFactorys()
@@ -256,7 +266,8 @@ library(mboost)
 mod = mboost(
   formula = mpg ~ bols(hp, intercept = FALSE) + 
     bols(wt, intercept = FALSE) + 
-    bols(hp2, intercept = FALSE),
+    bols(hp2, intercept = FALSE) +
+    bbs(wt, knots = 10, degree = 3, differences = 2, lambda = 2),
   data    = df,
   control = boost_control(mstop = 700, nu = 0.05)
 )
@@ -279,7 +290,8 @@ cboost.xselect = match(
   table = c(
     "hp: polynomial with degree 1",
     "wt: polynomial with degree 1",
-    "hp: polynomial with degree 2"
+    "hp: polynomial with degree 2",
+    "wt: spline with degree 3"
   )
 )
 

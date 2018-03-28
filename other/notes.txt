@@ -1,0 +1,25 @@
+compboost Thesis:
+============================
+
+- Bei predictions mit neuen data ist nur source notwendig, kein target!
+- compboost_module datei interface zwischen R und C++ (gut beschreiben)
+- Dependencies: Nicht viele! Rcpp, RcppArmadillo 
+- Scope beschreiben! Es ist oft wichtig pass by reference zu machen, da dann Wrapper Klasse nicht gelöscht wird und dadurch kein destructor gecallt wird!!!
+- Scoping und garbage collection beschreiben
+- Polymorphism!! fast überall IterationLogger geht als Logger class durch!
+- für lineares fitting wird das inverse von XtX weggespeichert damit nicht in jeder iteration neu!
+
+- Dokumentation erklären R seite und c++ seite (roxygen vs. doxygen)
+- 
+
+Beispiele:
+- Logger ist so flexibel, dass meherere oob logger gleichzeitig tracken können mit verschiedenen lossen
+
+Benchmark:
+- Funktion schreiben, die wahren RAM misst und damit benchmarken!
+
+compboost repo:
+============================
+
+- Readme section "For Developer" 
+    - Wie wird kommentiert (doxygen, roxygen, ...)

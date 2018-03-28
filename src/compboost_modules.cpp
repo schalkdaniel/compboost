@@ -168,6 +168,7 @@ public:
     obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree);
     
     data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
+    data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData());
     
     delete(obj);
     std::string temp = "test polynomial of degree " + std::to_string(degree);
@@ -215,6 +216,70 @@ public:
     if (degree > 3) {
       Rcpp::Rcout << "Polynomial baselearner of degree " << degree << std::endl;
     }
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->getIdentifier() << std::endl;
+  }
+};
+
+class PSplineBlearnerWrapper : public BaselearnerWrapper
+{
+private:
+  data::Data* dummy_data_target;
+  unsigned int degree;
+  
+public:
+  
+  PSplineBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target, 
+    const unsigned int& degree, const unsigned int& n_knots, const double& penalty, 
+    const unsigned int& differences)
+    : degree ( degree )
+  {
+    obj = new blearner::PSplineBlearner(data_source.getDataObj(), "", degree,
+      n_knots, penalty, differences);
+    
+    data_target.getDataObj()->knots = createKnots(data_source.getDataObj()->getData(), n_knots, degree);
+  
+    data_target.getDataObj()->penalty_mat = penaltyMat(n_knots + (degree + 1), differences);
+    
+    data_target.getDataObj()->setData(createBasis(data_source.getDataObj()->getData(), degree, data_target.getDataObj()->knots));
+    
+    data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData() + penalty * data_target.getDataObj()->penalty_mat);
+    
+    delete(obj);
+    std::string temp = "test spline of degree " + std::to_string(degree);
+    obj = new blearner::PSplineBlearner(data_target.getDataObj(), temp, degree,
+      n_knots, penalty, differences);
+    
+    dummy_data_target = data_target.getDataObj();
+  }
+  
+  void train (arma::vec& response)
+  {
+    obj->train(response);
+  }
+  
+  arma::mat getData ()
+  {
+    return dummy_data_target->getData();
+  }
+  arma::mat getParameter ()
+  {
+    return obj->getParameter();
+  }
+  
+  arma::vec predict ()
+  {
+    return obj->predict();
+  }
+  
+  arma::vec predictNewdata (DataWrapper& newdata)
+  {
+    return obj->predict(newdata.getDataObj());
+  }
+  
+  void summarizeBaselearner ()
+  {
+    Rcpp::Rcout << "Spline baselearner of degree " << std::to_string(degree) << std::endl;
     Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Baselearner identifier: " << obj->getIdentifier() << std::endl;
   }
@@ -364,6 +429,17 @@ RCPP_MODULE(baselearner_module)
     .method("getData",        &PolynomialBlearnerWrapper::getData, "Get data used for modelling")
     .method("summarizeBaselearner", &PolynomialBlearnerWrapper::summarizeBaselearner, "Summarize Baselearner")
   ;
+  
+  class_<PSplineBlearnerWrapper> ("PSplineBlearner")
+    .derives<BaselearnerWrapper> ("Baselearner")
+    .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
+    .method("train",          &PSplineBlearnerWrapper::train, "Train function of the baselearner")
+    .method("getParameter",   &PSplineBlearnerWrapper::getParameter, "Predict function of the baselearner")
+    .method("predict",        &PSplineBlearnerWrapper::predict, "GetParameter function of the baselearner")
+    .method("predictNewdata", &PSplineBlearnerWrapper::predictNewdata, "Predict with newdata")
+    .method("getData",        &PSplineBlearnerWrapper::getData, "Get data used for modelling")
+    .method("summarizeBaselearner", &PSplineBlearnerWrapper::summarizeBaselearner, "Summarize Baselearner")
+  ;
 
   class_<CustomBlearnerWrapper> ("CustomBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
@@ -448,6 +524,35 @@ public:
   }
 };
 
+// Wrapper around the PolynomialBlearnerFactory:
+class PSplineBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+{
+private:
+  const unsigned int degree;
+  
+public:
+  
+  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target, 
+    const unsigned int& degree, const unsigned int& n_knots, const double& penalty, 
+    const unsigned int& differences)
+    : degree ( degree )
+  {
+    obj = new blearnerfactory::PSplineBlearnerFactory("spline", data_source.getDataObj(), 
+      data_target.getDataObj(), degree, n_knots, penalty, differences);
+  }
+  
+  arma::mat getData () { return obj->getData(); }
+  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
+  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
+  
+  void summarizeFactory ()
+  {
+    Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following baselearner: " << obj->getBaselearnerType() << std::endl;
+  }
+};
+
 // Wrapper around the CustomBlearnerFactory:
 class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
@@ -513,6 +618,13 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+  ;
+  
+  class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearnerFactory")
+    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
+    .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
+    .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<CustomBlearnerFactoryWrapper> ("CustomBlearnerFactory")

@@ -19,11 +19,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//   "BaselearnerFactory" class. 
-//
 // Written by:
 // -----------
 //
@@ -37,6 +32,25 @@
 //
 // ========================================================================== //
 
+/** 
+ *  @file    baselearner_factory.h
+ *  @author  Daniel Schalk (github: schalkdaniel)
+ *  
+ *  @brief Definition of baselearner factory classes
+ *
+ *  @section DESCRIPTION
+ *  
+ *  This file defines the baselearner factory classes. Every baselearner should
+ *  have a corresponding factory class. This factory class just exists to 
+ *  crate baselearner objects. 
+ *  
+ *  the factories are also there to instantiate the data at the moment the
+ *  factory is instantiated. This is done by taking a data source and transform
+ *  it baselearner dependent into a data target object. This data object is then
+ *  used the whole time.
+ *
+ */
+
 #ifndef BASELEARNERFACTORY_H_
 #define BASELEARNERFACTORY_H_
 
@@ -47,6 +61,7 @@
 
 #include "baselearner.h"
 #include "data.h"
+#include "splines.h"
 
 namespace blearnerfactory {
 
@@ -86,8 +101,8 @@ protected:
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// PolynomialBlearner:
-// -----------------------
+// PolynomialBlearnerFactory:
+// -----------------------------
 
 class PolynomialBlearnerFactory : public BaselearnerFactory
 {
@@ -104,8 +119,48 @@ public:
   arma::mat instantiateData (const arma::mat&);
 };
 
-// CustomBlearner:
-// -----------------------
+// PSplineBlearnerFactory:
+// -----------------------------
+
+/**
+ * \class P spline baselearner factory
+ * 
+ * \brief Factory to creaet `PSplineBlearner` objects
+ * 
+ */
+
+class PSplineBlearnerFactory : public BaselearnerFactory
+{
+private:
+  
+  /// Degree of splines
+  const unsigned int degree;
+  
+  /// Number of inner knots
+  const unsigned int n_knots;
+  
+  /// Regularization parameter
+  const double penalty;
+  
+  /// Order of differences used for penalty matrix
+  const unsigned int differences;
+  
+public:
+
+  /// Default constructor of class `PSplineBleanrerFactory`
+  PSplineBlearnerFactory (const std::string&, data::Data*, data::Data*, 
+    const unsigned int&, const unsigned int&, const double&, 
+    const unsigned int&);
+  
+  /// Create new `PSplineBlearner` object
+  blearner::Baselearner* createBaselearner (const std::string&);
+  
+  /// Instantiate the design matrix
+  arma::mat instantiateData (const arma::mat&);
+};
+
+// CustomBlearnerFactory:
+// -----------------------------
 
 // This class stores the R functions:
 
@@ -129,8 +184,8 @@ public:
   
 };
 
-// CustomCppBlearner:
-// -----------------------
+// CustomCppBlearnerFactory:
+// -----------------------------
 
 typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
 
