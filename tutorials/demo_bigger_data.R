@@ -2,6 +2,7 @@
 mydata = na.omit(hflights::hflights)
 mydata = rbind(mydata, mydata, mydata)
 
+time = proc.time()
 size.compboost = pryr::mem_change({
 
   # Data for the baselearner are matrices:
@@ -9,7 +10,10 @@ size.compboost = pryr::mem_change({
   X.taxiin   = cbind(1, mydata[["TaxiIn"]])
   X.dist     = cbind(1, mydata[["Distance"]])
   X.aet      = cbind(1, mydata[["ActualElapsedTime"]])
-  X.dist.sp  = as.matrix(mydata[["Distance"]])
+  
+  X.dist.sp     = as.matrix(mydata[["Distance"]])
+  X.arrdelay.sp = as.matrix(mydata[["ArrDelay"]])
+  X.aet.sp      = as.matrix(mydata[["ActualElapsedTime"]])
   
   # Target variable:
   y = mydata[["DepDelay"]]
@@ -18,13 +22,20 @@ size.compboost = pryr::mem_change({
   data.source.taxiin   = InMemoryData$new(X.taxiin, "TaxiIn")
   data.source.dist     = InMemoryData$new(X.dist, "Distance") 
   data.source.aet      = InMemoryData$new(X.aet, "ActualElapsedTime")
-  data.source.dist.sp  = InMemoryData$new(X.dist.sp, "Distance") 
+  
+  data.source.dist.sp     = InMemoryData$new(X.dist.sp, "Distance") 
+  data.source.arrdelay.sp = InMemoryData$new(X.arrdelay.sp, "ArrDelay")
+  data.source.aet.sp      = InMemoryData$new(X.aet.sp, "ActualElapsedTime")
   
   data.target.arrdelay = InMemoryData$new()
   data.target.taxiin   = InMemoryData$new()
   data.target.dist     = InMemoryData$new()
   data.target.aet      = InMemoryData$new()
-  data.target.dist.sp  = InMemoryData$new()
+  
+  data.target.dist.sp     = InMemoryData$new()
+  data.target.arrdelay.sp = InMemoryData$new()
+  data.target.aet.sp      = InMemoryData$new()
+  
   
   # Prepare compboost:
   # ------------------
@@ -38,9 +49,11 @@ size.compboost = pryr::mem_change({
   linear.factory.dist     = PolynomialBlearnerFactory$new(data.source.dist, data.target.dist, 1)
   linear.factory.aet      = PolynomialBlearnerFactory$new(data.source.aet, data.target.aet, 1)
   
-  # One Spline:
+  # Splines:
   
-  spline.factory.dist = PSplineBlearnerFactory$new(data.source.dist.sp, data.target.dist.sp, 3, 10, 2, 2)
+  spline.factory.dist     = PSplineBlearnerFactory$new(data.source.dist.sp, data.target.dist.sp, 3, 10, 2, 2)
+  spline.factory.arrdelay = PSplineBlearnerFactory$new(data.source.arrdelay.sp, data.target.arrdelay.sp, 3, 10, 2, 2)
+  spline.factory.aet      = PSplineBlearnerFactory$new(data.source.aet.sp, data.target.aet.sp, 3, 10, 2, 2)
   
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()
@@ -51,6 +64,8 @@ size.compboost = pryr::mem_change({
   factory.list$registerFactory(linear.factory.dist)
   factory.list$registerFactory(linear.factory.aet)
   factory.list$registerFactory(spline.factory.dist)
+  factory.list$registerFactory(spline.factory.arrdelay)
+  factory.list$registerFactory(spline.factory.aet)
   
   # Print the registered factorys:
   factory.list$printRegisteredFactorys()
@@ -106,19 +121,23 @@ size.compboost = pryr::mem_change({
   # Train the model (we want to print the trace):
   cboost$train(trace = TRUE)
 })
+time.compboost = proc.time() - time
 
 library(mboost)
 
-# time = proc.time()
+time = proc.time()
 size.mboost = pryr::mem_change({
   mod = mboost(
     formula = DepDelay ~ bols(ArrDelay) + bols(TaxiIn) + bols(Distance) + 
-      bols(ActualElapsedTime) + bbs(Distance, knots = 10, degree = 3, differences = 2, lambda = 2),
+      bols(ActualElapsedTime) + 
+      bbs(Distance, knots = 10, degree = 3, differences = 2, lambda = 2) +
+      bbs(ArrDelay, knots = 10, degree = 3, differences = 2, lambda = 2) +
+      bbs(ActualElapsedTime, knots = 10, degree = 3, differences = 2, lambda = 2),
     data    = mydata,
     control = boost_control(mstop = 500, nu = 0.05, trace = TRUE)
   )
 })
-# proc.time() - time
+time.mboost = proc.time() - time
 
 microbenchmark::microbenchmark(
   "compboost" = {
@@ -127,9 +146,12 @@ microbenchmark::microbenchmark(
   "mboost"    = {
     mboost(
       formula = DepDelay ~ bols(ArrDelay) + bols(TaxiIn) + bols(Distance) + 
-        bols(ActualElapsedTime) + bbs(Distance, knots = 10, degree = 3, differences = 2, lambda = 2),
+        bols(ActualElapsedTime) + 
+        bbs(Distance, knots = 10, degree = 3, differences = 2, lambda = 2) +
+        bbs(ArrDelay, knots = 10, degree = 3, differences = 2, lambda = 2) +
+        bbs(ActualElapsedTime, knots = 10, degree = 3, differences = 2, lambda = 2),
       data    = mydata,
-      control = boost_control(mstop = 500, nu = 0.05, trace = FALSE)
+      control = boost_control(mstop = 1000, nu = 0.05, trace = FALSE)
     )
   }, times = 3L
 )
