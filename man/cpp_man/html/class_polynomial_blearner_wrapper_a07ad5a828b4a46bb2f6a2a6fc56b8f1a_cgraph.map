@@ -1,6 +1,6 @@
 <map id="PolynomialBlearnerWrapper::PolynomialBlearnerWrapper" name="PolynomialBlearnerWrapper::PolynomialBlearnerWrapper">
 <area shape="rect" id="node2" href="$class_data_wrapper.html#a5e2993dd02f11ae2da8db95f942eca60" title="DataWrapper::getDataObj" alt="" coords="244,5,415,32"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="data::Data::setData" alt="" coords="262,56,397,83"/>
+<area shape="rect" id="node3" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="262,56,397,83"/>
 <area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#af01f1b8c4540927705ff79c3649489f7" title="blearner::Baselearner\l::instantiateData" alt="" coords="257,107,402,149"/>
-<area shape="rect" id="node5" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="data::Data::getData" alt="" coords="262,173,397,200"/>
+<area shape="rect" id="node5" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="262,173,397,200"/>
 </map>

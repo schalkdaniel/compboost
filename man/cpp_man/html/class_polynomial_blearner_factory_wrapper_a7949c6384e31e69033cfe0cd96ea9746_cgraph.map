@@ -1,4 +1,4 @@
 <map id="PolynomialBlearnerFactoryWrapper::getData" name="PolynomialBlearnerFactoryWrapper::getData">
 <area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html#ad9da09739f04e5c8bd268551251801be" title="blearnerfactory::Baselearner\lFactory::getData" alt="" coords="232,5,416,47"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="data::Data::getData" alt="" coords="464,13,599,39"/>
+<area shape="rect" id="node3" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="464,13,599,39"/>
 </map>

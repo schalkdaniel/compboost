@@ -1,0 +1,7 @@
+<map id="blearner::PSplineBlearner::predict" name="blearner::PSplineBlearner::predict">
+<area shape="rect" id="node2" href="$classblearner_1_1_p_spline_blearner.html#ac0604daac451678e67a6a2ac60dd1b01" title="Instatiate data matrix (design matrix) " alt="" coords="223,5,392,47"/>
+<area shape="rect" id="node6" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="240,71,375,98"/>
+<area shape="rect" id="node3" href="$splines_8cpp.html#ac43a2b9f7f3a9589acb14ff221a3fc0e" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="440,13,531,39"/>
+<area shape="rect" id="node4" href="$splines_8cpp.html#ab5674a405e1cfc5b8e04ae2d113b9868" title="De Boors algorithm to find basis functions. " alt="" coords="579,13,661,39"/>
+<area shape="rect" id="node5" href="$splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="709,13,781,39"/>
+</map>

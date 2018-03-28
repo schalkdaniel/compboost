@@ -1,3 +1,4 @@
 <map id="blearner::Baselearner::setBaselearnerType" name="blearner::Baselearner::setBaselearnerType">
 <area shape="rect" id="node2" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#ac0c7f742da0a2de444e91a0cfb0a9384" title="blearnerfactory::Polynomial\lBlearnerFactory::createBaselearner" alt="" coords="199,5,425,47"/>
+<area shape="rect" id="node3" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#a877072332da418456dcbcb27c572c1e7" title="Create new PSplineBlearner object. " alt="" coords="199,71,425,112"/>
 </map>

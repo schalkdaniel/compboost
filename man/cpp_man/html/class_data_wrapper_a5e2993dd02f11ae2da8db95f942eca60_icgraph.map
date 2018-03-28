@@ -1,16 +1,19 @@
 <map id="DataWrapper::getDataObj" name="DataWrapper::getDataObj">
 <area shape="rect" id="node2" href="$class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="248,5,439,47"/>
 <area shape="rect" id="node3" href="$class_polynomial_blearner_wrapper.html#aa3e9670a1e8efe6524e7bdf10a43e25c" title="PolynomialBlearnerWrapper\l::predictNewdata" alt="" coords="252,71,435,112"/>
-<area shape="rect" id="node5" href="$class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="257,136,429,177"/>
-<area shape="rect" id="node6" href="$class_custom_blearner_wrapper.html#a0aba49ca5396f5bd09a745003436dd3f" title="CustomBlearnerWrapper\l::predictNewdata" alt="" coords="261,201,425,243"/>
-<area shape="rect" id="node7" href="$class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="246,267,441,308"/>
-<area shape="rect" id="node8" href="$class_custom_cpp_blearner_wrapper.html#abc89ab2789f72dad6eccdcdfa01ecbc4" title="CustomCppBlearnerWrapper\l::predictNewdata" alt="" coords="250,332,437,373"/>
-<area shape="rect" id="node9" href="$class_polynomial_blearner_factory_wrapper.html#aff6c82400439d55fa1e9b1827089c461" title="PolynomialBlearnerFactory\lWrapper::PolynomialBlearnerFactory\lWrapper" alt="" coords="226,398,461,454"/>
-<area shape="rect" id="node10" href="$class_custom_blearner_factory_wrapper.html#af2a4252cc47bb70c23c71ed3f201e29f" title="CustomBlearnerFactoryWrapper\l::CustomBlearnerFactoryWrapper" alt="" coords="235,479,451,520"/>
-<area shape="rect" id="node11" href="$class_custom_cpp_blearner_factory_wrapper.html#a3ebf330b467d8c3f2ae2404369363877" title="CustomCppBlearnerFactory\lWrapper::CustomCppBlearnerFactory\lWrapper" alt="" coords="224,545,463,601"/>
-<area shape="rect" id="node12" href="$class_oob_risk_logger_wrapper.html#a5d5aabfad52c12922c892a3ddf29c2d4" title="OobRiskLoggerWrapper\l::OobRiskLoggerWrapper" alt="" coords="259,625,427,667"/>
-<area shape="rect" id="node13" href="$class_compboost_wrapper.html#a62637fbc8c50160b411b817b7e99432e" title="CompboostWrapper::predict" alt="" coords="251,691,435,718"/>
-<area shape="rect" id="node15" href="$class_compboost_wrapper.html#a72b9c303a13fb3f6f8346c0af0796496" title="CompboostWrapper::predict\lAtIteration" alt="" coords="251,743,435,784"/>
-<area shape="rect" id="node4" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="511,209,631,235"/>
-<area shape="rect" id="node14" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="511,721,631,747"/>
+<area shape="rect" id="node5" href="$class_p_spline_blearner_wrapper.html#a1272a29283aa7815d2f4d06ba70cecf6" title="PSplineBlearnerWrapper\l::PSplineBlearnerWrapper" alt="" coords="257,136,429,177"/>
+<area shape="rect" id="node6" href="$class_p_spline_blearner_wrapper.html#af90fe0fce13519086f8e54fe4d2cc539" title="PSplineBlearnerWrapper\l::predictNewdata" alt="" coords="261,201,425,243"/>
+<area shape="rect" id="node7" href="$class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="257,267,429,308"/>
+<area shape="rect" id="node8" href="$class_custom_blearner_wrapper.html#a0aba49ca5396f5bd09a745003436dd3f" title="CustomBlearnerWrapper\l::predictNewdata" alt="" coords="261,332,425,373"/>
+<area shape="rect" id="node9" href="$class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="246,397,441,439"/>
+<area shape="rect" id="node10" href="$class_custom_cpp_blearner_wrapper.html#abc89ab2789f72dad6eccdcdfa01ecbc4" title="CustomCppBlearnerWrapper\l::predictNewdata" alt="" coords="250,463,437,504"/>
+<area shape="rect" id="node11" href="$class_polynomial_blearner_factory_wrapper.html#aff6c82400439d55fa1e9b1827089c461" title="PolynomialBlearnerFactory\lWrapper::PolynomialBlearnerFactory\lWrapper" alt="" coords="226,529,461,585"/>
+<area shape="rect" id="node12" href="$class_p_spline_blearner_factory_wrapper.html#a3ff597f06068aa467bd6646d267fb861" title="PSplineBlearnerFactoryWrapper\l::PSplineBlearnerFactoryWrapper" alt="" coords="235,609,451,651"/>
+<area shape="rect" id="node13" href="$class_custom_blearner_factory_wrapper.html#af2a4252cc47bb70c23c71ed3f201e29f" title="CustomBlearnerFactoryWrapper\l::CustomBlearnerFactoryWrapper" alt="" coords="235,675,451,716"/>
+<area shape="rect" id="node14" href="$class_custom_cpp_blearner_factory_wrapper.html#a3ebf330b467d8c3f2ae2404369363877" title="CustomCppBlearnerFactory\lWrapper::CustomCppBlearnerFactory\lWrapper" alt="" coords="224,741,463,797"/>
+<area shape="rect" id="node15" href="$class_oob_risk_logger_wrapper.html#a5d5aabfad52c12922c892a3ddf29c2d4" title="OobRiskLoggerWrapper\l::OobRiskLoggerWrapper" alt="" coords="259,821,427,863"/>
+<area shape="rect" id="node16" href="$class_compboost_wrapper.html#a62637fbc8c50160b411b817b7e99432e" title="CompboostWrapper::predict" alt="" coords="251,887,435,914"/>
+<area shape="rect" id="node18" href="$class_compboost_wrapper.html#a72b9c303a13fb3f6f8346c0af0796496" title="CompboostWrapper::predict\lAtIteration" alt="" coords="251,939,435,980"/>
+<area shape="rect" id="node4" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="511,274,631,301"/>
+<area shape="rect" id="node17" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="511,917,631,943"/>
 </map>

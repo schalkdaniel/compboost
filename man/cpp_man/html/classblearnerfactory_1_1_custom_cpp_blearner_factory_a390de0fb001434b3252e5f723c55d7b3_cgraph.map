@@ -2,7 +2,7 @@
 <area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="292,99,485,141"/>
 <area shape="rect" id="node3" href="$classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc" title="data::Data::setDataIdentifier" alt="" coords="534,5,717,32"/>
 <area shape="rect" id="node4" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="534,56,717,83"/>
-<area shape="rect" id="node5" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="data::Data::setData" alt="" coords="558,107,693,133"/>
+<area shape="rect" id="node5" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="558,107,693,133"/>
 <area shape="rect" id="node6" href="$classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="533,158,717,199"/>
-<area shape="rect" id="node7" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="data::Data::getData" alt="" coords="558,224,693,251"/>
+<area shape="rect" id="node7" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="558,224,693,251"/>
 </map>
