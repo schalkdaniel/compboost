@@ -19,11 +19,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//   The main "Compboost" class.
-//
 // Written by:
 // -----------
 //
@@ -37,10 +32,20 @@
 //
 // =========================================================================== #
 
+// Doxygen index page:
 
-
-
-// THIS ONE IS UNDER PROGRESS!
+/*! \mainpage Framework for COMPonentwise BOOSTing
+ *
+ * \section intro_sec Introduction
+ *
+ * This is the introduction. `C++`
+ *
+ * \section install_sec Installation
+ *
+ * \subsection step1 Step 1: Opening the box
+ *
+ * etc...
+ */
 
 
 
