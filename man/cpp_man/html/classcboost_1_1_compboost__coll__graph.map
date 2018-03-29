@@ -1,6 +1,6 @@
 <map id="cboost::Compboost" name="cboost::Compboost">
 <area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html" title="{blearnertrack::Baselearner\lTrack\n|&#45; blearner_vector\l&#45; my_parameter_map\l&#45; learning_rate\l|+ BaselearnerTrack()\l+ BaselearnerTrack()\l+ insertBaselearner()\l+ getBaselearnerVector()\l+ getParameterMap()\l+ clearBaselearnerVector()\l+ getEstimatedParameterOfIteration()\l+ getParameterMatrix()\l+ setToIteration()\l+ ~BaselearnerTrack()\l}" alt="" coords="5,5,244,259"/>
-<area shape="rect" id="node3" href="$classloss_1_1_loss.html" title="{loss::Loss\n||+ definedLoss()\l+ definedGradient()\l+ constantInitializer()\l+ ~Loss()\l}" alt="" coords="268,71,411,193"/>
+<area shape="rect" id="node3" href="$classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="268,71,411,193"/>
 <area shape="rect" id="node4" href="$classoptimizer_1_1_optimizer.html" title="{optimizer::Optimizer\n|# my_blearner_factory_map\l|+ findBestBaselearner()\l+ ~Optimizer()\l}" alt="" coords="435,86,617,178"/>
 <area shape="rect" id="node5" href="$classblearnerlist_1_1_baselearner_factory_list.html" title="{blearnerlist::Baselearner\lFactoryList\n|&#45; my_factory_map\l|+ BaselearnerFactoryList()\l+ registerBaselearnerFactory()\l+ printRegisteredFactorys()\l+ getMap()\l+ clearMap()\l+ getModelFrame()\l+ getDataMap()\l}" alt="" coords="641,42,840,222"/>
 </map>

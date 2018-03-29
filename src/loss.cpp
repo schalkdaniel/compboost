@@ -57,21 +57,47 @@ Loss::~Loss () {
 // QuadraticLoss loss:
 // -----------------------
 
-arma::vec QuadraticLoss::definedLoss (const arma::vec&true_value, const arma::vec&prediction) const
+/**
+ * \brief Definition of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the loss function
+ */
+
+arma::vec QuadraticLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss of child class Quadratic!" << std::endl;
   return arma::pow(true_value - prediction, 2) / 2;
 }
 
-arma::vec QuadraticLoss::definedGradient (const arma::vec&true_value, const arma::vec&prediction) const
+/**
+ * \brief Definition of the gradient of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the gradient
+ */
+
+arma::vec QuadraticLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient of child class Quadratic!" << std::endl;
   return prediction - true_value;
 }
 
-double QuadraticLoss::constantInitializer (const arma::vec&true_value) const
+/**
+ * \brief Definition of the constant risk initialization (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * 
+ * \returns `double` constant which minimizes the empirical risk for the given true value
+ */
+
+double QuadraticLoss::constantInitializer (const arma::vec& true_value) const
 {
   return arma::mean(true_value);
 }
@@ -80,22 +106,47 @@ double QuadraticLoss::constantInitializer (const arma::vec&true_value) const
 // Absolute loss:
 // -----------------------
 
+/**
+ * \brief Definition of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the loss function
+ */
 
-arma::vec AbsoluteLoss::definedLoss (const arma::vec&true_value, const arma::vec&prediction) const
+arma::vec AbsoluteLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss of child class Absolute!" << std::endl;
   return arma::abs(true_value - prediction);
 }
 
-arma::vec AbsoluteLoss::definedGradient (const arma::vec&true_value, const arma::vec&prediction) const
+/**
+ * \brief Definition of the gradient of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the gradient
+ */
+
+arma::vec AbsoluteLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient of child class Absolute!" << std::endl;
   return arma::sign(prediction - true_value);
 }
 
-double AbsoluteLoss::constantInitializer (const arma::vec&true_value) const
+/**
+ * \brief Definition of the constant risk initialization (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * 
+ * \returns `double` constant which minimizes the empirical risk for the given true value
+ */
+
+double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
 {
   return arma::median(true_value);
 }
@@ -104,17 +155,17 @@ double AbsoluteLoss::constantInitializer (const arma::vec&true_value) const
 // Custom loss:
 // -----------------------
 
-// This one is a special one. It allows to use a custom loss predefined in R.
-// The convenience here comes from the 'Rcpp::Function' class and the use of
-// a special constructor which defines the three needed functions!
-
-// Note that there is one conversion step. There is no predefined conversion
-// from 'Rcpp::Function' (which acts as SEXP) to 'double'. But it is possible
-// to go the step above 'Rcpp::NumericVector'. Therefore the custom functions
-// returns a 'Rcpp::NumericVector' which then is able to be converted to
-// 'double' by just selecting one element.
-
-
+/**
+ * \brief Default constructor of custom loss class
+ * 
+ * \param lossFun `Rcpp::Function` `R` function to calculate the loss
+ * \param gradientFun `Rcpp::Function` `R` function to calculate the gradient 
+ *   of the loss function
+ * \param initFun `Rcpp::Function` `R` function to initialize a constant (here
+ *   it is not neccessary to initialize in a loss/risk optimal manner)
+ * 
+ * \returns `double` constant which minimizes the empirical risk for the given true value
+ */
 CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) 
   : lossFun( lossFun ), 
     gradientFun( gradientFun ), 
@@ -125,7 +176,16 @@ CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp
   //           << std::endl;
 }
 
-arma::vec CustomLoss::definedLoss (const arma::vec&true_value, const arma::vec&prediction) const
+/**
+ * \brief Definition of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the loss function
+ */
+
+arma::vec CustomLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss for a custom loss!" << std::endl;
@@ -133,7 +193,16 @@ arma::vec CustomLoss::definedLoss (const arma::vec&true_value, const arma::vec&p
   return out;
 }
 
-arma::vec CustomLoss::definedGradient (const arma::vec&true_value, const arma::vec&prediction) const
+/**
+ * \brief Definition of the gradient of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the gradient
+ */
+
+arma::vec CustomLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient for a custom loss!" << std::endl;
@@ -141,9 +210,15 @@ arma::vec CustomLoss::definedGradient (const arma::vec&true_value, const arma::v
   return out;
 }
 
-// Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
-// knows how to convert a 'SEXP':
-double CustomLoss::constantInitializer (const arma::vec&true_value) const
+/**
+ * \brief Definition of the constant risk initialization (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * 
+ * \returns `double` constant which minimizes the empirical risk for the given true value
+ */
+
+double CustomLoss::constantInitializer (const arma::vec& true_value) const
 {
   // for debugging:
   // Rcpp::Rcout << "Initialize custom loss!" << std::endl;

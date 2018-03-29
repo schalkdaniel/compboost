@@ -1,20 +1,20 @@
-<map id="E:/OneDrive/github_repos/compboost/src/data.h" name="E:/OneDrive/github_repos/compboost/src/data.h">
-<area shape="rect" id="node2" href="$baselearner_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner.h" alt="" coords="427,109,578,165"/>
-<area shape="rect" id="node4" href="$baselearner__factory_8h.html" title="Definition of baselearner factory classes. " alt="" coords="311,213,462,269"/>
-<area shape="rect" id="node12" href="$compboost__modules_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost_modules.cpp" alt="" coords="161,659,332,715"/>
-<area shape="rect" id="node19" href="$data_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/data.cpp" alt="" coords="602,109,753,165"/>
-<area shape="rect" id="node3" href="$baselearner_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner.cpp" alt="" coords="541,213,691,269"/>
-<area shape="rect" id="node8" href="$baselearner__track_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_track.h" alt="" coords="659,443,810,499"/>
-<area shape="rect" id="node13" href="$optimizer_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/optimizer.h" alt="" coords="485,443,635,499"/>
-<area shape="rect" id="node15" href="$logger_8h.html" title="Logger class definition. " alt="" coords="773,213,923,269"/>
-<area shape="rect" id="node5" href="$baselearner__factory_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory.cpp" alt="" coords="43,325,207,381"/>
-<area shape="rect" id="node6" href="$baselearner__factory__list_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory\l_list.h" alt="" coords="311,317,462,388"/>
-<area shape="rect" id="node7" href="$baselearner__factory__list_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_factory\l_list.cpp" alt="" coords="310,436,461,507"/>
-<area shape="rect" id="node9" href="$baselearner__track_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/baselearner_track.cpp" alt="" coords="747,555,901,611"/>
-<area shape="rect" id="node10" href="$compboost_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost.h" alt="" coords="571,555,722,611"/>
-<area shape="rect" id="node11" href="$compboost_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost.cpp" alt="" coords="571,659,722,715"/>
-<area shape="rect" id="node14" href="$optimizer_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/optimizer.cpp" alt="" coords="397,555,547,611"/>
-<area shape="rect" id="node16" href="$loggerlist_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loggerlist.h" alt="" coords="773,325,923,381"/>
-<area shape="rect" id="node18" href="$logger_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/logger.cpp" alt="" coords="947,325,1098,381"/>
-<area shape="rect" id="node17" href="$loggerlist_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loggerlist.cpp" alt="" coords="886,443,1037,499"/>
+<map id="C:/Users/schal/OneDrive/github_repos/compboost/src/data.h" name="C:/Users/schal/OneDrive/github_repos/compboost/src/data.h">
+<area shape="rect" id="node2" href="$baselearner_8h.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner.h" alt="" coords="475,109,643,165"/>
+<area shape="rect" id="node4" href="$baselearner__factory_8h.html" title="Definition of baselearner factory classes. " alt="" coords="335,213,507,269"/>
+<area shape="rect" id="node12" href="$compboost__modules_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/compboost_modules.cpp" alt="" coords="177,644,370,700"/>
+<area shape="rect" id="node19" href="$data_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/data.cpp" alt="" coords="667,109,835,165"/>
+<area shape="rect" id="node3" href="$baselearner_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner.cpp" alt="" coords="596,213,764,269"/>
+<area shape="rect" id="node8" href="$baselearner__track_8h.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner_track.h" alt="" coords="720,429,888,485"/>
+<area shape="rect" id="node13" href="$optimizer_8h.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/optimizer.h" alt="" coords="528,429,696,485"/>
+<area shape="rect" id="node15" href="$logger_8h.html" title="Logger class definition. " alt="" coords="841,213,1009,269"/>
+<area shape="rect" id="node5" href="$baselearner__factory_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner_factory.cpp" alt="" coords="43,317,229,373"/>
+<area shape="rect" id="node6" href="$baselearner__factory__list_8h.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner_factory_list.h" alt="" coords="323,317,519,373"/>
+<area shape="rect" id="node7" href="$baselearner__factory__list_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner_factory\l_list.cpp" alt="" coords="336,421,504,492"/>
+<area shape="rect" id="node9" href="$baselearner__track_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/baselearner_track.cpp" alt="" coords="816,540,992,596"/>
+<area shape="rect" id="node10" href="$compboost_8h.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/compboost.h" alt="" coords="624,540,792,596"/>
+<area shape="rect" id="node11" href="$compboost_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/compboost.cpp" alt="" coords="624,644,792,700"/>
+<area shape="rect" id="node14" href="$optimizer_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/optimizer.cpp" alt="" coords="432,540,600,596"/>
+<area shape="rect" id="node16" href="$loggerlist_8h.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/loggerlist.h" alt="" coords="841,317,1009,373"/>
+<area shape="rect" id="node18" href="$logger_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/logger.cpp" alt="" coords="1033,317,1201,373"/>
+<area shape="rect" id="node17" href="$loggerlist_8cpp.html" title="C:/Users/schal/OneDrive\l/github_repos/compboost\l/src/loggerlist.cpp" alt="" coords="963,429,1131,485"/>
 </map>

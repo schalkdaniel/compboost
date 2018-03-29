@@ -2,6 +2,11 @@
 \label{classloss_1_1_custom_loss}\index{loss\+::\+Custom\+Loss@{loss\+::\+Custom\+Loss}}
 
 
+With this loss it is possible to define custom functions out of {\ttfamily R}  
+
+
+
+
 {\ttfamily \#include $<$loss.\+h$>$}
 
 
@@ -26,23 +31,30 @@ Collaboration diagram for loss\+:\+:Custom\+Loss\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classloss_1_1_custom_loss_ae3e34f8cab5f6c317412a32f27542f92}{Custom\+Loss}} (Rcpp\+::\+Function, Rcpp\+::\+Function, Rcpp\+::\+Function)
-\item 
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_custom_loss_a2a96bc5e4b4894bbaa64745a3f7c0fd5}{defined\+Loss}} (const arma\+::vec \&, const arma\+::vec \&) const
-\item 
+\begin{DoxyCompactList}\small\item\em Specific loss function. \end{DoxyCompactList}\item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_custom_loss_a3a79dc019e781c2956b52fb8e1cfcc56}{defined\+Gradient}} (const arma\+::vec \&, const arma\+::vec \&) const
-\item 
+\begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classloss_1_1_custom_loss_adf283025a8511731504cd5b620cc8b37}{constant\+Initializer}} (const arma\+::vec \&) const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
 Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_a90aa6d3240cd14bc3ede21af38b70c8a}{loss\+Fun}}
-\item 
+\begin{DoxyCompactList}\small\item\em {\ttfamily R} loss function \end{DoxyCompactList}\item 
 Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_af3f00f7f006f7466c79fff83d763c359}{gradient\+Fun}}
-\item 
+\begin{DoxyCompactList}\small\item\em {\ttfamily R} gradient of loss function \end{DoxyCompactList}\item 
 Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_a0c7a32f9ab123e8bc45154103f295055}{init\+Fun}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em {\ttfamily R} constant initializer of empirical risk \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+With this loss it is possible to define custom functions out of {\ttfamily R} 
+
+This one is a special one. It allows to use a custom loss predefined in R. The convenience here comes from the \textquotesingle{}Rcpp\+::\+Function\textquotesingle{} class and the use of a special constructor which defines the three needed functions.
+
+{\bfseries Note} that there is one conversion step. There is no predefined conversion from {\ttfamily Rcpp\+::\+Function} (which acts as S\+E\+XP) to a {\ttfamily arma\+::vec}. But it is possible by using {\ttfamily Rcpp\+::\+Numeric\+Vector}. Therefore the custom functions returns a {\ttfamily Rcpp\+::\+Numeric\+Vector} which then is able to be converted to a {\ttfamily arma\+::vec}. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classloss_1_1_custom_loss_ae3e34f8cab5f6c317412a32f27542f92}\label{classloss_1_1_custom_loss_ae3e34f8cab5f6c317412a32f27542f92}} 
@@ -53,6 +65,24 @@ Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_a0c7a32f9ab123e8bc
 
 
 
+Default constructor. 
+
+Default constructor of custom loss class.
+
+
+\begin{DoxyParams}{Parameters}
+{\em loss\+Fun} & {\ttfamily Rcpp\+::\+Function} {\ttfamily R} function to calculate the loss \\
+\hline
+{\em gradient\+Fun} & {\ttfamily Rcpp\+::\+Function} {\ttfamily R} function to calculate the gradient of the loss function \\
+\hline
+{\em init\+Fun} & {\ttfamily Rcpp\+::\+Function} {\ttfamily R} function to initialize a constant (here it is not neccessary to initialize in a loss/risk optimal manner)\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily double} constant which minimizes the empirical risk for the given true value 
+\end{DoxyReturn}
+
+
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classloss_1_1_custom_loss_adf283025a8511731504cd5b620cc8b37}\label{classloss_1_1_custom_loss_adf283025a8511731504cd5b620cc8b37}} 
 \index{loss\+::\+Custom\+Loss@{loss\+::\+Custom\+Loss}!constant\+Initializer@{constant\+Initializer}}
@@ -60,6 +90,20 @@ Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_a0c7a32f9ab123e8bc
 \subsubsection{\texorpdfstring{constant\+Initializer()}{constantInitializer()}}
 {\footnotesize\ttfamily double loss\+::\+Custom\+Loss\+::constant\+Initializer (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{true\+\_\+value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
+
+
+Constant initialization of the empirical risk. 
+
+Definition of the constant risk initialization (see description of the class)
+
+
+\begin{DoxyParams}{Parameters}
+{\em true\+\_\+value} & {\ttfamily arma\+::vec} True value of the response\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily double} constant which minimizes the empirical risk for the given true value 
+\end{DoxyReturn}
 
 
 Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}}.
@@ -72,6 +116,22 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798
 
 
 
+Gradient of loss functions for pseudo residuals. 
+
+Definition of the gradient of the loss function (see description of the class)
+
+
+\begin{DoxyParams}{Parameters}
+{\em true\+\_\+value} & {\ttfamily arma\+::vec} True value of the response \\
+\hline
+{\em prediction} & {\ttfamily arma\+::vec} Prediction of the true value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} vector of elementwise application of the gradient 
+\end{DoxyReturn}
+
+
 Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_custom_loss_a2a96bc5e4b4894bbaa64745a3f7c0fd5}\label{classloss_1_1_custom_loss_a2a96bc5e4b4894bbaa64745a3f7c0fd5}} 
@@ -80,6 +140,22 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979
 \subsubsection{\texorpdfstring{defined\+Loss()}{definedLoss()}}
 {\footnotesize\ttfamily arma\+::vec loss\+::\+Custom\+Loss\+::defined\+Loss (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{true\+\_\+value,  }\item[{const arma\+::vec \&}]{prediction }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
+
+
+Specific loss function. 
+
+Definition of the loss function (see description of the class)
+
+
+\begin{DoxyParams}{Parameters}
+{\em true\+\_\+value} & {\ttfamily arma\+::vec} True value of the response \\
+\hline
+{\em prediction} & {\ttfamily arma\+::vec} Prediction of the true value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} vector of elementwise application of the loss function 
+\end{DoxyReturn}
 
 
 Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}}.
@@ -93,11 +169,19 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94
 \subsubsection{\texorpdfstring{gradient\+Fun}{gradientFun}}
 {\footnotesize\ttfamily Rcpp\+::\+Function loss\+::\+Custom\+Loss\+::gradient\+Fun\hspace{0.3cm}{\ttfamily [private]}}
 
+
+
+{\ttfamily R} gradient of loss function 
+
 \mbox{\Hypertarget{classloss_1_1_custom_loss_a0c7a32f9ab123e8bc45154103f295055}\label{classloss_1_1_custom_loss_a0c7a32f9ab123e8bc45154103f295055}} 
 \index{loss\+::\+Custom\+Loss@{loss\+::\+Custom\+Loss}!init\+Fun@{init\+Fun}}
 \index{init\+Fun@{init\+Fun}!loss\+::\+Custom\+Loss@{loss\+::\+Custom\+Loss}}
 \subsubsection{\texorpdfstring{init\+Fun}{initFun}}
 {\footnotesize\ttfamily Rcpp\+::\+Function loss\+::\+Custom\+Loss\+::init\+Fun\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+{\ttfamily R} constant initializer of empirical risk 
 
 \mbox{\Hypertarget{classloss_1_1_custom_loss_a90aa6d3240cd14bc3ede21af38b70c8a}\label{classloss_1_1_custom_loss_a90aa6d3240cd14bc3ede21af38b70c8a}} 
 \index{loss\+::\+Custom\+Loss@{loss\+::\+Custom\+Loss}!loss\+Fun@{loss\+Fun}}
@@ -107,7 +191,11 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94
 
 
 
+{\ttfamily R} loss function 
+
+
+
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}

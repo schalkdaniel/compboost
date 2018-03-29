@@ -11,7 +11,7 @@
 <area shape="rect" id="node8" href="$classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="864,202,1076,258"/>
 <area shape="rect" id="node10" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="883,5,1057,47"/>
 <area shape="rect" id="node11" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="887,71,1053,112"/>
-<area shape="rect" id="node13" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="loss::Loss::definedGradient" alt="" coords="633,594,813,621"/>
+<area shape="rect" id="node13" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="633,594,813,621"/>
 <area shape="rect" id="node14" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="649,332,796,373"/>
 <area shape="rect" id="node15" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="641,397,804,439"/>
 <area shape="rect" id="node16" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="635,463,810,504"/>

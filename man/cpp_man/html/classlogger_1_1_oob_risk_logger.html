@@ -80,6 +80,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. ">Logger</a> class to log the out of bag risk.  
+ <a href="classlogger_1_1_oob_risk_logger.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="logger_8h_source.html">logger.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for logger::OobRiskLogger:</div>
@@ -95,7 +98,7 @@ Collaboration diagram for logger::OobRiskLogger:</div>
 <div class="center"><img src="classlogger_1_1_oob_risk_logger__coll__graph.png" border="0" usemap="#logger_1_1_oob_risk_logger_coll__map" alt="Collaboration graph"/></div>
 <map name="logger_1_1_oob_risk_logger_coll__map" id="logger_1_1_oob_risk_logger_coll__map">
 <area shape="rect" id="node2" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. " alt="" coords="5,5,172,185"/>
-<area shape="rect" id="node3" href="classloss_1_1_loss.html" title="{loss::Loss\n||+ definedLoss()\l+ definedGradient()\l+ constantInitializer()\l+ ~Loss()\l}" alt="" coords="196,35,339,156"/>
+<area shape="rect" id="node3" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="196,35,339,156"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -105,7 +108,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a6c4e307fe35f2c1f329b5cddc1bfe56d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a6c4e307fe35f2c1f329b5cddc1bfe56d">More...</a><br /></td></tr>
 <tr class="separator:a6c4e307fe35f2c1f329b5cddc1bfe56d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a948a89f02ac782c25a15c49c4a108c02"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02">logStep</a> (const unsigned int &amp;, const arma::vec &amp;, const arma::vec &amp;, <a class="el" href="classblearner_1_1_baselearner.html">blearner::Baselearner</a> *, const double &amp;, const double &amp;)</td></tr>
-<tr class="memdesc:a948a89f02ac782c25a15c49c4a108c02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_oob_risk_logger.html">OobRiskLogger</a></code>  <a href="#a948a89f02ac782c25a15c49c4a108c02">More...</a><br /></td></tr>
+<tr class="memdesc:a948a89f02ac782c25a15c49c4a108c02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_oob_risk_logger.html" title="Logger class to log the out of bag risk. ">OobRiskLogger</a></code>  <a href="#a948a89f02ac782c25a15c49c4a108c02">More...</a><br /></td></tr>
 <tr class="separator:a948a89f02ac782c25a15c49c4a108c02"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c1c8358ffcb5f5463b43f068ea21aa4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_oob_risk_logger.html#a5c1c8358ffcb5f5463b43f068ea21aa4">reachedStopCriteria</a> () const</td></tr>
 <tr class="memdesc:a5c1c8358ffcb5f5463b43f068ea21aa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop criteria is fulfilled if the relative improvement falls below <code>eps_for_break</code>  <a href="#a5c1c8358ffcb5f5463b43f068ea21aa4">More...</a><br /></td></tr>
@@ -157,7 +160,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:a57ca2ab531e0a7ac74f4ecd4b74a938f inherit pro_attribs_classlogger_1_1_logger"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag if the logger is used as stopper.  <a href="classlogger_1_1_logger.html#a57ca2ab531e0a7ac74f4ecd4b74a938f">More...</a><br /></td></tr>
 <tr class="separator:a57ca2ab531e0a7ac74f4ecd4b74a938f inherit pro_attribs_classlogger_1_1_logger"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. ">Logger</a> class to log the out of bag risk. </p>
+<p>This class loggs the out of bag risk for a specific loss function and a map of new data. It is possible to define more than one inbag risk logger (e.g. for 2 different loss functions). For details about logging and stopping see the description of the <code><a class="el" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger ">logStep()</a></code> function. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a6c4e307fe35f2c1f329b5cddc1bfe56d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6c4e307fe35f2c1f329b5cddc1bfe56d">&#9670;&nbsp;</a></span>OobRiskLogger()</h2>
 
@@ -203,7 +209,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Default constructor. </p>
-<p>Default constructor of <code><a class="el" href="classlogger_1_1_oob_risk_logger.html">OobRiskLogger</a></code></p>
+<p>Default constructor of <code><a class="el" href="classlogger_1_1_oob_risk_logger.html" title="Logger class to log the out of bag risk. ">OobRiskLogger</a></code></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">is_a_stopper0</td><td><code>bool</code> to set if the logger should be used as stopper </td></tr>
@@ -274,7 +280,7 @@ Additional Inherited Members</h2></td></tr>
 <p>Return the data stored within the logger. </p>
 <p>Return the data stored within the OOB risk logger.</p>
 <p>This function returns the logged OOB risk.</p>
-<dl class="section return"><dt>Returns</dt><dd><code>arma::vec</code> of elapsed time </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><code>arma::vec</code> of elapsed out of bag risk </dd></dl>
 
 <p>Implements <a class="el" href="classlogger_1_1_logger.html#aa4fc254c532172db3404b7c0bcd17092">logger::Logger</a>.</p>
 
@@ -368,9 +374,9 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_oob_risk_logger.html">OobRiskLogger</a></code> </p>
+<p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_oob_risk_logger.html" title="Logger class to log the out of bag risk. ">OobRiskLogger</a></code> </p>
 <p>This logger computes the risk for a given new dataset \(\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}\) and stores it into a vector. The OOB risk \(\mathcal{R}_\mathrm{oob}\) for iteration \(m\) is calculated by: </p><p class="formulaDsp">
-\[ \mathcal{R}_\mathrm{oob}^{[m]} = \sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}(x)^{[m]}) \]
+\[ \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}(x)^{[m]}) \]
 </p>
 <p><b>Note:</b> If \(m=0\) than {f} is just the offset.</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -393,7 +399,7 @@ Here is the call graph for this function:</div>
 <map name="classlogger_1_1_oob_risk_logger_a948a89f02ac782c25a15c49c4a108c02_cgraph" id="classlogger_1_1_oob_risk_logger_a948a89f02ac782c25a15c49c4a108c02_cgraph">
 <area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="215,5,360,47"/>
 <area shape="rect" id="node4" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="215,71,360,112"/>
-<area shape="rect" id="node5" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="loss::Loss::definedLoss" alt="" coords="208,137,367,163"/>
+<area shape="rect" id="node5" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="208,137,367,163"/>
 <area shape="rect" id="node3" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="415,13,597,39"/>
 </map>
 </div>
@@ -611,8 +617,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8cpp.html">logger.cpp</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8cpp.html">logger.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

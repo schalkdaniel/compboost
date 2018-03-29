@@ -79,13 +79,16 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Definition of the quadratic loss.  
+ <a href="classloss_1_1_quadratic_loss.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="loss_8h_source.html">loss.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for loss::QuadraticLoss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_quadratic_loss__inherit__graph.png" border="0" usemap="#loss_1_1_quadratic_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_quadratic_loss_inherit__map" id="loss_1_1_quadratic_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="{loss::Loss\n||+ definedLoss()\l+ definedGradient()\l+ constantInitializer()\l+ ~Loss()\l}" alt="" coords="5,5,148,127"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,127"/>
 </map>
 </div>
 <div class="dynheader">
@@ -93,23 +96,37 @@ Collaboration diagram for loss::QuadraticLoss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_quadratic_loss__coll__graph.png" border="0" usemap="#loss_1_1_quadratic_loss_coll__map" alt="Collaboration graph"/></div>
 <map name="loss_1_1_quadratic_loss_coll__map" id="loss_1_1_quadratic_loss_coll__map">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="{loss::Loss\n||+ definedLoss()\l+ definedGradient()\l+ constantInitializer()\l+ ~Loss()\l}" alt="" coords="5,5,148,127"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,127"/>
 </map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ae34f68243ffe021e309ed73a68796e1e"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_quadratic_loss.html#ae34f68243ffe021e309ed73a68796e1e">definedLoss</a> (const arma::vec &amp;, const arma::vec &amp;) const</td></tr>
+<tr class="memdesc:ae34f68243ffe021e309ed73a68796e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specific loss function.  <a href="#ae34f68243ffe021e309ed73a68796e1e">More...</a><br /></td></tr>
 <tr class="separator:ae34f68243ffe021e309ed73a68796e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb4da1acbad702b5ba8570abaa17d373"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_quadratic_loss.html#adb4da1acbad702b5ba8570abaa17d373">definedGradient</a> (const arma::vec &amp;, const arma::vec &amp;) const</td></tr>
+<tr class="memdesc:adb4da1acbad702b5ba8570abaa17d373"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gradient of loss functions for pseudo residuals.  <a href="#adb4da1acbad702b5ba8570abaa17d373">More...</a><br /></td></tr>
 <tr class="separator:adb4da1acbad702b5ba8570abaa17d373"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43989f3fbecc27351513afe1136cdf38"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_quadratic_loss.html#a43989f3fbecc27351513afe1136cdf38">constantInitializer</a> (const arma::vec &amp;) const</td></tr>
+<tr class="memdesc:a43989f3fbecc27351513afe1136cdf38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant initialization of the empirical risk.  <a href="#a43989f3fbecc27351513afe1136cdf38">More...</a><br /></td></tr>
 <tr class="separator:a43989f3fbecc27351513afe1136cdf38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classloss_1_1_loss"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classloss_1_1_loss')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classloss_1_1_loss.html">loss::Loss</a></td></tr>
 <tr class="memitem:a868a7908fd97590b6c4fc69f4eb3c570 inherit pub_methods_classloss_1_1_loss"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a868a7908fd97590b6c4fc69f4eb3c570">~Loss</a> ()</td></tr>
 <tr class="separator:a868a7908fd97590b6c4fc69f4eb3c570 inherit pub_methods_classloss_1_1_loss"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Definition of the quadratic loss. </p>
+<p><b><a class="el" href="classloss_1_1_loss.html" title="Abstract loss class. ">Loss</a> Function:</b> </p><p class="formulaDsp">
+\[ L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2 \]
+</p>
+<p> <b>Gradient:</b> </p><p class="formulaDsp">
+\[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \]
+</p>
+<p> <b>Initialization:</b> </p><p class="formulaDsp">
+\[ \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \bar{y} \]
+</p>
+ </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a43989f3fbecc27351513afe1136cdf38"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43989f3fbecc27351513afe1136cdf38">&#9670;&nbsp;</a></span>constantInitializer()</h2>
 
@@ -133,6 +150,16 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Constant initialization of the empirical risk. </p>
+<p>Definition of the constant risk initialization (see description of the class)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">true_value</td><td><code>arma::vec</code> True value of the response</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>double</code> constant which minimizes the empirical risk for the given true value </dd></dl>
 
 <p>Implements <a class="el" href="classloss_1_1_loss.html#a65fe7dcd9370e6a549b8d1cc95fc8798">loss::Loss</a>.</p>
 
@@ -172,6 +199,17 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gradient of loss functions for pseudo residuals. </p>
+<p>Definition of the gradient of the loss function (see description of the class)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">true_value</td><td><code>arma::vec</code> True value of the response </td></tr>
+    <tr><td class="paramname">prediction</td><td><code>arma::vec</code> Prediction of the true value</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>arma::vec</code> vector of elementwise application of the gradient </dd></dl>
+
 <p>Implements <a class="el" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979">loss::Loss</a>.</p>
 
 </div>
@@ -210,13 +248,24 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Specific loss function. </p>
+<p>Definition of the loss function (see description of the class)</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">true_value</td><td><code>arma::vec</code> True value of the response </td></tr>
+    <tr><td class="paramname">prediction</td><td><code>arma::vec</code> Prediction of the true value</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>arma::vec</code> vector of elementwise application of the loss function </dd></dl>
+
 <p>Implements <a class="el" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94">loss::Loss</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="loss_8h_source.html">loss.h</a></li>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="loss_8cpp.html">loss.cpp</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="loss_8h_source.html">loss.h</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="loss_8cpp.html">loss.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

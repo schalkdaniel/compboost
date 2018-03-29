@@ -1,7 +1,7 @@
-<map id="E:/OneDrive/github_repos/compboost/src/loggerlist.h" name="E:/OneDrive/github_repos/compboost/src/loggerlist.h">
-<area shape="rect" id="node4" href="$logger_8h.html" title="Logger class definition. " alt="" coords="245,109,313,136"/>
-<area shape="rect" id="node8" href="$loss_8h.html" title="loss.h" alt="" coords="353,184,411,211"/>
-<area shape="rect" id="node11" href="$baselearner_8h.html" title="baselearner.h" alt="" coords="229,184,329,211"/>
-<area shape="rect" id="node12" href="$data_8h.html" title="data.h" alt="" coords="114,259,173,285"/>
-<area shape="rect" id="node13" href="$splines_8h.html" title="splines.h" alt="" coords="197,259,271,285"/>
+<map id="C:/Users/schal/OneDrive/github_repos/compboost/src/loggerlist.h" name="C:/Users/schal/OneDrive/github_repos/compboost/src/loggerlist.h">
+<area shape="rect" id="node4" href="$logger_8h.html" title="Logger class definition. " alt="" coords="254,109,322,136"/>
+<area shape="rect" id="node8" href="$loss_8h.html" title="Loss class definition. " alt="" coords="362,184,419,211"/>
+<area shape="rect" id="node11" href="$baselearner_8h.html" title="baselearner.h" alt="" coords="238,184,338,211"/>
+<area shape="rect" id="node12" href="$data_8h.html" title="data.h" alt="" coords="123,259,181,285"/>
+<area shape="rect" id="node13" href="$splines_8h.html" title="splines.h" alt="" coords="205,259,280,285"/>
 </map>

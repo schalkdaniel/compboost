@@ -2,6 +2,11 @@
 \label{classlogger_1_1_inbag_risk_logger}\index{logger\+::\+Inbag\+Risk\+Logger@{logger\+::\+Inbag\+Risk\+Logger}}
 
 
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the inbag risk.  
+
+
+
+
 {\ttfamily \#include $<$logger.\+h$>$}
 
 
@@ -50,6 +55,11 @@ double \mbox{\hyperlink{classlogger_1_1_inbag_risk_logger_a1890b49b8ffe85e1bc65b
 \begin{DoxyCompactList}\small\item\em Stopping criteria, stop if $(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}$. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the inbag risk. 
+
+This class loggs the inbag risk for a specific loss function. It is possible to define more than one inbag risk logger (e.\+g. for 2 different loss functions). For details about logging and stopping see the description of the {\ttfamily \mbox{\hyperlink{classlogger_1_1_inbag_risk_logger_ad90612e1b684287a29bdbde1077d65d7}{log\+Step()}}} function. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classlogger_1_1_inbag_risk_logger_aab67656c1530f20c29ffed3d54ef8fce}\label{classlogger_1_1_inbag_risk_logger_aab67656c1530f20c29ffed3d54ef8fce}} 
@@ -140,7 +150,7 @@ Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{cl
 
 
 \begin{DoxyItemize}
-\item This logger computes the risk for the given training data $\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}$ and stores it into a vector. The risk $\mathcal{R}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}^{[m]} = \sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}(x)^{[m]}) \]
+\item This logger computes the risk for the given training data $\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}$ and stores it into a vector. The risk $\mathcal{R}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}(x)^{[m]}) \]
 \end{DoxyItemize}
 
 {\bfseries Note\+:} If $m=0$ than \{f\} is just the offset.
@@ -248,5 +258,5 @@ Used loss. {\bfseries Note} that you can specify a different loss than the loss 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}

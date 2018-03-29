@@ -1,5 +1,10 @@
-\hypertarget{loss_8h}{}\section{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/loss.h File Reference}
-\label{loss_8h}\index{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/loss.\+h@{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/loss.\+h}}
+\hypertarget{loss_8h}{}\section{C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/loss.h File Reference}
+\label{loss_8h}\index{C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/loss.\+h@{C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/loss.\+h}}
+
+
+Loss class definition.  
+
+
 {\ttfamily \#include $<$Rcpp\+Armadillo.\+h$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
 Include dependency graph for loss.\+h\+:\nopagebreak
@@ -20,15 +25,36 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 \begin{DoxyCompactItemize}
 \item 
 class \mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}}
-\item 
+\begin{DoxyCompactList}\small\item\em Abstract loss class. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_quadratic_loss}{loss\+::\+Quadratic\+Loss}}
-\item 
+\begin{DoxyCompactList}\small\item\em Definition of the quadratic loss. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_absolute_loss}{loss\+::\+Absolute\+Loss}}
-\item 
+\begin{DoxyCompactList}\small\item\em Definition of the absolute loss. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_custom_loss}{loss\+::\+Custom\+Loss}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em With this loss it is possible to define custom functions out of {\ttfamily R} \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
  \mbox{\hyperlink{namespaceloss}{loss}}
 \end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Loss class definition. 
+
+\begin{DoxyAuthor}{Author}
+Daniel Schalk (github\+: schalkdaniel)
+\end{DoxyAuthor}
+\hypertarget{loss_8h_DESCRIPTION}{}\subsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{loss_8h_DESCRIPTION}
+This file contains the different loss implementations. The structure is\+:
+
+
+\begin{DoxyCode}
+\textcolor{keyword}{class }SpecificLoss: \textcolor{keyword}{public} Loss
+\{
+  arma::vec definedLoss      \{ IMPLEMENTATION \};
+  arma::vec definedGradient  \{ IMPLEMENTATION \};
+  \textcolor{keywordtype}{double} constantInitializer \{ IMPLEMENTATION \};
+\}
+\end{DoxyCode}
+ 

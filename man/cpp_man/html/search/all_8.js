@@ -16,7 +16,6 @@ var searchData=
   ['is_5fa_5fstopper',['is_a_stopper',['../classlogger_1_1_logger.html#a57ca2ab531e0a7ac74f4ecd4b74a938f',1,'logger::Logger']]],
   ['is_5ftrained',['is_trained',['../class_compboost_wrapper.html#a940c9eed2a807978894f98a7eac0d5e2',1,'CompboostWrapper']]],
   ['istrained',['isTrained',['../class_compboost_wrapper.html#a0e12eb55444c9333fdc1ee1696483f6d',1,'CompboostWrapper']]],
-  ['iteration',['Iteration',['../class_iteration.html',1,'']]],
   ['iterationlogger',['IterationLogger',['../classlogger_1_1_iteration_logger.html',1,'logger::IterationLogger'],['../classlogger_1_1_iteration_logger.html#a571269a473e45ed773685092fab123c6',1,'logger::IterationLogger::IterationLogger()']]],
   ['iterationloggerwrapper',['IterationLoggerWrapper',['../class_iteration_logger_wrapper.html',1,'IterationLoggerWrapper'],['../class_iteration_logger_wrapper.html#a7d4c0052811a3bbb921cdb31be2c77f5',1,'IterationLoggerWrapper::IterationLoggerWrapper()']]],
   ['iterations',['iterations',['../classlogger_1_1_iteration_logger.html#a7c9d7b0bd792a93a6dd5d9601a10a9b4',1,'logger::IterationLogger']]]

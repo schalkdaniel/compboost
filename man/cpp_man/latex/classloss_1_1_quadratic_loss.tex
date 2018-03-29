@@ -2,6 +2,11 @@
 \label{classloss_1_1_quadratic_loss}\index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}}
 
 
+Definition of the quadratic loss.  
+
+
+
+
 {\ttfamily \#include $<$loss.\+h$>$}
 
 
@@ -26,12 +31,17 @@ Collaboration diagram for loss\+:\+:Quadratic\+Loss\+:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}{defined\+Loss}} (const arma\+::vec \&, const arma\+::vec \&) const
-\item 
+\begin{DoxyCompactList}\small\item\em Specific loss function. \end{DoxyCompactList}\item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_quadratic_loss_adb4da1acbad702b5ba8570abaa17d373}{defined\+Gradient}} (const arma\+::vec \&, const arma\+::vec \&) const
-\item 
+\begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}{constant\+Initializer}} (const arma\+::vec \&) const
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Definition of the quadratic loss. 
+
+{\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2 \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \] {\bfseries Initialization\+:} \[ \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \bar{y} \] 
 
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}\label{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}} 
@@ -40,6 +50,20 @@ double \mbox{\hyperlink{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe113
 \subsubsection{\texorpdfstring{constant\+Initializer()}{constantInitializer()}}
 {\footnotesize\ttfamily double loss\+::\+Quadratic\+Loss\+::constant\+Initializer (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{true\+\_\+value }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
 
+
+
+Constant initialization of the empirical risk. 
+
+Definition of the constant risk initialization (see description of the class)
+
+
+\begin{DoxyParams}{Parameters}
+{\em true\+\_\+value} & {\ttfamily arma\+::vec} True value of the response\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily double} constant which minimizes the empirical risk for the given true value 
+\end{DoxyReturn}
 
 
 Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}}.
@@ -52,6 +76,22 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798
 
 
 
+Gradient of loss functions for pseudo residuals. 
+
+Definition of the gradient of the loss function (see description of the class)
+
+
+\begin{DoxyParams}{Parameters}
+{\em true\+\_\+value} & {\ttfamily arma\+::vec} True value of the response \\
+\hline
+{\em prediction} & {\ttfamily arma\+::vec} Prediction of the true value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} vector of elementwise application of the gradient 
+\end{DoxyReturn}
+
+
 Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}\label{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}} 
@@ -62,11 +102,27 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979
 
 
 
+Specific loss function. 
+
+Definition of the loss function (see description of the class)
+
+
+\begin{DoxyParams}{Parameters}
+{\em true\+\_\+value} & {\ttfamily arma\+::vec} True value of the response \\
+\hline
+{\em prediction} & {\ttfamily arma\+::vec} Prediction of the true value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} vector of elementwise application of the loss function 
+\end{DoxyReturn}
+
+
 Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}

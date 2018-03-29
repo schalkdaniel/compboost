@@ -80,6 +80,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. ">Logger</a> class to log the inbag risk.  
+ <a href="classlogger_1_1_inbag_risk_logger.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="logger_8h_source.html">logger.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for logger::InbagRiskLogger:</div>
@@ -95,7 +98,7 @@ Collaboration diagram for logger::InbagRiskLogger:</div>
 <div class="center"><img src="classlogger_1_1_inbag_risk_logger__coll__graph.png" border="0" usemap="#logger_1_1_inbag_risk_logger_coll__map" alt="Collaboration graph"/></div>
 <map name="logger_1_1_inbag_risk_logger_coll__map" id="logger_1_1_inbag_risk_logger_coll__map">
 <area shape="rect" id="node2" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. " alt="" coords="5,5,172,185"/>
-<area shape="rect" id="node3" href="classloss_1_1_loss.html" title="{loss::Loss\n||+ definedLoss()\l+ definedGradient()\l+ constantInitializer()\l+ ~Loss()\l}" alt="" coords="196,35,339,156"/>
+<area shape="rect" id="node3" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="196,35,339,156"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -105,7 +108,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:aab67656c1530f20c29ffed3d54ef8fce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#aab67656c1530f20c29ffed3d54ef8fce">More...</a><br /></td></tr>
 <tr class="separator:aab67656c1530f20c29ffed3d54ef8fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad90612e1b684287a29bdbde1077d65d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7">logStep</a> (const unsigned int &amp;, const arma::vec &amp;, const arma::vec &amp;, <a class="el" href="classblearner_1_1_baselearner.html">blearner::Baselearner</a> *, const double &amp;, const double &amp;)</td></tr>
-<tr class="memdesc:ad90612e1b684287a29bdbde1077d65d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html">InbagRiskLogger</a></code>  <a href="#ad90612e1b684287a29bdbde1077d65d7">More...</a><br /></td></tr>
+<tr class="memdesc:ad90612e1b684287a29bdbde1077d65d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html" title="Logger class to log the inbag risk. ">InbagRiskLogger</a></code>  <a href="#ad90612e1b684287a29bdbde1077d65d7">More...</a><br /></td></tr>
 <tr class="separator:ad90612e1b684287a29bdbde1077d65d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17a7416e4cc9db4da3b3eda5012ad7c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_inbag_risk_logger.html#a17a7416e4cc9db4da3b3eda5012ad7c7">reachedStopCriteria</a> () const</td></tr>
 <tr class="memdesc:a17a7416e4cc9db4da3b3eda5012ad7c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop criteria is fulfilled if the relative improvement falls below <code>eps_for_break</code>  <a href="#a17a7416e4cc9db4da3b3eda5012ad7c7">More...</a><br /></td></tr>
@@ -148,7 +151,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:a57ca2ab531e0a7ac74f4ecd4b74a938f inherit pro_attribs_classlogger_1_1_logger"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag if the logger is used as stopper.  <a href="classlogger_1_1_logger.html#a57ca2ab531e0a7ac74f4ecd4b74a938f">More...</a><br /></td></tr>
 <tr class="separator:a57ca2ab531e0a7ac74f4ecd4b74a938f inherit pro_attribs_classlogger_1_1_logger"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. ">Logger</a> class to log the inbag risk. </p>
+<p>This class loggs the inbag risk for a specific loss function. It is possible to define more than one inbag risk logger (e.g. for 2 different loss functions). For details about logging and stopping see the description of the <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger ">logStep()</a></code> function. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aab67656c1530f20c29ffed3d54ef8fce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aab67656c1530f20c29ffed3d54ef8fce">&#9670;&nbsp;</a></span>InbagRiskLogger()</h2>
 
@@ -182,7 +188,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Default constructor. </p>
-<p>Default constructor of class <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html">InbagRiskLogger</a></code></p>
+<p>Default constructor of class <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html" title="Logger class to log the inbag risk. ">InbagRiskLogger</a></code></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">is_a_stopper0</td><td><code>bool</code> specify if the logger should be used as stopper </td></tr>
@@ -345,10 +351,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html">InbagRiskLogger</a></code> </p>
+<p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_inbag_risk_logger.html" title="Logger class to log the inbag risk. ">InbagRiskLogger</a></code> </p>
 <ul>
 <li>This logger computes the risk for the given training data \(\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}\) and stores it into a vector. The risk \(\mathcal{R}\) for iteration \(m\) is calculated by: <p class="formulaDsp">
-\[ \mathcal{R}^{[m]} = \sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}(x)^{[m]}) \]
+\[ \mathcal{R}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}(x)^{[m]}) \]
 </p>
 </li>
 </ul>
@@ -371,7 +377,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classlogger_1_1_inbag_risk_logger_ad90612e1b684287a29bdbde1077d65d7_cgraph.png" border="0" usemap="#classlogger_1_1_inbag_risk_logger_ad90612e1b684287a29bdbde1077d65d7_cgraph" alt=""/></div>
 <map name="classlogger_1_1_inbag_risk_logger_ad90612e1b684287a29bdbde1077d65d7_cgraph" id="classlogger_1_1_inbag_risk_logger_ad90612e1b684287a29bdbde1077d65d7_cgraph">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="loss::Loss::definedLoss" alt="" coords="215,13,373,39"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="215,13,373,39"/>
 </map>
 </div>
 
@@ -516,8 +522,8 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8cpp.html">logger.cpp</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8cpp.html">logger.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

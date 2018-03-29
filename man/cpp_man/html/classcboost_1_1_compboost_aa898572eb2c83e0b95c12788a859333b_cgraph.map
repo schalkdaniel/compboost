@@ -1,5 +1,5 @@
 <map id="cboost::Compboost::train" name="cboost::Compboost::train">
-<area shape="rect" id="node2" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="loss::Loss::definedGradient" alt="" coords="199,5,379,32"/>
+<area shape="rect" id="node2" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="199,5,379,32"/>
 <area shape="rect" id="node3" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="216,57,363,98"/>
 <area shape="rect" id="node4" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="208,122,371,163"/>
 <area shape="rect" id="node5" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="202,187,377,229"/>

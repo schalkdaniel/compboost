@@ -2,6 +2,11 @@
 \label{classlogger_1_1_oob_risk_logger}\index{logger\+::\+Oob\+Risk\+Logger@{logger\+::\+Oob\+Risk\+Logger}}
 
 
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the out of bag risk.  
+
+
+
+
 {\ttfamily \#include $<$logger.\+h$>$}
 
 
@@ -56,6 +61,11 @@ arma\+::vec \mbox{\hyperlink{classlogger_1_1_oob_risk_logger_a597783cacae66397b3
 \begin{DoxyCompactList}\small\item\em The response variable which corresponds to the given O\+OB data. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the out of bag risk. 
+
+This class loggs the out of bag risk for a specific loss function and a map of new data. It is possible to define more than one inbag risk logger (e.\+g. for 2 different loss functions). For details about logging and stopping see the description of the {\ttfamily \mbox{\hyperlink{classlogger_1_1_oob_risk_logger_a948a89f02ac782c25a15c49c4a108c02}{log\+Step()}}} function. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classlogger_1_1_oob_risk_logger_a6c4e307fe35f2c1f329b5cddc1bfe56d}\label{classlogger_1_1_oob_risk_logger_a6c4e307fe35f2c1f329b5cddc1bfe56d}} 
@@ -115,7 +125,7 @@ Return the data stored within the O\+OB risk logger.
 This function returns the logged O\+OB risk.
 
 \begin{DoxyReturn}{Returns}
-{\ttfamily arma\+::vec} of elapsed time 
+{\ttfamily arma\+::vec} of elapsed out of bag risk 
 \end{DoxyReturn}
 
 
@@ -148,7 +158,7 @@ Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0
 
 Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_oob_risk_logger}{Oob\+Risk\+Logger}}} 
 
-This logger computes the risk for a given new dataset $\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}$ and stores it into a vector. The O\+OB risk $\mathcal{R}_\mathrm{oob}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{oob}^{[m]} = \sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}(x)^{[m]}) \]
+This logger computes the risk for a given new dataset $\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}$ and stores it into a vector. The O\+OB risk $\mathcal{R}_\mathrm{oob}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}(x)^{[m]}) \]
 
 {\bfseries Note\+:} If $m=0$ than \{f\} is just the offset.
 
@@ -285,5 +295,5 @@ Used loss. {\bfseries Note} that you can specify a different loss than the loss 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
-E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}
