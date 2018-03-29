@@ -1,3 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_logger_list_wrapper.html" title="LoggerListWrapper" alt="" coords="5,5,136,32"/>
+<area shape="rect" id="node1" href="$class_logger_wrapper.html" title="LoggerWrapper" alt="" coords="5,81,116,108"/>
+<area shape="rect" id="node2" href="$class_inbag_risk_logger_wrapper.html" title="InbagRiskLoggerWrapper" alt="" coords="164,5,331,32"/>
+<area shape="rect" id="node3" href="$class_iteration_logger_wrapper.html" title="IterationLoggerWrapper" alt="" coords="169,56,325,83"/>
+<area shape="rect" id="node4" href="$class_oob_risk_logger_wrapper.html" title="OobRiskLoggerWrapper" alt="" coords="167,107,327,133"/>
+<area shape="rect" id="node5" href="$class_time_logger_wrapper.html" title="TimeLoggerWrapper" alt="" coords="178,157,317,184"/>
 </map>

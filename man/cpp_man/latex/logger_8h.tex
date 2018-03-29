@@ -1,5 +1,5 @@
-\hypertarget{logger_8h}{}\section{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/logger.h File Reference}
-\label{logger_8h}\index{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/logger.\+h@{E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/logger.\+h}}
+\hypertarget{logger_8h}{}\section{C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/logger.h File Reference}
+\label{logger_8h}\index{C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/logger.\+h@{C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/logger.\+h}}
 
 
 Logger class definition.  
@@ -31,13 +31,13 @@ This graph shows which files directly or indirectly include this file\+:\nopageb
 class \mbox{\hyperlink{classlogger_1_1_logger}{logger\+::\+Logger}}
 \begin{DoxyCompactList}\small\item\em Abstract logger class with minimal requirements to all logger. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classlogger_1_1_iteration_logger}{logger\+::\+Iteration\+Logger}}
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the current iteration. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classlogger_1_1_inbag_risk_logger}{logger\+::\+Inbag\+Risk\+Logger}}
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the inbag risk. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classlogger_1_1_oob_risk_logger}{logger\+::\+Oob\+Risk\+Logger}}
-\item 
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the out of bag risk. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classlogger_1_1_time_logger}{logger\+::\+Time\+Logger}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the ellapsed time. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
@@ -51,7 +51,7 @@ Logger class definition.
 \begin{DoxyAuthor}{Author}
 Daniel Schalk (github\+: schalkdaniel)
 \end{DoxyAuthor}
-\hypertarget{logger_8h_DESCRIPTION}{}\subsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{logger_8h_DESCRIPTION}
+\hypertarget{loss_8h_DESCRIPTION}{}\subsection{D\+E\+S\+C\+R\+I\+P\+T\+I\+ON}\label{loss_8h_DESCRIPTION}
 This file contains all the available logger which also can be used for early stopping. The idea is not just about to use multiple stopping criteria (e.\+g. maximal number of iterations + a given amount of time), but also to log while training (e.\+g. the inbag or oob risk).
 
 The logger are collected by the {\ttfamily Logger\+List} class. Basicall, that class takes as much logger as you like and logs every step. This can be used to log different risks for different loss functions. Just create two inbag or oob risk logger with a different loss. 

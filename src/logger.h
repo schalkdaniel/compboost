@@ -126,7 +126,7 @@ protected:
 // -------------------------------------------------------------------------- //
 
 /**
- * \class Iteration Logger
+ * \class IterationLogger
  * 
  * \brief Logger class to log the current iteration
  * 
@@ -176,6 +176,18 @@ public:
 // InbagRisk:
 // -----------------------
 
+/**
+ * \class InbagRiskLogger
+ * 
+ * \brief Logger class to log the inbag risk
+ * 
+ * This class loggs the inbag risk for a specific loss function. It is possible
+ * to define more than one inbag risk logger (e.g. for 2 different loss
+ * functions). For details about logging and stopping see the description of the
+ * `logStep()` function.
+ * 
+ */
+
 class InbagRiskLogger : public Logger
 {
 private:
@@ -218,6 +230,18 @@ public:
 
 // OobRisk:
 // -----------------------
+
+/**
+ * \class OobRiskLogger
+ * 
+ * \brief Logger class to log the out of bag risk
+ * 
+ * This class loggs the out of bag risk for a specific loss function and a map
+ * of new data. It is possible to define more than one inbag risk logger 
+ * (e.g. for 2 different loss functions). For details about logging and 
+ * stopping see the description of the `logStep()` function.
+ * 
+ */
 
 class OobRiskLogger : public Logger
 {
@@ -271,6 +295,20 @@ public:
 
 // TimeLogger:
 // -----------------------
+
+/**
+ * \class TimeLogger
+ * 
+ * \brief Logger class to log the ellapsed time
+ * 
+ * This class just loggs the ellapsed time. This sould be very handy if one
+ * wants to run the algorithm for just 2 hours and see how far he comes within
+ * that time. There are three time units available for logging:
+ *   - minutes
+ *   - seconds
+ *   - microseconds
+ *    
+ */
 
 class TimeLogger : public Logger
 {

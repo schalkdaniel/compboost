@@ -19,28 +19,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//   This file contains the different loss implementations. The structure here
-//   is:
-//     - Parent class 'LossDefinition' which are virtual member functions. This
-//       functions are later overwritten by the child member functions which
-//       contains the concrete implementation of the loss.
-//
-//     - Child classes have the structure:
-//
-//         class SpecificLoss: public LossDefinition
-//         {
-//           arma::vec definedLoss      { IMPLEMENTATION };
-//           arma::vec definedGradient  { IMPLEMENTATION };
-//           double constantInitializer { IMPLEMENTATION };
-//         }
-//
-//     - There is one special child class, the 'CustomLoss' which allows to
-//       define custom loss functions out of R.
-//
-//
 // Written by:
 // -----------
 //
@@ -53,6 +31,27 @@
 //   https://www.compstat.statistik.uni-muenchen.de
 //
 // ========================================================================== //
+
+/** 
+ *  @file    loss.h
+ *  @author  Daniel Schalk (github: schalkdaniel)
+ *  
+ *  @brief Loss class definition
+ *
+ *  @section DESCRIPTION
+ *  
+ *  This file contains the different loss implementations. The structure is:
+ *   
+ *  ``` 
+ *  class SpecificLoss: public Loss
+ *  {
+ *    arma::vec definedLoss      { IMPLEMENTATION };
+ *    arma::vec definedGradient  { IMPLEMENTATION };
+ *    double constantInitializer { IMPLEMENTATION };
+ *  }
+ *  ```
+ *
+ */
 
 #ifndef LOSS_H_
 #define LOSS_H_
@@ -67,12 +66,25 @@ namespace loss
 // Parent class:
 // -----------------------
 
+/**
+ * \class Loss
+ * 
+ * \brief Abstract loss class
+ * 
+ * This class defines the minimal requirements of every loss class.
+ * 
+ */
 class Loss
 {
   public:
 
+    /// Specific loss function
     virtual arma::vec definedLoss (const arma::vec&, const arma::vec&) const = 0;
+    
+    /// Gradient of loss functions for pseudo residuals
     virtual arma::vec definedGradient (const arma::vec&, const arma::vec&) const = 0;
+    
+    /// Constant initialization of the empirical risk
     virtual double constantInitializer (const arma::vec&) const = 0;
     
     virtual ~Loss ();
@@ -85,62 +97,121 @@ class Loss
 // QuadraticLoss loss:
 // -----------------------
 
+/**
+ * \class QuadraticLoss
+ * 
+ * \brief Definition of the quadratic loss.
+ * 
+ * **Loss Function:**
+ * \f[
+ *   L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2
+ * \f]
+ * **Gradient:**
+ * \f[
+ *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y
+ * \f]
+ * **Initialization:**
+ * \f[
+ *   \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+ *   L\left(y^{(i)}, c\right) = \bar{y}
+ * \f]
+ * 
+ */
 class QuadraticLoss : public Loss
 {
   public:
 
+    /// Specific loss function
     arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
-
+    
+    /// Gradient of loss functions for pseudo residuals
     arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
-
+    
+    /// Constant initialization of the empirical risk
     double constantInitializer (const arma::vec&) const;
 };
 
 // AbsoluteLoss loss:
 // -----------------------
 
+/**
+ * \class AbsoluteLoss
+ * 
+ * \brief Definition of the absolute loss.
+ * 
+ * **Loss Function:**
+ * \f[
+ *   L(y, f(x)) = \left| y - f(x) \right|
+ * \f]
+ * **Gradient:**
+ * \f[
+ *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right)
+ * \f]
+ * **Initialization:**
+ * \f[
+ *   \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+ *   L\left(y^{(i)}, c\right) = \mathrm{median}(y)
+ * \f]
+ * 
+ */
 class AbsoluteLoss : public Loss
 {
   public:
 
+    /// Specific loss function
     arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
-
+    
+    /// Gradient of loss functions for pseudo residuals
     arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
-
+    
+    /// Constant initialization of the empirical risk
     double constantInitializer (const arma::vec&) const;
 };
 
 // Custom loss:
 // -----------------------
 
-// This one is a special one. It allows to use a custom loss predefined in R.
-// The convenience here comes from the 'Rcpp::Function' class and the use of
-// a special constructor which defines the three needed functions!
-
-// Note that there is one conversion step. There is no predefined conversion
-// from 'Rcpp::Function' (which acts as SEXP) to 'double'. But it is possible
-// to go the step above 'Rcpp::NumericVector'. Therefore the custom functions
-// returns a 'Rcpp::NumericVector' which then is able to be converted to
-// 'double' by just selecting one element.
-
+/**
+ * \class CustomLoss
+ * 
+ * \brief With this loss it is possible to define custom functions out of `R`
+ * 
+ * This one is a special one. It allows to use a custom loss predefined in R.
+ * The convenience here comes from the 'Rcpp::Function' class and the use of
+ * a special constructor which defines the three needed functions.
+ *
+ * **Note** that there is one conversion step. There is no predefined conversion
+ * from `Rcpp::Function` (which acts as SEXP) to a `arma::vec`. But it is 
+ * possible by using `Rcpp::NumericVector`. Therefore the custom functions 
+ * returns a `Rcpp::NumericVector` which then is able to be converted to a
+ * `arma::vec`.
+ * 
+ */
 class CustomLoss : public Loss
 {
   private:
 
+    /// `R` loss function
     Rcpp::Function lossFun;
+    
+    /// `R` gradient of loss function
     Rcpp::Function gradientFun;
+    
+    /// `R` constant initializer of empirical risk
     Rcpp::Function initFun;
 
   public:
 
+    /// Default constructor
     CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
-
+    
+    /// Specific loss function
     arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
-
+    
+    /// Gradient of loss functions for pseudo residuals
     arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
-
-    // Conversion step from 'SEXP' to double via 'Rcpp::NumericVector' which 
-    // knows how to convert a 'SEXP':
+    
+    /// Constant initialization of the empirical risk
     double constantInitializer (const arma::vec&) const;
 };
 

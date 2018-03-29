@@ -80,6 +80,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p><a class="el" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. ">Logger</a> class to log the ellapsed time.  
+ <a href="classlogger_1_1_time_logger.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="logger_8h_source.html">logger.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for logger::TimeLogger:</div>
@@ -101,10 +104,10 @@ Collaboration diagram for logger::TimeLogger:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa67d4d58b4894de7d158786961722751"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_time_logger.html#aa67d4d58b4894de7d158786961722751">TimeLogger</a> (const bool &amp;, const unsigned int &amp;, const std::string &amp;)</td></tr>
-<tr class="memdesc:aa67d4d58b4894de7d158786961722751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor of class <code><a class="el" href="classlogger_1_1_time_logger.html">TimeLogger</a></code>  <a href="#aa67d4d58b4894de7d158786961722751">More...</a><br /></td></tr>
+<tr class="memdesc:aa67d4d58b4894de7d158786961722751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor of class <code><a class="el" href="classlogger_1_1_time_logger.html" title="Logger class to log the ellapsed time. ">TimeLogger</a></code>  <a href="#aa67d4d58b4894de7d158786961722751">More...</a><br /></td></tr>
 <tr class="separator:aa67d4d58b4894de7d158786961722751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9498311652805868b5a0ea7f5480f0be"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_time_logger.html#a9498311652805868b5a0ea7f5480f0be">logStep</a> (const unsigned int &amp;, const arma::vec &amp;, const arma::vec &amp;, <a class="el" href="classblearner_1_1_baselearner.html">blearner::Baselearner</a> *, const double &amp;, const double &amp;)</td></tr>
-<tr class="memdesc:a9498311652805868b5a0ea7f5480f0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_time_logger.html">TimeLogger</a></code>  <a href="#a9498311652805868b5a0ea7f5480f0be">More...</a><br /></td></tr>
+<tr class="memdesc:a9498311652805868b5a0ea7f5480f0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_time_logger.html" title="Logger class to log the ellapsed time. ">TimeLogger</a></code>  <a href="#a9498311652805868b5a0ea7f5480f0be">More...</a><br /></td></tr>
 <tr class="separator:a9498311652805868b5a0ea7f5480f0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a380f7e56af17c8a35d729dad1a5e3baa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlogger_1_1_time_logger.html#a380f7e56af17c8a35d729dad1a5e3baa">reachedStopCriteria</a> () const</td></tr>
 <tr class="memdesc:a380f7e56af17c8a35d729dad1a5e3baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop criteria is fulfilled if the passed time exceeds <code>max_time</code>  <a href="#a380f7e56af17c8a35d729dad1a5e3baa">More...</a><br /></td></tr>
@@ -150,7 +153,14 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:a57ca2ab531e0a7ac74f4ecd4b74a938f inherit pro_attribs_classlogger_1_1_logger"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag if the logger is used as stopper.  <a href="classlogger_1_1_logger.html#a57ca2ab531e0a7ac74f4ecd4b74a938f">More...</a><br /></td></tr>
 <tr class="separator:a57ca2ab531e0a7ac74f4ecd4b74a938f inherit pro_attribs_classlogger_1_1_logger"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. ">Logger</a> class to log the ellapsed time. </p>
+<p>This class just loggs the ellapsed time. This sould be very handy if one wants to run the algorithm for just 2 hours and see how far he comes within that time. There are three time units available for logging:</p><ul>
+<li>minutes</li>
+<li>seconds</li>
+<li>microseconds </li>
+</ul>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="aa67d4d58b4894de7d158786961722751"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa67d4d58b4894de7d158786961722751">&#9670;&nbsp;</a></span>TimeLogger()</h2>
 
@@ -183,7 +193,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Default constructor of class <code><a class="el" href="classlogger_1_1_time_logger.html">TimeLogger</a></code> </p>
+<p>Default constructor of class <code><a class="el" href="classlogger_1_1_time_logger.html" title="Logger class to log the ellapsed time. ">TimeLogger</a></code> </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">is_a_stopper0</td><td><code>bool</code> which specifies if the logger is used as stopper </td></tr>
@@ -346,7 +356,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_time_logger.html">TimeLogger</a></code> </p>
+<p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_time_logger.html" title="Logger class to log the ellapsed time. ">TimeLogger</a></code> </p>
 <p>This functions loggs dependent on <code>time_unit</code> the elapsed time at the current iteration.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -526,8 +536,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
-<li>E:/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8cpp.html">logger.cpp</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8h_source.html">logger.h</a></li>
+<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="logger_8cpp.html">logger.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
