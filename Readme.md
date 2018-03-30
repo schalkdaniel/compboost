@@ -66,6 +66,14 @@ devtools::install_github("schalkdaniel/compboost")
   
 - **07.02.2018** \
   Naming of the `C++` classes. Those are matching the `R` classes now.
+  
+- **28.03.2018** \
+  Upload `C++` documentation created by doxygen. 
+  
+- **30.03.2018** \
+  Compboost is now ready to do binary classification by using the 
+  `BernoulliLoss`.
+  
 
 ## Idea
 
