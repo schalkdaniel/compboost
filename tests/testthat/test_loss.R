@@ -5,6 +5,7 @@ test_that("Quadratic loss works", {
   prediction = runif(100)
   
   quadratic.loss = QuadraticLoss$new()
+  quadratic.loss.custom = QuadraticLoss$new(2)
   
   # Tests:
   # -----------
@@ -20,6 +21,7 @@ test_that("Quadratic loss works", {
     quadratic.loss$testConstantInitializer(true.value),
     mean.default(true.value)
   )
+  expect_equal(quadratic.loss.custom$testConstantInitializer(true.value), 2)
 })
 
 test_that("Absolute loss works", {
@@ -27,6 +29,7 @@ test_that("Absolute loss works", {
   prediction = runif(100)
   
   absolute.loss = AbsoluteLoss$new()
+  absolute.loss.custom = AbsoluteLoss$new(pi)
   
   # Tests:
   # -----------
@@ -42,6 +45,7 @@ test_that("Absolute loss works", {
     absolute.loss$testConstantInitializer(true.value),
     median.default(true.value)
   )
+  expect_equal(absolute.loss.custom$testConstantInitializer(true.value), pi)
 })
 
 test_that("Bernoulli loss works", {
@@ -49,6 +53,10 @@ test_that("Bernoulli loss works", {
   prediction = runif(100, -1, 1)
   
   bernoulli.loss = BernoulliLoss$new()
+  bernoulli.loss.custom = BernoulliLoss$new(0.7)
+  suppressWarnings({
+    bernoulli.loss.warning = BernoulliLoss$new(2)
+  })
   
   # Tests:
   # -----------
@@ -62,6 +70,11 @@ test_that("Bernoulli loss works", {
   )
   expect_equal(
     bernoulli.loss$testConstantInitializer(true.value),
+    log(mean(true.value > 0) / (1 - mean(true.value > 0))) / 2
+  )
+  expect_equal(bernoulli.loss.custom$testConstantInitializer(true.value), 0.7)
+  expect_equal(
+    bernoulli.loss.warning$testConstantInitializer(true.value),
     log(mean(true.value > 0) / (1 - mean(true.value > 0))) / 2
   )
 })

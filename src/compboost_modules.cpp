@@ -736,6 +736,8 @@ class QuadraticLossWrapper : public LossWrapper
 {
 public:
   QuadraticLossWrapper () { obj = new loss::QuadraticLoss(); }
+  QuadraticLossWrapper (double custom_offset) { obj = new loss::QuadraticLoss(custom_offset); }
+  
   arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
     return obj->definedLoss(true_value, prediction);
   }
@@ -751,6 +753,8 @@ class AbsoluteLossWrapper : public LossWrapper
 {
 public:
   AbsoluteLossWrapper () { obj = new loss::AbsoluteLoss(); }
+  AbsoluteLossWrapper (double custom_offset) { obj = new loss::AbsoluteLoss(custom_offset); }
+  
   arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
     return obj->definedLoss(true_value, prediction);
   }
@@ -766,6 +770,8 @@ class BernoulliLossWrapper : public LossWrapper
 {
 public:
   BernoulliLossWrapper () { obj = new loss::BernoulliLoss(); }
+  BernoulliLossWrapper (double custom_offset) { obj = new loss::BernoulliLoss(custom_offset); }
+  
   arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
     return obj->definedLoss(true_value, prediction);
   }
@@ -810,6 +816,7 @@ RCPP_MODULE (loss_module)
   class_<QuadraticLossWrapper> ("QuadraticLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
+    .constructor <double> ()
     .method("testLoss", &QuadraticLossWrapper::testLoss, "Test the defined loss function of the loss")
     .method("testGradient", &QuadraticLossWrapper::testGradient, "Test the defined gradient of the loss")
     .method("testConstantInitializer", &QuadraticLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
@@ -818,6 +825,7 @@ RCPP_MODULE (loss_module)
   class_<AbsoluteLossWrapper> ("AbsoluteLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
+    .constructor <double> ()
     .method("testLoss", &AbsoluteLossWrapper::testLoss, "Test the defined loss function of the loss")
     .method("testGradient", &AbsoluteLossWrapper::testGradient, "Test the defined gradient of the loss")
     .method("testConstantInitializer", &AbsoluteLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
@@ -826,6 +834,7 @@ RCPP_MODULE (loss_module)
   class_<BernoulliLossWrapper> ("BernoulliLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
+    .constructor <double> ()
     .method("testLoss", &BernoulliLossWrapper::testLoss, "Test the defined loss function of the loss")
     .method("testGradient", &BernoulliLossWrapper::testGradient, "Test the defined gradient of the loss")
     .method("testConstantInitializer", &BernoulliLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
