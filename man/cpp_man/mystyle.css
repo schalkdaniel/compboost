@@ -255,7 +255,7 @@ div.dynheader {
     background-color: rgba(0, 0, 0, 0.1);
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
     -moz-border-radius-bottomleft: 0px;
     -moz-border-radius-bottomright: 0px;
     -moz-box-shadow: none;

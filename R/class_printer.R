@@ -40,7 +40,7 @@
 # Helper functions:
 # -----------------
 
-glueLoss = function (name, definition = NULL)
+glueLoss = function (name, definition = NULL, additional.desc = "")
 {
   if (is.null(definition)) {
     definition = "No function specified, probably you are using a custom loss."
@@ -54,6 +54,7 @@ glueLoss = function (name, definition = NULL)
 
       {definition}
 
+      {additional.desc}
 
     ")
 
@@ -191,6 +192,11 @@ ignore.me = setMethod("show", "Rcpp_QuadraticLoss", function (object) {
 setClass("Rcpp_AbsoluteLoss")
 ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
   glueLoss("AbsoluteLoss", "|y - f(x)|")
+})
+
+setClass("Rcpp_BernoulliLoss")
+ignore.me = setMethod("show", "Rcpp_BernoulliLoss", function (object) {
+  glueLoss("BernoulliLoss", "log(1 + exp(-yf(x))", "Labels should be coded as -1 and 1!")
 })
 
 setClass("Rcpp_CustomLoss")

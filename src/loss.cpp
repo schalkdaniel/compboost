@@ -166,7 +166,7 @@ double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
 
 arma::vec BernoulliLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
-  return arma::log(1 + arma::exp(- true_value * prediction));
+  return arma::log(1 + arma::exp(- true_value % prediction));
 }
 
 /**
