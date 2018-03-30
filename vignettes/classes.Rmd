@@ -1,0 +1,47 @@
+---
+title: "Compboost: Classes"
+author: "Daniel Schalk"
+date: "`r Sys.Date()`"
+output: rmarkdown::pdf_document
+vignette: >
+  %\VignetteIndexEntry{classes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+\section{The Classes of Compboost}
+
+As often pointed out, `compboost` includes many different classes. In this 
+section we want to give a overview about these classes and their functionality.
+This section first describes the classes that are independent of other classes
+like the loss class and then goes on to classes which includes other ones
+like the baselearner factory list class which obviously includes baselearner 
+factories. \\
+
+To be as flexible as possible, it is important that different classes of the 
+same type (e.~g.~Bernoulli loss and quadratic loss, both losses) can be 
+called identically. This is required since we are trying to be as generic as 
+possible which results that many classes are child classes of abstract parent
+classes. Using this polymorphism ensures consistent function calls and pretend 
+a minimal functionlaity of all child classes. This section is also intended to 
+clarify where and how such relationships exists.
+
+\subsection{Loss Classes}
+
+As one of the key features of compboost we firstly introduce the loss classes.
+This classes 
+
+\subsubsection{\texttt{Loss} (Abstract/Parent)}
+
+\subsubsection{\texttt{QuadraticLoss} (Child)}
+
+\subsubsection{\texttt{AbsoluteLoss} (Child)}
+
+\subsubsection{\texttt{BernoulliLoss} (Child)}
+
+\subsubsection{\texttt{CustomLoss} (Child)}
+
+
+\subsection{\texttt{Data} (Abstract/Parent)}
+
+\subsubsection{\texttt{InMemoryData} (Child)}

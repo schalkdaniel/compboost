@@ -76,18 +76,26 @@ namespace loss
  */
 class Loss
 {
-  public:
-
-    /// Specific loss function
-    virtual arma::vec definedLoss (const arma::vec&, const arma::vec&) const = 0;
-    
-    /// Gradient of loss functions for pseudo residuals
-    virtual arma::vec definedGradient (const arma::vec&, const arma::vec&) const = 0;
-    
-    /// Constant initialization of the empirical risk
-    virtual double constantInitializer (const arma::vec&) const = 0;
-    
-    virtual ~Loss ();
+public:
+  
+  /// Specific loss function
+  virtual arma::vec definedLoss (const arma::vec&, const arma::vec&) const = 0;
+  
+  /// Gradient of loss functions for pseudo residuals
+  virtual arma::vec definedGradient (const arma::vec&, const arma::vec&) const = 0;
+  
+  /// Constant initialization of the empirical risk
+  virtual double constantInitializer (const arma::vec&) const = 0;
+  
+  virtual ~Loss ();
+  
+protected:
+  
+  /// Custom offset:
+  double custom_offset = NULL;
+  
+  /// Weights:
+  arma::vec weights;
 };
 
 // -------------------------------------------------------------------------- //
@@ -121,16 +129,22 @@ class Loss
  */
 class QuadraticLoss : public Loss
 {
-  public:
-
-    /// Specific loss function
-    arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
-    
-    /// Gradient of loss functions for pseudo residuals
-    arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
-    
-    /// Constant initialization of the empirical risk
-    double constantInitializer (const arma::vec&) const;
+public:
+  
+  /// Default Constructor
+  QuadraticLoss ();
+  
+  /// Constructor to initialize custom offset
+  QuadraticLoss (const double&);
+  
+  /// Specific loss function
+  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  
+  /// Gradient of loss functions for pseudo residuals
+  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  
+  /// Constant initialization of the empirical risk
+  double constantInitializer (const arma::vec&) const;
 };
 
 // AbsoluteLoss loss:
@@ -158,16 +172,22 @@ class QuadraticLoss : public Loss
  */
 class AbsoluteLoss : public Loss
 {
-  public:
-
-    /// Specific loss function
-    arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
-    
-    /// Gradient of loss functions for pseudo residuals
-    arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
-    
-    /// Constant initialization of the empirical risk
-    double constantInitializer (const arma::vec&) const;
+public:
+  
+  /// Default Constructor
+  AbsoluteLoss ();
+  
+  /// Constructor to initialize custom offset
+  AbsoluteLoss (const double&);
+  
+  /// Specific loss function
+  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  
+  /// Gradient of loss functions for pseudo residuals
+  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  
+  /// Constant initialization of the empirical risk
+  double constantInitializer (const arma::vec&) const;
 };
 
 // Bernoulli loss:
@@ -207,6 +227,12 @@ class BernoulliLoss : public Loss
 {
 public:
   
+  /// Default Constructor
+  BernoulliLoss ();
+  
+  /// Constructor to initialize custom offset
+  BernoulliLoss (const double&);
+  
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
   
@@ -235,33 +261,37 @@ public:
  * returns a `Rcpp::NumericVector` which then is able to be converted to a
  * `arma::vec`.
  * 
+ * **Also Note:** This class doesn't have a constructor to initialize a
+ * custom offset. Because this is not necessary here since the user can
+ * define a custom offset within the `initFun` function.
+ * 
  */
 class CustomLoss : public Loss
 {
-  private:
+private:
+  
+  /// `R` loss function
+  Rcpp::Function lossFun;
+  
+  /// `R` gradient of loss function
+  Rcpp::Function gradientFun;
+  
+  /// `R` constant initializer of empirical risk
+  Rcpp::Function initFun;
+  
+public:
 
-    /// `R` loss function
-    Rcpp::Function lossFun;
-    
-    /// `R` gradient of loss function
-    Rcpp::Function gradientFun;
-    
-    /// `R` constant initializer of empirical risk
-    Rcpp::Function initFun;
+  /// Default constructor
+  CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
-  public:
-
-    /// Default constructor
-    CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
-    
-    /// Specific loss function
-    arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
-    
-    /// Gradient of loss functions for pseudo residuals
-    arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
-    
-    /// Constant initialization of the empirical risk
-    double constantInitializer (const arma::vec&) const;
+  /// Specific loss function
+  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  
+  /// Gradient of loss functions for pseudo residuals
+  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  
+  /// Constant initialization of the empirical risk
+  double constantInitializer (const arma::vec&) const;
 };
 
 } // namespace loss
