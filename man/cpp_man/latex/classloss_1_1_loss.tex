@@ -11,7 +11,8 @@ Abstract loss class.
 
 
 
-Inheritance diagram for loss\+:\+:Loss\+:\nopagebreak
+Inheritance diagram for loss\+:\+:Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for loss\+:\+:Loss\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for loss\+:\+:Loss\+:\nopagebreak
+Collaboration diagram for loss\+:\+:Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -41,8 +43,10 @@ virtual \mbox{\hyperlink{classloss_1_1_loss_a868a7908fd97590b6c4fc69f4eb3c570}{$
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-double \mbox{\hyperlink{classloss_1_1_loss_ae5dc373f54ed65ee0ca54a921ef826f4}{custom\+\_\+offset}} = N\+U\+LL
+double \mbox{\hyperlink{classloss_1_1_loss_ae5dc373f54ed65ee0ca54a921ef826f4}{custom\+\_\+offset}}
 \begin{DoxyCompactList}\small\item\em Custom offset\+: \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classloss_1_1_loss_a5fabbbb104e6f430498630130ac8a131}{use\+\_\+custom\+\_\+offset}} = false
+\begin{DoxyCompactList}\small\item\em Tag if a custom offset is used. \end{DoxyCompactList}\item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_loss_a4cfecaa4e3a6244ec82651607340e751}{weights}}
 \begin{DoxyCompactList}\small\item\em Weights\+: \end{DoxyCompactList}\end{DoxyCompactItemize}
 
@@ -50,7 +54,7 @@ arma\+::vec \mbox{\hyperlink{classloss_1_1_loss_a4cfecaa4e3a6244ec82651607340e75
 \subsection{Detailed Description}
 Abstract loss class. 
 
-This class defines the minimal requirements of every loss class. 
+This class defines the minimal requirements of every loss class. Note that the custom offset uses two members. The initial idea of assigning {\ttfamily N\+AN} to the {\ttfamily custom\+\_\+offset} fails. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classloss_1_1_loss_a868a7908fd97590b6c4fc69f4eb3c570}\label{classloss_1_1_loss_a868a7908fd97590b6c4fc69f4eb3c570}} 
@@ -132,11 +136,21 @@ Here is the caller graph for this function\+:\nopagebreak
 \index{loss\+::\+Loss@{loss\+::\+Loss}!custom\+\_\+offset@{custom\+\_\+offset}}
 \index{custom\+\_\+offset@{custom\+\_\+offset}!loss\+::\+Loss@{loss\+::\+Loss}}
 \subsubsection{\texorpdfstring{custom\+\_\+offset}{custom\_offset}}
-{\footnotesize\ttfamily double loss\+::\+Loss\+::custom\+\_\+offset = N\+U\+LL\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily double loss\+::\+Loss\+::custom\+\_\+offset\hspace{0.3cm}{\ttfamily [protected]}}
 
 
 
 Custom offset\+: 
+
+\mbox{\Hypertarget{classloss_1_1_loss_a5fabbbb104e6f430498630130ac8a131}\label{classloss_1_1_loss_a5fabbbb104e6f430498630130ac8a131}} 
+\index{loss\+::\+Loss@{loss\+::\+Loss}!use\+\_\+custom\+\_\+offset@{use\+\_\+custom\+\_\+offset}}
+\index{use\+\_\+custom\+\_\+offset@{use\+\_\+custom\+\_\+offset}!loss\+::\+Loss@{loss\+::\+Loss}}
+\subsubsection{\texorpdfstring{use\+\_\+custom\+\_\+offset}{use\_custom\_offset}}
+{\footnotesize\ttfamily bool loss\+::\+Loss\+::use\+\_\+custom\+\_\+offset = false\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Tag if a custom offset is used. 
 
 \mbox{\Hypertarget{classloss_1_1_loss_a4cfecaa4e3a6244ec82651607340e751}\label{classloss_1_1_loss_a4cfecaa4e3a6244ec82651607340e751}} 
 \index{loss\+::\+Loss@{loss\+::\+Loss}!weights@{weights}}

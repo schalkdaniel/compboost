@@ -90,16 +90,18 @@ Inheritance diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__inherit__graph.png" border="0" usemap="#loss_1_1_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_loss_inherit__map" id="loss_1_1_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,197,148,333"/>
-<area shape="rect" id="node3" href="classloss_1_1_bernoulli_loss.html" title="0&#45;1 Loss for binary classification derifed of the bernoulli distribution " alt="" coords="172,197,315,333"/>
-<area shape="rect" id="node4" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="339,189,481,340"/>
-<area shape="rect" id="node5" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="505,197,648,333"/>
+<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,211,148,347"/>
+<area shape="rect" id="node3" href="classloss_1_1_bernoulli_loss.html" title="0&#45;1 Loss for binary classification derifed of the bernoulli distribution " alt="" coords="172,211,315,347"/>
+<area shape="rect" id="node4" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="339,204,481,355"/>
+<area shape="rect" id="node5" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="505,211,648,347"/>
 </map>
 </div>
 <div class="dynheader">
 Collaboration diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__coll__graph.png" border="0" usemap="#loss_1_1_loss_coll__map" alt="Collaboration graph"/></div>
+<map name="loss_1_1_loss_coll__map" id="loss_1_1_loss_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -118,16 +120,19 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#ae5dc373f54ed65ee0ca54a921ef826f4">custom_offset</a> = NULL</td></tr>
+<tr class="memitem:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#ae5dc373f54ed65ee0ca54a921ef826f4">custom_offset</a></td></tr>
 <tr class="memdesc:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom offset:  <a href="#ae5dc373f54ed65ee0ca54a921ef826f4">More...</a><br /></td></tr>
 <tr class="separator:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fabbbb104e6f430498630130ac8a131"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a5fabbbb104e6f430498630130ac8a131">use_custom_offset</a> = false</td></tr>
+<tr class="memdesc:a5fabbbb104e6f430498630130ac8a131"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tag if a custom offset is used.  <a href="#a5fabbbb104e6f430498630130ac8a131">More...</a><br /></td></tr>
+<tr class="separator:a5fabbbb104e6f430498630130ac8a131"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cfecaa4e3a6244ec82651607340e751"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a4cfecaa4e3a6244ec82651607340e751">weights</a></td></tr>
 <tr class="memdesc:a4cfecaa4e3a6244ec82651607340e751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weights:  <a href="#a4cfecaa4e3a6244ec82651607340e751">More...</a><br /></td></tr>
 <tr class="separator:a4cfecaa4e3a6244ec82651607340e751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract loss class. </p>
-<p>This class defines the minimal requirements of every loss class. </p>
+<p>This class defines the minimal requirements of every loss class. Note that the custom offset uses two members. The initial idea of assigning <code>NAN</code> to the <code>custom_offset</code> fails. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a868a7908fd97590b6c4fc69f4eb3c570"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a868a7908fd97590b6c4fc69f4eb3c570">&#9670;&nbsp;</a></span>~Loss()</h2>
@@ -304,7 +309,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double loss::Loss::custom_offset = NULL</td>
+          <td class="memname">double loss::Loss::custom_offset</td>
         </tr>
       </table>
   </td>
@@ -315,6 +320,30 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Custom offset: </p>
+
+</div>
+</div>
+<a id="a5fabbbb104e6f430498630130ac8a131"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fabbbb104e6f430498630130ac8a131">&#9670;&nbsp;</a></span>use_custom_offset</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool loss::Loss::use_custom_offset = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Tag if a custom offset is used. </p>
 
 </div>
 </div>
