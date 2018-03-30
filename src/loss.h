@@ -59,6 +59,7 @@
 #include <RcppArmadillo.h>
 
 #include <iostream>
+#include <cmath>
 
 namespace loss
 {
@@ -71,7 +72,9 @@ namespace loss
  * 
  * \brief Abstract loss class
  * 
- * This class defines the minimal requirements of every loss class.
+ * This class defines the minimal requirements of every loss class. Note that 
+ * the custom offset uses two members. The initial idea of assigning `NAN` to
+ * the `custom_offset` fails.
  * 
  */
 class Loss
@@ -92,7 +95,10 @@ public:
 protected:
   
   /// Custom offset:
-  double custom_offset = NULL;
+  double custom_offset;
+  
+  /// Tag if a custom offset is used
+  bool use_custom_offset = false;
   
   /// Weights:
   arma::vec weights;

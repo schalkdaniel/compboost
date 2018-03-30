@@ -75,6 +75,7 @@ QuadraticLoss::QuadraticLoss () { }
 QuadraticLoss::QuadraticLoss (const double& custom_offset0)
 { 
   custom_offset = custom_offset0;
+  use_custom_offset = true;
 }
 
 
@@ -120,7 +121,7 @@ arma::vec QuadraticLoss::definedGradient (const arma::vec& true_value, const arm
 
 double QuadraticLoss::constantInitializer (const arma::vec& true_value) const
 {
-  if (custom_offset != NULL) { return custom_offset; }
+  if (use_custom_offset) { return custom_offset; }
   return arma::mean(true_value);
 }
 
@@ -146,6 +147,7 @@ AbsoluteLoss::AbsoluteLoss () { }
 AbsoluteLoss::AbsoluteLoss (const double& custom_offset0)
 { 
   custom_offset = custom_offset0;
+  use_custom_offset = true;
 }
 
 /**
@@ -190,7 +192,7 @@ arma::vec AbsoluteLoss::definedGradient (const arma::vec& true_value, const arma
 
 double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
 {
-  if (custom_offset != NULL) { return custom_offset; }
+  if (use_custom_offset) { return custom_offset; }
   return arma::median(true_value);
 }
 
@@ -217,12 +219,12 @@ BernoulliLoss::BernoulliLoss (const double& custom_offset0)
 { 
   if (custom_offset0 > 1 || custom_offset0 < -1) {
     
-    custom_offset = NULL;
     Rcpp::warning("BernoulliLoss allows just values between -1 and 1 as offset. Continuing with default offset.");
       
   } else {
     
     custom_offset = custom_offset0;
+    use_custom_offset = true;
     
   }
 }
@@ -265,7 +267,7 @@ arma::vec BernoulliLoss::definedGradient (const arma::vec& true_value, const arm
 
 double BernoulliLoss::constantInitializer (const arma::vec& true_value) const
 {
-  if (custom_offset != NULL) { return custom_offset; }
+  if (use_custom_offset) { return custom_offset; }
   
   double p = arma::accu(true_value + 1) / (2 * true_value.size());
   return 0.5 * std::log(p / (1 - p));
@@ -342,8 +344,6 @@ arma::vec CustomLoss::definedGradient (const arma::vec& true_value, const arma::
 
 double CustomLoss::constantInitializer (const arma::vec& true_value) const
 {
-  if (custom_offset != NULL) { return custom_offset; } 
-  
   // for debugging:
   // Rcpp::Rcout << "Initialize custom loss!" << std::endl;
   

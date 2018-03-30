@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['p',['P',['../class_p.html',1,'']]],
   ['parameter',['parameter',['../classblearner_1_1_baselearner.html#a56e401f574b274d65e364493277f3247',1,'blearner::Baselearner']]],
   ['penalty',['penalty',['../classblearner_1_1_p_spline_blearner.html#ac456be9d0280c3b56ffb5bd5609910ab',1,'blearner::PSplineBlearner::penalty()'],['../classblearnerfactory_1_1_p_spline_blearner_factory.html#ae5bfe83b154898ad6cff26d56a82f540',1,'blearnerfactory::PSplineBlearnerFactory::penalty()']]],
   ['penalty_5fmat',['penalty_mat',['../classdata_1_1_data.html#a1fd248ad8885deae217b8720fcf22e78',1,'data::Data']]],

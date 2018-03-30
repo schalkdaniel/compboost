@@ -20,6 +20,33 @@ span.lineno {
     border-right: 2px solid rgb(56, 142, 142);
     background-color: rgb(40, 40, 40);
 }
+.icona {
+    width: 40px;
+    height: 22px;
+    display: inline-block;
+}
+
+.icon {
+    font-family: Arial,Helvetica;
+    font-weight: bold;
+    font-size: 12px;
+    height: 16px;
+    width: 30px;
+    display: inline-block;
+    background-color: #68838b;
+    color: white;
+    text-align: center;
+    border-radius: 0px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+a.el {
+    font-weight: bold;
+    color: rgb(230, 220, 190);
+}
+
+
 
 span.keyword {
     color: rgb(142, 142, 56);

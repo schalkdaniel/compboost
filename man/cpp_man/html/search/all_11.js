@@ -7,7 +7,6 @@ var searchData=
   ['setidentifier',['setIdentifier',['../classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76',1,'blearner::Baselearner']]],
   ['settoiteration',['setToIteration',['../classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750',1,'blearnertrack::BaselearnerTrack::setToIteration()'],['../classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659',1,'cboost::Compboost::setToIteration()']]],
   ['sparse_5fdata_5fmat',['sparse_data_mat',['../classdata_1_1_data.html#abc5c5380b4aa8120cdda74195b90955f',1,'data::Data']]],
-  ['sparseinmemorydata',['SparseInMemoryData',['../class_sparse_in_memory_data.html',1,'']]],
   ['splines_2ecpp',['splines.cpp',['../splines_8cpp.html',1,'']]],
   ['splines_2eh',['splines.h',['../splines_8h.html',1,'']]],
   ['stop_5fif_5fall_5fstopper_5ffulfilled',['stop_if_all_stopper_fulfilled',['../classcboost_1_1_compboost.html#a40c118dcaf96479cd6574138f9b2620f',1,'cboost::Compboost']]],
