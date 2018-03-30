@@ -1,5 +1,6 @@
 <map id="LossWrapper" name="LossWrapper">
 <area shape="rect" id="node2" href="$class_absolute_loss_wrapper.html" title="{AbsoluteLossWrapper\n||+ AbsoluteLossWrapper()\l+ testLoss()\l+ testGradient()\l+ testConstantInitializer()\l}" alt="" coords="5,145,176,267"/>
-<area shape="rect" id="node3" href="$class_custom_loss_wrapper.html" title="{CustomLossWrapper\n||+ CustomLossWrapper()\l+ testLoss()\l+ testGradient()\l+ testConstantInitializer()\l}" alt="" coords="201,145,367,267"/>
-<area shape="rect" id="node4" href="$class_quadratic_loss_wrapper.html" title="{QuadraticLossWrapper\n||+ QuadraticLossWrapper()\l+ testLoss()\l+ testGradient()\l+ testConstantInitializer()\l}" alt="" coords="391,145,566,267"/>
+<area shape="rect" id="node3" href="$class_bernoulli_loss_wrapper.html" title="{BernoulliLossWrapper\n||+ BernoulliLossWrapper()\l+ testLoss()\l+ testGradient()\l+ testConstantInitializer()\l}" alt="" coords="201,145,370,267"/>
+<area shape="rect" id="node4" href="$class_custom_loss_wrapper.html" title="{CustomLossWrapper\n||+ CustomLossWrapper()\l+ testLoss()\l+ testGradient()\l+ testConstantInitializer()\l}" alt="" coords="394,145,561,267"/>
+<area shape="rect" id="node5" href="$class_quadratic_loss_wrapper.html" title="{QuadraticLossWrapper\n||+ QuadraticLossWrapper()\l+ testLoss()\l+ testGradient()\l+ testConstantInitializer()\l}" alt="" coords="585,145,759,267"/>
 </map>

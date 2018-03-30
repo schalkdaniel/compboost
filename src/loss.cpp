@@ -152,6 +152,53 @@ double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
 }
 
 
+// Absolute loss:
+// -----------------------
+
+/**
+* \brief Definition of the loss function (see description of the class)
+* 
+* \param true_value `arma::vec` True value of the response
+* \param prediction `arma::vec` Prediction of the true value
+* 
+* \returns `arma::vec` vector of elementwise application of the loss function
+*/
+
+arma::vec BernoulliLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+{
+  return arma::log(1 + arma::exp(- true_value * prediction));
+}
+
+/**
+* \brief Definition of the gradient of the loss function (see description of the class)
+* 
+* \param true_value `arma::vec` True value of the response
+* \param prediction `arma::vec` Prediction of the true value
+* 
+* \returns `arma::vec` vector of elementwise application of the gradient
+*/
+
+arma::vec BernoulliLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+{
+  return - true_value / (1 + arma::exp(true_value % prediction));
+}
+
+/**
+* \brief Definition of the constant risk initialization (see description of the class)
+* 
+* \param true_value `arma::vec` True value of the response
+* 
+* \returns `double` constant which minimizes the empirical risk for the given true value
+*/
+
+double BernoulliLoss::constantInitializer (const arma::vec& true_value) const
+{
+  double p = arma::accu(true_value + 1) / (2 * true_value.size());
+  return 0.5 * std::log(p / (1 - p));
+}
+
+
+
 // Custom loss:
 // -----------------------
 

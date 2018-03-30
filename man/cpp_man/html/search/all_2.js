@@ -15,6 +15,8 @@ var searchData=
   ['baselearnertrack',['BaselearnerTrack',['../classblearnertrack_1_1_baselearner_track.html',1,'blearnertrack::BaselearnerTrack'],['../classblearnertrack_1_1_baselearner_track.html#ad90a0f286fab221aa2f2ed6401861187',1,'blearnertrack::BaselearnerTrack::BaselearnerTrack()'],['../classblearnertrack_1_1_baselearner_track.html#aaba614b8351a3e5401d3f924059efc65',1,'blearnertrack::BaselearnerTrack::BaselearnerTrack(double)']]],
   ['baselearnerwrapper',['BaselearnerWrapper',['../class_baselearner_wrapper.html',1,'BaselearnerWrapper'],['../class_baselearner_wrapper.html#a949efebe239360548b02a211b649d6d8',1,'BaselearnerWrapper::BaselearnerWrapper()']]],
   ['basisfuns',['basisFuns',['../splines_8cpp.html#ab5674a405e1cfc5b8e04ae2d113b9868',1,'basisFuns(const double &amp;x, const unsigned int &amp;degree, const arma::vec &amp;knots):&#160;splines.cpp'],['../splines_8h.html#a80dc3f8524ccf40a3031b003cf0a04bc',1,'basisFuns(const double &amp;, const unsigned int &amp;, const arma::vec &amp;):&#160;splines.cpp']]],
+  ['bernoulliloss',['BernoulliLoss',['../classloss_1_1_bernoulli_loss.html',1,'loss']]],
+  ['bernoullilosswrapper',['BernoulliLossWrapper',['../class_bernoulli_loss_wrapper.html',1,'BernoulliLossWrapper'],['../class_bernoulli_loss_wrapper.html#afe2d6bb990fbcec1a0961de4fcb551cb',1,'BernoulliLossWrapper::BernoulliLossWrapper()']]],
   ['blearner',['blearner',['../namespaceblearner.html',1,'']]],
   ['blearner_5ffactory_5fmap',['blearner_factory_map',['../baselearner__factory__list_8h.html#a058570e00ae11b882cfed36eb40be025',1,'baselearner_factory_list.h']]],
   ['blearner_5fidentifier',['blearner_identifier',['../classblearner_1_1_baselearner.html#a7112e057b2b29bb6529df6df3b8a9165',1,'blearner::Baselearner']]],

@@ -100,7 +100,9 @@ class Loss
 /**
  * \class QuadraticLoss
  * 
- * \brief Definition of the quadratic loss.
+ * \brief Quadratic loss for regression tasks.
+ * 
+ * This loss can be used for regression with \f$y \in \mathbb{R}\f$. 
  * 
  * **Loss Function:**
  * \f[
@@ -112,7 +114,7 @@ class Loss
  * \f]
  * **Initialization:**
  * \f[
- *   \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+ *   \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
  *   L\left(y^{(i)}, c\right) = \bar{y}
  * \f]
  * 
@@ -137,7 +139,7 @@ class QuadraticLoss : public Loss
 /**
  * \class AbsoluteLoss
  * 
- * \brief Definition of the absolute loss.
+ * \brief Absolute loss for regression tasks.
  * 
  * **Loss Function:**
  * \f[
@@ -149,7 +151,7 @@ class QuadraticLoss : public Loss
  * \f]
  * **Initialization:**
  * \f[
- *   \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+ *   \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
  *   L\left(y^{(i)}, c\right) = \mathrm{median}(y)
  * \f]
  * 
@@ -166,6 +168,53 @@ class AbsoluteLoss : public Loss
     
     /// Constant initialization of the empirical risk
     double constantInitializer (const arma::vec&) const;
+};
+
+// Bernoulli loss:
+// -----------------------
+
+/**
+ * \class BernoulliLoss
+ * 
+ * \brief 0-1 Loss for binary classification derifed of the bernoulli distribution
+ * 
+ * This loss can be used for binary classification. The coding we have chosen
+ * here acts on 
+ * \f[
+ *   y \in \{-1, 1\}.
+ * \f]
+ * 
+ * **Loss Function:**
+ * \f[
+ *   L(y, f(x)) = \log\left\{1 + \exp\left(-yf(x)\right)\right\}
+ * \f]
+ * **Gradient:**
+ * \f[
+ *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(yf\right)}
+ * \f]
+ * **Initialization:**
+ * \f[
+ *   \hat{f}^{[0]}(x) = \frac{1}{2}\log\left\{\frac{p}{1 - p}\right\}
+ * \f]
+ * with
+ * \f[
+ *   p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i > 0\}}
+ * \f]
+ * 
+ */
+
+class BernoulliLoss : public Loss
+{
+public:
+  
+  /// Specific loss function
+  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  
+  /// Gradient of loss functions for pseudo residuals
+  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  
+  /// Constant initialization of the empirical risk
+  double constantInitializer (const arma::vec&) const;
 };
 
 // Custom loss:
