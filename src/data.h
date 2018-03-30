@@ -141,48 +141,6 @@ public:
   
 };
 
-
-// SparseInMemoryData:
-// -----------------------
-
-// This one does nothing special, just takes the data and use the transformed
-// one as train data.
-
-/**
- * \class SparseInMemoryData
- * 
- * \brief Data class to store sparse matrices
- * 
- * This class does basically the same as the `InMemoryData` class but stores
- * 
- */
-
-// class SparseInMemoryData : public Data
-// {
-// private:
-//   
-//   
-//   arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
-//   const arma::mat* data_mat_ptr = NULL;
-//   
-// public:
-//   
-//   // Empty constructor for data target
-//   InMemoryData ();
-//   
-//   // // Colvec to refer directly to R vectors or data frame columns:
-//   // InMemoryData (const arma::vec&, const std::string&);
-//   
-//   // Classical way via data matrix:
-//   InMemoryData (const arma::mat&, const std::string&);
-//   
-//   void setData (const arma::mat&);
-//   arma::mat getData() const;
-//   
-//   ~InMemoryData ();
-//   
-// };
-
 } // namespace data
 
 #endif // DATA_H_

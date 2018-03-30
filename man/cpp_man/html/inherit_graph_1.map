@@ -3,5 +3,5 @@
 <area shape="rect" id="node2" href="$classblearnerfactory_1_1_custom_blearner_factory.html" title="blearnerfactory::CustomBlearner\lFactory" alt="" coords="237,5,445,47"/>
 <area shape="rect" id="node3" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html" title="blearnerfactory::CustomCpp\lBlearnerFactory" alt="" coords="250,71,433,112"/>
 <area shape="rect" id="node4" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html" title="blearnerfactory::Polynomial\lBlearnerFactory" alt="" coords="252,136,431,177"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html" title="blearnerfactory::PSpline\lBlearnerFactory" alt="" coords="261,201,421,243"/>
+<area shape="rect" id="node5" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html" title="Factory to creaet PSplineBlearner objects. " alt="" coords="261,201,421,243"/>
 </map>

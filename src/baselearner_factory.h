@@ -123,7 +123,7 @@ public:
 // -----------------------------
 
 /**
- * \class P spline baselearner factory
+ * \class PSplineBlearnerFactory
  * 
  * \brief Factory to creaet `PSplineBlearner` objects
  * 

@@ -1,0 +1,5 @@
+<map id="blearner::PSplineBlearner::instantiateData" name="blearner::PSplineBlearner::instantiateData">
+<area shape="rect" id="node2" href="$splines_8cpp.html#ac43a2b9f7f3a9589acb14ff221a3fc0e" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="223,13,313,39"/>
+<area shape="rect" id="node3" href="$splines_8cpp.html#ab5674a405e1cfc5b8e04ae2d113b9868" title="De Boors algorithm to find basis functions. " alt="" coords="361,13,444,39"/>
+<area shape="rect" id="node4" href="$splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="492,13,564,39"/>
+</map>

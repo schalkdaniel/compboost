@@ -107,4 +107,5 @@ This classes
 
 
 
-\subsection{}
+\subsection{Compboost Class}
+
