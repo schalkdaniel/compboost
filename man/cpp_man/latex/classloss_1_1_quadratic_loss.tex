@@ -2,7 +2,7 @@
 \label{classloss_1_1_quadratic_loss}\index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}}
 
 
-Definition of the quadratic loss.  
+Quadratic loss for regression tasks.  
 
 
 
@@ -39,9 +39,11 @@ double \mbox{\hyperlink{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe113
 
 
 \subsection{Detailed Description}
-Definition of the quadratic loss. 
+Quadratic loss for regression tasks. 
 
-{\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2 \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \] {\bfseries Initialization\+:} \[ \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \bar{y} \] 
+This loss can be used for regression with $y \in \mathbb{R}$.
+
+{\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2 \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \bar{y} \] 
 
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}\label{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}} 
@@ -124,5 +126,5 @@ Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}
+E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
+E\+:/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}

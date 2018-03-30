@@ -6,5 +6,7 @@ var searchData=
   ['baselearnerfactorywrapper',['BaselearnerFactoryWrapper',['../class_baselearner_factory_wrapper.html',1,'']]],
   ['baselearnertrack',['BaselearnerTrack',['../classblearnertrack_1_1_baselearner_track.html',1,'blearnertrack']]],
   ['baselearnerwrapper',['BaselearnerWrapper',['../class_baselearner_wrapper.html',1,'']]],
+  ['bernoulliloss',['BernoulliLoss',['../classloss_1_1_bernoulli_loss.html',1,'loss']]],
+  ['bernoullilosswrapper',['BernoulliLossWrapper',['../class_bernoulli_loss_wrapper.html',1,'']]],
   ['blearnerfactorylistwrapper',['BlearnerFactoryListWrapper',['../class_blearner_factory_list_wrapper.html',1,'']]]
 ];
