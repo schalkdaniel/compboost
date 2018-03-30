@@ -42,7 +42,28 @@ test_that("Absolute loss works", {
     absolute.loss$testConstantInitializer(true.value),
     median.default(true.value)
   )
+})
+
+test_that("Bernoulli loss works", {
+  true.value = rbinom(100, 1, 0.4) * 2 - 1
+  prediction = runif(100, -1, 1)
   
+  bernoulli.loss = BernoulliLoss$new()
+  
+  # Tests:
+  # -----------
+  expect_equal(
+    bernoulli.loss$testLoss(true.value, prediction), 
+    as.matrix(log(1 + exp(-true.value * prediction)))
+  )
+  expect_equal(
+    bernoulli.loss$testGradient(true.value, prediction),
+    as.matrix(-true.value / (1 + exp(true.value * prediction)))
+  )
+  expect_equal(
+    bernoulli.loss$testConstantInitializer(true.value),
+    log(mean(true.value > 0) / (1 - mean(true.value > 0))) / 2
+  )
 })
 
 test_that("Custom loss works", {

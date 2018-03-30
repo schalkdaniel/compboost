@@ -823,7 +823,7 @@ RCPP_MODULE (loss_module)
     .method("testConstantInitializer", &AbsoluteLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
   
-  class_<BernoulliLossWrapper> ("AbsoluteLoss")
+  class_<BernoulliLossWrapper> ("BernoulliLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .method("testLoss", &BernoulliLossWrapper::testLoss, "Test the defined loss function of the loss")
