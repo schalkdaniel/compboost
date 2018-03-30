@@ -1,7 +1,0 @@
-<map id="BlearnerFactoryListWrapper::registerFactory" name="BlearnerFactoryListWrapper::registerFactory">
-<area shape="rect" id="node2" href="$class_baselearner_factory_wrapper.html#ac32811bfb4833aab5d11c7c303070485" title="BaselearnerFactoryWrapper\l::getFactory" alt="" coords="249,5,433,47"/>
-<area shape="rect" id="node3" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="249,71,433,112"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_factory.html#a05d5c00f7a434548868c4ad21d0f5fda" title="blearnerfactory::Baselearner\lFactory::getBaselearnerType" alt="" coords="246,136,435,177"/>
-<area shape="rect" id="node6" href="$classblearnerlist_1_1_baselearner_factory_list.html#a6f5d8eb26f5f5ae4856d62eb9d649f4f" title="blearnerlist::Baselearner\lFactoryList::registerBaselearner\lFactory" alt="" coords="237,202,444,258"/>
-<area shape="rect" id="node4" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="492,78,675,105"/>
-</map>

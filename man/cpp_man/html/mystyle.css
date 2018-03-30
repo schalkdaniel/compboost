@@ -13,6 +13,21 @@ div.contents {
     margin-right: auto;
 }
 
+div.fragment {
+    background-color: rgb(60, 60, 60);
+}
+span.lineno {
+    border-right: 2px solid rgb(56, 142, 142);
+    background-color: rgb(40, 40, 40);
+}
+
+span.keyword {
+    color: rgb(142, 142, 56);
+}
+
+span.comment {
+    color: rgb(197, 193, 170);
+}
 
 p {
     font-family: Century Gothic;
@@ -255,7 +270,7 @@ div.dynheader {
     background-color: rgba(0, 0, 0, 0.1);
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: none;
     -moz-border-radius-bottomleft: 0px;
     -moz-border-radius-bottomright: 0px;
     -moz-box-shadow: none;

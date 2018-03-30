@@ -1,6 +1,4 @@
 <map id="blearnertrack::BaselearnerTrack::clearBaselearnerVector" name="blearnertrack::BaselearnerTrack::clearBaselearnerVector">
 <area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a93e9a1268d46808b9d6fe768fa11e22a" title="blearnertrack::Baselearner\lTrack::~BaselearnerTrack" alt="" coords="251,5,425,47"/>
 <area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="267,71,409,112"/>
-<area shape="rect" id="node4" href="$class_compboost_wrapper.html#a361e455353ee08273d41ed7b8350881d" title="CompboostWrapper::train" alt="" coords="473,78,644,105"/>
-<area shape="rect" id="node5" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="692,78,812,105"/>
 </map>

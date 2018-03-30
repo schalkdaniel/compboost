@@ -1,9 +1,3 @@
 <map id="blearner::Baselearner::train" name="blearner::Baselearner::train">
-<area shape="rect" id="node2" href="$class_polynomial_blearner_wrapper.html#a7e6cdfd15c354b76ddd217c76b3cfbc5" title="PolynomialBlearnerWrapper\l::train" alt="" coords="201,5,383,47"/>
-<area shape="rect" id="node4" href="$class_p_spline_blearner_wrapper.html#a10193fd93f82c2c333e704d7cb67dd27" title="PSplineBlearnerWrapper\l::train" alt="" coords="210,71,374,112"/>
-<area shape="rect" id="node5" href="$class_custom_blearner_wrapper.html#a970f89e16f5dc5cfce1e1dc4461d34a5" title="CustomBlearnerWrapper\l::train" alt="" coords="210,201,374,243"/>
-<area shape="rect" id="node7" href="$class_custom_cpp_blearner_wrapper.html#a84d08ce4754955b5d6ee2e4a66b5b6bc" title="CustomCppBlearnerWrapper\l::train" alt="" coords="199,136,385,177"/>
-<area shape="rect" id="node8" href="$classoptimizer_1_1_greedy_optimizer.html#a5551f9dd7135e3a4acc68ac585be3146" title="optimizer::GreedyOptimizer\l::findBestBaselearner" alt="" coords="201,267,383,308"/>
-<area shape="rect" id="node3" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="459,111,579,138"/>
-<area shape="rect" id="node6" href="$class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="433,201,605,243"/>
+<area shape="rect" id="node2" href="$classoptimizer_1_1_greedy_optimizer.html#adc36d8a0082dc065fc1340869d36069d" title="optimizer::GreedyOptimizer\l::findBestBaselearner" alt="" coords="199,5,380,47"/>
 </map>

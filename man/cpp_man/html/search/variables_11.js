@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xtx_5finv',['XtX_inv',['../classdata_1_1_data.html#a31bdf7564f8589487a0ee9952ebef0c0',1,'data::Data']]]
+  ['weights',['weights',['../classloss_1_1_loss.html#a4cfecaa4e3a6244ec82651607340e751',1,'loss::Loss']]]
 ];

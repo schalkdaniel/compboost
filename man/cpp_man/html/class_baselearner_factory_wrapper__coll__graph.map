@@ -1,4 +1,0 @@
-<map id="BaselearnerFactoryWrapper" name="BaselearnerFactoryWrapper">
-<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html" title="{blearnerfactory::Baselearner\lFactory\n|# blearner_type\l|+ createBaselearner()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ instantiateData()\l+ initializeDataObjects()\l+ ~BaselearnerFactory()\l}" alt="" coords="19,365,203,545"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html" title="{data::Data\n|+ data_mat\l+ sparse_data_mat\l+ data_mat_ptr\l+ penalty_mat\l+ knots\l+ knot_boundaries\l+ XtX_inv\l# data_identifier\l# data_type\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ setDataType()\l+ ~Data()\l}" alt="" coords="44,5,179,288"/>
-</map>

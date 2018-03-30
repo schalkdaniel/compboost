@@ -1,9 +1,4 @@
 <map id="loss::Loss::definedLoss" name="loss::Loss::definedLoss">
-<area shape="rect" id="node2" href="$class_quadratic_loss_wrapper.html#a9e179437d5d6cffc4e2eb41cf46a2666" title="QuadraticLossWrapper\l::testLoss" alt="" coords="215,5,370,47"/>
-<area shape="rect" id="node4" href="$class_absolute_loss_wrapper.html#a85a76340b719fa2af7cc9964c7e668ed" title="AbsoluteLossWrapper\l::testLoss" alt="" coords="217,71,368,112"/>
-<area shape="rect" id="node5" href="$class_bernoulli_loss_wrapper.html#a9d3294f43955415ea0a3d80b941a8b2a" title="BernoulliLossWrapper\l::testLoss" alt="" coords="218,136,367,177"/>
-<area shape="rect" id="node6" href="$class_custom_loss_wrapper.html#a6430fb3e6c2cfaea13e64645ab80d8b7" title="CustomLossWrapper::\ltestLoss" alt="" coords="217,201,369,243"/>
-<area shape="rect" id="node7" href="$classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger " alt="" coords="212,267,373,308"/>
-<area shape="rect" id="node8" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="215,332,370,373"/>
-<area shape="rect" id="node3" href="$compboost__modules_8cpp.html#a89d834a66f774b2e640519dfc2d8dc6d" title="RCPP_MODULE" alt="" coords="421,111,541,138"/>
+<area shape="rect" id="node2" href="$classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger " alt="" coords="212,5,373,47"/>
+<area shape="rect" id="node3" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="215,71,370,112"/>
 </map>

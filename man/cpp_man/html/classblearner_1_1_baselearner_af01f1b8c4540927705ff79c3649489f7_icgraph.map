@@ -1,5 +1,0 @@
-<map id="blearner::Baselearner::instantiateData" name="blearner::Baselearner::instantiateData">
-<area shape="rect" id="node2" href="$class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="201,5,391,47"/>
-<area shape="rect" id="node3" href="$class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="210,71,382,112"/>
-<area shape="rect" id="node4" href="$class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="199,136,393,177"/>
-</map>

@@ -13,6 +13,21 @@ div.contents {
     margin-right: auto;
 }
 
+div.fragment {
+    background-color: rgb(60, 60, 60);
+}
+span.lineno {
+    border-right: 2px solid rgb(56, 142, 142);
+    background-color: rgb(40, 40, 40);
+}
+
+span.keyword {
+    color: rgb(142, 142, 56);
+}
+
+span.comment {
+    color: rgb(197, 193, 170);
+}
 
 p {
     font-family: Century Gothic;

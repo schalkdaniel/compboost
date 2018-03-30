@@ -1,8 +1,7 @@
 <map id="basisFuns" name="basisFuns">
-<area shape="rect" id="node2" href="$splines_8h.html#aac49156757a6f3ce2d8cb3a01ed0bbe6" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="136,82,227,109"/>
+<area shape="rect" id="node2" href="$splines_8h.html#aac49156757a6f3ce2d8cb3a01ed0bbe6" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="136,49,227,75"/>
 <area shape="rect" id="node3" href="$classblearner_1_1_p_spline_blearner.html#ac0604daac451678e67a6a2ac60dd1b01" title="Instatiate data matrix (design matrix) " alt="" coords="295,8,464,49"/>
 <area shape="rect" id="node5" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#a290a1c60224d027059939a895b474aa1" title="Instantiate the design matrix. " alt="" coords="275,75,484,116"/>
-<area shape="rect" id="node7" href="$class_p_spline_blearner_wrapper.html#a1272a29283aa7815d2f4d06ba70cecf6" title="PSplineBlearnerWrapper\l::PSplineBlearnerWrapper" alt="" coords="293,140,465,181"/>
 <area shape="rect" id="node4" href="$classblearner_1_1_p_spline_blearner.html#a9d35aeb36c403c167fb7519379825873" title="Predict on newdata. " alt="" coords="555,5,724,47"/>
 <area shape="rect" id="node6" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="532,71,747,127"/>
 </map>

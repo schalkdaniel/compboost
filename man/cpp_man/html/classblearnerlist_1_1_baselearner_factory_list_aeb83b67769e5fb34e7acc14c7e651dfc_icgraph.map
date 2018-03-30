@@ -1,9 +1,5 @@
 <map id="blearnerlist::BaselearnerFactoryList::getDataMap" name="blearnerlist::BaselearnerFactoryList::getDataMap">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="219,55,361,96"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="409,19,552,60"/>
-<area shape="rect" id="node8" href="$class_compboost_wrapper.html#a62637fbc8c50160b411b817b7e99432e" title="CompboostWrapper::predict" alt="" coords="600,122,784,149"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="621,5,763,47"/>
-<area shape="rect" id="node7" href="$class_compboost_wrapper.html#a3f8ebe1d821b3bfa5e6d0d04beff0211" title="CompboostWrapper::setToIteration" alt="" coords="832,71,1055,98"/>
-<area shape="rect" id="node5" href="$class_compboost_wrapper.html#afd9b7f389a02a13c72a7e9a834594c73" title="CompboostWrapper::continue\lTraining" alt="" coords="846,5,1041,47"/>
-<area shape="rect" id="node6" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="1103,71,1223,98"/>
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="219,5,361,47"/>
+<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="409,5,552,47"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="600,5,743,47"/>
 </map>

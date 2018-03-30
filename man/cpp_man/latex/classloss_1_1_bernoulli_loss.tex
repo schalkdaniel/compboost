@@ -11,7 +11,8 @@
 
 
 
-Inheritance diagram for loss\+:\+:Bernoulli\+Loss\+:\nopagebreak
+Inheritance diagram for loss\+:\+:Bernoulli\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for loss\+:\+:Bernoulli\+Loss\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for loss\+:\+:Bernoulli\+Loss\+:\nopagebreak
+Collaboration diagram for loss\+:\+:Bernoulli\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -30,12 +32,17 @@ Collaboration diagram for loss\+:\+:Bernoulli\+Loss\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
+\mbox{\hyperlink{classloss_1_1_bernoulli_loss_a34a87f0a059b9d7346816a20818a8ac1}{Bernoulli\+Loss}} ()
+\begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classloss_1_1_bernoulli_loss_afc952349e055f2cd8058015960619cc8}{Bernoulli\+Loss}} (const double \&)
+\begin{DoxyCompactList}\small\item\em Constructor to initialize custom offset. \end{DoxyCompactList}\item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_bernoulli_loss_a1e347cacc5a5925874f579834f421236}{defined\+Loss}} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Specific loss function. \end{DoxyCompactList}\item 
 arma\+::vec \mbox{\hyperlink{classloss_1_1_bernoulli_loss_a2dc644172cea3eb84f1af5aa9217c04a}{defined\+Gradient}} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
 double \mbox{\hyperlink{classloss_1_1_bernoulli_loss_a1b5e26f446f30d690abc625349f563d1}{constant\+Initializer}} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
@@ -44,6 +51,36 @@ double \mbox{\hyperlink{classloss_1_1_bernoulli_loss_a1b5e26f446f30d690abc625349
 This loss can be used for binary classification. The coding we have chosen here acts on \[ y \in \{-1, 1\}. \]
 
 {\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \log\left\{1 + \exp\left(-yf(x)\right)\right\} \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(yf\right)} \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \frac{1}{2}\log\left\{\frac{p}{1 - p}\right\} \] with \[ p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i > 0\}} \] 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classloss_1_1_bernoulli_loss_a34a87f0a059b9d7346816a20818a8ac1}\label{classloss_1_1_bernoulli_loss_a34a87f0a059b9d7346816a20818a8ac1}} 
+\index{loss\+::\+Bernoulli\+Loss@{loss\+::\+Bernoulli\+Loss}!Bernoulli\+Loss@{Bernoulli\+Loss}}
+\index{Bernoulli\+Loss@{Bernoulli\+Loss}!loss\+::\+Bernoulli\+Loss@{loss\+::\+Bernoulli\+Loss}}
+\subsubsection{\texorpdfstring{Bernoulli\+Loss()}{BernoulliLoss()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily loss\+::\+Bernoulli\+Loss\+::\+Bernoulli\+Loss (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default Constructor. 
+
+Default constructor of {\ttfamily \mbox{\hyperlink{classloss_1_1_bernoulli_loss}{Bernoulli\+Loss}}} \mbox{\Hypertarget{classloss_1_1_bernoulli_loss_afc952349e055f2cd8058015960619cc8}\label{classloss_1_1_bernoulli_loss_afc952349e055f2cd8058015960619cc8}} 
+\index{loss\+::\+Bernoulli\+Loss@{loss\+::\+Bernoulli\+Loss}!Bernoulli\+Loss@{Bernoulli\+Loss}}
+\index{Bernoulli\+Loss@{Bernoulli\+Loss}!loss\+::\+Bernoulli\+Loss@{loss\+::\+Bernoulli\+Loss}}
+\subsubsection{\texorpdfstring{Bernoulli\+Loss()}{BernoulliLoss()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily loss\+::\+Bernoulli\+Loss\+::\+Bernoulli\+Loss (\begin{DoxyParamCaption}\item[{const double \&}]{custom\+\_\+offset0 }\end{DoxyParamCaption})}
+
+
+
+Constructor to initialize custom offset. 
+
+Constructor to initialize custom offset of {\ttfamily \mbox{\hyperlink{classloss_1_1_absolute_loss}{Absolute\+Loss}}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em custom\+\_\+offset0} & {\ttfamily double} Offset which is used instead of the pre defined initialization \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \mbox{\Hypertarget{classloss_1_1_bernoulli_loss_a1b5e26f446f30d690abc625349f563d1}\label{classloss_1_1_bernoulli_loss_a1b5e26f446f30d690abc625349f563d1}} 

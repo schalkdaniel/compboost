@@ -1,4 +1,0 @@
-<map id="GreedyOptimizer" name="GreedyOptimizer">
-<area shape="rect" id="node2" href="$class_optimizer_wrapper.html" title="{OptimizerWrapper\n||+ OptimizerWrapper()\l+ getOptimizer()\l+ ~OptimizerWrapper()\l}" alt="" coords="19,160,174,267"/>
-<area shape="rect" id="node3" href="$classoptimizer_1_1_optimizer.html" title="{optimizer::Optimizer\n|# my_blearner_factory_map\l|+ findBestBaselearner()\l+ ~Optimizer()\l}" alt="" coords="5,5,188,97"/>
-</map>

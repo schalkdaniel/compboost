@@ -1,9 +1,4 @@
 <map id="loggerlist::LoggerList::registerLogger" name="loggerlist::LoggerList::registerLogger">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="196,17,339,59"/>
-<area shape="rect" id="node7" href="$class_logger_list_wrapper.html#a428932ced69ba53f256b832a94563524" title="LoggerListWrapper::\lregisterLogger" alt="" coords="198,93,337,135"/>
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="196,5,339,47"/>
 <area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="387,5,529,47"/>
-<area shape="rect" id="node6" href="$class_compboost_wrapper.html#a3f8ebe1d821b3bfa5e6d0d04beff0211" title="CompboostWrapper::setToIteration" alt="" coords="577,71,800,98"/>
-<area shape="rect" id="node4" href="$class_compboost_wrapper.html#afd9b7f389a02a13c72a7e9a834594c73" title="CompboostWrapper::continue\lTraining" alt="" coords="591,5,786,47"/>
-<area shape="rect" id="node5" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="848,42,968,69"/>
-<area shape="rect" id="node8" href="$compboost__modules_8cpp.html#a2f39c5772f5e840c9fa336e6b90dd229" title="RCPP_MODULE" alt="" coords="398,122,518,149"/>
 </map>

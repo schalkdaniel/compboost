@@ -8,7 +8,7 @@ PROJECT_NAME           = compboost
 PROJECT_NUMBER         = 
 PROJECT_BRIEF          = 
 PROJECT_LOGO           = 
-OUTPUT_DIRECTORY       = E:\OneDrive\github_repos\compboost\man\cpp_man
+OUTPUT_DIRECTORY       = ..\..\man\cpp_man
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -112,7 +112,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = E:\OneDrive\github_repos\compboost\src
+INPUT                  = ..\..\src
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -159,7 +159,7 @@ FILE_PATTERNS          = *.c \
                          *.ucf \
                          *.qsf
 RECURSIVE              = NO
-EXCLUDE                = 
+EXCLUDE                = ..\..\src\compboost_modules.cpp
 EXCLUDE_SYMLINKS       = NO
 EXCLUDE_PATTERNS       = 
 EXCLUDE_SYMBOLS        = 
