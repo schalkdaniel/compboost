@@ -42,6 +42,69 @@ This classes
 \subsubsection{\texttt{CustomLoss} (Child)}
 
 
-\subsection{\texttt{Data} (Abstract/Parent)}
+
+\subsection{Data Classes}
+
+\subsubsection{\texttt{Data} (Abstract/Parent)}
 
 \subsubsection{\texttt{InMemoryData} (Child)}
+
+
+
+\subsection{Baselearner Related Classes}
+
+\subsubsection{\texttt{Baselearner} (Abstract/Parent)}
+
+\subsubsection{\texttt{PolynomialBlearner} (Child)}
+
+\subsubsection{\texttt{PSplineBlearner} (Child)}
+
+\subsubsection{\texttt{CustomBlearner} (Child)}
+
+\subsubsection{\texttt{CustomCppBlearner} (Child)}
+
+
+\subsubsection{\texttt{BaselearnerTrack}}
+
+
+\subsubsection{\texttt{BaselearnerFactory} (Abstract/Parent)}
+
+\subsubsection{\texttt{PolynomialBlearnerFactory} (Child)}
+
+\subsubsection{\texttt{PSplineBlearnerFactory} (Child)}
+
+\subsubsection{\texttt{CustomBlearnerFactory} (Child)}
+
+\subsubsection{\texttt{CustomCppBlearnerFactory} (Child)}
+
+
+\subsubsection{\texttt{BaselearnerFactoryList}}
+
+
+
+\subsection{Logger Related Classes}
+
+\subsubsection{\texttt{Logger} (Abstract/Parent)}
+
+\subsubsection{\texttt{IterationLogger} (Child)}
+
+\subsubsection{\texttt{TimeLogger} (Child)}
+
+\subsubsection{\texttt{InbagRiskLogger} (Child)}
+
+\subsubsection{\texttt{OobRiskLogger} (Child)}
+
+
+\subsubsection{\texttt{Loggerlist}}
+
+
+
+\subsection{Optimizer Classes}
+
+\subsubsection{\texttt{Optimizer} (Abstract/Parent)}
+
+\subsubsection{\texttt{GreedyOptimizer} (Child)}
+
+
+
+\subsection{}

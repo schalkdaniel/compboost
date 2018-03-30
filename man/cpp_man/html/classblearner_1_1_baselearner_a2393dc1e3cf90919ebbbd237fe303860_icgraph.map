@@ -1,8 +1,3 @@
 <map id="blearner::Baselearner::getDataIdentifier" name="blearner::Baselearner::getDataIdentifier">
-<area shape="rect" id="node2" href="$class_polynomial_blearner_wrapper.html#ad1eaf84c973c702c999af43fc23aeca2" title="PolynomialBlearnerWrapper\l::summarizeBaselearner" alt="" coords="201,5,383,47"/>
-<area shape="rect" id="node4" href="$class_p_spline_blearner_wrapper.html#a7796ee928de438649ede7aa1aa57263a" title="PSplineBlearnerWrapper\l::summarizeBaselearner" alt="" coords="210,71,374,112"/>
-<area shape="rect" id="node5" href="$class_custom_blearner_wrapper.html#a61e82d619f07ba3e69fa4100be0ed1f2" title="CustomBlearnerWrapper\l::summarizeBaselearner" alt="" coords="210,136,374,177"/>
-<area shape="rect" id="node6" href="$class_custom_cpp_blearner_wrapper.html#a832effb3868e124cb149fd06e6033304" title="CustomCppBlearnerWrapper\l::summarizeBaselearner" alt="" coords="199,201,385,243"/>
-<area shape="rect" id="node7" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="215,267,369,308"/>
-<area shape="rect" id="node3" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="433,111,553,138"/>
+<area shape="rect" id="node2" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="199,5,353,47"/>
 </map>

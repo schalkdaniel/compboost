@@ -1,10 +1,9 @@
 <map id="E:/OneDrive/github_repos/compboost/src/loss.h" name="E:/OneDrive/github_repos/compboost/src/loss.h">
-<area shape="rect" id="node2" href="$compboost_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost.h" alt="" coords="129,317,279,373"/>
-<area shape="rect" id="node4" href="$compboost__modules_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost_modules.cpp" alt="" coords="5,421,176,477"/>
-<area shape="rect" id="node5" href="$logger_8h.html" title="Logger class definition. " alt="" coords="210,109,361,165"/>
-<area shape="rect" id="node9" href="$loss_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loss.cpp" alt="" coords="385,109,535,165"/>
-<area shape="rect" id="node3" href="$compboost_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost.cpp" alt="" coords="201,421,351,477"/>
-<area shape="rect" id="node6" href="$loggerlist_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loggerlist.h" alt="" coords="210,213,361,269"/>
-<area shape="rect" id="node8" href="$logger_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/logger.cpp" alt="" coords="385,213,535,269"/>
-<area shape="rect" id="node7" href="$loggerlist_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loggerlist.cpp" alt="" coords="303,317,454,373"/>
+<area shape="rect" id="node2" href="$compboost_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost.h" alt="" coords="5,317,156,373"/>
+<area shape="rect" id="node4" href="$logger_8h.html" title="Logger class definition. " alt="" coords="119,109,269,165"/>
+<area shape="rect" id="node8" href="$loss_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loss.cpp" alt="" coords="293,109,444,165"/>
+<area shape="rect" id="node3" href="$compboost_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/compboost.cpp" alt="" coords="5,421,156,477"/>
+<area shape="rect" id="node5" href="$loggerlist_8h.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loggerlist.h" alt="" coords="119,213,269,269"/>
+<area shape="rect" id="node7" href="$logger_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/logger.cpp" alt="" coords="293,213,444,269"/>
+<area shape="rect" id="node6" href="$loggerlist_8cpp.html" title="E:/OneDrive/github\l_repos/compboost/src\l/loggerlist.cpp" alt="" coords="180,317,331,373"/>
 </map>

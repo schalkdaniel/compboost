@@ -8,25 +8,9 @@
 <area shape="rect" id="node8" href="$classblearner_1_1_custom_cpp_blearner.html#aa71b777d7092a3d9b47a9bed125eb0f9" title="blearner::CustomCppBlearner\l::train" alt="" coords="209,397,401,439"/>
 <area shape="rect" id="node9" href="$classblearner_1_1_custom_cpp_blearner.html#aa17db5f5627b8251b2d8484d92e783b9" title="blearner::CustomCppBlearner\l::predict" alt="" coords="209,463,401,504"/>
 <area shape="rect" id="node10" href="$classblearnerfactory_1_1_baselearner_factory.html#ad9da09739f04e5c8bd268551251801be" title="blearnerfactory::Baselearner\lFactory::getData" alt="" coords="213,528,397,569"/>
-<area shape="rect" id="node16" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="209,593,402,635"/>
-<area shape="rect" id="node19" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="188,659,423,715"/>
-<area shape="rect" id="node20" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="198,739,413,795"/>
-<area shape="rect" id="node21" href="$class_in_memory_data_wrapper.html#a69c754048807d42d8178914e8339a808" title="InMemoryDataWrapper\l::getData" alt="" coords="228,820,383,861"/>
-<area shape="rect" id="node23" href="$class_polynomial_blearner_wrapper.html#a07ad5a828b4a46bb2f6a2a6fc56b8f1a" title="PolynomialBlearnerWrapper\l::PolynomialBlearnerWrapper" alt="" coords="210,885,401,927"/>
-<area shape="rect" id="node24" href="$class_polynomial_blearner_wrapper.html#a56c92d1dee5e610657437766c13a6a5d" title="PolynomialBlearnerWrapper\l::getData" alt="" coords="214,951,397,992"/>
-<area shape="rect" id="node26" href="$class_p_spline_blearner_wrapper.html#a1272a29283aa7815d2f4d06ba70cecf6" title="PSplineBlearnerWrapper\l::PSplineBlearnerWrapper" alt="" coords="219,1016,391,1057"/>
-<area shape="rect" id="node27" href="$class_p_spline_blearner_wrapper.html#ad18db8163e5356b45e5196a51d2561a8" title="PSplineBlearnerWrapper\l::getData" alt="" coords="223,1081,387,1123"/>
-<area shape="rect" id="node28" href="$class_custom_blearner_wrapper.html#a2fd4bb5e6f0c8fb5cae69ef46a5e2db8" title="CustomBlearnerWrapper\l::CustomBlearnerWrapper" alt="" coords="219,1147,391,1188"/>
-<area shape="rect" id="node29" href="$class_custom_blearner_wrapper.html#a3153378a0c0ee8c4633d42680195eeda" title="CustomBlearnerWrapper\l::getData" alt="" coords="223,1212,387,1253"/>
-<area shape="rect" id="node30" href="$class_custom_cpp_blearner_wrapper.html#af5083cc4ff105d0818b7443f228d09ab" title="CustomCppBlearnerWrapper\l::CustomCppBlearnerWrapper" alt="" coords="208,1277,403,1319"/>
-<area shape="rect" id="node31" href="$class_custom_cpp_blearner_wrapper.html#a015410ca4260c3e5586ab7923ef2d624" title="CustomCppBlearnerWrapper\l::getData" alt="" coords="212,1343,399,1384"/>
-<area shape="rect" id="node11" href="$class_polynomial_blearner_factory_wrapper.html#a7949c6384e31e69033cfe0cd96ea9746" title="PolynomialBlearnerFactory\lWrapper::getData" alt="" coords="501,365,679,407"/>
-<area shape="rect" id="node13" href="$class_p_spline_blearner_factory_wrapper.html#a7613c56ca05f36f8365a1d5987bbf823" title="PSplineBlearnerFactoryWrapper\l::getData" alt="" coords="486,431,694,472"/>
-<area shape="rect" id="node14" href="$class_custom_blearner_factory_wrapper.html#a70a976e3608e37e0740df932b227de60" title="CustomBlearnerFactoryWrapper\l::getData" alt="" coords="486,496,694,537"/>
-<area shape="rect" id="node15" href="$class_custom_cpp_blearner_factory_wrapper.html#a0fa7f0c2574f895b66ddc363b5d869ad" title="CustomCppBlearnerFactory\lWrapper::getData" alt="" coords="499,561,681,603"/>
-<area shape="rect" id="node12" href="$compboost__modules_8cpp.html#ac5c8ce33b1c0dbdaf7a96a25ac31bdce" title="RCPP_MODULE" alt="" coords="757,471,877,498"/>
-<area shape="rect" id="node17" href="$classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="485,627,695,668"/>
-<area shape="rect" id="node18" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="471,693,709,749"/>
-<area shape="rect" id="node22" href="$compboost__modules_8cpp.html#a369d9233d5a32cd4a2a7a3d7560e692d" title="RCPP_MODULE" alt="" coords="530,827,650,854"/>
-<area shape="rect" id="node25" href="$compboost__modules_8cpp.html#ab46939cf08867cd61527daa071c134c6" title="RCPP_MODULE" alt="" coords="530,1154,650,1181"/>
+<area shape="rect" id="node11" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="209,593,402,635"/>
+<area shape="rect" id="node14" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="188,659,423,715"/>
+<area shape="rect" id="node15" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="198,739,413,795"/>
+<area shape="rect" id="node12" href="$classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="485,557,695,599"/>
+<area shape="rect" id="node13" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="471,623,709,679"/>
 </map>

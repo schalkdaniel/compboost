@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['max_5fiterations',['max_iterations',['../class_iteration_logger_wrapper.html#a558ed3722fe17ab31c6463e8dbda7ccc',1,'IterationLoggerWrapper::max_iterations()'],['../class_compboost_wrapper.html#a0397461c76388504cb2c8a490665f80d',1,'CompboostWrapper::max_iterations()'],['../classlogger_1_1_iteration_logger.html#a3fe389ce81d0790729b59b96414a3909',1,'logger::IterationLogger::max_iterations()']]],
-  ['max_5ftime',['max_time',['../class_time_logger_wrapper.html#a94de9106fdc84bc8b061bd9a76ec04d0',1,'TimeLoggerWrapper::max_time()'],['../classlogger_1_1_time_logger.html#a48ea18ddd1f44f11ad52448cfde37e63',1,'logger::TimeLogger::max_time()']]],
+  ['max_5fiterations',['max_iterations',['../classlogger_1_1_iteration_logger.html#a3fe389ce81d0790729b59b96414a3909',1,'logger::IterationLogger']]],
+  ['max_5ftime',['max_time',['../classlogger_1_1_time_logger.html#a48ea18ddd1f44f11ad52448cfde37e63',1,'logger::TimeLogger']]],
   ['model',['model',['../classblearner_1_1_custom_blearner.html#a7e802c5c67838d6d5a411f26a536d657',1,'blearner::CustomBlearner']]],
   ['model_5fis_5ftrained',['model_is_trained',['../classcboost_1_1_compboost.html#af1da66c1def3edd484f5d30b36e64eeb',1,'cboost::Compboost']]],
   ['model_5fprediction',['model_prediction',['../classcboost_1_1_compboost.html#a7f7c7fe26c16c175e7d402aca781e8da',1,'cboost::Compboost']]],

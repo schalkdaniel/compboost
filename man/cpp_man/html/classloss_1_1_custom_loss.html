@@ -90,7 +90,7 @@ Inheritance diagram for loss::CustomLoss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_custom_loss__inherit__graph.png" border="0" usemap="#loss_1_1_custom_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_custom_loss_inherit__map" id="loss_1_1_custom_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,127"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,141"/>
 </map>
 </div>
 <div class="dynheader">
@@ -98,7 +98,7 @@ Collaboration diagram for loss::CustomLoss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_custom_loss__coll__graph.png" border="0" usemap="#loss_1_1_custom_loss_coll__map" alt="Collaboration graph"/></div>
 <map name="loss_1_1_custom_loss_coll__map" id="loss_1_1_custom_loss_coll__map">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,127"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,141"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -131,11 +131,22 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a0c7a32f9ab123e8bc45154103f295055"><td class="memItemLeft" align="right" valign="top">Rcpp::Function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_custom_loss.html#a0c7a32f9ab123e8bc45154103f295055">initFun</a></td></tr>
 <tr class="memdesc:a0c7a32f9ab123e8bc45154103f295055"><td class="mdescLeft">&#160;</td><td class="mdescRight"><code>R</code> constant initializer of empirical risk  <a href="#a0c7a32f9ab123e8bc45154103f295055">More...</a><br /></td></tr>
 <tr class="separator:a0c7a32f9ab123e8bc45154103f295055"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classloss_1_1_loss"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classloss_1_1_loss')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classloss_1_1_loss.html">loss::Loss</a></td></tr>
+<tr class="memitem:ae5dc373f54ed65ee0ca54a921ef826f4 inherit pro_attribs_classloss_1_1_loss"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#ae5dc373f54ed65ee0ca54a921ef826f4">custom_offset</a> = NULL</td></tr>
+<tr class="memdesc:ae5dc373f54ed65ee0ca54a921ef826f4 inherit pro_attribs_classloss_1_1_loss"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom offset:  <a href="classloss_1_1_loss.html#ae5dc373f54ed65ee0ca54a921ef826f4">More...</a><br /></td></tr>
+<tr class="separator:ae5dc373f54ed65ee0ca54a921ef826f4 inherit pro_attribs_classloss_1_1_loss"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cfecaa4e3a6244ec82651607340e751 inherit pro_attribs_classloss_1_1_loss"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a4cfecaa4e3a6244ec82651607340e751">weights</a></td></tr>
+<tr class="memdesc:a4cfecaa4e3a6244ec82651607340e751 inherit pro_attribs_classloss_1_1_loss"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weights:  <a href="classloss_1_1_loss.html#a4cfecaa4e3a6244ec82651607340e751">More...</a><br /></td></tr>
+<tr class="separator:a4cfecaa4e3a6244ec82651607340e751 inherit pro_attribs_classloss_1_1_loss"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>With this loss it is possible to define custom functions out of <code>R</code> </p>
 <p>This one is a special one. It allows to use a custom loss predefined in R. The convenience here comes from the 'Rcpp::Function' class and the use of a special constructor which defines the three needed functions.</p>
-<p><b>Note</b> that there is one conversion step. There is no predefined conversion from <code>Rcpp::Function</code> (which acts as SEXP) to a <code>arma::vec</code>. But it is possible by using <code>Rcpp::NumericVector</code>. Therefore the custom functions returns a <code>Rcpp::NumericVector</code> which then is able to be converted to a <code>arma::vec</code>. </p>
+<p><b>Note</b> that there is one conversion step. There is no predefined conversion from <code>Rcpp::Function</code> (which acts as SEXP) to a <code>arma::vec</code>. But it is possible by using <code>Rcpp::NumericVector</code>. Therefore the custom functions returns a <code>Rcpp::NumericVector</code> which then is able to be converted to a <code>arma::vec</code>.</p>
+<p><b>Also Note:</b> This class doesn't have a constructor to initialize a custom offset. Because this is not necessary here since the user can define a custom offset within the <code>initFun</code> function. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ae3e34f8cab5f6c317412a32f27542f92"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae3e34f8cab5f6c317412a32f27542f92">&#9670;&nbsp;</a></span>CustomLoss()</h2>

@@ -74,6 +74,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classloss_1_1_loss-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">loss::Loss Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
@@ -89,16 +90,18 @@ Inheritance diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__inherit__graph.png" border="0" usemap="#loss_1_1_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_loss_inherit__map" id="loss_1_1_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,197,148,303"/>
-<area shape="rect" id="node3" href="classloss_1_1_bernoulli_loss.html" title="0&#45;1 Loss for binary classification derifed of the bernoulli distribution " alt="" coords="172,197,315,303"/>
-<area shape="rect" id="node4" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="339,175,481,325"/>
-<area shape="rect" id="node5" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="505,197,648,303"/>
+<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,197,148,333"/>
+<area shape="rect" id="node3" href="classloss_1_1_bernoulli_loss.html" title="0&#45;1 Loss for binary classification derifed of the bernoulli distribution " alt="" coords="172,197,315,333"/>
+<area shape="rect" id="node4" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="339,189,481,340"/>
+<area shape="rect" id="node5" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="505,197,648,333"/>
 </map>
 </div>
 <div class="dynheader">
 Collaboration diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__coll__graph.png" border="0" usemap="#loss_1_1_loss_coll__map" alt="Collaboration graph"/></div>
+<map name="loss_1_1_loss_coll__map" id="loss_1_1_loss_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -114,6 +117,15 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a65fe7dcd9370e6a549b8d1cc95fc8798"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a868a7908fd97590b6c4fc69f4eb3c570"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a868a7908fd97590b6c4fc69f4eb3c570">~Loss</a> ()</td></tr>
 <tr class="separator:a868a7908fd97590b6c4fc69f4eb3c570"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#ae5dc373f54ed65ee0ca54a921ef826f4">custom_offset</a> = NULL</td></tr>
+<tr class="memdesc:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Custom offset:  <a href="#ae5dc373f54ed65ee0ca54a921ef826f4">More...</a><br /></td></tr>
+<tr class="separator:ae5dc373f54ed65ee0ca54a921ef826f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4cfecaa4e3a6244ec82651607340e751"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a4cfecaa4e3a6244ec82651607340e751">weights</a></td></tr>
+<tr class="memdesc:a4cfecaa4e3a6244ec82651607340e751"><td class="mdescLeft">&#160;</td><td class="mdescRight">Weights:  <a href="#a4cfecaa4e3a6244ec82651607340e751">More...</a><br /></td></tr>
+<tr class="separator:a4cfecaa4e3a6244ec82651607340e751"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Abstract loss class. </p>
@@ -177,14 +189,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798_icgraph.png" border="0" usemap="#classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798_icgraph" alt=""/></div>
 <map name="classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798_icgraph" id="classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798_icgraph">
-<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="250,5,393,47"/>
-<area shape="rect" id="node5" href="class_quadratic_loss_wrapper.html#a0ed64adb364d6c2c1a0795672c7eb53e" title="QuadraticLossWrapper\l::testConstantInitializer" alt="" coords="244,71,399,112"/>
-<area shape="rect" id="node7" href="class_absolute_loss_wrapper.html#ad90572ebb3a5bf84793f4bf1b42e56b9" title="AbsoluteLossWrapper\l::testConstantInitializer" alt="" coords="244,136,399,177"/>
-<area shape="rect" id="node8" href="class_bernoulli_loss_wrapper.html#adb7db2cbd85452a787ddf0c82e0e5f37" title="BernoulliLossWrapper\l::testConstantInitializer" alt="" coords="244,201,399,243"/>
-<area shape="rect" id="node9" href="class_custom_loss_wrapper.html#a43d8b3e4c68d7662cff73a0301542815" title="CustomLossWrapper::\ltestConstantInitializer" alt="" coords="245,267,397,308"/>
-<area shape="rect" id="node3" href="class_compboost_wrapper.html#a361e455353ee08273d41ed7b8350881d" title="CompboostWrapper::train" alt="" coords="447,13,617,39"/>
-<area shape="rect" id="node4" href="compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="665,13,785,39"/>
-<area shape="rect" id="node6" href="compboost__modules_8cpp.html#a89d834a66f774b2e640519dfc2d8dc6d" title="RCPP_MODULE" alt="" coords="472,177,592,203"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="244,5,387,47"/>
 </map>
 </div>
 
@@ -232,19 +237,10 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979_icgraph.png" border="0" usemap="#classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979_icgraph" alt=""/></div>
 <map name="classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979_icgraph" id="classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979_icgraph">
-<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="239,37,382,79"/>
-<area shape="rect" id="node10" href="class_quadratic_loss_wrapper.html#a9154647dbe336faf38e0fdfb3f30173d" title="QuadraticLossWrapper\l::testGradient" alt="" coords="233,103,388,144"/>
-<area shape="rect" id="node12" href="class_absolute_loss_wrapper.html#af64fe7b1882afacfc7cc408a79884861" title="AbsoluteLossWrapper\l::testGradient" alt="" coords="235,168,386,209"/>
-<area shape="rect" id="node13" href="class_bernoulli_loss_wrapper.html#a1b38529b66b4ec5ea6028d715719c20f" title="BernoulliLossWrapper\l::testGradient" alt="" coords="236,233,385,275"/>
-<area shape="rect" id="node14" href="class_custom_loss_wrapper.html#a177d367857efffc9904b5e38ed4333d1" title="CustomLossWrapper::\ltestGradient" alt="" coords="235,299,387,340"/>
-<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="436,5,579,47"/>
-<area shape="rect" id="node6" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="436,71,579,112"/>
-<area shape="rect" id="node4" href="class_compboost_wrapper.html#a361e455353ee08273d41ed7b8350881d" title="CompboostWrapper::train" alt="" coords="895,21,1066,47"/>
-<area shape="rect" id="node5" href="compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="1140,75,1260,102"/>
-<area shape="rect" id="node7" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="653,68,795,109"/>
-<area shape="rect" id="node9" href="class_compboost_wrapper.html#afd9b7f389a02a13c72a7e9a834594c73" title="CompboostWrapper::continue\lTraining" alt="" coords="627,133,821,175"/>
-<area shape="rect" id="node8" href="class_compboost_wrapper.html#a3f8ebe1d821b3bfa5e6d0d04beff0211" title="CompboostWrapper::setToIteration" alt="" coords="869,75,1092,102"/>
-<area shape="rect" id="node11" href="compboost__modules_8cpp.html#a89d834a66f774b2e640519dfc2d8dc6d" title="RCPP_MODULE" alt="" coords="447,209,567,235"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="233,39,376,80"/>
+<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="424,5,567,47"/>
+<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="424,71,567,112"/>
+<area shape="rect" id="node5" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="615,71,757,112"/>
 </map>
 </div>
 
@@ -292,15 +288,59 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph.png" border="0" usemap="#classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph" alt=""/></div>
 <map name="classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph" id="classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph">
-<area shape="rect" id="node2" href="class_quadratic_loss_wrapper.html#a9e179437d5d6cffc4e2eb41cf46a2666" title="QuadraticLossWrapper\l::testLoss" alt="" coords="215,5,370,47"/>
-<area shape="rect" id="node4" href="class_absolute_loss_wrapper.html#a85a76340b719fa2af7cc9964c7e668ed" title="AbsoluteLossWrapper\l::testLoss" alt="" coords="217,71,368,112"/>
-<area shape="rect" id="node5" href="class_bernoulli_loss_wrapper.html#a9d3294f43955415ea0a3d80b941a8b2a" title="BernoulliLossWrapper\l::testLoss" alt="" coords="218,136,367,177"/>
-<area shape="rect" id="node6" href="class_custom_loss_wrapper.html#a6430fb3e6c2cfaea13e64645ab80d8b7" title="CustomLossWrapper::\ltestLoss" alt="" coords="217,201,369,243"/>
-<area shape="rect" id="node7" href="classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger " alt="" coords="212,267,373,308"/>
-<area shape="rect" id="node8" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="215,332,370,373"/>
-<area shape="rect" id="node3" href="compboost__modules_8cpp.html#a89d834a66f774b2e640519dfc2d8dc6d" title="RCPP_MODULE" alt="" coords="421,111,541,138"/>
+<area shape="rect" id="node2" href="classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger " alt="" coords="212,5,373,47"/>
+<area shape="rect" id="node3" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="215,71,370,112"/>
 </map>
 </div>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae5dc373f54ed65ee0ca54a921ef826f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5dc373f54ed65ee0ca54a921ef826f4">&#9670;&nbsp;</a></span>custom_offset</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double loss::Loss::custom_offset = NULL</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Custom offset: </p>
+
+</div>
+</div>
+<a id="a4cfecaa4e3a6244ec82651607340e751"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cfecaa4e3a6244ec82651607340e751">&#9670;&nbsp;</a></span>weights</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::vec loss::Loss::weights</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Weights: </p>
 
 </div>
 </div>

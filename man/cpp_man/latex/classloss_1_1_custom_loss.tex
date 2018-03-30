@@ -11,7 +11,8 @@ With this loss it is possible to define custom functions out of {\ttfamily R}
 
 
 
-Inheritance diagram for loss\+:\+:Custom\+Loss\+:\nopagebreak
+Inheritance diagram for loss\+:\+:Custom\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,7 +21,8 @@ Inheritance diagram for loss\+:\+:Custom\+Loss\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for loss\+:\+:Custom\+Loss\+:\nopagebreak
+Collaboration diagram for loss\+:\+:Custom\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -47,6 +49,7 @@ Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_af3f00f7f006f7466c
 \begin{DoxyCompactList}\small\item\em {\ttfamily R} gradient of loss function \end{DoxyCompactList}\item 
 Rcpp\+::\+Function \mbox{\hyperlink{classloss_1_1_custom_loss_a0c7a32f9ab123e8bc45154103f295055}{init\+Fun}}
 \begin{DoxyCompactList}\small\item\em {\ttfamily R} constant initializer of empirical risk \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
@@ -54,7 +57,9 @@ With this loss it is possible to define custom functions out of {\ttfamily R}
 
 This one is a special one. It allows to use a custom loss predefined in R. The convenience here comes from the \textquotesingle{}Rcpp\+::\+Function\textquotesingle{} class and the use of a special constructor which defines the three needed functions.
 
-{\bfseries Note} that there is one conversion step. There is no predefined conversion from {\ttfamily Rcpp\+::\+Function} (which acts as S\+E\+XP) to a {\ttfamily arma\+::vec}. But it is possible by using {\ttfamily Rcpp\+::\+Numeric\+Vector}. Therefore the custom functions returns a {\ttfamily Rcpp\+::\+Numeric\+Vector} which then is able to be converted to a {\ttfamily arma\+::vec}. 
+{\bfseries Note} that there is one conversion step. There is no predefined conversion from {\ttfamily Rcpp\+::\+Function} (which acts as S\+E\+XP) to a {\ttfamily arma\+::vec}. But it is possible by using {\ttfamily Rcpp\+::\+Numeric\+Vector}. Therefore the custom functions returns a {\ttfamily Rcpp\+::\+Numeric\+Vector} which then is able to be converted to a {\ttfamily arma\+::vec}.
+
+{\bfseries Also Note\+:} This class doesn\textquotesingle{}t have a constructor to initialize a custom offset. Because this is not necessary here since the user can define a custom offset within the {\ttfamily init\+Fun} function. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classloss_1_1_custom_loss_ae3e34f8cab5f6c317412a32f27542f92}\label{classloss_1_1_custom_loss_ae3e34f8cab5f6c317412a32f27542f92}} 

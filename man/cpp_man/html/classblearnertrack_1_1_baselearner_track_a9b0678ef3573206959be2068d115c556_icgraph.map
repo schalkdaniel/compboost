@@ -1,12 +1,7 @@
 <map id="blearnertrack::BaselearnerTrack::getEstimatedParameterOfIteration" name="blearnertrack::BaselearnerTrack::getEstimatedParameterOfIteration">
-<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="265,61,440,103"/>
-<area shape="rect" id="node8" href="$classcboost_1_1_compboost.html#a97b02aa81981e08658d896ff9798b5d0" title="cboost::Compboost::\lgetParameterOfIteration" alt="" coords="488,123,647,164"/>
-<area shape="rect" id="node10" href="$classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="281,184,424,225"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="496,32,639,73"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="735,5,877,47"/>
-<area shape="rect" id="node7" href="$class_compboost_wrapper.html#a3f8ebe1d821b3bfa5e6d0d04beff0211" title="CompboostWrapper::setToIteration" alt="" coords="965,74,1188,101"/>
-<area shape="rect" id="node5" href="$class_compboost_wrapper.html#afd9b7f389a02a13c72a7e9a834594c73" title="CompboostWrapper::continue\lTraining" alt="" coords="979,7,1174,48"/>
-<area shape="rect" id="node6" href="$compboost__modules_8cpp.html#a5b8d89f767d4b9c00c3dc065947abd4d" title="RCPP_MODULE" alt="" coords="1236,102,1356,129"/>
-<area shape="rect" id="node9" href="$class_compboost_wrapper.html#ac5d5d21932a27b470abbfb0fd55a75ec" title="CompboostWrapper::getParameter\lAtIteration" alt="" coords="695,123,917,164"/>
-<area shape="rect" id="node11" href="$class_compboost_wrapper.html#a72b9c303a13fb3f6f8346c0af0796496" title="CompboostWrapper::predict\lAtIteration" alt="" coords="714,188,898,229"/>
+<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="265,5,440,47"/>
+<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a97b02aa81981e08658d896ff9798b5d0" title="cboost::Compboost::\lgetParameterOfIteration" alt="" coords="273,71,432,112"/>
+<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="281,136,424,177"/>
+<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="488,5,631,47"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="679,5,821,47"/>
 </map>

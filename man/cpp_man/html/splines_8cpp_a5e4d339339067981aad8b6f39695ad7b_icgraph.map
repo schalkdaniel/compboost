@@ -1,9 +1,8 @@
 <map id="findSpan" name="findSpan">
-<area shape="rect" id="node2" href="$splines_8h.html#a80dc3f8524ccf40a3031b003cf0a04bc" title="De Boors algorithm to find basis functions. " alt="" coords="125,82,208,109"/>
-<area shape="rect" id="node3" href="$splines_8h.html#aac49156757a6f3ce2d8cb3a01ed0bbe6" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="256,82,347,109"/>
+<area shape="rect" id="node2" href="$splines_8h.html#a80dc3f8524ccf40a3031b003cf0a04bc" title="De Boors algorithm to find basis functions. " alt="" coords="125,49,208,75"/>
+<area shape="rect" id="node3" href="$splines_8h.html#aac49156757a6f3ce2d8cb3a01ed0bbe6" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="256,49,347,75"/>
 <area shape="rect" id="node4" href="$classblearner_1_1_p_spline_blearner.html#ac0604daac451678e67a6a2ac60dd1b01" title="Instatiate data matrix (design matrix) " alt="" coords="415,8,584,49"/>
 <area shape="rect" id="node6" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#a290a1c60224d027059939a895b474aa1" title="Instantiate the design matrix. " alt="" coords="395,75,604,116"/>
-<area shape="rect" id="node8" href="$class_p_spline_blearner_wrapper.html#a1272a29283aa7815d2f4d06ba70cecf6" title="PSplineBlearnerWrapper\l::PSplineBlearnerWrapper" alt="" coords="413,140,585,181"/>
 <area shape="rect" id="node5" href="$classblearner_1_1_p_spline_blearner.html#a9d35aeb36c403c167fb7519379825873" title="Predict on newdata. " alt="" coords="675,5,844,47"/>
 <area shape="rect" id="node7" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="652,71,867,127"/>
 </map>
