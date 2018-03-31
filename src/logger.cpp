@@ -275,8 +275,11 @@ bool InbagRiskLogger::reachedStopCriteria () const
   
   if (is_a_stopper) {
     if (tracked_inbag_risk.size() > 1) {
-      double inbag_eps = tracked_inbag_risk[tracked_inbag_risk.size() - 1] - tracked_inbag_risk[tracked_inbag_risk.size()];
-      inbag_eps = inbag_eps / tracked_inbag_risk[tracked_inbag_risk.size() - 1];
+      // We need to subtract -2 and -1 since c++ start counting by 0 while size
+      // returns the actual number of elements, so if just one element exists
+      // size returns 1 but we want to access 0:
+      double inbag_eps = tracked_inbag_risk[tracked_inbag_risk.size() - 2] - tracked_inbag_risk[tracked_inbag_risk.size() - 1];
+      inbag_eps = inbag_eps / tracked_inbag_risk[tracked_inbag_risk.size() - 2];
       
       if (inbag_eps <= eps_for_break) {
         stop_criteria_is_reached = true;
@@ -451,8 +454,11 @@ bool OobRiskLogger::reachedStopCriteria () const
   
   if (is_a_stopper) {
     if (tracked_oob_risk.size() > 1) {
-      double oob_eps = tracked_oob_risk[tracked_oob_risk.size() - 1] - tracked_oob_risk[tracked_oob_risk.size()];
-      oob_eps = oob_eps / tracked_oob_risk[tracked_oob_risk.size() - 1];
+      // We need to subtract -2 and -1 since c++ start counting by 0 while size
+      // returns the actual number of elements, so if just one element exists
+      // size returns 1 but we want to access 0:
+      double oob_eps = tracked_oob_risk[tracked_oob_risk.size() - 2] - tracked_oob_risk[tracked_oob_risk.size() - 1];
+      oob_eps = oob_eps / tracked_oob_risk[tracked_oob_risk.size() - 2];
       
       if (oob_eps <= eps_for_break) {
         stop_criteria_is_reached = true;
