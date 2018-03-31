@@ -12,7 +12,7 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Road Map
 
-- [ ] Technical Stuff:
+- [ ] **Technical Stuff:**
     - [x] Deal with destructors and remove data cleanly
     - [x] Fix compboost that it doesn't crash `R` after some time
     - [ ] Parallel computations:
@@ -20,14 +20,25 @@ devtools::install_github("schalkdaniel/compboost")
         - [ ] Data transformation for spline learner
     - [ ] Make the algorithm more memory friendly by using sparse matrices (if possible)
     
-- [ ] Baselearner:
-    - [ ] Implement P-Spline baselearner
+- [x] **Classes:**    
+    - [x] Baselearner Class:
+        - [x] Implement B-Spline baselearner
+        - [x] Implement P-Spline baselearner
     
-- [x] Logger:
-    - [x] Implement OOB Logger
-    - [x] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
+    - [x] Logger Class:
+        - [x] Implement OOB Logger
+        - [x] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
     
-- [ ] General Implementation:
+    - [ ] Data Class:
+        - [x] Abstract class setting
+        - [x] In memory child:
+            - [x] dataGetter
+            - [x] dataSetter
+        - [ ] Out of memory child:
+            - [ ] dataGetter
+            - [ ] dataSetter
+    
+- [ ] **General Implementation:**
     - [x] Implement parameter getter
         - [x] Getter for final parameter
         - [x] Getter for parameter of iteration `k < iter.max`
@@ -38,14 +49,15 @@ devtools::install_github("schalkdaniel/compboost")
         - [x] Prediction on newdata
         - [x] Prediction on newdata for iteration `k < iter.max`
         
-- [ ] Tests:
+- [ ] **Tests:**
     - [ ] Iterate over tests (they are not coded very well)
     - [x] Test for `BaselearnerCpp` see #86
     
-- [x] Naming:
-    - [x] Consistent naming between `R` and `C++`
+- [x] **Naming:**
+    - [x] Consistent class naming between `R` and `C++`
+    - [x] Use unified function naming
 
-## Changelog
+## Changelog/Updates
 
 - **21.01.2018** \
   New structure for factorys and baselearner. The function
@@ -67,13 +79,23 @@ devtools::install_github("schalkdaniel/compboost")
 - **07.02.2018** \
   Naming of the `C++` classes. Those are matching the `R` classes now.
   
+- **01.03.2018** \
+  Compboost should now run stable and without memory leaks.
+  
+- **21.03.2018** \
+  New data structure with independent source and target.
+  
 - **28.03.2018** \
+  P-Splines are now availalbe as baselearner. Additionally the Polynomial and P-Spline learner
+  are speeded up using a more gneeral data structure which stores the inverse once and reuse it for
+  every iteration.
+
+- **29.03.2018** \
   Upload `C++` documentation created by doxygen. 
   
 - **30.03.2018** \
   Compboost is now ready to do binary classification by using the 
   `BernoulliLoss`.
-  
 
 ## Idea
 
