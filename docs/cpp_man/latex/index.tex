@@ -1,4 +1,13 @@
 \hypertarget{index_intro_sec}{}\section{Introduction}\label{index_intro_sec}
-This is the introduction. {\ttfamily C++}\hypertarget{index_install_sec}{}\section{Installation}\label{index_install_sec}
-\hypertarget{index_step1}{}\subsection{Step 1\+: Opening the box}\label{index_step1}
+This manual should give an overview about the structure and functionality of the {\ttfamily compboost} {\ttfamily C++} classes. To get an insight into the underlying theory check out the {\ttfamily compboost} vignettes\+:\hypertarget{index_install_sec}{}\section{Installation}\label{index_install_sec}
+Basically, the {\ttfamily C++} code can be exported and be used within any language. The only restriction is to exclude the \href{https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-introduction.pdf}{\tt {\ttfamily Rcpp}} specific parts which includes some {\ttfamily Rcpp\+::\+Rcout} printer and the custom classes which requires {\ttfamily Rcpp\+::\+Function} or external pointer of {\ttfamily R} as well as the \href{https://cran.r-project.org/web/packages/RcppArmadillo/vignettes/RcppArmadillo-intro.pdf}{\tt {\ttfamily Rcpp\+Armadillo}} package. To get \href{http://arma.sourceforge.net}{\tt {\ttfamily Armadillo}} run independent of {\ttfamily Rcpp} one has to link the library manually.
+
+As it can already be suspected, the main intend is to use this package within {\ttfamily R}. This is achived by wrapping the pure {\ttfamily C++} classes by another {\ttfamily C++} wrapper which are then exportet as {\ttfamily S4} class using the \href{https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf}{\tt Rcpp modules}. So the easiest way of using {\ttfamily compboost} is to install the {\ttfamily R} package\+:
+
+
+\begin{DoxyCode}
+devtools::install\_github(\textcolor{stringliteral}{"schalkdaniel/compboost"})
+\end{DoxyCode}
+
+
 etc... 

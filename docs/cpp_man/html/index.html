@@ -74,12 +74,12 @@ $(function() {
 <div class="contents">
 <div class="textblock"><h1><a class="anchor" id="intro_sec"></a>
 Introduction</h1>
-<p>This is the introduction. <code>C++</code></p>
+<p>This manual should give an overview about the structure and functionality of the <code>compboost</code> <code>C++</code> classes. To get an insight into the underlying theory check out the <code>compboost</code> vignettes:</p>
 <h1><a class="anchor" id="install_sec"></a>
 Installation</h1>
-<h2><a class="anchor" id="step1"></a>
-Step 1: Opening the box</h2>
-<p>etc... </p>
+<p>Basically, the <code>C++</code> code can be exported and be used within any language. The only restriction is to exclude the <a href="https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-introduction.pdf"><code>Rcpp</code></a> specific parts which includes some <code>Rcpp::Rcout</code> printer and the custom classes which requires <code>Rcpp::Function</code> or external pointer of <code>R</code> as well as the <a href="https://cran.r-project.org/web/packages/RcppArmadillo/vignettes/RcppArmadillo-intro.pdf"><code>RcppArmadillo</code></a> package. To get <a href="http://arma.sourceforge.net"><code>Armadillo</code></a> run independent of <code>Rcpp</code> one has to link the library manually.</p>
+<p>As it can already be suspected, the main intend is to use this package within <code>R</code>. This is achived by wrapping the pure <code>C++</code> classes by another <code>C++</code> wrapper which are then exportet as <code>S4</code> class using the <a href="https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf">Rcpp modules</a>. So the easiest way of using <code>compboost</code> is to install the <code>R</code> package:</p>
+<div class="fragment"><div class="line">devtools::install_github(<span class="stringliteral">&quot;schalkdaniel/compboost&quot;</span>)</div></div><!-- fragment --><p>etc... </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

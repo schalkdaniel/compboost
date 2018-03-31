@@ -17,7 +17,21 @@ div.contents {
 
 div.fragment {
     background-color: rgb(60, 60, 60);
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
+
+div.line {
+	line-height: 1;
+	padding-left: 80px;
+	padding-bottom: 0px;
+	padding-top: 0px;
+}
+
+span.stringliteral {
+    color: #CD6889;
+}
+
 span.lineno {
     border-right: 2px solid rgb(56, 142, 142);
     background-color: rgb(40, 40, 40);

@@ -38,11 +38,34 @@
  *
  * \section intro_sec Introduction
  *
- * This is the introduction. `C++`
+ * This manual should give an overview about the structure and functionality
+ * of the `compboost` `C++` classes. To get an insight into the underlying
+ * theory check out the `compboost` vignettes:
+ * 
  *
  * \section install_sec Installation
  *
- * \subsection step1 Step 1: Opening the box
+ * Basically, the `C++` code can be exported and be used within any language.
+ * The only restriction is to exclude the 
+ * <a href="https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-introduction.pdf">`Rcpp`</a> 
+ * specific parts which includes some `Rcpp::Rcout` printer and the custom 
+ * classes which requires `Rcpp::Function` or external pointer of `R` as well 
+ * as  the <a href="https://cran.r-project.org/web/packages/RcppArmadillo/vignettes/RcppArmadillo-intro.pdf">`RcppArmadillo`</a> 
+ * package. To get <a href="http://arma.sourceforge.net">`Armadillo`</a> run
+ * independent of `Rcpp` one has to link the library manually.
+ * 
+ * As it can already be suspected, the main intend is to use this package
+ * within `R`. This is achived by wrapping the pure `C++` classes by another
+ * `C++` wrapper which are then exportet as `S4` class using the 
+ * <a href="https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf">Rcpp 
+ * modules</a>. So the easiest way of using `compboost` is to install the
+ * `R` package:
+ * 
+ * ```
+ * devtools::install_github("schalkdaniel/compboost")
+ * ```
+ * 
+ * 
  *
  * etc...
  */
