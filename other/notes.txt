@@ -9,6 +9,9 @@ compboost Thesis:
 - Polymorphism!! fast überall IterationLogger geht als Logger class durch!
 - für lineares fitting wird das inverse von XtX weggespeichert damit nicht in jeder iteration neu!
 
+- Kurz im intro oder kleines einführungskapitel die technischen sachen erwähnen die man können sollte um den text zu verstehen:
+    - C++: classes, namespaces, polymorphism (virtual), pointer (reference vs. value), stack vs heap, inheritence (protected)
+
 - Dokumentation erklären R seite und c++ seite (roxygen vs. doxygen)
 - 
 
@@ -17,6 +20,9 @@ Beispiele:
 
 Benchmark:
 - Funktion schreiben, die wahren RAM misst und damit benchmarken!
+
+Theorie:
+- Loss bestimmt gewisse eigenschaften vom modell (wie aggressiv trainiert man, macht man regression oder klassifikation)
 
 compboost repo:
 ============================
