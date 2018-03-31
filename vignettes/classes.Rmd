@@ -24,14 +24,41 @@ called identically. This is required since we are trying to be as generic as
 possible which results that many classes are child classes of abstract parent
 classes. Using this polymorphism ensures consistent function calls and pretend 
 a minimal functionlaity of all child classes. This section is also intended to 
-clarify where and how such relationships exists.
+clarify where and how such relationships exists. \\
+
+For a more detailed documentation which also illustrated the dependencies and
+between the classes see the `C++` documentation:
+\begin{center}
+  \url{}
+\end{center}
 
 \subsection{Loss Classes}
 
-As one of the key features of compboost we firstly introduce the loss classes.
-This classes 
+For a theoretical background see section methodology.
 
 \subsubsection{\texttt{Loss} (Abstract/Parent)}
+
+This class defines functions that each child class must have. The child classes
+contains the concrete implementation. The following functions are defined as
+virtual, hence these have to be defined within the child classes which derive
+that virtual functions:
+
+- `arma::vec definedLoss (const arma::vec&, const arma::vec&)`
+- `arma::vec definedGradient (const arma::vec&, const arma::vec&)`
+- `double 	constantInitializer (const arma::vec&)`
+
+The protected member
+The protected
+ 
+Protected Attributes
+double 	custom_offset
+ 	Custom offset: More...
+ 
+bool 	use_custom_offset = false
+ 	Tag if a custom offset is used. More...
+ 
+arma::vec 	weights
+ 	Weights: More...
 
 \subsubsection{\texttt{QuadraticLoss} (Child)}
 
