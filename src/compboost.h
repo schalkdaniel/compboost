@@ -56,7 +56,7 @@
  * 
  * As it can already be suspected, the main intend is to use this package
  * within `R`. This is achived by wrapping the pure `C++` classes by another
- * `C++` wrapper which are then exportet as `S4` class using the 
+ * `C++` wrapper which are then exported as `S4` class using the 
  * <a href="https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf">Rcpp 
  * modules</a>. So the easiest way of using `compboost` is to install the
  * `R` package:
