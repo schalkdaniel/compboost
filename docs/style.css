@@ -39,11 +39,22 @@ body {
     padding: 14px 16px;
     text-decoration: none;
 }
+
+a:hover { 
+	color: #333;
+	font-weight: bold;
+    background-color: rgb(220, 220, 220);
+}
+
 a.badge {
+	background-color: transparent;
+	font-weight: normal;
 	text-decoration: none;
 }
 
 a.badge:hover { 
+	background-color: transparent;
+	font-weight: normal;
 	text-decoration: none;
 }
 
