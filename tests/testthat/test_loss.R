@@ -114,3 +114,81 @@ test_that("Custom loss works", {
     myConstantInitializerFun(true.value)
   )
 })
+
+
+test_that("Custom cpp loss works", {
+  
+  Rcpp::sourceCpp(code = '
+    // [[Rcpp::depends(RcppArmadillo)]]
+    #include <RcppArmadillo.h>
+    
+    typedef arma::vec (*lossFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
+    typedef arma::vec (*gradFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
+    typedef double (*constInitFunPtr) (const arma::vec& true_value);
+    
+    arma::vec lossFun (const arma::vec& true_value, const arma::vec& prediction)
+    {
+    return arma::pow(true_value - prediction, 2) / 2;
+    }
+    
+    arma::vec gradFun (const arma::vec& true_value, const arma::vec& prediction)
+    {
+    return prediction - true_value;
+    }
+    
+    double constInitFun (const arma::vec& true_value)
+    {
+    return arma::mean(true_value);
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<lossFunPtr> lossFunSetter ()
+    {
+      return Rcpp::XPtr<lossFunPtr> (new lossFunPtr (&lossFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<gradFunPtr> gradFunSetter ()
+    {
+      return Rcpp::XPtr<gradFunPtr> (new gradFunPtr (&gradFun));
+    }
+    
+    // [[Rcpp::export]]
+    Rcpp::XPtr<constInitFunPtr> constInitFunSetter ()
+    {
+      return Rcpp::XPtr<constInitFunPtr> (new constInitFunPtr (&constInitFun));
+    }
+  ')
+
+  true.value = rnorm(100)
+  prediction = rnorm(100)
+  
+  custom.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+  
+  # Test Functionality:
+  # ----------------------------
+  expect_equal(
+    as.matrix((true.value - prediction)^2 / 2), 
+    custom.cpp.loss$testLoss(true.value, prediction)
+  )
+  
+  expect_equal(
+    as.matrix(prediction - true.value), 
+    custom.cpp.loss$testGradient(true.value, prediction)
+  )
+  
+  expect_equal(custom.cpp.loss$testConstantInitializer(true.value), mean(true.value))
+  
+  
+  # Test Printer:
+  # ----------------------------
+  tc = textConnection(NULL, "w")
+  sink(tc)
+  
+  test.custom.cpp.printer = show(custom.cpp.loss)
+  
+  sink()
+  close(tc)
+  
+  expect_equal(test.custom.cpp.printer, "CustomCppLossPrinter")
+})

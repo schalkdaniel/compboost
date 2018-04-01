@@ -14,7 +14,10 @@ compboost Thesis:
 
 - Dokumentation erklären R seite und c++ seite (roxygen vs. doxygen)
 
-
+- Erklären wie custom cpp learner verwendet werden wieso man das mit soner 
+  komischen wrapper macht um funktionen asntatt direkt den external pointer zu
+  exportieren (antwort: damit man die funktionen einfacher schreiben kann ohne
+  sich um das pointer zeug gedanken zu machen!)
 
 Beispiele:
 - Logger ist so flexibel, dass meherere oob logger gleichzeitig tracken können mit verschiedenen lossen (Beispiel bringen mit mlr auc mit loggen oder so, und kurz beschreiben wieso das auch klappt (implementierung mit zu erst temp_vec und dann durch size vom temp vec))

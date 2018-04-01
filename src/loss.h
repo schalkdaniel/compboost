@@ -300,6 +300,59 @@ public:
   double constantInitializer (const arma::vec&) const;
 };
 
+// Custom loss:
+// -----------------------
+
+/**
+* \class CustomCppLoss
+* 
+* \brief With this loss it is possible to define custom functions in `C++`
+* 
+* This one is a special one. It allows to use a custom loss programmed in `C++`.
+* The key is to use external pointer to set the corresponding functions. The
+* big advantage of this is to provide a (not too complicated) method to define
+* custom `C++` losses without recompiling compboost.
+* 
+* **Note:** This class doesn't have a constructor to initialize a
+* custom offset. Because this is not necessary here since the user can
+* define a custom offset within the `initFun` function.
+* 
+*/
+
+typedef arma::vec (*lossFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
+typedef arma::vec (*gradFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
+typedef double (*constInitFunPtr) (const arma::vec& true_value);
+
+class CustomCppLoss : public Loss
+{
+private:
+  
+  /// Pointer to `C++` function to define the loss
+  lossFunPtr lossFun;
+  
+  /// Pointer to `C++` function to define the gradient of the loss function
+  gradFunPtr gradFun;
+  
+  /// Pointer to `C++` function to initialize the model
+  constInitFunPtr constInitFun;
+  
+public:
+  
+  /// Default constructor to set pointer (`Rcpp`s `XPtr` class) out of 
+  /// external pointer wrapped by SEXP
+  CustomCppLoss (SEXP, SEXP, SEXP);
+  
+  /// Specific loss function
+  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  
+  /// Gradient of loss functions for pseudo residuals
+  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  
+  /// Constant initialization of the empirical risk
+  double constantInitializer (const arma::vec&) const;
+  
+};
+
 } // namespace loss
 
 #endif // LOSS_H_

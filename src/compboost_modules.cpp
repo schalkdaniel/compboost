@@ -803,6 +803,25 @@ public:
 };
 
 
+class CustomCppLossWrapper : public LossWrapper
+{
+public:
+  CustomCppLossWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
+  {
+    obj = new loss::CustomCppLoss(loss_ptr, grad_ptr, const_init_ptr);
+  }
+  arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
+    return obj->definedLoss(true_value, prediction);
+  }
+  arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
+    return obj->definedGradient(true_value, prediction);
+  }
+  double testConstantInitializer (arma::vec& true_value) {
+    return obj->constantInitializer(true_value);
+  }
+};
+
+
 
 RCPP_EXPOSED_CLASS(LossWrapper);
 RCPP_MODULE (loss_module)
@@ -846,6 +865,14 @@ RCPP_MODULE (loss_module)
     .method("testLoss", &CustomLossWrapper::testLoss, "Test the defined loss function of the loss")
     .method("testGradient", &CustomLossWrapper::testGradient, "Test the defined gradient of the loss")
     .method("testConstantInitializer", &CustomLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
+  ;
+  
+  class_<CustomCppLossWrapper> ("CustomCppLoss")
+    .derives<LossWrapper> ("Loss")
+    .constructor<SEXP, SEXP, SEXP> ()
+    .method("testLoss", &CustomCppLossWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &CustomCppLossWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &CustomCppLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 }
 
