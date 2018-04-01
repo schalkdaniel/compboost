@@ -148,12 +148,19 @@ Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0
 
 Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_inbag_risk_logger}{Inbag\+Risk\+Logger}}} 
 
+This logger computes the risk for the given training data $\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}$ and stores it into a vector. The empirical risk $\mathcal{R}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}^{[m]}(x)) \]
 
+{\bfseries Note\+:}
 \begin{DoxyItemize}
-\item This logger computes the risk for the given training data $\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}$ and stores it into a vector. The risk $\mathcal{R}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}(x)^{[m]}) \]
-\end{DoxyItemize}
+\item If $m=0$ than $\hat{f}$ is just the offset.
+\item The implementation to calculate $\mathcal{R}_\mathrm{emp}^{[m]}$ is done in two steps\+:
+\begin{DoxyEnumerate}
+\item Calculate vector {\ttfamily risk\+\_\+temp} of losses for every observation for given response $y^{(i)}$ and prediction $\hat{f}^{[m]}(x^{(i)})$.
+\item Average over {\ttfamily risk\+\_\+temp}.
+\end{DoxyEnumerate}
 
-{\bfseries Note\+:} If $m=0$ than \{f\} is just the offset.
+This procedure ensures, that it is possible to e.\+g. use the A\+UC or any arbitrary performance measure for risk logging. This gives just one value for {\ttfamily risk\+\_\+temp} and therefore the average equals the loss function. If this is just a value (like for the A\+UC) then the value is returned.
+\end{DoxyItemize}
 
 
 \begin{DoxyParams}{Parameters}

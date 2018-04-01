@@ -158,9 +158,19 @@ Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0
 
 Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_oob_risk_logger}{Oob\+Risk\+Logger}}} 
 
-This logger computes the risk for a given new dataset $\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}$ and stores it into a vector. The O\+OB risk $\mathcal{R}_\mathrm{oob}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}(x)^{[m]}) \]
+This logger computes the risk for a given new dataset $\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}$ and stores it into a vector. The O\+OB risk $\mathcal{R}_\mathrm{emp}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}^{[m]}(x)) \]
 
-{\bfseries Note\+:} If $m=0$ than \{f\} is just the offset.
+{\bfseries Note\+:}
+\begin{DoxyItemize}
+\item If $m=0$ than $\hat{f}$ is just the offset.
+\item The implementation to calculate $\mathcal{R}_\mathrm{emp}^{[m]}$ is done in two steps\+:
+\begin{DoxyEnumerate}
+\item Calculate vector {\ttfamily risk\+\_\+temp} of losses for every observation for given response $y^{(i)}$ and prediction $\hat{f}^{[m]}(x^{(i)})$.
+\item Average over {\ttfamily risk\+\_\+temp}.
+\end{DoxyEnumerate}
+
+This procedure ensures, that it is possible to e.\+g. use the A\+UC or any arbitrary performance measure for risk logging. This gives just one value for {\ttfamily risk\+\_\+temp} and therefore the average equals the loss function. If this is just a value (like for the A\+UC) then the value is returned.
+\end{DoxyItemize}
 
 
 \begin{DoxyParams}{Parameters}

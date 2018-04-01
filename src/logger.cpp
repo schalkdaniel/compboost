@@ -232,16 +232,18 @@ InbagRiskLogger::InbagRiskLogger (const bool& is_a_stopper0, loss::Loss* used_lo
  * \f]
  * 
  * **Note:** 
- *   - If \f$m=0\f$ than \hat{f} is just the offset.
+ *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
  *   - The implementation to calculate \f$\mathcal{R}_\mathrm{emp}^{[m]}\f$ is
- *     done in two steps:
- *         1. Calculate vector `risk_temp` of losses for every observation for 
- *            given response $y^{(i)}$ and \f$\hat{f}^{[m]}(x^{(i)})\f$.
- *         2. Average over `reisk_temp`
- *     This procedure ensures, that it is possible to e.g. use the AUC for 
- *     risk logging. This gives just one value for `risk_temp` and therefore
- *     the average equals the loss function. If this is just a value (like for
- *     the AUC) then the value is returned.
+ *     done in two steps: 
+ *        1. Calculate vector `risk_temp` of losses for every observation for 
+ *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
+ *        2. Average over `risk_temp`.
+ *         
+ *    This procedure ensures, that it is possible to e.g. use the AUC or any
+ *    arbitrary performance measure for risk logging. This gives just one 
+ *    value for `risk_temp` and therefore the average equals the loss 
+ *    function. If this is just a value (like for the AUC) then the value is 
+ *    returned.
  * 
  * \param current_iteration `unsigned int` of current iteration 
  * \param response `arma::vec` of the given response used for training
@@ -407,16 +409,18 @@ OobRiskLogger::OobRiskLogger (const bool& is_a_stopper0, loss::Loss* used_loss,
  * \f]
  * 
  * **Note:** 
- *   - If \f$m=0\f$ than \hat{f} is just the offset.
+ *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
  *   - The implementation to calculate \f$\mathcal{R}_\mathrm{emp}^{[m]}\f$ is
- *     done in two steps:
- *         1. Calculate vector `risk_temp` of losses for every observation for 
- *            given response $y^{(i)}$ and \f$\hat{f}^{[m]}(x^{(i)})\f$.
- *         2. Average over `reisk_temp`
- *     This procedure ensures, that it is possible to e.g. use the AUC for 
- *     risk logging. This gives just one value for `risk_temp` and therefore
- *     the average equals the loss function. If this is just a value (like for
- *     the AUC) then the value is returned.
+ *     done in two steps: 
+ *        1. Calculate vector `risk_temp` of losses for every observation for 
+ *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
+ *        2. Average over `risk_temp`.
+ *         
+ *    This procedure ensures, that it is possible to e.g. use the AUC or any
+ *    arbitrary performance measure for risk logging. This gives just one 
+ *    value for `risk_temp` and therefore the average equals the loss 
+ *    function. If this is just a value (like for the AUC) then the value is 
+ *    returned.
  * 
  * \param current_iteration `unsigned int` of current iteration 
  * \param response `arma::vec` of the given response used for training
