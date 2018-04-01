@@ -66,12 +66,12 @@ test_that("Compboost loggs correctly", {
   log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y)
 
   logger.list = LoggerList$new()
-  logger.list$registerLogger(log.iterations)
-  logger.list$registerLogger(log.time.ms)
-  logger.list$registerLogger(log.time.sec)
-  logger.list$registerLogger(log.time.min)
-  logger.list$registerLogger(log.inbag)
-  logger.list$registerLogger(log.oob)
+  logger.list$registerLogger(" iterations", log.iterations)
+  logger.list$registerLogger("time.microseconds", log.time.ms)
+  logger.list$registerLogger("time.seconds", log.time.sec)
+  logger.list$registerLogger("time.minutes", log.time.min)
+  logger.list$registerLogger("inbag.risk", log.inbag)
+  logger.list$registerLogger("oob.risk", log.oob)
 
   # logger.list$printRegisteredLogger()
 
@@ -164,8 +164,8 @@ test_that("compboost does the same as mboost", {
   log.time       = TimeLogger$new(FALSE, 500, "microseconds")
 
   logger.list = LoggerList$new()
-  logger.list$registerLogger(log.iterations)
-  logger.list$registerLogger(log.time)
+  logger.list$registerLogger(" iterations", log.iterations)
+  logger.list$registerLogger("time.ms", log.time)
 
   # Run compboost:
   # --------------

@@ -1027,9 +1027,9 @@ public:
     return obj;
   }
 
-  void registerLogger (LoggerWrapper& logger_wrapper)
+  void registerLogger (const std::string& logger_id, LoggerWrapper& logger_wrapper)
   {
-    obj->registerLogger(logger_wrapper.getLoggerId(), logger_wrapper.getLogger());
+    obj->registerLogger(logger_id, logger_wrapper.getLogger());
   }
 
   void printRegisteredLogger ()

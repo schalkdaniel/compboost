@@ -123,6 +123,8 @@ size.compboost = pryr::mem_change({
 })
 time.compboost = proc.time() - time
 
+# used memory while running 3.1 GB, bevore 2.8 GB, after 3.1 GB
+
 library(mboost)
 
 time = proc.time()
@@ -138,6 +140,9 @@ size.mboost = pryr::mem_change({
   )
 })
 time.mboost = proc.time() - time
+
+# used memory while running 3.5 GB, bevore 3.2 GB, after 3.4 GB
+
 
 microbenchmark::microbenchmark(
   "compboost" = {
