@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['trainfunptr',['trainFunPtr',['../namespaceblearner.html#a5e2b38edf05e32681bee136af9ae505d',1,'blearner']]]
+  ['logger_5fmap',['logger_map',['../loggerlist_8h.html#afa233b5ec9ffbe76605d913e86d40fe6',1,'loggerlist.h']]],
+  ['lossfunptr',['lossFunPtr',['../namespaceloss.html#a6658cb84c8687d6dd0904c00801542f3',1,'loss']]]
 ];

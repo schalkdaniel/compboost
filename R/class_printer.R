@@ -204,6 +204,11 @@ ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
   glueLoss("CustomLoss")
 })
 
+setClass("Rcpp_CustomCppLoss")
+ignore.me = setMethod("show", "Rcpp_CustomCppLoss", function (object) {
+  glueLoss("CustomCppLoss")
+})
+
 # ---------------------------------------------------------------------------- #
 # Logger:
 # ---------------------------------------------------------------------------- #

@@ -353,4 +353,75 @@ double CustomLoss::constantInitializer (const arma::vec& true_value) const
 }
 
 
+// Custom cpp loss:
+// -----------------------
+
+/**
+* \brief Default constructor of custom cpp loss class
+* 
+* \param lossFun `Rcpp::Function` `R` function to calculate the loss
+* \param gradientFun `Rcpp::Function` `R` function to calculate the gradient 
+*   of the loss function
+* \param initFun `Rcpp::Function` `R` function to initialize a constant (here
+*   it is not neccessary to initialize in a loss/risk optimal manner)
+* 
+* \returns `double` constant which minimizes the empirical risk for the given true value
+*/
+
+CustomCppLoss::CustomCppLoss (SEXP lossFun0, SEXP gradFun0, SEXP constInitFun0)
+{
+  // Set functions:
+  Rcpp::XPtr<lossFunPtr> myTempLoss (lossFun0);
+  lossFun = *myTempLoss;
+  
+  Rcpp::XPtr<gradFunPtr> myTempGrad (gradFun0);
+  gradFun = *myTempGrad;
+  
+  Rcpp::XPtr<constInitFunPtr> myTempConstInit (constInitFun0);
+  constInitFun = *myTempConstInit;
+}
+
+/**
+ * \brief Definition of the loss function (see description of the class)
+ * 
+ * \param true_value `arma::vec` True value of the response
+ * \param prediction `arma::vec` Prediction of the true value
+ * 
+ * \returns `arma::vec` vector of elementwise application of the loss function
+ */
+
+arma::vec CustomCppLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+{
+  return lossFun(true_value, prediction);
+}
+
+/**
+* \brief Definition of the gradient of the loss function (see description of the class)
+* 
+* \param true_value `arma::vec` True value of the response
+* \param prediction `arma::vec` Prediction of the true value
+* 
+* \returns `arma::vec` vector of elementwise application of the gradient
+*/
+
+arma::vec CustomCppLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+{
+  return gradFun(true_value, prediction);
+}
+
+/**
+* \brief Definition of the constant risk initialization (see description of the class)
+* 
+* \param true_value `arma::vec` True value of the response
+* 
+* \returns `double` constant which minimizes the empirical risk for the given true value
+*/
+
+double CustomCppLoss::constantInitializer (const arma::vec& true_value) const
+{
+  return constInitFun(true_value);
+}
+
+
+
 } // namespace loss

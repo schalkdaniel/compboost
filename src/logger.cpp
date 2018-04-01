@@ -223,15 +223,27 @@ InbagRiskLogger::InbagRiskLogger (const bool& is_a_stopper0, loss::Loss* used_lo
 /**
  * \brief Log current step of compboost iteration for class `InbagRiskLogger`
  * 
- *  * This logger computes the risk for the given training data
+ * This logger computes the risk for the given training data
  * \f$\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}\f$
- * and stores it into a vector. The risk \f$\mathcal{R}\f$ for iteration \f$m\f$ 
- * is calculated by:
+ * and stores it into a vector. The empirical risk \f$\mathcal{R}\f$ for 
+ * iteration \f$m\f$ is calculated by:
  * \f[
- *   \mathcal{R}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}(x)^{[m]})
+ *   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}^{[m]}(x))
  * \f]
  * 
- * **Note:** If \f$m=0\f$ than \hat{f} is just the offset.
+ * **Note:** 
+ *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
+ *   - The implementation to calculate \f$\mathcal{R}_\mathrm{emp}^{[m]}\f$ is
+ *     done in two steps: 
+ *        1. Calculate vector `risk_temp` of losses for every observation for 
+ *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
+ *        2. Average over `risk_temp`.
+ *         
+ *    This procedure ensures, that it is possible to e.g. use the AUC or any
+ *    arbitrary performance measure for risk logging. This gives just one 
+ *    value for `risk_temp` and therefore the average equals the loss 
+ *    function. If this is just a value (like for the AUC) then the value is 
+ *    returned.
  * 
  * \param current_iteration `unsigned int` of current iteration 
  * \param response `arma::vec` of the given response used for training
@@ -248,7 +260,10 @@ void InbagRiskLogger::logStep (const unsigned int& current_iteration, const arma
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
   const double& learning_rate)
 {
-  double temp_risk = arma::accu(used_loss->definedLoss(response, prediction)) / response.size();
+  // Calculate empirical risk. Calculateion of the temporary vector ensures
+  // that stuff like auc logging is possible:
+  arma::vec loss_vec_temp = used_loss->definedLoss(response, prediction);
+  double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
   
   tracked_inbag_risk.push_back(temp_risk);
 }
@@ -386,14 +401,26 @@ OobRiskLogger::OobRiskLogger (const bool& is_a_stopper0, loss::Loss* used_loss,
  * 
  * This logger computes the risk for a given new dataset 
  * \f$\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}\f$
- * and stores it into a vector. The OOB risk \f$\mathcal{R}_\mathrm{oob}\f$ for 
+ * and stores it into a vector. The OOB risk \f$\mathcal{R}_\mathrm{emp}\f$ for 
  * iteration \f$m\f$ is calculated by:
  * \f[
- *   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
- *   L(y, \hat{f}(x)^{[m]})
+ *   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+ *   L(y, \hat{f}^{[m]}(x))
  * \f]
  * 
- * **Note:** If \f$m=0\f$ than \hat{f} is just the offset.
+ * **Note:** 
+ *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
+ *   - The implementation to calculate \f$\mathcal{R}_\mathrm{emp}^{[m]}\f$ is
+ *     done in two steps: 
+ *        1. Calculate vector `risk_temp` of losses for every observation for 
+ *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
+ *        2. Average over `risk_temp`.
+ *         
+ *    This procedure ensures, that it is possible to e.g. use the AUC or any
+ *    arbitrary performance measure for risk logging. This gives just one 
+ *    value for `risk_temp` and therefore the average equals the loss 
+ *    function. If this is just a value (like for the AUC) then the value is 
+ *    returned.
  * 
  * \param current_iteration `unsigned int` of current iteration 
  * \param response `arma::vec` of the given response used for training
@@ -424,8 +451,10 @@ void OobRiskLogger::logStep (const unsigned int& current_iteration, const arma::
   // Cumulate prediction and shrink by learning rate:
   oob_prediction += learning_rate * temp_oob_prediction;
   
-  // Calculate empirical risk:
-  double temp_risk = arma::accu(used_loss->definedLoss(oob_response, oob_prediction)) / response.size();
+  // Calculate empirical risk. Calculateion of the temporary vector ensures
+  // that stuff like auc logging is possible:
+  arma::mat loss_vec_temp = used_loss->definedLoss(oob_response, oob_prediction);
+  double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
   
   // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);

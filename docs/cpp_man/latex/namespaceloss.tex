@@ -7,9 +7,41 @@ class \mbox{\hyperlink{classloss_1_1_absolute_loss}{Absolute\+Loss}}
 \begin{DoxyCompactList}\small\item\em Absolute loss for regression tasks. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_bernoulli_loss}{Bernoulli\+Loss}}
 \begin{DoxyCompactList}\small\item\em 0-\/1 \mbox{\hyperlink{classloss_1_1_loss}{Loss}} for binary classification derifed of the bernoulli distribution \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classloss_1_1_custom_cpp_loss}{Custom\+Cpp\+Loss}}
+\begin{DoxyCompactList}\small\item\em With this loss it is possible to define custom functions in {\ttfamily C++} \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_custom_loss}{Custom\+Loss}}
 \begin{DoxyCompactList}\small\item\em With this loss it is possible to define custom functions out of {\ttfamily R} \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_loss}{Loss}}
 \begin{DoxyCompactList}\small\item\em Abstract loss class. \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_quadratic_loss}{Quadratic\+Loss}}
 \begin{DoxyCompactList}\small\item\em Quadratic loss for regression tasks. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef arma\+::vec($\ast$ \mbox{\hyperlink{namespaceloss_a6658cb84c8687d6dd0904c00801542f3}{loss\+Fun\+Ptr}}) (const arma\+::vec \&true\+\_\+value, const arma\+::vec \&prediction)
+\item 
+typedef arma\+::vec($\ast$ \mbox{\hyperlink{namespaceloss_acae0785d794ff7cc1b1242bab23f81c6}{grad\+Fun\+Ptr}}) (const arma\+::vec \&true\+\_\+value, const arma\+::vec \&prediction)
+\item 
+typedef double($\ast$ \mbox{\hyperlink{namespaceloss_af21a5d5ed7431ecbc73730ce2bde3987}{const\+Init\+Fun\+Ptr}}) (const arma\+::vec \&true\+\_\+value)
+\end{DoxyCompactItemize}
+
+
+\subsection{Typedef Documentation}
+\mbox{\Hypertarget{namespaceloss_af21a5d5ed7431ecbc73730ce2bde3987}\label{namespaceloss_af21a5d5ed7431ecbc73730ce2bde3987}} 
+\index{loss@{loss}!const\+Init\+Fun\+Ptr@{const\+Init\+Fun\+Ptr}}
+\index{const\+Init\+Fun\+Ptr@{const\+Init\+Fun\+Ptr}!loss@{loss}}
+\subsubsection{\texorpdfstring{const\+Init\+Fun\+Ptr}{constInitFunPtr}}
+{\footnotesize\ttfamily typedef double($\ast$ loss\+::const\+Init\+Fun\+Ptr) (const arma\+::vec \&true\+\_\+value)}
+
+\mbox{\Hypertarget{namespaceloss_acae0785d794ff7cc1b1242bab23f81c6}\label{namespaceloss_acae0785d794ff7cc1b1242bab23f81c6}} 
+\index{loss@{loss}!grad\+Fun\+Ptr@{grad\+Fun\+Ptr}}
+\index{grad\+Fun\+Ptr@{grad\+Fun\+Ptr}!loss@{loss}}
+\subsubsection{\texorpdfstring{grad\+Fun\+Ptr}{gradFunPtr}}
+{\footnotesize\ttfamily typedef arma\+::vec($\ast$ loss\+::grad\+Fun\+Ptr) (const arma\+::vec \&true\+\_\+value, const arma\+::vec \&prediction)}
+
+\mbox{\Hypertarget{namespaceloss_a6658cb84c8687d6dd0904c00801542f3}\label{namespaceloss_a6658cb84c8687d6dd0904c00801542f3}} 
+\index{loss@{loss}!loss\+Fun\+Ptr@{loss\+Fun\+Ptr}}
+\index{loss\+Fun\+Ptr@{loss\+Fun\+Ptr}!loss@{loss}}
+\subsubsection{\texorpdfstring{loss\+Fun\+Ptr}{lossFunPtr}}
+{\footnotesize\ttfamily typedef arma\+::vec($\ast$ loss\+::loss\+Fun\+Ptr) (const arma\+::vec \&true\+\_\+value, const arma\+::vec \&prediction)}
+

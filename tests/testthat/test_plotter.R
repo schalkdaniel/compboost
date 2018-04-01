@@ -66,12 +66,12 @@ test_that("Parameter plotter works", {
   log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y)
   
   logger.list = LoggerList$new()
-  logger.list$registerLogger(log.iterations)
-  logger.list$registerLogger(log.time.ms)
-  logger.list$registerLogger(log.time.sec)
-  logger.list$registerLogger(log.time.min)
-  logger.list$registerLogger(log.inbag)
-  logger.list$registerLogger(log.oob)
+  logger.list$registerLogger("iterations", log.iterations)
+  logger.list$registerLogger("time.ms", log.time.ms)
+  logger.list$registerLogger("time.sec", log.time.sec)
+  logger.list$registerLogger("time.min", log.time.min)
+  logger.list$registerLogger("inbag.risk", log.inbag)
+  logger.list$registerLogger("oob.risk", log.oob)
   
   # logger.list$printRegisteredLogger()
   

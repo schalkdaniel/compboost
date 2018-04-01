@@ -376,10 +376,18 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Log current step of compboost iteration for class <code><a class="el" href="classlogger_1_1_oob_risk_logger.html" title="Logger class to log the out of bag risk. ">OobRiskLogger</a></code> </p>
-<p>This logger computes the risk for a given new dataset \(\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}\) and stores it into a vector. The OOB risk \(\mathcal{R}_\mathrm{oob}\) for iteration \(m\) is calculated by: </p><p class="formulaDsp">
-\[ \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}(x)^{[m]}) \]
+<p>This logger computes the risk for a given new dataset \(\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}\) and stores it into a vector. The OOB risk \(\mathcal{R}_\mathrm{emp}\) for iteration \(m\) is calculated by: </p><p class="formulaDsp">
+\[ \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}^{[m]}(x)) \]
 </p>
-<p><b>Note:</b> If \(m=0\) than {f} is just the offset.</p>
+<p><b>Note:</b></p><ul>
+<li>If \(m=0\) than \(\hat{f}\) is just the offset.</li>
+<li><p class="startli">The implementation to calculate \(\mathcal{R}_\mathrm{emp}^{[m]}\) is done in two steps:</p><ol type="1">
+<li>Calculate vector <code>risk_temp</code> of losses for every observation for given response \(y^{(i)}\) and prediction \(\hat{f}^{[m]}(x^{(i)})\).</li>
+<li>Average over <code>risk_temp</code>.</li>
+</ol>
+<p class="startli">This procedure ensures, that it is possible to e.g. use the AUC or any arbitrary performance measure for risk logging. This gives just one value for <code>risk_temp</code> and therefore the average equals the loss function. If this is just a value (like for the AUC) then the value is returned.</p>
+</li>
+</ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">current_iteration</td><td><code>unsigned int</code> of current iteration </td></tr>

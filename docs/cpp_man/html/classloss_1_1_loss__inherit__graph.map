@@ -1,6 +1,7 @@
 <map id="loss::Loss" name="loss::Loss">
 <area shape="rect" id="node2" href="$classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,211,148,347"/>
 <area shape="rect" id="node3" href="$classloss_1_1_bernoulli_loss.html" title="0&#45;1 Loss for binary classification derifed of the bernoulli distribution " alt="" coords="172,211,315,347"/>
-<area shape="rect" id="node4" href="$classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="339,204,481,355"/>
-<area shape="rect" id="node5" href="$classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="505,211,648,347"/>
+<area shape="rect" id="node4" href="$classloss_1_1_custom_cpp_loss.html" title="With this loss it is possible to define custom functions in C++ " alt="" coords="339,204,489,355"/>
+<area shape="rect" id="node5" href="$classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="513,204,656,355"/>
+<area shape="rect" id="node6" href="$classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="680,211,823,347"/>
 </map>

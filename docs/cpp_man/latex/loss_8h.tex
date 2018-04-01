@@ -34,11 +34,22 @@ class \mbox{\hyperlink{classloss_1_1_absolute_loss}{loss\+::\+Absolute\+Loss}}
 class \mbox{\hyperlink{classloss_1_1_bernoulli_loss}{loss\+::\+Bernoulli\+Loss}}
 \begin{DoxyCompactList}\small\item\em 0-\/1 \mbox{\hyperlink{classloss_1_1_loss}{Loss}} for binary classification derifed of the bernoulli distribution \end{DoxyCompactList}\item 
 class \mbox{\hyperlink{classloss_1_1_custom_loss}{loss\+::\+Custom\+Loss}}
-\begin{DoxyCompactList}\small\item\em With this loss it is possible to define custom functions out of {\ttfamily R} \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em With this loss it is possible to define custom functions out of {\ttfamily R} \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classloss_1_1_custom_cpp_loss}{loss\+::\+Custom\+Cpp\+Loss}}
+\begin{DoxyCompactList}\small\item\em With this loss it is possible to define custom functions in {\ttfamily C++} \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Namespaces}
 \begin{DoxyCompactItemize}
 \item 
  \mbox{\hyperlink{namespaceloss}{loss}}
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef arma\+::vec($\ast$ \mbox{\hyperlink{namespaceloss_a6658cb84c8687d6dd0904c00801542f3}{loss\+::loss\+Fun\+Ptr}}) (const arma\+::vec \&true\+\_\+value, const arma\+::vec \&prediction)
+\item 
+typedef arma\+::vec($\ast$ \mbox{\hyperlink{namespaceloss_acae0785d794ff7cc1b1242bab23f81c6}{loss\+::grad\+Fun\+Ptr}}) (const arma\+::vec \&true\+\_\+value, const arma\+::vec \&prediction)
+\item 
+typedef double($\ast$ \mbox{\hyperlink{namespaceloss_af21a5d5ed7431ecbc73730ce2bde3987}{loss\+::const\+Init\+Fun\+Ptr}}) (const arma\+::vec \&true\+\_\+value)
 \end{DoxyCompactItemize}
 
 

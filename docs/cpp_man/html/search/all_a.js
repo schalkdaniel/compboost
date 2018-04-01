@@ -14,5 +14,6 @@ var searchData=
   ['loss',['Loss',['../classloss_1_1_loss.html',1,'loss::Loss'],['../namespaceloss.html',1,'loss']]],
   ['loss_2ecpp',['loss.cpp',['../loss_8cpp.html',1,'']]],
   ['loss_2eh',['loss.h',['../loss_8h.html',1,'']]],
-  ['lossfun',['lossFun',['../classloss_1_1_custom_loss.html#a90aa6d3240cd14bc3ede21af38b70c8a',1,'loss::CustomLoss']]]
+  ['lossfun',['lossFun',['../classloss_1_1_custom_loss.html#a90aa6d3240cd14bc3ede21af38b70c8a',1,'loss::CustomLoss::lossFun()'],['../classloss_1_1_custom_cpp_loss.html#a4745649d71fc6e428f68b2cbc9e343b7',1,'loss::CustomCppLoss::lossFun()']]],
+  ['lossfunptr',['lossFunPtr',['../namespaceloss.html#a6658cb84c8687d6dd0904c00801542f3',1,'loss']]]
 ];

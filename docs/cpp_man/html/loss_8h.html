@@ -74,7 +74,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle">
 <div class="title">loss.h File Reference</div>  </div>
 </div><!--header-->
@@ -124,11 +125,23 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_custom_loss.html">loss::CustomLoss</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">With this loss it is possible to define custom functions out of <code>R</code>  <a href="classloss_1_1_custom_loss.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_custom_cpp_loss.html">loss::CustomCppLoss</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">With this loss it is possible to define custom functions in <code>C++</code>  <a href="classloss_1_1_custom_cpp_loss.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceloss"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceloss.html">loss</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a6658cb84c8687d6dd0904c00801542f3"><td class="memItemLeft" align="right" valign="top">typedef arma::vec(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceloss.html#a6658cb84c8687d6dd0904c00801542f3">loss::lossFunPtr</a>) (const arma::vec &amp;true_value, const arma::vec &amp;prediction)</td></tr>
+<tr class="separator:a6658cb84c8687d6dd0904c00801542f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae0785d794ff7cc1b1242bab23f81c6"><td class="memItemLeft" align="right" valign="top">typedef arma::vec(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceloss.html#acae0785d794ff7cc1b1242bab23f81c6">loss::gradFunPtr</a>) (const arma::vec &amp;true_value, const arma::vec &amp;prediction)</td></tr>
+<tr class="separator:acae0785d794ff7cc1b1242bab23f81c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af21a5d5ed7431ecbc73730ce2bde3987"><td class="memItemLeft" align="right" valign="top">typedef double(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceloss.html#af21a5d5ed7431ecbc73730ce2bde3987">loss::constInitFunPtr</a>) (const arma::vec &amp;true_value)</td></tr>
+<tr class="separator:af21a5d5ed7431ecbc73730ce2bde3987"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Loss class definition. </p>
