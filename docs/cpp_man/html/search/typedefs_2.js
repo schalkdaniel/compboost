@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logger_5fmap',['logger_map',['../loggerlist_8h.html#afa233b5ec9ffbe76605d913e86d40fe6',1,'loggerlist.h']]]
+  ['gradfunptr',['gradFunPtr',['../namespaceloss.html#acae0785d794ff7cc1b1242bab23f81c6',1,'loss']]]
 ];

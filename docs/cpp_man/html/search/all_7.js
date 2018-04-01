@@ -20,6 +20,8 @@ var searchData=
   ['getprediction',['getPrediction',['../classcboost_1_1_compboost.html#a405c6b88de5b053fefdb24742791da4e',1,'cboost::Compboost']]],
   ['getselectedbaselearner',['getSelectedBaselearner',['../classcboost_1_1_compboost.html#ac66d4490e6539832d4d304a86db746dc',1,'cboost::Compboost']]],
   ['getstopperstatus',['getStopperStatus',['../classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792',1,'loggerlist::LoggerList']]],
+  ['gradfun',['gradFun',['../classloss_1_1_custom_cpp_loss.html#ad4e80f74715af8955786bf6f5766f24b',1,'loss::CustomCppLoss']]],
+  ['gradfunptr',['gradFunPtr',['../namespaceloss.html#acae0785d794ff7cc1b1242bab23f81c6',1,'loss']]],
   ['gradientfun',['gradientFun',['../classloss_1_1_custom_loss.html#af3f00f7f006f7466c79fff83d763c359',1,'loss::CustomLoss']]],
   ['greedyoptimizer',['GreedyOptimizer',['../classoptimizer_1_1_greedy_optimizer.html',1,'optimizer::GreedyOptimizer'],['../classoptimizer_1_1_greedy_optimizer.html#a30d780754aed415270eafd227628ec69',1,'optimizer::GreedyOptimizer::GreedyOptimizer()']]]
 ];
