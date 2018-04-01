@@ -7,9 +7,10 @@ Maintainer: Daniel Schalk <d-schalk@t-online.de>
 Description: A C++ implementation of componentwise boosting. The idea is to 
     patch all components, which are implemented as class, together. This 
     gives the user maximal flexiblity. In addition the main classes can be 
-    extended with custom functions from R. This will slow down the whole 
-    algorithm. Nevertheless, it is possible to do some prototyping within R for 
-    custom baselearner.
+    extended with custom functions from R or C++. Using cutom R functions will 
+    slow down the whole algorithm. Nevertheless, it is possible to do some 
+    prototyping within R for custom baselearner and implement then in C++ 
+    afterwards without recompiling the whole package.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

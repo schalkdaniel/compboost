@@ -32,7 +32,7 @@ between the classes see the `C++` documentation:
   \url{}
 \end{center}
 
-\subsection{Loss Classes}
+\subsection{Loss Classes}\label{subsec:loss-classes}
 
 For a theoretical background see section methodology.
 

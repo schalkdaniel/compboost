@@ -13,11 +13,109 @@ vignette: >
 
 \section{Methodology}
 
+
+
+\subsection{Learning Theory Reminder}
+
+\subsubsection{Loss Function}
+
+The aim of machine learning is to find a model (function) $\hat{f}$ which 
+approximate the real but unknown $f$. which best suits our data. But finding 
+this model requires a mapping from the training data 
+$\mathcal{D}_\mathrm{train} = \left\{(x^{(i)}, y^{(i)})\ |\ i \in \{1, \dots, n\}\right\}$ 
+to a model $\hat{f}$. This mapping is called inducer. \\
+
+To quantify the goodness of a prediction $y = f(x)$ we need a function to 
+measure the loss of this prediction. Basically, the loss function can also 
+be seen as a metric between the true value $y$ and its prediction $y$:
+
+\begin{align*}
+  L : \mathcal{Y} \times \mathcal{X} &\rightarrow\ \mathbb{R}_+ \\
+                                 y,x &\mapsto\ L\left(y, f(x)\right)
+\end{align*}
+
+The loss function is used within the inducer to fit a function (model) 
+$\hat{f}$ using training data $\mathcal{D}_\mathrm{train}$ (see section 
+\ref{sec:grad-boosting}). It is worth mentioning that different loss functions 
+transfer their properties to the inducer. For instance measuring the absolute
+difference between $y$ and $f(x)$ (absolute loss) is more robust in terms
+of outliers then measuring the qudratic differences (quadratic loss). \\
+
+The properties of the loss function is also used to tackle different tasks. 
+Doing classification requires other loss functions than regression tasks. 
+To get an overview about different losses and their use see section 
+\ref{subsec:loss-classes} about the implemented loss classes of 
+\texttt{compboost}.
+
+
+\subsubsection{Empirical Risk}
+
+It would be desirable to have the loss for every possible combination of 
+$x \in \mathcal{X}$ and the corresponding true value $y \in \mathcal{Y}$. 
+Therefore, the natural thing would be to measure the expectation of the loss
+with respect to the joint distribution $\mathbb{P}_{xy}$. This expectation is
+defined as the risk $\mathcal{R}(f)$:
+\[
+  \mathcal{R}(f) = \mathbb{E}\left[L(y, f(x))\right] = \int L(y,f(x))\ d\mathbb{P}_{xy}
+\]
+
+Since $\mathbb{P}_{xy}$ is unknown it is not possible to exactly calculate 
+$\mathcal{R}(f)$. The most common way to approximate the risk is to use its
+empirical analogon the mean using the observation of the training data 
+$(y, x) \in \mathcal{D}_\mathrm{train}$. This is called the empirical risk
+$\mathcal{R}_\mathrm{emp}(f)$:
+\[
+  \mathcal{R}_\mathrm{emp}(f) = \frac{1}{n}\sum\limits_{i=1}^n\ 
+  L\left(y^{(i)}, f(x^{(i)})\right)
+\]
+
+It is also common to use the empirical risk as a summed version:
+\[
+  \mathcal{R}_\mathrm{emp}(f) = \sum\limits_{i=1}^n\ 
+  L\left(y^{(i)}, f(x^{(i)})\right)
+\]
+
+In \texttt{compboost} we are using the average version of the empirical risk.\\
+
+\subsubsection{Loss Minimization}
+
+An obvious aim is now to minimize the empirical risk which is also known as
+loss minimization and use the function $\hat{f}$ which minimizes 
+$\mathcal{R}_\mathrm{emp}(f)$:
+\[
+  \hat{f} = \underset{f \in H}{\mathrm{arg~min}}\ \mathcal{R}_\mathrm{emp}(f)
+\]
+
+In component-wise boosting we assume that $f$ is a function which can be 
+parameterized by $\theta \in \Theta$ since we want to have interpretable 
+learner (as we will see later). Hence, we can parameterize the empirical risk:
+\[
+  \mathcal{R}_\mathrm{emp}(\theta) = \frac{1}{n}\sum\limits_{i=1}^n\ 
+  L\left(y^{(i)}, f(x^{(i)}|\theta)\right)
+\]
+Therefore, the loss minimization yields in finding a parameter setting  
+$\hat{\theta}$ which minimizes $\mathcal{R}_\mathrm{emp}(\theta)$:
+\[
+  \hat{\theta} = \underset{\theta \in \Theta}{\mathrm{arg~min}}\
+  \mathcal{R}_\mathrm{emp}(\theta)
+\]
+
+
+\subsection{Gradient Boosting Reminder}\label{sec:grad-boosting}
+
+\subsubsection{Forward Stagewise Additive Modelling}
+
+- find parameter in a greedy fashion (makes optimization very simple)
+
+\subsubsection{Gradient Boosting}
+
 - Ganz kurz forward stagewise additive modelling (eher zitieren)
 - Ganz kurz boosting (eher zitieren)
+
+
+
+\subsection{Component-wise Boosting}
+
+
 - Bisschen genauer model based boosting
 
-
-
-- Eigenschaften vom Loss werden auf Algorithmus übertragen
-- Genauere infos zur loss definition auf classes verweisen
