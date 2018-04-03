@@ -2,7 +2,13 @@
 title: "Compboost: Classes"
 author: "Daniel Schalk"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
+output: 
+  rmarkdown::pdf_document:
+    includes:
+      in_header:
+        - header.tex
+        - highlights.tex
+bibliography: bibliography.bib
 vignette: >
   %\VignetteIndexEntry{classes}
   %\VignetteEngine{knitr::rmarkdown}
@@ -16,7 +22,7 @@ section we want to give a overview about these classes and their functionality.
 This section first describes the classes that are independent of other classes
 like the loss class and then goes on to classes which includes other ones
 like the baselearner factory list class which obviously includes baselearner 
-factories. \\
+factories.
 
 To be as flexible as possible, it is important that different classes of the 
 same type (e.~g.~Bernoulli loss and quadratic loss, both losses) can be 
@@ -24,7 +30,7 @@ called identically. This is required since we are trying to be as generic as
 possible which results that many classes are child classes of abstract parent
 classes. Using this polymorphism ensures consistent function calls and pretend 
 a minimal functionlaity of all child classes. This section is also intended to 
-clarify where and how such relationships exists. \\
+clarify where and how such relationships exists.
 
 For a more detailed documentation which also illustrated the dependencies and
 between the classes see the `C++` documentation:
@@ -43,36 +49,184 @@ contains the concrete implementation. The following functions are defined as
 virtual, hence these have to be defined within the child classes which derive
 that virtual functions:
 
-- `arma::vec definedLoss (const arma::vec&, const arma::vec&)`
-- `arma::vec definedGradient (const arma::vec&, const arma::vec&)`
-- `double 	constantInitializer (const arma::vec&)`
+- `arma::vec definedLoss (const arma::vec&, const arma::vec&)` defines the 
+  loss function: \[L(y, f(x))\]
+  
+- `arma::vec definedGradient (const arma::vec&, const arma::vec&)` defines the
+  gradient of the loss function with respect to $f(x)$: \[\frac{\delta}{\delta f(x)} L(y, f(x))\]
+  
+- `double constantInitializer (const arma::vec&)` defines how $f$ should be 
+  initialized by setting $\hat{f}^{[0]}(x) = c$ as constant. It is possible to 
+  choose any constant $c \in \mathbb{R}$ here. The default implementation 
+  initialize the algorithm in an loss optimal fashion (if possible):
+  \[
+    c = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \mathcal{R}_\mathrm{emp}(c) =
+    \frac{1}{n}\sum\limits_{i=1}^n\ L(y^{(i)}, c)
+  \]
 
-The protected member
-The protected
- 
-Protected Attributes
-double 	custom_offset
- 	Custom offset: More...
- 
-bool 	use_custom_offset = false
- 	Tag if a custom offset is used. More...
- 
-arma::vec 	weights
- 	Weights: More...
+A special protected member of the \texttt{Loss} class is the 
+\texttt{custom\_offset}. This `double` can be setted by the constructors of the
+child classes. Calling such a constructor and set a custom offset $c_0 \in \mathbb{R}$ 
+forces the algorithm to initialize the model with that value: 
+\[
+  \hat{f}^{[0]}(x) = c_0 = c
+\]
+
 
 \subsubsection{\texttt{QuadraticLoss} (Child)}
 
+**Constructors:**\vspace{0.2cm}
+
+\begin{Shaded}
+\begin{verbatim}
+QuadraticLoss ();
+QuadraticLoss (const double& cusotm_offset);
+\end{verbatim}
+\end{Shaded}
+
+
+The \texttt{QuadraticLoss} class implements the quadratic loss. This loss can 
+be used for regression with $y \in \mathbb{R}$. 
+
+**Loss Function:**
+\[
+  L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2
+\]
+**Gradient:**
+\[
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y
+\]
+**Initialization:**
+\[
+  \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+  L\left(y^{(i)}, c\right) = \bar{y}
+\]
+
 \subsubsection{\texttt{AbsoluteLoss} (Child)}
+
+**Constructors:**\vspace{0.2cm}
+
+\begin{Shaded}
+\begin{verbatim}
+AbsoluteLoss ();
+AbsoluteLoss (const double& cusotm_offset);
+\end{verbatim}
+\end{Shaded}
+
+Implements of the absolute loss. This loss can be used for regression with 
+$y \in \mathbb{R}$. It is more robust in terms of outliers. 
+
+**Loss Function:**
+\[
+  L(y, f(x)) = \left| y - f(x) \right|
+\]
+**Gradient:**
+\[
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right)
+\]
+**Initialization:**
+\[
+  \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+  L\left(y^{(i)}, c\right) = \mathrm{median}(y)
+\]
 
 \subsubsection{\texttt{BernoulliLoss} (Child)}
 
+**Constructors:**\vspace{0.2cm}
+
+\begin{Shaded}
+\begin{verbatim}
+BernoulliLoss ();
+BernoulliLoss (const double& cusotm_offset);
+\end{verbatim}
+\end{Shaded}
+
+This loss can be used for binary classification. The coding of $y$ has to be as
+$y \in \{-1, 1\}$. Note that the algorithm just returns $f$ as real number. To
+calculate estimator for classes one has to apply the signum function on $f$. To
+obtain probabilities another function to map $f$ on $[0, 1]$ is necessary 
+(e. g. the sigmoid function).
+
+**Loss Function:**
+\[
+  L(y, f(x)) = \log\left\{1 + \exp\left(-yf(x)\right)\right\}
+\]
+**Gradient:**
+\[
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(yf\right)}
+\]
+**Initialization:**
+\[
+  \hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right)
+\]
+with
+\[
+  p = \frac{1}{n}\sum\limits_{i=1}^n\mathds{1}_{\{y_i > 0\}}
+\]
+
+
 \subsubsection{\texttt{CustomLoss} (Child)}
+
+**Constructors:**\vspace{0.2cm}
+
+\begin{Shaded}
+\begin{verbatim}
+CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun);
+\end{verbatim}
+\end{Shaded}
+
+The custom loss class can be used to use \texttt{R} functions to define a 
+loss. However, it is not recommended to use this loss for the algorithm since
+the conversion between \textt{R} and \texttt{C++} decreases the performance 
+dramatically. The reason for having a custom loss is to use it for prototyping.
+To use a stable custom loss permanently we recommend to implement it in 
+\texttt{C++} and use the custom cpp loss.
+
+The great thing about the custom loss is that it can be used in combination with
+the logger to track performance measures. For this purpose, any `R` package can
+be used to access the performance measures. In chapter/vignett extending 
+compboost we show this by an example where we use a `mlr` performance measure
+to track the performance while fitting.
+
+Another point is the absence of a constructor which initialize a custom offset.
+This would be completely redundant since it is possible to define an `R` 
+function which just returns the desired constant. 
+
+For examples and a description how the signature of the `R` function have to 
+look like see chapter/vignette extending compboost.
+
+
+\subsubsection{\texttt{CustomCppLoss} (Child)}
+
+**Constructors:**\vspace{0.2cm}
+
+\begin{Shaded}
+\begin{verbatim}
+CustomCppLoss (SEXP lossFun, SEXP gradFun, SEXP constInitFun);
+\end{verbatim}
+\end{Shaded}
+
+The custom cpp loss class can be used to use `C++` function without recompiling
+the whole package. This is obtained by using `Rcpp`'s `XPtr` class which wraps
+`R`'s external pointer. With that it is possible to use `R` to set the `C++` 
+pointer of the initialized `CustomCppLoss` class to the user defined `C++`
+function.
+
+{\Huge Grafik, die erklärt wie das abläuft}
+
+We highly recommend using this class to implement custom loss functions since
+there is no loss performance. 
+
 
 
 
 \subsection{Data Classes}
 
+
+
 \subsubsection{\texttt{Data} (Abstract/Parent)}
+
+
 
 \subsubsection{\texttt{InMemoryData} (Child)}
 

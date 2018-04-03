@@ -220,7 +220,7 @@ public:
  * \f]
  * **Initialization:**
  * \f[
- *   \hat{f}^{[0]}(x) = \frac{1}{2}\log\left\{\frac{p}{1 - p}\right\}
+ *   \hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right)
  * \f]
  * with
  * \f[

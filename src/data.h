@@ -78,18 +78,18 @@ public:
   // Some spline specific data stuff (of course they can be used for other
   // classes to):
   
-  /// Penalty matrix (directly accesible)
+  /// Penalty matrix (directly accessible)
   arma::mat penalty_mat;
   
-  /// Vector of knots (directky accesible)
+  /// Vector of knots (directly accessible)
   arma::vec knots;
   
   /// Upper and lower boundary for values, values which are out of range
-  /// have a basis of zeros (directly accesible)
+  /// have a basis of zeros (directly accessible)
   arma::vec knot_boundaries;
   
   /// This is way to speed up the algorithm (nicked from the mboost guys)
-  /// Genrally we calculate \f$X^T X\f$ once and reuse this in every iteration.
+  /// Generally we calculate \f$X^T X\f$ once and reuse this in every iteration.
   arma::mat XtX_inv;
   
   // Member functions:

@@ -18,6 +18,10 @@ compboost Thesis:
   komischen wrapper macht um funktionen asntatt direkt den external pointer zu
   exportieren (antwort: damit man die funktionen einfacher schreiben kann ohne
   sich um das pointer zeug gedanken zu machen!)
+  
+- Erklären dass implementierung der key part ist und die theory am anfang nur kurz erklären soll was abgeht
+
+- In extending compboost erklären, wie welche funktionen definiert werden müssen!!!
 
 Beispiele:
 - Logger ist so flexibel, dass meherere oob logger gleichzeitig tracken können mit verschiedenen lossen (Beispiel bringen mit mlr auc mit loggen oder so, und kurz beschreiben wieso das auch klappt (implementierung mit zu erst temp_vec und dann durch size vom temp vec))
