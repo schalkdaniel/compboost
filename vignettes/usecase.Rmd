@@ -692,8 +692,6 @@ for (i in seq_along(idx.fare)){
     xlab("Ticket Costs (Fare)") +
     ylab("Additive Contribution") +
     ylim(-1, 4) +
-    theme_tech(theme="facebook") +
-    scale_color_tech(theme="facebook") + 
     labs(title="Effect of Age on Survival", 
          subtitle="The higher the additive contribution the higher the chance of survial")
   
