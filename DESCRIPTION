@@ -30,7 +30,8 @@ Suggests:
     knitr,
     rmarkdown,
     titanic,
-    mlr
+    mlr,
+    gridExtra
 RcppModules:
     baselearner_module,
     compboost_module,
