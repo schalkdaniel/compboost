@@ -34,6 +34,16 @@ test_that("polynomial factory works", {
     cubic.factory$getData(),
     as.matrix(mod.cubic$model[["X.cubic"]])
   )
+  
+  expect_equal(
+    linear.factory$getData(),
+    linear.factory$transformData(data.source$getData())
+  )
+  
+  expect_equal(
+    cubic.factory$getData(),
+    cubic.factory$transformData(data.source$getData())
+  )
 })
 
 test_that("custom factory works", {
@@ -72,6 +82,11 @@ test_that("custom factory works", {
   expect_equal(
     custom.factory$getData(),
     instantiateDataFun(X)
+  )
+  
+  expect_equal(
+    custom.factory$getData(),
+    custom.factory$transformData(data.source$getData())
   )
   # expect_equal(
   #   custom.factory$testGetParameter(),
@@ -157,4 +172,9 @@ test_that("custom cpp factory works", {
     dataFunSetter(), trainFunSetter(), predictFunSetter())
 
   expect_equal(custom.cpp.factory$getData(), X)
+  
+  expect_equal(
+    custom.cpp.factory$getData(),
+    custom.cpp.factory$transformData(data.source$getData())
+  )
 })

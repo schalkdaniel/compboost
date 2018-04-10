@@ -505,6 +505,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
 
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     if (degree == 1) {
@@ -575,6 +580,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
 
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom baselearner Factory:" << std::endl;
@@ -600,6 +610,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
 
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom cpp baselearner Factory:" << std::endl;
@@ -622,6 +637,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",     &PolynomialBlearnerFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
   
@@ -637,6 +653,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &CustomBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
@@ -644,6 +661,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 }
