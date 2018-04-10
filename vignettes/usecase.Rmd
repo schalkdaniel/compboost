@@ -15,6 +15,9 @@ vignette: >
 ```{r, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 # devtools::load_all()
+library(compboost)
+library(ggplot2)
+library(ggtech)
 ```
 
 
@@ -489,8 +492,6 @@ and the ROC curve. To compute the AUC and the ROC curve we can proceed as
 follows:
 
 ```{r, warning=FALSE, fig.align="center", fig.width=9, fig.height=6, out.width="600px",out.height="400px"}
-library(ggplot2)
-library(ggtech)
 
 # True labels as binary vector (0, 1):
 labels = (response[idx.eval] + 1) / 2
