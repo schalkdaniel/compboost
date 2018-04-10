@@ -65,7 +65,7 @@ protected:
 
 };
 
-
+//' @export InMemoryData
 class InMemoryDataWrapper : public DataWrapper
 {
   
