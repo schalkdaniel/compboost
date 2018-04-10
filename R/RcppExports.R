@@ -4,3 +4,66 @@
 #' @export InMemoryData
 NULL
 
+#' @export PolynomialBlearner
+NULL
+
+#' @export PSplineBlearner
+NULL
+
+#' @export CustomBlearner
+NULL
+
+#' @export CustomCppBlearner
+NULL
+
+#' @export PolynomialBlearnerFactory
+NULL
+
+#' @export PSplineBlearnerFactory
+NULL
+
+#' @export CustomBlearnerFactory
+NULL
+
+#' @export CustomCppBlearnerFactory
+NULL
+
+#' @export BlearnerFactoryList
+NULL
+
+#' @export QuadraticLoss
+NULL
+
+#' @export AbsoluteLoss
+NULL
+
+#' @export BinomialLoss
+NULL
+
+#' @export CustomLoss
+NULL
+
+#' @export CustomCppLoss
+NULL
+
+#' @export IterationLogger
+NULL
+
+#' @export InbagRiskLogger
+NULL
+
+#' @export OobRiskLogger
+NULL
+
+#' @export TimeLogger
+NULL
+
+#' @export LoggerList
+NULL
+
+#' @export GreedyOptimizer
+NULL
+
+#' @export Compboost
+NULL
+

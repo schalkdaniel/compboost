@@ -153,6 +153,7 @@ protected:
   blearner::Baselearner* obj;
 };
 
+//' @export PolynomialBlearner
 class PolynomialBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -221,6 +222,7 @@ public:
   }
 };
 
+//' @export PSplineBlearner
 class PSplineBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -285,7 +287,7 @@ public:
   }
 };
 
-
+//' @export CustomBlearner
 class CustomBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -348,6 +350,7 @@ public:
   }
 };
 
+//' @export CustomCppBlearner
 class CustomCppBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -485,7 +488,7 @@ protected:
   // blearner::Baselearner* test_obj;
 };
 
-// Wrapper around the PolynomialBlearnerFactory:
+//' @export PolynomialBlearnerFactory
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
@@ -529,7 +532,7 @@ public:
   }
 };
 
-// Wrapper around the PolynomialBlearnerFactory:
+//' @export PSplineBlearnerFactory
 class PSplineBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
@@ -563,7 +566,7 @@ public:
   }
 };
 
-// Wrapper around the CustomBlearnerFactory:
+//' @export CustomBlearnerFactory
 class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -594,7 +597,7 @@ public:
   }
 };
 
-// Wrapper around the CustomCppBlearnerFactory:
+//' @export CustomCppBlearnerFactory
 class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -672,8 +675,7 @@ RCPP_MODULE (baselearner_factory_module)
 //                              BASELEARNERLIST                               //
 // -------------------------------------------------------------------------- //
 
-// Wrapper around the BaselearnerFactoryList which is in R used as FactoryList
-// (which is more intuitive, since we are giving factorys and not lists):
+//' @export BlearnerFactoryList
 class BlearnerFactoryListWrapper
 {
 private:
@@ -756,6 +758,7 @@ protected:
   loss::Loss* obj;
 };
 
+//' @export QuadraticLoss
 class QuadraticLossWrapper : public LossWrapper
 {
 public:
@@ -773,6 +776,7 @@ public:
   }
 };
 
+//' @export AbsoluteLoss
 class AbsoluteLossWrapper : public LossWrapper
 {
 public:
@@ -790,6 +794,7 @@ public:
   }
 };
 
+//' @export BinomialLoss
 class BinomialLossWrapper : public LossWrapper
 {
 public:
@@ -807,6 +812,7 @@ public:
   }
 };
 
+//' @export CustomLoss
 class CustomLossWrapper : public LossWrapper
 {
 public:
@@ -826,7 +832,7 @@ public:
   }
 };
 
-
+//' @export CustomCppLoss
 class CustomCppLossWrapper : public LossWrapper
 {
 public:
@@ -932,6 +938,7 @@ protected:
   std::string logger_id;
 };
 
+//' @export IterationLogger
 class IterationLoggerWrapper : public LoggerWrapper
 {
 
@@ -956,6 +963,7 @@ public:
   }
 };
 
+//' @export InbagRiskLogger
 class InbagRiskLoggerWrapper : public LoggerWrapper
 {
 
@@ -982,6 +990,7 @@ public:
   }
 };
 
+//' @export OobRiskLogger
 class OobRiskLoggerWrapper : public LoggerWrapper
 {
 
@@ -1029,6 +1038,7 @@ public:
   }
 };
 
+//' @export TimeLogger
 class TimeLoggerWrapper : public LoggerWrapper
 {
 
@@ -1063,6 +1073,7 @@ public:
 // Logger List:
 // ------------
 
+//' @export LoggerList
 class LoggerListWrapper
 {
 private:
@@ -1172,6 +1183,7 @@ protected:
   optimizer::Optimizer* obj;
 };
 
+//' @export GreedyOptimizer
 class GreedyOptimizer : public OptimizerWrapper
 {
 public:
@@ -1214,6 +1226,7 @@ RCPP_MODULE(optimizer_module)
 //                                 COMPBOOST                                  //
 // -------------------------------------------------------------------------- //
 
+//' @export Compboost
 class CompboostWrapper
 {
 public:
