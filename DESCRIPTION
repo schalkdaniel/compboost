@@ -29,7 +29,8 @@ Suggests:
     mboost,
     knitr,
     rmarkdown,
-    titanic
+    titanic,
+    mlr
 RcppModules:
     baselearner_module,
     compboost_module,
