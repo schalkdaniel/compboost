@@ -545,6 +545,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
   
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
@@ -624,6 +629,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
     .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
+    .method("transformData",    &PSplineBlearnerFactoryWrapper::transformData, "Compute spline basis for new data")
     .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
