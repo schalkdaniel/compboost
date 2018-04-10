@@ -197,15 +197,15 @@ double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
 }
 
 
-// Bernoulli loss:
+// Binomial loss:
 // -----------------------
 
 /**
- * \brief Default constructor of `BernoulliLoss`
+ * \brief Default constructor of `BinomialLoss`
  * 
  */
 
-BernoulliLoss::BernoulliLoss () { }
+BinomialLoss::BinomialLoss () { }
 
 /**
 * \brief Constructor to initialize custom offset of `AbsoluteLoss`
@@ -215,11 +215,11 @@ BernoulliLoss::BernoulliLoss () { }
 * 
 */
 
-BernoulliLoss::BernoulliLoss (const double& custom_offset0)
+BinomialLoss::BinomialLoss (const double& custom_offset0)
 { 
   if (custom_offset0 > 1 || custom_offset0 < -1) {
     
-    Rcpp::warning("BernoulliLoss allows just values between -1 and 1 as offset. Continuing with default offset.");
+    Rcpp::warning("BinomialLoss allows just values between -1 and 1 as offset. Continuing with default offset.");
       
   } else {
     
@@ -238,7 +238,7 @@ BernoulliLoss::BernoulliLoss (const double& custom_offset0)
 * \returns `arma::vec` vector of elementwise application of the loss function
 */
 
-arma::vec BernoulliLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec BinomialLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   return arma::log(1 + arma::exp(- true_value % prediction));
 }
@@ -252,7 +252,7 @@ arma::vec BernoulliLoss::definedLoss (const arma::vec& true_value, const arma::v
 * \returns `arma::vec` vector of elementwise application of the gradient
 */
 
-arma::vec BernoulliLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec BinomialLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   return - true_value / (1 + arma::exp(true_value % prediction));
 }
@@ -265,7 +265,7 @@ arma::vec BernoulliLoss::definedGradient (const arma::vec& true_value, const arm
 * \returns `double` constant which minimizes the empirical risk for the given true value
 */
 
-double BernoulliLoss::constantInitializer (const arma::vec& true_value) const
+double BinomialLoss::constantInitializer (const arma::vec& true_value) const
 {
   if (use_custom_offset) { return custom_offset; }
   

@@ -108,7 +108,7 @@ factory.list$getModelFrame()
 ## Loss
 
 # Use quadratic loss:
-loss.bin = BernoulliLoss$new()
+loss.bin = BinomialLoss$new()
 
 
 ## Optimizer
@@ -135,8 +135,8 @@ logger.list
 # Register the logger:
 logger.list$registerLogger(" iteration.logger", log.iterations)
 logger.list$registerLogger("time.logger", log.time)
-logger.list$registerLogger("inbag.bernoulli", log.inbag)
-logger.list$registerLogger("oob.bernoulli", log.oob)
+logger.list$registerLogger("inbag.binomial", log.inbag)
+logger.list$registerLogger("oob.binomial", log.oob)
 logger.list$registerLogger("inbag.auc", log.auc.inbag)
 logger.list$registerLogger("oob.auc", log.auc.oob)
 

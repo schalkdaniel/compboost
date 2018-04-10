@@ -43,7 +43,7 @@ test_that("Loss printer works", {
 
   quadratic.loss = QuadraticLoss$new()
   absolute.loss  = AbsoluteLoss$new()
-  bernoulli.loss = BernoulliLoss$new()
+  binomial.loss = BinomialLoss$new()
 
   # Function for Custom Loss:
   myLossFun = function (true.value, prediction) NULL
@@ -59,7 +59,7 @@ test_that("Loss printer works", {
   test.quadratic.printer = show(quadratic.loss)
   test.absolute.printer  = show(absolute.loss)
   test.custom.printer    = show(custom.loss)
-  test.bernoulliprinter  = show(bernoulli.loss)
+  test.binomialprinter  = show(binomial.loss)
 
   sink()
   close(tc)
@@ -69,7 +69,7 @@ test_that("Loss printer works", {
 
   expect_equal(test.quadratic.printer, "QuadraticLossPrinter")
   expect_equal(test.absolute.printer, "AbsoluteLossPrinter")
-  expect_equal(test.bernoulliprinter, "BernoulliLossPrinter")
+  expect_equal(test.binomialprinter, "BinomialLossPrinter")
   expect_equal(test.custom.printer, "CustomLossPrinter")
 
 })

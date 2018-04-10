@@ -1,58 +1,49 @@
 ---
-title: "Vignette Title"
-author: "Vignette Author"
+title: "Component-wise Boosting with compboost"
+author: "Daniel Schalk"
 date: "`r Sys.Date()`"
-output: rmarkdown::pdf_document
+output: 
+  rmarkdown::html_vignette:
+    css: compboost.css
+bibliography: bibliography.bib
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+<hr>
 
-- Never uses retina figures
-- Has a smaller default figure size
-- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+`compboost` was designed to provide a component-wise boosting framework with
+maximal flexibility. This document gives an introduction to the classes that 
+must be set and where in the algorithm they are used. In this document we are
+using the `C++` looking API which was generated using @eddelbuettel2017exposing
+[Rcpp modules](https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf).
+We will have a look at:
 
-## Vignette Info
+- Define the data and factory (baselearner generators) objects.
+- Define the used loss and optimizer for modelling.
+- Define different logger for tracking the algorithm.
+- Run the algorithm and access the fitted values.
+- Continue training of the algorithm and set the algorithm to a specific 
+  iteration.
 
-Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+To get a deeper understanding about the functionality and how the classes are 
+related see the [C++ documentation of the package](https://schalkdaniel.github.io/compboost/cpp_man/html/index.html).
 
-## Styles
 
-The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+## Data: Titanic Passenger Survival Data Set
 
-    output: 
-      rmarkdown::html_vignette:
-        css: mystyles.css
+## Data and Factories
 
-## Figures
+## Loss and Optimizer
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+## Define Logger
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
+- Verweis auf extending compboost mit einem auc logger
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+## Run the Algorithm
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+## Continue and Reposition the Training
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
-
-## More Examples
-
-You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
-
-```{r, echo=FALSE, results='asis'}
-knitr::kable(head(mtcars, 10))
-```
-
-Also a quote using `>`:
-
-> "He who gives up [code] safety for [code] speed deserves neither."
-([via](https://twitter.com/hadleywickham/status/504368538874703872))
+## References

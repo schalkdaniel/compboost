@@ -766,11 +766,11 @@ public:
   }
 };
 
-class BernoulliLossWrapper : public LossWrapper
+class BinomialLossWrapper : public LossWrapper
 {
 public:
-  BernoulliLossWrapper () { obj = new loss::BernoulliLoss(); }
-  BernoulliLossWrapper (double custom_offset) { obj = new loss::BernoulliLoss(custom_offset); }
+  BinomialLossWrapper () { obj = new loss::BinomialLoss(); }
+  BinomialLossWrapper (double custom_offset) { obj = new loss::BinomialLoss(custom_offset); }
   
   arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
     return obj->definedLoss(true_value, prediction);
@@ -850,13 +850,13 @@ RCPP_MODULE (loss_module)
     .method("testConstantInitializer", &AbsoluteLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
   
-  class_<BernoulliLossWrapper> ("BernoulliLoss")
+  class_<BinomialLossWrapper> ("BinomialLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
-    .method("testLoss", &BernoulliLossWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &BernoulliLossWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &BernoulliLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
+    .method("testLoss", &BinomialLossWrapper::testLoss, "Test the defined loss function of the loss")
+    .method("testGradient", &BinomialLossWrapper::testGradient, "Test the defined gradient of the loss")
+    .method("testConstantInitializer", &BinomialLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 
   class_<CustomLossWrapper> ("CustomLoss")

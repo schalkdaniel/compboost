@@ -48,35 +48,35 @@ test_that("Absolute loss works", {
   expect_equal(absolute.loss.custom$testConstantInitializer(true.value), pi)
 })
 
-test_that("Bernoulli loss works", {
+test_that("Binomial loss works", {
   true.value = rbinom(100, 1, 0.4) * 2 - 1
   prediction = runif(100, -1, 1)
   
-  bernoulli.loss = BernoulliLoss$new()
-  bernoulli.loss.custom = BernoulliLoss$new(0.7)
+  binomial.loss = BinomialLoss$new()
+  binomial.loss.custom = BinomialLoss$new(0.7)
   
   # # This forces travis to fail:
   # suppressWarnings({
-  #   bernoulli.loss.warning = BernoulliLoss$new(2)
+  #   binomial.loss.warning = BinomialLoss$new(2)
   # })
   
   # Tests:
   # -----------
   expect_equal(
-    bernoulli.loss$testLoss(true.value, prediction), 
+    binomial.loss$testLoss(true.value, prediction), 
     as.matrix(log(1 + exp(-true.value * prediction)))
   )
   expect_equal(
-    bernoulli.loss$testGradient(true.value, prediction),
+    binomial.loss$testGradient(true.value, prediction),
     as.matrix(-true.value / (1 + exp(true.value * prediction)))
   )
   expect_equal(
-    bernoulli.loss$testConstantInitializer(true.value),
+    binomial.loss$testConstantInitializer(true.value),
     log(mean(true.value > 0) / (1 - mean(true.value > 0))) / 2
   )
-  expect_equal(bernoulli.loss.custom$testConstantInitializer(true.value), 0.7)
+  expect_equal(binomial.loss.custom$testConstantInitializer(true.value), 0.7)
   # expect_equal(
-  #   bernoulli.loss.warning$testConstantInitializer(true.value),
+  #   binomial.loss.warning$testConstantInitializer(true.value),
   #   log(mean(true.value > 0) / (1 - mean(true.value > 0))) / 2
   # )
 })

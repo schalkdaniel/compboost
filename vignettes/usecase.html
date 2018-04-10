@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Daniel Schalk" />
+
+<meta name="date" content="2018-04-10" />
+
+<title>Component-wise Boosting with compboost</title>
+
+
+
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0Ah1%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20rgba%280%2C%20191%2C%20255%2C%200%2E2%29%3B%0Acolor%3A%20rgb%280%2C%20124%2C%20159%29%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0Adisplay%3A%20block%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Ah4%20%7B%0A%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0Adisplay%3A%20block%3B%0A%2Dwebkit%2Dmargin%2Dbefore%3A%201%2E33em%3B%0A%2Dwebkit%2Dmargin%2Dafter%3A%201%2E33em%3B%0A%2Dwebkit%2Dmargin%2Dstart%3A%200px%3B%0A%2Dwebkit%2Dmargin%2Dend%3A%200px%3B%0Afont%2Dweight%3A%20bold%3B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aul%2C%20menu%2C%20dir%20%7B%0Adisplay%3A%20block%3B%0Alist%2Dstyle%2Dtype%3A%20disc%3B%0A%2Dwebkit%2Dmargin%2Dbefore%3A%201em%3B%0A%2Dwebkit%2Dmargin%2Dafter%3A%201em%3B%0A%2Dwebkit%2Dmargin%2Dstart%3A%200px%3B%0A%2Dwebkit%2Dmargin%2Dend%3A%200px%3B%0A%2Dwebkit%2Dpadding%2Dstart%3A%2040px%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0Adisplay%3A%20list%2Ditem%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20rgb%28210%2C%20180%2C%20140%29%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20rgb%28210%2C%20180%2C%20140%29%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20rgb%28156%2C%20102%2C%2031%29%3B%0Atext%2Ddecoration%3A%20underline%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%7D" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Component-wise Boosting with compboost</h1>
+<h4 class="author"><em>Daniel Schalk</em></h4>
+<h4 class="date"><em>2018-04-10</em></h4>
+
+
+
+<hr>
+<p><code>compboost</code> was designed to provide a component-wise boosting framework with maximal flexibility. This document gives an introduction to the classes that must be set and where in the algorithm they are used. In this document we are using the <code>C++</code> looking API which was generated using <span class="citation">Eddelbuettel and François (2018)</span> <a href="https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf">Rcpp modules</a>. We will have a look at:</p>
+<ul>
+<li>Define the data and factory (baselearner generators) objects.</li>
+<li>Define the used loss and optimizer for modelling.</li>
+<li>Define different logger for tracking the algorithm.</li>
+<li>Run the algorithm and access the fitted values.</li>
+<li>Continue training of the algorithm and set the algorithm to a specific iteration.</li>
+</ul>
+<p>To get a deeper understanding about the functionality and how the classes are related see the <a href="https://schalkdaniel.github.io/compboost/cpp_man/html/index.html">C++ documentation of the package</a>.</p>
+<div id="data-titanic-passenger-survival-data-set" class="section level2">
+<h2>Data: Titanic Passenger Survival Data Set</h2>
+</div>
+<div id="data-and-factories" class="section level2">
+<h2>Data and Factories</h2>
+</div>
+<div id="loss-and-optimizer" class="section level2">
+<h2>Loss and Optimizer</h2>
+</div>
+<div id="define-logger" class="section level2">
+<h2>Define Logger</h2>
+<ul>
+<li>Verweis auf extending compboost mit einem auc logger</li>
+</ul>
+</div>
+<div id="run-the-algorithm" class="section level2">
+<h2>Run the Algorithm</h2>
+</div>
+<div id="continue-and-reposition-the-training" class="section level2">
+<h2>Continue and Reposition the Training</h2>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-eddelbuettel2017exposing">
+<p>Eddelbuettel, Dirk, and Romain François. 2018. “Exposing C++ Functions and Classes with Rcpp Modules.” <em>Vignette Included in R Package Rcpp, URL Http://CRAN. R-Project. Org/Package= Rcpp</em>. Citeseer.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
