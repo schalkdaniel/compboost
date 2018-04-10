@@ -489,9 +489,8 @@ positive rate. Therefore it would be more informative to take a look at the AUC
 and the ROC curve. To compute the AUC and the ROC curve we can proceed as
 follows:
 
-```{r, warning=FALSE, fig.align="center", fig.width=9, fig.height=6, out.width="600px",out.height="400px"}
+```{r, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
 library(ggplot2)
-library(ggtech)
 
 # True labels as binary vector (0, 1):
 labels = (response[idx.eval] + 1) / 2
@@ -509,8 +508,6 @@ mlr::measureAUC(probabilities = prob.scores, truth = response[idx.eval],
 ggplot(data = myroc, aes(x = FPR, y = TPR)) +
   geom_abline(intercept = 0, slope = 1) +
   geom_line(size = 2) +
-  theme_tech(theme="facebook") +
-  scale_color_tech(theme="facebook") + 
   ggtitle("ROC Curve")
 ```
 
@@ -591,14 +588,10 @@ auc.data = data.frame(
 
 p1 = ggplot(data = auc.data, aes(x = iteration, y = AUC, colour = risk.type)) +
   geom_line(size = 2) +
-  theme_tech(theme="facebook") +
-  scale_color_tech(theme="facebook") + 
   ggtitle("AUC per Iteration")
 
 p2 = ggplot(data = auc.data, aes(x = iteration, y = emp.risk, colour = risk.type)) +
   geom_line(size = 2) +
-  theme_tech(theme="facebook") +
-  scale_color_tech(theme="facebook") + 
   ggtitle("Empirical Risk per Iteration")
 
 gridExtra::grid.arrange(p1, p2, ncol = 2)
@@ -618,7 +611,7 @@ One of the key advantages of component-wise boosting is to have an interpretable
 model. For instance it is now possible to illustrate the effect of fare. 
 Therefore, we can use the `transformData()` function of the 
 `spline.factory.fare` object to create the spline basis for new observations:
-```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=9, fig.height=6, out.width="600px",out.height="400px"}
+```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
 params = cboost$getEstimatedParameter()
 params.fare = params$`Fare: spline with degree 3`
 
@@ -632,8 +625,6 @@ ggplot(data = plot.data, aes(x = x, y = y)) +
   geom_line(size = 2) +
   xlab("Ticket Costs (Fare)") +
   ylab("Additive Contribution") +
-  theme_tech(theme="facebook") +
-  scale_color_tech(theme="facebook") + 
   labs(title="Effect of Age on Survival", 
        subtitle="The higher the additive contribution the higher the chance of survial")
 ```
@@ -643,7 +634,7 @@ We recognize, that this curve results from taking the parameter after
 much and could tend to overfitting. Because of the out of bag behavior, we set 
 the iteration to 1200:
 
-```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=9, fig.height=6, out.width="600px",out.height="400px"}
+```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
 cboost$setToIteration(k = 1200)
 
 params = cboost$getEstimatedParameter()
@@ -659,8 +650,6 @@ ggplot(data = plot.data, aes(x = x, y = y)) +
   geom_line(size = 2) +
   xlab("Ticket Costs (Fare)") +
   ylab("Additive Contribution") +
-  theme_tech(theme="facebook") +
-  scale_color_tech(theme="facebook") + 
   labs(title="Effect of Age on Survival", 
        subtitle="The higher the additive contribution the higher the chance of survial")
 ```
