@@ -20,4 +20,5 @@ testinfo.RData
 ^makeR$
 .github
 tutorials
+other
 man/cpp_man

@@ -194,9 +194,9 @@ ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
   glueLoss("AbsoluteLoss", "|y - f(x)|")
 })
 
-setClass("Rcpp_BernoulliLoss")
-ignore.me = setMethod("show", "Rcpp_BernoulliLoss", function (object) {
-  glueLoss("BernoulliLoss", "log(1 + exp(-yf(x))", "Labels should be coded as -1 and 1!")
+setClass("Rcpp_BinomialLoss")
+ignore.me = setMethod("show", "Rcpp_BinomialLoss", function (object) {
+  glueLoss("BinomialLoss", "log(1 + exp(-yf(x))", "Labels should be coded as -1 and 1!")
 })
 
 setClass("Rcpp_CustomLoss")

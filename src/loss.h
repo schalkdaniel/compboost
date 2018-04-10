@@ -196,13 +196,13 @@ public:
   double constantInitializer (const arma::vec&) const;
 };
 
-// Bernoulli loss:
+// Binomial loss:
 // -----------------------
 
 /**
- * \class BernoulliLoss
+ * \class BinomialLoss
  * 
- * \brief 0-1 Loss for binary classification derifed of the bernoulli distribution
+ * \brief 0-1 Loss for binary classification derifed of the binomial distribution
  * 
  * This loss can be used for binary classification. The coding we have chosen
  * here acts on 
@@ -229,15 +229,15 @@ public:
  * 
  */
 
-class BernoulliLoss : public Loss
+class BinomialLoss : public Loss
 {
 public:
   
   /// Default Constructor
-  BernoulliLoss ();
+  BinomialLoss ();
   
   /// Constructor to initialize custom offset
-  BernoulliLoss (const double&);
+  BinomialLoss (const double&);
   
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
