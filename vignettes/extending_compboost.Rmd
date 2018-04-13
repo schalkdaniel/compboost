@@ -1,0 +1,34 @@
+---
+title: "Extending compboost"
+author: "Daniel Schalk"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    css: compboost.css
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{extending compboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+# devtools::load_all()
+library(compboost)
+```
+
+
+<hr>
+
+`compboost` was designed to provide a component-wise boosting framework with
+maximal flexibility. This document gives an overview about the two main
+possibilities of extending compboost with custom functions. We will have 
+a look at:
+
+- Using custom losses.
+- Using custom baselearner.
+- Using custom losses to track performance measures.
+- Using custom baselearner to use already implemented baselearner from other
+  packages.
+

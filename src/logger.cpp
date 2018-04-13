@@ -272,10 +272,10 @@ void InbagRiskLogger::logStep (const unsigned int& current_iteration, const arma
  * \brief Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
  * 
  * The stopping criteria is fulfilled, if the relative improvement at the 
- * current iteration \f$m\f$ \varepsilon^{[m]} falls under a fixed boundary 
+ * current iteration \f$m\f$ \f$\varepsilon^{[m]}\f$ falls under a fixed boundary 
  * \f$\varepsilon\f$. Where the relative improvement is defined by
  * \f[
- *   \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{train}^{[m-1]} - \mathcal{R}_\mathrm{train}^{[m]}}{\mathcal{R}_\mathrm{train}^{[m-1]}}.
+ *   \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{emp}^{[m-1]} - \mathcal{R}_\mathrm{emp}^{[m]}}{\mathcal{R}_\mathrm{emp}^{[m-1]}}.
  * \f]
  * 
  * The logger stops the algorithm if \f$\varepsilon^{[m]} \leq \varepsilon\f$.
@@ -401,16 +401,16 @@ OobRiskLogger::OobRiskLogger (const bool& is_a_stopper0, loss::Loss* used_loss,
  * 
  * This logger computes the risk for a given new dataset 
  * \f$\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}\f$
- * and stores it into a vector. The OOB risk \f$\mathcal{R}_\mathrm{emp}\f$ for 
+ * and stores it into a vector. The OOB risk \f$\mathcal{R}_\mathrm{oob}\f$ for 
  * iteration \f$m\f$ is calculated by:
  * \f[
- *   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+ *   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
  *   L(y, \hat{f}^{[m]}(x))
  * \f]
  * 
  * **Note:** 
  *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
- *   - The implementation to calculate \f$\mathcal{R}_\mathrm{emp}^{[m]}\f$ is
+ *   - The implementation to calculate \f$\mathcal{R}_\mathrm{oob}^{[m]}\f$ is
  *     done in two steps: 
  *        1. Calculate vector `risk_temp` of losses for every observation for 
  *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
@@ -465,7 +465,7 @@ void OobRiskLogger::logStep (const unsigned int& current_iteration, const arma::
  *   `eps_for_break`
  * 
  * The stopping criteria is fulfilled, if the relative improvement at the 
- * current iteration \f$m\f$ \varepsilon^{[m]} falls under a fixed boundary 
+ * current iteration \f$m\f$ \f$\varepsilon^{[m]}\f$ falls under a fixed boundary 
  * \f$\varepsilon\f$. Where the relative improvement is defined by
  * \f[
  *   \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{oob}^{[m-1]} - \mathcal{R}_\mathrm{oob}^{[m]}}{\mathcal{R}_\mathrm{oob}^{[m-1]}}.
@@ -618,10 +618,10 @@ void TimeLogger::logStep (const unsigned int& current_iteration, const arma::vec
 /**
  * \brief Stop criteria is fulfilled if the passed time exceeds `max_time`
  * 
- * The stop criteria here is quite simple. For the current iteration \f$i\f$ it 
+ * The stop criteria here is quite simple. For the current iteration \f$m\f$ it 
  * is triggered if 
  * \f[
- *   \mathrm{current_time}_i > \mathrm{max_time}
+ *   \mathrm{current_time}_m > \mathrm{max_time}
  * \f]
  * 
  * \returns `bool` which tells if the stopping criteria is reached or not 
