@@ -110,7 +110,7 @@ public:
   virtual std::string printLoggerStatus () const = 0;
   
   /// Just a getter if the logger is also used as stopper
-  bool GetIfLoggerIsStopper () const;
+  bool getIfLoggerIsStopper () const;
   
   virtual 
     ~Logger ();

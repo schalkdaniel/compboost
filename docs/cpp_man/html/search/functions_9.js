@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['oobrisklogger',['OobRiskLogger',['../classlogger_1_1_oob_risk_logger.html#a6c4e307fe35f2c1f329b5cddc1bfe56d',1,'logger::OobRiskLogger']]]
+  ['mymean',['myMean',['../_rcpp_exports_8cpp.html#a9ebd01560899227209fc396027b63603',1,'myMean(Rcpp::NumericVector x):&#160;test.cpp'],['../test_8cpp.html#a9ebd01560899227209fc396027b63603',1,'myMean(Rcpp::NumericVector x):&#160;test.cpp']]]
 ];

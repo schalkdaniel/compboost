@@ -6,6 +6,17 @@
 
 using namespace Rcpp;
 
+// myMean
+double myMean(Rcpp::NumericVector x);
+RcppExport SEXP _compboost_myMean(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(myMean(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP _rcpp_module_boot_data_module();
 RcppExport SEXP _rcpp_module_boot_baselearner_module();
@@ -17,6 +28,7 @@ RcppExport SEXP _rcpp_module_boot_optimizer_module();
 RcppExport SEXP _rcpp_module_boot_compboost_module();
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_compboost_myMean", (DL_FUNC) &_compboost_myMean, 1},
     {"_rcpp_module_boot_data_module", (DL_FUNC) &_rcpp_module_boot_data_module, 0},
     {"_rcpp_module_boot_baselearner_module", (DL_FUNC) &_rcpp_module_boot_baselearner_module, 0},
     {"_rcpp_module_boot_baselearner_factory_module", (DL_FUNC) &_rcpp_module_boot_baselearner_factory_module, 0},

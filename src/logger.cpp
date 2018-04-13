@@ -51,7 +51,7 @@ namespace logger
  * 
  * \returns `bool` which says `true` if it is a logger, otherwise `false`
  */
-bool Logger::GetIfLoggerIsStopper () const
+bool Logger::getIfLoggerIsStopper () const
 {
   return is_a_stopper;
 }

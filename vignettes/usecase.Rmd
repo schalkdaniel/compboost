@@ -87,7 +87,7 @@ empty data object). The factory then does the following:
 
 1. Takes the data of the data source object.
 2. Transform the data depending on the baselearner (e.g. compute spline bases).
-3. Write the design matrix and other permanent data into the data source object.
+3. Write the design matrix and other permanent data into the data target object.
 
 ### Numerical Feature
 

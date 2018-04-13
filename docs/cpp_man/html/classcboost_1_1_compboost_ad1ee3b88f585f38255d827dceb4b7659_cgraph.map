@@ -4,7 +4,7 @@
 <area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="212,151,355,192"/>
 <area shape="rect" id="node12" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="196,220,371,261"/>
 <area shape="rect" id="node14" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="212,311,355,352"/>
-<area shape="rect" id="node4" href="$classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="435,47,614,88"/>
+<area shape="rect" id="node4" href="$classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="437,47,612,88"/>
 <area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="453,164,596,205"/>
 <area shape="rect" id="node7" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="682,83,862,110"/>
 <area shape="rect" id="node8" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="699,135,845,176"/>

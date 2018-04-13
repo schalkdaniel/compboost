@@ -48,7 +48,7 @@ LoggerList::LoggerList () { };
 void LoggerList::registerLogger (const std::string& logger_id, logger::Logger *which_logger)
 {
   log_list.insert(std::pair<std::string, logger::Logger *>(logger_id, which_logger));
-  if (which_logger->GetIfLoggerIsStopper()) {
+  if (which_logger->getIfLoggerIsStopper()) {
     sum_of_stopper += 1;
   }
 }

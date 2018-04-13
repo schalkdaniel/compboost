@@ -1,17 +1,6 @@
 var searchData=
 [
-  ['_7ebaselearner',['~Baselearner',['../classblearner_1_1_baselearner.html#a1ada1c47d71e60bec80ab033ffa40813',1,'blearner::Baselearner']]],
-  ['_7ebaselearnerfactory',['~BaselearnerFactory',['../classblearnerfactory_1_1_baselearner_factory.html#adc9d1d3c8fc774c9d856117632c8aadb',1,'blearnerfactory::BaselearnerFactory']]],
-  ['_7ebaselearnertrack',['~BaselearnerTrack',['../classblearnertrack_1_1_baselearner_track.html#a93e9a1268d46808b9d6fe768fa11e22a',1,'blearnertrack::BaselearnerTrack']]],
-  ['_7ecompboost',['~Compboost',['../classcboost_1_1_compboost.html#a3e23314cc3a1d31fc5df61e0a16c51e4',1,'cboost::Compboost']]],
-  ['_7ecustomblearner',['~CustomBlearner',['../classblearner_1_1_custom_blearner.html#ada8c7351aa50e8149dfd546840c51f51',1,'blearner::CustomBlearner']]],
-  ['_7ecustomcppblearner',['~CustomCppBlearner',['../classblearner_1_1_custom_cpp_blearner.html#a4e26b5c9da2eaff19a21de8fdb534bc5',1,'blearner::CustomCppBlearner']]],
-  ['_7edata',['~Data',['../classdata_1_1_data.html#a737d2c889ffb7c08d60b5af5846b586b',1,'data::Data']]],
-  ['_7einmemorydata',['~InMemoryData',['../classdata_1_1_in_memory_data.html#a675c78a5c7537ca16b8ce86b3ea1f7b3',1,'data::InMemoryData']]],
-  ['_7elogger',['~Logger',['../classlogger_1_1_logger.html#aa85a309d218f9f006600cbaf2a348f52',1,'logger::Logger']]],
-  ['_7eloggerlist',['~LoggerList',['../classloggerlist_1_1_logger_list.html#ad63990acf805bf149c3b006790f446c6',1,'loggerlist::LoggerList']]],
-  ['_7eloss',['~Loss',['../classloss_1_1_loss.html#a868a7908fd97590b6c4fc69f4eb3c570',1,'loss::Loss']]],
-  ['_7eoptimizer',['~Optimizer',['../classoptimizer_1_1_optimizer.html#a7618771af9e91ff8367a02c5ff49a376',1,'optimizer::Optimizer']]],
-  ['_7epolynomialblearner',['~PolynomialBlearner',['../classblearner_1_1_polynomial_blearner.html#ac3acf16e62db3dc6c34b4290f9f04f04',1,'blearner::PolynomialBlearner']]],
-  ['_7epsplineblearner',['~PSplineBlearner',['../classblearner_1_1_p_spline_blearner.html#ac2d4d8cb7462735d944b6aa69896374d',1,'blearner::PSplineBlearner']]]
+  ['timelogger',['TimeLogger',['../classlogger_1_1_time_logger.html#aa67d4d58b4894de7d158786961722751',1,'logger::TimeLogger']]],
+  ['train',['train',['../classblearner_1_1_baselearner.html#a40e03ad070b9a03aae706d9ee8094b80',1,'blearner::Baselearner::train()'],['../classblearner_1_1_polynomial_blearner.html#acf24025a73293a2569450dd4659e0997',1,'blearner::PolynomialBlearner::train()'],['../classblearner_1_1_p_spline_blearner.html#aa5c18ceb8396ffce556588486d574be8',1,'blearner::PSplineBlearner::train()'],['../classblearner_1_1_custom_blearner.html#a4726c5b861b67817f7b3eb61d8f6c0d7',1,'blearner::CustomBlearner::train()'],['../classblearner_1_1_custom_cpp_blearner.html#aa71b777d7092a3d9b47a9bed125eb0f9',1,'blearner::CustomCppBlearner::train()'],['../classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b',1,'cboost::Compboost::train()']]],
+  ['traincompboost',['trainCompboost',['../classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb',1,'cboost::Compboost']]]
 ];

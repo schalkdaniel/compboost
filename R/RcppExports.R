@@ -67,3 +67,13 @@ NULL
 #' @export Compboost
 NULL
 
+#' My cpp mean function
+#' 
+#' @param x 
+#'   Input vector to calculate the mean from
+#' @return 
+#'   A double containing the mean
+myMean <- function(x) {
+    .Call(`_compboost_myMean`, x)
+}
+
