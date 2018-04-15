@@ -13,6 +13,76 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+<script>
+function magnify(imgID, zoom) {
+  var img, glass, w, h, bw;
+  img = document.getElementById(imgID);
+  /* create magnifier glass: */
+  glass = document.createElement("DIV");
+  glass.setAttribute("class", "img-magnifier-glass");
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+  /* insert magnifier glass: */
+  img.parentElement.insertBefore(glass, img);
+  /* set background properties for the magnifier glass: */
+  glass.style.backgroundImage = "url('" + img.src + "')";
+  glass.style.backgroundRepeat = "no-repeat";
+  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+  /* Move glass by the left margin of the image: */
+  a = img.getBoundingClientRect();
+  glass.style.marginLeft = a.left + "px";
+  bw = 3;
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+  /* remove magnifier by default: */
+  glass.setAttribute("class", "nocursor");
+  /* execute a function when someone moves the magnifier glass over the image: */
+  glass.addEventListener("mousemove", moveMagnifier);
+  img.addEventListener("mousemove", moveMagnifier);
+  /* and also for touch screens: */
+  glass.addEventListener("touchmove", moveMagnifier);
+  img.addEventListener("touchmove", moveMagnifier);
+  /* remove magnifier when the curser isn't over the image: */
+  glass.addEventListener("mouseout", removeLoupe);
+  img.addEventListener("mouseout", removeLoupe);
+  function moveMagnifier(e) {
+	glass.setAttribute("class", "img-magnifier-glass");
+    var pos, x, y;
+    /*prevent any other actions that may occur when moving over the image*/
+    e.preventDefault();
+    /*get the cursor's x and y positions:*/
+    pos = getCursorPos(e);
+    x = pos.x;
+    y = pos.y;
+    /*prevent the magnifier glass from being positioned outside the image:*/
+    if (x > img.width - (w / zoom))  { x = img.width - (w / zoom); }
+    if (x < w / zoom)                { x = w / zoom; }
+    if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+    if (y < h / zoom)                { y = h / zoom; }
+    /*set the position of the magnifier glass:*/
+    glass.style.left = (x - w) + "px";
+    glass.style.top = (y - h) + "px";
+    /*display what the magnifier glass "sees":*/
+    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  }
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    /*get the x and y positions of the image:*/
+    a = img.getBoundingClientRect();
+    /*calculate the cursor's x and y coordinates, relative to the image:*/
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    /*consider any page scrolling:*/
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x : x, y : y};
+  }
+  function removeLoupe (e) {
+    glass.setAttribute("class", "nocursor");
+  }
+}
+</script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -97,7 +167,7 @@ $(function() {
 </li>
 <li>definedGradient()
 : <a class="el" href="classloss_1_1_absolute_loss.html#a1886fc8ca065c6f0a207b7a8a0f8444d">loss::AbsoluteLoss</a>
-, <a class="el" href="classloss_1_1_bernoulli_loss.html#a2dc644172cea3eb84f1af5aa9217c04a">loss::BernoulliLoss</a>
+, <a class="el" href="classloss_1_1_binomial_loss.html#a47a27e1be3e7f2c275046b42557ca21a">loss::BinomialLoss</a>
 , <a class="el" href="classloss_1_1_custom_cpp_loss.html#a3ff741b3a4d4c3f3515660dcb7b32781">loss::CustomCppLoss</a>
 , <a class="el" href="classloss_1_1_custom_loss.html#a3a79dc019e781c2956b52fb8e1cfcc56">loss::CustomLoss</a>
 , <a class="el" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979">loss::Loss</a>
@@ -105,7 +175,7 @@ $(function() {
 </li>
 <li>definedLoss()
 : <a class="el" href="classloss_1_1_absolute_loss.html#acfef6f0de3cfcccebd4bbfc04133cf1e">loss::AbsoluteLoss</a>
-, <a class="el" href="classloss_1_1_bernoulli_loss.html#a1e347cacc5a5925874f579834f421236">loss::BernoulliLoss</a>
+, <a class="el" href="classloss_1_1_binomial_loss.html#aa4570a731257ba43b1b4d6099c0a4515">loss::BinomialLoss</a>
 , <a class="el" href="classloss_1_1_custom_cpp_loss.html#a5611805b67b0542449beb898051ab943">loss::CustomCppLoss</a>
 , <a class="el" href="classloss_1_1_custom_loss.html#a2a96bc5e4b4894bbaa64745a3f7c0fd5">loss::CustomLoss</a>
 , <a class="el" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94">loss::Loss</a>

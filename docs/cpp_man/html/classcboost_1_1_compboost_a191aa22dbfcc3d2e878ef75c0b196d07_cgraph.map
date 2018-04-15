@@ -5,7 +5,7 @@
 <area shape="rect" id="node4" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="409,136,551,177"/>
 <area shape="rect" id="node6" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="393,201,567,243"/>
 <area shape="rect" id="node8" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="409,71,551,112"/>
-<area shape="rect" id="node5" href="$classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="638,136,817,177"/>
+<area shape="rect" id="node5" href="$classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="640,136,815,177"/>
 <area shape="rect" id="node7" href="$classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="621,202,833,258"/>
 <area shape="rect" id="node9" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="640,5,815,47"/>
 <area shape="rect" id="node10" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="645,71,810,112"/>

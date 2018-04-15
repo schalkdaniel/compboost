@@ -65,11 +65,78 @@ protected:
 
 };
 
-
+//' In memory data class to store data in RAM 
+//' 
+//' \code{InMemoryData} creates an data object which can be used as source or
+//' target object within the baselearner factories of \code{compboost}. The
+//' convention to initialise target data is to call the constructor without
+//' any arguments. 
+//' 
+//' @format \code{\link{S4}} object.
+//' @name InMemoryData
+//' 
+//' @section Usage:
+//' \preformatted{
+//' InMemoryData$new()
+//' InMemoryData$new(data.mat, data.identifier)
+//' }
+//' 
+//' @section Arguments:
+//' \describe{
+//' \item{\code{data.mat} [\code{matrix}]}{ 
+//'   Matrix containing the source data. This source data is later transformed
+//'   to obtain the design matrix a baselearner uses for training.
+//' }
+//' \item{\code{data.identifier} [\code{character(1)}]}{ 
+//'   The name for the data specified in \code{data.mat}. Note that it is 
+//'   important to have the same data names for train and evaluation data.
+//' }
+//' }
+//' 
+//' 
+//' @section Details:
+//'   The \code{data.mat} needs to suits the baselearner. For instance, the
+//'   spline baselearner does just take a one column matrix since there are
+//'   just one dimensional splines till now. Additionally, using the polynomial
+//'   baselearner the \code{data.mat} is used to control if a intercept should
+//'   be fitted or not by adding a column containing just ones. It is also
+//'   possible to add other columns to estimate multiple features 
+//'   simultaneously. Anyway, this is not recommended in terms of unbiased
+//'   features selection.
+//'   
+//'   The \code{data.mat} and \code{data.identifier} of a target data object 
+//'   is set automatically by passing the source and target object to the 
+//'   desired factory. \code{getData()} can then be used to access the 
+//'   transformed data of the target object.  
+//'   
+//'   This class is a wrapper around the pure \code{C++} implementation. To see
+//'   the functionality of the \code{C++} class visit
+//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classdata_1_1_in_memory_data.html}.
+//' 
+//' @section Fields:
+//'   This class doesn't contain public fields.
+//' 
+//' @section Methods:
+//' \describe{
+//' \item{\code{getData()}}{method extract the \code{data.mat} from the data object.}
+//' \item{\code{getIdentifier()}}{method to extract the used name from the data object.}
+//' }
+//' @examples
+//' # Sample data:
+//' data.mat = cbind(1, 1:10)
+//' 
+//' # Create new data object:
+//' data.obj = InMemoryData$new(data.mat, "my.data.name")
+//' 
+//' # Get data and identifier:
+//' data.obj$getData()
+//' data.obj$getIdentifier()
+//' 
+//' @export InMemoryData
 class InMemoryDataWrapper : public DataWrapper
 {
   
-// Solve this shitty copying issue:
+// Solve this copying issue:
 // https://github.com/schalkdaniel/compboost/issues/123
 private:
   arma::vec data_vec = arma::vec (1, arma::fill::zeros);
@@ -153,6 +220,7 @@ protected:
   blearner::Baselearner* obj;
 };
 
+//' @export PolynomialBlearner
 class PolynomialBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -221,6 +289,7 @@ public:
   }
 };
 
+//' @export PSplineBlearner
 class PSplineBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -285,7 +354,7 @@ public:
   }
 };
 
-
+//' @export CustomBlearner
 class CustomBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -348,6 +417,7 @@ public:
   }
 };
 
+//' @export CustomCppBlearner
 class CustomCppBlearnerWrapper : public BaselearnerWrapper
 {
 private:
@@ -485,7 +555,7 @@ protected:
   // blearner::Baselearner* test_obj;
 };
 
-// Wrapper around the PolynomialBlearnerFactory:
+//' @export PolynomialBlearnerFactory
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
@@ -505,6 +575,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
 
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     if (degree == 1) {
@@ -524,7 +599,7 @@ public:
   }
 };
 
-// Wrapper around the PolynomialBlearnerFactory:
+//' @export PSplineBlearnerFactory
 class PSplineBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
@@ -545,6 +620,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
   
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
@@ -553,7 +633,7 @@ public:
   }
 };
 
-// Wrapper around the CustomBlearnerFactory:
+//' @export CustomBlearnerFactory
 class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -570,6 +650,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
 
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom baselearner Factory:" << std::endl;
@@ -579,7 +664,7 @@ public:
   }
 };
 
-// Wrapper around the CustomCppBlearnerFactory:
+//' @export CustomCppBlearnerFactory
 class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -595,6 +680,11 @@ public:
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
 
+  arma::mat transformData (const arma::mat& newdata)
+  {
+    return obj->instantiateData(newdata);
+  }
+  
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom cpp baselearner Factory:" << std::endl;
@@ -617,6 +707,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",     &PolynomialBlearnerFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
   
@@ -624,6 +715,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
     .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
+    .method("transformData",    &PSplineBlearnerFactoryWrapper::transformData, "Compute spline basis for new data")
     .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
@@ -631,6 +723,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &CustomBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
@@ -638,6 +731,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 }
@@ -648,8 +742,7 @@ RCPP_MODULE (baselearner_factory_module)
 //                              BASELEARNERLIST                               //
 // -------------------------------------------------------------------------- //
 
-// Wrapper around the BaselearnerFactoryList which is in R used as FactoryList
-// (which is more intuitive, since we are giving factorys and not lists):
+//' @export BlearnerFactoryList
 class BlearnerFactoryListWrapper
 {
 private:
@@ -732,6 +825,7 @@ protected:
   loss::Loss* obj;
 };
 
+//' @export QuadraticLoss
 class QuadraticLossWrapper : public LossWrapper
 {
 public:
@@ -749,6 +843,7 @@ public:
   }
 };
 
+//' @export AbsoluteLoss
 class AbsoluteLossWrapper : public LossWrapper
 {
 public:
@@ -766,6 +861,7 @@ public:
   }
 };
 
+//' @export BinomialLoss
 class BinomialLossWrapper : public LossWrapper
 {
 public:
@@ -783,6 +879,7 @@ public:
   }
 };
 
+//' @export CustomLoss
 class CustomLossWrapper : public LossWrapper
 {
 public:
@@ -802,7 +899,7 @@ public:
   }
 };
 
-
+//' @export CustomCppLoss
 class CustomCppLossWrapper : public LossWrapper
 {
 public:
@@ -908,6 +1005,7 @@ protected:
   std::string logger_id;
 };
 
+//' @export IterationLogger
 class IterationLoggerWrapper : public LoggerWrapper
 {
 
@@ -932,6 +1030,7 @@ public:
   }
 };
 
+//' @export InbagRiskLogger
 class InbagRiskLoggerWrapper : public LoggerWrapper
 {
 
@@ -958,6 +1057,7 @@ public:
   }
 };
 
+//' @export OobRiskLogger
 class OobRiskLoggerWrapper : public LoggerWrapper
 {
 
@@ -1005,6 +1105,7 @@ public:
   }
 };
 
+//' @export TimeLogger
 class TimeLoggerWrapper : public LoggerWrapper
 {
 
@@ -1039,6 +1140,7 @@ public:
 // Logger List:
 // ------------
 
+//' @export LoggerList
 class LoggerListWrapper
 {
 private:
@@ -1148,6 +1250,7 @@ protected:
   optimizer::Optimizer* obj;
 };
 
+//' @export GreedyOptimizer
 class GreedyOptimizer : public OptimizerWrapper
 {
 public:
@@ -1190,6 +1293,7 @@ RCPP_MODULE(optimizer_module)
 //                                 COMPBOOST                                  //
 // -------------------------------------------------------------------------- //
 
+//' @export Compboost
 class CompboostWrapper
 {
 public:

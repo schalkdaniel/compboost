@@ -13,6 +13,76 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+<script>
+function magnify(imgID, zoom) {
+  var img, glass, w, h, bw;
+  img = document.getElementById(imgID);
+  /* create magnifier glass: */
+  glass = document.createElement("DIV");
+  glass.setAttribute("class", "img-magnifier-glass");
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+  /* insert magnifier glass: */
+  img.parentElement.insertBefore(glass, img);
+  /* set background properties for the magnifier glass: */
+  glass.style.backgroundImage = "url('" + img.src + "')";
+  glass.style.backgroundRepeat = "no-repeat";
+  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+  /* Move glass by the left margin of the image: */
+  a = img.getBoundingClientRect();
+  glass.style.marginLeft = a.left + "px";
+  bw = 3;
+  w = glass.offsetWidth / 2;
+  h = glass.offsetHeight / 2;
+  /* remove magnifier by default: */
+  glass.setAttribute("class", "nocursor");
+  /* execute a function when someone moves the magnifier glass over the image: */
+  glass.addEventListener("mousemove", moveMagnifier);
+  img.addEventListener("mousemove", moveMagnifier);
+  /* and also for touch screens: */
+  glass.addEventListener("touchmove", moveMagnifier);
+  img.addEventListener("touchmove", moveMagnifier);
+  /* remove magnifier when the curser isn't over the image: */
+  glass.addEventListener("mouseout", removeLoupe);
+  img.addEventListener("mouseout", removeLoupe);
+  function moveMagnifier(e) {
+	glass.setAttribute("class", "img-magnifier-glass");
+    var pos, x, y;
+    /*prevent any other actions that may occur when moving over the image*/
+    e.preventDefault();
+    /*get the cursor's x and y positions:*/
+    pos = getCursorPos(e);
+    x = pos.x;
+    y = pos.y;
+    /*prevent the magnifier glass from being positioned outside the image:*/
+    if (x > img.width - (w / zoom))  { x = img.width - (w / zoom); }
+    if (x < w / zoom)                { x = w / zoom; }
+    if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+    if (y < h / zoom)                { y = h / zoom; }
+    /*set the position of the magnifier glass:*/
+    glass.style.left = (x - w) + "px";
+    glass.style.top = (y - h) + "px";
+    /*display what the magnifier glass "sees":*/
+    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  }
+  function getCursorPos(e) {
+    var a, x = 0, y = 0;
+    e = e || window.event;
+    /*get the x and y positions of the image:*/
+    a = img.getBoundingClientRect();
+    /*calculate the cursor's x and y coordinates, relative to the image:*/
+    x = e.pageX - a.left;
+    y = e.pageY - a.top;
+    /*consider any page scrolling:*/
+    x = x - window.pageXOffset;
+    y = y - window.pageYOffset;
+    return {x : x, y : y};
+  }
+  function removeLoupe (e) {
+    glass.setAttribute("class", "nocursor");
+  }
+}
+</script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
     extensions: ["tex2jax.js"],
@@ -290,7 +360,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node4" href="classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="409,136,551,177"/>
 <area shape="rect" id="node6" href="classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="393,201,567,243"/>
 <area shape="rect" id="node8" href="classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="409,71,551,112"/>
-<area shape="rect" id="node5" href="classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="638,136,817,177"/>
+<area shape="rect" id="node5" href="classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="640,136,815,177"/>
 <area shape="rect" id="node7" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="621,202,833,258"/>
 <area shape="rect" id="node9" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="640,5,815,47"/>
 <area shape="rect" id="node10" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="645,71,810,112"/>
@@ -577,7 +647,7 @@ Here is the call graph for this function:</div>
 <area shape="rect" id="node5" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="212,151,355,192"/>
 <area shape="rect" id="node12" href="classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="196,220,371,261"/>
 <area shape="rect" id="node14" href="classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="212,311,355,352"/>
-<area shape="rect" id="node4" href="classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba" title="Just a getter if the logger is also used as stopper. " alt="" coords="435,47,614,88"/>
+<area shape="rect" id="node4" href="classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="437,47,612,88"/>
 <area shape="rect" id="node6" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="453,164,596,205"/>
 <area shape="rect" id="node7" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="682,83,862,110"/>
 <area shape="rect" id="node8" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="699,135,845,176"/>

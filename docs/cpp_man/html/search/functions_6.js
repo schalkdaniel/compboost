@@ -7,7 +7,7 @@ var searchData=
   ['getdatamap',['getDataMap',['../classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc',1,'blearnerlist::BaselearnerFactoryList']]],
   ['getestimatedparameterofiteration',['getEstimatedParameterOfIteration',['../classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556',1,'blearnertrack::BaselearnerTrack']]],
   ['getidentifier',['getIdentifier',['../classblearner_1_1_baselearner.html#aa10fa4301aeb37f6e8c18457541c3be7',1,'blearner::Baselearner']]],
-  ['getifloggerisstopper',['GetIfLoggerIsStopper',['../classlogger_1_1_logger.html#a3f473d158b7e5ee93ff70432d7f394ba',1,'logger::Logger']]],
+  ['getifloggerisstopper',['getIfLoggerIsStopper',['../classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994',1,'logger::Logger']]],
   ['getloggeddata',['getLoggedData',['../classlogger_1_1_logger.html#aa4fc254c532172db3404b7c0bcd17092',1,'logger::Logger::getLoggedData()'],['../classlogger_1_1_iteration_logger.html#ab073ed2a2806372ec823aa495112cf24',1,'logger::IterationLogger::getLoggedData()'],['../classlogger_1_1_inbag_risk_logger.html#af69f22c25521341a26152692bd03183a',1,'logger::InbagRiskLogger::getLoggedData()'],['../classlogger_1_1_oob_risk_logger.html#a74bfab14d3da0b10229c1ae99ab11337',1,'logger::OobRiskLogger::getLoggedData()'],['../classlogger_1_1_time_logger.html#a1603279c79e69795133f1be9f3238d64',1,'logger::TimeLogger::getLoggedData()']]],
   ['getloggerdata',['getLoggerData',['../classloggerlist_1_1_logger_list.html#a3e70bffb8e2e69c67491408337b9274f',1,'loggerlist::LoggerList']]],
   ['getloggerlist',['getLoggerList',['../classcboost_1_1_compboost.html#a0376256bdfde1a50b420ad7412f4b4dd',1,'cboost::Compboost']]],

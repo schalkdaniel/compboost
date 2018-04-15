@@ -28,7 +28,10 @@ Suggests:
     rpart,
     mboost,
     knitr,
-    rmarkdown
+    rmarkdown,
+    titanic,
+    mlr,
+    gridExtra
 RcppModules:
     baselearner_module,
     compboost_module,

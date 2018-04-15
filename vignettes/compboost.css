@@ -24,6 +24,11 @@ h2 {
 	font-weight: bold;
 }
 
+h3 {
+	color: rgb(0, 94, 119);
+	font-weight: bold;
+}
+
 h4 {
 	/* border-bottom: 1px solid rgba(0, 191, 255, 0.2); */
 	margin-left: 8px;
@@ -74,4 +79,16 @@ a:hover {
 code {
 	font-family: Consolas, Monaco, 'Courier New', monospace;
 	color: rgba(0, 0, 0, 0.6);
+}
+
+pre, xmp, plaintext, listing {
+    display: block;
+    font-family: monospace;
+    white-space: pre;
+    margin: 1em 0px;
+	background-color: rgba(0, 0, 0, 0.05);
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
 }

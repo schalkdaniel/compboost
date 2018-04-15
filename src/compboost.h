@@ -25,7 +25,7 @@
 //   Daniel Schalk
 //   Institut für Statistik
 //   Ludwig-Maximilians-Universität München
-//   Ludwigstraße 33
+//   Ludwigstrasse 33
 //   D-80539 München
 //
 //   https://www.compstat.statistik.uni-muenchen.de
@@ -65,9 +65,17 @@
  * devtools::install_github("schalkdaniel/compboost")
  * ```
  * 
- * 
+ * \section class_diagram "Class Diagram"
  *
- * etc...
+ * @htmlonly
+ * <div class="img-magnifier-container">
+ * <img id="classdiagram" SRC="../class_diagram.png" width="800" height="492"></div>
+ * </div>
+ * <script>
+ * magnify("classdiagram", 3);
+ * </script>
+ * @endhtmlonly
+ * 
  */
 
 

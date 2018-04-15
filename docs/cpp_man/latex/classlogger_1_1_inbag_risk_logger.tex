@@ -217,7 +217,7 @@ Implements \mbox{\hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5
 
 Stop criteria is fulfilled if the relative improvement falls below {\ttfamily eps\+\_\+for\+\_\+break} 
 
-The stopping criteria is fulfilled, if the relative improvement at the current iteration $m$ $^\wedge$\{\mbox{[}m\mbox{]}\} falls under a fixed boundary $\varepsilon$. Where the relative improvement is defined by \[ \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{train}^{[m-1]} - \mathcal{R}_\mathrm{train}^{[m]}}{\mathcal{R}_\mathrm{train}^{[m-1]}}. \]
+The stopping criteria is fulfilled, if the relative improvement at the current iteration $m$ $\varepsilon^{[m]}$ falls under a fixed boundary $\varepsilon$. Where the relative improvement is defined by \[ \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{emp}^{[m-1]} - \mathcal{R}_\mathrm{emp}^{[m]}}{\mathcal{R}_\mathrm{emp}^{[m-1]}}. \]
 
 The logger stops the algorithm if $\varepsilon^{[m]} \leq \varepsilon$.
 
