@@ -1,4 +1,4 @@
-compboost Thesis:
+﻿compboost Thesis:
 ============================
 
 - Bei predictions mit neuen data ist nur source notwendig, kein target!
@@ -6,8 +6,6 @@ compboost Thesis:
 - Dependencies: Nicht viele! Rcpp, RcppArmadillo 
 - Scope beschreiben! Es ist oft wichtig pass by reference zu machen, da dann Wrapper Klasse nicht gelöscht wird und dadurch kein destructor gecallt wird!!!
 - Scoping und garbage collection beschreiben
-- Polymorphism!! fast überall IterationLogger geht als Logger class durch!
-- für lineares fitting wird das inverse von XtX weggespeichert damit nicht in jeder iteration neu!
 
 - Kurz im intro oder kleines einführungskapitel die technischen sachen erwähnen die man können sollte um den text zu verstehen:
     - C++: classes, namespaces, polymorphism (virtual), pointer (reference vs. value), stack vs heap, inheritence (protected)
