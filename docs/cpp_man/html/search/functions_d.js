@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['r_5finit_5fcompboost',['R_init_compboost',['../_rcpp_exports_8cpp.html#abcff8d6cd305f1176fb3b371f6a74332',1,'RcppExports.cpp']]],
-  ['reachedstopcriteria',['reachedStopCriteria',['../classlogger_1_1_logger.html#aed91421c07062b91cee158ef2bda7ae8',1,'logger::Logger::reachedStopCriteria()'],['../classlogger_1_1_iteration_logger.html#a8b66f0d8d2ddb7f15ca14e2b9150ea80',1,'logger::IterationLogger::reachedStopCriteria()'],['../classlogger_1_1_inbag_risk_logger.html#a17a7416e4cc9db4da3b3eda5012ad7c7',1,'logger::InbagRiskLogger::reachedStopCriteria()'],['../classlogger_1_1_oob_risk_logger.html#a5c1c8358ffcb5f5463b43f068ea21aa4',1,'logger::OobRiskLogger::reachedStopCriteria()'],['../classlogger_1_1_time_logger.html#a380f7e56af17c8a35d729dad1a5e3baa',1,'logger::TimeLogger::reachedStopCriteria()']]],
-  ['registerbaselearnerfactory',['registerBaselearnerFactory',['../classblearnerlist_1_1_baselearner_factory_list.html#a6f5d8eb26f5f5ae4856d62eb9d649f4f',1,'blearnerlist::BaselearnerFactoryList']]],
-  ['registerlogger',['registerLogger',['../classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41',1,'loggerlist::LoggerList']]]
+  ['setbaselearnertype',['setBaselearnerType',['../classblearner_1_1_baselearner.html#a8d78e851bae5f5b93dc46eb13d2d1ee1',1,'blearner::Baselearner']]],
+  ['setdata',['setData',['../classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4',1,'blearner::Baselearner::setData()'],['../classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70',1,'data::Data::setData()'],['../classdata_1_1_in_memory_data.html#a0456d66f7930809211c75bcdd80a7bca',1,'data::InMemoryData::setData()']]],
+  ['setdataidentifier',['setDataIdentifier',['../classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc',1,'data::Data']]],
+  ['setdatatype',['setDataType',['../classdata_1_1_data.html#a349569c170c7e8b78bf4997b47e3f1a8',1,'data::Data']]],
+  ['setidentifier',['setIdentifier',['../classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76',1,'blearner::Baselearner']]],
+  ['settoiteration',['setToIteration',['../classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750',1,'blearnertrack::BaselearnerTrack::setToIteration()'],['../classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659',1,'cboost::Compboost::setToIteration()']]],
+  ['summarizecompboost',['summarizeCompboost',['../classcboost_1_1_compboost.html#a7be8cb767054ece895d535c1f468233e',1,'cboost::Compboost']]]
 ];

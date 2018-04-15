@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['setbaselearnertype',['setBaselearnerType',['../classblearner_1_1_baselearner.html#a8d78e851bae5f5b93dc46eb13d2d1ee1',1,'blearner::Baselearner']]],
-  ['setdata',['setData',['../classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4',1,'blearner::Baselearner::setData()'],['../classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70',1,'data::Data::setData()'],['../classdata_1_1_in_memory_data.html#a0456d66f7930809211c75bcdd80a7bca',1,'data::InMemoryData::setData()']]],
-  ['setdataidentifier',['setDataIdentifier',['../classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc',1,'data::Data']]],
-  ['setdatatype',['setDataType',['../classdata_1_1_data.html#a349569c170c7e8b78bf4997b47e3f1a8',1,'data::Data']]],
-  ['setidentifier',['setIdentifier',['../classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76',1,'blearner::Baselearner']]],
-  ['settoiteration',['setToIteration',['../classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750',1,'blearnertrack::BaselearnerTrack::setToIteration()'],['../classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659',1,'cboost::Compboost::setToIteration()']]],
-  ['summarizecompboost',['summarizeCompboost',['../classcboost_1_1_compboost.html#a7be8cb767054ece895d535c1f468233e',1,'cboost::Compboost']]]
+  ['timelogger',['TimeLogger',['../classlogger_1_1_time_logger.html#aa67d4d58b4894de7d158786961722751',1,'logger::TimeLogger']]],
+  ['train',['train',['../classblearner_1_1_baselearner.html#a40e03ad070b9a03aae706d9ee8094b80',1,'blearner::Baselearner::train()'],['../classblearner_1_1_polynomial_blearner.html#acf24025a73293a2569450dd4659e0997',1,'blearner::PolynomialBlearner::train()'],['../classblearner_1_1_p_spline_blearner.html#aa5c18ceb8396ffce556588486d574be8',1,'blearner::PSplineBlearner::train()'],['../classblearner_1_1_custom_blearner.html#a4726c5b861b67817f7b3eb61d8f6c0d7',1,'blearner::CustomBlearner::train()'],['../classblearner_1_1_custom_cpp_blearner.html#aa71b777d7092a3d9b47a9bed125eb0f9',1,'blearner::CustomCppBlearner::train()'],['../classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b',1,'cboost::Compboost::train()']]],
+  ['traincompboost',['trainCompboost',['../classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb',1,'cboost::Compboost']]]
 ];

@@ -7,6 +7,5 @@ var searchData=
   ['model_5fprediction',['model_prediction',['../classcboost_1_1_compboost.html#a7f7c7fe26c16c175e7d402aca781e8da',1,'cboost::Compboost']]],
   ['my_5fblearner_5ffactory_5fmap',['my_blearner_factory_map',['../classoptimizer_1_1_optimizer.html#a93f8af0ef81986bc208cab5e3cc2ba31',1,'optimizer::Optimizer']]],
   ['my_5ffactory_5fmap',['my_factory_map',['../classblearnerlist_1_1_baselearner_factory_list.html#a839e9b3f1bf73e995c35f7a6d0f64113',1,'blearnerlist::BaselearnerFactoryList']]],
-  ['my_5fparameter_5fmap',['my_parameter_map',['../classblearnertrack_1_1_baselearner_track.html#a3725470c87e28ea32d4b184f1e6aad39',1,'blearnertrack::BaselearnerTrack']]],
-  ['mymean',['myMean',['../_rcpp_exports_8cpp.html#a9ebd01560899227209fc396027b63603',1,'myMean(Rcpp::NumericVector x):&#160;test.cpp'],['../test_8cpp.html#a9ebd01560899227209fc396027b63603',1,'myMean(Rcpp::NumericVector x):&#160;test.cpp']]]
+  ['my_5fparameter_5fmap',['my_parameter_map',['../classblearnertrack_1_1_baselearner_track.html#a3725470c87e28ea32d4b184f1e6aad39',1,'blearnertrack::BaselearnerTrack']]]
 ];
