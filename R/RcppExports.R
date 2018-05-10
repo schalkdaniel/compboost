@@ -1627,7 +1627,7 @@ NULL
 #' @examples
 #' 
 #' # Define optimizer:
-#' optimizer = GreedyOptimizer()
+#' optimizer = GreedyOptimizer$new()
 #'
 #' @export GreedyOptimizer
 NULL

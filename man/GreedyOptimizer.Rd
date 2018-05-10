@@ -42,6 +42,6 @@ GreedyOptimizer$new()
 \examples{
 
 # Define optimizer:
-optimizer = GreedyOptimizer()
+optimizer = GreedyOptimizer$new()
 
 }

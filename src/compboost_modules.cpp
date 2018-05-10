@@ -2751,7 +2751,7 @@ protected:
 //' @examples
 //' 
 //' # Define optimizer:
-//' optimizer = GreedyOptimizer()
+//' optimizer = GreedyOptimizer$new()
 //'
 //' @export GreedyOptimizer
 class GreedyOptimizer : public OptimizerWrapper
