@@ -41,6 +41,7 @@
 
 #include <iostream>
 #include <map>
+#include <limits>
 
 #include <RcppArmadillo.h>
 
