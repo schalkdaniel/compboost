@@ -692,7 +692,7 @@ public:
 //' \code{Rcpp::XPtr} to set \code{C++} functions.
 //' 
 //' @format \code{\link{S4}} object.
-//' @name CustomBlearner
+//' @name CustomCppBlearner
 //' 
 //' @section Usage:
 //' \preformatted{
