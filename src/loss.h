@@ -212,11 +212,11 @@ public:
  * 
  * **Loss Function:**
  * \f[
- *   L(y, f(x)) = \log\left\{1 + \exp\left(-yf(x)\right)\right\}
+ *   L(y, f(x)) = \log\left\{1 + \exp\left(-2yf(x)\right)\right\}
  * \f]
  * **Gradient:**
  * \f[
- *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(yf\right)}
+ *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)}
  * \f]
  * **Initialization:**
  * \f[

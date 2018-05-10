@@ -68,7 +68,7 @@ size.compboost = pryr::mem_change({
   factory.list$registerFactory(spline.factory.aet)
   
   # Print the registered factorys:
-  factory.list$printRegisteredFactorys()
+  factory.list$printRegisteredFactories()
   
   
   ## Loss

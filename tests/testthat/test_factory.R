@@ -1,4 +1,4 @@
-context("Factorys of 'compboost'")
+context("Factories of 'compboost'")
 
 test_that("polynomial factory works", {
 

@@ -6,7 +6,7 @@
 \format{\code{\link{S4}} object.}
 \description{
 \code{InMemoryData} creates an data object which can be used as source or
-target object within the baselearner factories of \code{compboost}. The
+target object within the base-learner factories of \code{compboost}. The
 convention to initialise target data is to call the constructor without
 any arguments.
 }
@@ -23,7 +23,7 @@ InMemoryData$new(data.mat, data.identifier)
 \describe{
 \item{\code{data.mat} [\code{matrix}]}{ 
   Matrix containing the source data. This source data is later transformed
-  to obtain the design matrix a baselearner uses for training.
+  to obtain the design matrix a base-learner uses for training.
 }
 \item{\code{data.identifier} [\code{character(1)}]}{ 
   The name for the data specified in \code{data.mat}. Note that it is 
@@ -34,10 +34,10 @@ InMemoryData$new(data.mat, data.identifier)
 
 \section{Details}{
 
-  The \code{data.mat} needs to suits the baselearner. For instance, the
-  spline baselearner does just take a one column matrix since there are
+  The \code{data.mat} needs to suits the base-learner. For instance, the
+  spline base-learner does just take a one column matrix since there are
   just one dimensional splines till now. Additionally, using the polynomial
-  baselearner the \code{data.mat} is used to control if a intercept should
+  base-learner the \code{data.mat} is used to control if a intercept should
   be fitted or not by adding a column containing just ones. It is also
   possible to add other columns to estimate multiple features 
   simultaneously. Anyway, this is not recommended in terms of unbiased

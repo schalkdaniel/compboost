@@ -64,10 +64,10 @@ test_that("factory list works", {
 
   expect_equal(factory.list$getModelFrame()$colnames, factory.names)
   expect_equal(factory.list$getModelFrame()$model.frame, model.frame)
-  expect_equal(factory.list$getNumberOfRegisteredFactorys(), 4)
+  expect_equal(factory.list$getNumberOfRegisteredFactories(), 4)
 
-  factory.list$clearRegisteredFactorys()
+  factory.list$clearRegisteredFactories()
 
-  expect_equal(factory.list$getNumberOfRegisteredFactorys(), 0)
+  expect_equal(factory.list$getNumberOfRegisteredFactories(), 0)
 
 })

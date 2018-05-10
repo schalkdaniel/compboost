@@ -4,7 +4,7 @@
 #' In memory data class to store data in RAM 
 #' 
 #' \code{InMemoryData} creates an data object which can be used as source or
-#' target object within the baselearner factories of \code{compboost}. The
+#' target object within the base-learner factories of \code{compboost}. The
 #' convention to initialise target data is to call the constructor without
 #' any arguments. 
 #' 
@@ -21,7 +21,7 @@
 #' \describe{
 #' \item{\code{data.mat} [\code{matrix}]}{ 
 #'   Matrix containing the source data. This source data is later transformed
-#'   to obtain the design matrix a baselearner uses for training.
+#'   to obtain the design matrix a base-learner uses for training.
 #' }
 #' \item{\code{data.identifier} [\code{character(1)}]}{ 
 #'   The name for the data specified in \code{data.mat}. Note that it is 
@@ -31,10 +31,10 @@
 #' 
 #' 
 #' @section Details:
-#'   The \code{data.mat} needs to suits the baselearner. For instance, the
-#'   spline baselearner does just take a one column matrix since there are
+#'   The \code{data.mat} needs to suits the base-learner. For instance, the
+#'   spline base-learner does just take a one column matrix since there are
 #'   just one dimensional splines till now. Additionally, using the polynomial
-#'   baselearner the \code{data.mat} is used to control if a intercept should
+#'   base-learner the \code{data.mat} is used to control if a intercept should
 #'   be fitted or not by adding a column containing just ones. It is also
 #'   possible to add other columns to estimate multiple features 
 #'   simultaneously. Anyway, this is not recommended in terms of unbiased
@@ -71,66 +71,1753 @@
 #' @export InMemoryData
 NULL
 
+#' Baselearner to make polynomial regression
+#' 
+#' \code{PolynomialBlearner} creates a polynomial base-learner object which can
+#' be trained and used individually. Note that this is just for testing and
+#' can't be used within the actual algorithm.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name PolynomialBlearner
+#' 
+#' @section Usage:
+#' \preformatted{
+#' PolynomialBlearner$new(data_source, data_target, degree)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{degree} [\code{integer(1)}]}{ 
+#'   This argument is used for transforming the source data. Each element is
+#'   taken to the power of the \code{degree} argument.
+#' }
+#' }
+#' 
+#' 
+#' @section Details:
+#'   The polynomial base-learner takes any matrix which the user wants to pass
+#'   the number of columns indicates how much parameter are estimated. Note 
+#'   that the intercept isn't added by default. To get an intercept add a
+#'   column of ones to the source data matrix.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_polynomial_blearner.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{train(response)}}{Predict parameters of the base-learner using 
+#'   a given \code{response}.}
+#' \item{\code{getParameter()}}{Get the estimated parameters.}
+#' \item{\code{predict()}}{Predict by using the train data.}
+#' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+#'   object.}
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' y = 2 + 3 * 1:10
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' # Create new linear base-learner:
+#' bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1)
+#' 
+#' # Train the learner:
+#' bl.poly$train(y)
+#' 
+#' # Get estimated parameter:
+#' bl.poly$getParameter()
+#' 
 #' @export PolynomialBlearner
 NULL
 
+#' Baselearner to do non-parametric B or P-spline regression
+#' 
+#' \code{PSplineBlearner} creates a spline base-learner object which can
+#' be trained and used individually. Note that this is just for testing and
+#' can't be used within the actual algorithm.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name PSplineBlearner
+#' 
+#' @section Usage:
+#' \preformatted{
+#' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty, 
+#'   differences)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{degree} [\code{integer(1)}]}{
+#'   Degree of the spline functions to interpolate the knots.
+#' }
+#' \item{\code{n_knots} [\code{integer(1)}]}{
+#'   Number of \strong{inner knots}. To prefent weird behaviour on the edges
+#'   the inner knots are expanded by \eqn{\text{degree} - 1} additional knots. 
+#' }
+#' \item{\code{penalty} [\code{numeric(1)}]}{
+#'   Positive numeric value to specify the penalty parameter. Setting the 
+#'   penalty to 0 ordinary B-splines are used for the fitting.
+#' }
+#' \item{\code{differences} [\code{integer(1)}]}{
+#'   The number of differences which are penalized. A higher value leads to 
+#'   smoother curves.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   The data matrix of the source data is restricted to have just one column.
+#'   The spline bases are created for this single feature. Multidimensional 
+#'   splines are not supported at the moment.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_p_spline_blearner.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{train(response)}}{Predict parameters of the base-learner using 
+#'   a given \code{response}.}
+#' \item{\code{getParameter()}}{Get the estimated parameters.}
+#' \item{\code{predict()}}{Predict by using the train data.}
+#' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+#'   object.}
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1:10)
+#' y = sin(1:10)
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' # Create new linear base-learner:
+#' bl.spline = PSplineBlearner$new(data.source, data.target, degree = 3, 
+#'   n_knots = 4, penalty = 2, differences = 2)
+#' 
+#' # Train the learner:
+#' bl.spline$train(y)
+#' 
+#' # Get estimated parameter:
+#' bl.spline$getParameter()
+#' 
+#' # Get spline bases:
+#' bl.spline$getData()
+#' 
 #' @export PSplineBlearner
 NULL
 
+#' Create custom base-learner by using R functions.
+#' 
+#' \code{CustomBlearner} creates a custom base-learner by using 
+#' \code{Rcpp::Function} to set \code{R} functions.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name CustomBlearner
+#' 
+#' @section Usage:
+#' \preformatted{
+#' CustomBlearner$new(data_source, data_target, instantiateData, train,
+#'   predict, extractParameter)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{instantiateData} [\code{function}]}{
+#'   \code{R} function to transform the source data. For details see the
+#'   \code{Details}.
+#' }
+#' \item{\code{train} [\code{function}]}{
+#'   \code{R} function to train the base-learner on the target data. For 
+#'   details see the \code{Details}.
+#' }
+#' \item{\code{predict} [\code{function}]}{
+#'   \code{R} function to predict on the object returned by \code{train}.
+#'   For details see the \code{Details}.
+#' }
+#' \item{\code{extractParameter} [\code{function}]}{
+#'   \code{R} function to extract the parameter of the object returend by
+#'   \code{train}. For details see the \code{Details}.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   The functions must have the following structure:
+#'   
+#'   \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument 
+#'   \code{X} and a matrix as return object.
+#'   
+#'   \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y} 
+#'   and a matrix argument \code{X}. The target data is used in \code{X} while
+#'   \code{y} contains the response. The function can return any \code{R} 
+#'   object which is stored within a \code{SEXP}.
+#'   
+#'   \code{predict(model, newdata) { ... return (prediction) }} The returned 
+#'   object of the \code{train} function is passed to the \code{model}
+#'   argument while \code{newdata} contains a new matrix used for predicting.
+#'   
+#'   \code{extractParameter() { ... return (parameters) }} Again, \code{model}
+#'   contains the object returned by \code{train}. The returned object must be
+#'   a matrix containing the estimated parameter. If no parameter should be 
+#'   estimated one can return \code{NA}.
+#'   
+#'   For an example see the \code{Examples}.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_blearner.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{train(response)}}{Predict parameters of the base-learner using 
+#'   a given \code{response}.}
+#' \item{\code{getParameter()}}{Get the estimated parameters.}
+#' \item{\code{predict()}}{Predict by using the train data.}
+#' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+#'   object.}
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' y = 2 + 3 * 1:10
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' instantiateDataFun = function (X) {
+#'   return(X)
+#' }
+#' # Ordinary least squares estimator:
+#' trainFun = function (y, X) {
+#'   return(solve(t(X) %*% X) %*% t(X) %*% y)
+#' }
+#' predictFun = function (model, newdata) {
+#'   return(as.matrix(newdata %*% model))
+#' }
+#' extractParameter = function (model) {
+#'   return(as.matrix(model))
+#' }
+#' 
+#' # Create new linear base-learner:
+#' bl.custom = CustomBlearner$new(data.source, data.target, instantiateDataFun,
+#'   trainFun, predictFun, extractParameter)
+#' 
+#' # Train the learner:
+#' bl.custom$train(y)
+#' 
+#' # Get estimated parameter:
+#' bl.custom$getParameter()
+#'
 #' @export CustomBlearner
 NULL
 
+#' Create custom cpp base-learner by using cpp functions and external pointer.
+#' 
+#' \code{CustomCppBlearner} creates a custom base-learner by using 
+#' \code{Rcpp::XPtr} to set \code{C++} functions.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name CustomBlearner
+#' 
+#' @section Usage:
+#' \preformatted{
+#' CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
+#'   predict_ptr)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} instantiate data function.
+#' }
+#' \item{\code{train_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} train function.
+#' }
+#' \item{\code{predict_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} predict function.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   For an example see the extending compboost vignette or the function
+#'   \code{getCustomCppExample}.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_cpp_blearner.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{train(response)}}{Predict parameters of the base-learner using 
+#'   a given \code{response}.}
+#' \item{\code{getParameter()}}{Get the estimated parameters.}
+#' \item{\code{predict()}}{Predict by using the train data.}
+#' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+#'   object.}
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' y = 2 + 3 * 1:10
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' # Source the external pointer exposed by using XPtr:
+#' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
+#' 
+#' # Create new linear base-learner:
+#' bl.custom.cpp = CustomCppBlearner$new(data.source, data.target, dataFunSetter(),
+#'   trainFunSetter(), predictFunSetter())
+#' 
+#' # Train the learner:
+#' bl.custom.cpp$train(y)
+#' 
+#' # Get estimated parameter:
+#' bl.custom.cpp$getParameter()
+#'
 #' @export CustomCppBlearner
 NULL
 
+#' Baselearner factory to make polynomial regression
+#' 
+#' \code{PolynomialBlearnerFactory} creates a polynomial base-learner factory
+#'  object which can be registered within a base-learner list and then used
+#'  for training.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name PolynomialBlearnerFactory
+#' 
+#' @section Usage:
+#' \preformatted{
+#' PolynomialBlearnerFactory$new(data_source, data_target, degree)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{degree} [\code{integer(1)}]}{ 
+#'   This argument is used for transforming the source data. Each element is
+#'   taken to the power of the \code{degree} argument.
+#' }
+#' }
+#' 
+#' 
+#' @section Details:
+#'   The polynomial base-learner factory takes any matrix which the user wants 
+#'   to pass the number of columns indicates how much parameter are estimated. 
+#'   Note that the intercept isn't added by default. To get an intercept add a
+#'   column of ones to the source data matrix.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_polynomial_blearner_factory.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+#'   factory. The argument has to be a matrix with one column.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' y = 2 + 3 * 1:10
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' # Create new linear base-learner factory:
+#' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2)
+#' 
+#' # Get the transformed data:
+#' lin.factory$getData()
+#' 
+#' # Summarize factory:
+#' lin.factory$summarizeFactory()
+#' 
+#' # Transform data manually:
+#' lin.factory$transformData(data.mat)
+#' 
 #' @export PolynomialBlearnerFactory
 NULL
 
+#' Base-learner factory to do non-parametric B or P-spline regression
+#' 
+#' \code{PSplineBlearnerFactory} creates a spline base-learner factory
+#'  object which can be registered within a base-learner list and then used
+#'  for training.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name PSplineBlearnerFactory
+#' 
+#' @section Usage:
+#' \preformatted{
+#' PSplineBlearnerFactory$new(data_source, data_target, degree, n_knots, penalty, 
+#'   differences)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{degree} [\code{integer(1)}]}{
+#'   Degree of the spline functions to interpolate the knots.
+#' }
+#' \item{\code{n_knots} [\code{integer(1)}]}{
+#'   Number of \strong{inner knots}. To prefent weird behaviour on the edges
+#'   the inner knots are expanded by \eqn{\text{degree} - 1} additional knots. 
+#' }
+#' \item{\code{penalty} [\code{numeric(1)}]}{
+#'   Positive numeric value to specify the penalty parameter. Setting the 
+#'   penalty to 0 ordinary B-splines are used for the fitting.
+#' }
+#' \item{\code{differences} [\code{integer(1)}]}{
+#'   The number of differences which are penalized. A higher value leads to 
+#'   smoother curves.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   The data matrix of the source data is restricted to have just one column.
+#'   The spline bases are created for this single feature. Multidimensional 
+#'   splines are not supported at the moment.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_p_spline_blearner_factory.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+#'   factory. The argument has to be a matrix with one column.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1:10)
+#' y = sin(1:10)
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' # Create new linear base-learner:
+#' spline.factory = PSplineBlearnerFactory$new(data.source, data.target, 
+#'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
+#' 
+#' # Get the transformed data:
+#' spline.factory$getData()
+#' 
+#' # Summarize factory:
+#' spline.factory$summarizeFactory()
+#' 
+#' # Transform data manually:
+#' spline.factory$transformData(data.mat)
+#' 
 #' @export PSplineBlearnerFactory
 NULL
 
+#' Create custom base-learner factory by using R functions.
+#' 
+#' \code{CustomBlearnerFactory} creates a custom base-learner factory by 
+#'   setting custom \code{R} functions. This factory object can be registered 
+#'   within a base-learner list and then used for training.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name CustomBlearnerFactory
+#' 
+#' @section Usage:
+#' \preformatted{
+#' CustomBlearnerFactory$new(data_source, data_target, instantiateData, train,
+#'   predict, extractParameter)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{instantiateData} [\code{function}]}{
+#'   \code{R} function to transform the source data. For details see the
+#'   \code{Details}.
+#' }
+#' \item{\code{train} [\code{function}]}{
+#'   \code{R} function to train the base-learner on the target data. For 
+#'   details see the \code{Details}.
+#' }
+#' \item{\code{predict} [\code{function}]}{
+#'   \code{R} function to predict on the object returned by \code{train}.
+#'   For details see the \code{Details}.
+#' }
+#' \item{\code{extractParameter} [\code{function}]}{
+#'   \code{R} function to extract the parameter of the object returend by
+#'   \code{train}. For details see the \code{Details}.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   The function must have the following structure:
+#'   
+#'   \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument 
+#'   \code{X} and a matrix as return object.
+#'   
+#'   \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y} 
+#'   and a matrix argument \code{X}. The target data is used in \code{X} while
+#'   \code{y} contains the response. The function can return any \code{R} 
+#'   object which is stored within a \code{SEXP}.
+#'   
+#'   \code{predict(model, newdata) { ... return (prediction) }} The returned 
+#'   object of the \code{train} function is passed to the \code{model}
+#'   argument while \code{newdata} contains a new matrix used for predicting.
+#'   
+#'   \code{extractParameter() { ... return (parameters) }} Again, \code{model}
+#'   contains the object returned by \code{train}. The returned object must be
+#'   a matrix containing the estimated parameter. If no parameter should be 
+#'   estimated one can return \code{NA}.
+#'   
+#'   For an example see the \code{Examples}.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_blearner_factory.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+#'   factory. The argument has to be a matrix with one column.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' y = 2 + 3 * 1:10
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' instantiateDataFun = function (X) {
+#'   return(X)
+#' }
+#' # Ordinary least squares estimator:
+#' trainFun = function (y, X) {
+#'   return(solve(t(X) %*% X) %*% t(X) %*% y)
+#' }
+#' predictFun = function (model, newdata) {
+#'   return(as.matrix(newdata %*% model))
+#' }
+#' extractParameter = function (model) {
+#'   return(as.matrix(model))
+#' }
+#' 
+#' # Create new custom linear base-learner factory:
+#' custom.lin.factory = CustomBlearnerFactory$new(data.source, data.target, 
+#'   instantiateDataFun, trainFun, predictFun, extractParameter)
+#' 
+#' # Get the transformed data:
+#' custom.lin.factory$getData()
+#' 
+#' # Summarize factory:
+#' custom.lin.factory$summarizeFactory()
+#' 
+#' # Transform data manually:
+#' custom.lin.factory$transformData(data.mat)
+#'
 #' @export CustomBlearnerFactory
 NULL
 
+#' Create custom cpp base-learner factory by using cpp functions and external 
+#' pointer.
+#' 
+#' \code{CustomCppBlearnerFactory} creates a custom base-learner factory by 
+#'   setting custom \code{C++} functions. This factory object can be registered 
+#'   within a base-learner list and then used for training.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name CustomCppBlearnerFactory
+#' 
+#' @section Usage:
+#' \preformatted{
+#' CustomCppBlearnerFactory$new(data_source, data_target, instantiate_data_ptr, 
+#'   train_ptr, predict_ptr)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{ 
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{ 
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} instantiate data function.
+#' }
+#' \item{\code{train_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} train function.
+#' }
+#' \item{\code{predict_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} predict function.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   For an example see the extending compboost vignette or the function
+#'   \code{getCustomCppExample}.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_cpp_blearner_factory.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modelling.}
+#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+#'   factory. The argument has to be a matrix with one column.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' y = 2 + 3 * 1:10
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target = InMemoryData$new()
+#' 
+#' # Source the external pointer exposed by using XPtr:
+#' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
+#' 
+#' # Create new linear base-learner:
+#' custom.cpp.factory = CustomCppBlearnerFactory$new(data.source, data.target, 
+#'   dataFunSetter(), trainFunSetter(), predictFunSetter())
+#' 
+#' # Get the transformed data:
+#' custom.cpp.factory$getData()
+#' 
+#' # Summarize factory:
+#' custom.cpp.factory$summarizeFactory()
+#' 
+#' # Transform data manually:
+#' custom.cpp.factory$transformData(data.mat)
+#'
 #' @export CustomCppBlearnerFactory
 NULL
 
+#' Base-learner factory list to define the set of base-learners
+#' 
+#' \code{BlearnerFactoryList} creates an object in which base-learner factories
+#' can be registered. This object can then be passed to compboost as set of
+#' base-learner which is used by the optimizer to get the new best 
+#' base-learner.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name BlearnerFactoryList
+#' 
+#' @section Usage:
+#' \preformatted{
+#' BlearnerFactoryList$new()
+#' }
+#' 
+#' @section Details:
+#'      
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerlist_1_1_baselearner_factory_list.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{registerFactory(BaselearnerFactory)}}{Takes a object of the
+#'   class \code{BaseLearnerFactory} and adds this factory to the set of
+#'   base-learner.}
+#' \item{\code{printRegisteredFactories()}}{Get all registered factories.}
+#' \item{\code{clearRegisteredFactories()}}{Remove all registered factories.
+#'   Note that the factories are not deleted, just removed from the map.}
+#' \item{\code{getModelFrame()}}{Get each target data matrix parsed to one
+#'   big matrix.}
+#' \item{\code{getNumberOfRegisteredFactories()}}{Get the number of registered
+#'   factories.}
+#' }
+#' @examples
+#' # Sample data:
+#' data.mat = cbind(1, 1:10)
+#' 
+#' # Create new data object:
+#' data.source = InMemoryData$new(data.mat, "my.data.name")
+#' data.target1 = InMemoryData$new()
+#' data.target2 = InMemoryData$new()
+#' 
+#' lin.factory = PolynomialBlearnerFactory(data.source, data.target1, 1)
+#' poly.factory = PolynomialBlearnerFactory(data.source, data.target2, 2)
+#' 
+#' # Create new base-learner list:
+#' my.bl.list = BlearnerFactoryList$new()
+#' 
+#' # Register factories:
+#' my.bl.list$registerFactory(lin.factory)
+#' my.bl.list$registerFactory(poly.factory)
+#' 
+#' # Get registered factories:
+#' my.bl.list$printRegisteredFactories()
+#' 
+#' # Get all target data matrices in one big matrix:
+#' my.bl.list$getModelFrame()
+#' 
+#' # Clear list:
+#' my.bl.list$clearRegisteredFactories()
+#' 
+#' # Get number of registered factories:
+#' my.bl.list$getNumberOfRegisteredFactories()
+#'
 #' @export BlearnerFactoryList
 NULL
 
+#' Quadratic loss for regression tasks.
+#' 
+#' This loss can be used for regression with \eqn{y \in \mathbb{R}}. 
+#' 
+#' \strong{Loss Function:}
+#' \deqn{L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2}
+#' \strong{Gradient:}
+#' \deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y}
+#' \strong{Initialization:}
+#' \deqn{\hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+#'  L\left(y^{(i)}, c\right) = \bar{y}}
+#' 
+#' @format \code{\link{S4}} object.
+#' @name QuadraticLoss
+#' 
+#' @section Usage:
+#' \preformatted{
+#' QuadraticLoss$new()
+#' QuadraticLoss$new(offset)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{offset} [\code{numeric(1)}]}{ 
+#'   Numerical value which can be used to set a custom offset. If so, this 
+#'   value is returned instead of the loss optimal initialization.
+#' }
+#' }
+#' 
+#' @section Details:
+#'      
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_quadratic_loss.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
+#'   true response and a corresponding prediction.}
+#' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+#'   loss function for a given true response and a corresponding prediction.}
+#' \item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+#'   initialization of a given vector of true values.}
+#' }
+#' @examples
+#' # Sample data:
+#' set.seed(123)
+#' truth = 1:10
+#' prediction = truth - rnorm(10)
+#' 
+#' # Create new loss object:
+#' quadratic.loss = QuadraticLoss$new()
+#' quadratic.loss
+#' 
+#' # Calculate loss:
+#' quadratic.loss$testLoss(truth, prediction)
+#' 
+#' # Calculate gradient:
+#' quadratic.loss$testGradient(truth, prediction)
+#' 
+#' # Calculate the offset if this loss is used for the training:
+#' quadratic.loss$testConstantInitializer(truth)
+#'
 #' @export QuadraticLoss
 NULL
 
+#' Absolute loss for regression tasks.
+#' 
+#' This loss can be used for regression with \eqn{y \in \mathbb{R}}. 
+#' 
+#' \strong{Loss Function:}
+#' \deqn{L(y, f(x)) = \left| y - f(x) \right|}
+#' \strong{Gradient:}
+#' \deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right)}
+#' \strong{Initialization:}
+#' \deqn{\hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+#'  L\left(y^{(i)}, c\right) = \mathrm{median}(y)}
+#' 
+#' @format \code{\link{S4}} object.
+#' @name AbsoluteLoss
+#' 
+#' @section Usage:
+#' \preformatted{
+#' AbsoluteLoss$new()
+#' AbsoluteLoss$new(offset)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{offset} [\code{numeric(1)}]}{ 
+#'   Numerical value which can be used to set a custom offset. If so, this 
+#'   value is returned instead of the loss optimal initialization.
+#' }
+#' }
+#' 
+#' @section Details:
+#'      
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
+#'   true response and a corresponding prediction.}
+#' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+#'   loss function for a given true response and a corresponding prediction.}
+#' \item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+#'   initialization of a given vector of true values.}
+#' }
+#' @examples
+#' # Sample data:
+#' set.seed(123)
+#' truth = 1:10
+#' prediction = truth - rnorm(10)
+#' 
+#' # Create new loss object:
+#' absolute.loss = AbsoluteLoss$new()
+#' absolute.loss
+#' 
+#' # Calculate loss:
+#' absolute.loss$testLoss(truth, prediction)
+#' 
+#' # Calculate gradient:
+#' absolute.loss$testGradient(truth, prediction)
+#' 
+#' # Calculate the offset if this loss is used for the training:
+#' absolute.loss$testConstantInitializer(truth)
+#'
 #' @export AbsoluteLoss
 NULL
 
+#' 0-1 Loss for binary classification derifed of the binomial distribution
+#' 
+#' This loss can be used for binary classification. The coding we have chosen
+#' here acts on 
+#' \eqn{y \in \{-1, 1\}}.
+#' 
+#' \strong{Loss Function:}
+#' \deqn{L(y, f(x)) = \log\left\{1 + \exp\left(-2yf(x)\right)\right\}}
+#' \strong{Gradient:}
+#' \deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)}}
+#' \strong{Initialization:}
+#' \deqn{\hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right)}
+#' with
+#' \deqn{p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i = 1\}}}
+#' 
+#' @format \code{\link{S4}} object.
+#' @name BinomialLoss
+#' 
+#' @section Usage:
+#' \preformatted{
+#' BinomialLoss$new()
+#' BinomialLoss$new(offset)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{offset} [\code{numeric(1)}]}{ 
+#'   Numerical value which can be used to set a custom offset. If so, this 
+#'   value is returned instead of the loss optimal initialization.
+#' }
+#' }
+#' 
+#' @section Details:
+#'      
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
+#'   true response and a corresponding prediction.}
+#' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+#'   loss function for a given true response and a corresponding prediction.}
+#' \item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+#'   initialization of a given vector of true values.}
+#' }
+#' @examples
+#' # Sample data:
+#' set.seed(123)
+#' truth = sample(c(1, -1), 10, TRUE)
+#' prediction = rnorm(10)
+#' 
+#' # Create new loss object:
+#' bin.loss = BinomialLoss$new()
+#' bin.loss
+#' 
+#' # Calculate loss:
+#' bin.loss$testLoss(truth, prediction)
+#' 
+#' # Calculate gradient:
+#' bin.loss$testGradient(truth, prediction)
+#' 
+#' # Calculate the offset if this loss is used for the training:
+#' bin.loss$testConstantInitializer(truth)
+#'
 #' @export BinomialLoss
 NULL
 
+#' Create customloss by using R functions.
+#' 
+#' \code{CustomLoss} creates a custom loss by using 
+#' \code{Rcpp::Function} to set \code{R} functions.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name CustomLoss
+#' 
+#' @section Usage:
+#' \preformatted{
+#' CustomLoss$new(lossFun, gradientFun, initFun)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{lossFun} [\code{function}]}{ 
+#'   \code{R} function to calculate the loss. For details see the
+#'   \code{Details}.
+#' }
+#' \item{\code{gradientFun} [\code{function}]}{
+#'   \code{R} function to calculate the gradient. For details see the
+#'   \code{Details}.
+#' }
+#' \item{\code{initFun} [\code{function}]}{
+#'   \code{R} function to calculate the constant initialization. For 
+#'   details see the \code{Details}.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   The functions must have the following structure:
+#'   
+#'   \code{lossFun(truth, prediction) { ... return (loss) }} With a vector 
+#'   argument \code{truth} containing the real values and a vector of 
+#'   predictions \code{prediction}. The function must return a vector 
+#'   containing the loss for each component.
+#'   
+#'   \code{gradientFun(truth, prediction) { ... return (grad) }} With a vector 
+#'   argument \code{truth} containing the real values and a vector of 
+#'   predictions \code{prediction}. The function must return a vector 
+#'   containing the gradient of the loss for each component.
+#'   
+#'   \code{initFun(truth) { ... return (init) }} With a vector 
+#'   argument \code{truth} containing the real values. The function must 
+#'   return a numeric value containing the offset for the constant 
+#'   initialization.
+#'   
+#'   For an example see the \code{Examples}.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
+#'   true response and a corresponding prediction.}
+#' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+#'   loss function for a given true response and a corresponding prediction.}
+#' \item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+#'   initialization of a given vector of true values.}
+#' }
+#' @examples
+#' # Sample data:
+#' set.seed(123)
+#' truth = 1:10
+#' prediction = truth - rnorm(10)
+#' 
+#' # Loss function:
+#' myLoss = function (true.values, prediction) {
+#'   return (0.5 * (true.values - prediction)^2)
+#' }
+#' # Gradient of loss function:
+#' myGradient = function (true.values, prediction) {
+#'   return (prediction - true.values)
+#' }
+#' # Constant initialization:
+#' myConstInit = function (true.values) {
+#'   return (mean(true.values))
+#' }
+#' 
+#' # Create new custom quadratic loss:
+#' my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
+#' 
+#' # Calculate loss:
+#' my.loss$testLoss(truth, prediction)
+#' 
+#' # Calculate gradient:
+#' my.loss$testGradient(truth, prediction)
+#' 
+#' # Calculate the offset if this loss is used for the training:
+#' my.loss$testConstantInitializer(truth)
+#'
 #' @export CustomLoss
 NULL
 
+#' Create custom cpp losses by using cpp functions and external pointer.
+#' 
+#' \code{CustomCppLoss} creates a custom loss by using 
+#' \code{Rcpp::XPtr} to set \code{C++} functions.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name CustomCppLoss
+#' 
+#' @section Usage:
+#' \preformatted{
+#' CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{loss_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} loss function.
+#' }
+#' \item{\code{grad_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} gradient function.
+#' }
+#' \item{\code{const_init_ptr} [\code{externalptr}]}{
+#'   External pointer to the \code{C++} constant initialization function.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   For an example see the extending compboost vignette or the function
+#'   \code{getCustomCppExample(example = "loss")}.
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
+#'   true response and a corresponding prediction.}
+#' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+#'   loss function for a given true response and a corresponding prediction.}
+#' \item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+#'   initialization of a given vector of true values.}
+#' }
+#' @examples
+#' # Sample data:
+#' set.seed(123)
+#' truth = 1:10
+#' prediction = truth - rnorm(10)
+#' 
+#' # Load loss functions:
+#' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
+#' 
+#' # Create new custom quadratic loss:
+#' my.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+#' 
+#' # Calculate loss:
+#' my.cpp.loss$testLoss(truth, prediction)
+#' 
+#' # Calculate gradient:
+#' my.cpp.loss$testGradient(truth, prediction)
+#' 
+#' # Calculate the offset if this loss is used for the training:
+#' my.cpp.loss$testConstantInitializer(truth)
+#'
 #' @export CustomCppLoss
 NULL
 
+#' Logger class to log the current iteration
+#' 
+#' This class seems to be useless, but it gives more control about the algorithm 
+#' and doesn't violate the idea of object programming here. Additionally, it is 
+#' quite convenient to have this class instead of tracking the iteration at any 
+#' stage of the fitting within the compboost object as another vector.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name IterationLogger
+#' 
+#' @section Usage:
+#' \preformatted{
+#' IterationLoggerWrapper$new(use_as_stopper, max_iterations)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
+#'   Boolean to indicate if the logger should also be used as stopper.
+#' }
+#' \item{\code{max_iterations} [\code{integer(1)}]}{
+#'   If the logger is used as stopper this argument defines the maximal 
+#'   iterations.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_iteration_logger.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
+#' }
+#' @examples
+#' # Define logger:
+#' log.iters = IterationLogger$new(FALSE, 100)
+#' 
+#' # Summarize logger:
+#' log.iters$summarizeLogger()
+#'
 #' @export IterationLogger
 NULL
 
+#' Logger class to log the inbag risk
+#' 
+#' This class loggs the inbag risk for a specific loss function. It is also
+#' possible to use custom losses to log performance measures. For details
+#' see the usecase or extending compboost vignette.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name InbagRiskLogger
+#' 
+#' @section Usage:
+#' \preformatted{
+#' InbagRiskLogger$new(use_as_stopper, used_loss, eps_for_break)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
+#'   Boolean to indicate if the logger should also be used as stopper.
+#' }
+#' \item{\code{used_loss} [\code{Loss} object]}{
+#'   The loss used to calculate the empirical risk by taking the mean of the
+#'   returned defined loss within the loss object.
+#' }
+#' \item{\code{eps_for_break} [\code{numeric(1)}]}{
+#'   This argument is used if the loss is also used as stopper. If the relative
+#'   improvement of the logged inbag risk falls above this boundary the stopper
+#'   returns \code{TRUE}.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   
+#' This logger computes the risk for the given training data
+#' \eqn{\mathcal{D} = \{(x^{(i)},\ y^{(i)})\ |\ i \in \{1, \dots, n\}\}}
+#' and stores it into a vector. The empirical risk \eqn{\mathcal{R}} for 
+#' iteration \eqn{m} is calculated by:
+#' \deqn{\mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))}
+#' 
+#' **Note:** 
+#'   - If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+#'   - The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
+#'     done in two steps: 
+#'        1. Calculate vector \code{risk_temp} of losses for every observation for 
+#'           given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+#'        2. Average over `risk_temp`.
+#'         
+#'    This procedure ensures, that it is possible to e.g. use the AUC or any
+#'    arbitrary performance measure for risk logging. This gives just one 
+#'    value for \eqn{risk_temp} and therefore the average equals the loss 
+#'    function. If this is just a value (like for the AUC) then the value is 
+#'    returned.  
+#' 
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_inbag_risk_logger.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
+#' }
+#' @examples
+#' # Used loss:
+#' log.bin = BinomialLoss$new()
+#' 
+#' # Define logger:
+#' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
+#' 
+#' # Summarize logger:
+#' log.inbag.risk$summarizeLogger()
+#'
 #' @export InbagRiskLogger
 NULL
 
+#' Logger class to log the out of bag risk
+#' 
+#' This class loggs the out of bag risk for a specific loss function. It is 
+#' also possible to use custom losses to log performance measures. For details
+#' see the usecase or extending compboost vignette.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name OobRiskLogger
+#' 
+#' @section Usage:
+#' \preformatted{
+#' OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data, 
+#'   oob_response)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
+#'   Boolean to indicate if the logger should also be used as stopper.
+#' }
+#' \item{\code{used_loss} [\code{Loss} object]}{
+#'   The loss used to calculate the empirical risk by taking the mean of the
+#'   returned defined loss within the loss object.
+#' }
+#' \item{\code{eps_for_break} [\code{numeric(1)}]}{
+#'   This argument is used if the loss is also used as stopper. If the relative
+#'   improvement of the logged inbag risk falls above this boundary the stopper
+#'   returns \code{TRUE}.
+#' }
+#' \item{\code{oob_data} [\code{list}]}{
+#'   A list which contains data source objects which corresponds to the 
+#'   source data of each registered factory. The source data objects should
+#'   contain the out of bag data. This data is then used to calculate the
+#'   prediction in each step.
+#' }
+#' \item{\code{oob_response} [\code{numeric}]}{
+#'   Vector which contains the response for the out of bag data given within 
+#'   the \code{list}.
+#' }
+#' }
+#' 
+#' @section Details:
+#'   
+#' This logger computes the risk for a given new dataset 
+#' \eqn{\mathcal{D}_\mathrm{oob} = \{(x^{(i)},\ y^{(i)})\ |\ i \in I_\mathrm{oob}\}}
+#' and stores it into a vector. The OOB risk \eqn{\mathcal{R}_\mathrm{oob}} for 
+#' iteration \eqn{m} is calculated by:
+#' \deqn{\mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+#'   L(y, \hat{f}^{[m]}(x))}
+#'  
+#' \strong{Note:} 
+#'   \itemize{
+#'   
+#'   \item 
+#'     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+#'   \item 
+#'     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
+#'     done in two steps: 
+#'       \enumerate{
+#'        
+#'       \item 
+#'         Calculate vector \code{risk_temp} of losses for every observation for 
+#'         given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+#'        
+#'       \item 
+#'         Average over \code{risk_temp}.
+#'      }
+#'    }
+#'      
+#'    This procedure ensures, that it is possible to e.g. use the AUC or any
+#'    arbitrary performance measure for risk logging. This gives just one 
+#'    value for \eqn{risk_temp} and therefore the average equals the loss 
+#'    function. If this is just a value (like for the AUC) then the value is 
+#'    returned.  
+#' 
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_oob_risk_logger.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
+#' }
+#' @examples
+#' # Define data:
+#' X1 = cbind(1:10)
+#' X2 = cbind(10:1)
+#' data.source1 = InMemoryData$new(X1, "x1")
+#' data.source2 = InMemoryData$new(X2, "x2")
+#' 
+#' oob.list = list(data.source1, data.source2)
+#' 
+#' set.seed(123)
+#' y.oob = rnorm(10)
+#' 
+#' # Used loss:
+#' log.bin = BinomialLoss$new()
+#' 
+#' # Define logger:
+#' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+#' 
+#' # Summarize logger:
+#' log.oob.risk$summarizeLogger()
+#'
 #' @export OobRiskLogger
 NULL
 
+#' Logger class to log the ellapsed time
+#' 
+#' This class just loggs the ellapsed time. This sould be very handy if one
+#' wants to run the algorithm for just 2 hours and see how far he comes within
+#' that time. There are three time units available for logging:
+#' \itemize{
+#'   \item minutes
+#'   \item seconds
+#'   \item microseconds
+#' }
+#' 
+#' @format \code{\link{S4}} object.
+#' @name TimeLogger
+#' 
+#' @section Usage:
+#' \preformatted{
+#' TimeLogger$new(use_as_stopper, max_time, time_unit)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
+#'   Boolean to indicate if the logger should also be used as stopper.
+#' }
+#' \item{\code{max_time} [\code{integer(1)}]}{
+#'   If the logger is used as stopper this argument cotains the maximal time
+#'   which are available to train the model.
+#' }
+#' \item{\code{time_unit} [\code{character(1)}]}{
+#'   Character to specify the time unit. Possible choices are \code{minutes},
+#'   \code{seconds} or \code{microseconds}
+#' }
+#' }
+#' 
+#' @section Details:
+#' 
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_time_logger.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
+#' }
+#' @examples
+#' # Define logger:
+#' log.time = TimeLogger$new(FALSE, 20, "minutes")
+#' 
+#' # Summarize logger:
+#' log.oob.risk$summarizeLogger()
+#'
 #' @export TimeLogger
 NULL
 
+#' Logger list class to collect all loggers
+#' 
+#' This class is ment to define all logger which should be used to track the
+#' progress of the aglorithm.
+#' 
+#' @format \code{\link{S4}} object.
+#' @name LoggerList
+#' 
+#' @section Usage:
+#' \preformatted{
+#' LoggerList$new()
+#' }
+#'  
+#' @section Details:
+#' 
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloggerlist_1_1_logger_list.html}.
+#' 
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#' 
+#' @section Methods:
+#' \describe{
+#' \item{\code{clearRegisteredLogger()}}{Removes all registered logger
+#'   from the list. The used logger are not deleted, just removed from the
+#'   map.}
+#' \item{\code{getNamesOfRegisteredLogger()}}{Returns the registered logger
+#'   names as character vector.}
+#' \item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
+#'   logger as integer.}
+#' \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
+#' \item{\code{registerLogger(logger.id, logger)}}{Includes a new \code{logger} 
+#'   into the logger list with the \code{logger.id} as key.}
+#' }
+#' @examples
+#' # Define logger:
+#' lot.iters = IterationLogger$new(TRUE, 100)
+#' log.time = TimeLogger$new(FALSE, 20, "minutes")
+#' 
+#' # Create logger list:
+#' logger.list = LoggerList$new()
+#' 
+#' # Register new loggeR:
+#' logger.list$registerLogger("iteration", log.iters)
+#' logger.list$registerLogger("time", log.time)
+#' 
+#' # Print registered logger:
+#' logger.list$printRegisteredLogger()
+#' 
+#' # Important: The keys has to be unique:
+#' logger.list$registerLogger("iteration", log.iters)
+#' 
+#' # Still just two logger:
+#' logger.list$printRegisteredLogger()
+#' 
+#' # Remove all logger:
+#' logger.list$clearRegisteredLogger()
+#' 
+#' # Get number of registered logger:
+#' logger.list$getNumberOfRegisteredLogger()
+#'
 #' @export LoggerList
 NULL
 
+#' Greedy Optimizer
+#'
+#' This class defines a new object for the greedy optimizer. The optimizer
+#' just calculates for each base-learner the sum of squared errors and returns
+#' the base-learner with the smallest SSE.
+#'
+#' @format \code{\link{S4}} object.
+#' @name GreedyOptimizer
+#'
+#' @section Usage:
+#' \preformatted{
+#' GreedyOptimizer$new()
+#' }
+#'
+#' @section Details:
+#'
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
+#'
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' \describe{
+#' \item{\code{testOptimizer(response, factory_list)}}{Tests the optimizer
+#'   by iterating over all registered factories, calculating the SSE and
+#'   returns a list with the name of the best base-learner as well as the
+#'   estimated parameters}
+#' }
+#' @examples
+#' 
+#' # Define optimizer:
+#' optimizer = GreedyOptimizer()
+#'
 #' @export GreedyOptimizer
 NULL
 
+#' Main Compboost Class
+#'
+#' This class collects all parts such as the factory list or the used logger
+#' and passes them to \code{C++}. On the \code{C++} side is then the main
+#' algorithm. 
+#'
+#' @format \code{\link{S4}} object.
+#' @name Compboost
+#' 
+#' @section Usage:
+#' \preformatted{
+#' Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled, 
+#'   factory_list, loss, logger_list, optimizer)
+#' }
+#' 
+#' @section Arguments:
+#' \describe{
+#' \item{\code{response} [\code{numeric}]}{ 
+#'   Vector of the true values which should be modelled.
+#' }
+#' \item{\code{learning_rate} [\code{numeric(1)}]}{ 
+#'   The learning rate which is used to shrink the parameter in each iteration.
+#' }
+#' \item{\code{stop_if_all_stopper_fulfilled} [\code{logical(1)}]}{
+#'   Boolean to indicate which stopping stategy is used. If \code{TRUE} then
+#'   the algorithm stops if all registered logger stopper are fulfilled.
+#' }
+#' \item{\code{factory_list} [\code{BlearnerFactoryList} object]}{
+#'   List of base-learner factories from which one base-learner is selected
+#'   in each iteration by using the 
+#' }
+#' \item{\code{loss} [\code{Loss} object]}{
+#'   The loss which should be used to calculate the pseudo resudals in each
+#'   iteration.
+#' }
+#' \item{\code{logger_list} [\code{LoggerList} object]}{
+#'   The list with all registered logger which are used to track the algorithm.
+#' }
+#' \item{\code{optimizer} [\code{Optimizer} object]}{
+#'   The optimizer which is used to select in each iteration one good 
+#'   base-learner.
+#' }
+#' }
+#'
+#' @section Details:
+#'
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classcboost_1_1_compboost.html}.
+#'
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' \describe{
+#' \item{\code{train(trace)}}{Initial training of the model. The boolean
+#'   argument \code{trace} indicates if the logger progress should be printed
+#'   or not.}
+#' \item{\code{continueTraining(trace, logger_list)}}{Contine the training
+#'   by using an additional \code{logger_list}. The retraining is stopped if
+#'   the first logger says that the algorithm should be stopped.}
+#' \item{\code{getPrediction()}}{Get the inbag prediction which is done during
+#'   the fitting process.}
+#' \item{\code{getSelectedBaselearner()}}{Returns a character vector of how
+#'   the base-learner are selected.}
+#' \item{\code{getLoggerData()}}{Returns a list of all logged data. If the
+#'   algorithm is retrained, then the list contains for each training one
+#'   element.}
+#' \item{\code{getEstimatedParameter()}}{Returns a list with the estimated
+#'   parameter for base-learner which was selected at least once.}
+#' \item{\code{getParameterAtIteration(k)}}{Calculates the prediction at the
+#'   iteration \code{k}.}
+#' \item{\code{getParameterMatrix()}}{Calculates a matrix where row \code{i}
+#'   includes the parameter at iteration \code{i}. There are as many rows
+#'   as done iterations.}
+#' \item{\code{isTrained()}}{This function returns just a boolean value which
+#'   indicates if the inital training was already done.}
+#' \item{\code{predict(newdata)}}{Prediction on newdata organized within a 
+#'   list of source data objects. It is important that the names of the source
+#'   data objects matches those one that were used to define the factories.}
+#' \item{\code{predictAtIteration(newdata, k)}}{Prediction on newdata by using
+#'   another iteration \code{k}.}
+#' \item{\code{setToIteration(k)}}{Set the whole model to another iteration 
+#'   \code{k}. After calling this function all other elements such as the
+#'   parameters or the prediction are calculated corresponding to \code{k}.}
+#' \item{\code{summarizeCompboost()}}{Summarize the \code{Compboost} object.}
+#' }
+#' @examples
+#' 
+#' # Some data:
+#' df = mtcars
+#' df$mpg.cat = ifelse(df$mpg > 20, 1, -1)
+#' 
+#' # # Create new variable to check the polynomial baselearner with degree 2:
+#' # df$hp2 = df[["hp"]]^2
+#' 
+#' # Data for the baselearner are matrices:
+#' X.hp = as.matrix(df[["hp"]])
+#' X.wt = as.matrix(df[["wt"]])
+#' 
+#' # Target variable:
+#' y = df[["mpg.cat"]]
+#' 
+#' data.source.hp = InMemoryData$new(X.hp, "hp")
+#' data.source.wt = InMemoryData$new(X.wt, "wt")
+#' 
+#' data.target.hp1 = InMemoryData$new()
+#' data.target.hp2 = InMemoryData$new()
+#' data.target.wt1 = InMemoryData$new()
+#' data.target.wt2 = InMemoryData$new()
+#' 
+#' # List for oob logging:
+#' oob.data = list(data.source.hp, data.source.wt)
+#' 
+#' # List to test prediction on newdata:
+#' test.data = oob.data
+#' 
+#' # Factories:
+#' linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
+#' linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1)
+#' quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+#' spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+#' 
+#' # Create new factory list:
+#' factory.list = BlearnerFactoryList$new()
+#' 
+#' # Register factorys:
+#' factory.list$registerFactory(linear.factory.hp)
+#' factory.list$registerFactory(linear.factory.wt)
+#' factory.list$registerFactory(quadratic.factory.hp)
+#' factory.list$registerFactory(spline.factory.wt)
+#' 
+#' # Define loss:
+#' loss.bin = BinomialLoss$new()
+#' 
+#' # Define optimizer:
+#' optimizer = GreedyOptimizer$new()
+#' 
+#' ## Logger
+#' 
+#' # Define logger. We want just the iterations as stopper but also track the
+#' # time, inbag risk and oob risk:
+#' log.iterations  = IterationLogger$new(TRUE, 500)
+#' log.time        = TimeLogger$new(FALSE, 500, "microseconds")
+#' log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
+#' log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+#'
+#' # Define new logger list:
+#' logger.list = LoggerList$new()
+#' 
+#' # Register the logger:
+#' logger.list$registerLogger(" iteration.logger", log.iterations)
+#' logger.list$registerLogger("time.logger", log.time)
+#' logger.list$registerLogger("inbag.binomial", log.inbag)
+#' logger.list$registerLogger("oob.binomial", log.oob)
+#' 
+#' # Run compboost:
+#' # --------------
+#' 
+#' # Initialize object:
+#' cboost = Compboost$new(
+#'   response      = y,
+#'   learning_rate = 0.05,
+#'   stop_if_all_stopper_fulfilled = FALSE,
+#'   factory_list = factory.list,
+#'   loss         = loss.bin,
+#'   logger_list  = logger.list,
+#'   optimizer    = optimizer
+#' )
+#' 
+#' # Train the model (we want to print the trace):
+#' cboost$train(trace = TRUE)
+#' cboost
+#' 
+#' # Get estimated parameter:
+#' cboost$getEstimatedParameter()
+#' 
+#' # Get trace of selected base-learner:
+#' cboost$getSelectedBaselearner()
+#' 
+#' # Set to iteration 200:
+#' cboost$setToIteration(200)
+#' 
+#' # Get new parameter values:
+#' cboost$getEstimatedParameter()
+#'
 #' @export Compboost
 NULL
 

@@ -126,7 +126,7 @@ ignore.me = setMethod("show", "Rcpp_CustomCppBlearner", function (object) {
 })
 
 # ---------------------------------------------------------------------------- #
-# Factorys:
+# Factories:
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_PolynomialBlearnerFactory")
@@ -172,7 +172,7 @@ ignore.me = setMethod("show", "Rcpp_CustomCppBlearnerFactory", function (object)
 setClass("Rcpp_BlearnerFactoryList")
 ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
   cat("\n")
-  object$printRegisteredFactorys()
+  object$printRegisteredFactories()
   cat("\n\n")
   
   # For testing:
@@ -196,7 +196,7 @@ ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
 
 setClass("Rcpp_BinomialLoss")
 ignore.me = setMethod("show", "Rcpp_BinomialLoss", function (object) {
-  glueLoss("BinomialLoss", "log(1 + exp(-yf(x))", "Labels should be coded as -1 and 1!")
+  glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
 })
 
 setClass("Rcpp_CustomLoss")

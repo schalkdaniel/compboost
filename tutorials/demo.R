@@ -71,7 +71,7 @@ factory.list$registerFactory(quadratic.factory.hp)
 factory.list$registerFactory(spline.factory.wt)
 
 # Print the registered factorys:
-factory.list$printRegisteredFactorys()
+factory.list$printRegisteredFactories()
 
 # Print model.frame:
 factory.list$getModelFrame()

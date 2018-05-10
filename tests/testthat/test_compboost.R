@@ -44,12 +44,6 @@ test_that("Compboost loggs correctly", {
   factory.list$registerFactory(linear.factory.wt)
   factory.list$registerFactory(quadratic.factory.hp)
 
-  # Print the registered factorys:
-  # factory.list$printRegisteredFactorys()
-
-  # Print model.frame:
-  # factory.list$getModelFrame()
-
   # Use quadratic loss:
   loss.quadratic = QuadraticLoss$new()
 
@@ -146,12 +140,7 @@ test_that("compboost does the same as mboost", {
   factory.list$registerFactory(linear.factory.wt)
   factory.list$registerFactory(quadratic.factory.hp)
   
-  # Print the registered factorys:
-  # factory.list$printRegisteredFactorys()
-  
-  # Print model.frame:
-  # factory.list$getModelFrame()
-  
+
   # Use quadratic loss:
   loss.quadratic = QuadraticLoss$new()
 

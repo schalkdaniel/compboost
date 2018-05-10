@@ -44,12 +44,6 @@ test_that("Parameter plotter works", {
   factory.list$registerFactory(linear.factory.wt)
   factory.list$registerFactory(quadratic.factory.hp)
   
-  # Print the registered factorys:
-  # factory.list$printRegisteredFactorys()
-  
-  # Print model.frame:
-  # factory.list$getModelFrame()
-  
   # Use quadratic loss:
   loss.quadratic = QuadraticLoss$new()
   
