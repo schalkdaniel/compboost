@@ -63,6 +63,6 @@ TimeLogger$new(use_as_stopper, max_time, time_unit)
 log.time = TimeLogger$new(FALSE, 20, "minutes")
 
 # Summarize logger:
-log.oob.risk$summarizeLogger()
+log.time$summarizeLogger()
 
 }

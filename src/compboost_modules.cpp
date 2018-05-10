@@ -2508,7 +2508,7 @@ public:
 //' log.time = TimeLogger$new(FALSE, 20, "minutes")
 //' 
 //' # Summarize logger:
-//' log.oob.risk$summarizeLogger()
+//' log.time$summarizeLogger()
 //'
 //' @export TimeLogger
 class TimeLoggerWrapper : public LoggerWrapper
