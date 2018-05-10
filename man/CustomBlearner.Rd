@@ -2,27 +2,17 @@
 % Please edit documentation in R/RcppExports.R
 \name{CustomBlearner}
 \alias{CustomBlearner}
-\alias{CustomBlearner}
 \title{Create custom base-learner by using R functions.}
 \format{\code{\link{S4}} object.}
 \description{
 \code{CustomBlearner} creates a custom base-learner by using 
 \code{Rcpp::Function} to set \code{R} functions.
-
-\code{CustomCppBlearner} creates a custom base-learner by using 
-\code{Rcpp::XPtr} to set \code{C++} functions.
 }
 \section{Usage}{
 
 \preformatted{
 CustomBlearner$new(data_source, data_target, instantiateData, train,
   predict, extractParameter)
-}
-
-
-\preformatted{
-CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
-  predict_ptr)
 }
 }
 
@@ -50,25 +40,6 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
 \item{\code{extractParameter} [\code{function}]}{
   \code{R} function to extract the parameter of the object returend by
   \code{train}. For details see the \code{Details}.
-}
-}
-
-
-\describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
-  Data object which contains the source data.
-}
-\item{\code{data_target} [\code{Data} Object]}{ 
-  Data object which gets the transformed source data.
-}
-\item{\code{instantiate_data_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} instantiate data function.
-}
-\item{\code{train_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} train function.
-}
-\item{\code{predict_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} predict function.
 }
 }
 }
@@ -99,37 +70,14 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_blearner.html}.
-
-
-  For an example see the extending compboost vignette or the function
-  \code{getCustomCppExample}.
-  
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_cpp_blearner.html}.
 }
 
 \section{Fields}{
 
   This class doesn't contain public fields.
-
-
-  This class doesn't contain public fields.
 }
 
 \section{Methods}{
-
-\describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using 
-  a given \code{response}.}
-\item{\code{getParameter()}}{Get the estimated parameters.}
-\item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
-  object.}
-\item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modelling.}
-}
-
 
 \describe{
 \item{\code{train(response)}}{Predict parameters of the base-learner using 
@@ -175,26 +123,5 @@ bl.custom$train(y)
 
 # Get estimated parameter:
 bl.custom$getParameter()
-
-# Sample data:
-data.mat = cbind(1, 1:10)
-y = 2 + 3 * 1:10
-
-# Create new data object:
-data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target = InMemoryData$new()
-
-# Source the external pointer exposed by using XPtr:
-Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
-
-# Create new linear base-learner:
-bl.custom.cpp = CustomCppBlearner$new(data.source, data.target, dataFunSetter(),
-  trainFunSetter(), predictFunSetter())
-
-# Train the learner:
-bl.custom.cpp$train(y)
-
-# Get estimated parameter:
-bl.custom.cpp$getParameter()
 
 }
