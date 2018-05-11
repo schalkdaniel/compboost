@@ -52,14 +52,17 @@ This logger computes the risk for a given new dataset
 \eqn{\mathcal{D}_\mathrm{oob} = \{(x^{(i)},\ y^{(i)})\ |\ i \in I_\mathrm{oob}\}}
 and stores it into a vector. The OOB risk \eqn{\mathcal{R}_\mathrm{oob}} for 
 iteration \eqn{m} is calculated by:
-\deqn{\mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
-  L(y, \hat{f}^{[m]}(x))}
+\deqn{
+  \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+  L(y, \hat{f}^{[m]}(x))
+}
  
 \strong{Note:} 
   \itemize{
   
   \item 
     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+    
   \item 
     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
     done in two steps: 

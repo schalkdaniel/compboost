@@ -5,16 +5,22 @@
 \title{Quadratic loss for regression tasks.}
 \format{\code{\link{S4}} object.}
 \description{
-This loss can be used for regression with \eqn{y \in \mathbb{R}}.
+This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 }
 \details{
 \strong{Loss Function:}
-\deqn{L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2}
+\deqn{
+  L(y, f(x)) = \frac{1}{2}( y - f(x))^2
+}
 \strong{Gradient:}
-\deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y}
+\deqn{
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y
+}
 \strong{Initialization:}
-\deqn{\hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
- L\left(y^{(i)}, c\right) = \bar{y}}
+\deqn{
+  \hat{f}^{[0]}(x) = \mathrm{arg~min}{c\in\mathrm{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+  L\left(y^{(i)}, c\right) = \bar{y}
+}
 }
 \section{Usage}{
 

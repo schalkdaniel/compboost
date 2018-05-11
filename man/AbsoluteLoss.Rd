@@ -5,16 +5,22 @@
 \title{Absolute loss for regression tasks.}
 \format{\code{\link{S4}} object.}
 \description{
-This loss can be used for regression with \eqn{y \in \mathbb{R}}.
+This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 }
 \details{
 \strong{Loss Function:}
-\deqn{L(y, f(x)) = \left| y - f(x) \right|}
+\deqn{
+  L(y, f(x)) = | y - f(x)|
+}
 \strong{Gradient:}
-\deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right)}
+\deqn{
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}( f(x) - y)
+}
 \strong{Initialization:}
-\deqn{\hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
- L\left(y^{(i)}, c\right) = \mathrm{median}(y)}
+\deqn{
+  \hat{f}^{[0]}(x) = \mathrm{arg~min}_{c\in R}\ \frac{1}{n}\sum\limits_{i=1}^n
+  L(y^{(i)}, c) = \mathrm{median}(y)
+}
 }
 \section{Usage}{
 

@@ -13,8 +13,7 @@ Trained compboost object.}
 \item{legend}{[\code{logical(1)}] \cr
 Logical to specify if a legend should be plotted.}
 
-\item{...}{\cr
-Additional parameter given to plot.}
+\item{...}{Additional parameter given to plot.}
 }
 \description{
 This function can be used to print the trace of the parameters

@@ -41,19 +41,30 @@ This logger computes the risk for the given training data
 \eqn{\mathcal{D} = \{(x^{(i)},\ y^{(i)})\ |\ i \in \{1, \dots, n\}\}}
 and stores it into a vector. The empirical risk \eqn{\mathcal{R}} for 
 iteration \eqn{m} is calculated by:
-\deqn{\mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))}
+\deqn{
+  \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))
+}
 
-**Note:** 
-  - If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-  - The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
+\strong{Note:}
+\itemize{
+  \item 
+    If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+  
+  \item 
+    The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
     done in two steps: 
-       1. Calculate vector \code{risk_temp} of losses for every observation for 
-          given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-       2. Average over `risk_temp`.
-        
+      \enumerate{
+       \item 
+         Calculate vector \code{risk_temp} of losses for every observation for 
+         given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+       
+       \item 
+         Average over \code{risk_temp}.
+     }
+   }    
    This procedure ensures, that it is possible to e.g. use the AUC or any
    arbitrary performance measure for risk logging. This gives just one 
-   value for \eqn{risk_temp} and therefore the average equals the loss 
+   value for \code{risk_temp} and therefore the average equals the loss 
    function. If this is just a value (like for the AUC) then the value is 
    returned.  
 
@@ -70,7 +81,7 @@ iteration \eqn{m} is calculated by:
 \section{Methods}{
 
 \describe{
-\item{\code{summarizeLogger()}}{Summarize the logger object.}
+  \item{\code{summarizeLogger()}}{Summarize the logger object.}
 }
 }
 

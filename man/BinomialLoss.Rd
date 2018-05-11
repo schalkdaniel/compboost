@@ -11,13 +11,21 @@ here acts on
 }
 \details{
 \strong{Loss Function:}
-\deqn{L(y, f(x)) = \log\left\{1 + \exp\left(-2yf(x)\right)\right\}}
+\deqn{
+  L(y, f(x)) = \log(1 + \mathrm{exp}(-2yf(x)))
+}
 \strong{Gradient:}
-\deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)}}
+\deqn{
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \mathrm{exp}(2yf)}
+}
 \strong{Initialization:}
-\deqn{\hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right)}
+\deqn{
+  \hat{f}^{[0]}(x) = \frac{1}{2}\mathrm{log}(p / (1 - p))
+}
 with
-\deqn{p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i = 1\}}}
+\deqn{
+  p = \frac{1}{n}\sum\limits_{i=1}^n\mathrm{1}_{\{y^{(i)} = 1\}}
+}
 }
 \section{Usage}{
 

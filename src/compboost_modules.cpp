@@ -388,7 +388,7 @@ public:
 //' }
 //' \item{\code{n_knots} [\code{integer(1)}]}{
 //'   Number of \strong{inner knots}. To prefent weird behaviour on the edges
-//'   the inner knots are expanded by \eqn{\text{degree} - 1} additional knots. 
+//'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots. 
 //' }
 //' \item{\code{penalty} [\code{numeric(1)}]}{
 //'   Positive numeric value to specify the penalty parameter. Setting the 
@@ -1046,7 +1046,7 @@ public:
 //' }
 //' \item{\code{n_knots} [\code{integer(1)}]}{
 //'   Number of \strong{inner knots}. To prefent weird behaviour on the edges
-//'   the inner knots are expanded by \eqn{\text{degree} - 1} additional knots. 
+//'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots. 
 //' }
 //' \item{\code{penalty} [\code{numeric(1)}]}{
 //'   Positive numeric value to specify the penalty parameter. Setting the 
@@ -1590,15 +1590,21 @@ protected:
 
 //' Quadratic loss for regression tasks.
 //' 
-//' This loss can be used for regression with \eqn{y \in \mathbb{R}}. 
+//' This loss can be used for regression with \eqn{y \in \mathrm{R}}. 
 //' 
 //' \strong{Loss Function:}
-//' \deqn{L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2}
+//' \deqn{
+//'   L(y, f(x)) = \frac{1}{2}( y - f(x))^2
+//' }
 //' \strong{Gradient:}
-//' \deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y}
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y
+//' }
 //' \strong{Initialization:}
-//' \deqn{\hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
-//'  L\left(y^{(i)}, c\right) = \bar{y}}
+//' \deqn{
+//'   \hat{f}^{[0]}(x) = \mathrm{arg~min}{c\in\mathrm{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
+//'   L\left(y^{(i)}, c\right) = \bar{y}
+//' }
 //' 
 //' @format \code{\link{S4}} object.
 //' @name QuadraticLoss
@@ -1674,15 +1680,21 @@ public:
 
 //' Absolute loss for regression tasks.
 //' 
-//' This loss can be used for regression with \eqn{y \in \mathbb{R}}. 
+//' This loss can be used for regression with \eqn{y \in \mathrm{R}}. 
 //' 
 //' \strong{Loss Function:}
-//' \deqn{L(y, f(x)) = \left| y - f(x) \right|}
+//' \deqn{
+//'   L(y, f(x)) = | y - f(x)|
+//' }
 //' \strong{Gradient:}
-//' \deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right)}
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}( f(x) - y)
+//' }
 //' \strong{Initialization:}
-//' \deqn{\hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n
-//'  L\left(y^{(i)}, c\right) = \mathrm{median}(y)}
+//' \deqn{
+//'   \hat{f}^{[0]}(x) = \mathrm{arg~min}_{c\in R}\ \frac{1}{n}\sum\limits_{i=1}^n
+//'   L(y^{(i)}, c) = \mathrm{median}(y)
+//' }
 //' 
 //' @format \code{\link{S4}} object.
 //' @name AbsoluteLoss
@@ -1763,13 +1775,21 @@ public:
 //' \eqn{y \in \{-1, 1\}}.
 //' 
 //' \strong{Loss Function:}
-//' \deqn{L(y, f(x)) = \log\left\{1 + \exp\left(-2yf(x)\right)\right\}}
+//' \deqn{
+//'   L(y, f(x)) = \log(1 + \mathrm{exp}(-2yf(x)))
+//' }
 //' \strong{Gradient:}
-//' \deqn{\frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)}}
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \mathrm{exp}(2yf)}
+//' }
 //' \strong{Initialization:}
-//' \deqn{\hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right)}
+//' \deqn{
+//'   \hat{f}^{[0]}(x) = \frac{1}{2}\mathrm{log}(p / (1 - p))
+//' }
 //' with
-//' \deqn{p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i = 1\}}}
+//' \deqn{
+//'   p = \frac{1}{n}\sum\limits_{i=1}^n\mathrm{1}_{\{y^{(i)} = 1\}}
+//' }
 //' 
 //' @format \code{\link{S4}} object.
 //' @name BinomialLoss
@@ -2237,19 +2257,30 @@ public:
 //' \eqn{\mathcal{D} = \{(x^{(i)},\ y^{(i)})\ |\ i \in \{1, \dots, n\}\}}
 //' and stores it into a vector. The empirical risk \eqn{\mathcal{R}} for 
 //' iteration \eqn{m} is calculated by:
-//' \deqn{\mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))}
+//' \deqn{
+//'   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))
+//' }
 //' 
-//' **Note:** 
-//'   - If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-//'   - The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
+//' \strong{Note:}
+//' \itemize{
+//'   \item 
+//'     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+//'   
+//'   \item 
+//'     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
 //'     done in two steps: 
-//'        1. Calculate vector \code{risk_temp} of losses for every observation for 
-//'           given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-//'        2. Average over `risk_temp`.
-//'         
+//'       \enumerate{
+//'        \item 
+//'          Calculate vector \code{risk_temp} of losses for every observation for 
+//'          given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+//'        
+//'        \item 
+//'          Average over \code{risk_temp}.
+//'      }
+//'    }    
 //'    This procedure ensures, that it is possible to e.g. use the AUC or any
 //'    arbitrary performance measure for risk logging. This gives just one 
-//'    value for \eqn{risk_temp} and therefore the average equals the loss 
+//'    value for \code{risk_temp} and therefore the average equals the loss 
 //'    function. If this is just a value (like for the AUC) then the value is 
 //'    returned.  
 //' 
@@ -2262,7 +2293,7 @@ public:
 //' 
 //' @section Methods:
 //' \describe{
-//' \item{\code{summarizeLogger()}}{Summarize the logger object.}
+//'   \item{\code{summarizeLogger()}}{Summarize the logger object.}
 //' }
 //' @examples
 //' # Used loss:
@@ -2348,14 +2379,17 @@ public:
 //' \eqn{\mathcal{D}_\mathrm{oob} = \{(x^{(i)},\ y^{(i)})\ |\ i \in I_\mathrm{oob}\}}
 //' and stores it into a vector. The OOB risk \eqn{\mathcal{R}_\mathrm{oob}} for 
 //' iteration \eqn{m} is calculated by:
-//' \deqn{\mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
-//'   L(y, \hat{f}^{[m]}(x))}
+//' \deqn{
+//'   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+//'   L(y, \hat{f}^{[m]}(x))
+//' }
 //'  
 //' \strong{Note:} 
 //'   \itemize{
 //'   
 //'   \item 
 //'     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+//'     
 //'   \item 
 //'     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
 //'     done in two steps: 

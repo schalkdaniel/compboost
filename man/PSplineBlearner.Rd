@@ -31,7 +31,7 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 }
 \item{\code{n_knots} [\code{integer(1)}]}{
   Number of \strong{inner knots}. To prefent weird behaviour on the edges
-  the inner knots are expanded by \eqn{\text{degree} - 1} additional knots. 
+  the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots. 
 }
 \item{\code{penalty} [\code{numeric(1)}]}{
   Positive numeric value to specify the penalty parameter. Setting the 

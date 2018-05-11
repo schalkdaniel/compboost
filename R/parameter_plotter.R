@@ -47,7 +47,7 @@
 #'   Trained compboost object.
 #' @param legend [\code{logical(1)}] \cr
 #'   Logical to specify if a legend should be plotted.
-#' @param ... \cr
+#' @param ...
 #'   Additional parameter given to plot.
 #' @export
 
