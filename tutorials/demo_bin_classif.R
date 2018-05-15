@@ -6,6 +6,9 @@
 # Run Compboost
 # ---------------------------------------------------------------------------- #
 
+setwd("github_repos/compboost")
+devtools::load_all()
+
 # Prepare Data:
 # -------------
 
@@ -164,9 +167,3 @@ cboost
 # Confusion matrix:
 conf.mat = table(real = y, pred = ifelse(cboost$getPrediction() > 0, 1, -1))
 conf.mat
-
-# Store logger data and check if final auc is correct:
-log.data = cboost$getLoggerData()
-
-auc.loss$testLoss(y, cboost$getPrediction())
-log.data$logger.data[, log.data$logger.names == "inbag.auc"]

@@ -139,8 +139,8 @@ log.time.continue       = TimeLogger$new(FALSE, 500, "microseconds")
 logger.list.continue = LoggerList$new()
 
 # Register the logger:
-logger.list.continue$registerLogger(log.iterations.continue)
-logger.list.continue$registerLogger(log.time.continue)
+logger.list.continue$registerLogger("iterations", log.iterations.continue)
+logger.list.continue$registerLogger("time", log.time.continue)
 
 cboost$continueTraining(trace = TRUE, logger = logger.list.continue)
 
