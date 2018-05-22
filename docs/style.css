@@ -2,6 +2,7 @@
 body {
 	background-image: url("images/background.jpg");
 	margin-top: 16px;
+	text-align: justify;
     background-attachment: fixed;
     background-position: center; 
 }
@@ -242,4 +243,12 @@ hr {
     -o-transform-origin: 0 0;
     -webkit-transform-origin: 0 0;
     transform-origin: 0 0;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding: 5%;
 }

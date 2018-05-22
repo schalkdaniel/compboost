@@ -6,9 +6,14 @@ This repository is still under development. If you like you can follow the proce
 ## Installation
 
 #### Developer version:
+
 ```r
 devtools::install_github("schalkdaniel/compboost")
 ```
+
+## Usage
+
+For an introduction and overview about the functionality please visit the ![project page](https://schalkdaniel.github.io/compboost/).
 
 ## Road Map
 
@@ -96,14 +101,3 @@ devtools::install_github("schalkdaniel/compboost")
   is instantiated or not. We can do that once within the constructor. 
   Additionally, it should be more clear now what the member does since there is
   no hacky baselearner helper necessary to instantiate the data.
-
-
-## Idea
-
-- Everything should be as modular as possible (done by using polymorphism)
-
-## Usage
-
-- Fast usage via `R` API
-- Highly customizable usage via classes
-
