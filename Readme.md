@@ -13,7 +13,7 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Usage
 
-For an introduction and overview about the functionality please visit the ![project page](https://schalkdaniel.github.io/compboost/).
+For an introduction and overview about the functionality please visit the [project page](https://schalkdaniel.github.io/compboost/).
 
 ## Road Map
 
