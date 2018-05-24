@@ -21,7 +21,7 @@ body {
 
 /* Links inside the navbar */
 .navbar a {
-	font-family: Century Gothic;
+	font-family: 'Lato', helvetica, arial;
     float: left;
     display: block;
     color: #f2f2f2;
@@ -31,7 +31,7 @@ body {
     text-decoration: none;
 }
 .navbar b {
-	font-family: Century Gothic;
+	font-family: 'Lato', helvetica, arial;
     float: right;
     display: block;
     color: #f2f2f2;
@@ -60,7 +60,7 @@ a.badge:hover {
 }
 
 .navbar a.headerref {
-	font-family: Century Gothic;
+	font-family: 'Lato', helvetica, arial;
     float: right;
     display: block;
     color: #f2f2f2;
@@ -80,7 +80,7 @@ a.headerref:hover {
 	top: 100px;
 	left: 50px;
 	right: 50px;
-	font-family: Century Gothic;
+	font-family: 'Lato', helvetica, arial;
 	color: white;
 	font-size: 22px;
 	max-width: 1200px;
@@ -96,7 +96,7 @@ a.headerref:hover {
 	top: 100px;
 	left: 50px;
 	right: 50px;
-	font-family: Century Gothic;
+	font-family: 'Lato', helvetica, arial;
 	color: white;
 	font-size: 22px;
 	max-width: 1200px;
@@ -250,5 +250,9 @@ hr {
     margin-left: auto;
     margin-right: auto;
     width: 50%;
-    padding: 5%;
+}
+
+code {
+	background: rgba(10, 41, 35, 0.2) !important;
+	font-family: Consolas !important;
 }
