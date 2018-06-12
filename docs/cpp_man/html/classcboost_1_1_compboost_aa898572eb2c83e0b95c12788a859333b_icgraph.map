@@ -1,5 +1,5 @@
 <map id="cboost::Compboost::train" name="cboost::Compboost::train">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="196,5,339,47"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="196,71,339,112"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="387,71,529,112"/>
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="197,5,341,47"/>
+<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="197,71,341,112"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="389,71,533,112"/>
 </map>

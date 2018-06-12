@@ -1,12 +1,17 @@
 <map id="data::Data::getDataIdentifier" name="data::Data::getDataIdentifier">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="281,39,426,80"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="261,136,445,177"/>
-<area shape="rect" id="node7" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="257,201,450,243"/>
-<area shape="rect" id="node10" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="236,267,471,323"/>
-<area shape="rect" id="node11" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="246,347,461,403"/>
-<area shape="rect" id="node3" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="561,5,715,47"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a1779a0c89cf9da32b250c0c083631c58" title="cboost::Compboost::\lpredict" alt="" coords="567,71,709,112"/>
-<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="567,136,709,177"/>
-<area shape="rect" id="node8" href="$classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="533,201,743,243"/>
-<area shape="rect" id="node9" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="519,267,757,323"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="285,104,430,145"/>
+<area shape="rect" id="node9" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="265,235,450,276"/>
+<area shape="rect" id="node12" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="260,300,455,341"/>
+<area shape="rect" id="node15" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="240,366,475,422"/>
+<area shape="rect" id="node16" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="250,446,465,502"/>
+<area shape="rect" id="node3" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="555,39,730,80"/>
+<area shape="rect" id="node8" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="565,104,720,145"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="811,39,955,80"/>
+<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="1003,5,1147,47"/>
+<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="1003,71,1147,112"/>
+<area shape="rect" id="node7" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="1195,71,1339,112"/>
+<area shape="rect" id="node10" href="$classcboost_1_1_compboost.html#a1779a0c89cf9da32b250c0c083631c58" title="cboost::Compboost::\lpredict" alt="" coords="571,169,715,211"/>
+<area shape="rect" id="node11" href="$classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="571,235,715,276"/>
+<area shape="rect" id="node13" href="$classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="537,300,749,341"/>
+<area shape="rect" id="node14" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="523,366,763,422"/>
 </map>

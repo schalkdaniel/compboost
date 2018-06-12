@@ -1,126 +1,124 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.14"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>compboost: Framework for COMPonentwise BOOSTing</title>
-<link href="tabs.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="dynsections.js"></script>
-<link href="search/search.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="search/searchdata.js"></script>
-<script type="text/javascript" src="search/search.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-<script>
-function magnify(imgID, zoom) {
-  var img, glass, w, h, bw;
-  img = document.getElementById(imgID);
-  /* create magnifier glass: */
-  glass = document.createElement("DIV");
-  glass.setAttribute("class", "img-magnifier-glass");
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /* insert magnifier glass: */
-  img.parentElement.insertBefore(glass, img);
-  /* set background properties for the magnifier glass: */
-  glass.style.backgroundImage = "url('" + img.src + "')";
-  glass.style.backgroundRepeat = "no-repeat";
-  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-  /* Move glass by the left margin of the image: */
-  a = img.getBoundingClientRect();
-  glass.style.marginLeft = a.left + "px";
-  bw = 3;
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /* remove magnifier by default: */
-  glass.setAttribute("class", "nocursor");
-  /* execute a function when someone moves the magnifier glass over the image: */
-  glass.addEventListener("mousemove", moveMagnifier);
-  img.addEventListener("mousemove", moveMagnifier);
-  /* and also for touch screens: */
-  glass.addEventListener("touchmove", moveMagnifier);
-  img.addEventListener("touchmove", moveMagnifier);
-  /* remove magnifier when the curser isn't over the image: */
-  glass.addEventListener("mouseout", removeLoupe);
-  img.addEventListener("mouseout", removeLoupe);
-  function moveMagnifier(e) {
-	glass.setAttribute("class", "img-magnifier-glass");
-    var pos, x, y;
-    /*prevent any other actions that may occur when moving over the image*/
-    e.preventDefault();
-    /*get the cursor's x and y positions:*/
-    pos = getCursorPos(e);
-    x = pos.x;
-    y = pos.y;
-    /*prevent the magnifier glass from being positioned outside the image:*/
-    if (x > img.width - (w / zoom))  { x = img.width - (w / zoom); }
-    if (x < w / zoom)                { x = w / zoom; }
-    if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
-    if (y < h / zoom)                { y = h / zoom; }
-    /*set the position of the magnifier glass:*/
-    glass.style.left = (x - w) + "px";
-    glass.style.top = (y - h) + "px";
-    /*display what the magnifier glass "sees":*/
-    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+  <meta name="generator" content="Doxygen 1.8.14"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>compboost: Framework for COMPonentwise BOOSTing</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="search/searchdata.js"></script>
+  <script type="text/javascript" src="search/search.js"></script>
+  <link href='//fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  <script>
+    function magnify(imgID, zoom) {
+      var img, glass, w, h, bw;
+      img = document.getElementById(imgID);
+      /* create magnifier glass: */
+      glass = document.createElement("DIV");
+      glass.setAttribute("class", "img-magnifier-glass");
+      w = glass.offsetWidth / 2;
+      h = glass.offsetHeight / 2;
+      /* insert magnifier glass: */
+      img.parentElement.insertBefore(glass, img);
+      /* set background properties for the magnifier glass: */
+      glass.style.backgroundImage = "url('" + img.src + "')";
+      glass.style.backgroundRepeat = "no-repeat";
+      glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+      /* Move glass by the left margin of the image: */
+      a = img.getBoundingClientRect();
+      glass.style.marginLeft = a.left + "px";
+      bw = 3;
+      w = glass.offsetWidth / 2;
+      h = glass.offsetHeight / 2;
+      /* remove magnifier by default: */
+      glass.setAttribute("class", "nocursor");
+      /* execute a function when someone moves the magnifier glass over the image: */
+      glass.addEventListener("mousemove", moveMagnifier);
+      img.addEventListener("mousemove", moveMagnifier);
+      /* and also for touch screens: */
+      glass.addEventListener("touchmove", moveMagnifier);
+      img.addEventListener("touchmove", moveMagnifier);
+      /* remove magnifier when the curser isn't over the image: */
+      glass.addEventListener("mouseout", removeLoupe);
+      img.addEventListener("mouseout", removeLoupe);
+      function moveMagnifier(e) {
+       glass.setAttribute("class", "img-magnifier-glass");
+       var pos, x, y;
+       /*prevent any other actions that may occur when moving over the image*/
+       e.preventDefault();
+       /*get the cursor's x and y positions:*/
+       pos = getCursorPos(e);
+       x = pos.x;
+       y = pos.y;
+       /*prevent the magnifier glass from being positioned outside the image:*/
+       if (x > img.width - (w / zoom))  { x = img.width - (w / zoom); }
+       if (x < w / zoom)                { x = w / zoom; }
+       if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+       if (y < h / zoom)                { y = h / zoom; }
+       /*set the position of the magnifier glass:*/
+       glass.style.left = (x - w) + "px";
+       glass.style.top = (y - h) + "px";
+       /*display what the magnifier glass "sees":*/
+       glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+     }
+     function getCursorPos(e) {
+      var a, x = 0, y = 0;
+      e = e || window.event;
+      /*get the x and y positions of the image:*/
+      a = img.getBoundingClientRect();
+      /*calculate the cursor's x and y coordinates, relative to the image:*/
+      x = e.pageX - a.left;
+      y = e.pageY - a.top;
+      /*consider any page scrolling:*/
+      x = x - window.pageXOffset;
+      y = y - window.pageYOffset;
+      return {x : x, y : y};
+    }
+    function removeLoupe (e) {
+      glass.setAttribute("class", "nocursor");
+    }
   }
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    /*get the x and y positions of the image:*/
-    a = img.getBoundingClientRect();
-    /*calculate the cursor's x and y coordinates, relative to the image:*/
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    /*consider any page scrolling:*/
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
-  function removeLoupe (e) {
-    glass.setAttribute("class", "nocursor");
-  }
-}
 </script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
 });
 </script><script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="mystyle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-<div id="titlearea">
-<table cellspacing="0" cellpadding="0">
- <tbody>
- <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname"><a href="https://schalkdaniel.github.io/compboost/"><i class="fas fa-home"></i></a> <span style="display:inline-block; width: 10px;"></span> compboost
-   </div>
-  </td>
- </tr>
- </tbody>
-</table>
-</div>
-<!-- end header part --><!-- Generated by Doxygen 1.8.14 -->
+  <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+      <table cellspacing="0" cellpadding="0">
+       <tbody>
+         <tr style="height: 56px;">
+          <td id="projectalign" style="padding-left: 0.5em;">
+           <div id="projectname"><a href="https://schalkdaniel.github.io/compboost/"><i class="fas fa-home"></i></a> <span style="display:inline-block; width: 10px;"></span> compboost
+           </div>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+<!-- end header part --><!-- Generated by Doxygen 1.8.13 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'Search');
-/* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 $(function() {
   initMenu('',true,false,'search.php','Search');
   $(document).ready(function() { init_search(); });
 });
-/* @license-end */</script>
+</script>
 <div id="main-nav"></div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -327,16 +325,21 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph.png" border="0" usemap="#classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph" id="classdata_1_1_data_a1af63a4e5aa708de31e1ffdd727a4e16_icgraph">
-<area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="281,39,426,80"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="261,136,445,177"/>
-<area shape="rect" id="node7" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="257,201,450,243"/>
-<area shape="rect" id="node10" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="236,267,471,323"/>
-<area shape="rect" id="node11" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="246,347,461,403"/>
-<area shape="rect" id="node3" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="561,5,715,47"/>
-<area shape="rect" id="node5" href="classcboost_1_1_compboost.html#a1779a0c89cf9da32b250c0c083631c58" title="cboost::Compboost::\lpredict" alt="" coords="567,71,709,112"/>
-<area shape="rect" id="node6" href="classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="567,136,709,177"/>
-<area shape="rect" id="node8" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="533,201,743,243"/>
-<area shape="rect" id="node9" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="519,267,757,323"/>
+<area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="285,104,430,145"/>
+<area shape="rect" id="node9" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="265,235,450,276"/>
+<area shape="rect" id="node12" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="260,300,455,341"/>
+<area shape="rect" id="node15" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="240,366,475,422"/>
+<area shape="rect" id="node16" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="250,446,465,502"/>
+<area shape="rect" id="node3" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="555,39,730,80"/>
+<area shape="rect" id="node8" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="565,104,720,145"/>
+<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="811,39,955,80"/>
+<area shape="rect" id="node5" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="1003,5,1147,47"/>
+<area shape="rect" id="node6" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="1003,71,1147,112"/>
+<area shape="rect" id="node7" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="1195,71,1339,112"/>
+<area shape="rect" id="node10" href="classcboost_1_1_compboost.html#a1779a0c89cf9da32b250c0c083631c58" title="cboost::Compboost::\lpredict" alt="" coords="571,169,715,211"/>
+<area shape="rect" id="node11" href="classcboost_1_1_compboost.html#a6582a12bf1060750367219aeae395963" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="571,235,715,276"/>
+<area shape="rect" id="node13" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="537,300,749,341"/>
+<area shape="rect" id="node14" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="523,366,763,422"/>
 </map>
 </div>
 
@@ -374,11 +377,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph.png" border="0" usemap="#classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph" id="classdata_1_1_data_a0e928c49b31f803e7984cc24e2f73f70_icgraph">
-<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="209,41,402,83"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="188,107,423,163"/>
-<area shape="rect" id="node6" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="198,187,413,243"/>
-<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="485,5,695,47"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="471,71,709,127"/>
+<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="211,41,405,83"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="191,107,425,163"/>
+<area shape="rect" id="node6" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="201,187,415,243"/>
+<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="487,5,699,47"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="473,71,713,127"/>
 </map>
 </div>
 
@@ -404,11 +407,11 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph.png" border="0" usemap="#classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph" alt=""/></div>
 <map name="classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph" id="classdata_1_1_data_a62bcea680e1a7d1d4ecec60c111936dc_icgraph">
-<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="257,41,450,83"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="236,107,471,163"/>
-<area shape="rect" id="node6" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="246,187,461,243"/>
-<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="533,5,743,47"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="519,71,757,127"/>
+<area shape="rect" id="node2" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="260,41,455,83"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#a87a3247a9abe49009e1e951f25ed97cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="240,107,475,163"/>
+<area shape="rect" id="node6" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="250,187,465,243"/>
+<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="537,5,749,47"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="523,71,763,127"/>
 </map>
 </div>
 
@@ -586,15 +589,15 @@ Here is the caller graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="data_8h_source.html">data.h</a></li>
-<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="data_8cpp.html">data.cpp</a></li>
+<li>/home/daniel/github_repos/compboost/src/<a class="el" href="data_8h_source.html">data.h</a></li>
+<li>/home/daniel/github_repos/compboost/src/<a class="el" href="data_8cpp.html">data.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
+</a> 1.8.13
 </small></address>
 </body>
 </html>

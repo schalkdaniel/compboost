@@ -1,126 +1,124 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.14"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>compboost: Framework for COMPonentwise BOOSTing</title>
-<link href="tabs.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="dynsections.js"></script>
-<link href="search/search.css" rel="stylesheet" type="text/css"/>
-<script type="text/javascript" src="search/searchdata.js"></script>
-<script type="text/javascript" src="search/search.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
-<script>
-function magnify(imgID, zoom) {
-  var img, glass, w, h, bw;
-  img = document.getElementById(imgID);
-  /* create magnifier glass: */
-  glass = document.createElement("DIV");
-  glass.setAttribute("class", "img-magnifier-glass");
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /* insert magnifier glass: */
-  img.parentElement.insertBefore(glass, img);
-  /* set background properties for the magnifier glass: */
-  glass.style.backgroundImage = "url('" + img.src + "')";
-  glass.style.backgroundRepeat = "no-repeat";
-  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-  /* Move glass by the left margin of the image: */
-  a = img.getBoundingClientRect();
-  glass.style.marginLeft = a.left + "px";
-  bw = 3;
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /* remove magnifier by default: */
-  glass.setAttribute("class", "nocursor");
-  /* execute a function when someone moves the magnifier glass over the image: */
-  glass.addEventListener("mousemove", moveMagnifier);
-  img.addEventListener("mousemove", moveMagnifier);
-  /* and also for touch screens: */
-  glass.addEventListener("touchmove", moveMagnifier);
-  img.addEventListener("touchmove", moveMagnifier);
-  /* remove magnifier when the curser isn't over the image: */
-  glass.addEventListener("mouseout", removeLoupe);
-  img.addEventListener("mouseout", removeLoupe);
-  function moveMagnifier(e) {
-	glass.setAttribute("class", "img-magnifier-glass");
-    var pos, x, y;
-    /*prevent any other actions that may occur when moving over the image*/
-    e.preventDefault();
-    /*get the cursor's x and y positions:*/
-    pos = getCursorPos(e);
-    x = pos.x;
-    y = pos.y;
-    /*prevent the magnifier glass from being positioned outside the image:*/
-    if (x > img.width - (w / zoom))  { x = img.width - (w / zoom); }
-    if (x < w / zoom)                { x = w / zoom; }
-    if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
-    if (y < h / zoom)                { y = h / zoom; }
-    /*set the position of the magnifier glass:*/
-    glass.style.left = (x - w) + "px";
-    glass.style.top = (y - h) + "px";
-    /*display what the magnifier glass "sees":*/
-    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+  <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+  <meta name="generator" content="Doxygen 1.8.14"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>compboost: Framework for COMPonentwise BOOSTing</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="search/searchdata.js"></script>
+  <script type="text/javascript" src="search/search.js"></script>
+  <link href='//fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
+  <script>
+    function magnify(imgID, zoom) {
+      var img, glass, w, h, bw;
+      img = document.getElementById(imgID);
+      /* create magnifier glass: */
+      glass = document.createElement("DIV");
+      glass.setAttribute("class", "img-magnifier-glass");
+      w = glass.offsetWidth / 2;
+      h = glass.offsetHeight / 2;
+      /* insert magnifier glass: */
+      img.parentElement.insertBefore(glass, img);
+      /* set background properties for the magnifier glass: */
+      glass.style.backgroundImage = "url('" + img.src + "')";
+      glass.style.backgroundRepeat = "no-repeat";
+      glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+      /* Move glass by the left margin of the image: */
+      a = img.getBoundingClientRect();
+      glass.style.marginLeft = a.left + "px";
+      bw = 3;
+      w = glass.offsetWidth / 2;
+      h = glass.offsetHeight / 2;
+      /* remove magnifier by default: */
+      glass.setAttribute("class", "nocursor");
+      /* execute a function when someone moves the magnifier glass over the image: */
+      glass.addEventListener("mousemove", moveMagnifier);
+      img.addEventListener("mousemove", moveMagnifier);
+      /* and also for touch screens: */
+      glass.addEventListener("touchmove", moveMagnifier);
+      img.addEventListener("touchmove", moveMagnifier);
+      /* remove magnifier when the curser isn't over the image: */
+      glass.addEventListener("mouseout", removeLoupe);
+      img.addEventListener("mouseout", removeLoupe);
+      function moveMagnifier(e) {
+       glass.setAttribute("class", "img-magnifier-glass");
+       var pos, x, y;
+       /*prevent any other actions that may occur when moving over the image*/
+       e.preventDefault();
+       /*get the cursor's x and y positions:*/
+       pos = getCursorPos(e);
+       x = pos.x;
+       y = pos.y;
+       /*prevent the magnifier glass from being positioned outside the image:*/
+       if (x > img.width - (w / zoom))  { x = img.width - (w / zoom); }
+       if (x < w / zoom)                { x = w / zoom; }
+       if (y > img.height - (h / zoom)) { y = img.height - (h / zoom); }
+       if (y < h / zoom)                { y = h / zoom; }
+       /*set the position of the magnifier glass:*/
+       glass.style.left = (x - w) + "px";
+       glass.style.top = (y - h) + "px";
+       /*display what the magnifier glass "sees":*/
+       glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+     }
+     function getCursorPos(e) {
+      var a, x = 0, y = 0;
+      e = e || window.event;
+      /*get the x and y positions of the image:*/
+      a = img.getBoundingClientRect();
+      /*calculate the cursor's x and y coordinates, relative to the image:*/
+      x = e.pageX - a.left;
+      y = e.pageY - a.top;
+      /*consider any page scrolling:*/
+      x = x - window.pageXOffset;
+      y = y - window.pageYOffset;
+      return {x : x, y : y};
+    }
+    function removeLoupe (e) {
+      glass.setAttribute("class", "nocursor");
+    }
   }
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    /*get the x and y positions of the image:*/
-    a = img.getBoundingClientRect();
-    /*calculate the cursor's x and y coordinates, relative to the image:*/
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    /*consider any page scrolling:*/
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
-  function removeLoupe (e) {
-    glass.setAttribute("class", "nocursor");
-  }
-}
 </script>
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
-    extensions: ["tex2jax.js"],
-    jax: ["input/TeX","output/HTML-CSS"],
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
 });
 </script><script type="text/javascript" async src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 <link href="mystyle.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
-<div id="titlearea">
-<table cellspacing="0" cellpadding="0">
- <tbody>
- <tr style="height: 56px;">
-  <td id="projectalign" style="padding-left: 0.5em;">
-   <div id="projectname"><a href="https://schalkdaniel.github.io/compboost/"><i class="fas fa-home"></i></a> <span style="display:inline-block; width: 10px;"></span> compboost
-   </div>
-  </td>
- </tr>
- </tbody>
-</table>
-</div>
-<!-- end header part --><!-- Generated by Doxygen 1.8.14 -->
+  <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+      <table cellspacing="0" cellpadding="0">
+       <tbody>
+         <tr style="height: 56px;">
+          <td id="projectalign" style="padding-left: 0.5em;">
+           <div id="projectname"><a href="https://schalkdaniel.github.io/compboost/"><i class="fas fa-home"></i></a> <span style="display:inline-block; width: 10px;"></span> compboost
+           </div>
+         </td>
+       </tr>
+     </tbody>
+   </table>
+ </div>
+<!-- end header part --><!-- Generated by Doxygen 1.8.13 -->
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 var searchBox = new SearchBox("searchBox", "search",false,'Search');
-/* @license-end */
 </script>
 <script type="text/javascript" src="menudata.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
-/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
 $(function() {
   initMenu('',true,false,'search.php','Search');
   $(document).ready(function() { init_search(); });
 });
-/* @license-end */</script>
+</script>
 <div id="main-nav"></div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -354,21 +352,29 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_cgraph" id="classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="387,267,573,308"/>
-<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="196,204,339,245"/>
-<area shape="rect" id="node11" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="196,397,339,439"/>
-<area shape="rect" id="node4" href="classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="409,136,551,177"/>
-<area shape="rect" id="node6" href="classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="393,201,567,243"/>
-<area shape="rect" id="node8" href="classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="409,71,551,112"/>
-<area shape="rect" id="node5" href="classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="640,136,815,177"/>
-<area shape="rect" id="node7" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="621,202,833,258"/>
-<area shape="rect" id="node9" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="640,5,815,47"/>
-<area shape="rect" id="node10" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="645,71,810,112"/>
-<area shape="rect" id="node12" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="390,594,570,621"/>
-<area shape="rect" id="node13" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="407,332,553,373"/>
-<area shape="rect" id="node14" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="399,397,561,439"/>
-<area shape="rect" id="node15" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="393,463,567,504"/>
-<area shape="rect" id="node16" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="407,528,553,569"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="389,267,577,308"/>
+<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="197,204,341,245"/>
+<area shape="rect" id="node11" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="197,528,341,569"/>
+<area shape="rect" id="node4" href="classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="412,136,555,177"/>
+<area shape="rect" id="node6" href="classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="396,201,571,243"/>
+<area shape="rect" id="node8" href="classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="411,71,555,112"/>
+<area shape="rect" id="node5" href="classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="644,136,821,177"/>
+<area shape="rect" id="node7" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="625,202,840,258"/>
+<area shape="rect" id="node9" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="645,71,820,112"/>
+<area shape="rect" id="node10" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="649,5,816,47"/>
+<area shape="rect" id="node12" href="classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="406,593,561,635"/>
+<area shape="rect" id="node13" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="393,659,574,686"/>
+<area shape="rect" id="node14" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="410,711,557,752"/>
+<area shape="rect" id="node15" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="402,776,565,817"/>
+<area shape="rect" id="node16" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="396,841,571,883"/>
+<area shape="rect" id="node21" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="411,332,556,373"/>
+<area shape="rect" id="node22" href="classloggerlist_1_1_logger_list.html#a5fc042fd489ebd88c09c469763ee9faa" title="loggerlist::LoggerList\l::logCurrent" alt="" coords="412,397,555,439"/>
+<area shape="rect" id="node23" href="classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="412,463,555,504"/>
+<area shape="rect" id="node24" href="classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="412,528,555,569"/>
+<area shape="rect" id="node17" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="660,841,805,883"/>
+<area shape="rect" id="node19" href="classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="659,907,806,948"/>
+<area shape="rect" id="node20" href="classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="660,776,805,817"/>
+<area shape="rect" id="node18" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="888,849,1075,875"/>
 </map>
 </div>
 <div class="dynheader">
@@ -376,7 +382,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_icgraph.png" border="0" usemap="#classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_icgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_icgraph" id="classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_icgraph">
-<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="196,5,339,47"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="197,5,341,47"/>
 </map>
 </div>
 
@@ -418,7 +424,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537_cgraph" id="classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="196,5,371,47"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="197,5,372,47"/>
 </map>
 </div>
 
@@ -443,7 +449,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a1652d7fa10039beaee1998e640f1b68a_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a1652d7fa10039beaee1998e640f1b68a_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a1652d7fa10039beaee1998e640f1b68a_cgraph" id="classcboost_1_1_compboost_a1652d7fa10039beaee1998e640f1b68a_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a4b6d2d8b585148c71ed5b6055c9ab08c" title="blearnertrack::Baselearner\lTrack::getParameterMatrix" alt="" coords="196,5,372,47"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a4b6d2d8b585148c71ed5b6055c9ab08c" title="blearnertrack::Baselearner\lTrack::getParameterMatrix" alt="" coords="197,5,375,47"/>
 </map>
 </div>
 
@@ -469,7 +475,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a97b02aa81981e08658d896ff9798b5d0_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a97b02aa81981e08658d896ff9798b5d0_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a97b02aa81981e08658d896ff9798b5d0_cgraph" id="classcboost_1_1_compboost_a97b02aa81981e08658d896ff9798b5d0_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="212,5,424,61"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="215,5,429,61"/>
 </map>
 </div>
 
@@ -511,7 +517,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_ac66d4490e6539832d4d304a86db746dc_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_ac66d4490e6539832d4d304a86db746dc_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_ac66d4490e6539832d4d304a86db746dc_cgraph" id="classcboost_1_1_compboost_ac66d4490e6539832d4d304a86db746dc_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="213,5,400,47"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="213,5,401,47"/>
 </map>
 </div>
 
@@ -536,8 +542,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_cgraph" id="classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="196,5,371,47"/>
-<area shape="rect" id="node3" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="201,71,366,112"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="197,5,372,47"/>
+<area shape="rect" id="node3" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="201,71,368,112"/>
 </map>
 </div>
 <div class="dynheader">
@@ -545,8 +551,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_icgraph.png" border="0" usemap="#classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_icgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_icgraph" id="classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_icgraph">
-<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="196,5,339,47"/>
-<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="387,5,529,47"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="197,5,341,47"/>
+<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="389,5,533,47"/>
 </map>
 </div>
 
@@ -572,11 +578,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58_cgraph" id="classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="201,5,375,47"/>
-<area shape="rect" id="node3" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="207,71,369,112"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="196,136,380,177"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="196,201,380,243"/>
-<area shape="rect" id="node6" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="428,209,611,235"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="203,5,377,47"/>
+<area shape="rect" id="node3" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="209,71,371,112"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="197,136,383,177"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="197,201,383,243"/>
+<area shape="rect" id="node6" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="431,209,617,235"/>
 </map>
 </div>
 
@@ -612,11 +618,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963_cgraph" id="classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="196,5,408,61"/>
-<area shape="rect" id="node3" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="221,86,383,127"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="210,151,394,193"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="210,217,394,258"/>
-<area shape="rect" id="node6" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="456,224,639,251"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="197,5,412,61"/>
+<area shape="rect" id="node3" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="223,86,386,127"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="212,151,397,193"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="212,217,397,258"/>
+<area shape="rect" id="node6" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="460,224,647,251"/>
 </map>
 </div>
 
@@ -642,21 +648,29 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_cgraph" id="classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="679,17,865,59"/>
-<area shape="rect" id="node3" href="classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="212,72,355,113"/>
-<area shape="rect" id="node5" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="212,151,355,192"/>
-<area shape="rect" id="node12" href="classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="196,220,371,261"/>
-<area shape="rect" id="node14" href="classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="212,311,355,352"/>
-<area shape="rect" id="node4" href="classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="437,47,612,88"/>
-<area shape="rect" id="node6" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="453,164,596,205"/>
-<area shape="rect" id="node7" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="682,83,862,110"/>
-<area shape="rect" id="node8" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="699,135,845,176"/>
-<area shape="rect" id="node9" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="691,200,853,241"/>
-<area shape="rect" id="node10" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="685,265,859,307"/>
-<area shape="rect" id="node11" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="699,331,845,372"/>
-<area shape="rect" id="node13" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="419,230,631,286"/>
-<area shape="rect" id="node15" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="437,311,612,352"/>
-<area shape="rect" id="node16" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="442,376,607,417"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="683,5,871,47"/>
+<area shape="rect" id="node3" href="classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="213,120,356,161"/>
+<area shape="rect" id="node5" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="213,205,357,247"/>
+<area shape="rect" id="node20" href="classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="197,275,372,316"/>
+<area shape="rect" id="node22" href="classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="213,371,357,412"/>
+<area shape="rect" id="node4" href="classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="439,107,616,148"/>
+<area shape="rect" id="node6" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="455,224,599,265"/>
+<area shape="rect" id="node7" href="classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="699,71,854,112"/>
+<area shape="rect" id="node8" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="686,137,867,163"/>
+<area shape="rect" id="node9" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="703,188,850,229"/>
+<area shape="rect" id="node10" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="695,253,858,295"/>
+<area shape="rect" id="node11" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="689,319,864,360"/>
+<area shape="rect" id="node16" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="704,384,849,425"/>
+<area shape="rect" id="node17" href="classloggerlist_1_1_logger_list.html#a5fc042fd489ebd88c09c469763ee9faa" title="loggerlist::LoggerList\l::logCurrent" alt="" coords="705,449,848,491"/>
+<area shape="rect" id="node18" href="classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="705,515,848,556"/>
+<area shape="rect" id="node19" href="classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="705,580,848,621"/>
+<area shape="rect" id="node12" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="919,253,1065,295"/>
+<area shape="rect" id="node14" href="classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="919,319,1065,360"/>
+<area shape="rect" id="node15" href="classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="919,384,1065,425"/>
+<area shape="rect" id="node13" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="1113,261,1300,287"/>
+<area shape="rect" id="node21" href="classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="420,290,635,346"/>
+<area shape="rect" id="node23" href="classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="440,371,615,412"/>
+<area shape="rect" id="node24" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="444,436,611,477"/>
 </map>
 </div>
 <div class="dynheader">
@@ -664,7 +678,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_icgraph.png" border="0" usemap="#classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_icgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_icgraph" id="classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_icgraph">
-<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="196,5,339,47"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="197,5,341,47"/>
 </map>
 </div>
 
@@ -689,7 +703,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a7be8cb767054ece895d535c1f468233e_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a7be8cb767054ece895d535c1f468233e_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a7be8cb767054ece895d535c1f468233e_cgraph" id="classcboost_1_1_compboost_a7be8cb767054ece895d535c1f468233e_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="205,5,392,47"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="207,5,395,47"/>
 </map>
 </div>
 
@@ -731,12 +745,20 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_cgraph" id="classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_cgraph">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="199,5,379,32"/>
-<area shape="rect" id="node3" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="216,57,363,98"/>
-<area shape="rect" id="node4" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="208,122,371,163"/>
-<area shape="rect" id="node5" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="202,187,377,229"/>
-<area shape="rect" id="node6" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="217,253,362,294"/>
-<area shape="rect" id="node7" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="196,318,383,359"/>
+<area shape="rect" id="node2" href="classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="214,5,369,47"/>
+<area shape="rect" id="node3" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="201,71,382,98"/>
+<area shape="rect" id="node4" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="218,123,365,164"/>
+<area shape="rect" id="node5" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="210,188,373,229"/>
+<area shape="rect" id="node6" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="204,253,379,295"/>
+<area shape="rect" id="node11" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="219,319,364,360"/>
+<area shape="rect" id="node12" href="classloggerlist_1_1_logger_list.html#a5fc042fd489ebd88c09c469763ee9faa" title="loggerlist::LoggerList\l::logCurrent" alt="" coords="220,384,363,425"/>
+<area shape="rect" id="node13" href="classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="220,449,363,491"/>
+<area shape="rect" id="node14" href="classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="220,515,363,556"/>
+<area shape="rect" id="node15" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="197,580,385,621"/>
+<area shape="rect" id="node7" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="434,188,579,229"/>
+<area shape="rect" id="node9" href="classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="433,253,580,295"/>
+<area shape="rect" id="node10" href="classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="434,319,579,360"/>
+<area shape="rect" id="node8" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="628,195,815,222"/>
 </map>
 </div>
 <div class="dynheader">
@@ -744,9 +766,9 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_icgraph.png" border="0" usemap="#classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_icgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_icgraph" id="classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_icgraph">
-<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="196,5,339,47"/>
-<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="196,71,339,112"/>
-<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="387,71,529,112"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="197,5,341,47"/>
+<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="197,71,341,112"/>
+<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="389,71,533,112"/>
 </map>
 </div>
 
@@ -772,15 +794,23 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classcboost_1_1_compboost_a52ea04dec53c68865fdc4a79461d17cb_cgraph.png" border="0" usemap="#classcboost_1_1_compboost_a52ea04dec53c68865fdc4a79461d17cb_cgraph" alt=""/></div>
 <map name="classcboost_1_1_compboost_a52ea04dec53c68865fdc4a79461d17cb_cgraph" id="classcboost_1_1_compboost_a52ea04dec53c68865fdc4a79461d17cb_cgraph">
-<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#aa178f9d817a01240b6f39075f1f445f2" title="blearnertrack::Baselearner\lTrack::clearBaselearnerVector" alt="" coords="196,38,393,79"/>
-<area shape="rect" id="node3" href="classloss_1_1_loss.html#a65fe7dcd9370e6a549b8d1cc95fc8798" title="Constant initialization of the empirical risk. " alt="" coords="199,104,390,131"/>
-<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="223,155,366,197"/>
-<area shape="rect" id="node5" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="445,5,625,32"/>
-<area shape="rect" id="node6" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="461,57,608,98"/>
-<area shape="rect" id="node7" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="453,122,616,163"/>
-<area shape="rect" id="node8" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="447,187,622,229"/>
-<area shape="rect" id="node9" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="462,253,607,294"/>
-<area shape="rect" id="node10" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="441,318,628,359"/>
+<area shape="rect" id="node2" href="classblearnertrack_1_1_baselearner_track.html#aa178f9d817a01240b6f39075f1f445f2" title="blearnertrack::Baselearner\lTrack::clearBaselearnerVector" alt="" coords="197,169,396,211"/>
+<area shape="rect" id="node3" href="classloss_1_1_loss.html#a65fe7dcd9370e6a549b8d1cc95fc8798" title="Constant initialization of the empirical risk. " alt="" coords="201,235,393,262"/>
+<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="225,287,369,328"/>
+<area shape="rect" id="node5" href="classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="461,5,615,47"/>
+<area shape="rect" id="node6" href="classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="447,71,629,98"/>
+<area shape="rect" id="node7" href="classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="465,123,611,164"/>
+<area shape="rect" id="node8" href="classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="457,188,619,229"/>
+<area shape="rect" id="node9" href="classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="451,253,625,295"/>
+<area shape="rect" id="node14" href="classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="465,319,611,360"/>
+<area shape="rect" id="node15" href="classloggerlist_1_1_logger_list.html#a5fc042fd489ebd88c09c469763ee9faa" title="loggerlist::LoggerList\l::logCurrent" alt="" coords="467,384,609,425"/>
+<area shape="rect" id="node16" href="classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="467,449,609,491"/>
+<area shape="rect" id="node17" href="classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="467,515,609,556"/>
+<area shape="rect" id="node18" href="classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="444,580,632,621"/>
+<area shape="rect" id="node10" href="classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="681,188,826,229"/>
+<area shape="rect" id="node12" href="classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="680,253,827,295"/>
+<area shape="rect" id="node13" href="classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="681,319,826,360"/>
+<area shape="rect" id="node11" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="875,195,1061,222"/>
 </map>
 </div>
 
@@ -1074,15 +1104,15 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="compboost_8h_source.html">compboost.h</a></li>
-<li>C:/Users/schal/OneDrive/github_repos/compboost/src/<a class="el" href="compboost_8cpp.html">compboost.cpp</a></li>
+<li>/home/daniel/github_repos/compboost/src/<a class="el" href="compboost_8h_source.html">compboost.h</a></li>
+<li>/home/daniel/github_repos/compboost/src/<a class="el" href="compboost_8cpp.html">compboost.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.14
+</a> 1.8.13
 </small></address>
 </body>
 </html>

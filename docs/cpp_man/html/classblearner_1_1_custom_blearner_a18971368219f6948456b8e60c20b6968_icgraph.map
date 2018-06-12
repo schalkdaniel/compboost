@@ -1,3 +1,4 @@
 <map id="blearner::CustomBlearner::instantiateData" name="blearner::CustomBlearner::instantiateData">
-<area shape="rect" id="node2" href="$classblearner_1_1_custom_blearner.html#a401a479834eb3896260cb57b4551ceb4" title="blearner::CustomBlearner\l::predict" alt="" coords="223,5,392,47"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_custom_blearner.html#a401a479834eb3896260cb57b4551ceb4" title="blearner::CustomBlearner\l::predict" alt="" coords="236,5,407,47"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_custom_cpp_blearner.html#af2326171640e94c3a00f813781710208" title="blearner::CustomCppBlearner\l::predict" alt="" coords="224,71,419,112"/>
 </map>

@@ -4,7 +4,7 @@ body {
     background-position: center;
 	background-color: rgb(50, 50, 50);
 	color: white;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 div.contents {
@@ -73,7 +73,7 @@ span.comment {
 }
 
 p {
-    font-family: Century Gothic;
+    font-family: Lato, Century Gothic;
 }
 
 hr {
@@ -81,13 +81,13 @@ hr {
 }
 
 dt {
-    font-family: Century Gothic;
+    font-family: Lato, Century Gothic;
 }
 
 .title {
 	background-color: transparent;
 	color: white;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 	font-weight: bold;
 }
 
@@ -103,7 +103,7 @@ h2.groupheader {
     color: white;
     font-size: 32px;
     border-bottom: 2px solid white;
-    font-family: Century Gothic;
+    font-family: Lato, Century Gothic;
 }
 
 .paramname {
@@ -131,14 +131,14 @@ table.memberdecls {
 .sm-dox a, .sm-dox a:focus, .sm-dox a:active {
     color: white;
 	font-weight: normal;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 .sm-dox a:hover {
 	background-color: #444;
 	background-image: none;
 	color: rgb(220, 220, 220);
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 	text-shadow: none;
 }
 
@@ -154,12 +154,12 @@ table.memberdecls {
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
     box-shadow: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 .sm-nowrap ul {
 	background-image: none;
 	background-color: rgb(50, 50, 50);
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 
 }
 .sm-dox ul a:hover {
@@ -168,7 +168,7 @@ table.memberdecls {
     color: white;
     text-shadow: none;
     background-color: #333;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 .sm-dox ul a, .sm-dox ul a:focus, .sm-dox ul a:active {
     font-size: 12px;
@@ -177,7 +177,7 @@ table.memberdecls {
     text-shadow: none;
     background-color: #444;
     background-image: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 	color: white;
 }
 .sm-dox a, .sm-dox a:focus, .sm-dox a:active, .sm-dox a:hover, .sm-dox a.highlighted {
@@ -190,27 +190,27 @@ table.memberdecls {
 
 .memberdecls td, .fieldtable tr {
     color: rgb(220, 220, 220);
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 
 address {
     color: white;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 a {
     color: white;
     font-weight: normal;
     text-decoration: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 a:hover {
 	color: rgb(200, 200, 200);
     font-weight: normal;
     text-decoration: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 .sm-dox a.has-submenu {
@@ -230,12 +230,12 @@ a:hover {
 
 .directory td.entry {
     background-color: black;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 .directory td.desc {
     background-color: black;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 div.directory {
@@ -251,7 +251,7 @@ div.directory {
 }
 
 div.dynheader {
-    font-family: Century Gothic;
+    font-family: Lato, Century Gothic;
 }
 
 .contents a:visited {
@@ -272,7 +272,7 @@ div.dynheader {
     background-image: none;
     background-repeat: repeat-x;
     background-color: transparent;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 .memproto, dl.reflist dt {
@@ -294,11 +294,11 @@ div.dynheader {
     -moz-border-radius-topright: none;
     -webkit-box-shadow: none;
     -webkit-border-top-right-radius: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 .memdoc, dl.reflist dd {
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
     /* border-top: 1px solid #A8B8D9;   */
     /* border-left: 1px solid #A8B8D9;  */
     /* border-right: 1px solid #A8B8D9; */
@@ -348,6 +348,7 @@ div.dynheader {
     margin: 0px;
     padding: 0px;
 	background-color: rgba(255, 255, 255, 0.1);
+    font-family: Lato, Century Gothic;
 }
 
 .navpath li {
@@ -365,7 +366,7 @@ div.dynheader {
     outline: none;
     color: white;
     text-shadow: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
     font-weight: normal;
 }
 
@@ -375,7 +376,7 @@ div.dynheader {
     outline: none;
     color: rgb(220, 220, 220);
     text-shadow: none;
-	font-family: Century Gothic;
+	font-family: Lato, Century Gothic;
 }
 
 .directory .levels span {

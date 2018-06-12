@@ -1,0 +1,6 @@
+<map id="loggerlist::LoggerList::getStopperStatus" name="loggerlist::LoggerList::getStopperStatus">
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="196,39,340,80"/>
+<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="388,5,532,47"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="388,71,532,112"/>
+<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="580,71,724,112"/>
+</map>

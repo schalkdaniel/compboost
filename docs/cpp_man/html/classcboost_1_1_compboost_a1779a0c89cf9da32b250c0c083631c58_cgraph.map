@@ -1,7 +1,7 @@
 <map id="cboost::Compboost::predict" name="cboost::Compboost::predict">
-<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="201,5,375,47"/>
-<area shape="rect" id="node3" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="207,71,369,112"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="196,136,380,177"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="196,201,380,243"/>
-<area shape="rect" id="node6" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="428,209,611,235"/>
+<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="203,5,377,47"/>
+<area shape="rect" id="node3" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="209,71,371,112"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="197,136,383,177"/>
+<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="197,201,383,243"/>
+<area shape="rect" id="node6" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="431,209,617,235"/>
 </map>

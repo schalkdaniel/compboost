@@ -254,5 +254,6 @@ hr {
 
 code {
 	background: rgba(10, 41, 35, 0.2) !important;
-	font-family: Consolas !important;
+	font-family: Consolas, Monospace !important;
+	font-size: 18px;
 }
