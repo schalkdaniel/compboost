@@ -21,15 +21,6 @@ Compboost = R6::R6Class("Compboost",
       self$learning.rate = learning.rate
       self$bl.factory.list = BlearnerFactoryList$new()
     },
-    addBaseLearner = function(feature, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
-      if (self$is.initialized)
-        stop("No base-learners can be added after training is started")
-      private$bl.list[[id]] = list()
-      private$bl.list[[id]]$source = data.source$new(as.matrix(self$data[[feature]]), id)
-      private$bl.list[[id]]$target = data.target$new()
-      private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, ...)
-      self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
-    },
     addLogger = function(logger, use.as.stopper = FALSE, logger.id, ...) {
       private$l.list[[logger.id]] = logger$new(use.as.stopper = use.as.stopper, ...)
     },
@@ -38,6 +29,9 @@ Compboost = R6::R6Class("Compboost",
         return(length(self$model$getSelectedBaselearner()))
       else
         return(0)
+    },
+    addBaseLearner = function(features, type, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
+
     },
     train = function(iteration = 100, trace = TRUE) {
       if (!self$is.initialized) {
@@ -69,7 +63,21 @@ Compboost = R6::R6Class("Compboost",
       self$model = Compboost_internal$new(self$response, self$learning.rate,
         self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, self$logger.list, self$optimizer)
       self$is.initialized = TRUE
+    },
+    addSingleNumericBl = function(feature, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
+      if (self$is.initialized)
+        stop("No base-learners can be added after training is started")
+      id = paste(feature, id, sep = ".")
+      private$bl.list[[id]] = list()
+      private$bl.list[[id]]$source = data.source$new(as.matrix(self$data[[feature]]), id)
+      private$bl.list[[id]]$target = data.target$new()
+      private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, ...)
+      self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
+    },
+    addSingleCatBl = function(feature, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
+
     }
+
   )
 )
 
@@ -95,9 +103,9 @@ if (FALSE) {
 
   load_all()
   cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
-  cb$addBaseLearner("dist", "dist1", PolynomialBlearnerFactory, degree = 1)
-  cb$addBaseLearner("dist", "dist2", PolynomialBlearnerFactory, degree = 2)
-  cb$addBaseLearner("dist", "dist.spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
+  cb$addBaseLearner("dist", "linear", PolynomialBlearnerFactory, degree = 1)
+  cb$addBaseLearner("dist", "quadratic", PolynomialBlearnerFactory, degree = 2)
+  cb$addBaseLearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
   cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
   gc()
   cb$train(NULL)
