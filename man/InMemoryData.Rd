@@ -21,12 +21,12 @@ InMemoryData$new(data.mat, data.identifier)
 \section{Arguments}{
 
 \describe{
-\item{\code{data.mat} [\code{matrix}]}{ 
+\item{\code{data.mat} [\code{matrix}]}{
   Matrix containing the source data. This source data is later transformed
   to obtain the design matrix a base-learner uses for training.
 }
-\item{\code{data.identifier} [\code{character(1)}]}{ 
-  The name for the data specified in \code{data.mat}. Note that it is 
+\item{\code{data.identifier} [\code{character(1)}]}{
+  The name for the data specified in \code{data.mat}. Note that it is
   important to have the same data names for train and evaluation data.
 }
 }
@@ -39,15 +39,15 @@ InMemoryData$new(data.mat, data.identifier)
   just one dimensional splines till now. Additionally, using the polynomial
   base-learner the \code{data.mat} is used to control if a intercept should
   be fitted or not by adding a column containing just ones. It is also
-  possible to add other columns to estimate multiple features 
+  possible to add other columns to estimate multiple features
   simultaneously. Anyway, this is not recommended in terms of unbiased
   features selection.
-  
-  The \code{data.mat} and \code{data.identifier} of a target data object 
-  is set automatically by passing the source and target object to the 
-  desired factory. \code{getData()} can then be used to access the 
-  transformed data of the target object.  
-  
+
+  The \code{data.mat} and \code{data.identifier} of a target data object
+  is set automatically by passing the source and target object to the
+  desired factory. \code{getData()} can then be used to access the
+  transformed data of the target object.
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classdata_1_1_in_memory_data.html}.

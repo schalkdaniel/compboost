@@ -12,7 +12,7 @@ algorithm.
 \section{Usage}{
 
 \preformatted{
-Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled, 
+Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
   factory_list, loss, logger_list, optimizer)
 }
 }
@@ -20,10 +20,10 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 \section{Arguments}{
 
 \describe{
-\item{\code{response} [\code{numeric}]}{ 
+\item{\code{response} [\code{numeric}]}{
   Vector of the true values which should be modelled.
 }
-\item{\code{learning_rate} [\code{numeric(1)}]}{ 
+\item{\code{learning_rate} [\code{numeric(1)}]}{
   The learning rate which is used to shrink the parameter in each iteration.
 }
 \item{\code{stop_if_all_stopper_fulfilled} [\code{logical(1)}]}{
@@ -32,7 +32,7 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 }
 \item{\code{factory_list} [\code{BlearnerFactoryList} object]}{
   List of base-learner factories from which one base-learner is selected
-  in each iteration by using the 
+  in each iteration by using the
 }
 \item{\code{loss} [\code{Loss} object]}{
   The loss which should be used to calculate the pseudo resudals in each
@@ -42,7 +42,7 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
   The list with all registered logger which are used to track the algorithm.
 }
 \item{\code{optimizer} [\code{Optimizer} object]}{
-  The optimizer which is used to select in each iteration one good 
+  The optimizer which is used to select in each iteration one good
   base-learner.
 }
 }
@@ -86,12 +86,12 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
   as done iterations.}
 \item{\code{isTrained()}}{This function returns just a boolean value which
   indicates if the inital training was already done.}
-\item{\code{predict(newdata)}}{Prediction on newdata organized within a 
+\item{\code{predict(newdata)}}{Prediction on newdata organized within a
   list of source data objects. It is important that the names of the source
   data objects matches those one that were used to define the factories.}
 \item{\code{predictAtIteration(newdata, k)}}{Prediction on newdata by using
   another iteration \code{k}.}
-\item{\code{setToIteration(k)}}{Set the whole model to another iteration 
+\item{\code{setToIteration(k)}}{Set the whole model to another iteration
   \code{k}. After calling this function all other elements such as the
   parameters or the prediction are calculated corresponding to \code{k}.}
 \item{\code{summarizeCompboost()}}{Summarize the \code{Compboost} object.}

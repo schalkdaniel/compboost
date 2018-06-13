@@ -7,7 +7,7 @@
 \description{
 \code{BlearnerFactoryList} creates an object in which base-learner factories
 can be registered. This object can then be passed to compboost as set of
-base-learner which is used by the optimizer to get the new best 
+base-learner which is used by the optimizer to get the new best
 base-learner.
 }
 \section{Usage}{
@@ -19,7 +19,7 @@ BlearnerFactoryList$new()
 
 \section{Details}{
 
-     
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerlist_1_1_baselearner_factory_list.html}.

@@ -5,7 +5,7 @@
 \title{Create custom cpp base-learner by using cpp functions and external pointer.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomCppBlearner} creates a custom base-learner by using 
+\code{CustomCppBlearner} creates a custom base-learner by using
 \code{Rcpp::XPtr} to set \code{C++} functions.
 }
 \section{Usage}{
@@ -19,10 +19,10 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
+\item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{ 
+\item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
 \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
@@ -41,7 +41,7 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
 
   For an example see the extending compboost vignette or the function
   \code{getCustomCppExample}.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_cpp_blearner.html}.
@@ -55,11 +55,11 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using 
+\item{\code{train(response)}}{Predict parameters of the base-learner using
   a given \code{response}.}
 \item{\code{getParameter()}}{Get the estimated parameters.}
 \item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
   object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}

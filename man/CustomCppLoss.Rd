@@ -5,7 +5,7 @@
 \title{Create custom cpp losses by using cpp functions and external pointer.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomCppLoss} creates a custom loss by using 
+\code{CustomCppLoss} creates a custom loss by using
 \code{Rcpp::XPtr} to set \code{C++} functions.
 }
 \section{Usage}{
@@ -34,7 +34,7 @@ CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
 
   For an example see the extending compboost vignette or the function
   \code{getCustomCppExample(example = "loss")}.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
@@ -50,9 +50,9 @@ CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
 \describe{
 \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
   true response and a corresponding prediction.}
-\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
   loss function for a given true response and a corresponding prediction.}
-\item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+\item{\code{testconstantInitializer(truth)}}{Calculates the constant
   initialization of a given vector of true values.}
 }
 }

@@ -5,7 +5,7 @@
 \title{Create custom base-learner by using R functions.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomBlearner} creates a custom base-learner by using 
+\code{CustomBlearner} creates a custom base-learner by using
 \code{Rcpp::Function} to set \code{R} functions.
 }
 \section{Usage}{
@@ -19,10 +19,10 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
+\item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{ 
+\item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
 \item{\code{instantiateData} [\code{function}]}{
@@ -30,7 +30,7 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
   \code{Details}.
 }
 \item{\code{train} [\code{function}]}{
-  \code{R} function to train the base-learner on the target data. For 
+  \code{R} function to train the base-learner on the target data. For
   details see the \code{Details}.
 }
 \item{\code{predict} [\code{function}]}{
@@ -47,26 +47,26 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
 \section{Details}{
 
   The functions must have the following structure:
-  
-  \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument 
+
+  \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
   \code{X} and a matrix as return object.
-  
-  \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y} 
+
+  \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
   and a matrix argument \code{X}. The target data is used in \code{X} while
-  \code{y} contains the response. The function can return any \code{R} 
+  \code{y} contains the response. The function can return any \code{R}
   object which is stored within a \code{SEXP}.
-  
-  \code{predict(model, newdata) { ... return (prediction) }} The returned 
+
+  \code{predict(model, newdata) { ... return (prediction) }} The returned
   object of the \code{train} function is passed to the \code{model}
   argument while \code{newdata} contains a new matrix used for predicting.
-  
+
   \code{extractParameter() { ... return (parameters) }} Again, \code{model}
   contains the object returned by \code{train}. The returned object must be
-  a matrix containing the estimated parameter. If no parameter should be 
+  a matrix containing the estimated parameter. If no parameter should be
   estimated one can return \code{NA}.
-  
+
   For an example see the \code{Examples}.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_blearner.html}.
@@ -80,11 +80,11 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using 
+\item{\code{train(response)}}{Predict parameters of the base-learner using
   a given \code{response}.}
 \item{\code{getParameter()}}{Get the estimated parameters.}
 \item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
   object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}

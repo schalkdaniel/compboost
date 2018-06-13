@@ -5,14 +5,14 @@
 \title{Logger class to log the out of bag risk}
 \format{\code{\link{S4}} object.}
 \description{
-This class loggs the out of bag risk for a specific loss function. It is 
+This class loggs the out of bag risk for a specific loss function. It is
 also possible to use custom losses to log performance measures. For details
 see the usecase or extending compboost vignette.
 }
 \section{Usage}{
 
 \preformatted{
-OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data, 
+OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
   oob_response)
 }
 }
@@ -33,13 +33,13 @@ OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
   returns \code{TRUE}.
 }
 \item{\code{oob_data} [\code{list}]}{
-  A list which contains data source objects which corresponds to the 
+  A list which contains data source objects which corresponds to the
   source data of each registered factory. The source data objects should
   contain the out of bag data. This data is then used to calculate the
   prediction in each step.
 }
 \item{\code{oob_response} [\code{numeric}]}{
-  Vector which contains the response for the out of bag data given within 
+  Vector which contains the response for the out of bag data given within
   the \code{list}.
 }
 }
@@ -47,41 +47,41 @@ OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
 
 \section{Details}{
 
-  
-This logger computes the risk for a given new dataset 
+
+This logger computes the risk for a given new dataset
 \eqn{\mathcal{D}_\mathrm{oob} = \{(x^{(i)},\ y^{(i)})\ |\ i \in I_\mathrm{oob}\}}
-and stores it into a vector. The OOB risk \eqn{\mathcal{R}_\mathrm{oob}} for 
+and stores it into a vector. The OOB risk \eqn{\mathcal{R}_\mathrm{oob}} for
 iteration \eqn{m} is calculated by:
 \deqn{
-  \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+  \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}}
   L(y, \hat{f}^{[m]}(x))
 }
- 
-\strong{Note:} 
+
+\strong{Note:}
   \itemize{
-  
-  \item 
+
+  \item
     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-    
-  \item 
+
+  \item
     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
-    done in two steps: 
+    done in two steps:
       \enumerate{
-       
-      \item 
-        Calculate vector \code{risk_temp} of losses for every observation for 
+
+      \item
+        Calculate vector \code{risk_temp} of losses for every observation for
         given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-       
-      \item 
+
+      \item
         Average over \code{risk_temp}.
      }
    }
-     
+
    This procedure ensures, that it is possible to e.g. use the AUC or any
-   arbitrary performance measure for risk logging. This gives just one 
-   value for \eqn{risk_temp} and therefore the average equals the loss 
-   function. If this is just a value (like for the AUC) then the value is 
-   returned.  
+   arbitrary performance measure for risk logging. This gives just one
+   value for \eqn{risk_temp} and therefore the average equals the loss
+   function. If this is just a value (like for the AUC) then the value is
+   returned.
 
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit

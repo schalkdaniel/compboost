@@ -4,12 +4,12 @@ Title: C++ Implementation of Componentwise Boosting
 Version: 0.1.0
 Author: Daniel Schalk [aut, cre]
 Maintainer: Daniel Schalk <d-schalk@t-online.de>
-Description: A C++ implementation of component-wise boosting. The idea is to 
-    patch all components that are implemented as class together. This 
-    gives the user maximal flexiblity. In addition, the main classes can be 
-    extended with custom functions using R or C++. Using cutom R functions will 
-    slow down the whole algorithm. Nevertheless, it is possible to do some 
-    prototyping within R for custom base-learner and implement then in C++ 
+Description: A C++ implementation of component-wise boosting. The idea is to
+    patch all components that are implemented as class together. This
+    gives the user maximal flexiblity. In addition, the main classes can be
+    extended with custom functions using R or C++. Using cutom R functions will
+    slow down the whole algorithm. Nevertheless, it is possible to do some
+    prototyping within R for custom base-learner and implement then in C++
     without recompiling the whole package.
 License: GPL (>= 3)
 Encoding: UTF-8
@@ -19,7 +19,8 @@ Imports:
     Rcpp (>= 0.11.2),
     RcppArmadillo,
     methods,
-    glue
+    glue,
+    R6
 LinkingTo:
     Rcpp,
     RcppArmadillo
@@ -35,7 +36,7 @@ Suggests:
 RcppModules:
     baselearner_module,
     compboost_module,
-    loss_module, 
+    loss_module,
     baselearner_module,
     baselearner_factory_module,
     baselearner_list_module,
