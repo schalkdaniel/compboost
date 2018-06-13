@@ -20,7 +20,8 @@ Imports:
     RcppArmadillo,
     methods,
     glue,
-    R6
+    R6,
+    checkmate
 LinkingTo:
     Rcpp,
     RcppArmadillo
