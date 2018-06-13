@@ -33,9 +33,11 @@ Compboost = R6::R6Class("Compboost",
     addBaselearner = function(features, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
       if (self$is.initialized)
         stop("No base-learners can be added after training is started")
+#      if (!is.list(features))
+#        features = list(features)
       for(feature in features) {
-        id = paste(feature, id, sep = ".")
-        private$addSingleBl(feature, id, bl.factory, data.source, data.target, ...)
+        id.feat = paste(feature, id, sep = ".")
+        private$addSingleBl(feature, id.feat, bl.factory, data.source, data.target, ...)
       }
     },
     train = function(iteration = 100, trace = TRUE) {
@@ -116,8 +118,9 @@ if (FALSE) {
 
   load_all()
   cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
+  cars$foo = rnorm(50)
   cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
-  cb$addBaselearner("dist", "linear", PolynomialBlearnerFactory, degree = 1)
+  cb$addBaselearner(c("dist", "foo"), "linear", PolynomialBlearnerFactory, degree = 1)
   cb$addBaselearner("dist", "quadratic", PolynomialBlearnerFactory, degree = 2)
   cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
   cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
