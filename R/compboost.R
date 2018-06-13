@@ -84,6 +84,8 @@ Compboost = R6::R6Class("Compboost",
       private$bl.list[[id]]$target = data.target$new()
       private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, ...)
       self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
+      private$bl.list[[id]]$source = NULL
+
     },
     addSingleCatBl = function(data.column, id, bl.factory, data.source, data.target, ...) {
       private$bl.list[[id]] = list()
