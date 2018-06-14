@@ -1,5 +1,5 @@
 ---
-title: "Component-wise Boosting with compboost"
+title: "The S4 Class System of Compboost"
 author: "Daniel Schalk"
 date: "`r Sys.Date()`"
 output: 
@@ -7,7 +7,7 @@ output:
     css: compboost.css
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{compboost intro}
+  %\VignetteIndexEntry{compboost S4 class system}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
