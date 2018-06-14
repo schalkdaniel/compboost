@@ -2,7 +2,11 @@ Package: compboost
 Type: Package
 Title: C++ Implementation of Componentwise Boosting
 Version: 0.1.0
-Author: Daniel Schalk [aut, cre]
+Authors@R: c(
+    person("Daniel", "Schalk", email = "daniel.schalk@stat.uni-muenchen.de", role = "cre"),
+    person("Janek", "Thomas", email = "janek.thomas@stat.uni-muenchen.de", role = "aut"))
+Author: Daniel Schalk [aut, cre],
+  Janek Thomas [aut]
 Maintainer: Daniel Schalk <d-schalk@t-online.de>
 Description: A C++ implementation of component-wise boosting. The idea is to
     patch all components that are implemented as class together. This

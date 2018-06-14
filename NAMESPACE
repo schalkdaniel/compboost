@@ -3,6 +3,7 @@
 export(AbsoluteLoss)
 export(BinomialLoss)
 export(BlearnerFactoryList)
+export(Compboost)
 export(Compboost_internal)
 export(CustomBlearner)
 export(CustomBlearnerFactory)

@@ -2837,7 +2837,7 @@ RCPP_MODULE(optimizer_module)
 //' algorithm.
 //'
 //' @format \code{\link{S4}} object.
-//' @name Compboost
+//' @name Compboost_internal
 //'
 //' @section Usage:
 //' \preformatted{
@@ -2990,7 +2990,7 @@ RCPP_MODULE(optimizer_module)
 //' # --------------
 //'
 //' # Initialize object:
-//' cboost = Compboost$new(
+//' cboost = Compboost_internal$new(
 //'   response      = y,
 //'   learning_rate = 0.05,
 //'   stop_if_all_stopper_fulfilled = FALSE,

@@ -439,7 +439,7 @@ the algorithm should stop when the first stopper is fulfilled:
 
 ```{r}
 # Initialize object:
-cboost = Compboost$new(
+cboost = Compboost_internal$new(
   response      = response[idx.train],
   learning_rate = 0.05,
   stop_if_all_stopper_fulfilled = FALSE,
