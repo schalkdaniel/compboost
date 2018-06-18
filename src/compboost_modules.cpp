@@ -938,6 +938,7 @@ protected:
 //'
 //' @section Usage:
 //' \preformatted{
+//' PolynomialBlearnerFactory$new(data_source, data_target, degree)
 //' PolynomialBlearnerFactory$new(data_source, data_target, degree, intercept)
 //' }
 //'
