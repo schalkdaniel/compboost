@@ -5,7 +5,7 @@
 \title{Create customloss by using R functions.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomLoss} creates a custom loss by using 
+\code{CustomLoss} creates a custom loss by using
 \code{Rcpp::Function} to set \code{R} functions.
 }
 \section{Usage}{
@@ -18,7 +18,7 @@ CustomLoss$new(lossFun, gradientFun, initFun)
 \section{Arguments}{
 
 \describe{
-\item{\code{lossFun} [\code{function}]}{ 
+\item{\code{lossFun} [\code{function}]}{
   \code{R} function to calculate the loss. For details see the
   \code{Details}.
 }
@@ -27,7 +27,7 @@ CustomLoss$new(lossFun, gradientFun, initFun)
   \code{Details}.
 }
 \item{\code{initFun} [\code{function}]}{
-  \code{R} function to calculate the constant initialization. For 
+  \code{R} function to calculate the constant initialization. For
   details see the \code{Details}.
 }
 }
@@ -36,24 +36,24 @@ CustomLoss$new(lossFun, gradientFun, initFun)
 \section{Details}{
 
   The functions must have the following structure:
-  
-  \code{lossFun(truth, prediction) { ... return (loss) }} With a vector 
-  argument \code{truth} containing the real values and a vector of 
-  predictions \code{prediction}. The function must return a vector 
+
+  \code{lossFun(truth, prediction) { ... return (loss) }} With a vector
+  argument \code{truth} containing the real values and a vector of
+  predictions \code{prediction}. The function must return a vector
   containing the loss for each component.
-  
-  \code{gradientFun(truth, prediction) { ... return (grad) }} With a vector 
-  argument \code{truth} containing the real values and a vector of 
-  predictions \code{prediction}. The function must return a vector 
+
+  \code{gradientFun(truth, prediction) { ... return (grad) }} With a vector
+  argument \code{truth} containing the real values and a vector of
+  predictions \code{prediction}. The function must return a vector
   containing the gradient of the loss for each component.
-  
-  \code{initFun(truth) { ... return (init) }} With a vector 
-  argument \code{truth} containing the real values. The function must 
-  return a numeric value containing the offset for the constant 
+
+  \code{initFun(truth) { ... return (init) }} With a vector
+  argument \code{truth} containing the real values. The function must
+  return a numeric value containing the offset for the constant
   initialization.
-  
+
   For an example see the \code{Examples}.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
@@ -69,9 +69,9 @@ CustomLoss$new(lossFun, gradientFun, initFun)
 \describe{
 \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
   true response and a corresponding prediction.}
-\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
   loss function for a given true response and a corresponding prediction.}
-\item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+\item{\code{testconstantInitializer(truth)}}{Calculates the constant
   initialization of a given vector of true values.}
 }
 }

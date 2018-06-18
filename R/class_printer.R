@@ -47,7 +47,7 @@ glueLoss = function (name, definition = NULL, additional.desc = "")
   } else {
     definition = paste0("Loss function: y = ", definition)
   }
-  
+
   ignore.me = glue::glue("
 
     {name} Loss:
@@ -68,9 +68,9 @@ glueLoss = function (name, definition = NULL, additional.desc = "")
 
 setClass("Rcpp_InMemoryData")
 ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
-  
+
   cat("\n")
-  
+
   if (object$getIdentifier() == "") {
     # data.type = "target"
     cat("Empty data object which can be used as target data.")
@@ -79,9 +79,9 @@ ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
     cat("Source Data: In memory class of feature ", object$getIdentifier(), ".")
     cat("\n             Note that using this class as target will override data specified before.")
   }
-  
+
   cat("\n\n")
-  
+
   return ("InMemoryDataPrinter")
 })
 
@@ -94,7 +94,7 @@ ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
-  
+
   return ("PolynomialBlearnerPrinter")
 })
 
@@ -103,7 +103,7 @@ ignore.me = setMethod("show", "Rcpp_PSplineBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
-  
+
   return ("PSplineBlearnerPrinter")
 })
 
@@ -112,7 +112,7 @@ ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
-  
+
   return ("CustomBlearnerPrinter")
 })
 
@@ -121,7 +121,7 @@ ignore.me = setMethod("show", "Rcpp_CustomCppBlearner", function (object) {
   cat("\n")
   object$summarizeBaselearner()
   cat("\n\n")
-  
+
   return ("CustomCppBlearnerPrinter")
 })
 
@@ -134,7 +134,7 @@ ignore.me = setMethod("show", "Rcpp_PolynomialBlearnerFactory", function (object
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
-  
+
   return ("PolynomialBlearnerFactoryPrinter")
 })
 
@@ -143,7 +143,7 @@ ignore.me = setMethod("show", "Rcpp_PSplineBlearnerFactory", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
-  
+
   return ("PSplineBlearnerFactoryPrinter")
 })
 
@@ -152,7 +152,7 @@ ignore.me = setMethod("show", "Rcpp_CustomBlearnerFactory", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
-  
+
   return ("CustomBlearnerFactoryPrinter")
 })
 
@@ -161,7 +161,7 @@ ignore.me = setMethod("show", "Rcpp_CustomCppBlearnerFactory", function (object)
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
-  
+
   return ("CustomCppBlearnerFactoryPrinter")
 })
 
@@ -174,7 +174,7 @@ ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
   cat("\n")
   object$printRegisteredFactories()
   cat("\n\n")
-  
+
   # For testing:
   return(invisible("BlearnerFactoryListPrinter"))
 })
@@ -218,7 +218,7 @@ ignore.me = setMethod("show", "Rcpp_IterationLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
-  
+
   return ("IterationLoggerPrinter")
 })
 
@@ -227,7 +227,7 @@ ignore.me = setMethod("show", "Rcpp_InbagRiskLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
-  
+
   return ("InbagRiskLoggerPrinter")
 })
 
@@ -236,7 +236,7 @@ ignore.me = setMethod("show", "Rcpp_OobRiskLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
-  
+
   return ("OobRiskLoggerPrinter")
 })
 
@@ -245,7 +245,7 @@ ignore.me = setMethod("show", "Rcpp_TimeLogger", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
-  
+
   return ("TimeLoggerPrinter")
 })
 
@@ -262,7 +262,7 @@ ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
     object$printRegisteredLogger()
   }
   cat("\n\n")
-  
+
   return ("LoggerListPrinter")
 })
 
@@ -276,7 +276,7 @@ ignore.me = setMethod("show", "Rcpp_GreedyOptimizer", function (object) {
   cat("Greedy optimizer! Optmizing over all baselearner in each iteration and",
     "choose the one with the lowest SSE.\n")
   cat("\n\n")
-  
+
   return (invisible("GreedyOptimizerPrinter"))
 })
 
@@ -285,11 +285,11 @@ ignore.me = setMethod("show", "Rcpp_GreedyOptimizer", function (object) {
 # Compboost:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_Compboost")
-ignore.me = setMethod("show", "Rcpp_Compboost", function (object) {
+setClass("Rcpp_Compboost_internal")
+ignore.me = setMethod("show", "Rcpp_Compboost_internal", function (object) {
   cat("\n")
   object$summarizeCompboost()
   cat("\n\n")
-  
-  return (invisible("CompboostPrinter"))
+
+  return (invisible("CompboostInternalPrinter"))
 })

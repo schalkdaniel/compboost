@@ -2,18 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{CustomCppBlearnerFactory}
 \alias{CustomCppBlearnerFactory}
-\title{Create custom cpp base-learner factory by using cpp functions and external 
+\title{Create custom cpp base-learner factory by using cpp functions and external
 pointer.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomCppBlearnerFactory} creates a custom base-learner factory by 
-  setting custom \code{C++} functions. This factory object can be registered 
+\code{CustomCppBlearnerFactory} creates a custom base-learner factory by
+  setting custom \code{C++} functions. This factory object can be registered
   within a base-learner list and then used for training.
 }
 \section{Usage}{
 
 \preformatted{
-CustomCppBlearnerFactory$new(data_source, data_target, instantiate_data_ptr, 
+CustomCppBlearnerFactory$new(data_source, data_target, instantiate_data_ptr,
   train_ptr, predict_ptr)
 }
 }
@@ -21,10 +21,10 @@ CustomCppBlearnerFactory$new(data_source, data_target, instantiate_data_ptr,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
+\item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{ 
+\item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
 \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
@@ -43,7 +43,7 @@ CustomCppBlearnerFactory$new(data_source, data_target, instantiate_data_ptr,
 
   For an example see the extending compboost vignette or the function
   \code{getCustomCppExample}.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_cpp_blearner_factory.html}.
@@ -78,7 +78,7 @@ data.target = InMemoryData$new()
 Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 
 # Create new linear base-learner:
-custom.cpp.factory = CustomCppBlearnerFactory$new(data.source, data.target, 
+custom.cpp.factory = CustomCppBlearnerFactory$new(data.source, data.target,
   dataFunSetter(), trainFunSetter(), predictFunSetter())
 
 # Get the transformed data:

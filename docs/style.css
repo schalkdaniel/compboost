@@ -144,7 +144,8 @@ highlight {
 	width: auto;
 	overflow: hidden;
 	margin-top: 20px;
-	}​
+	}​​
+
 
 	.fa {
 		color: white;
@@ -216,10 +217,20 @@ highlight {
 		text-align: center;
 	}
 	.col-right {
-		disply: table-cell;
+		display: table-cell;
 		padding: 16px;
 		width: auto;
 		font-size: 18px;
+	}
+
+	.col-left-p {
+		display: table-cell;
+		width: 20%;
+	}
+	.col-right-p {
+		display: table-cell;
+		width: auto;
+		text-align: left;
 	}
 
 	hr {    
@@ -250,7 +261,11 @@ highlight {
 		-o-transform: scale(0.75);
 		-webkit-transform: scale(0.75);
 		transform: scale(0.75);
+<<<<<<< HEAD
+		
+=======
 
+>>>>>>> 779878566eeb833808e701f6f7b446cc96aff976
 		-ms-transform-origin: 0 0;
 		-moz-transform-origin: 0 0;
 		-o-transform-origin: 0 0;

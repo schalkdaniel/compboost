@@ -1,5 +1,5 @@
 ---
-title: "Component-wise Boosting with compboost"
+title: "The S4 Class System of Compboost"
 author: "Daniel Schalk"
 date: "`r Sys.Date()`"
 output: 
@@ -7,7 +7,7 @@ output:
     css: compboost.css
 bibliography: bibliography.bib
 vignette: >
-  %\VignetteIndexEntry{compboost intro}
+  %\VignetteIndexEntry{compboost S4 class system}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -439,7 +439,7 @@ the algorithm should stop when the first stopper is fulfilled:
 
 ```{r}
 # Initialize object:
-cboost = Compboost$new(
+cboost = Compboost_internal$new(
   response      = response[idx.train],
   learning_rate = 0.05,
   stop_if_all_stopper_fulfilled = FALSE,

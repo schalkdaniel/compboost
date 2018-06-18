@@ -2,19 +2,19 @@ context("Printer works")
 
 test_that("data printer works", {
   X = as.matrix(1:10)
-  
+
   data.source = InMemoryData$new(X, "x")
   data.target = InMemoryData$new()
-  
+
   tc = textConnection(NULL, "w")
   sink(tc)
-  
+
   test.source = show(data.source)
   test.target = show(data.target)
-  
+
   sink()
   close(tc)
-  
+
   expect_equal(test.source, "InMemoryDataPrinter")
   expect_equal(test.target, "InMemoryDataPrinter")
 })
@@ -78,11 +78,11 @@ test_that("Baselearner printer works", {
 
   x = 1:10
   X = matrix(x, ncol = 1)
-  
+
   data.source = InMemoryData$new(X, "myvariable")
   data.target = InMemoryData$new()
 
-  
+
   # Polynomial Baselearner:
   # ---------------------------------
   linear = PolynomialBlearner$new(data.source, data.target, 1)
@@ -97,22 +97,22 @@ test_that("Baselearner printer works", {
 
   expect_equal(linear.printer, "PolynomialBlearnerPrinter")
 
-  
+
   # Spline Baselearner:
   # ---------------------------------
-  
+
   spline.learner = PSplineBlearner$new(data.source, data.target, 3, 5, 2.5, 2)
-  
+
   tc = textConnection(NULL, "w")
   sink(tc)
-  
+
   spline.printer = show(spline.learner)
-  
+
   sink()
   close(tc)
-  
+
   expect_equal(spline.printer, "PSplineBlearnerPrinter")
-  
+
   # Custom Baselearner:
   # ---------------------------------
   instantiateData = function (X)
@@ -129,7 +129,7 @@ test_that("Baselearner printer works", {
     return(model)
   }
 
-  custom.blearner = CustomBlearner$new(data.source, data.target, 
+  custom.blearner = CustomBlearner$new(data.source, data.target,
     instantiateData, trainFun, predictFun, extractParameter)
 
   tc = textConnection(NULL, "w")
@@ -200,7 +200,7 @@ test_that("Baselearner printer works", {
     }'
   )
 
-  custom.cpp.blearner = CustomCppBlearner$new(data.source, data.target, 
+  custom.cpp.blearner = CustomCppBlearner$new(data.source, data.target,
     dataFunSetter(), trainFunSetter(), predictFunSetter())
 
 
@@ -222,7 +222,7 @@ test_that("Baselearner factory printer works", {
 
   X.hp = cbind(1, df[["hp"]])
   X.hp.sp = as.matrix(df[["hp"]])
-  
+
   data.source    = InMemoryData$new(X.hp, "hp")
   data.source.sp = InMemoryData$new(X.hp.sp, "hp")
   data.target    = InMemoryData$new()
@@ -244,17 +244,17 @@ test_that("Baselearner factory printer works", {
   # Spline Baselearner Factory:
   # ------------------------------------
   spline.factory = PSplineBlearnerFactory$new(data.source.sp, data.target, 3, 5, 2.5, 2)
-  
+
   tc = textConnection(NULL, "w")
   sink(tc)
-  
+
   spline.printer = show(spline.factory)
-  
+
   sink()
   close(tc)
-  
+
   expect_equal(spline.printer, "PSplineBlearnerFactoryPrinter")
-  
+
   # Custom Baselearner Factory:
   # ------------------------------------
   instantiateData = function (X)
@@ -272,7 +272,7 @@ test_that("Baselearner factory printer works", {
   }
 
   # Create fatorys is very similar:
-  custom.factory = CustomBlearnerFactory$new(data.source, data.target, 
+  custom.factory = CustomBlearnerFactory$new(data.source, data.target,
     instantiateData, trainFun, predictFun, extractParameter)
 
   tc = textConnection(NULL, "w")
@@ -344,7 +344,7 @@ test_that("Baselearner factory printer works", {
     }'
   )
 
-  custom.cpp.factory = CustomCppBlearnerFactory$new(data.source, data.target, 
+  custom.cpp.factory = CustomCppBlearnerFactory$new(data.source, data.target,
     dataFunSetter(), trainFunSetter(), predictFunSetter())
 
   tc = textConnection(NULL, "w")
@@ -375,7 +375,7 @@ test_that("Optimizer printer works", {
 })
 
 test_that("Logger(List) printer works", {
-  
+
   loss.quadratic = QuadraticLoss$new()
 
   eval.oob.test = list(
@@ -434,53 +434,53 @@ test_that("Logger(List) printer works", {
 test_that("Compboost printer works", {
 
   df = mtcars
-  
+
   # Create new variable to check the polynomial baselearner with degree 2:
   df$hp2 = df[["hp"]]^2
-  
+
   # Data for compboost:
   X.hp = as.matrix(df[["hp"]], ncol = 1)
   X.wt = as.matrix(df[["wt"]], ncol = 1)
-  
+
   y = df[["mpg"]]
-  
+
   data.source.hp = InMemoryData$new(X.hp, "hp")
   data.source.wt = InMemoryData$new(X.wt, "wt")
-  
+
   data.target.hp1 = InMemoryData$new()
   data.target.hp2 = InMemoryData$new()
   data.target.wt  = InMemoryData$new()
-  
+
   eval.oob.test = list(data.source.hp, data.source.wt)
-  
+
   # Hyperparameter for the algorithm:
   learning.rate = 0.05
   iter.max = 500
-  
+
   # Prepare compboost:
   # ------------------
-  
+
   # Create new linear baselearner of hp and wt:
   linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
   linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1)
-  
+
   # Create new quadratic baselearner of hp:
   quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
-  
+
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()
-  
+
   # Register factorys:
   factory.list$registerFactory(linear.factory.hp)
   factory.list$registerFactory(linear.factory.wt)
   factory.list$registerFactory(quadratic.factory.hp)
-  
+
   # Use quadratic loss:
   loss.quadratic = QuadraticLoss$new()
-  
+
   # Use the greedy optimizer:
   optimizer = GreedyOptimizer$new()
-  
+
   # Define logger. We want just the iterations as stopper but also track the
   # time:
   log.iterations = IterationLogger$new(TRUE, iter.max)
@@ -489,7 +489,7 @@ test_that("Compboost printer works", {
   log.time.min   = TimeLogger$new(TRUE, 1, "minutes")
   log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.01)
   log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y)
-  
+
   logger.list = LoggerList$new()
   logger.list$registerLogger("iterations", log.iterations)
   logger.list$registerLogger("time.ms", log.time.ms)
@@ -497,15 +497,15 @@ test_that("Compboost printer works", {
   logger.list$registerLogger("time.min", log.time.min)
   logger.list$registerLogger("inbag.risk", log.inbag)
   logger.list$registerLogger("oob.risk", log.oob)
-  
+
   # logger.list$printRegisteredLogger()
-  
+
   # Run compboost:
   # --------------
-  
+
   # Initialize object (Response, learning rate, stop if all stopper are fulfilled?,
   # factory list, used loss, logger list):
-  cboost = Compboost$new(
+  cboost = Compboost_internal$new(
     response      = y,
     learning_rate = learning.rate,
     stop_if_all_stopper_fulfilled = FALSE,
@@ -525,6 +525,6 @@ test_that("Compboost printer works", {
   sink()
   close(tc)
 
-  expect_equal(cboost.printer, "CompboostPrinter")
+  expect_equal(cboost.printer, "CompboostInternalPrinter")
 
 })

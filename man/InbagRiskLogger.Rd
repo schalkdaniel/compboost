@@ -36,10 +36,10 @@ InbagRiskLogger$new(use_as_stopper, used_loss, eps_for_break)
 
 \section{Details}{
 
-  
+
 This logger computes the risk for the given training data
 \eqn{\mathcal{D} = \{(x^{(i)},\ y^{(i)})\ |\ i \in \{1, \dots, n\}\}}
-and stores it into a vector. The empirical risk \eqn{\mathcal{R}} for 
+and stores it into a vector. The empirical risk \eqn{\mathcal{R}} for
 iteration \eqn{m} is calculated by:
 \deqn{
   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))
@@ -47,26 +47,26 @@ iteration \eqn{m} is calculated by:
 
 \strong{Note:}
 \itemize{
-  \item 
+  \item
     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-  
-  \item 
+
+  \item
     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
-    done in two steps: 
+    done in two steps:
       \enumerate{
-       \item 
-         Calculate vector \code{risk_temp} of losses for every observation for 
+       \item
+         Calculate vector \code{risk_temp} of losses for every observation for
          given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-       
-       \item 
+
+       \item
          Average over \code{risk_temp}.
      }
-   }    
+   }
    This procedure ensures, that it is possible to e.g. use the AUC or any
-   arbitrary performance measure for risk logging. This gives just one 
-   value for \code{risk_temp} and therefore the average equals the loss 
-   function. If this is just a value (like for the AUC) then the value is 
-   returned.  
+   arbitrary performance measure for risk logging. This gives just one
+   value for \code{risk_temp} and therefore the average equals the loss
+   function. If this is just a value (like for the AUC) then the value is
+   returned.
 
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit

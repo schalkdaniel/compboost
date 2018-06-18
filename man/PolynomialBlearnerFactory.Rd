@@ -19,13 +19,13 @@ PolynomialBlearnerFactory$new(data_source, data_target, degree)
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
+\item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{ 
+\item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
-\item{\code{degree} [\code{integer(1)}]}{ 
+\item{\code{degree} [\code{integer(1)}]}{
   This argument is used for transforming the source data. Each element is
   taken to the power of the \code{degree} argument.
 }
@@ -34,11 +34,11 @@ PolynomialBlearnerFactory$new(data_source, data_target, degree)
 
 \section{Details}{
 
-  The polynomial base-learner factory takes any matrix which the user wants 
-  to pass the number of columns indicates how much parameter are estimated. 
+  The polynomial base-learner factory takes any matrix which the user wants
+  to pass the number of columns indicates how much parameter are estimated.
   Note that the intercept isn't added by default. To get an intercept add a
   column of ones to the source data matrix.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_polynomial_blearner_factory.html}.

@@ -5,8 +5,8 @@
 \title{Create custom base-learner factory by using R functions.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomBlearnerFactory} creates a custom base-learner factory by 
-  setting custom \code{R} functions. This factory object can be registered 
+\code{CustomBlearnerFactory} creates a custom base-learner factory by
+  setting custom \code{R} functions. This factory object can be registered
   within a base-learner list and then used for training.
 }
 \section{Usage}{
@@ -20,10 +20,10 @@ CustomBlearnerFactory$new(data_source, data_target, instantiateData, train,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
+\item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{ 
+\item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
 \item{\code{instantiateData} [\code{function}]}{
@@ -31,7 +31,7 @@ CustomBlearnerFactory$new(data_source, data_target, instantiateData, train,
   \code{Details}.
 }
 \item{\code{train} [\code{function}]}{
-  \code{R} function to train the base-learner on the target data. For 
+  \code{R} function to train the base-learner on the target data. For
   details see the \code{Details}.
 }
 \item{\code{predict} [\code{function}]}{
@@ -48,26 +48,26 @@ CustomBlearnerFactory$new(data_source, data_target, instantiateData, train,
 \section{Details}{
 
   The function must have the following structure:
-  
-  \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument 
+
+  \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
   \code{X} and a matrix as return object.
-  
-  \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y} 
+
+  \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
   and a matrix argument \code{X}. The target data is used in \code{X} while
-  \code{y} contains the response. The function can return any \code{R} 
+  \code{y} contains the response. The function can return any \code{R}
   object which is stored within a \code{SEXP}.
-  
-  \code{predict(model, newdata) { ... return (prediction) }} The returned 
+
+  \code{predict(model, newdata) { ... return (prediction) }} The returned
   object of the \code{train} function is passed to the \code{model}
   argument while \code{newdata} contains a new matrix used for predicting.
-  
+
   \code{extractParameter() { ... return (parameters) }} Again, \code{model}
   contains the object returned by \code{train}. The returned object must be
-  a matrix containing the estimated parameter. If no parameter should be 
+  a matrix containing the estimated parameter. If no parameter should be
   estimated one can return \code{NA}.
-  
+
   For an example see the \code{Examples}.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_blearner_factory.html}.
@@ -113,7 +113,7 @@ extractParameter = function (model) {
 }
 
 # Create new custom linear base-learner factory:
-custom.lin.factory = CustomBlearnerFactory$new(data.source, data.target, 
+custom.lin.factory = CustomBlearnerFactory$new(data.source, data.target,
   instantiateDataFun, trainFun, predictFun, extractParameter)
 
 # Get the transformed data:

@@ -33,8 +33,8 @@ AbsoluteLoss$new(offset)
 \section{Arguments}{
 
 \describe{
-\item{\code{offset} [\code{numeric(1)}]}{ 
-  Numerical value which can be used to set a custom offset. If so, this 
+\item{\code{offset} [\code{numeric(1)}]}{
+  Numerical value which can be used to set a custom offset. If so, this
   value is returned instead of the loss optimal initialization.
 }
 }
@@ -42,7 +42,7 @@ AbsoluteLoss$new(offset)
 
 \section{Details}{
 
-     
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
@@ -58,9 +58,9 @@ AbsoluteLoss$new(offset)
 \describe{
 \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
   true response and a corresponding prediction.}
-\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of 
+\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
   loss function for a given true response and a corresponding prediction.}
-\item{\code{testconstantInitializer(truth)}}{Calculates the constant 
+\item{\code{testconstantInitializer(truth)}}{Calculates the constant
   initialization of a given vector of true values.}
 }
 }

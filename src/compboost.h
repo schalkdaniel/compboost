@@ -65,16 +65,6 @@
  * devtools::install_github("schalkdaniel/compboost")
  * ```
  * 
- * \section class_diagram Class Diagram
- *
- * @htmlonly
- * <div class="img-magnifier-container">
- * <img id="classdiagram" SRC="../class_diagram.png" width="800" height="492"></div>
- * </div>
- * <script>
- * magnify("classdiagram", 3);
- * </script>
- * @endhtmlonly
  * 
  */
 

@@ -39,7 +39,7 @@ LoggerList$new()
 \item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
   logger as integer.}
 \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
-\item{\code{registerLogger(logger.id, logger)}}{Includes a new \code{logger} 
+\item{\code{registerLogger(logger.id, logger)}}{Includes a new \code{logger}
   into the logger list with the \code{logger.id} as key.}
 }
 }

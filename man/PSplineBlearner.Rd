@@ -12,7 +12,7 @@ can't be used within the actual algorithm.
 \section{Usage}{
 
 \preformatted{
-PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty, 
+PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
   differences)
 }
 }
@@ -20,10 +20,10 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{ 
+\item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{ 
+\item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
 \item{\code{degree} [\code{integer(1)}]}{
@@ -31,14 +31,14 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 }
 \item{\code{n_knots} [\code{integer(1)}]}{
   Number of \strong{inner knots}. To prefent weird behaviour on the edges
-  the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots. 
+  the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 }
 \item{\code{penalty} [\code{numeric(1)}]}{
-  Positive numeric value to specify the penalty parameter. Setting the 
+  Positive numeric value to specify the penalty parameter. Setting the
   penalty to 0 ordinary B-splines are used for the fitting.
 }
 \item{\code{differences} [\code{integer(1)}]}{
-  The number of differences which are penalized. A higher value leads to 
+  The number of differences which are penalized. A higher value leads to
   smoother curves.
 }
 }
@@ -47,9 +47,9 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 \section{Details}{
 
   The data matrix of the source data is restricted to have just one column.
-  The spline bases are created for this single feature. Multidimensional 
+  The spline bases are created for this single feature. Multidimensional
   splines are not supported at the moment.
-  
+
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_p_spline_blearner.html}.
@@ -63,11 +63,11 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using 
+\item{\code{train(response)}}{Predict parameters of the base-learner using
   a given \code{response}.}
 \item{\code{getParameter()}}{Get the estimated parameters.}
 \item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}  
+\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
   object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}
@@ -84,7 +84,7 @@ data.source = InMemoryData$new(data.mat, "my.data.name")
 data.target = InMemoryData$new()
 
 # Create new linear base-learner:
-bl.spline = PSplineBlearner$new(data.source, data.target, degree = 3, 
+bl.spline = PSplineBlearner$new(data.source, data.target, degree = 3,
   n_knots = 4, penalty = 2, differences = 2)
 
 # Train the learner:
