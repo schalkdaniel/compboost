@@ -66,7 +66,7 @@ PolynomialBlearnerFactory$new(data_source, data_target, degree, intercept)
 
 \examples{
 # Sample data:
-data.mat = cbind(1, 1:10)
+data.mat = cbind(1:10)
 
 # Create new data object:
 data.source = InMemoryData$new(data.mat, "my.data.name")
