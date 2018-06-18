@@ -165,12 +165,15 @@ void Compboost::trainCompboost (const bool& trace)
 void Compboost::continueTraining (loggerlist::LoggerList* logger, const bool& trace)
 {
   if (! model_is_trained) {
-    Rcpp::stop("Initial training hasn't been done. Use 'train()' first.");
+    Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
+  // Set state to maximal possible iteration to cleanly continue training:
   if (actual_iteration != blearner_track.getBaselearnerVector().size()) {
     
     unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
-    // Rcpp::Rcout << "Set actual iteration to maximal possible value: " << std::to_string(max_iteration) << std::endl;
+
+    // Rcpp::Rcout << "Set iteration to maximal possible value: " << std::to_string(max_iteration) << std::endl;
+    
     setToIteration(max_iteration);
     
   }
@@ -178,7 +181,7 @@ void Compboost::continueTraining (loggerlist::LoggerList* logger, const bool& tr
   // Continue training:
   train(trace, model_prediction, logger);
   
-  // Register logger:
+  // Register logger in hash map to store logging data:
   std::string logger_id = "retraining" + std::to_string(used_logger.size());
   used_logger[logger_id] = logger;
   
@@ -311,10 +314,12 @@ void Compboost::setToIteration (const unsigned int& k)
   
   // Set parameter:
   if (k > max_iteration) {
+    // Define new iteration logger for missing iterations:
     unsigned int iteration_diff = k - max_iteration;  
     logger::Logger* temp_logger = new logger::IterationLogger(true, iteration_diff);
     loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
     
+    // Register that logger:
     std::string logger_id = "setToIteration.retraining" + std::to_string(used_logger.size());
     temp_loggerlist->registerLogger(logger_id, temp_logger);
     
