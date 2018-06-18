@@ -5,6 +5,7 @@ body {
 	text-align: justify;
 	background-attachment: fixed;
 	background-position: center; 
+	height: 100%;
 }
 
 /* The navigation bar */
@@ -106,6 +107,18 @@ a.headerref:hover {
 	padding-right: 20px;
 }
 
+.footer {
+	position: fixed;
+	font-family: 'Lato', helvetica, arial;
+	color: white;
+	font-size: 16px;
+	max-width: 1200px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 0;
+}
+
 code {
 	font-family: Currier New;
 }
@@ -132,6 +145,7 @@ highlight {
 	overflow: hidden;
 	margin-top: 20px;
 	}​​
+
 
 	.fa {
 		color: white;
@@ -247,7 +261,11 @@ highlight {
 		-o-transform: scale(0.75);
 		-webkit-transform: scale(0.75);
 		transform: scale(0.75);
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 779878566eeb833808e701f6f7b446cc96aff976
 		-ms-transform-origin: 0 0;
 		-moz-transform-origin: 0 0;
 		-o-transform-origin: 0 0;
