@@ -170,7 +170,7 @@ void Compboost::continueTraining (loggerlist::LoggerList* logger, const bool& tr
   if (actual_iteration != blearner_track.getBaselearnerVector().size()) {
     
     unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
-    Rcpp::Rcout << "Set actual iteration to maximal possible value: " << std::to_string(max_iteration) << std::endl;
+    // Rcpp::Rcout << "Set actual iteration to maximal possible value: " << std::to_string(max_iteration) << std::endl;
     setToIteration(max_iteration);
     
   }
@@ -318,8 +318,8 @@ void Compboost::setToIteration (const unsigned int& k)
     std::string logger_id = "setToIteration.retraining" + std::to_string(used_logger.size());
     temp_loggerlist->registerLogger(logger_id, temp_logger);
     
-    Rcpp::Rcout << "\nSet to a iteration bigger than already trained. Train " 
-                << std::to_string(iteration_diff) << " additional baselearner."
+    Rcpp::Rcout << "\nYou have already trained " << std::to_string(max_iteration) << " iterations.\n" 
+                <<"Train " << std::to_string(iteration_diff) << " additional base-learners."
                 << std::endl << std::endl;
     
     continueTraining(temp_loggerlist, false);
