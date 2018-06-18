@@ -353,20 +353,20 @@ Compboost = R6::R6Class("Compboost",
 		addSingleBl = function(feature, id, bl.factory, data.source, data.target, ...) {
 			data.column = self$data[[feature]]
 			if (!is.numeric(data.column))
-				private$addSingleCatBl(data.column, id, bl.factory, data.source, data.target, ...)
+				private$addSingleCatBl(data.column,feature, id, bl.factory, data.source, data.target, ...)
 			else
-				private$addSingleNumericBl(data.column, id, bl.factory, data.source, data.target, ...)
+				private$addSingleNumericBl(data.column,feature, id, bl.factory, data.source, data.target, ...)
 		},
-		addSingleNumericBl = function(data.column, id, bl.factory, data.source, data.target, ...) {
+		addSingleNumericBl = function(data.column,feature, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
-			private$bl.list[[id]]$source = data.source$new(as.matrix(data.column), id)
+			private$bl.list[[id]]$source = data.source$new(as.matrix(data.column), feature)
 			private$bl.list[[id]]$target = data.target$new()
 			private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, ...)
 			self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
 			private$bl.list[[id]]$source = NULL
 
 		},
-		addSingleCatBl = function(data.column, id, bl.factory, data.source, data.target, ...) {
+		addSingleCatBl = function(data.column,feature, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
 			lvls = unique(data.column)
       # Create dummy variable for each category and use that vector as data matrix. Hence, 
@@ -374,7 +374,7 @@ Compboost = R6::R6Class("Compboost",
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
 				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
-					id = paste(id, lvl, sep = "."), bl.factory, data.source, data.target, ...)
+					id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
 			}
 		}
 		)
