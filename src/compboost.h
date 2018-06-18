@@ -140,6 +140,8 @@ public:
   arma::vec predictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&) const;
   
   void setToIteration (const unsigned int&);
+
+  double getOffset () const;
   
   void summarizeCompboost () const;
   

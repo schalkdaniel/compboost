@@ -333,6 +333,18 @@ Compboost = R6::R6Class("Compboost",
 #        current.iters = self$getCurrentIteration()
 				self$model$setToIteration(iteration)
 			}
+		},
+		predict = function(newdata = NULL) {
+
+			if (is.null(newdata)) {
+				# Return prediction on training data:
+				return(self$model$getPrediction())
+			} else {
+				# Return prediction on newdata. Therefore, create new list which contains the
+				# data sources objects:
+			}
+
+			return(lapply(private$bl.list, function (x) x$target$getIdentifier() ))
 		}
 		),
 	private = list(

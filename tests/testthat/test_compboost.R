@@ -30,11 +30,11 @@ test_that("Compboost loggs correctly", {
   # ------------------
 
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, FALSE)
+  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1, FALSE)
 
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, FALSE)
 
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()
@@ -126,11 +126,11 @@ test_that("compboost does the same as mboost", {
   # ------------------
 
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, FALSE)
+  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1, FALSE)
 
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, FALSE)
 
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()

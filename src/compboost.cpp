@@ -339,6 +339,11 @@ void Compboost::setToIteration (const unsigned int& k)
   actual_iteration = k;
 }
 
+double Compboost::getOffset() const 
+{
+  return initialization;
+}
+
 void Compboost::summarizeCompboost () const
 {
   Rcpp::Rcout << "Compboost object with:" << std::endl;

@@ -26,11 +26,11 @@ test_that("factory list works", {
   # ------------------
 
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target1, 1)
-  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target2, 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target1, 1, FALSE)
+  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target2, 1, FALSE)
 
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target3, 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target3, 2, FALSE)
 
   # Create new polynomial baselearner to the power of 5:
   pow5.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target4, 5)

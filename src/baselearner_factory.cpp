@@ -83,8 +83,10 @@ BaselearnerFactory::~BaselearnerFactory () {};
 // -----------------------
 
 PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearner_type0, 
-  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree)
-  : degree ( degree )
+  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
+  const bool& intercept)
+  : degree ( degree ),
+    intercept ( intercept )
 {
   blearner_type = blearner_type0;
   
@@ -107,7 +109,7 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::PolynomialBlearner(data_target, identifier, degree);
+  blearner_obj = new blearner::PolynomialBlearner(data_target, identifier, degree, intercept);
   blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
@@ -127,7 +129,12 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
 // of the whole compboost object so much easier:
 arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata)
 {
-  return arma::pow(newdata, degree);
+  arma::mat temp = arma::pow(newdata, degree);
+  if (intercept) {
+    arma::mat temp_intercept(temp.n_rows, 1, arma::fill::ones);
+    temp = join_rows(temp_intercept, temp);
+  }
+  return temp;
 }
 
 
@@ -169,6 +176,10 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   data_source = data_source0;
   data_target = data_target0;
   
+  if (data_source->getData().n_cols > 1) {
+    Rcpp::stop("Given data must have just one column!");
+  }
+
   // Initialize knots:
   data_target->knots = createKnots(data_source->getData(), n_knots, degree);
   

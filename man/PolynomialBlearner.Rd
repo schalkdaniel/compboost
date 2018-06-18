@@ -73,7 +73,7 @@ data.source = InMemoryData$new(data.mat, "my.data.name")
 data.target = InMemoryData$new()
 
 # Create new linear base-learner:
-bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1)
+bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = 1)
 
 # Train the learner:
 bl.poly$train(y)

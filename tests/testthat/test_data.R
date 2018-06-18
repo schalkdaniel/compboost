@@ -13,7 +13,7 @@ test_that("polynomial baselearner works correctly", {
   expect_equal(data.target$getData(), as.matrix(0))
   expect_equal(data.target$getIdentifier(), "")
   
-  lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, 3)
+  lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, 3, FALSE)
   
   expect_equal(data.target$getData(), X^3)
   expect_equal(data.target$getIdentifier(), "x")

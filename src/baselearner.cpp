@@ -126,8 +126,9 @@ Baselearner::~Baselearner ()
 // -----------------------
 
 PolynomialBlearner::PolynomialBlearner (data::Data* data, const std::string& identifier, 
-  const unsigned int& degree) 
-  : degree ( degree )
+  const unsigned int& degree, const bool& intercept) 
+  : degree ( degree ),
+    intercept ( intercept )
 {
   // Called from parent class 'Baselearner':
   Baselearner::setData(data);
@@ -154,8 +155,12 @@ Baselearner* PolynomialBlearner::clone ()
 // of the whole compboost object so much easier:
 arma::mat PolynomialBlearner::instantiateData (const arma::mat& newdata)
 {
-  
-  return arma::pow(newdata, degree);
+  arma::mat temp = arma::pow(newdata, degree);
+  if (intercept) {
+    arma::mat temp_intercept(temp.n_rows, 1, arma::fill::ones);
+    temp = join_rows(temp_intercept, temp);
+  }
+  return temp;
 }
 
 // Train the learner:
