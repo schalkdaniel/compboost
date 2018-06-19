@@ -20,8 +20,14 @@
 #' cbboost$train(iteration = 100, trace = TRUE)
 #'
 #' cboost$getCurrentIteration()
-#' }
 #'
+#' cboost$predict(newdata = NULL)
+#'
+#' cboost$risk()
+#'
+#' cboost$selected()
+#'
+#' }
 #' @section Arguments:
 #' \strong{For Compboost$new()}:
 #' \describe{
@@ -104,6 +110,12 @@
 #' }
 #' }
 #'
+#' \strong{For cboost$predict()}:
+#' \describe{
+#' \item{\code{newdata}}{[\code{data.frame()}]\cr
+#' 	 Data to predict on. If \code{NULL} predictions on the training data are returned.
+#' }
+#' }
 #' @section Details:
 #'   \strong{Loss}\cr
 #'   Available choices for the loss are:
@@ -200,6 +212,12 @@
 #' \item{\code{response} [\code{vector}]}{
 #'   Response given as vector.
 #' }
+#' \item{\code{target} [\character{1}]}{
+#' 	 Name of the Response.
+#' }
+#' \item{\code{id} [\character{1}]}{
+#' 	 Value to identify the data. By default name of \code{data}, but can be overwritten.
+#' }
 #' \item{\code{optimizer} [\code{S4 Optimizer}]}{
 #'   Optimizer used within the fitting process.
 #' }
@@ -212,12 +230,8 @@
 #' \item{\code{model} [\code{S4 Compboost_internal}]}{
 #'   Internal \code{S4 Compboost_internal} class on which the main operations are called.
 #' }
-#' }
 #' \item{\code{bl.factory.list} [\code{S4 FactoryList}]}{
 #'   List of all registered factories represented as \code{S4 FactoryList} class.
-#' }
-#' \item{\code{logger.list} [\code{S4 LoggerList}]}{
-#'   List of all registered logger represented as \code{S4 LoggerList} class.
 #' }
 #' \item{\code{stop.if.all.stoppers.fulfilled} [\code{logical(1)}]}{
 #'   Logical indicating whether all stopper should be used symultaniously or if it is sufficient
@@ -257,7 +271,7 @@ Compboost = R6::R6Class("Compboost",
 		model = NULL,
 		bl.factory.list = NULL,
 		stop.if.all.stoppers.fulfilled = FALSE,
-		initialize = function(data, target, optimizer = GreedyOptimizer$new(), loss, learning.rate = 0.05, log.inbag.risk = TRUE) {
+		initialize = function(data, target, optimizer = GreedyOptimizer$new(), loss, learning.rate = 0.05) {
 			checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
 			checkmate::assertCharacter(target)
 			checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, len = 1)
@@ -279,9 +293,9 @@ Compboost = R6::R6Class("Compboost",
       # `addBaselearners` are registered here:
 			self$bl.factory.list = BlearnerFactoryList$new()
 
-			if(log.inbag.risk) {
-				self$addLogger(InbagRiskLogger, FALSE, "_risk", self$loss, 0)
-			}
+			# create inbag logger for the risk
+			self$addLogger(InbagRiskLogger, FALSE, "_risk", self$loss, 0)
+
 		},
 		addLogger = function(logger, use.as.stopper = FALSE, logger.id, ...) {
 			private$l.list[[logger.id]] = logger$new(use.as.stopper = use.as.stopper, ...)
@@ -355,6 +369,11 @@ Compboost = R6::R6Class("Compboost",
 			return(NULL)
 
 		},
+		selected = function() {
+			if(!is.null(self$model))
+				return(self$model$getSelectedBaselearner())
+			return(NULL)
+		},
 		print = function() {
 			p = glue::glue("\n
 					Componentwise Gradient Boosting\n
@@ -417,9 +436,11 @@ if (FALSE) {
   cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
   cb
   cb$risk()
+  cb$selected()
   lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
   cb$train(5)
   cb$risk()
+  cb$selected()
 #	cb$addBaselearner(c("dist", "foo"), "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
  # cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
   #cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
@@ -429,7 +450,7 @@ if (FALSE) {
   cb$predict()
   cb$predict(cars)
   cb$train(10)
-  cb$train(200)
+  cb2$train(200)
   gc()
   cb$train(100000)
   cb$bl.factory.list
