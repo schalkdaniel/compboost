@@ -1,75 +1,75 @@
 #' Compboost API
-#' 
+#'
 #' \code{Compboost} wraps the \code{S4} class system exposed by \code{Rcpp} to make defining
 #' objects, adding objects, the training and taking predictions, and plotting much easier.
 #' As alredy mentioned, the \code{Compboost} class is just a wrapper and hence compatible
 #' with the most \code{S4} classes. This together defines the compboost API.
-#' 
+#'
 #' @format \code{\link{R6Class}} object.
 #' @name Compboost
 #' @section Usage:
 #' \preformatted{
-#' cboost = Compboost$new(data, target, optimizer = GreedyOptimizer$new(), loss, 
+#' cboost = Compboost$new(data, target, optimizer = GreedyOptimizer$new(), loss,
 #'   learning.rate = 0.05)
-#' 
+#'
 #' cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
-#' 
-#' cbboost$addBaselearner(features, id, bl.factory, data.source = InMemoryData, 
+#'
+#' cbboost$addBaselearner(features, id, bl.factory, data.source = InMemoryData,
 #'   data.target = InMemoryData, ...)
-#' 
+#'
 #' cbboost$train(iteration = 100, trace = TRUE)
-#' 
+#'
 #' cboost$getCurrentIteration()
 #' }
-#' 
-#' @section Arguments: 
+#'
+#' @section Arguments:
 #' \strong{For Compboost$new()}:
 #' \describe{
 #' \item{\code{data}}{[\code{data.frame}]\cr
 #'   Data used for training.
 #' }
 #' \item{\code{target}}{[\code{character(1)}]\cr
-#'   Character naming the target. It is necessery that target is available as column in data. 
+#'   Character naming the target. It is necessery that target is available as column in data.
 #' }
 #' \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
-#'   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class. 
-#'   Default is the \code{GreedyOptimizer}. 
+#'   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
+#'   Default is the \code{GreedyOptimizer}.
 #' }
 #' \item{\code{loss}}{[\code{S4 Loss}]\cr
-#'   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the 
-#'   empirical risk. Note that the loss needs match the data type of the target variable. 
+#'   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
+#'   empirical risk. Note that the loss needs match the data type of the target variable.
 #'   See the details for possible choices.
 #' }
 #' \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
 #'   Learning rate used to shrink estimated parameter in each iteration. The learning rate
 #'   remains constant during the training and has to be between 0 and 1.
-#' } 
 #' }
-#' 
+#' }
+#'
 #' \strong{For cboost$addLogger()}:
 #' \describe{
 #' \item{\code{logger}}{[\code{S4 Logger}]\cr
 #'   Logger which are registered within a logger list. The objects must be given as uninitialized
-#'   \code{S4 Logger} class. See the details for possible choices. 
+#'   \code{S4 Logger} class. See the details for possible choices.
 #' }
 #' \item{\code{use.as.stopper}}{[\code{logical(1)}]\cr
 #'   Logical indicating whether the new logger should also be used as stopper. Default value is
 #'   \code{FALSE}.
 #' }
 #' \item{\code{logger.id}}{[\code{character(1)}]\cr
-#'   Id of the new logger. This is neccessary to e.g. register multiple risk logger. 
+#'   Id of the new logger. This is neccessary to e.g. register multiple risk logger.
 #' }
 #' \item{}{\code{...}\cr
-#'   Further arguments passed to the constructor of the \code{S4 Logger} class specified in 
-#'   \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger}) 
+#'   Further arguments passed to the constructor of the \code{S4 Logger} class specified in
+#'   \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger})
 #'   of the \code{S4} classes.
 #' }
 #' }
-#' 
+#'
 #' \strong{For cboost$addBaselearner()}:
 #' \describe{
 #' \item{\code{features}}{[\code{vector(mode = "character")}]\cr
-#'   Vector of column names which are used within the specified base-learner. Each column is defined as 
+#'   Vector of column names which are used within the specified base-learner. Each column is defined as
 #'   new base-learner by using the learner given by \code{bl.factory}.
 #' }
 #' \item{\code{id}}{[\code{character(1)}]\cr
@@ -86,16 +86,16 @@
 #'   Data target object. At the moment just in memory is supported.
 #' }
 #' \item{}{\code{...}\cr
-#'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in 
-#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory}) 
+#'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
+#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory})
 #'   of the \code{S4} classes.
 #' }
 #' }
-#' 
+#'
 #' \strong{For cboost$train()}:
 #' \describe{
 #' \item{\code{iteration}}{[\code{integer(1)}]\cr
-#'   Set the algorithm at \code{iteration}. Note: This argument is ignored if this is the first 
+#'   Set the algorithm at \code{iteration}. Note: This argument is ignored if this is the first
 #'   training and an iteration logger is already specified. For further uses the algorithm automatically
 #'   continues training if \code{iteration} is set to an value larger than the already trained iterations.
 #' }
@@ -103,41 +103,41 @@
 #'   Logical indicating whether the trace during the fitting process should be printed or not.
 #' }
 #' }
-#' 
+#'
 #' @section Details:
 #'   \strong{Loss}\cr
 #'   Available choices for the loss are:
 #' 	 \itemize{
-#'   \item 
+#'   \item
 #'     \code{QuadraticLoss} (Regression)
-#' 
-#'   \item 
+#'
+#'   \item
 #'     \code{AbsoluteLoss} (Regression)
-#' 
-#'   \item 
+#'
+#'   \item
 #'     \code{BinomialLoss} (Binary Classification)
-#' 
-#'   \item 
+#'
+#'   \item
 #'     \code{CustomLoss} (Custom)
-#' 
-#'   \item 
-#'     \code{CustomCppLoss} (Custom) 
+#'
+#'   \item
+#'     \code{CustomCppLoss} (Custom)
 #'   }
 #'   (For each loss also take a look at the help pages (e.g. \code{?BinomialLoss}) and the
 #'   \code{C++} documentation for details about the underlying formulas)
-#' 	 
+#'
 #'   \strong{Logger}\cr
 #'   Available choices for the logger are:
 #'   \itemize{
-#'   \item 
+#'   \item
 #'     \code{IterationLogger}: Log current iteration. Additional arguments:
 #'     \describe{
 #'       \item{\code{max_iterations} [\code{integer(1)}]}{
 #'         Maximal number of iterations.
 #'       }
 #'     }
-#' 
-#'   \item 
+#'
+#'   \item
 #'     \code{TimeLogger}: Log already ellapsed time. Additional arguments:
 #'     \describe{
 #'       \item{\code{max_time} [\code{integer(1)}]}{
@@ -147,34 +147,34 @@
 #'         Character to specify the time unit. Possible choices are \code{minutes}, \code{seconds}, or \code{microseconds}.
 #'       }
 #'     }
-#' 
-#'   \item 
+#'
+#'   \item
 #'     \code{InbagRiskLogger}:
 #'     \describe{
 #'       \item{\code{used_loss} [\code{S4 Loss}]}{
-#'         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the 
+#'         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
 #'         details for possible choices.
 #'       }
 #'       \item{\code{eps_for_break} [\code{numeric(1)}]}{
-#'         This argument is used if the logger is also used as stopper. If the relative improvement 
+#'         This argument is used if the logger is also used as stopper. If the relative improvement
 #'         of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
 #'       }
 #'     }
-#' 
-#'   \item 
+#'
+#'   \item
 #'     \code{OobRiskLogger}:
 #'     \describe{
 #'       \item{\code{used_loss} [\code{S4 Loss}]}{
-#'         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the 
+#'         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
 #'         details for possible choices.
 #'       }
 #'       \item{\code{eps_for_break} [\code{numeric(1)}]}{
-#'         This argument is used if the logger is also used as stopper. If the relative improvement 
+#'         This argument is used if the logger is also used as stopper. If the relative improvement
 #'         of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
 #'       }
 #'       \item{\code{oob_data} [\code{list}]}{
-#'         A list which contains data source objects which corresponds to the source data of each registered factory. 
-#'         The source data objects should contain the out of bag data. This data is then used to calculate the 
+#'         A list which contains data source objects which corresponds to the source data of each registered factory.
+#'         The source data objects should contain the out of bag data. This data is then used to calculate the
 #'         new predictions in each iteration.
 #'       }
 #'       \item{\code{oob_response} [\code{vector}]}{
@@ -182,16 +182,16 @@
 #'       }
 #'     }
 #'   }
-#'   \strong{Note}: 
+#'   \strong{Note}:
 #'   \itemize{
-#'   \item 
-#'     Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}. 
-#'   
-#'   \item 
+#'   \item
+#'     Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}.
+#'
+#'   \item
 #'     We are aware of that the style guide here is not consistent with the \code{R6} arguments. Nevertheless, using
 #'     \code{_} as word seperator is due to the used arguments within \code{C++}.
 #'   }
-#' 
+#'
 #' @section Fields:
 #' \describe{
 #' \item{\code{data} [\code{data.frame}]}{
@@ -212,9 +212,6 @@
 #' \item{\code{model} [\code{S4 Compboost_internal}]}{
 #'   Internal \code{S4 Compboost_internal} class on which the main operations are called.
 #' }
-#' \item{\code{is.initialized} [\code{logical(1)}]}{
-#'   Logical indicating if the algorithm is already initialized (Be aware that initialized does
-#'   not mean trained).
 #' }
 #' \item{\code{bl.factory.list} [\code{S4 FactoryList}]}{
 #'   List of all registered factories represented as \code{S4 FactoryList} class.
@@ -227,7 +224,7 @@
 #'   that the first stopper which is fulfilled breaks the algorithm.
 #' }
 #' }
-#' 
+#'
 #' @section Methods:
 #' \describe{
 #' \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
@@ -239,10 +236,10 @@
 #' \item{\code{AddSingleNumericBl}}{[internal] method to add a single factory list for a numerical feature.}
 #' \item{\code{AddSingleCatBl}}{[internal] method to add a single factory list for a categorical feature.}
 #' }
-#' 
-#' @examples 
+#'
+#' @examples
 #' cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-#' cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3, 
+#' cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3,
 #'   knots = 10, penalty = 2, differences = 2)
 #' cboost$train(1000)
 NULL
@@ -250,20 +247,17 @@ NULL
 #'@export
 Compboost = R6::R6Class("Compboost",
 	public = list(
-
-  	# Public fields:
 		data = NULL,
-		response = NULL, # Should be private?
-		optimizer = NULL, # Should be private?
-		loss = NULL, # Should be private?
+		response = NULL,
+		target = NULL,
+		id = NULL,
+		optimizer = NULL,
+		loss = NULL,
 		learning.rate = NULL,
 		model = NULL,
-		is.initialized = FALSE, # Should be private?
 		bl.factory.list = NULL,
-		logger.list = list(),
 		stop.if.all.stoppers.fulfilled = FALSE,
-		initialize = function(data, target, optimizer = GreedyOptimizer$new(), loss, learning.rate = 0.05) {
-
+		initialize = function(data, target, optimizer = GreedyOptimizer$new(), loss, learning.rate = 0.05, log.inbag.risk = TRUE) {
 			checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
 			checkmate::assertCharacter(target)
 			checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, len = 1)
@@ -273,15 +267,21 @@ Compboost = R6::R6Class("Compboost",
 			}
 
       # Initialize fields:
+      self$target = target
+      self$id = deparse(substitute(data))
 			self$response = data[[target]]
 			self$data = data[, !colnames(data) %in% target, drop = FALSE]
 			self$optimizer = optimizer
 			self$loss = loss
 			self$learning.rate = learning.rate
 
-      # Initialize new base-learner factory list. All factories which are defined in 
+      # Initialize new base-learner factory list. All factories which are defined in
       # `addBaselearners` are registered here:
 			self$bl.factory.list = BlearnerFactoryList$new()
+
+			if(log.inbag.risk) {
+				self$addLogger(InbagRiskLogger, FALSE, "_risk", self$loss, 0)
+			}
 		},
 		addLogger = function(logger, use.as.stopper = FALSE, logger.id, ...) {
 			private$l.list[[logger.id]] = logger$new(use.as.stopper = use.as.stopper, ...)
@@ -292,27 +292,28 @@ Compboost = R6::R6Class("Compboost",
 			else
 				return(0)
 		},
-		addBaselearner = function(features, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
-			if (self$is.initialized)
+		addBaselearner = function(feature, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
+			if (!is.null(self$model))
 				stop("No base-learners can be added after training is started")
-      # if (!is.list(features))
-      #   features = list(features)
 
-      # Define and add for each feature in `features` a new base-learner:
-			for(feature in features) {
-				id.feat = paste(feature, id, sep = ".")
-				private$addSingleBl(feature, id.feat, bl.factory, data.source, data.target, ...)
-			}
+				data.column = self$data[, feature, drop = FALSE]
+				id.feat = paste(paste(feature, collapse = "."), id, sep = ".") #USE stringi
+
+				if (ncol(data.column) == 1 && !is.numeric(data.column[, 1]))
+					private$addSingleCatBl(data.column, feature, id.feat, bl.factory, data.source, data.target, ...)
+				else
+					private$addSingleNumericBl(data.column, feature, id.feat, bl.factory, data.source, data.target, ...)
 		},
 		train = function(iteration = 100, trace = TRUE) {
 
-			checkmate::checkInteger(iteration, lower = 0, len = 1, null.ok = TRUE)
+			checkmate::assertIntegerish(iteration, lower = 1, len = 1, null.ok = TRUE)
+			checkmate::assertFlag(trace)
 
     	# Check if it is neccessary to add a initial iteration logger. This is not the case
     	# when the user already has add one by calling `addLogger`:
-			if (!self$is.initialized) {
+			if (is.null(self$model)) {
       	# If iteration is NULL, then there is no new iteration logger defined. This could be
-      	# used, for example, to train the algorithm an break it after a defined number of 
+      	# used, for example, to train the algorithm an break it after a defined number of
       	# hours or minutes.
 				if (!is.null(iteration)) {
         	# Add new logger in the case that there isn't already a custom defined one:
@@ -330,48 +331,65 @@ Compboost = R6::R6Class("Compboost",
 			if (!self$model$isTrained())
 				self$model$train(trace)
 			else {
-#        current.iters = self$getCurrentIteration()
 				self$model$setToIteration(iteration)
 			}
+			invisible(NULL)
 		},
 		predict = function(newdata = NULL) {
-
+			checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
 			if (is.null(newdata)) {
 				# Return prediction on training data:
 				return(self$model$getPrediction())
 			} else {
-				# Return prediction on newdata. Therefore, create new list which contains the
-				# data sources objects:
+				new.source.features = unique(lapply(private$bl.list, function (x) x$feature))
+				new.sources = lapply(new.source.features, function(ns) InMemoryData$new(as.matrix(newdata[, ns]), paste(ns, collapse = "_")))
+				return(self$model$predict(new.sources))
 			}
+		},
+		risk = function() {
+			if(!is.null(self$model)) {
+				ld = self$model$getLoggerData()
+				w = which(ld$logger.names == "_risk")
+				return(ld$logger.data[, w])
+			}
+			return(NULL)
 
-			return(lapply(private$bl.list, function (x) x$target$getIdentifier() ))
+		},
+		print = function() {
+			p = glue::glue("\n
+					Componentwise Gradient Boosting\n
+			Trained on {self$id} with target {self$target}
+			Number of base-learners: {self$bl.factory.list$getNumberOfRegisteredFactories()}
+			Learning rate: {self$learning.rate}
+			Iterations: {self$getCurrentIteration()}
+			")
+
+			if(!is.null(self$model))
+				p = glue::glue(p, "\nOffset:{self$model$getOffset()}")
+
+			print(p)
+			print(self$loss)
 		}
 		),
 	private = list(
-  	# Lists of single logger and base-learner factories. Neccessary to prevent the factories from the 
+  	# Lists of single logger and base-learner factories. Neccessary to prevent the factories from the
   	# arbage collector which deallocates all the data from the heap and couses R to crash.
 		l.list = list(),
 		bl.list = list(),
+		logger.list = list(),
 
 		initializeModel = function() {
-			self$logger.list = LoggerList$new()
+			private$logger.list = LoggerList$new()
 			for (n in names(private$l.list)) {
-				self$logger.list$registerLogger(n, private$l.list[[n]])
+				private$logger.list$registerLogger(n, private$l.list[[n]])
 			}
 			self$model = Compboost_internal$new(self$response, self$learning.rate,
-				self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, self$logger.list, self$optimizer)
-			self$is.initialized = TRUE
+				self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
 		},
-		addSingleBl = function(feature, id, bl.factory, data.source, data.target, ...) {
-			data.column = self$data[[feature]]
-			if (!is.numeric(data.column))
-				private$addSingleCatBl(data.column,feature, id, bl.factory, data.source, data.target, ...)
-			else
-				private$addSingleNumericBl(data.column,feature, id, bl.factory, data.source, data.target, ...)
-		},
-		addSingleNumericBl = function(data.column,feature, id, bl.factory, data.source, data.target, ...) {
+		addSingleNumericBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
-			private$bl.list[[id]]$source = data.source$new(as.matrix(data.column), feature)
+			private$bl.list[[id]]$source = data.source$new(as.matrix(data.column), paste(feature, collapse = "_"))
+			private$bl.list[[id]]$feature = feature
 			private$bl.list[[id]]$target = data.target$new()
 			private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, ...)
 			self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
@@ -381,7 +399,7 @@ Compboost = R6::R6Class("Compboost",
 		addSingleCatBl = function(data.column,feature, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
 			lvls = unique(data.column)
-      # Create dummy variable for each category and use that vector as data matrix. Hence, 
+      # Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
@@ -392,44 +410,30 @@ Compboost = R6::R6Class("Compboost",
 		)
 	)
 
-# if (FALSE) {
-#   load_all()
-#   bl = BlearnerFactoryList$new()
-#   source = InMemoryData$new(as.matrix(cars[["dist"]]), "dist")
-#   target = InMemoryData$new()
-#   factory = PolynomialBlearnerFactory$new(source, target, degree = 1)
-#   bl$registerFactory(factory)
-#   ll = LoggerList$new()
-#   log.iter = IterationLogger$new(TRUE, 100)
-#   ll$registerLogger("bla", log.iter)
-#   loss = QuadraticLoss$new()
-#   o = GreedyOptimizer$new()
-#   xx = Compboost_internal$new(cars$speed, 0.05, TRUE, bl, loss, ll, o)
-#   xx$train(TRUE)
-#   gc()
-#   xx$setToIteration(500)
-#   gc()
-#   xx$setToIteration(200)
-#   a = xx$getLoggerData()
-
-#   load_all()
-#   cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
-#   cars$foo = rnorm(50)
-#   cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
-#   cb$addBaselearner(c("dist", "foo"), "linear", PolynomialBlearnerFactory, degree = 1)
-#   cb$addBaselearner("dist", "quadratic", PolynomialBlearnerFactory, degree = 2)
-#   cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
-#   cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
-#   cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
-#   gc()
-#   cb$train(NULL)
-#   cb$train(10)
-#   cb$train(200)
-#   gc()
-#   cb$train(100000)
-#   cb$bl.factory.list
-#   cb$model$getLoggerData()
-#   head(cb$model$getParameterMatrix()[[2]])
-#   cb$model$getModelF
-#   cb$model$getParameterMatrix()[[1]]
-# }
+if (FALSE) {
+  load_all()
+  cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
+  cars$foo_1 = rnorm(50)
+  cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
+  cb
+  cb$risk()
+  lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
+  cb$train(5)
+  cb$risk()
+#	cb$addBaselearner(c("dist", "foo"), "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
+ # cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
+  #cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
+  cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
+  cb$train(NULL)
+  cb
+  cb$predict()
+  cb$predict(cars)
+  cb$train(10)
+  cb$train(200)
+  gc()
+  cb$train(100000)
+  cb$bl.factory.list
+  cb$model$getLoggerData()
+  head(cb$model$getParameterMatrix()[[2]])
+  cb$model$getParameterMatrix()[[1]]
+}
