@@ -100,7 +100,7 @@ PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearne
   data_target->setData(instantiateData(data_source->getData()));
   data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
   
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::string& identifier)
@@ -175,9 +175,10 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   // Set data, data identifier and the data_mat (dense at this stage)
   data_source = data_source0;
   data_target = data_target0;
-  
+
   if (data_source->getData().n_cols > 1) {
-    Rcpp::stop("Given data must have just one column!");
+    // Rcpp::Rcout << "Hit core Constructor with ncols:" << data_source->getData().n_cols;
+    Rcpp::stop("Given data should have just one column.");
   }
 
   // Initialize knots:
@@ -195,7 +196,7 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
   
   // Set blearner type:
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 /**

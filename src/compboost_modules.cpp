@@ -305,11 +305,7 @@ public:
     unsigned int degree)
     : degree ( degree )
   {
-    if (data_source.getDataObj()->getData().n_rows > 1) {
-      Rcpp::stop("Given data must have just one column!");
-    }
-
-    intercept = FALSE;
+    intercept = true;
     obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree, intercept);
 
     data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
@@ -955,7 +951,7 @@ protected:
 //'   taken to the power of the \code{degree} argument.
 //' }
 //' \item{\code{intercept} [\code{logical(1)}]}{
-//'   Indicating whether an intercept should be added or not.
+//'   Indicating whether an intercept should be added or not. Default is set to TRUE.
 //' }
 //' }
 //'
@@ -1014,21 +1010,44 @@ private:
 
 public:
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const unsigned int& degree)
-    : degree ( degree )
-  {
-    intercept = FALSE;
-    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data_source.getDataObj(),
-      data_target.getDataObj(), degree, intercept);
-  }
+  // PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  //   const unsigned int& degree)
+  //   : degree ( degree )
+  // {
+  //   intercept = true;
+  //   std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
+
+  //   obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+  //     data_target.getDataObj(), degree, intercept);
+  // }
+
+  // PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  //   const std::string& blearner_type, const unsigned int& degree)
+  //   : degree ( degree )
+  // {
+  //   intercept = true;
+
+  //   obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
+  //     data_target.getDataObj(), degree, intercept);
+  // }
 
   PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const unsigned int& degree, bool intercept)
     : degree ( degree ),
       intercept ( intercept )
   {
-    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data_source.getDataObj(),
+    std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
+
+    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+      data_target.getDataObj(), degree, intercept);
+  }
+
+  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, const unsigned int& degree, bool intercept)
+    : degree ( degree ),
+      intercept ( intercept )
+  {
+    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), degree, intercept);
   }
 
@@ -1155,8 +1174,34 @@ public:
     const unsigned int& differences)
     : degree ( degree )
   {
-    obj = new blearnerfactory::PSplineBlearnerFactory("spline", data_source.getDataObj(),
-      data_target.getDataObj(), degree, n_knots, penalty, differences);
+    if (data_source.getDataObj()->getData().n_cols > 1) {
+      // Rcpp::stop("Given data should have just one column");
+    } else {
+      std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
+  
+      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+        data_target.getDataObj(), degree, n_knots, penalty, differences);      
+    }
+  }
+
+  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, const unsigned int& degree, 
+    const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
+    : degree ( degree )
+  {
+            Rcpp::Rcout << "------ FIRST.1 ------" << std::endl;
+    unsigned int ncols = data_source.getDataObj()->getData().n_cols;
+        Rcpp::Rcout << "------ FIRST.2 ------" << std::endl;
+
+    if (ncols > 1) {
+            Rcpp::Rcout << "------ SECOND ------" << std::endl;
+      // Rcpp::stop("Given data should have just one column");
+    } else {
+            Rcpp::Rcout << "------ THIRD ------" << std::endl;
+      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
+        data_target.getDataObj(), degree, n_knots, penalty, differences);
+            Rcpp::Rcout << "------ FIFTH ------" << std::endl;
+    }
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -1303,6 +1348,14 @@ public:
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
+  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
+    Rcpp::Function predictFun, Rcpp::Function extractParameter)
+  {
+    obj = new blearnerfactory::CustomBlearnerFactory(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
+  }
+
   arma::mat getData () { return obj->getData(); }
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
@@ -1408,7 +1461,14 @@ public:
   CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data_source.getDataObj(),
+    obj = new blearnerfactory::CustomCppBlearnerFactory("custom_cpp", data_source.getDataObj(),
+      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
+  }
+
+  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
+  {
+    obj = new blearnerfactory::CustomCppBlearnerFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
@@ -1430,6 +1490,21 @@ public:
   }
 };
 
+
+// // Boiler code to check for constructors with sam argument length and decide
+// // on input parameter type which one to take. See:
+// //   http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2011-May/002300.html
+// bool fun1( SEXP* args, int nargs){
+//      if (nargs != 4) { return false; }
+//      if ((TYPEOF(args[3]) == INTSXP) | (TYPEOF(args[3]) == REALSXP)) { return true; }
+//      return false;
+// }
+// bool fun2( SEXP* args, int nargs){
+//      if (nargs != 4) { return false; }
+//      if (TYPEOF(args[3]) == LGLSXP) { return true; }
+//      return false;
+// }
+
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
 RCPP_MODULE (baselearner_factory_module)
@@ -1442,8 +1517,10 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
-    .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> ()
+    // .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
+    // .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int> ("", &fun1)
+    .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> () // ("", &fun2)
+    .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, bool> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",     &PolynomialBlearnerFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -1452,6 +1529,7 @@ RCPP_MODULE (baselearner_factory_module)
   class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, unsigned int, double, unsigned int> ()
     .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
     .method("transformData",    &PSplineBlearnerFactoryWrapper::transformData, "Compute spline basis for new data")
     .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
@@ -1460,6 +1538,7 @@ RCPP_MODULE (baselearner_factory_module)
   class_<CustomBlearnerFactoryWrapper> ("CustomBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &CustomBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -1467,7 +1546,7 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -1561,7 +1640,7 @@ public:
 
   void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
   {
-    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + ": " + my_factory_to_register.getFactory()->getBaselearnerType();
+    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + "_" + my_factory_to_register.getFactory()->getBaselearnerType();
     obj.registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
   }
 
