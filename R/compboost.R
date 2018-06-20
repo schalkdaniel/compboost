@@ -347,7 +347,7 @@ Compboost = R6::R6Class("Compboost",
 			else {
 				self$model$setToIteration(iteration)
 			}
-			invisible(NULL)
+			return(invisible(NULL))
 		},
 		predict = function(newdata = NULL) {
 			checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
@@ -415,15 +415,15 @@ Compboost = R6::R6Class("Compboost",
 			private$bl.list[[id]]$source = NULL
 
 		},
-		addSingleCatBl = function(data.column,feature, id, bl.factory, data.source, data.target, ...) {
+		addSingleCatBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
-			lvls = unique(data.column)
+			lvls = unlist(unique(data.column))
       # Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
 				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
-					id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
+					feature, id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
 			}
 		}
 		)
@@ -437,6 +437,7 @@ if (FALSE) {
   cb
   cb$risk()
   cb$selected()
+  cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
   lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
   cb$train(5)
   cb$risk()
