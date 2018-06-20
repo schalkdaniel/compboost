@@ -204,7 +204,7 @@ std::vector<std::string> Compboost::getSelectedBaselearner () const
   std::vector<std::string> selected_blearner;
   
   for (unsigned int i = 0; i < actual_iteration; i++) {
-    selected_blearner.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + ": " + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
+    selected_blearner.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + "_" + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
   }
   return selected_blearner;
 }

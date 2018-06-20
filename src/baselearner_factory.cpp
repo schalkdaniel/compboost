@@ -100,7 +100,7 @@ PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearne
   data_target->setData(instantiateData(data_source->getData()));
   data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
   
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::string& identifier)
@@ -195,7 +195,7 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
   
   // Set blearner type:
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 /**

@@ -457,7 +457,7 @@ NULL
 #'   taken to the power of the \code{degree} argument.
 #' }
 #' \item{\code{intercept} [\code{logical(1)}]}{
-#'   Indicating whether an intercept should be added or not.
+#'   Indicating whether an intercept should be added or not. Default is set to TRUE.
 #' }
 #' }
 #'
