@@ -1174,10 +1174,14 @@ public:
     const unsigned int& differences)
     : degree ( degree )
   {
-    std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
-
-    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
-      data_target.getDataObj(), degree, n_knots, penalty, differences);
+    if (data_source.getDataObj()->getData().n_cols > 1) {
+      // Rcpp::stop("Given data should have just one column");
+    } else {
+      std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
+  
+      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+        data_target.getDataObj(), degree, n_knots, penalty, differences);      
+    }
   }
 
   PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
@@ -1185,8 +1189,19 @@ public:
     const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
     : degree ( degree )
   {
-    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), degree, n_knots, penalty, differences);
+            Rcpp::Rcout << "------ FIRST.1 ------" << std::endl;
+    unsigned int ncols = data_source.getDataObj()->getData().n_cols;
+        Rcpp::Rcout << "------ FIRST.2 ------" << std::endl;
+
+    if (ncols > 1) {
+            Rcpp::Rcout << "------ SECOND ------" << std::endl;
+      // Rcpp::stop("Given data should have just one column");
+    } else {
+            Rcpp::Rcout << "------ THIRD ------" << std::endl;
+      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
+        data_target.getDataObj(), degree, n_knots, penalty, differences);
+            Rcpp::Rcout << "------ FIFTH ------" << std::endl;
+    }
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -1625,7 +1640,7 @@ public:
 
   void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
   {
-    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + ": " + my_factory_to_register.getFactory()->getBaselearnerType();
+    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + "_" + my_factory_to_register.getFactory()->getBaselearnerType();
     obj.registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
   }
 

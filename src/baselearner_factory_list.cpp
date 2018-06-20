@@ -102,7 +102,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelF
     
     if (data_temp.n_cols > 1) {
       for (unsigned int i = 0; i < data_temp.n_cols; i++) {
-        rownames.push_back(it.first + " x" + std::to_string(i + 1));
+        rownames.push_back(it.first + "x1" + std::to_string(i + 1));
       }
     } else {
       rownames.push_back(it.first);

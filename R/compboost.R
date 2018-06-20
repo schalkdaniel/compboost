@@ -310,13 +310,13 @@ Compboost = R6::R6Class("Compboost",
 			if (!is.null(self$model))
 				stop("No base-learners can be added after training is started")
 
-				data.column = self$data[, feature, drop = FALSE]
+				data.columns = self$data[, feature, drop = FALSE]
 				id.feat = paste(paste(feature, collapse = "."), id, sep = ".") #USE stringi
 
-				if (ncol(data.column) == 1 && !is.numeric(data.column[, 1]))
-					private$addSingleCatBl(data.column, feature, id.feat, bl.factory, data.source, data.target, ...)
+				if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1]))
+					private$addSingleCatBl(data.columns, feature, id, id.feat, bl.factory, data.source, data.target, ...)
 				else
-					private$addSingleNumericBl(data.column, feature, id.feat, bl.factory, data.source, data.target, ...)
+					private$addSingleNumericBl(data.columns, feature, id, id.feat, bl.factory, data.source, data.target, ...)
 		},
 		train = function(iteration = 100, trace = TRUE) {
 
@@ -405,24 +405,24 @@ Compboost = R6::R6Class("Compboost",
 			self$model = Compboost_internal$new(self$response, self$learning.rate,
 				self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
 		},
-		addSingleNumericBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
+		addSingleNumericBl = function(data.columns, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
-			private$bl.list[[id]]$source = data.source$new(as.matrix(data.column), paste(feature, collapse = "_"))
+			private$bl.list[[id]]$source = data.source$new(as.matrix(data.columns), paste(feature, collapse = "_"))
 			private$bl.list[[id]]$feature = feature
 			private$bl.list[[id]]$target = data.target$new()
-			private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, ...)
+			private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, ...)
 			self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
 			private$bl.list[[id]]$source = NULL
 
 		},
-		addSingleCatBl = function(data.column,feature, id, bl.factory, data.source, data.target, ...) {
+		addSingleCatBl = function(data.columns,feature, id.fac, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
-			lvls = unique(data.column)
+			lvls = unique(data.columns)
       # Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
-				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
+				private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.columns == lvl)), id.fac = id.fac,
 					id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
 			}
 		}

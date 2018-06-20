@@ -175,9 +175,10 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   // Set data, data identifier and the data_mat (dense at this stage)
   data_source = data_source0;
   data_target = data_target0;
-  
+
   if (data_source->getData().n_cols > 1) {
-    Rcpp::stop("Given data must have just one column!");
+    // Rcpp::Rcout << "Hit core Constructor with ncols:" << data_source->getData().n_cols;
+    Rcpp::stop("Given data should have just one column.");
   }
 
   // Initialize knots:

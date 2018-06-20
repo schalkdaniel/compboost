@@ -233,6 +233,7 @@ arma::vec Compboost::predict () const
   arma::vec pred(train_data_map.begin()->second.n_rows);
   pred.fill(initialization);
   
+  // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
     
     std::string sel_factory = it.first;
