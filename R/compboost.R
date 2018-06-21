@@ -212,10 +212,10 @@
 #' \item{\code{response} [\code{vector}]}{
 #'   Response given as vector.
 #' }
-#' \item{\code{target} [\character{1}]}{
+#' \item{\code{target} [\code{character(1)}]}{
 #' 	 Name of the Response.
 #' }
-#' \item{\code{id} [\character{1}]}{
+#' \item{\code{id} [\code{character(1)}]}{
 #' 	 Value to identify the data. By default name of \code{data}, but can be overwritten.
 #' }
 #' \item{\code{optimizer} [\code{S4 Optimizer}]}{
