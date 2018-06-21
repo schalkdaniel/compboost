@@ -1191,19 +1191,20 @@ public:
     const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
     : degree ( degree )
   {
-            Rcpp::Rcout << "------ FIRST.1 ------" << std::endl;
-    unsigned int ncols = data_source.getDataObj()->getData().n_cols;
-        Rcpp::Rcout << "------ FIRST.2 ------" << std::endl;
+    // unsigned int ncols = data_source.getDataObj()->getData().n_cols;
+    // Rcpp::Rcout << "Detect " << std::to_string(ncols) << " columns" << std::endl;
 
-    if (ncols > 1) {
-            Rcpp::Rcout << "------ SECOND ------" << std::endl;
-      // Rcpp::stop("Given data should have just one column");
-    } else {
-            Rcpp::Rcout << "------ THIRD ------" << std::endl;
+    // if (ncols > 1) {
+
+    //   // delete data_target.getDataObj();
+    //   // delete data_source.getDataObj();
+    //         Rcpp::Rcout << "------ SECOND ------" << std::endl;
+    //   Rcpp::Rcout << "Given data should have just one column" << std::endl;
+    // } else {
+    //         Rcpp::Rcout << "------ THIRD ------" << std::endl;
       obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
         data_target.getDataObj(), degree, n_knots, penalty, differences);
-            Rcpp::Rcout << "------ FIFTH ------" << std::endl;
-    }
+    // }
   }
 
   arma::mat getData () { return obj->getData(); }

@@ -311,7 +311,7 @@ Compboost = R6::R6Class("Compboost",
 				id.fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
 
 				if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1]))
-					private$addSingleCatBl(data.column, feature, id, id.fac, bl.factory, data.source, data.target, ...)
+					private$addSingleCatBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
 				else
 					private$addSingleNumericBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
 		},
@@ -366,7 +366,6 @@ Compboost = R6::R6Class("Compboost",
 				return(self$model$getRiskVector())
 			}
 			return(NULL)
-
 		},
 		selected = function() {
 			if(!is.null(self$model))
@@ -421,6 +420,8 @@ Compboost = R6::R6Class("Compboost",
 				}
 			}
 			feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
+
+			checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
 
 			if (is.null(from)) { 				
 				from = min(self$data[[feat.name]])
@@ -496,6 +497,7 @@ Compboost = R6::R6Class("Compboost",
 				self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
 		},
 		addSingleNumericBl = function(data.columns, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
+
 			private$bl.list[[id]] = list()
 			private$bl.list[[id]]$source = data.source$new(as.matrix(data.columns), paste(feature, collapse = "_"))
 			private$bl.list[[id]]$feature = feature
@@ -504,8 +506,12 @@ Compboost = R6::R6Class("Compboost",
 			self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
 			private$bl.list[[id]]$source = NULL
 
-		},
-		addSingleCatBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
+			# Check if factory was successfully initialized. If not remove other list elements:
+			if (is.null(private$bl.list[[id]]$factory)) {
+				private$bl.list[[id]] = NULL
+			}
+		},	
+		addSingleCatBl = function(data.column, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
 			lvls = unlist(unique(data.column))
 
@@ -513,8 +519,9 @@ Compboost = R6::R6Class("Compboost",
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
-				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
-					feature, id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
+				private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.column == lvl)),
+					feature, id.fac = paste(id.fac, lvl, sep = "_"), id = paste(id, lvl, sep = "_"), 
+					bl.factory, data.source, data.target, ...)
 			}
 		}
 		)

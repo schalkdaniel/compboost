@@ -176,11 +176,17 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   data_source = data_source0;
   data_target = data_target0;
 
-  if (data_source->getData().n_cols > 1) {
-    // Rcpp::Rcout << "Hit core Constructor with ncols:" << data_source->getData().n_cols;
-    Rcpp::stop("Given data should have just one column.");
+  // This is necessary to prevent the program from segfolds... whyever???
+  // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
+  try {
+    if (data_source->getData().n_cols > 1) {
+      Rcpp::stop("Given data should have just one column.");
+    }
+  } catch ( std::exception &ex ) {
+    forward_exception_to_r( ex );
+  } catch (...) { 
+    ::Rf_error( "c++ exception (unknown reason)" ); 
   }
-
   // Initialize knots:
   data_target->knots = createKnots(data_source->getData(), n_knots, degree);
   
