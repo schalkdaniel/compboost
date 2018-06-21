@@ -65,7 +65,7 @@ PolynomialBlearner$new(data_source, data_target, degree)
 
 \examples{
 # Sample data:
-data.mat = cbind(1, 1:10)
+data.mat = cbind(1:10)
 y = 2 + 3 * 1:10
 
 # Create new data object:
@@ -73,7 +73,7 @@ data.source = InMemoryData$new(data.mat, "my.data.name")
 data.target = InMemoryData$new()
 
 # Create new linear base-learner:
-bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = 1)
+bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = TRUE)
 
 # Train the learner:
 bl.poly$train(y)

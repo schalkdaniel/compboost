@@ -76,7 +76,7 @@ blearner::Baselearner* GreedyOptimizer::findBestBaselearner (const std::string& 
     blearner_temp->train(pseudo_residuals);
     
     // Calculate SSE:
-    ssq_temp = arma::accu(arma::pow(pseudo_residuals - blearner_temp->predict(), 2)) / pseudo_residuals.size();
+    ssq_temp = arma::mean(arma::pow(pseudo_residuals - blearner_temp->predict(), 2));
     
     // Check if SSE of new temporary baselearner is smaller then SSE of the best
     // baselearner. If so, assign the temporary base-learner with the best 

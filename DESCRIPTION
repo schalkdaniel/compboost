@@ -7,7 +7,7 @@ Authors@R: c(
     person("Janek", "Thomas", email = "janek.thomas@stat.uni-muenchen.de", role = "aut"))
 Author: Daniel Schalk [aut, cre],
   Janek Thomas [aut]
-Maintainer: Daniel Schalk <d-schalk@t-online.de>
+Maintainer: Daniel Schalk <daniel.schalk@stat.uni-muenchen.de>
 Description: A C++ implementation of component-wise boosting. The idea is to
     patch all components that are implemented as class together. This
     gives the user maximal flexiblity. In addition, the main classes can be

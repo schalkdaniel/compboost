@@ -74,8 +74,10 @@ data.target1 = InMemoryData$new()
 data.target2 = InMemoryData$new()
 
 # Create new linear base-learner factory:
-lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2)
-lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2, intercept = TRUE)
+lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 
+  degree = 2, intercept = FALSE)
+lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target2, 
+  degree = 2, intercept = TRUE)
 
 # Get the transformed data:
 lin.factory$getData()

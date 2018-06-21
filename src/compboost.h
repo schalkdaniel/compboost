@@ -90,6 +90,8 @@ private:
   arma::vec response;
   arma::vec pseudo_residuals;
   arma::vec model_prediction;
+
+  std::vector<double> risk;
   
   // Expand learning_rate to vector:
   double learning_rate;
@@ -142,6 +144,7 @@ public:
   void setToIteration (const unsigned int&);
 
   double getOffset () const;
+  std::vector<double> getRiskVector () const;
   
   void summarizeCompboost () const;
   

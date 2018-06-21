@@ -253,7 +253,7 @@
 #'
 #' @examples
 #' cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-#' cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3,
+#' cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3,
 #'   knots = 10, penalty = 2, differences = 2)
 #' cboost$train(1000)
 NULL
@@ -292,9 +292,6 @@ Compboost = R6::R6Class("Compboost",
       # Initialize new base-learner factory list. All factories which are defined in
       # `addBaselearners` are registered here:
 			self$bl.factory.list = BlearnerFactoryList$new()
-
-			# create inbag logger for the risk
-			self$addLogger(InbagRiskLogger, FALSE, "_risk", self$loss, 0)
 
 		},
 		addLogger = function(logger, use.as.stopper = FALSE, logger.id, ...) {
@@ -366,9 +363,7 @@ Compboost = R6::R6Class("Compboost",
 		},
 		risk = function() {
 			if(!is.null(self$model)) {
-				ld = self$model$getLoggerData()
-				w = which(ld$logger.names == "_risk")
-				return(ld$logger.data[, w])
+				return(self$model$getRiskVector())
 			}
 			return(NULL)
 

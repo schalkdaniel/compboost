@@ -59,7 +59,7 @@
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1, 1:10)
+#' data.mat = cbind(1:10)
 #'
 #' # Create new data object:
 #' data.obj = InMemoryData$new(data.mat, "my.data.name")
@@ -126,7 +126,7 @@ NULL
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1, 1:10)
+#' data.mat = cbind(1:10)
 #' y = 2 + 3 * 1:10
 #'
 #' # Create new data object:
@@ -134,7 +134,7 @@ NULL
 #' data.target = InMemoryData$new()
 #'
 #' # Create new linear base-learner:
-#' bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = 1)
+#' bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = TRUE)
 #'
 #' # Train the learner:
 #' bl.poly$train(y)
@@ -493,8 +493,10 @@ NULL
 #' data.target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2)
-#' lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2, intercept = TRUE)
+#' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 
+#'   degree = 2, intercept = FALSE)
+#' lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target2, 
+#'   degree = 2, intercept = TRUE)
 #'
 #' # Get the transformed data:
 #' lin.factory$getData()

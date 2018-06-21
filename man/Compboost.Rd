@@ -268,7 +268,7 @@ cboost$selected()
 
 \examples{
 cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3,
+cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3,
   knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)
 }

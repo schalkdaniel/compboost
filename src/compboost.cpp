@@ -117,6 +117,9 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
       initialization, learning_rate);
     // Rcpp::Rcout << "<<Compboost>> Log the current step" << std::endl;
     
+    // Calculate and log risk:
+    risk.push_back(arma::mean(used_loss->definedLoss(response, pred_temp)));
+
     // Get status of the algorithm (is stopping criteria reached):
     stop_the_algorithm = ! logger->getStopperStatus(stop_if_all_stopper_fulfilled);
     
@@ -160,6 +163,9 @@ void Compboost::trainCompboost (const bool& trace)
   prediction.fill(initialization);
   // Rcpp::Rcout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
   
+  // Calculate risk for initial model:
+  risk.push_back(arma::mean(used_loss->definedLoss(response, prediction)));
+
   // Initial training:
   train(trace, prediction, used_logger["initial.training"]);
   
@@ -348,6 +354,11 @@ void Compboost::setToIteration (const unsigned int& k)
 double Compboost::getOffset() const 
 {
   return initialization;
+}
+
+std::vector<double> Compboost::getRiskVector () const
+{
+  return risk;
 }
 
 void Compboost::summarizeCompboost () const
