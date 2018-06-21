@@ -475,6 +475,9 @@ Compboost = R6::R6Class("Compboost",
 			  ylab("Additive Contribution")
 
 			return(gg)
+		}, 
+		plotSelected = function(most.selected = 10) {
+
 		}
 		),
 	private = list(
