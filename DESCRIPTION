@@ -37,6 +37,7 @@ Suggests:
     rmarkdown,
     titanic,
     mlr,
+    ggplot2,
     gridExtra
 RcppModules:
     baselearner_module,

@@ -198,9 +198,9 @@ test_that("compboost does the same as mboost", {
   cboost.xselect = match(
     x     = cboost$getSelectedBaselearner(),
     table = c(
-      "hp: polynomial with degree 1",
-      "wt: polynomial with degree 1",
-      "hp: polynomial with degree 2"
+      "hp_polynomial_degree_1",
+      "wt_polynomial_degree_1",
+      "hp_polynomial_degree_2"
     )
   )
 

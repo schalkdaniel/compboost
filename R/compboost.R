@@ -320,6 +320,10 @@ Compboost = R6::R6Class("Compboost",
 		},
 		train = function(iteration = 100, trace = TRUE) {
 
+			if (self$bl.factory.list$getNumberOfRegisteredFactories() == 0) {
+				stop("Could not train without any registered base-learner.")
+			}
+
 			checkmate::assertIntegerish(iteration, lower = 1, len = 1, null.ok = TRUE)
 			checkmate::assertFlag(trace)
 
@@ -430,7 +434,7 @@ Compboost = R6::R6Class("Compboost",
 				to = max(self$data[[feat.name]])
 			}
 			if (from >= to) {
-				warning("from is smaller than to, hence the x interval is [to, from]")
+				warning("Argument from is smaller than to, hence the x interval is [to, from].")
 				temp = from
 				from = to
 				to = temp
@@ -503,26 +507,16 @@ Compboost = R6::R6Class("Compboost",
 			private$bl.list[[id]]$source = NULL
 
 		},
-# <<<<<<< HEAD
-# 		addSingleCatBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
-# 			private$bl.list[[id]] = list()
-# 			lvls = unlist(unique(data.column))
-# =======
-		addSingleCatBl = function(data.columns,feature, id.fac, id, bl.factory, data.source, data.target, ...) {
+		addSingleCatBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
-			lvls = unique(data.columns)
-# >>>>>>> fb4ce0c6a0d2c3d148051bf5fc610d88cdeebfb1
-      # Create dummy variable for each category and use that vector as data matrix. Hence,
+			lvls = unlist(unique(data.column))
+
+			# Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
-# <<<<<<< HEAD
-# 				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
-# 					feature, id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
-# =======
-				private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.columns == lvl)), id.fac = id.fac,
-					id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
-# >>>>>>> fb4ce0c6a0d2c3d148051bf5fc610d88cdeebfb1
+				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
+					feature, id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
 			}
 		}
 		)

@@ -64,9 +64,9 @@ void BaselearnerFactoryList::printRegisteredFactorys () const
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
-    Rcpp::Rcout << "Registered Factorys:\n";
+    Rcpp::Rcout << "Registered base-learner:\n";
   } else {
-    Rcpp::Rcout << "No registered Factorys!";
+    Rcpp::Rcout << "No registered base-learner.";
   }
   
   // Iterate over all registered factorys and print the factory identifier:

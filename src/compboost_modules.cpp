@@ -1546,6 +1546,7 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+    .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")

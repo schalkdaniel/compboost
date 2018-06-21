@@ -70,6 +70,11 @@ Compboost::Compboost (const arma::vec& response, const double& learning_rate,
 
 void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
 {
+
+  if (used_baselearner_list.getMap().size() == 0) {
+    Rcpp::stop("Could not train without any registered base-learner.");
+  }
+
   arma::vec pred_temp = prediction;
   
   // Initialize trace:

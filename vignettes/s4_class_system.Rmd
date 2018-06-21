@@ -208,7 +208,8 @@ for (class in classes.sex) {
   data.sex.list[["factory"]][[data.name]] = PolynomialBlearnerFactory$new(
     data_source = data.sex.list[["source"]][[data.name]],
     data_target = data.sex.list[["target"]][[data.name]],
-    degree      = 1
+    degree      = 1,
+    intercept   = FALSE
   )
 }
 
@@ -254,7 +255,8 @@ for (class in classes.pclass) {
   data.pclass.list[["factory"]][[data.name]] = PolynomialBlearnerFactory$new(
     data_source = data.pclass.list[["source"]][[data.name]],
     data_target = data.pclass.list[["target"]][[data.name]],
-    degree      = 1
+    degree      = 1,
+    intercept   = FALSE
   )
 }
 ```

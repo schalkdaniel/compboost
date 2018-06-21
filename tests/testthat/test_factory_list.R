@@ -33,7 +33,7 @@ test_that("factory list works", {
   quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target3, 2, FALSE)
 
   # Create new polynomial baselearner to the power of 5:
-  pow5.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target4, 5)
+  pow5.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target4, 5, FALSE)
 
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()
@@ -45,11 +45,11 @@ test_that("factory list works", {
   factory.list$registerFactory(pow5.factory.hp)
 
   factory.names = c(
-    "hp: polynomial with degree 1",
-    "wt: polynomial with degree 1 x1",
-    "wt: polynomial with degree 1 x2",
-    "hp: polynomial with degree 2",
-    "hp: polynomial with degree 5"
+    "hp_polynomial_degree_1",
+    "wt_polynomial_degree_1x11",
+    "wt_polynomial_degree_1x12",
+    "hp_polynomial_degree_2",
+    "hp_polynomial_degree_5"
   )
   model.frame = cbind(
     X.hp, X.wt, X.hp^2, X.hp^5
