@@ -311,12 +311,12 @@ Compboost = R6::R6Class("Compboost",
 				stop("No base-learners can be added after training is started")
 
 				data.columns = self$data[, feature, drop = FALSE]
-				id.feat = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+				id.fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
 
 				if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1]))
-					private$addSingleCatBl(data.columns, feature, id, id.feat, bl.factory, data.source, data.target, ...)
+					private$addSingleCatBl(data.column, feature, id, id.fac, bl.factory, data.source, data.target, ...)
 				else
-					private$addSingleNumericBl(data.columns, feature, id, id.feat, bl.factory, data.source, data.target, ...)
+					private$addSingleNumericBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
 		},
 		train = function(iteration = 100, trace = TRUE) {
 
@@ -347,7 +347,7 @@ Compboost = R6::R6Class("Compboost",
 			else {
 				self$model$setToIteration(iteration)
 			}
-			invisible(NULL)
+			return(invisible(NULL))
 		},
 		predict = function(newdata = NULL) {
 			checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
@@ -413,12 +413,12 @@ Compboost = R6::R6Class("Compboost",
 				stop("Only univariate plotting is supported.")
 			}
 			# Check if selected base-learner includes the proposed one + check if iters is big enough:
+			iter.min = which(self$selected() == blearner.type)[1]
 			if (! blearner.type %in% unique(self$selected())) {
 				stop("Requested base-learner plus feature was not selected.")
 			} else {
-				if (any(iters < which(self$selected() == blearner.type)[1])) {
-					stop("Requested base-learner plus feature was first selected at iteration ", 
-						which(self$selected() == blearner.type)[1])
+				if (any(iters < iter.min)) {
+					warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
 				}
 			}
 			feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
@@ -431,6 +431,9 @@ Compboost = R6::R6Class("Compboost",
 			}
 			if (from >= to) {
 				warning("from is smaller than to, hence the x interval is [to, from]")
+				temp = from
+				from = to
+				to = temp
 			}
 
 			plot.data = as.matrix(seq(from = from, to = to, length.out = length.out))
@@ -439,7 +442,11 @@ Compboost = R6::R6Class("Compboost",
 			# Create data.frame for plotting depending if iters is specified:
 			if (!is.null(iters[1])) {
 			  preds = lapply(iters, function (x) {
-			  	feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]]
+			  	if (x >= iter.min) {
+			  	  return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
+			    } else {
+			    	return(rep(0, length.out))
+			    }
 			  })
 			  names(preds) = iters
 
@@ -460,7 +467,12 @@ Compboost = R6::R6Class("Compboost",
 		  	gg = ggplot(df.plot, aes(feature, effect))
 		  }
 
-			gg = gg + geom_line() + geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE) + xlab(feat.name) + 
+			gg = gg + 
+			  geom_line() + 
+			  geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE, 
+			  	alpha = 0.8) + 
+			  xlab(feat.name) + 
+			  xlim(from, to) +
 			  ylab("Additive Contribution")
 
 			return(gg)
@@ -491,15 +503,26 @@ Compboost = R6::R6Class("Compboost",
 			private$bl.list[[id]]$source = NULL
 
 		},
+# <<<<<<< HEAD
+# 		addSingleCatBl = function(data.column, feature, id, bl.factory, data.source, data.target, ...) {
+# 			private$bl.list[[id]] = list()
+# 			lvls = unlist(unique(data.column))
+# =======
 		addSingleCatBl = function(data.columns,feature, id.fac, id, bl.factory, data.source, data.target, ...) {
 			private$bl.list[[id]] = list()
 			lvls = unique(data.columns)
+# >>>>>>> fb4ce0c6a0d2c3d148051bf5fc610d88cdeebfb1
       # Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
+# <<<<<<< HEAD
+# 				private$addSingleNumericBl(data.column = as.matrix(as.integer(data.column == lvl)),
+# 					feature, id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
+# =======
 				private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.columns == lvl)), id.fac = id.fac,
 					id = paste(feature, lvl, sep = "."), bl.factory, data.source, data.target, ...)
+# >>>>>>> fb4ce0c6a0d2c3d148051bf5fc610d88cdeebfb1
 			}
 		}
 		)
@@ -513,6 +536,7 @@ if (FALSE) {
   cb
   cb$risk()
   cb$selected()
+  cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
   lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
   cb$train(5)
   cb$risk()
