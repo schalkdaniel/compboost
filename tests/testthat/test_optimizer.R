@@ -15,9 +15,9 @@
 #   data.target.pow5   = InMemoryData$new()
 # 
 #   # Create new linear baselearner of hp and wt:
-#   linear.factory = PolynomialBlearnerFactory$new(data.source, data.target.linear, 1)
-#   cubic.factory  = PolynomialBlearnerFactory$new(data.source, data.target.cubic, 3)
-#   pow5.factory   = PolynomialBlearnerFactory$new(data.source, data.target.pow5, 5)
+#   linear.factory = PolynomialBlearnerFactory$new(data.source, data.target.linear, 1, FALSE)
+#   cubic.factory  = PolynomialBlearnerFactory$new(data.source, data.target.cubic, 3, FALSE)
+#   pow5.factory   = PolynomialBlearnerFactory$new(data.source, data.target.pow5, 5, FALSE)
 # 
 #   # Create new factory list:
 #   factory.list = BlearnerFactoryList$new()

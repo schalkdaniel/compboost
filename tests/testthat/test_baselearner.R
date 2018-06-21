@@ -14,8 +14,8 @@ test_that("polynomial baselearner works correctly", {
   
   newdata = InMemoryData$new(as.matrix(runif(10, 1, 10)), "myvariable")
   
-  linear.blearner = PolynomialBlearner$new(data.source, data.target.lin, 1)
-  cubic.blearner  = PolynomialBlearner$new(data.source, data.target.cub, 3)
+  linear.blearner = PolynomialBlearner$new(data.source, data.target.lin, 1, FALSE)
+  cubic.blearner  = PolynomialBlearner$new(data.source, data.target.cub, 3, FALSE)
 
   linear.blearner$train(y)
   cubic.blearner$train(y.cubic)

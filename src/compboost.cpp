@@ -70,6 +70,11 @@ Compboost::Compboost (const arma::vec& response, const double& learning_rate,
 
 void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
 {
+
+  if (used_baselearner_list.getMap().size() == 0) {
+    Rcpp::stop("Could not train without any registered base-learner.");
+  }
+
   arma::vec pred_temp = prediction;
   
   // Initialize trace:
@@ -112,6 +117,9 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
       initialization, learning_rate);
     // Rcpp::Rcout << "<<Compboost>> Log the current step" << std::endl;
     
+    // Calculate and log risk:
+    risk.push_back(arma::mean(used_loss->definedLoss(response, pred_temp)));
+
     // Get status of the algorithm (is stopping criteria reached):
     stop_the_algorithm = ! logger->getStopperStatus(stop_if_all_stopper_fulfilled);
     
@@ -155,6 +163,9 @@ void Compboost::trainCompboost (const bool& trace)
   prediction.fill(initialization);
   // Rcpp::Rcout << "<<Compboost>> Initialize prediction and fill with zero model" << std::endl;
   
+  // Calculate risk for initial model:
+  risk.push_back(arma::mean(used_loss->definedLoss(response, prediction)));
+
   // Initial training:
   train(trace, prediction, used_logger["initial.training"]);
   
@@ -204,7 +215,7 @@ std::vector<std::string> Compboost::getSelectedBaselearner () const
   std::vector<std::string> selected_blearner;
   
   for (unsigned int i = 0; i < actual_iteration; i++) {
-    selected_blearner.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + ": " + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
+    selected_blearner.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + "_" + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
   }
   return selected_blearner;
 }
@@ -233,6 +244,7 @@ arma::vec Compboost::predict () const
   arma::vec pred(train_data_map.begin()->second.n_rows);
   pred.fill(initialization);
   
+  // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
     
     std::string sel_factory = it.first;
@@ -337,6 +349,16 @@ void Compboost::setToIteration (const unsigned int& k)
   
   // Set actual state:
   actual_iteration = k;
+}
+
+double Compboost::getOffset() const 
+{
+  return initialization;
+}
+
+std::vector<double> Compboost::getRiskVector () const
+{
+  return risk;
 }
 
 void Compboost::summarizeCompboost () const

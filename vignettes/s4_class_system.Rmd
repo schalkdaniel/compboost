@@ -208,7 +208,8 @@ for (class in classes.sex) {
   data.sex.list[["factory"]][[data.name]] = PolynomialBlearnerFactory$new(
     data_source = data.sex.list[["source"]][[data.name]],
     data_target = data.sex.list[["target"]][[data.name]],
-    degree      = 1
+    degree      = 1,
+    intercept   = FALSE
   )
 }
 
@@ -254,7 +255,8 @@ for (class in classes.pclass) {
   data.pclass.list[["factory"]][[data.name]] = PolynomialBlearnerFactory$new(
     data_source = data.pclass.list[["source"]][[data.name]],
     data_target = data.pclass.list[["target"]][[data.name]],
-    degree      = 1
+    degree      = 1,
+    intercept   = FALSE
   )
 }
 ```
@@ -613,7 +615,7 @@ Therefore, we can use the `transformData()` function of the
 `spline.factory.fare` object to create the spline basis for new observations:
 ```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
 params = cboost$getEstimatedParameter()
-params.fare = params$`Fare: spline with degree 3`
+params.fare = params$Fare_spline_degree_3
 
 x.fare  = seq(from = min(df.train$Fare), to = max(df.train$Fare), length.out = 100)
 x.basis = spline.factory.fare$transformData(as.matrix(x.fare))
@@ -638,7 +640,7 @@ the iteration to 1200:
 cboost$setToIteration(k = 1200)
 
 params = cboost$getEstimatedParameter()
-params.fare = params$`Fare: spline with degree 3`
+params.fare = params$Fare_spline_degree_3
 
 x.fare  = seq(from = min(df.train$Fare), to = max(df.train$Fare), length.out = 100)
 x.basis = spline.factory.fare$transformData(as.matrix(x.fare))

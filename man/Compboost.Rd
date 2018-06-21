@@ -13,61 +13,68 @@ with the most \code{S4} classes. This together defines the compboost API.
 \section{Usage}{
 
 \preformatted{
-cboost = Compboost$new(data, target, optimizer = GreedyOptimizer$new(), loss, 
+cboost = Compboost$new(data, target, optimizer = GreedyOptimizer$new(), loss,
   learning.rate = 0.05)
 
 cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
 
-cbboost$addBaselearner(features, id, bl.factory, data.source = InMemoryData, 
+cbboost$addBaselearner(features, id, bl.factory, data.source = InMemoryData,
   data.target = InMemoryData, ...)
 
 cbboost$train(iteration = 100, trace = TRUE)
 
 cboost$getCurrentIteration()
+
+cboost$predict(newdata = NULL)
+
+cboost$risk()
+
+cboost$selected()
+
 }
 }
 
 \section{Arguments}{
- 
+
 \strong{For Compboost$new()}:
 \describe{
 \item{\code{data}}{[\code{data.frame}]\cr
   Data used for training.
 }
 \item{\code{target}}{[\code{character(1)}]\cr
-  Character naming the target. It is necessery that target is available as column in data. 
+  Character naming the target. It is necessery that target is available as column in data.
 }
 \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
-  Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class. 
-  Default is the \code{GreedyOptimizer}. 
+  Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
+  Default is the \code{GreedyOptimizer}.
 }
 \item{\code{loss}}{[\code{S4 Loss}]\cr
-  Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the 
-  empirical risk. Note that the loss needs match the data type of the target variable. 
+  Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
+  empirical risk. Note that the loss needs match the data type of the target variable.
   See the details for possible choices.
 }
 \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
   Learning rate used to shrink estimated parameter in each iteration. The learning rate
   remains constant during the training and has to be between 0 and 1.
-} 
+}
 }
 
 \strong{For cboost$addLogger()}:
 \describe{
 \item{\code{logger}}{[\code{S4 Logger}]\cr
   Logger which are registered within a logger list. The objects must be given as uninitialized
-  \code{S4 Logger} class. See the details for possible choices. 
+  \code{S4 Logger} class. See the details for possible choices.
 }
 \item{\code{use.as.stopper}}{[\code{logical(1)}]\cr
   Logical indicating whether the new logger should also be used as stopper. Default value is
   \code{FALSE}.
 }
 \item{\code{logger.id}}{[\code{character(1)}]\cr
-  Id of the new logger. This is neccessary to e.g. register multiple risk logger. 
+  Id of the new logger. This is neccessary to e.g. register multiple risk logger.
 }
 \item{}{\code{...}\cr
-  Further arguments passed to the constructor of the \code{S4 Logger} class specified in 
-  \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger}) 
+  Further arguments passed to the constructor of the \code{S4 Logger} class specified in
+  \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger})
   of the \code{S4} classes.
 }
 }
@@ -75,7 +82,7 @@ cboost$getCurrentIteration()
 \strong{For cboost$addBaselearner()}:
 \describe{
 \item{\code{features}}{[\code{vector(mode = "character")}]\cr
-  Vector of column names which are used within the specified base-learner. Each column is defined as 
+  Vector of column names which are used within the specified base-learner. Each column is defined as
   new base-learner by using the learner given by \code{bl.factory}.
 }
 \item{\code{id}}{[\code{character(1)}]\cr
@@ -92,8 +99,8 @@ cboost$getCurrentIteration()
   Data target object. At the moment just in memory is supported.
 }
 \item{}{\code{...}\cr
-  Further arguments passed to the constructor of the \code{S4 Factory} class specified in 
-  \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory}) 
+  Further arguments passed to the constructor of the \code{S4 Factory} class specified in
+  \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory})
   of the \code{S4} classes.
 }
 }
@@ -101,12 +108,19 @@ cboost$getCurrentIteration()
 \strong{For cboost$train()}:
 \describe{
 \item{\code{iteration}}{[\code{integer(1)}]\cr
-  Set the algorithm at \code{iteration}. Note: This argument is ignored if this is the first 
+  Set the algorithm at \code{iteration}. Note: This argument is ignored if this is the first
   training and an iteration logger is already specified. For further uses the algorithm automatically
   continues training if \code{iteration} is set to an value larger than the already trained iterations.
 }
 \item{\code{trace}}{[\code{logical(1)}]\cr
   Logical indicating whether the trace during the fitting process should be printed or not.
+}
+}
+
+\strong{For cboost$predict()}:
+\describe{
+\item{\code{newdata}}{[\code{data.frame()}]\cr
+	 Data to predict on. If \code{NULL} predictions on the training data are returned.
 }
 }
 }
@@ -116,28 +130,28 @@ cboost$getCurrentIteration()
   \strong{Loss}\cr
   Available choices for the loss are:
 	 \itemize{
-  \item 
+  \item
     \code{QuadraticLoss} (Regression)
 
-  \item 
+  \item
     \code{AbsoluteLoss} (Regression)
 
-  \item 
+  \item
     \code{BinomialLoss} (Binary Classification)
 
-  \item 
+  \item
     \code{CustomLoss} (Custom)
 
-  \item 
-    \code{CustomCppLoss} (Custom) 
+  \item
+    \code{CustomCppLoss} (Custom)
   }
   (For each loss also take a look at the help pages (e.g. \code{?BinomialLoss}) and the
   \code{C++} documentation for details about the underlying formulas)
-	 
+
   \strong{Logger}\cr
   Available choices for the logger are:
   \itemize{
-  \item 
+  \item
     \code{IterationLogger}: Log current iteration. Additional arguments:
     \describe{
       \item{\code{max_iterations} [\code{integer(1)}]}{
@@ -145,7 +159,7 @@ cboost$getCurrentIteration()
       }
     }
 
-  \item 
+  \item
     \code{TimeLogger}: Log already ellapsed time. Additional arguments:
     \describe{
       \item{\code{max_time} [\code{integer(1)}]}{
@@ -156,33 +170,33 @@ cboost$getCurrentIteration()
       }
     }
 
-  \item 
+  \item
     \code{InbagRiskLogger}:
     \describe{
       \item{\code{used_loss} [\code{S4 Loss}]}{
-        Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the 
+        Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
         details for possible choices.
       }
       \item{\code{eps_for_break} [\code{numeric(1)}]}{
-        This argument is used if the logger is also used as stopper. If the relative improvement 
+        This argument is used if the logger is also used as stopper. If the relative improvement
         of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
       }
     }
 
-  \item 
+  \item
     \code{OobRiskLogger}:
     \describe{
       \item{\code{used_loss} [\code{S4 Loss}]}{
-        Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the 
+        Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
         details for possible choices.
       }
       \item{\code{eps_for_break} [\code{numeric(1)}]}{
-        This argument is used if the logger is also used as stopper. If the relative improvement 
+        This argument is used if the logger is also used as stopper. If the relative improvement
         of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
       }
       \item{\code{oob_data} [\code{list}]}{
-        A list which contains data source objects which corresponds to the source data of each registered factory. 
-        The source data objects should contain the out of bag data. This data is then used to calculate the 
+        A list which contains data source objects which corresponds to the source data of each registered factory.
+        The source data objects should contain the out of bag data. This data is then used to calculate the
         new predictions in each iteration.
       }
       \item{\code{oob_response} [\code{vector}]}{
@@ -190,12 +204,12 @@ cboost$getCurrentIteration()
       }
     }
   }
-  \strong{Note}: 
+  \strong{Note}:
   \itemize{
-  \item 
-    Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}. 
-  
-  \item 
+  \item
+    Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}.
+
+  \item
     We are aware of that the style guide here is not consistent with the \code{R6} arguments. Nevertheless, using
     \code{_} as word seperator is due to the used arguments within \code{C++}.
   }
@@ -210,6 +224,12 @@ cboost$getCurrentIteration()
 \item{\code{response} [\code{vector}]}{
   Response given as vector.
 }
+\item{\code{target} [\code{character(1)}]}{
+	 Name of the Response.
+}
+\item{\code{id} [\code{character(1)}]}{
+	 Value to identify the data. By default name of \code{data}, but can be overwritten.
+}
 \item{\code{optimizer} [\code{S4 Optimizer}]}{
   Optimizer used within the fitting process.
 }
@@ -222,15 +242,8 @@ cboost$getCurrentIteration()
 \item{\code{model} [\code{S4 Compboost_internal}]}{
   Internal \code{S4 Compboost_internal} class on which the main operations are called.
 }
-\item{\code{is.initialized} [\code{logical(1)}]}{
-  Logical indicating if the algorithm is already initialized (Be aware that initialized does
-  not mean trained).
-}
 \item{\code{bl.factory.list} [\code{S4 FactoryList}]}{
   List of all registered factories represented as \code{S4 FactoryList} class.
-}
-\item{\code{logger.list} [\code{S4 LoggerList}]}{
-  List of all registered logger represented as \code{S4 LoggerList} class.
 }
 \item{\code{stop.if.all.stoppers.fulfilled} [\code{logical(1)}]}{
   Logical indicating whether all stopper should be used symultaniously or if it is sufficient
@@ -255,7 +268,7 @@ cboost$getCurrentIteration()
 
 \examples{
 cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3,
   knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)
 }

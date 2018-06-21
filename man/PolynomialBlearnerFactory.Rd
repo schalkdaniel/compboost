@@ -13,6 +13,7 @@
 
 \preformatted{
 PolynomialBlearnerFactory$new(data_source, data_target, degree)
+PolynomialBlearnerFactory$new(data_source, data_target, degree, intercept)
 }
 }
 
@@ -28,6 +29,9 @@ PolynomialBlearnerFactory$new(data_source, data_target, degree)
 \item{\code{degree} [\code{integer(1)}]}{
   This argument is used for transforming the source data. Each element is
   taken to the power of the \code{degree} argument.
+}
+\item{\code{intercept} [\code{logical(1)}]}{
+  Indicating whether an intercept should be added or not. Default is set to TRUE.
 }
 }
 }
@@ -62,23 +66,28 @@ PolynomialBlearnerFactory$new(data_source, data_target, degree)
 
 \examples{
 # Sample data:
-data.mat = cbind(1, 1:10)
-y = 2 + 3 * 1:10
+data.mat = cbind(1:10)
 
 # Create new data object:
 data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target = InMemoryData$new()
+data.target1 = InMemoryData$new()
+data.target2 = InMemoryData$new()
 
 # Create new linear base-learner factory:
-lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2)
+lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 
+  degree = 2, intercept = FALSE)
+lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target2, 
+  degree = 2, intercept = TRUE)
 
 # Get the transformed data:
 lin.factory$getData()
+lin.factory.int$getData()
 
 # Summarize factory:
 lin.factory$summarizeFactory()
 
 # Transform data manually:
 lin.factory$transformData(data.mat)
+lin.factory.int$transformData(data.mat)
 
 }

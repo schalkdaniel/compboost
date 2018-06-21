@@ -83,8 +83,10 @@ BaselearnerFactory::~BaselearnerFactory () {};
 // -----------------------
 
 PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearner_type0, 
-  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree)
-  : degree ( degree )
+  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
+  const bool& intercept)
+  : degree ( degree ),
+    intercept ( intercept )
 {
   blearner_type = blearner_type0;
   
@@ -98,7 +100,7 @@ PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearne
   data_target->setData(instantiateData(data_source->getData()));
   data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
   
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::string& identifier)
@@ -107,7 +109,7 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::PolynomialBlearner(data_target, identifier, degree);
+  blearner_obj = new blearner::PolynomialBlearner(data_target, identifier, degree, intercept);
   blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
@@ -127,7 +129,12 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
 // of the whole compboost object so much easier:
 arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata)
 {
-  return arma::pow(newdata, degree);
+  arma::mat temp = arma::pow(newdata, degree);
+  if (intercept) {
+    arma::mat temp_intercept(temp.n_rows, 1, arma::fill::ones);
+    temp = join_rows(temp_intercept, temp);
+  }
+  return temp;
 }
 
 
@@ -168,7 +175,18 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   // Set data, data identifier and the data_mat (dense at this stage)
   data_source = data_source0;
   data_target = data_target0;
-  
+
+  // This is necessary to prevent the program from segfolds... whyever???
+  // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
+  try {
+    if (data_source->getData().n_cols > 1) {
+      Rcpp::stop("Given data should have just one column.");
+    }
+  } catch ( std::exception &ex ) {
+    forward_exception_to_r( ex );
+  } catch (...) { 
+    ::Rf_error( "c++ exception (unknown reason)" ); 
+  }
   // Initialize knots:
   data_target->knots = createKnots(data_source->getData(), n_knots, degree);
   
@@ -184,7 +202,7 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
   
   // Set blearner type:
-  blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 /**

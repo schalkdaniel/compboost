@@ -14,10 +14,10 @@ test_that("polynomial factory works", {
   data.target.cub = InMemoryData$new()
 
   # Create and train test baselearner:
-  linear.factory = PolynomialBlearnerFactory$new(data.source, data.target.lin, 1)
+  linear.factory = PolynomialBlearnerFactory$new(data.source, data.target.lin, 1, FALSE)
   # linear.factory$testTrain(y)
 
-  cubic.factory = PolynomialBlearnerFactory$new(data.source, data.target.cub, 3)
+  cubic.factory = PolynomialBlearnerFactory$new(data.source, data.target.cub, 3, FALSE)
 
   # lm as benchmark:
   mod.linear = lm(y ~ 0 + X.linear)

@@ -85,7 +85,7 @@ test_that("Baselearner printer works", {
 
   # Polynomial Baselearner:
   # ---------------------------------
-  linear = PolynomialBlearner$new(data.source, data.target, 1)
+  linear = PolynomialBlearner$new(data.source, data.target, 1, FALSE)
 
   tc = textConnection(NULL, "w")
   sink(tc)
@@ -229,7 +229,7 @@ test_that("Baselearner factory printer works", {
 
   # Polynomial Baselearner Factory:
   # ------------------------------------
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source, data.target, 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(data.source, data.target, 1, FALSE)
 
   tc = textConnection(NULL, "w")
   sink(tc)
@@ -461,11 +461,11 @@ test_that("Compboost printer works", {
   # ------------------
 
   # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1)
+  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, FALSE)
+  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1, FALSE)
 
   # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, FALSE)
 
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()

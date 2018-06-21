@@ -123,11 +123,12 @@ class PolynomialBlearner : public Baselearner
 private:
   
   unsigned int degree;
+  bool intercept;
   
 public:
   
   // (data pointer, data identifier, baselearner identifier, degree) 
-  PolynomialBlearner (data::Data*, const std::string&, const unsigned int&);
+  PolynomialBlearner (data::Data*, const std::string&, const unsigned int&, const bool&);
   
   Baselearner* clone ();
   

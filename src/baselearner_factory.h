@@ -109,10 +109,12 @@ class PolynomialBlearnerFactory : public BaselearnerFactory
 private:
   
   const unsigned int degree;
+  bool intercept;
   
 public:
   
-  PolynomialBlearnerFactory (const std::string&, data::Data*, data::Data*, const unsigned int&);
+  PolynomialBlearnerFactory (const std::string&, data::Data*, data::Data*, const unsigned int&,
+    const bool&);
   
   blearner::Baselearner* createBaselearner (const std::string&);
   

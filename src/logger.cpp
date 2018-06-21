@@ -261,9 +261,11 @@ void InbagRiskLogger::logStep (const unsigned int& current_iteration, const arma
   const double& learning_rate)
 {
   // Calculate empirical risk. Calculateion of the temporary vector ensures
-  // that stuff like auc logging is possible:
-  arma::vec loss_vec_temp = used_loss->definedLoss(response, prediction);
-  double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
+  // // that stuff like auc logging is possible:
+  // arma::vec loss_vec_temp = used_loss->definedLoss(response, prediction);
+  // double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
+
+  double temp_risk = arma::mean(used_loss->definedLoss(response, prediction));
   
   tracked_inbag_risk.push_back(temp_risk);
 }

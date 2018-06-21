@@ -123,7 +123,7 @@ protected:
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1, 1:10)
+//' data.mat = cbind(1:10)
 //'
 //' # Create new data object:
 //' data.obj = InMemoryData$new(data.mat, "my.data.name")
@@ -275,7 +275,7 @@ protected:
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1, 1:10)
+//' data.mat = cbind(1:10)
 //' y = 2 + 3 * 1:10
 //'
 //' # Create new data object:
@@ -283,7 +283,7 @@ protected:
 //' data.target = InMemoryData$new()
 //'
 //' # Create new linear base-learner:
-//' bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1)
+//' bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = TRUE)
 //'
 //' # Train the learner:
 //' bl.poly$train(y)
@@ -297,6 +297,7 @@ class PolynomialBlearnerWrapper : public BaselearnerWrapper
 private:
   data::Data* dummy_data_target;
   unsigned int degree;
+  bool intercept;
 
 public:
 
@@ -304,14 +305,32 @@ public:
     unsigned int degree)
     : degree ( degree )
   {
-    obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree);
+    intercept = true;
+    obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree, intercept);
 
     data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
     data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData());
 
     delete(obj);
     std::string temp = "test polynomial of degree " + std::to_string(degree);
-    obj = new blearner::PolynomialBlearner(data_target.getDataObj(), temp, degree);
+    obj = new blearner::PolynomialBlearner(data_target.getDataObj(), temp, degree, intercept);
+
+    dummy_data_target = data_target.getDataObj();
+  }
+
+  PolynomialBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    unsigned int degree, bool intercept)
+    : degree ( degree ),
+      intercept ( intercept )
+  {
+    obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree, intercept);
+
+    data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
+    data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData());
+
+    delete(obj);
+    std::string temp = "test polynomial of degree " + std::to_string(degree);
+    obj = new blearner::PolynomialBlearner(data_target.getDataObj(), temp, degree, intercept);
 
     dummy_data_target = data_target.getDataObj();
   }
@@ -839,6 +858,7 @@ RCPP_MODULE(baselearner_module)
   class_<PolynomialBlearnerWrapper> ("PolynomialBlearner")
     .derives<BaselearnerWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
+    .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> ()
     .method("train",          &PolynomialBlearnerWrapper::train, "Train function of the base-learner")
     .method("getParameter",   &PolynomialBlearnerWrapper::getParameter, "Predict function of the base-learner")
     .method("predict",        &PolynomialBlearnerWrapper::predict, "GetParameter function of the base-learner")
@@ -915,6 +935,7 @@ protected:
 //' @section Usage:
 //' \preformatted{
 //' PolynomialBlearnerFactory$new(data_source, data_target, degree)
+//' PolynomialBlearnerFactory$new(data_source, data_target, degree, intercept)
 //' }
 //'
 //' @section Arguments:
@@ -928,6 +949,9 @@ protected:
 //' \item{\code{degree} [\code{integer(1)}]}{
 //'   This argument is used for transforming the source data. Each element is
 //'   taken to the power of the \code{degree} argument.
+//' }
+//' \item{\code{intercept} [\code{logical(1)}]}{
+//'   Indicating whether an intercept should be added or not. Default is set to TRUE.
 //' }
 //' }
 //'
@@ -955,39 +979,78 @@ protected:
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1, 1:10)
-//' y = 2 + 3 * 1:10
+//' data.mat = cbind(1:10)
 //'
 //' # Create new data object:
 //' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
+//' data.target1 = InMemoryData$new()
+//' data.target2 = InMemoryData$new()
 //'
 //' # Create new linear base-learner factory:
-//' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target, degree = 2)
+//' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 
+//'   degree = 2, intercept = FALSE)
+//' lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target2, 
+//'   degree = 2, intercept = TRUE)
 //'
 //' # Get the transformed data:
 //' lin.factory$getData()
+//' lin.factory.int$getData()
 //'
 //' # Summarize factory:
 //' lin.factory$summarizeFactory()
 //'
 //' # Transform data manually:
 //' lin.factory$transformData(data.mat)
+//' lin.factory.int$transformData(data.mat)
 //'
 //' @export PolynomialBlearnerFactory
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   const unsigned int degree;
+  bool intercept;
 
 public:
 
+  // PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  //   const unsigned int& degree)
+  //   : degree ( degree )
+  // {
+  //   intercept = true;
+  //   std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
+
+  //   obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+  //     data_target.getDataObj(), degree, intercept);
+  // }
+
+  // PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  //   const std::string& blearner_type, const unsigned int& degree)
+  //   : degree ( degree )
+  // {
+  //   intercept = true;
+
+  //   obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
+  //     data_target.getDataObj(), degree, intercept);
+  // }
+
   PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const unsigned int& degree)
-    : degree ( degree )
+    const unsigned int& degree, bool intercept)
+    : degree ( degree ),
+      intercept ( intercept )
   {
-    obj = new blearnerfactory::PolynomialBlearnerFactory("polynomial", data_source.getDataObj(),
-      data_target.getDataObj(), degree);
+    std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
+
+    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+      data_target.getDataObj(), degree, intercept);
+  }
+
+  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, const unsigned int& degree, bool intercept)
+    : degree ( degree ),
+      intercept ( intercept )
+  {
+    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), degree, intercept);
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -1113,8 +1176,35 @@ public:
     const unsigned int& differences)
     : degree ( degree )
   {
-    obj = new blearnerfactory::PSplineBlearnerFactory("spline", data_source.getDataObj(),
-      data_target.getDataObj(), degree, n_knots, penalty, differences);
+    if (data_source.getDataObj()->getData().n_cols > 1) {
+      // Rcpp::stop("Given data should have just one column");
+    } else {
+      std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
+  
+      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+        data_target.getDataObj(), degree, n_knots, penalty, differences);      
+    }
+  }
+
+  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, const unsigned int& degree, 
+    const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
+    : degree ( degree )
+  {
+    // unsigned int ncols = data_source.getDataObj()->getData().n_cols;
+    // Rcpp::Rcout << "Detect " << std::to_string(ncols) << " columns" << std::endl;
+
+    // if (ncols > 1) {
+
+    //   // delete data_target.getDataObj();
+    //   // delete data_source.getDataObj();
+    //         Rcpp::Rcout << "------ SECOND ------" << std::endl;
+    //   Rcpp::Rcout << "Given data should have just one column" << std::endl;
+    // } else {
+    //         Rcpp::Rcout << "------ THIRD ------" << std::endl;
+      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
+        data_target.getDataObj(), degree, n_knots, penalty, differences);
+    // }
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -1261,6 +1351,14 @@ public:
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
+  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
+    Rcpp::Function predictFun, Rcpp::Function extractParameter)
+  {
+    obj = new blearnerfactory::CustomBlearnerFactory(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
+  }
+
   arma::mat getData () { return obj->getData(); }
   std::string getDataIdentifier () { return obj->getDataIdentifier(); }
   std::string getBaselearnerType () { return obj->getBaselearnerType(); }
@@ -1366,7 +1464,14 @@ public:
   CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory("custom cpp", data_source.getDataObj(),
+    obj = new blearnerfactory::CustomCppBlearnerFactory("custom_cpp", data_source.getDataObj(),
+      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
+  }
+
+  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
+  {
+    obj = new blearnerfactory::CustomCppBlearnerFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
@@ -1388,6 +1493,21 @@ public:
   }
 };
 
+
+// // Boiler code to check for constructors with sam argument length and decide
+// // on input parameter type which one to take. See:
+// //   http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2011-May/002300.html
+// bool fun1( SEXP* args, int nargs){
+//      if (nargs != 4) { return false; }
+//      if ((TYPEOF(args[3]) == INTSXP) | (TYPEOF(args[3]) == REALSXP)) { return true; }
+//      return false;
+// }
+// bool fun2( SEXP* args, int nargs){
+//      if (nargs != 4) { return false; }
+//      if (TYPEOF(args[3]) == LGLSXP) { return true; }
+//      return false;
+// }
+
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
 RCPP_MODULE (baselearner_factory_module)
@@ -1400,7 +1520,10 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
-    .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
+    // .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
+    // .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int> ("", &fun1)
+    .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> () // ("", &fun2)
+    .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, bool> ()
      .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",     &PolynomialBlearnerFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -1409,6 +1532,7 @@ RCPP_MODULE (baselearner_factory_module)
   class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, unsigned int, double, unsigned int> ()
     .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
     .method("transformData",    &PSplineBlearnerFactoryWrapper::transformData, "Compute spline basis for new data")
     .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
@@ -1417,6 +1541,7 @@ RCPP_MODULE (baselearner_factory_module)
   class_<CustomBlearnerFactoryWrapper> ("CustomBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &CustomBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -1425,6 +1550,7 @@ RCPP_MODULE (baselearner_factory_module)
   class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearnerFactory")
     .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
     .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -1476,15 +1602,15 @@ RCPP_MODULE (baselearner_factory_module)
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1, 1:10)
+//' data.mat = cbind(1:10)
 //'
 //' # Create new data object:
 //' data.source = InMemoryData$new(data.mat, "my.data.name")
 //' data.target1 = InMemoryData$new()
 //' data.target2 = InMemoryData$new()
 //'
-//' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 1)
-//' poly.factory = PolynomialBlearnerFactory$new(data.source, data.target2, 2)
+//' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 1, TRUE)
+//' poly.factory = PolynomialBlearnerFactory$new(data.source, data.target2, 2, TRUE)
 //'
 //' # Create new base-learner list:
 //' my.bl.list = BlearnerFactoryList$new()
@@ -1518,7 +1644,7 @@ public:
 
   void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
   {
-    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + ": " + my_factory_to_register.getFactory()->getBaselearnerType();
+    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + "_" + my_factory_to_register.getFactory()->getBaselearnerType();
     obj.registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
   }
 
@@ -2948,9 +3074,9 @@ RCPP_MODULE(optimizer_module)
 //' test.data = oob.data
 //'
 //' # Factories:
-//' linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-//' linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1)
-//' quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+//' linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, TRUE)
+//' linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1, TRUE)
+//' quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, TRUE)
 //' spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 //'
 //' # Create new factory list:
@@ -3172,6 +3298,16 @@ public:
     return is_trained;
   }
 
+  double getOffset ()
+  {
+    return obj->getOffset();
+  }
+
+  std::vector<double> getRiskVector ()
+  {
+    return obj->getRiskVector();
+  }
+
   void setToIteration (const unsigned int& k)
   {
     obj->setToIteration(k);
@@ -3218,6 +3354,8 @@ RCPP_MODULE (compboost_module)
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
     .method("setToIteration", &CompboostWrapper::setToIteration, "Set state of the model to a given iteration")
+    .method("getOffset", &CompboostWrapper::getOffset, "Get offset.")
+    .method("getRiskVector", &CompboostWrapper::getRiskVector, "Get the risk vector.")
   ;
 }
 

@@ -68,7 +68,7 @@ InMemoryData$new(data.mat, data.identifier)
 
 \examples{
 # Sample data:
-data.mat = cbind(1, 1:10)
+data.mat = cbind(1:10)
 
 # Create new data object:
 data.obj = InMemoryData$new(data.mat, "my.data.name")

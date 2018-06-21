@@ -64,9 +64,9 @@ void BaselearnerFactoryList::printRegisteredFactorys () const
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
-    Rcpp::Rcout << "Registered Factorys:\n";
+    Rcpp::Rcout << "Registered base-learner:\n";
   } else {
-    Rcpp::Rcout << "No registered Factorys!";
+    Rcpp::Rcout << "No registered base-learner.";
   }
   
   // Iterate over all registered factorys and print the factory identifier:
@@ -102,7 +102,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelF
     
     if (data_temp.n_cols > 1) {
       for (unsigned int i = 0; i < data_temp.n_cols; i++) {
-        rownames.push_back(it.first + " x" + std::to_string(i + 1));
+        rownames.push_back(it.first + "x1" + std::to_string(i + 1));
       }
     } else {
       rownames.push_back(it.first);

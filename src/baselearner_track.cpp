@@ -54,7 +54,7 @@ void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner)
   // Insert new baselearner:
   blearner_vector.push_back(blearner);
   
-  std::string insert_id = blearner->getDataIdentifier() + ": " + blearner->getBaselearnerType();
+  std::string insert_id = blearner->getDataIdentifier() + "_" + blearner->getBaselearnerType();
   
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
@@ -115,7 +115,7 @@ std::map<std::string, arma::mat> BaselearnerTrack::getEstimatedParameterOfIterat
   if (k <= blearner_vector.size()) {
     
     for (unsigned int i = 0; i < k; i++) {
-      std::string insert_id = blearner_vector[i]->getDataIdentifier() + ": " + blearner_vector[i]->getBaselearnerType();
+      std::string insert_id = blearner_vector[i]->getDataIdentifier() + "_" + blearner_vector[i]->getBaselearnerType();
       
       // Check if the baselearner is the first one. If so, the parameter
       // has to be instantiated with a zero matrix:
@@ -164,7 +164,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::getParameterMat
   arma::mat parameters (blearner_vector.size(), cols, arma::fill::zeros);
     
   for (unsigned int i = 0; i < blearner_vector.size(); i++) {
-    std::string insert_id = blearner_vector[i]->getDataIdentifier() + ": " + blearner_vector[i]->getBaselearnerType();
+    std::string insert_id = blearner_vector[i]->getDataIdentifier() + "_" + blearner_vector[i]->getBaselearnerType();
 
     // Prune parameter by multiplying it with the learning rate:
     arma::mat parameter_temp = learning_rate * blearner_vector[i]->getParameter();
@@ -191,7 +191,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::getParameterMat
   for (auto& it : my_new_parameter_map) {
     if (it.second.n_rows > 1) {
       for (unsigned int i = 0; i < it.second.n_rows; i++) {
-        out_pair.first.push_back(it.first + " x" + std::to_string(i + 1));
+        out_pair.first.push_back(it.first + "_x" + std::to_string(i + 1));
       }
     } else {
       out_pair.first.push_back(it.first);
