@@ -1,7 +1,22 @@
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost)
 [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
-This repository is still under development. If you like you can follow the process.
+## compboost: Fast and Flexible Component-Wise Boosting Framework
+
+## About
+
+Component-wise boosting applies the boosting framework to
+statistical models, e.g., general additive models using component-wise smoothing 
+splines. Boosting these kinds of models maintains interpretability and enables 
+unbiased model selection in high dimensional feature spaces. 
+
+The `R` package `compboost` is an alternative implementation of component-wise
+boosting written in `C++` to obtain high runtime
+performance and full memory control. The main idea is to provide a modular
+class system which can be extended without editing the
+source code. Therefore, it is possible to use `R` functions as well as
+`C++` functions for custom base-learners, losses, logging mechanisms or 
+stopping criteria. 
 
 ## Installation
 

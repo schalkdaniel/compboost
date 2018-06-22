@@ -54,7 +54,7 @@ getCustomCppExample = function (example = "blearner", silent = FALSE)
 {
   if (! example %in% c("blearner", "loss")) {
     warning("'example' has to be 'blearner' or 'loss'. Setting example to 'blearner'.")
-    example = blearner
+    example = "blearner"
   }
   
   code.blearner = "
