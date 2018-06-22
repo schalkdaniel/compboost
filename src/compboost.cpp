@@ -338,7 +338,7 @@ void Compboost::setToIteration (const unsigned int& k)
     temp_loggerlist->registerLogger(logger_id, temp_logger);
     
     Rcpp::Rcout << "\nYou have already trained " << std::to_string(max_iteration) << " iterations.\n" 
-                <<"Train " << std::to_string(iteration_diff) << " additional base-learners."
+                <<"Train " << std::to_string(iteration_diff) << " additional iterations."
                 << std::endl << std::endl;
     
     continueTraining(temp_loggerlist, false);

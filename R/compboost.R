@@ -361,19 +361,16 @@ Compboost = R6::R6Class("Compboost",
 			}
 			return(invisible(NULL))
 		},
-		predict = function(newdata = NULL) {
-			checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
-			if (is.null(newdata)) {
-				# Return prediction on training data:
-				return(self$model$getPrediction())
-			} else {
+		prepareData = function (newdata) {
 				new.source.features = unique(lapply(private$bl.list, function (x) x$feature))
 
 				new.sources = list()
+				data.names = character()
 
 				# Remove lapply due to categorical feature handling which needs to return multiple data objects
 				# at once.
 				for (ns in new.source.features) {
+
 					data.columns = newdata[, ns, drop = FALSE]
 
 					if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1])) {
@@ -384,21 +381,23 @@ Compboost = R6::R6Class("Compboost",
       			# if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       			# base-learners (unbiased feature selection).
 						for (lvl in lvls) {
-							new.sources = c(
-								new.sources, 
-								InMemoryData$new(as.matrix(as.integer(data.columns == lvl)), paste(ns, lvl, sep = "_"))
-								)
+							data.names = append(data.names, paste(ns, lvl, sep = "_"))
+							new.sources = c(new.sources, InMemoryData$new(as.matrix(as.integer(data.columns == lvl)), paste(ns, lvl, sep = "_")))
 						}
-
 					} else {
-						new.sources = c(
-							new.sources,
-							InMemoryData$new(as.matrix(data.columns), paste(ns, collapse = "_"))
-							)
+						data.names = append(data.names, paste(ns, collapse = "_"))
+						new.sources = c(new.sources, InMemoryData$new(as.matrix(data.columns), paste(ns, collapse = "_")))
 					}
 				}
-
-				return(self$model$predict(new.sources))
+				names(new.sources) = data.names
+				return(new.sources)
+		},
+		predict = function(newdata = NULL) {
+			checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
+			if (is.null(newdata)) {
+				return(self$model$getPrediction())
+			} else {
+				return(self$model$predict(self$prepareData(newdata)))
 			}
 		},
 		risk = function() {
