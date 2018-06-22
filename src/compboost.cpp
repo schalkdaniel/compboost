@@ -260,7 +260,7 @@ arma::vec Compboost::predict () const
 // corresponding parameter.
 arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map) const
 {
-  // Rcpp::Rcout << "Get into Compboost::predict" << std::endl;
+  // IMPROVE THIS FUNCTION!!! See: 
   
   std::map<std::string, arma::mat> parameter_map = blearner_track.getParameterMap();
 
@@ -276,16 +276,18 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map) const
     
     // Name of current feature:
     std::string sel_factory = it.first;
-    
-    // Rcpp::Rcout << "Fatory id of parameter map: " << sel_factory << std::endl;
-    
+ 
+    // Find the element with key 'hat'
     blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.getMap().find(sel_factory)->second;
-    
-    // Rcpp::Rcout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
-    
-    arma::mat data_trafo = sel_factory_obj->instantiateData((data_map.find(sel_factory_obj->getDataIdentifier())->second->getData()));
-    pred += data_trafo * it.second;
-    
+      
+    // Select newdata corresponding to selected facotry object:
+    std::map<std::string, data::Data*>::iterator it_newdata;
+    it_newdata = data_map.find(sel_factory_obj->getDataIdentifier());
+
+    if (it_newdata != data_map.end()) {
+      arma::mat data_trafo = sel_factory_obj->instantiateData((it_newdata->second->getData()));
+      pred += data_trafo * it.second;
+    }
   }
   return pred;
 }

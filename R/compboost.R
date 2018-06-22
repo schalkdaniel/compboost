@@ -357,13 +357,43 @@ Compboost = R6::R6Class("Compboost",
 				return(self$model$getPrediction())
 			} else {
 				new.source.features = unique(lapply(private$bl.list, function (x) x$feature))
-				new.sources = lapply(new.source.features, function(ns) InMemoryData$new(as.matrix(newdata[, ns]), paste(ns, collapse = "_")))
+
+				new.sources = list()
+
+				# Remove lapply due to categorical feature handling which needs to return multiple data objects
+				# at once.
+				for (ns in new.source.features) {
+					data.columns = newdata[, ns, drop = FALSE]
+
+					if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1])) {
+
+						lvls = unlist(unique(data.columns))
+
+						# Create dummy variable for each category and use that vector as data matrix. Hence,
+      			# if a categorical feature has 3 groups, then these 3 groups are added as 3 different
+      			# base-learners (unbiased feature selection).
+						for (lvl in lvls) {
+							new.sources = c(
+								new.sources, 
+								InMemoryData$new(as.matrix(as.integer(data.columns == lvl)), paste(ns, lvl, sep = "_"))
+							  )
+						}
+
+					} else {
+						new.sources = c(
+							new.sources,
+							InMemoryData$new(as.matrix(data.columns), paste(ns, collapse = "_"))
+							)
+					}
+				}
+
 				return(self$model$predict(new.sources))
 			}
 		},
 		risk = function() {
 			if(!is.null(self$model)) {
-				return(self$model$getRiskVector())
+				# Return the risk + intercept, hence the current iteration + 1:
+				return(self$model$getRiskVector()[seq_len(self$getCurrentIteration() + 1)])
 			}
 			return(NULL)
 		},
@@ -476,9 +506,6 @@ Compboost = R6::R6Class("Compboost",
 			  ylab("Additive Contribution")
 
 			return(gg)
-		}, 
-		plotSelected = function(most.selected = 10) {
-
 		}
 		),
 	private = list(
@@ -520,8 +547,15 @@ Compboost = R6::R6Class("Compboost",
       # base-learners (unbiased feature selection).
 			for (lvl in lvls) {
 				private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.column == lvl)),
-					feature, id.fac = paste(id.fac, lvl, sep = "_"), id = paste(id, lvl, sep = "_"), 
-					bl.factory, data.source, data.target, ...)
+					feature = paste(feature, lvl, sep = "_"), id.fac = paste(id.fac, lvl, sep = "_"), 
+					id = paste(id, lvl, sep = "_"), bl.factory, data.source, data.target, ...)
+
+				# This is important because of:
+				#   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
+				#      data objects correctly in a unique way.
+				#   2. The feature itself should not be named with the level. Instead of that we just want the
+				#      feature name of the categorical variable, such as cat_feature (important for predictions).
+				private$bl.list[[paste(id, lvl, sep = "_")]]$feature = feature
 			}
 		}
 		)
