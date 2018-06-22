@@ -121,4 +121,15 @@ std::map<std::string, arma::mat> BaselearnerFactoryList::getDataMap () const
   return out_map;
 }
 
+std::vector<std::string> BaselearnerFactoryList::getRegisteredFactoryNames () const
+{
+  std::vector<std::string> factory_names;
+
+  for (auto& it : my_factory_map) {
+    factory_names.push_back(it.first);
+  }
+
+  return factory_names;
+}
+
 } // namespace blearnerlist

@@ -25,7 +25,8 @@ Imports:
     methods,
     glue,
     R6,
-    checkmate
+    checkmate,
+    ggplot2
 LinkingTo:
     Rcpp,
     RcppArmadillo
@@ -37,7 +38,6 @@ Suggests:
     rmarkdown,
     titanic,
     mlr,
-    ggplot2,
     gridExtra
 RcppModules:
     baselearner_module,

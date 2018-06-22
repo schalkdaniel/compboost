@@ -281,8 +281,8 @@ Compboost = R6::R6Class("Compboost",
 			}
 
       # Initialize fields:
-      self$target = target
-      self$id = deparse(substitute(data))
+			self$target = target
+			self$id = deparse(substitute(data))
 			self$response = data[[target]]
 			self$data = data[, !colnames(data) %in% target, drop = FALSE]
 			self$optimizer = optimizer
@@ -298,22 +298,33 @@ Compboost = R6::R6Class("Compboost",
 			private$l.list[[logger.id]] = logger$new(use.as.stopper = use.as.stopper, ...)
 		},
 		getCurrentIteration = function() {
-			if (!is.null(self$model) && self$model$isTrained())
+			if (!is.null(self$model) && self$model$isTrained()) {
 				return(length(self$model$getSelectedBaselearner()))
-			else
+			}	else {
 				return(0)
+			}
 		},
 		addBaselearner = function(feature, id, bl.factory, data.source = InMemoryData, data.target = InMemoryData, ...) {
-			if (!is.null(self$model))
+			if (!is.null(self$model)) {
 				stop("No base-learners can be added after training is started")
+			}
 
-				data.columns = self$data[, feature, drop = FALSE]
-				id.fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+			# Clear base-learners which are within the bl.list but not registered:
+			idx.remove = ! names(private$bl.list) %in% self$bl.factory.list$getRegisteredFactoryNames()
+			if (any(idx.remove)) {
+				for (i in which(idx.remove)) {
+					private$bl.list[[i]] = NULL
+				}
+			}
 
-				if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1]))
-					private$addSingleCatBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
-				else
-					private$addSingleNumericBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
+			data.columns = self$data[, feature, drop = FALSE]
+			id.fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+
+			if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1])) {
+				private$addSingleCatBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
+			}	else {
+				private$addSingleNumericBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
+			}
 		},
 		train = function(iteration = 100, trace = TRUE) {
 
@@ -376,7 +387,7 @@ Compboost = R6::R6Class("Compboost",
 							new.sources = c(
 								new.sources, 
 								InMemoryData$new(as.matrix(as.integer(data.columns == lvl)), paste(ns, lvl, sep = "_"))
-							  )
+								)
 						}
 
 					} else {
@@ -404,12 +415,12 @@ Compboost = R6::R6Class("Compboost",
 		},
 		print = function() {
 			p = glue::glue("\n
-					Componentwise Gradient Boosting\n
-			Trained on {self$id} with target {self$target}
-			Number of base-learners: {self$bl.factory.list$getNumberOfRegisteredFactories()}
-			Learning rate: {self$learning.rate}
-			Iterations: {self$getCurrentIteration()}
-			")
+				Componentwise Gradient Boosting\n
+				Trained on {self$id} with target {self$target}
+				Number of base-learners: {self$bl.factory.list$getNumberOfRegisteredFactories()}
+				Learning rate: {self$learning.rate}
+				Iterations: {self$getCurrentIteration()}
+				")
 
 			if(!is.null(self$model))
 				p = glue::glue(p, "\nOffset:{self$model$getOffset()}")
@@ -419,9 +430,9 @@ Compboost = R6::R6Class("Compboost",
 		},
 		coef = function () {
 			if(!is.null(self$model)) {
-			  return(c(self$model$getEstimatedParameter(), offset = self$model$getOffset()))
-		  }
-		  return(NULL)
+				return(c(self$model$getEstimatedParameter(), offset = self$model$getOffset()))
+			}
+			return(NULL)
 		},
 		plot = function (blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000) {
 
@@ -435,7 +446,7 @@ Compboost = R6::R6Class("Compboost",
 				stop("Please specify a valid base-learner plus feature.")
 			}
 			if (! blearner.type %in% names(private$bl.list)) {
-				stop("Your requested feature plus learner is not available. Check the bl.factory.list member for available learners.")
+				stop("Your requested feature plus learner is not available. Check 'getFactoryNames()' for available learners.")
 			}
 			if (length(private$bl.list[[blearner.type]]$feature) > 1) {
 				stop("Only univariate plotting is supported.")
@@ -452,6 +463,8 @@ Compboost = R6::R6Class("Compboost",
 			feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
 
 			checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
+			checkmate::assertNumeric(from, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
+			checkmate::assertNumeric(to, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
 
 			if (is.null(from)) { 				
 				from = min(self$data[[feat.name]])
@@ -471,123 +484,127 @@ Compboost = R6::R6Class("Compboost",
 
 			# Create data.frame for plotting depending if iters is specified:
 			if (!is.null(iters[1])) {
-			  preds = lapply(iters, function (x) {
-			  	if (x >= iter.min) {
-			  	  return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
-			    } else {
-			    	return(rep(0, length.out))
-			    }
-			  })
-			  names(preds) = iters
+				preds = lapply(iters, function (x) {
+					if (x >= iter.min) {
+						return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
+					} else {
+						return(rep(0, length.out))
+					}
+				})
+				names(preds) = iters
 
-			  df.plot = data.frame(
-			  	effect    = unlist(preds),
-			  	iteration = as.factor(rep(iters, each = length.out)),
-			  	feature   = plot.data
-			  )
+				df.plot = data.frame(
+					effect    = unlist(preds),
+					iteration = as.factor(rep(iters, each = length.out)),
+					feature   = plot.data
+					)
 
-			  gg = ggplot(df.plot, aes(feature, effect, color = iteration))
+				gg = ggplot(df.plot, aes(feature, effect, color = iteration))
 
-		  } else {
-		  	df.plot = data.frame(
-		  		effect  = feat.map %*% self$coef()[[blearner.type]],
-		  		feature = plot.data
-		  	)
+			} else {
+				df.plot = data.frame(
+					effect  = feat.map %*% self$coef()[[blearner.type]],
+					feature = plot.data
+					)
 
-		  	gg = ggplot(df.plot, aes(feature, effect))
-		  }
+				gg = ggplot(df.plot, aes(feature, effect))
+			}
 
 			gg = gg + 
-			  geom_line() + 
-			  geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE, 
-			  	alpha = 0.8) + 
-			  xlab(feat.name) + 
-			  xlim(from, to) +
-			  ylab("Additive Contribution")
+			geom_line() + 
+			geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE, 
+				alpha = 0.8) + 
+			xlab(feat.name) + 
+			xlim(from, to) +
+			ylab("Additive Contribution")
 
 			return(gg)
+		},
+		getFactoryNames = function () {
+			# return(lapply(private$bl.list, function (bl) bl[[1]]$target$getIdentifier()))
+			return(names(private$bl.list))
 		}
 		),
-	private = list(
+private = list(
   	# Lists of single logger and base-learner factories. Neccessary to prevent the factories from the
   	# arbage collector which deallocates all the data from the heap and couses R to crash.
-		l.list = list(),
-		bl.list = list(),
-		logger.list = list(),
+	l.list = list(),
+	bl.list = list(),
+	logger.list = list(),
 
-		initializeModel = function() {
-			private$logger.list = LoggerList$new()
-			for (n in names(private$l.list)) {
-				private$logger.list$registerLogger(n, private$l.list[[n]])
-			}
-			self$model = Compboost_internal$new(self$response, self$learning.rate,
-				self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
-		},
-		addSingleNumericBl = function(data.columns, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
+	initializeModel = function() {
 
-			private$bl.list[[id]] = list()
-			private$bl.list[[id]]$source = data.source$new(as.matrix(data.columns), paste(feature, collapse = "_"))
-			private$bl.list[[id]]$feature = feature
-			private$bl.list[[id]]$target = data.target$new()
-			private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, ...)
-			self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
-			private$bl.list[[id]]$source = NULL
+		private$logger.list = LoggerList$new()
+		for (n in names(private$l.list)) {
+			private$logger.list$registerLogger(n, private$l.list[[n]])
+		}
+		self$model = Compboost_internal$new(self$response, self$learning.rate,
+			self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
+	},
+	addSingleNumericBl = function(data.columns, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
 
-			# Check if factory was successfully initialized. If not remove other list elements:
-			if (is.null(private$bl.list[[id]]$factory)) {
-				private$bl.list[[id]] = NULL
-			}
-		},	
-		addSingleCatBl = function(data.column, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
-			private$bl.list[[id]] = list()
-			lvls = unlist(unique(data.column))
+		private$bl.list[[id]] = list()
+		private$bl.list[[id]]$source = data.source$new(as.matrix(data.columns), paste(feature, collapse = "_"))
+		private$bl.list[[id]]$feature = feature
+		private$bl.list[[id]]$target = data.target$new()
+		private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, ...)
+		self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
+		private$bl.list[[id]]$source = NULL
+
+	},	
+	addSingleCatBl = function(data.column, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
+
+		lvls = unlist(unique(data.column))
 
 			# Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
-			for (lvl in lvls) {
-				private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.column == lvl)),
-					feature = paste(feature, lvl, sep = "_"), id.fac = paste(id.fac, lvl, sep = "_"), 
-					id = paste(id, lvl, sep = "_"), bl.factory, data.source, data.target, ...)
+		for (lvl in lvls) {
+
+			list.id = paste(feature, lvl, id.fac, sep = "_")
+
+			private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.column == lvl)),
+				feature = paste(feature, lvl, sep = "_"), id.fac = id.fac, 
+				id = list.id, bl.factory, data.source, data.target, ...)
 
 				# This is important because of:
 				#   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
 				#      data objects correctly in a unique way.
 				#   2. The feature itself should not be named with the level. Instead of that we just want the
 				#      feature name of the categorical variable, such as cat_feature (important for predictions).
-				private$bl.list[[paste(id, lvl, sep = "_")]]$feature = feature
-			}
+			private$bl.list[[list.id]]$feature = feature
 		}
-		)
+	}
 	)
+)
 
 if (FALSE) {
-  load_all()
-  cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
-  cars$foo_1 = rnorm(50)
-  cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
-  cb
-  cb$risk()
-  cb$selected()
-  cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
-  lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
-  cb$train(5)
-  cb$risk()
-  cb$selected()
+	load_all()
+	cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
+	cars$foo_1 = rnorm(50)
+	cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
+	cb
+	cb$risk()
+	cb$selected()
+	cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
+	lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
+	cb$train(5)
+	cb$risk()
+	cb$selected()
 #	cb$addBaselearner(c("dist", "foo"), "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
  # cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
   #cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
-  cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
-  cb$train(NULL)
-  cb
-  cb$predict()
-  cb$predict(cars)
-  cb$train(10)
-  cb2$train(200)
-  gc()
-  cb$train(100000)
-  cb$bl.factory.list
-  cb$model$getLoggerData()
-  head(cb$model$getParameterMatrix()[[2]])
-  cb$model$getParameterMatrix()[[1]]
+	cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
+	cb$train(NULL)
+	cb
+	cb$predict()
+	cb$predict(cars)
+	cb$train(10)
+	cb2$train(200)
+	gc()
+	cb$train(100000)
+	cb$bl.factory.list
+	cb$model$getLoggerData()
+	head(cb$model$getParameterMatrix()[[2]])
+	cb$model$getParameterMatrix()[[1]]
 }
