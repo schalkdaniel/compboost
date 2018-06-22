@@ -2,4 +2,5 @@
 NULL
 
 #' @import Rcpp
+#' @import ggplot2
 NULL

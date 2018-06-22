@@ -80,6 +80,9 @@ public:
   
   // Get the data as std::map, convenient for Compboost::setToIteration:
   std::map<std::string, arma::mat> getDataMap () const;
+
+  // Get names of registered factories:
+  std::vector<std::string> getRegisteredFactoryNames () const;
   
   // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
 };

@@ -1678,6 +1678,11 @@ public:
     return obj.getMap().size();
   }
 
+  std::vector<std::string> getRegisteredFactoryNames ()
+  {
+    return obj.getRegisteredFactoryNames();
+  }
+
   // Nothing needs to be done since we allocate the object on the stack
   ~BlearnerFactoryListWrapper () {}
 };
@@ -1695,6 +1700,7 @@ RCPP_MODULE (baselearner_list_module)
     .method("clearRegisteredFactories", &BlearnerFactoryListWrapper::clearRegisteredFactories, "Clear factory map")
     .method("getModelFrame", &BlearnerFactoryListWrapper::getModelFrame, "Get the data used for modelling")
     .method("getNumberOfRegisteredFactories", &BlearnerFactoryListWrapper::getNumberOfRegisteredFactories, "Get number of registered factorys. Main purpose is for testing.")
+    .method("getRegisteredFactoryNames", &BlearnerFactoryListWrapper::getRegisteredFactoryNames, "Get names of registered factories")
   ;
 }
 
