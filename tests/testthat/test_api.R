@@ -276,6 +276,20 @@ test_that("custom cpp loss works through api", {
 
 })
 
+test_that("training with absolute loss works", {
+
+  expect_silent({
+    cboost = Compboost$new(mtcars, "hp", loss = AbsoluteLoss$new())
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost$train(100, trace = FALSE)
+  })
+
+  expect_length(cboost$selected(), 100)
+  expect_length(cboost$risk(), 101)
+  expect_equal(cboost$coef()$offset, median(mtcars$hp))
+
+})
 
 test_that("training with binomial loss works", {
 
