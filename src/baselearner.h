@@ -78,7 +78,7 @@ public:
   // the data is just stored once in the factory and then called by reference
   // within the baselearner:
   void setData (data::Data*);
-  arma::mat getData () const;
+  // arma::mat getData () const;
   
   // Get data identifier stored within the data object:
   std::string getDataIdentifier () const;

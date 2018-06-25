@@ -60,11 +60,11 @@ void Baselearner::setData (data::Data* data)
   data_ptr = data;
 }
 
-// Get the data on which data pointer points:
-arma::mat Baselearner::getData () const
-{
-  return data_ptr->getData();
-}
+// // Get the data on which data pointer points:
+// arma::mat Baselearner::getData () const
+// {
+//   return data_ptr->getData();
+// }
 
 // Get the data identifier:
 std::string Baselearner::getDataIdentifier () const

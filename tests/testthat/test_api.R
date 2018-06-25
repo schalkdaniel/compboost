@@ -239,6 +239,7 @@ test_that("custom loss works through api", {
   expect_equivalent(cboost$coef(), cboost1$coef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$selected(), cboost1$selected())
+  expect_equal(cboost$predict(mtcars), cboost$predict())
 
 })
 
@@ -273,6 +274,7 @@ test_that("custom cpp loss works through api", {
   expect_equivalent(cboost$coef(), cboost1$coef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$selected(), cboost1$selected())
+  expect_equal(cboost$predict(mtcars), cboost$predict())
 
 })
 
