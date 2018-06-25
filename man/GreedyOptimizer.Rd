@@ -24,21 +24,6 @@ GreedyOptimizer$new()
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
 }
 
-\section{Fields}{
-
-  This class doesn't contain public fields.
-}
-
-\section{Methods}{
-
-\describe{
-\item{\code{testOptimizer(response, factory_list)}}{Tests the optimizer
-  by iterating over all registered factories, calculating the SSE and
-  returns a list with the name of the best base-learner as well as the
-  estimated parameters}
-}
-}
-
 \examples{
 
 # Define optimizer:

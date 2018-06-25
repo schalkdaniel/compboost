@@ -204,705 +204,6 @@ RCPP_MODULE (data_module)
 
 
 // -------------------------------------------------------------------------- //
-//                               BASELEARNER                                  //
-// -------------------------------------------------------------------------- //
-
-class BaselearnerWrapper
-{
-public:
-
-  BaselearnerWrapper () {}
-
-  virtual ~BaselearnerWrapper () { delete obj; }
-
-protected:
-
-  blearner::Baselearner* obj;
-};
-
-//' Baselearner to make polynomial regression
-//'
-//' \code{PolynomialBlearner} creates a polynomial base-learner object which can
-//' be trained and used individually. Note that this is just for testing and
-//' can't be used within the actual algorithm.
-//'
-//' @format \code{\link{S4}} object.
-//' @name PolynomialBlearner
-//'
-//' @section Usage:
-//' \preformatted{
-//' PolynomialBlearner$new(data_source, data_target, degree)
-//' }
-//'
-//' @section Arguments:
-//' \describe{
-//' \item{\code{data_source} [\code{Data} Object]}{
-//'   Data object which contains the source data.
-//' }
-//' \item{\code{data_target} [\code{Data} Object]}{
-//'   Data object which gets the transformed source data.
-//' }
-//' \item{\code{degree} [\code{integer(1)}]}{
-//'   This argument is used for transforming the source data. Each element is
-//'   taken to the power of the \code{degree} argument.
-//' }
-//' }
-//'
-//'
-//' @section Details:
-//'   The polynomial base-learner takes any matrix which the user wants to pass
-//'   the number of columns indicates how much parameter are estimated. Note
-//'   that the intercept isn't added by default. To get an intercept add a
-//'   column of ones to the source data matrix.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_polynomial_blearner.html}.
-//'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{train(response)}}{Predict parameters of the base-learner using
-//'   a given \code{response}.}
-//' \item{\code{getParameter()}}{Get the estimated parameters.}
-//' \item{\code{predict()}}{Predict by using the train data.}
-//' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-//'   object.}
-//' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
-//' }
-//' @examples
-//' # Sample data:
-//' data.mat = cbind(1:10)
-//' y = 2 + 3 * 1:10
-//'
-//' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
-//'
-//' # Create new linear base-learner:
-//' bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = TRUE)
-//'
-//' # Train the learner:
-//' bl.poly$train(y)
-//'
-//' # Get estimated parameter:
-//' bl.poly$getParameter()
-//'
-//' @export PolynomialBlearner
-class PolynomialBlearnerWrapper : public BaselearnerWrapper
-{
-private:
-  data::Data* dummy_data_target;
-  unsigned int degree;
-  bool intercept;
-
-public:
-
-  PolynomialBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    unsigned int degree)
-    : degree ( degree )
-  {
-    intercept = true;
-    obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree, intercept);
-
-    data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
-    data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData());
-
-    delete(obj);
-    std::string temp = "test polynomial of degree " + std::to_string(degree);
-    obj = new blearner::PolynomialBlearner(data_target.getDataObj(), temp, degree, intercept);
-
-    dummy_data_target = data_target.getDataObj();
-  }
-
-  PolynomialBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    unsigned int degree, bool intercept)
-    : degree ( degree ),
-      intercept ( intercept )
-  {
-    obj = new blearner::PolynomialBlearner(data_source.getDataObj(), "", degree, intercept);
-
-    data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
-    data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData());
-
-    delete(obj);
-    std::string temp = "test polynomial of degree " + std::to_string(degree);
-    obj = new blearner::PolynomialBlearner(data_target.getDataObj(), temp, degree, intercept);
-
-    dummy_data_target = data_target.getDataObj();
-  }
-
-  void train (arma::vec& response)
-  {
-    obj->train(response);
-  }
-
-  arma::mat getData ()
-  {
-    return dummy_data_target->getData();
-  }
-  arma::mat getParameter ()
-  {
-    return obj->getParameter();
-  }
-
-  arma::vec predict ()
-  {
-    return obj->predict();
-  }
-
-  arma::vec predictNewdata (DataWrapper& newdata)
-  {
-    return obj->predict(newdata.getDataObj());
-  }
-
-  void summarizeBaselearner ()
-  {
-    if (degree == 1) {
-      Rcpp::Rcout << "Linear base-learner:" << std::endl;
-
-    }
-    if (degree == 2) {
-      Rcpp::Rcout << "Quadratic base-learner:" << std::endl;
-    }
-    if (degree == 3) {
-      Rcpp::Rcout << "Cubic base-learner:" << std::endl;
-    }
-    if (degree > 3) {
-      Rcpp::Rcout << "Polynomial base-learner of degree " << degree << std::endl;
-    }
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->getIdentifier() << std::endl;
-  }
-};
-
-//' Baselearner to do non-parametric B or P-spline regression
-//'
-//' \code{PSplineBlearner} creates a spline base-learner object which can
-//' be trained and used individually. Note that this is just for testing and
-//' can't be used within the actual algorithm.
-//'
-//' @format \code{\link{S4}} object.
-//' @name PSplineBlearner
-//'
-//' @section Usage:
-//' \preformatted{
-//' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
-//'   differences)
-//' }
-//'
-//' @section Arguments:
-//' \describe{
-//' \item{\code{data_source} [\code{Data} Object]}{
-//'   Data object which contains the source data.
-//' }
-//' \item{\code{data_target} [\code{Data} Object]}{
-//'   Data object which gets the transformed source data.
-//' }
-//' \item{\code{degree} [\code{integer(1)}]}{
-//'   Degree of the spline functions to interpolate the knots.
-//' }
-//' \item{\code{n_knots} [\code{integer(1)}]}{
-//'   Number of \strong{inner knots}. To prefent weird behaviour on the edges
-//'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
-//' }
-//' \item{\code{penalty} [\code{numeric(1)}]}{
-//'   Positive numeric value to specify the penalty parameter. Setting the
-//'   penalty to 0 ordinary B-splines are used for the fitting.
-//' }
-//' \item{\code{differences} [\code{integer(1)}]}{
-//'   The number of differences which are penalized. A higher value leads to
-//'   smoother curves.
-//' }
-//' }
-//'
-//' @section Details:
-//'   The data matrix of the source data is restricted to have just one column.
-//'   The spline bases are created for this single feature. Multidimensional
-//'   splines are not supported at the moment.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_p_spline_blearner.html}.
-//'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{train(response)}}{Predict parameters of the base-learner using
-//'   a given \code{response}.}
-//' \item{\code{getParameter()}}{Get the estimated parameters.}
-//' \item{\code{predict()}}{Predict by using the train data.}
-//' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-//'   object.}
-//' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
-//' }
-//' @examples
-//' # Sample data:
-//' data.mat = cbind(1:10)
-//' y = sin(1:10)
-//'
-//' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
-//'
-//' # Create new linear base-learner:
-//' bl.spline = PSplineBlearner$new(data.source, data.target, degree = 3,
-//'   n_knots = 4, penalty = 2, differences = 2)
-//'
-//' # Train the learner:
-//' bl.spline$train(y)
-//'
-//' # Get estimated parameter:
-//' bl.spline$getParameter()
-//'
-//' # Get spline bases:
-//' bl.spline$getData()
-//'
-//' @export PSplineBlearner
-class PSplineBlearnerWrapper : public BaselearnerWrapper
-{
-private:
-  data::Data* dummy_data_target;
-  unsigned int degree;
-
-public:
-
-  PSplineBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const unsigned int& degree, const unsigned int& n_knots, const double& penalty,
-    const unsigned int& differences)
-    : degree ( degree )
-  {
-    obj = new blearner::PSplineBlearner(data_source.getDataObj(), "", degree,
-      n_knots, penalty, differences);
-
-    data_target.getDataObj()->knots = createKnots(data_source.getDataObj()->getData(), n_knots, degree);
-
-    data_target.getDataObj()->penalty_mat = penaltyMat(n_knots + (degree + 1), differences);
-
-    data_target.getDataObj()->setData(createBasis(data_source.getDataObj()->getData(), degree, data_target.getDataObj()->knots));
-
-    data_target.getDataObj()->XtX_inv = arma::inv(data_target.getDataObj()->getData().t() * data_target.getDataObj()->getData() + penalty * data_target.getDataObj()->penalty_mat);
-
-    delete(obj);
-    std::string temp = "test spline of degree " + std::to_string(degree);
-    obj = new blearner::PSplineBlearner(data_target.getDataObj(), temp, degree,
-      n_knots, penalty, differences);
-
-    dummy_data_target = data_target.getDataObj();
-  }
-
-  void train (arma::vec& response)
-  {
-    obj->train(response);
-  }
-
-  arma::mat getData ()
-  {
-    return dummy_data_target->getData();
-  }
-  arma::mat getParameter ()
-  {
-    return obj->getParameter();
-  }
-
-  arma::vec predict ()
-  {
-    return obj->predict();
-  }
-
-  arma::vec predictNewdata (DataWrapper& newdata)
-  {
-    return obj->predict(newdata.getDataObj());
-  }
-
-  void summarizeBaselearner ()
-  {
-    Rcpp::Rcout << "Spline base-learner of degree " << std::to_string(degree) << std::endl;
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->getIdentifier() << std::endl;
-  }
-};
-
-//' Create custom base-learner by using R functions.
-//'
-//' \code{CustomBlearner} creates a custom base-learner by using
-//' \code{Rcpp::Function} to set \code{R} functions.
-//'
-//' @format \code{\link{S4}} object.
-//' @name CustomBlearner
-//'
-//' @section Usage:
-//' \preformatted{
-//' CustomBlearner$new(data_source, data_target, instantiateData, train,
-//'   predict, extractParameter)
-//' }
-//'
-//' @section Arguments:
-//' \describe{
-//' \item{\code{data_source} [\code{Data} Object]}{
-//'   Data object which contains the source data.
-//' }
-//' \item{\code{data_target} [\code{Data} Object]}{
-//'   Data object which gets the transformed source data.
-//' }
-//' \item{\code{instantiateData} [\code{function}]}{
-//'   \code{R} function to transform the source data. For details see the
-//'   \code{Details}.
-//' }
-//' \item{\code{train} [\code{function}]}{
-//'   \code{R} function to train the base-learner on the target data. For
-//'   details see the \code{Details}.
-//' }
-//' \item{\code{predict} [\code{function}]}{
-//'   \code{R} function to predict on the object returned by \code{train}.
-//'   For details see the \code{Details}.
-//' }
-//' \item{\code{extractParameter} [\code{function}]}{
-//'   \code{R} function to extract the parameter of the object returend by
-//'   \code{train}. For details see the \code{Details}.
-//' }
-//' }
-//'
-//' @section Details:
-//'   The functions must have the following structure:
-//'
-//'   \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
-//'   \code{X} and a matrix as return object.
-//'
-//'   \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
-//'   and a matrix argument \code{X}. The target data is used in \code{X} while
-//'   \code{y} contains the response. The function can return any \code{R}
-//'   object which is stored within a \code{SEXP}.
-//'
-//'   \code{predict(model, newdata) { ... return (prediction) }} The returned
-//'   object of the \code{train} function is passed to the \code{model}
-//'   argument while \code{newdata} contains a new matrix used for predicting.
-//'
-//'   \code{extractParameter() { ... return (parameters) }} Again, \code{model}
-//'   contains the object returned by \code{train}. The returned object must be
-//'   a matrix containing the estimated parameter. If no parameter should be
-//'   estimated one can return \code{NA}.
-//'
-//'   For an example see the \code{Examples}.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_blearner.html}.
-//'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{train(response)}}{Predict parameters of the base-learner using
-//'   a given \code{response}.}
-//' \item{\code{getParameter()}}{Get the estimated parameters.}
-//' \item{\code{predict()}}{Predict by using the train data.}
-//' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-//'   object.}
-//' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
-//' }
-//' @examples
-//' # Sample data:
-//' data.mat = cbind(1, 1:10)
-//' y = 2 + 3 * 1:10
-//'
-//' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
-//'
-//' instantiateDataFun = function (X) {
-//'   return(X)
-//' }
-//' # Ordinary least squares estimator:
-//' trainFun = function (y, X) {
-//'   return(solve(t(X) %*% X) %*% t(X) %*% y)
-//' }
-//' predictFun = function (model, newdata) {
-//'   return(as.matrix(newdata %*% model))
-//' }
-//' extractParameter = function (model) {
-//'   return(as.matrix(model))
-//' }
-//'
-//' # Create new linear base-learner:
-//' bl.custom = CustomBlearner$new(data.source, data.target, instantiateDataFun,
-//'   trainFun, predictFun, extractParameter)
-//'
-//' # Train the learner:
-//' bl.custom$train(y)
-//'
-//' # Get estimated parameter:
-//' bl.custom$getParameter()
-//'
-//' @export CustomBlearner
-class CustomBlearnerWrapper : public BaselearnerWrapper
-{
-private:
-  data::Data* dummy_data_target;
-
-public:
-
-  CustomBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    Rcpp::Function instantiateData, Rcpp::Function train, Rcpp::Function predict,
-    Rcpp::Function extractParameter)
-  {
-    obj = new blearner::CustomBlearner(data_source.getDataObj(), "", instantiateData,
-      train, predict, extractParameter);
-
-    data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
-
-    delete(obj);
-    std::string temp = "test custom";
-    obj = new blearner::CustomBlearner(data_target.getDataObj(), temp, instantiateData,
-      train, predict, extractParameter);
-
-    dummy_data_target = data_target.getDataObj();
-
-    // data = data0.getDataObj();
-    // data->setData(obj->instantiateData(data->getData()));
-    // std::string temp = "test custom";
-    // obj = new blearner::CustomBlearner(data, temp,instantiateData, train, predict, extractParameter);
-  }
-
-  void train (arma::vec& response)
-  {
-    obj->train(response);
-  }
-
-  arma::mat getData ()
-  {
-    return dummy_data_target->getData();
-  }
-  arma::mat getParameter ()
-  {
-    return obj->getParameter();
-  }
-
-  arma::vec predict ()
-  {
-    return obj->predict();
-  }
-
-  arma::vec predictNewdata (DataWrapper& newdata)
-  {
-    return obj->predict(newdata.getDataObj());
-  }
-
-  void summarizeBaselearner ()
-  {
-    Rcpp::Rcout << "Custom base-learner:" << std::endl;
-
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->getIdentifier() << std::endl;
-  }
-};
-
-//' Create custom cpp base-learner by using cpp functions and external pointer.
-//'
-//' \code{CustomCppBlearner} creates a custom base-learner by using
-//' \code{Rcpp::XPtr} to set \code{C++} functions.
-//'
-//' @format \code{\link{S4}} object.
-//' @name CustomCppBlearner
-//'
-//' @section Usage:
-//' \preformatted{
-//' CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
-//'   predict_ptr)
-//' }
-//'
-//' @section Arguments:
-//' \describe{
-//' \item{\code{data_source} [\code{Data} Object]}{
-//'   Data object which contains the source data.
-//' }
-//' \item{\code{data_target} [\code{Data} Object]}{
-//'   Data object which gets the transformed source data.
-//' }
-//' \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
-//'   External pointer to the \code{C++} instantiate data function.
-//' }
-//' \item{\code{train_ptr} [\code{externalptr}]}{
-//'   External pointer to the \code{C++} train function.
-//' }
-//' \item{\code{predict_ptr} [\code{externalptr}]}{
-//'   External pointer to the \code{C++} predict function.
-//' }
-//' }
-//'
-//' @section Details:
-//'   For an example see the extending compboost vignette or the function
-//'   \code{getCustomCppExample}.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_cpp_blearner.html}.
-//'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{train(response)}}{Predict parameters of the base-learner using
-//'   a given \code{response}.}
-//' \item{\code{getParameter()}}{Get the estimated parameters.}
-//' \item{\code{predict()}}{Predict by using the train data.}
-//' \item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-//'   object.}
-//' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
-//' }
-//' @examples
-//' # Sample data:
-//' data.mat = cbind(1, 1:10)
-//' y = 2 + 3 * 1:10
-//'
-//' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
-//'
-//' # Source the external pointer exposed by using XPtr:
-//' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
-//'
-//' # Create new linear base-learner:
-//' bl.custom.cpp = CustomCppBlearner$new(data.source, data.target, dataFunSetter(),
-//'   trainFunSetter(), predictFunSetter())
-//'
-//' # Train the learner:
-//' bl.custom.cpp$train(y)
-//'
-//' # Get estimated parameter:
-//' bl.custom.cpp$getParameter()
-//'
-//' @export CustomCppBlearner
-class CustomCppBlearnerWrapper : public BaselearnerWrapper
-{
-private:
-  data::Data* dummy_data_target;
-
-public:
-
-  CustomCppBlearnerWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    SEXP instantiate_data_ptr, SEXP train_ptr, SEXP predict_ptr)
-  {
-    obj = new blearner::CustomCppBlearner(data_source.getDataObj(), "",
-      instantiate_data_ptr, train_ptr, predict_ptr);
-
-    data_target.getDataObj()->setData(obj->instantiateData(data_source.getDataObj()->getData()));
-
-    delete(obj);
-    std::string temp = "test custom cpp learner";
-    obj = new blearner::CustomCppBlearner(data_target.getDataObj(), temp,
-      instantiate_data_ptr, train_ptr, predict_ptr);
-
-    dummy_data_target = data_target.getDataObj();
-
-    // data = data0.getDataObj();
-    // data->setData(obj->instantiateData(data->getData()));
-    // std::string temp = "test custom cpp learner";
-    // obj = new blearner::CustomCppBlearner(data, temp, instantiate_data_ptr,
-    //   train_ptr, predict_ptr);
-  }
-
-  void train (arma::vec& response)
-  {
-    obj->train(response);
-  }
-
-  arma::mat getData ()
-  {
-    return dummy_data_target->getData();
-  }
-  arma::mat getParameter ()
-  {
-    return obj->getParameter();
-  }
-
-  arma::vec predict ()
-  {
-    return obj->predict();
-  }
-
-  arma::vec predictNewdata (DataWrapper& newdata)
-  {
-    return obj->predict(newdata.getDataObj());
-  }
-
-  void summarizeBaselearner ()
-  {
-    Rcpp::Rcout << "Custom base-learner:" << std::endl;
-
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Baselearner identifier: " << obj->getIdentifier() << std::endl;
-  }
-};
-
-// Expose abstract BaselearnerWrapper class and define modules:
-RCPP_EXPOSED_CLASS(BaselearnerWrapper);
-RCPP_MODULE(baselearner_module)
-{
-  using namespace Rcpp;
-
-  class_<BaselearnerWrapper> ("Baselearner")
-    .constructor ("Create Baselearner class")
-  ;
-
-  class_<PolynomialBlearnerWrapper> ("PolynomialBlearner")
-    .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
-    .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> ()
-    .method("train",          &PolynomialBlearnerWrapper::train, "Train function of the base-learner")
-    .method("getParameter",   &PolynomialBlearnerWrapper::getParameter, "Predict function of the base-learner")
-    .method("predict",        &PolynomialBlearnerWrapper::predict, "GetParameter function of the base-learner")
-    .method("predictNewdata", &PolynomialBlearnerWrapper::predictNewdata, "Predict with newdata")
-    .method("getData",        &PolynomialBlearnerWrapper::getData, "Get data used for modelling")
-    .method("summarizeBaselearner", &PolynomialBlearnerWrapper::summarizeBaselearner, "Summarize Baselearner")
-  ;
-
-  class_<PSplineBlearnerWrapper> ("PSplineBlearner")
-    .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
-    .method("train",          &PSplineBlearnerWrapper::train, "Train function of the base-learner")
-    .method("getParameter",   &PSplineBlearnerWrapper::getParameter, "Predict function of the base-learner")
-    .method("predict",        &PSplineBlearnerWrapper::predict, "GetParameter function of the base-learner")
-    .method("predictNewdata", &PSplineBlearnerWrapper::predictNewdata, "Predict with newdata")
-    .method("getData",        &PSplineBlearnerWrapper::getData, "Get data used for modelling")
-    .method("summarizeBaselearner", &PSplineBlearnerWrapper::summarizeBaselearner, "Summarize Baselearner")
-  ;
-
-  class_<CustomBlearnerWrapper> ("CustomBlearner")
-    .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-    .method("train",          &CustomBlearnerWrapper::train, "Train function of the base-learner")
-    .method("getParameter",   &CustomBlearnerWrapper::getParameter, "Predict function of the base-learner")
-    .method("predict",        &CustomBlearnerWrapper::predict, "GetParameter function of the base-learner")
-    .method("predictNewdata", &CustomBlearnerWrapper::predictNewdata, "Predict with newdata")
-    .method("getData",        &CustomBlearnerWrapper::getData, "Get data used for modelling")
-    .method("summarizeBaselearner", &CustomBlearnerWrapper::summarizeBaselearner, "Summarize Baselearner")
-  ;
-
-  class_<CustomCppBlearnerWrapper> ("CustomCppBlearner")
-    .derives<BaselearnerWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
-    .method("train",          &CustomCppBlearnerWrapper::train, "Train function of the base-learner")
-    .method("getParameter",   &CustomCppBlearnerWrapper::getParameter, "Predict function of the base-learner")
-    .method("predict",        &CustomCppBlearnerWrapper::predict, "GetParameter function of the base-learner")
-    .method("predictNewdata", &CustomCppBlearnerWrapper::predictNewdata, "Predict with newdata")
-    .method("getData",        &CustomCppBlearnerWrapper::getData, "Get data used for modelling")
-    .method("summarizeBaselearner", &CustomCppBlearnerWrapper::summarizeBaselearner, "Summarize Baselearner")
-  ;
-}
-
-
-// -------------------------------------------------------------------------- //
 //                         BASELEARNER FACTORIES                               //
 // -------------------------------------------------------------------------- //
 
@@ -930,12 +231,12 @@ protected:
 //'  for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name PolynomialBlearnerFactory
+//' @name PolynomialBlearner
 //'
 //' @section Usage:
 //' \preformatted{
-//' PolynomialBlearnerFactory$new(data_source, data_target, degree)
-//' PolynomialBlearnerFactory$new(data_source, data_target, degree, intercept)
+//' PolynomialBlearner$new(data_source, data_target, degree, intercept)
+//' PolynomialBlearner$new(data_source, data_target, blearner_type, degree, intercept)
 //' }
 //'
 //' @section Arguments:
@@ -987,9 +288,9 @@ protected:
 //' data.target2 = InMemoryData$new()
 //'
 //' # Create new linear base-learner factory:
-//' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 
+//' lin.factory = PolynomialBlearner$new(data.source, data.target1, 
 //'   degree = 2, intercept = FALSE)
-//' lin.factory.int = PolynomialBlearnerFactory$new(data.source, data.target2, 
+//' lin.factory.int = PolynomialBlearner$new(data.source, data.target2, 
 //'   degree = 2, intercept = TRUE)
 //'
 //' # Get the transformed data:
@@ -1003,7 +304,7 @@ protected:
 //' lin.factory$transformData(data.mat)
 //' lin.factory.int$transformData(data.mat)
 //'
-//' @export PolynomialBlearnerFactory
+//' @export PolynomialBlearner
 class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
@@ -1011,27 +312,6 @@ private:
   bool intercept;
 
 public:
-
-  // PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-  //   const unsigned int& degree)
-  //   : degree ( degree )
-  // {
-  //   intercept = true;
-  //   std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
-
-  //   obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
-  //     data_target.getDataObj(), degree, intercept);
-  // }
-
-  // PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-  //   const std::string& blearner_type, const unsigned int& degree)
-  //   : degree ( degree )
-  // {
-  //   intercept = true;
-
-  //   obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
-  //     data_target.getDataObj(), degree, intercept);
-  // }
 
   PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const unsigned int& degree, bool intercept)
@@ -1088,11 +368,11 @@ public:
 //'  for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name PSplineBlearnerFactory
+//' @name PSplineBlearner
 //'
 //' @section Usage:
 //' \preformatted{
-//' PSplineBlearnerFactory$new(data_source, data_target, degree, n_knots, penalty,
+//' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 //'   differences)
 //' }
 //'
@@ -1151,7 +431,7 @@ public:
 //' data.target = InMemoryData$new()
 //'
 //' # Create new linear base-learner:
-//' spline.factory = PSplineBlearnerFactory$new(data.source, data.target,
+//' spline.factory = PSplineBlearner$new(data.source, data.target,
 //'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
 //'
 //' # Get the transformed data:
@@ -1163,7 +443,7 @@ public:
 //' # Transform data manually:
 //' spline.factory$transformData(data.mat)
 //'
-//' @export PSplineBlearnerFactory
+//' @export PSplineBlearner
 class PSplineBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
@@ -1176,14 +456,11 @@ public:
     const unsigned int& differences)
     : degree ( degree )
   {
-    if (data_source.getDataObj()->getData().n_cols > 1) {
-      // Rcpp::stop("Given data should have just one column");
-    } else {
-      std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
-  
-      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
-        data_target.getDataObj(), degree, n_knots, penalty, differences);      
-    }
+    std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
+    
+    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+       data_target.getDataObj(), degree, n_knots, penalty, differences);      
+
   }
 
   PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
@@ -1191,20 +468,9 @@ public:
     const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
     : degree ( degree )
   {
-    // unsigned int ncols = data_source.getDataObj()->getData().n_cols;
-    // Rcpp::Rcout << "Detect " << std::to_string(ncols) << " columns" << std::endl;
+    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), degree, n_knots, penalty, differences);
 
-    // if (ncols > 1) {
-
-    //   // delete data_target.getDataObj();
-    //   // delete data_source.getDataObj();
-    //         Rcpp::Rcout << "------ SECOND ------" << std::endl;
-    //   Rcpp::Rcout << "Given data should have just one column" << std::endl;
-    // } else {
-    //         Rcpp::Rcout << "------ THIRD ------" << std::endl;
-      obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
-        data_target.getDataObj(), degree, n_knots, penalty, differences);
-    // }
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -1231,11 +497,11 @@ public:
 //'   within a base-learner list and then used for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomBlearnerFactory
+//' @name CustomBlearner
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomBlearnerFactory$new(data_source, data_target, instantiateData, train,
+//' CustomBlearner$new(data_source, data_target, instantiateData, train,
 //'   predict, extractParameter)
 //' }
 //'
@@ -1326,7 +592,7 @@ public:
 //' }
 //'
 //' # Create new custom linear base-learner factory:
-//' custom.lin.factory = CustomBlearnerFactory$new(data.source, data.target,
+//' custom.lin.factory = CustomBlearner$new(data.source, data.target,
 //'   instantiateDataFun, trainFun, predictFun, extractParameter)
 //'
 //' # Get the transformed data:
@@ -1338,7 +604,7 @@ public:
 //' # Transform data manually:
 //' custom.lin.factory$transformData(data.mat)
 //'
-//' @export CustomBlearnerFactory
+//' @export CustomBlearner
 class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -1385,11 +651,11 @@ public:
 //'   within a base-learner list and then used for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomCppBlearnerFactory
+//' @name CustomCppBlearner
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomCppBlearnerFactory$new(data_source, data_target, instantiate_data_ptr,
+//' CustomCppBlearner$new(data_source, data_target, instantiate_data_ptr,
 //'   train_ptr, predict_ptr)
 //' }
 //'
@@ -1444,7 +710,7 @@ public:
 //' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 //'
 //' # Create new linear base-learner:
-//' custom.cpp.factory = CustomCppBlearnerFactory$new(data.source, data.target,
+//' custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
 //'   dataFunSetter(), trainFunSetter(), predictFunSetter())
 //'
 //' # Get the transformed data:
@@ -1456,7 +722,7 @@ public:
 //' # Transform data manually:
 //' custom.cpp.factory$transformData(data.mat)
 //'
-//' @export CustomCppBlearnerFactory
+//' @export CustomCppBlearner
 class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
@@ -1494,7 +760,7 @@ public:
 };
 
 
-// // Boiler code to check for constructors with sam argument length and decide
+// // Boiler code to check for constructors with same argument length and decide
 // // on input parameter type which one to take. See:
 // //   http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2011-May/002300.html
 // bool fun1( SEXP* args, int nargs){
@@ -1514,12 +780,12 @@ RCPP_MODULE (baselearner_factory_module)
 {
   using namespace Rcpp;
 
-  class_<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+  class_<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor ("Create BaselearnerFactory class")
   ;
 
-  class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearnerFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+  class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearner")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
     // .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
     // .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int> ("", &fun1)
     .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> () // ("", &fun2)
@@ -1529,8 +795,8 @@ RCPP_MODULE (baselearner_factory_module)
      .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
-  class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearnerFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+  class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearner")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, unsigned int, double, unsigned int> ()
     .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
@@ -1538,8 +804,8 @@ RCPP_MODULE (baselearner_factory_module)
     .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
-  class_<CustomBlearnerFactoryWrapper> ("CustomBlearnerFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+  class_<CustomBlearnerFactoryWrapper> ("CustomBlearner")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
      .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
@@ -1547,8 +813,8 @@ RCPP_MODULE (baselearner_factory_module)
      .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
-  class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearnerFactory")
-    .derives<BaselearnerFactoryWrapper> ("BaselearnerFactory")
+  class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearner")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
      .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
@@ -1761,36 +1027,11 @@ protected:
 //'   the functionality of the \code{C++} class visit
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_quadratic_loss.html}.
 //'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-//'   true response and a corresponding prediction.}
-//' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-//'   loss function for a given true response and a corresponding prediction.}
-//' \item{\code{testconstantInitializer(truth)}}{Calculates the constant
-//'   initialization of a given vector of true values.}
-//' }
 //' @examples
-//' # Sample data:
-//' set.seed(123)
-//' truth = 1:10
-//' prediction = truth - rnorm(10)
 //'
 //' # Create new loss object:
 //' quadratic.loss = QuadraticLoss$new()
 //' quadratic.loss
-//'
-//' # Calculate loss:
-//' quadratic.loss$testLoss(truth, prediction)
-//'
-//' # Calculate gradient:
-//' quadratic.loss$testGradient(truth, prediction)
-//'
-//' # Calculate the offset if this loss is used for the training:
-//' quadratic.loss$testConstantInitializer(truth)
 //'
 //' @export QuadraticLoss
 class QuadraticLossWrapper : public LossWrapper
@@ -1798,16 +1039,6 @@ class QuadraticLossWrapper : public LossWrapper
 public:
   QuadraticLossWrapper () { obj = new loss::QuadraticLoss(); }
   QuadraticLossWrapper (double custom_offset) { obj = new loss::QuadraticLoss(custom_offset); }
-
-  arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedLoss(true_value, prediction);
-  }
-  arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedGradient(true_value, prediction);
-  }
-  double testConstantInitializer (arma::vec& true_value) {
-    return obj->constantInitializer(true_value);
-  }
 };
 
 //' Absolute loss for regression tasks.
@@ -1851,36 +1082,11 @@ public:
 //'   the functionality of the \code{C++} class visit
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
 //'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-//'   true response and a corresponding prediction.}
-//' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-//'   loss function for a given true response and a corresponding prediction.}
-//' \item{\code{testconstantInitializer(truth)}}{Calculates the constant
-//'   initialization of a given vector of true values.}
-//' }
 //' @examples
-//' # Sample data:
-//' set.seed(123)
-//' truth = 1:10
-//' prediction = truth - rnorm(10)
 //'
 //' # Create new loss object:
 //' absolute.loss = AbsoluteLoss$new()
 //' absolute.loss
-//'
-//' # Calculate loss:
-//' absolute.loss$testLoss(truth, prediction)
-//'
-//' # Calculate gradient:
-//' absolute.loss$testGradient(truth, prediction)
-//'
-//' # Calculate the offset if this loss is used for the training:
-//' absolute.loss$testConstantInitializer(truth)
 //'
 //' @export AbsoluteLoss
 class AbsoluteLossWrapper : public LossWrapper
@@ -1888,16 +1094,6 @@ class AbsoluteLossWrapper : public LossWrapper
 public:
   AbsoluteLossWrapper () { obj = new loss::AbsoluteLoss(); }
   AbsoluteLossWrapper (double custom_offset) { obj = new loss::AbsoluteLoss(custom_offset); }
-
-  arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedLoss(true_value, prediction);
-  }
-  arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedGradient(true_value, prediction);
-  }
-  double testConstantInitializer (arma::vec& true_value) {
-    return obj->constantInitializer(true_value);
-  }
 };
 
 //' 0-1 Loss for binary classification derifed of the binomial distribution
@@ -1946,36 +1142,11 @@ public:
 //'   the functionality of the \code{C++} class visit
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 //'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-//'   true response and a corresponding prediction.}
-//' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-//'   loss function for a given true response and a corresponding prediction.}
-//' \item{\code{testconstantInitializer(truth)}}{Calculates the constant
-//'   initialization of a given vector of true values.}
-//' }
 //' @examples
-//' # Sample data:
-//' set.seed(123)
-//' truth = sample(c(1, -1), 10, TRUE)
-//' prediction = rnorm(10)
-//'
+//' 
 //' # Create new loss object:
 //' bin.loss = BinomialLoss$new()
 //' bin.loss
-//'
-//' # Calculate loss:
-//' bin.loss$testLoss(truth, prediction)
-//'
-//' # Calculate gradient:
-//' bin.loss$testGradient(truth, prediction)
-//'
-//' # Calculate the offset if this loss is used for the training:
-//' bin.loss$testConstantInitializer(truth)
 //'
 //' @export BinomialLoss
 class BinomialLossWrapper : public LossWrapper
@@ -1983,16 +1154,6 @@ class BinomialLossWrapper : public LossWrapper
 public:
   BinomialLossWrapper () { obj = new loss::BinomialLoss(); }
   BinomialLossWrapper (double custom_offset) { obj = new loss::BinomialLoss(custom_offset); }
-
-  arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedLoss(true_value, prediction);
-  }
-  arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedGradient(true_value, prediction);
-  }
-  double testConstantInitializer (arma::vec& true_value) {
-    return obj->constantInitializer(true_value);
-  }
 };
 
 //' Create customloss by using R functions.
@@ -2048,23 +1209,7 @@ public:
 //'   the functionality of the \code{C++} class visit
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
 //'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-//'   true response and a corresponding prediction.}
-//' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-//'   loss function for a given true response and a corresponding prediction.}
-//' \item{\code{testconstantInitializer(truth)}}{Calculates the constant
-//'   initialization of a given vector of true values.}
-//' }
 //' @examples
-//' # Sample data:
-//' set.seed(123)
-//' truth = 1:10
-//' prediction = truth - rnorm(10)
 //'
 //' # Loss function:
 //' myLoss = function (true.values, prediction) {
@@ -2082,15 +1227,6 @@ public:
 //' # Create new custom quadratic loss:
 //' my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
 //'
-//' # Calculate loss:
-//' my.loss$testLoss(truth, prediction)
-//'
-//' # Calculate gradient:
-//' my.loss$testGradient(truth, prediction)
-//'
-//' # Calculate the offset if this loss is used for the training:
-//' my.loss$testConstantInitializer(truth)
-//'
 //' @export CustomLoss
 class CustomLossWrapper : public LossWrapper
 {
@@ -2099,15 +1235,6 @@ public:
     Rcpp::Function initFun)
   {
     obj = new loss::CustomLoss(lossFun, gradientFun, initFun);
-  }
-  arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedLoss(true_value, prediction);
-  }
-  arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedGradient(true_value, prediction);
-  }
-  double testConstantInitializer (arma::vec& true_value) {
-    return obj->constantInitializer(true_value);
   }
 };
 
@@ -2145,23 +1272,7 @@ public:
 //'   the functionality of the \code{C++} class visit
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
 //'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-//'   true response and a corresponding prediction.}
-//' \item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-//'   loss function for a given true response and a corresponding prediction.}
-//' \item{\code{testconstantInitializer(truth)}}{Calculates the constant
-//'   initialization of a given vector of true values.}
-//' }
 //' @examples
-//' # Sample data:
-//' set.seed(123)
-//' truth = 1:10
-//' prediction = truth - rnorm(10)
 //'
 //' # Load loss functions:
 //' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
@@ -2169,14 +1280,6 @@ public:
 //' # Create new custom quadratic loss:
 //' my.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 //'
-//' # Calculate loss:
-//' my.cpp.loss$testLoss(truth, prediction)
-//'
-//' # Calculate gradient:
-//' my.cpp.loss$testGradient(truth, prediction)
-//'
-//' # Calculate the offset if this loss is used for the training:
-//' my.cpp.loss$testConstantInitializer(truth)
 //'
 //' @export CustomCppLoss
 class CustomCppLossWrapper : public LossWrapper
@@ -2185,15 +1288,6 @@ public:
   CustomCppLossWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
   {
     obj = new loss::CustomCppLoss(loss_ptr, grad_ptr, const_init_ptr);
-  }
-  arma::vec testLoss (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedLoss(true_value, prediction);
-  }
-  arma::vec testGradient (arma::vec& true_value, arma::vec& prediction) {
-    return obj->definedGradient(true_value, prediction);
-  }
-  double testConstantInitializer (arma::vec& true_value) {
-    return obj->constantInitializer(true_value);
   }
 };
 
@@ -2211,43 +1305,28 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
-    .method("testLoss", &QuadraticLossWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &QuadraticLossWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &QuadraticLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 
   class_<AbsoluteLossWrapper> ("AbsoluteLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
-    .method("testLoss", &AbsoluteLossWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &AbsoluteLossWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &AbsoluteLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 
   class_<BinomialLossWrapper> ("BinomialLoss")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
-    .method("testLoss", &BinomialLossWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &BinomialLossWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &BinomialLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 
   class_<CustomLossWrapper> ("CustomLoss")
     .derives<LossWrapper> ("Loss")
     .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-    .method("testLoss", &CustomLossWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &CustomLossWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &CustomLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 
   class_<CustomCppLossWrapper> ("CustomCppLoss")
     .derives<LossWrapper> ("Loss")
     .constructor<SEXP, SEXP, SEXP> ()
-    .method("testLoss", &CustomCppLossWrapper::testLoss, "Test the defined loss function of the loss")
-    .method("testGradient", &CustomCppLossWrapper::testGradient, "Test the defined gradient of the loss")
-    .method("testConstantInitializer", &CustomCppLossWrapper::testConstantInitializer, "Test the constant initializer function of th eloss")
   ;
 }
 
@@ -2904,16 +1983,6 @@ protected:
 //'   the functionality of the \code{C++} class visit
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
 //'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{testOptimizer(response, factory_list)}}{Tests the optimizer
-//'   by iterating over all registered factories, calculating the SSE and
-//'   returns a list with the name of the best base-learner as well as the
-//'   estimated parameters}
-//' }
 //' @examples
 //'
 //' # Define optimizer:
@@ -2925,20 +1994,20 @@ class GreedyOptimizer : public OptimizerWrapper
 public:
   GreedyOptimizer () { obj = new optimizer::GreedyOptimizer(); }
 
-  Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
-  {
-    std::string temp_str = "test run";
-    blearner::Baselearner* blearner_test = obj->findBestBaselearner(temp_str, response, factory_list.getFactoryList()->getMap());
+  // Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
+  // {
+  //   std::string temp_str = "test run";
+  //   blearner::Baselearner* blearner_test = obj->findBestBaselearner(temp_str, response, factory_list.getFactoryList()->getMap());
 
-    Rcpp::List out = Rcpp::List::create(
-      Rcpp::Named("selected.learner") = blearner_test->getIdentifier(),
-      Rcpp::Named("parameter")        = blearner_test->getParameter()
-    );
+  //   Rcpp::List out = Rcpp::List::create(
+  //     Rcpp::Named("selected.learner") = blearner_test->getIdentifier(),
+  //     Rcpp::Named("parameter")        = blearner_test->getParameter()
+  //   );
 
-    delete blearner_test;
+  //   delete blearner_test;
 
-    return out;
-  }
+  //   return out;
+  // }
 };
 
 RCPP_EXPOSED_CLASS(OptimizerWrapper);
@@ -2953,7 +2022,6 @@ RCPP_MODULE(optimizer_module)
   class_<GreedyOptimizer> ("GreedyOptimizer")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
-    .method("testOptimizer", &GreedyOptimizer::testOptimizer, "Test the optimizer on a given list of factorys")
   ;
 }
 
@@ -3168,23 +2236,8 @@ public:
     used_optimizer = optimizer.getOptimizer();
     blearner_list_ptr = factory_list.getFactoryList();
 
-    // used_optimizer = new optimizer::Greedy();
-    // Rcpp::Rcout << "<<CompboostWrapper>> Create new Optimizer" << std::endl;
-
-    // used_logger = new loggerlist::LoggerList();
-    // // Rcpp::Rcout << "<<CompboostWrapper>> Create LoggerList" << std::endl;
-    //
-    // logger::Logger* log_iterations = new logger::IterationLogger(true, max_iterations);
-    // logger::Logger* log_time       = new logger::TimeLogger(stop_if_all_stopper_fulfilled0, max_time, "microseconds");
-    // // Rcpp::Rcout << "<<CompboostWrapper>> Create new Logger" << std::endl;
-    //
-    // used_logger->RegisterLogger("iterations", log_iterations);
-    // used_logger->RegisterLogger("microseconds", log_time);
-    // // Rcpp::Rcout << "<<CompboostWrapper>> Register Logger" << std::endl;
-
     obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled,
       used_optimizer, loss.getLoss(), used_logger, *blearner_list_ptr);
-    // Rcpp::Rcout << "<<CompboostWrapper>> Create Compboost" << std::endl;
   }
 
   // Member functions

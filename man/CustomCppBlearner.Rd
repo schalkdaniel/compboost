@@ -2,17 +2,19 @@
 % Please edit documentation in R/RcppExports.R
 \name{CustomCppBlearner}
 \alias{CustomCppBlearner}
-\title{Create custom cpp base-learner by using cpp functions and external pointer.}
+\title{Create custom cpp base-learner factory by using cpp functions and external
+pointer.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomCppBlearner} creates a custom base-learner by using
-\code{Rcpp::XPtr} to set \code{C++} functions.
+\code{CustomCppBlearnerFactory} creates a custom base-learner factory by
+  setting custom \code{C++} functions. This factory object can be registered
+  within a base-learner list and then used for training.
 }
 \section{Usage}{
 
 \preformatted{
-CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
-  predict_ptr)
+CustomCppBlearner$new(data_source, data_target, instantiate_data_ptr,
+  train_ptr, predict_ptr)
 }
 }
 
@@ -44,7 +46,7 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
 
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_cpp_blearner.html}.
+  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_cpp_blearner_factory.html}.
 }
 
 \section{Fields}{
@@ -55,14 +57,11 @@ CustomCppBlearner(data_source, data_target, instantiate_data_ptr, train_ptr,
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using
-  a given \code{response}.}
-\item{\code{getParameter()}}{Get the estimated parameters.}
-\item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-  object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}
+\item{\code{transformData(X)}}{Transform a data matrix as defined within the
+  factory. The argument has to be a matrix with one column.}
+\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
 
@@ -79,13 +78,16 @@ data.target = InMemoryData$new()
 Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 
 # Create new linear base-learner:
-bl.custom.cpp = CustomCppBlearner$new(data.source, data.target, dataFunSetter(),
-  trainFunSetter(), predictFunSetter())
+custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
+  dataFunSetter(), trainFunSetter(), predictFunSetter())
 
-# Train the learner:
-bl.custom.cpp$train(y)
+# Get the transformed data:
+custom.cpp.factory$getData()
 
-# Get estimated parameter:
-bl.custom.cpp$getParameter()
+# Summarize factory:
+custom.cpp.factory$summarizeFactory()
+
+# Transform data manually:
+custom.cpp.factory$transformData(data.mat)
 
 }

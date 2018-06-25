@@ -579,6 +579,21 @@ TimeLogger::TimeLogger (const bool& is_a_stopper0, const unsigned int& max_time,
   : max_time ( max_time ),
     time_unit ( time_unit )
 {
+  // This is necessary to prevent the program from segfolds... whyever???
+  // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
+  try {
+    if (time_unit != "minutes" ) {
+      if (time_unit != "seconds") {
+        if (time_unit != "microseconds") {
+          Rcpp::stop("Time unit has to be one of 'microseconds', 'seconds' or 'minutes'.");
+        }
+      }
+    }
+  } catch ( std::exception &ex ) {
+    forward_exception_to_r( ex );
+  } catch (...) { 
+    ::Rf_error( "c++ exception (unknown reason)" ); 
+  }
   is_a_stopper = is_a_stopper0;
 }
 

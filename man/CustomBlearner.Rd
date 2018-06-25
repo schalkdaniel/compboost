@@ -2,11 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{CustomBlearner}
 \alias{CustomBlearner}
-\title{Create custom base-learner by using R functions.}
+\title{Create custom base-learner factory by using R functions.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomBlearner} creates a custom base-learner by using
-\code{Rcpp::Function} to set \code{R} functions.
+\code{CustomBlearnerFactory} creates a custom base-learner factory by
+  setting custom \code{R} functions. This factory object can be registered
+  within a base-learner list and then used for training.
 }
 \section{Usage}{
 
@@ -46,7 +47,7 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
 
 \section{Details}{
 
-  The functions must have the following structure:
+  The function must have the following structure:
 
   \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
   \code{X} and a matrix as return object.
@@ -69,7 +70,7 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
 
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_custom_blearner.html}.
+  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_blearner_factory.html}.
 }
 
 \section{Fields}{
@@ -80,14 +81,11 @@ CustomBlearner$new(data_source, data_target, instantiateData, train,
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using
-  a given \code{response}.}
-\item{\code{getParameter()}}{Get the estimated parameters.}
-\item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-  object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}
+\item{\code{transformData(X)}}{Transform a data matrix as defined within the
+  factory. The argument has to be a matrix with one column.}
+\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
 
@@ -114,14 +112,17 @@ extractParameter = function (model) {
   return(as.matrix(model))
 }
 
-# Create new linear base-learner:
-bl.custom = CustomBlearner$new(data.source, data.target, instantiateDataFun,
-  trainFun, predictFun, extractParameter)
+# Create new custom linear base-learner factory:
+custom.lin.factory = CustomBlearner$new(data.source, data.target,
+  instantiateDataFun, trainFun, predictFun, extractParameter)
 
-# Train the learner:
-bl.custom$train(y)
+# Get the transformed data:
+custom.lin.factory$getData()
 
-# Get estimated parameter:
-bl.custom$getParameter()
+# Summarize factory:
+custom.lin.factory$summarizeFactory()
+
+# Transform data manually:
+custom.lin.factory$transformData(data.mat)
 
 }

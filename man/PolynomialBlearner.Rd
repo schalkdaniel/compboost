@@ -2,17 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{PolynomialBlearner}
 \alias{PolynomialBlearner}
-\title{Baselearner to make polynomial regression}
+\title{Baselearner factory to make polynomial regression}
 \format{\code{\link{S4}} object.}
 \description{
-\code{PolynomialBlearner} creates a polynomial base-learner object which can
-be trained and used individually. Note that this is just for testing and
-can't be used within the actual algorithm.
+\code{PolynomialBlearnerFactory} creates a polynomial base-learner factory
+ object which can be registered within a base-learner list and then used
+ for training.
 }
 \section{Usage}{
 
 \preformatted{
-PolynomialBlearner$new(data_source, data_target, degree)
+PolynomialBlearner$new(data_source, data_target, degree, intercept)
+PolynomialBlearner$new(data_source, data_target, blearner_type, degree, intercept)
 }
 }
 
@@ -29,19 +30,22 @@ PolynomialBlearner$new(data_source, data_target, degree)
   This argument is used for transforming the source data. Each element is
   taken to the power of the \code{degree} argument.
 }
+\item{\code{intercept} [\code{logical(1)}]}{
+  Indicating whether an intercept should be added or not. Default is set to TRUE.
+}
 }
 }
 
 \section{Details}{
 
-  The polynomial base-learner takes any matrix which the user wants to pass
-  the number of columns indicates how much parameter are estimated. Note
-  that the intercept isn't added by default. To get an intercept add a
+  The polynomial base-learner factory takes any matrix which the user wants
+  to pass the number of columns indicates how much parameter are estimated.
+  Note that the intercept isn't added by default. To get an intercept add a
   column of ones to the source data matrix.
 
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_polynomial_blearner.html}.
+  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_polynomial_blearner_factory.html}.
 }
 
 \section{Fields}{
@@ -52,33 +56,38 @@ PolynomialBlearner$new(data_source, data_target, degree)
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using
-  a given \code{response}.}
-\item{\code{getParameter()}}{Get the estimated parameters.}
-\item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-  object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}
+\item{\code{transformData(X)}}{Transform a data matrix as defined within the
+  factory. The argument has to be a matrix with one column.}
+\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
 
 \examples{
 # Sample data:
 data.mat = cbind(1:10)
-y = 2 + 3 * 1:10
 
 # Create new data object:
 data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target = InMemoryData$new()
+data.target1 = InMemoryData$new()
+data.target2 = InMemoryData$new()
 
-# Create new linear base-learner:
-bl.poly = PolynomialBlearner$new(data.source, data.target, degree = 1, intercept = TRUE)
+# Create new linear base-learner factory:
+lin.factory = PolynomialBlearner$new(data.source, data.target1, 
+  degree = 2, intercept = FALSE)
+lin.factory.int = PolynomialBlearner$new(data.source, data.target2, 
+  degree = 2, intercept = TRUE)
 
-# Train the learner:
-bl.poly$train(y)
+# Get the transformed data:
+lin.factory$getData()
+lin.factory.int$getData()
 
-# Get estimated parameter:
-bl.poly$getParameter()
+# Summarize factory:
+lin.factory$summarizeFactory()
+
+# Transform data manually:
+lin.factory$transformData(data.mat)
+lin.factory.int$transformData(data.mat)
 
 }

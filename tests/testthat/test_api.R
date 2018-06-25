@@ -4,23 +4,36 @@ test_that("train works", {
 
   mtcars$mpg_cat = ifelse(mtcars$mpg > 15, "A", "B")  
   
+  expect_error({ cboost = Compboost$new(mtcars, "i_am_no_feature", loss = QuadraticLoss$new()) })
   expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new()) })
+  expect_output(cboost$print())
+
+  expect_equal(cboost$getCurrentIteration(), 0)
+  expect_equal(cboost$risk(), NULL)
+  expect_equal(cboost$selected(), NULL)
+  expect_equal(cboost$coef(), NULL)
 
   expect_error(cboost$train(10))
   expect_error(
-  	cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3, 
+  	cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearner, degree = 3, 
       knots = 10, penalty = 2, differences = 2)
   )
 
   expect_silent(
-    cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearnerFactory, degree = 1, 
+    cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearner, degree = 1, 
     	intercept = FALSE)
   )
   expect_silent(
-  	cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3, 
+  	cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
     	knots = 10, penalty = 2, differences = 2)
   )
   expect_output(cboost$train(4000))
+  expect_output(cboost$print())
+
+  expect_error(
+    cboost$addBaselearner("wt", "spline", PSplineBlearner, degree = 3, 
+      knots = 10, penalty = 2, differences = 2)
+  )
 
   expect_s4_class(cboost$model, "Rcpp_Compboost_internal")
   expect_s4_class(cboost$bl.factory.list, "Rcpp_BlearnerFactoryList")
@@ -57,9 +70,9 @@ test_that("predict works", {
 
   expect_silent({ 
   	cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-    cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearnerFactory, degree = 1, 
+    cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearner, degree = 1, 
     	intercept = FALSE)
-    cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3, 
+    cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
     	knots = 10, penalty = 2, differences = 2)
   })
 
@@ -76,11 +89,11 @@ test_that("plot works", {
 
   expect_silent({ 
   	cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-    cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearnerFactory, degree = 1, 
+    cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearner, degree = 1, 
     	intercept = TRUE)
-    cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3, 
+    cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
     	knots = 10, penalty = 2, differences = 2)
-    cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearnerFactory, degree = 2,
+    cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearner, degree = 2,
     	intercept = TRUE)
   })
 
@@ -107,9 +120,9 @@ test_that("multiple logger works", {
 
   expect_silent({ 
     cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-    cboost$addBaselearner("hp", "spline", PSplineBlearnerFactory, degree = 3, 
+    cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
       knots = 10, penalty = 2, differences = 2)
-    cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearnerFactory, degree = 2,
+    cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearner, degree = 2,
       intercept = TRUE)
   })
 

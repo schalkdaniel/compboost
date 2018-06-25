@@ -59,28 +59,7 @@ CustomLoss$new(lossFun, gradientFun, initFun)
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
 }
 
-\section{Fields}{
-
-  This class doesn't contain public fields.
-}
-
-\section{Methods}{
-
-\describe{
-\item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-  true response and a corresponding prediction.}
-\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-  loss function for a given true response and a corresponding prediction.}
-\item{\code{testconstantInitializer(truth)}}{Calculates the constant
-  initialization of a given vector of true values.}
-}
-}
-
 \examples{
-# Sample data:
-set.seed(123)
-truth = 1:10
-prediction = truth - rnorm(10)
 
 # Loss function:
 myLoss = function (true.values, prediction) {
@@ -97,14 +76,5 @@ myConstInit = function (true.values) {
 
 # Create new custom quadratic loss:
 my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
-
-# Calculate loss:
-my.loss$testLoss(truth, prediction)
-
-# Calculate gradient:
-my.loss$testGradient(truth, prediction)
-
-# Calculate the offset if this loss is used for the training:
-my.loss$testConstantInitializer(truth)
 
 }
