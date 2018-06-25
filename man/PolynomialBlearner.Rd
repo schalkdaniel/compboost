@@ -5,7 +5,7 @@
 \title{Baselearner factory to make polynomial regression}
 \format{\code{\link{S4}} object.}
 \description{
-\code{PolynomialBlearnerFactory} creates a polynomial base-learner factory
+\code{PolynomialBlearner} creates a polynomial base-learner factory
  object which can be registered within a base-learner list and then used
  for training.
 }

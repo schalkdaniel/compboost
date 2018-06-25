@@ -73,7 +73,7 @@ NULL
 
 #' Baselearner factory to make polynomial regression
 #'
-#' \code{PolynomialBlearnerFactory} creates a polynomial base-learner factory
+#' \code{PolynomialBlearner} creates a polynomial base-learner factory
 #'  object which can be registered within a base-learner list and then used
 #'  for training.
 #'
@@ -156,7 +156,7 @@ NULL
 
 #' Base-learner factory to do non-parametric B or P-spline regression
 #'
-#' \code{PSplineBlearnerFactory} creates a spline base-learner factory
+#' \code{PSplineBlearner} creates a spline base-learner factory
 #'  object which can be registered within a base-learner list and then used
 #'  for training.
 #'
@@ -484,8 +484,8 @@ NULL
 #' data.target1 = InMemoryData$new()
 #' data.target2 = InMemoryData$new()
 #'
-#' lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, 1, TRUE)
-#' poly.factory = PolynomialBlearnerFactory$new(data.source, data.target2, 2, TRUE)
+#' lin.factory = PolynomialBlearner$new(data.source, data.target1, 1, TRUE)
+#' poly.factory = PolynomialBlearner$new(data.source, data.target2, 2, TRUE)
 #'
 #' # Create new base-learner list:
 #' my.bl.list = BlearnerFactoryList$new()
@@ -1301,10 +1301,10 @@ NULL
 #' test.data = oob.data
 #'
 #' # Factories:
-#' linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, TRUE)
-#' linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1, TRUE)
-#' quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, TRUE)
-#' spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+#' linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
+#' linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
+#' quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
+#' spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 #'
 #' # Create new factory list:
 #' factory.list = BlearnerFactoryList$new()

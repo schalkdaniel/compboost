@@ -5,7 +5,7 @@
 \title{Base-learner factory to do non-parametric B or P-spline regression}
 \format{\code{\link{S4}} object.}
 \description{
-\code{PSplineBlearnerFactory} creates a spline base-learner factory
+\code{PSplineBlearner} creates a spline base-learner factory
  object which can be registered within a base-learner list and then used
  for training.
 }
