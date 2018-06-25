@@ -26,22 +26,25 @@ test_that("Loss printer works", {
   expect_silent({ quadratic.loss = QuadraticLoss$new() })
   expect_silent({ absolute.loss  = AbsoluteLoss$new() })
   expect_silent({ binomial.loss = BinomialLoss$new() })
+  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })  
 
-  # Function for Custom Loss:
   myLossFun = function (true.value, prediction) NULL
   myGradientFun = function (true.value, prediction) NULL
   myConstantInitializerFun = function (true.value) NULL
 
+  expect_silent({ custom.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
   expect_silent({ custom.loss = CustomLoss$new(myLossFun, myGradientFun, myConstantInitializerFun) })
 
-  expect_output({ test.quadratic.printer = show(quadratic.loss) })
-  expect_output({ test.absolute.printer  = show(absolute.loss) })
-  expect_output({ test.custom.printer    = show(custom.loss) })
-  expect_output({ test.binomialprinter  = show(binomial.loss) })
+  expect_output({ test.quadratic.printer  = show(quadratic.loss) })
+  expect_output({ test.absolute.printer   = show(absolute.loss) })
+  expect_output({ test.custom.printer     = show(custom.loss) })
+  expect_output({ test.custom.cpp.printer = show(custom.cpp.loss) })
+  expect_output({ test.binomialprinter    = show(binomial.loss) })
 
   expect_equal(test.quadratic.printer, "QuadraticLossPrinter")
   expect_equal(test.absolute.printer, "AbsoluteLossPrinter")
   expect_equal(test.binomialprinter, "BinomialLossPrinter")
+  expect_equal(test.custom.cpp.printer, "CustomCppLossPrinter")
   expect_equal(test.custom.printer, "CustomLossPrinter")
 
 })
