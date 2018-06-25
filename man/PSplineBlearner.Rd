@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{PSplineBlearner}
 \alias{PSplineBlearner}
-\title{Baselearner to do non-parametric B or P-spline regression}
+\title{Base-learner factory to do non-parametric B or P-spline regression}
 \format{\code{\link{S4}} object.}
 \description{
-\code{PSplineBlearner} creates a spline base-learner object which can
-be trained and used individually. Note that this is just for testing and
-can't be used within the actual algorithm.
+\code{PSplineBlearner} creates a spline base-learner factory
+ object which can be registered within a base-learner list and then used
+ for training.
 }
 \section{Usage}{
 
@@ -52,7 +52,7 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 
   This class is a wrapper around the pure \code{C++} implementation. To see
   the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearner_1_1_p_spline_blearner.html}.
+  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_p_spline_blearner_factory.html}.
 }
 
 \section{Fields}{
@@ -63,14 +63,11 @@ PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
 \section{Methods}{
 
 \describe{
-\item{\code{train(response)}}{Predict parameters of the base-learner using
-  a given \code{response}.}
-\item{\code{getParameter()}}{Get the estimated parameters.}
-\item{\code{predict()}}{Predict by using the train data.}
-\item{\code{predictNewdata(newdata)}}{Predict by using a new \code{Data}
-  object.}
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modelling.}
+\item{\code{transformData(X)}}{Transform a data matrix as defined within the
+  factory. The argument has to be a matrix with one column.}
+\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
 
@@ -84,16 +81,16 @@ data.source = InMemoryData$new(data.mat, "my.data.name")
 data.target = InMemoryData$new()
 
 # Create new linear base-learner:
-bl.spline = PSplineBlearner$new(data.source, data.target, degree = 3,
-  n_knots = 4, penalty = 2, differences = 2)
+spline.factory = PSplineBlearner$new(data.source, data.target,
+  degree = 3, n_knots = 4, penalty = 2, differences = 2)
 
-# Train the learner:
-bl.spline$train(y)
+# Get the transformed data:
+spline.factory$getData()
 
-# Get estimated parameter:
-bl.spline$getParameter()
+# Summarize factory:
+spline.factory$summarizeFactory()
 
-# Get spline bases:
-bl.spline$getData()
+# Transform data manually:
+spline.factory$transformData(data.mat)
 
 }

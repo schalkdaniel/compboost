@@ -86,13 +86,13 @@ ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
 })
 
 # ---------------------------------------------------------------------------- #
-# Baselearner:
+# Factories:
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_PolynomialBlearner")
 ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
   cat("\n")
-  object$summarizeBaselearner()
+  object$summarizeFactory()
   cat("\n\n")
 
   return ("PolynomialBlearnerPrinter")
@@ -101,7 +101,7 @@ ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
 setClass("Rcpp_PSplineBlearner")
 ignore.me = setMethod("show", "Rcpp_PSplineBlearner", function (object) {
   cat("\n")
-  object$summarizeBaselearner()
+  object$summarizeFactory()
   cat("\n\n")
 
   return ("PSplineBlearnerPrinter")
@@ -110,7 +110,7 @@ ignore.me = setMethod("show", "Rcpp_PSplineBlearner", function (object) {
 setClass("Rcpp_CustomBlearner")
 ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
   cat("\n")
-  object$summarizeBaselearner()
+  object$summarizeFactory()
   cat("\n\n")
 
   return ("CustomBlearnerPrinter")
@@ -119,50 +119,10 @@ ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
 setClass("Rcpp_CustomCppBlearner")
 ignore.me = setMethod("show", "Rcpp_CustomCppBlearner", function (object) {
   cat("\n")
-  object$summarizeBaselearner()
+  object$summarizeFactory()
   cat("\n\n")
 
   return ("CustomCppBlearnerPrinter")
-})
-
-# ---------------------------------------------------------------------------- #
-# Factories:
-# ---------------------------------------------------------------------------- #
-
-setClass("Rcpp_PolynomialBlearnerFactory")
-ignore.me = setMethod("show", "Rcpp_PolynomialBlearnerFactory", function (object) {
-  cat("\n")
-  object$summarizeFactory()
-  cat("\n\n")
-
-  return ("PolynomialBlearnerFactoryPrinter")
-})
-
-setClass("Rcpp_PSplineBlearnerFactory")
-ignore.me = setMethod("show", "Rcpp_PSplineBlearnerFactory", function (object) {
-  cat("\n")
-  object$summarizeFactory()
-  cat("\n\n")
-
-  return ("PSplineBlearnerFactoryPrinter")
-})
-
-setClass("Rcpp_CustomBlearnerFactory")
-ignore.me = setMethod("show", "Rcpp_CustomBlearnerFactory", function (object) {
-  cat("\n")
-  object$summarizeFactory()
-  cat("\n\n")
-
-  return ("CustomBlearnerFactoryPrinter")
-})
-
-setClass("Rcpp_CustomCppBlearnerFactory")
-ignore.me = setMethod("show", "Rcpp_CustomCppBlearnerFactory", function (object) {
-  cat("\n")
-  object$summarizeFactory()
-  cat("\n\n")
-
-  return ("CustomCppBlearnerFactoryPrinter")
 })
 
 # ---------------------------------------------------------------------------- #

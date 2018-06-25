@@ -3,184 +3,117 @@ context("Compboost works")
 test_that("Compboost loggs correctly", {
 
   df = mtcars
-
-  # Create new variable to check the polynomial baselearner with degree 2:
   df$hp2 = df[["hp"]]^2
 
-  # Data for compboost:
   X.hp = as.matrix(df[["hp"]], ncol = 1)
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
 
-  data.source.hp = InMemoryData$new(X.hp, "hp")
-  data.source.wt = InMemoryData$new(X.wt, "wt")
+  expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
+  expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
 
-  data.target.hp1 = InMemoryData$new()
-  data.target.hp2 = InMemoryData$new()
-  data.target.wt  = InMemoryData$new()
+  expect_silent({ data.target.hp1 = InMemoryData$new() })
+  expect_silent({ data.target.hp2 = InMemoryData$new() })
+  expect_silent({ data.target.wt  = InMemoryData$new() })
 
   eval.oob.test = list(data.source.hp, data.source.wt)
-
-  # Hyperparameter for the algorithm:
   learning.rate = 0.05
-  iter.max = 500
+  iter.max      = 500
 
-  # Prepare compboost:
-  # ------------------
+  expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, FALSE) })
+  expect_silent({ linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt, 1, FALSE) })
+  expect_silent({ quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, FALSE) })
+  expect_silent({ factory.list = BlearnerFactoryList$new() })
+  expect_silent({ factory.list$registerFactory(linear.factory.hp) })
+  expect_silent({ factory.list$registerFactory(linear.factory.wt) })
+  expect_silent({ factory.list$registerFactory(quadratic.factory.hp) })
+  expect_silent({ loss.quadratic = QuadraticLoss$new() })
+  expect_silent({ optimizer = GreedyOptimizer$new() })
+  expect_silent({ log.iterations = IterationLogger$new(TRUE, iter.max) })
+  expect_silent({ log.time.ms    = TimeLogger$new(TRUE, 50000, "microseconds") })
+  expect_silent({ log.time.sec   = TimeLogger$new(TRUE, 2, "seconds") })
+  expect_silent({ log.time.min   = TimeLogger$new(TRUE, 1, "minutes") })
+  expect_silent({ log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.01) })
+  expect_silent({ log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
+  expect_silent({ logger.list = LoggerList$new() })
+  expect_silent({ logger.list$registerLogger(" iterations", log.iterations) })
+  expect_silent({ logger.list$registerLogger("time.microseconds", log.time.ms) })
+  expect_silent({ logger.list$registerLogger("time.seconds", log.time.sec) })
+  expect_silent({ logger.list$registerLogger("time.minutes", log.time.min) })
+  expect_silent({ logger.list$registerLogger("inbag.risk", log.inbag) })
+  expect_silent({ logger.list$registerLogger("oob.risk", log.oob) })
 
-  # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, FALSE)
-  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1, FALSE)
-
-  # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, FALSE)
-
-  # Create new factory list:
-  factory.list = BlearnerFactoryList$new()
-
-  # Register factorys:
-  factory.list$registerFactory(linear.factory.hp)
-  factory.list$registerFactory(linear.factory.wt)
-  factory.list$registerFactory(quadratic.factory.hp)
-
-  # Use quadratic loss:
-  loss.quadratic = QuadraticLoss$new()
-
-  # Use the greedy optimizer:
-  optimizer = GreedyOptimizer$new()
-
-  # Define logger. We want just the iterations as stopper but also track the
-  # time:
-  log.iterations = IterationLogger$new(TRUE, iter.max)
-  log.time.ms    = TimeLogger$new(TRUE, 50000, "microseconds")
-  log.time.sec   = TimeLogger$new(TRUE, 2, "seconds")
-  log.time.min   = TimeLogger$new(TRUE, 1, "minutes")
-  log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.01)
-  log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y)
-
-  logger.list = LoggerList$new()
-  logger.list$registerLogger(" iterations", log.iterations)
-  logger.list$registerLogger("time.microseconds", log.time.ms)
-  logger.list$registerLogger("time.seconds", log.time.sec)
-  logger.list$registerLogger("time.minutes", log.time.min)
-  logger.list$registerLogger("inbag.risk", log.inbag)
-  logger.list$registerLogger("oob.risk", log.oob)
-
-  # logger.list$printRegisteredLogger()
-
-  # Run compboost:
-  # --------------
-
-  # Initialize object (Response, learning rate, stop if all stopper are fulfilled?,
-  # factory list, used loss, logger list):
-  cboost = Compboost_internal$new(
-    response      = y,
-    learning_rate = learning.rate,
-    stop_if_all_stopper_fulfilled = FALSE,
-    factory_list = factory.list,
-    loss         = loss.quadratic,
-    logger_list  = logger.list,
-    optimizer    = optimizer
-  )
-
-  # Train the model (we want to print the trace):
-  cboost$train(trace = FALSE)
-
-
-  logger.data = cboost$getLoggerData()
-
+  expect_output(logger.list$printRegisteredLogger())
+  expect_silent({
+    cboost = Compboost_internal$new(
+      response      = y,
+      learning_rate = learning.rate,
+      stop_if_all_stopper_fulfilled = FALSE,
+      factory_list = factory.list,
+      loss         = loss.quadratic,
+      logger_list  = logger.list,
+      optimizer    = optimizer
+    )
+  })
+  expect_output({ cboost$train(trace = TRUE) })
+  expect_silent({ logger.data = cboost$getLoggerData() })
   expect_equal(logger.list$getNumberOfRegisteredLogger(), 6)
   expect_equal(dim(logger.data$logger.data), c(iter.max, logger.list$getNumberOfRegisteredLogger()))
   expect_equal(cboost$getLoggerData()$logger.data[, 1], 1:500)
   expect_equal(cboost$getLoggerData()$logger.data[, 2], cboost$getLoggerData()$logger.data[, 3])
+  
 })
 
 test_that("compboost does the same as mboost", {
 
   df = mtcars
-
-  # Create new variable to check the polynomial baselearner with degree 2:
   df$hp2 = df[["hp"]]^2
 
-  # Data for compboost:
   X.hp = as.matrix(df[["hp"]], ncol = 1)
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
 
-  data.source.hp = InMemoryData$new(X.hp, "hp")
-  data.source.wt = InMemoryData$new(X.wt, "wt")
-
-  data.target.hp1 = InMemoryData$new()
-  data.target.hp2 = InMemoryData$new()
-  data.target.wt  = InMemoryData$new()
+  expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
+  expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
+  expect_silent({ data.target.hp1 = InMemoryData$new() })
+  expect_silent({ data.target.hp2 = InMemoryData$new() })
+  expect_silent({ data.target.wt  = InMemoryData$new() })
 
   eval.oob.test = list(data.source.hp, data.source.wt)
 
-  # Hyperparameter for the algorithm:
   learning.rate = 0.05
   iter.max = 500
 
-  # Prepare compboost:
-  # ------------------
-
-  # Create new linear baselearner of hp and wt:
-  linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1, FALSE)
-  linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt, 1, FALSE)
-
-  # Create new quadratic baselearner of hp:
-  quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2, FALSE)
-
-  # Create new factory list:
-  factory.list = BlearnerFactoryList$new()
+  expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, FALSE) })
+  expect_silent({ linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt, 1, FALSE) })
+  expect_silent({ quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, FALSE) })
+  expect_silent({ factory.list = BlearnerFactoryList$new() })
 
   # Register factorys:
-  factory.list$registerFactory(linear.factory.hp)
-  factory.list$registerFactory(linear.factory.wt)
-  factory.list$registerFactory(quadratic.factory.hp)
-
-
-  # Use quadratic loss:
-  loss.quadratic = QuadraticLoss$new()
-
-  # Use the greedy optimizer:
-  optimizer = GreedyOptimizer$new()
-
-  # Define logger. We want just the iterations as stopper but also track the
-  # time:
-  log.iterations = IterationLogger$new(TRUE, iter.max)
-  log.time       = TimeLogger$new(FALSE, 500, "microseconds")
-
-  logger.list = LoggerList$new()
-  logger.list$registerLogger(" iterations", log.iterations)
-  logger.list$registerLogger("time.ms", log.time)
-
-  # Run compboost:
-  # --------------
-
-  # Initialize object (Response, learning rate, stop if all stopper are fulfilled?,
-  # factory list, used loss, logger list):
-  cboost = Compboost_internal$new(
-    response      = y,
-    learning_rate = learning.rate,
-    stop_if_all_stopper_fulfilled = TRUE,
-    factory_list = factory.list,
-    loss         = loss.quadratic,
-    logger_list  = logger.list,
-    optimizer    = optimizer
-  )
-
-  # Train the model (we want to print the trace):
-  tc = textConnection(NULL, "w")
-  sink(tc)
-
-  cboost$train(trace = TRUE)
-
-  sink()
-  close(tc)
-
-
+  expect_silent(factory.list$registerFactory(linear.factory.hp))
+  expect_silent(factory.list$registerFactory(linear.factory.wt))
+  expect_silent(factory.list$registerFactory(quadratic.factory.hp))
+  expect_silent({ loss.quadratic = QuadraticLoss$new() })
+  expect_silent({ optimizer = GreedyOptimizer$new() })
+  expect_silent({ log.iterations = IterationLogger$new(TRUE, iter.max) })
+  expect_silent({ log.time       = TimeLogger$new(FALSE, 500, "microseconds") })
+  expect_silent({ logger.list = LoggerList$new() })
+  expect_silent({ logger.list$registerLogger(" iterations", log.iterations) })
+  expect_silent({ logger.list$registerLogger("time.ms", log.time) })
+  expect_silent({
+    cboost = Compboost_internal$new(
+      response      = y,
+      learning_rate = learning.rate,
+      stop_if_all_stopper_fulfilled = TRUE,
+      factory_list = factory.list,
+      loss         = loss.quadratic,
+      logger_list  = logger.list,
+      optimizer    = optimizer
+    )
+  })
+  expect_silent(cboost$train(trace = FALSE))
   suppressWarnings({
     library(mboost)
 
@@ -203,9 +136,6 @@ test_that("compboost does the same as mboost", {
       "hp_polynomial_degree_2"
     )
   )
-
-  # Tests:
-  # ------
   expect_equal(predict(mod), cboost$getPrediction())
   expect_equal(mod$xselect(), cboost.xselect)
   expect_equal(
@@ -224,7 +154,6 @@ test_that("compboost does the same as mboost", {
     ),
     unname(unlist(cboost$getEstimatedParameter()))
   )
-
   expect_equal(dim(cboost$getLoggerData()$logger.data), c(500, 2))
   expect_equal(cboost$getLoggerData()$logger.data[, 1], 1:500)
   expect_equal(length(cboost$getLoggerData()$logger.data[, 2]), 500)
@@ -261,19 +190,11 @@ test_that("compboost does the same as mboost", {
   matrix.compare = matrix(NA_real_, nrow = 3, ncol = 3)
 
   for (i in seq_along(idx)) {
-    matrix.compare[i, ] = unname(unlist(cboost$getParameterAtIteration(idx[i])))
+    expect_silent({ matrix.compare[i, ] = unname(unlist(cboost$getParameterAtIteration(idx[i]))) })
   }
-
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
-
-  # Test if prediction works:
-  # --------------------------
-
   expect_equal(cboost$predict(eval.oob.test), predict(mod, df))
   expect_equal(cboost$predictAtIteration(eval.oob.test, 200), predict(mod.reduced, df))
-
-  # Check if retraining works:
-  # ---------------------------------
 
   suppressWarnings({
     mod.new = mboost(
@@ -284,14 +205,7 @@ test_that("compboost does the same as mboost", {
       control = boost_control(mstop = 700, nu = learning.rate)
     )
   })
-  tc = textConnection(NULL, "w")
-  sink(tc)
-
-  cboost$setToIteration(700)
-
-  sink()
-  close(tc)
-
+  expect_output(cboost$setToIteration(700))
   expect_equal(cboost$getPrediction(), predict(mod.new))
 })
 

@@ -48,40 +48,10 @@ AbsoluteLoss$new(offset)
   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
 }
 
-\section{Fields}{
-
-  This class doesn't contain public fields.
-}
-
-\section{Methods}{
-
-\describe{
-\item{\code{testLoss(truth, prediction)}}{Calculates the loss for a given
-  true response and a corresponding prediction.}
-\item{\code{testGradient(truth, prediction)}}{Calculates the gradient of
-  loss function for a given true response and a corresponding prediction.}
-\item{\code{testconstantInitializer(truth)}}{Calculates the constant
-  initialization of a given vector of true values.}
-}
-}
-
 \examples{
-# Sample data:
-set.seed(123)
-truth = 1:10
-prediction = truth - rnorm(10)
 
 # Create new loss object:
 absolute.loss = AbsoluteLoss$new()
 absolute.loss
-
-# Calculate loss:
-absolute.loss$testLoss(truth, prediction)
-
-# Calculate gradient:
-absolute.loss$testGradient(truth, prediction)
-
-# Calculate the offset if this loss is used for the training:
-absolute.loss$testConstantInitializer(truth)
 
 }
