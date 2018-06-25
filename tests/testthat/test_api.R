@@ -275,3 +275,23 @@ test_that("custom cpp loss works through api", {
   expect_equal(cboost$selected(), cboost1$selected())
 
 })
+
+
+test_that("training with binomial loss works", {
+
+  mtcars$hp.cat = ifelse(mtcars$hp > 150, 1, -1)
+
+  expect_warning({ bin.loss = BinomialLoss$new(2) })
+
+  expect_silent({
+    cboost = Compboost$new(mtcars, "hp.cat", loss = bin.loss)
+    cboost$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost$train(100, trace = FALSE)
+  })
+
+  expect_length(cboost$selected(), 100)
+  expect_length(cboost$risk(), 101)
+  expect_equal(cboost$coef()$offset, 0.5 * log(sum(mtcars$hp.cat > 0)/ sum(mtcars$hp.cat < 0)))
+
+})
