@@ -59,13 +59,25 @@ test_that("Baselearner factory printer works", {
   expect_silent({ data.source    = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.sp = InMemoryData$new(X.hp.sp, "hp") })
   expect_silent({ data.target    = InMemoryData$new() })
+  
   expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source, data.target, 1, FALSE) })
   expect_output({ linear.factory.hp.printer = show(linear.factory.hp) })
   expect_equal(linear.factory.hp.printer, "PolynomialBlearnerPrinter")
+  
+  expect_silent({ quad.factory.hp = PolynomialBlearner$new(data.source, data.target, 2, FALSE) })
+  expect_output({ quad.factory.hp.printer = show(quad.factory.hp) })
+  expect_equal(quad.factory.hp.printer, "PolynomialBlearnerPrinter")
+  
+  expect_silent({ cubic.factory.hp = PolynomialBlearner$new(data.source, data.target, 3, FALSE) })
+  expect_output({ cubic.factory.hp.printer = show(cubic.factory.hp) })
+  expect_equal(cubic.factory.hp.printer, "PolynomialBlearnerPrinter")
+  
+  expect_silent({ poly.factory.hp = PolynomialBlearner$new(data.source, data.target, 4, FALSE) })
+  expect_output({ poly.factory.hp.printer = show(poly.factory.hp) })
+  expect_equal(poly.factory.hp.printer, "PolynomialBlearnerPrinter")
+  
   expect_silent({ spline.factory = PSplineBlearner$new(data.source.sp, data.target, 3, 5, 2.5, 2) })
-
   expect_output({ spline.printer = show(spline.factory) })
-
   expect_equal(spline.printer, "PSplineBlearnerPrinter")
 
   instantiateData = function (X)

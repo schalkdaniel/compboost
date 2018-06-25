@@ -43,6 +43,9 @@ test_that("Compboost loggs correctly", {
   expect_silent({ logger.list$registerLogger("time.minutes", log.time.min) })
   expect_silent({ logger.list$registerLogger("inbag.risk", log.inbag) })
   expect_silent({ logger.list$registerLogger("oob.risk", log.oob) })
+  
+  expect_output(show(log.inbag))
+  expect_output(show(log.oob))
 
   expect_output(logger.list$printRegisteredLogger())
   expect_silent({
