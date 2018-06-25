@@ -492,7 +492,7 @@ public:
 
 //' Create custom base-learner factory by using R functions.
 //'
-//' \code{CustomBlearnerFactory} creates a custom base-learner factory by
+//' \code{CustomBlearner} creates a custom base-learner factory by
 //'   setting custom \code{R} functions. This factory object can be registered
 //'   within a base-learner list and then used for training.
 //'
@@ -646,7 +646,7 @@ public:
 //' Create custom cpp base-learner factory by using cpp functions and external
 //' pointer.
 //'
-//' \code{CustomCppBlearnerFactory} creates a custom base-learner factory by
+//' \code{CustomCppBlearner} creates a custom base-learner factory by
 //'   setting custom \code{C++} functions. This factory object can be registered
 //'   within a base-learner list and then used for training.
 //'

@@ -6,7 +6,7 @@
 pointer.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{CustomCppBlearnerFactory} creates a custom base-learner factory by
+\code{CustomCppBlearner} creates a custom base-learner factory by
   setting custom \code{C++} functions. This factory object can be registered
   within a base-learner list and then used for training.
 }
