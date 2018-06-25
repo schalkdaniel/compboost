@@ -3,7 +3,7 @@ Type: Package
 Title: C++ Implementation of Componentwise Boosting
 Version: 0.1.0
 Authors@R: c(
-    person("Daniel", "Schalk", email = "daniel.schalk@stat.uni-muenchen.de", role = "cre"),
+    person("Daniel", "Schalk", email = "daniel.schalk@stat.uni-muenchen.de", role = c("aut", "cre")),
     person("Janek", "Thomas", email = "janek.thomas@stat.uni-muenchen.de", role = "aut"))
 Author: Daniel Schalk [aut, cre],
   Janek Thomas [aut]
