@@ -147,3 +147,131 @@ test_that("multiple logger works", {
   expect_length(cboost$model$getLoggerData()$logger.names, 4)
 
 })
+
+test_that("custom base-learner works through api", {
+
+  expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new()) })
+
+  instantiateData = function (X) {
+    return(X);
+  }
+  trainFun = function (y, X) {
+    return(solve(t(X) %*% X) %*% t(X) %*% y)
+  }
+  predictFun = function (model, newdata) {
+    return(newdata %*% model)
+  }
+  extractParameter = function (model) {
+    return(model)
+  }
+
+  expect_silent({ 
+    cboost$addBaselearner("hp", "custom", CustomBlearner, instanitate_fun =  instantiateData, 
+      train_fun = trainFun, predict_fun = predictFun, param_fun = extractParameter) 
+  })
+  expect_output({ cboost$train(100) })
+
+  expect_silent({
+    cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+    cboost1$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost1$train(100, trace = FALSE)
+  })
+
+  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equal(cboost$predict(), cboost1$predict())
+
+})
+
+
+test_that("custom cpp base-learner works through api", {
+
+  expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new()) })
+  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })  
+  expect_silent({ 
+    cboost$addBaselearner("hp", "custom", CustomCppBlearner, instanitate_ptr =  dataFunSetter(), 
+      train_ptr = trainFunSetter(), pred_ptr = predictFunSetter()) 
+  })
+  expect_output({ cboost$train(100) })
+
+  expect_silent({
+    cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+    cboost1$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost1$train(100, trace = FALSE)
+  })
+
+  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equal(cboost$predict(), cboost1$predict())
+
+})
+
+test_that("custom loss works through api", {
+
+  myLossFun = function (true.value, prediction) { return(0.5 * (true.value - prediction)^2) }
+  myGradientFun = function (true.value, prediction) { return(prediction - true.value) }
+  myConstantInitializerFun = function (true.value) { mean.default(true.value) }
+  
+  expect_silent({ custom.loss = CustomLoss$new(myLossFun, myGradientFun, myConstantInitializerFun) })
+  expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = custom.loss) })
+  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })  
+  expect_silent({ 
+    cboost$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)    
+    cboost$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+  })
+  expect_output({ cboost$train(100) })
+
+  expect_silent({
+    cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+    cboost1$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost1$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)    
+    cboost1$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost1$train(100, trace = FALSE)
+  })
+
+  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equal(cboost$predict(), cboost1$predict())
+  expect_equal(cboost$selected(), cboost1$selected())
+
+})
+
+test_that("custom cpp loss works through api", {
+
+  expect_output(Rcpp::sourceCpp(code = getCustomCppExample(example = "loss")))
+  
+  expect_silent({ custom.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
+  expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = custom.loss) })
+  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })  
+  expect_silent({ 
+    cboost$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)    
+    cboost$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+  })
+  expect_output({ cboost$train(100) })
+
+  expect_silent({
+    cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+    cboost1$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost1$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)    
+    cboost1$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+    cboost1$train(100, trace = FALSE)
+  })
+
+  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equal(cboost$predict(), cboost1$predict())
+  expect_equal(cboost$selected(), cboost1$selected())
+
+})

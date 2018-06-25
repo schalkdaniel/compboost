@@ -37,7 +37,6 @@ test_that("polynomial factory works", {
 
 test_that("custom factory works", {
 
-  # Define the custom functions:
   instantiateDataFun = function (X) {
     return(X)
   }
