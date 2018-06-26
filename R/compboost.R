@@ -286,6 +286,7 @@ Compboost = R6::R6Class("Compboost",
 			data = droplevels(data)
 			response = data[[target]]
 
+			# Transform factor or character labels to -1 and 1
 			if (! is.numeric(response)) {
 				response = as.factor(response)
 				
