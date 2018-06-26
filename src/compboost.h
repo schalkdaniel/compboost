@@ -127,7 +127,7 @@ public:
   // Retraining after initial training:
   void continueTraining (loggerlist::LoggerList*, const bool&);
   
-  arma::vec getPrediction () const;
+  arma::vec getPrediction (const bool&) const;
   
   std::map<std::string, arma::mat> getParameter () const;
   std::vector<std::string> getSelectedBaselearner () const;
@@ -138,8 +138,9 @@ public:
   std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
   
   arma::vec predict () const;
-  arma::vec predict (std::map<std::string, data::Data*>) const;
-  arma::vec predictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&) const;
+  arma::vec predict (const bool&) const;
+  arma::vec predict (std::map<std::string, data::Data*>, const bool&) const;
+  arma::vec predictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&, const bool&) const;
   
   void setToIteration (const unsigned int&);
 

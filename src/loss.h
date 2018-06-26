@@ -89,6 +89,9 @@ public:
   
   /// Constant initialization of the empirical risk
   virtual double constantInitializer (const arma::vec&) const = 0;
+
+  /// Response function to map score to output space:
+  virtual arma::vec responseTransformation (const arma::vec&) const = 0;
   
   virtual ~Loss ();
   
@@ -151,6 +154,9 @@ public:
   
   /// Constant initialization of the empirical risk
   double constantInitializer (const arma::vec&) const;
+
+  /// Definition of the response function
+  arma::vec responseTransformation (const arma::vec&) const;
 };
 
 // AbsoluteLoss loss:
@@ -194,6 +200,9 @@ public:
   
   /// Constant initialization of the empirical risk
   double constantInitializer (const arma::vec&) const;
+
+  /// Definition of the response function
+  arma::vec responseTransformation (const arma::vec&) const;
 };
 
 // Binomial loss:
@@ -247,6 +256,9 @@ public:
   
   /// Constant initialization of the empirical risk
   double constantInitializer (const arma::vec&) const;
+
+  /// Definition of the response function
+  arma::vec responseTransformation (const arma::vec&) const;
 };
 
 // Custom loss:
@@ -298,6 +310,9 @@ public:
   
   /// Constant initialization of the empirical risk
   double constantInitializer (const arma::vec&) const;
+
+  /// Definition of the response function
+  arma::vec responseTransformation (const arma::vec&) const;
 };
 
 // Custom loss:
@@ -350,6 +365,9 @@ public:
   
   /// Constant initialization of the empirical risk
   double constantInitializer (const arma::vec&) const;
+  
+  /// Definition of the response function
+  arma::vec responseTransformation (const arma::vec&) const;
   
 };
 

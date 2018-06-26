@@ -139,7 +139,7 @@ test_that("compboost does the same as mboost", {
       "hp_polynomial_degree_2"
     )
   )
-  expect_equal(predict(mod), cboost$getPrediction())
+  expect_equal(predict(mod), cboost$getPrediction(FALSE))
   expect_equal(mod$xselect(), cboost.xselect)
   expect_equal(
     unname(
@@ -196,8 +196,8 @@ test_that("compboost does the same as mboost", {
     expect_silent({ matrix.compare[i, ] = unname(unlist(cboost$getParameterAtIteration(idx[i]))) })
   }
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
-  expect_equal(cboost$predict(eval.oob.test), predict(mod, df))
-  expect_equal(cboost$predictAtIteration(eval.oob.test, 200), predict(mod.reduced, df))
+  expect_equal(cboost$predict(eval.oob.test, FALSE), predict(mod, df))
+  expect_equal(cboost$predictAtIteration(eval.oob.test, 200, FALSE), predict(mod.reduced, df))
 
   suppressWarnings({
     mod.new = mboost(
@@ -209,6 +209,6 @@ test_that("compboost does the same as mboost", {
     )
   })
   expect_output(cboost$setToIteration(700))
-  expect_equal(cboost$getPrediction(), predict(mod.new))
+  expect_equal(cboost$getPrediction(FALSE), predict(mod.new))
 })
 

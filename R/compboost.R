@@ -392,12 +392,12 @@ Compboost = R6::R6Class("Compboost",
 				names(new.sources) = data.names
 				return(new.sources)
 		},
-		predict = function(newdata = NULL) {
+		predict = function(newdata = NULL, response = FALSE) {
 			checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
 			if (is.null(newdata)) {
-				return(self$model$getPrediction())
+				return(self$model$getPrediction(response))
 			} else {
-				return(self$model$predict(self$prepareData(newdata)))
+				return(self$model$predict(self$prepareData(newdata), response))
 			}
 		},
 		risk = function() {

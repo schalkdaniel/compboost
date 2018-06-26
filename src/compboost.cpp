@@ -200,9 +200,15 @@ void Compboost::continueTraining (loggerlist::LoggerList* logger, const bool& tr
   actual_iteration = blearner_track.getBaselearnerVector().size();
 }
 
-arma::vec Compboost::getPrediction () const
+arma::vec Compboost::getPrediction (const bool& as_response) const
 {
-  return model_prediction;
+  arma::vec pred;
+  if (as_response) {
+    pred = used_loss->responseTransformation(model_prediction);
+  } else {
+    pred = model_prediction;
+  }
+  return pred;
 }
 
 std::map<std::string, arma::mat> Compboost::getParameter () const
@@ -254,11 +260,20 @@ arma::vec Compboost::predict () const
   return pred;
 }
 
+// arma::vec Compboost::predict (const bool& as_response) const 
+// {
+//   arma::vec pred = predict();
+//   if (as_response) {
+//     pred = used_loss->responseTransformation(pred);
+//   }
+//   return pred;
+// }
+
 // Predict for new data. Note: The data_map contains the raw columns of the used data.
 // Those columns are then transformed by the corresponding transform data function of the
 // specific factory. After the transformation, the transformed data is multiplied by the
 // corresponding parameter.
-arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map) const
+arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const bool& as_response) const
 {
   // IMPROVE THIS FUNCTION!!! See: 
   
@@ -289,10 +304,13 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map) const
       pred += data_trafo * it.second;
     }
   }
+  if (as_response) {
+    pred = used_loss->responseTransformation(pred);
+  }
   return pred;
 }
 
-arma::vec Compboost::predictionOfIteration (std::map<std::string, data::Data*> data_map, const unsigned int& k) const
+arma::vec Compboost::predictionOfIteration (std::map<std::string, data::Data*> data_map, const unsigned int& k, const bool& as_response) const
 {
   // Rcpp::Rcout << "Get into Compboost::predict" << std::endl;
   
@@ -317,6 +335,9 @@ arma::vec Compboost::predictionOfIteration (std::map<std::string, data::Data*> d
     arma::mat data_trafo = sel_factory_obj->instantiateData((data_map.find(sel_factory_obj->getDataIdentifier())->second->getData()));
     pred += data_trafo * it.second;
     
+  }
+  if (as_response) {
+    pred = used_loss->responseTransformation(pred);
   }
   return pred;
 }

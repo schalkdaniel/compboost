@@ -476,8 +476,11 @@ blearner.trace[1:10]
 We want to predict new labels for the out of bag data:
 ```{r}
 # Get predicted scores and probability (with sigmoid):
-scores      = cboost$predict(oob.list)
+scores      = cboost$predict(oob.list, response = FALSE)
 prob.scores = 1 / (1 + exp(-scores))
+
+# This can also be achieved by calling response = TRUE:
+all.equal(prob.scores, cboost$predict(oob.list, response = TRUE))
 
 # Calculate labels with threshold of 0.5:
 pred.labels = ifelse(prob.scores > 0.5, 1, -1)

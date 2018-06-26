@@ -125,6 +125,18 @@ double QuadraticLoss::constantInitializer (const arma::vec& true_value) const
   return arma::mean(true_value);
 }
 
+/**
+ * \brief Definition of the response function
+ * 
+ * \param score `arma::vec` The score trained during the fitting process
+ * 
+ * \returns `arma::vec` The transforemd score.
+ */
+arma::vec QuadraticLoss::responseTransformation (const arma::vec& score) const 
+{
+  return score;
+}
+
 
 // Absolute loss:
 // -----------------------
@@ -194,6 +206,18 @@ double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
 {
   if (use_custom_offset) { return custom_offset; }
   return arma::median(true_value);
+}
+
+/**
+ * \brief Definition of the response function
+ * 
+ * \param score `arma::vec` The score trained during the fitting process
+ * 
+ * \returns `arma::vec` The transforemd score.
+ */
+arma::vec AbsoluteLoss::responseTransformation (const arma::vec& score) const 
+{
+  return score;
 }
 
 
@@ -273,7 +297,17 @@ double BinomialLoss::constantInitializer (const arma::vec& true_value) const
   return 0.5 * std::log(p / (1 - p));
 }
 
-
+/**
+ * \brief Definition of the response function
+ * 
+ * \param score `arma::vec` The score trained during the fitting process
+ * 
+ * \returns `arma::vec` The transforemd score.
+ */
+arma::vec BinomialLoss::responseTransformation (const arma::vec& score) const 
+{
+  return 1 / (1 + arma::exp(-score));
+}
 
 // Custom loss:
 // -----------------------
@@ -352,6 +386,18 @@ double CustomLoss::constantInitializer (const arma::vec& true_value) const
   return out[0];
 }
 
+/**
+ * \brief Definition of the response function
+ * 
+ * \param score `arma::vec` The score trained during the fitting process
+ * 
+ * \returns `arma::vec` The transforemd score.
+ */
+arma::vec CustomLoss::responseTransformation (const arma::vec& score) const 
+{
+  return score;
+}
+
 
 // Custom cpp loss:
 // -----------------------
@@ -420,6 +466,18 @@ arma::vec CustomCppLoss::definedGradient (const arma::vec& true_value, const arm
 double CustomCppLoss::constantInitializer (const arma::vec& true_value) const
 {
   return constInitFun(true_value);
+}
+
+/**
+ * \brief Definition of the response function
+ * 
+ * \param score `arma::vec` The score trained during the fitting process
+ * 
+ * \returns `arma::vec` The transforemd score.
+ */
+arma::vec CustomCppLoss::responseTransformation (const arma::vec& score) const 
+{
+  return score;
 }
 
 

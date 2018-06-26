@@ -2252,9 +2252,9 @@ public:
     obj->continueTraining(logger_list.getLoggerList(), trace);
   }
 
-  arma::vec getPrediction ()
+  arma::vec getPrediction (bool as_response)
   {
-    return obj->getPrediction();
+    return obj->getPrediction(as_response);
   }
 
   std::vector<std::string> getSelectedBaselearner ()
@@ -2313,7 +2313,7 @@ public:
     );
   }
 
-  arma::vec predict (Rcpp::List& newdata)
+  arma::vec predict (Rcpp::List& newdata, bool as_response)
   {
     std::map<std::string, data::Data*> data_map;
 
@@ -2327,10 +2327,10 @@ public:
       data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
 
     }
-    return obj->predict(data_map);
+    return obj->predict(data_map, as_response);
   }
 
-  arma::vec predictAtIteration (Rcpp::List& newdata, unsigned int k)
+  arma::vec predictAtIteration (Rcpp::List& newdata, unsigned int k, bool as_response)
   {
     std::map<std::string, data::Data*> data_map;
 
@@ -2344,7 +2344,7 @@ public:
       data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
 
     }
-    return obj->predictionOfIteration(data_map, k);
+    return obj->predictionOfIteration(data_map, k, as_response);
   }
 
   void summarizeCompboost ()
