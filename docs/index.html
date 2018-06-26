@@ -134,7 +134,7 @@ cboost$addBaselearner(feature = c("Sepal.Length", "Sepal.Width"), id = "2dim_lin
 cboost$getFactoryNames()
 ## [1] "Petal.Width_spline"
 ## [2] "Sepal.Length_Sepal.Width_2dim_linear"</code></pre>
-      Adding a categorical feature always registers each single group as feature for the base-learner with dummy encoding:
+      Adding a categorical feature always registers each single group as feature for the base-learner using dummy encoding:
       <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = PolynomialBlearner, 
   degree = 1, intercept = FALSE)
 
