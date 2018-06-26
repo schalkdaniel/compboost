@@ -291,6 +291,22 @@ arma::vec BinomialLoss::definedGradient (const arma::vec& true_value, const arma
 
 double BinomialLoss::constantInitializer (const arma::vec& true_value) const
 {
+  arma::vec unique_values = arma::unique(true_value);
+  // This is necessary to prevent the program from segfolds... whyever???
+  // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
+  try {
+    if (unique_values.size() != 2) {
+      Rcpp::stop("Binomial loss does not support multiclass classification.");
+    }
+    if (! arma::all((true_value == -1) || (true_value == 1))) {
+      Rcpp::stop("Labels must be coded as -1 and 1.");
+    }
+  } catch ( std::exception &ex ) {
+    forward_exception_to_r( ex );
+  } catch (...) { 
+    ::Rf_error( "c++ exception (unknown reason)" ); 
+  }
+
   if (use_custom_offset) { return custom_offset; }
   
   double p = arma::accu(true_value + 1) / (2 * true_value.size());

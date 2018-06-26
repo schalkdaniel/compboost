@@ -260,15 +260,6 @@ arma::vec Compboost::predict () const
   return pred;
 }
 
-// arma::vec Compboost::predict (const bool& as_response) const 
-// {
-//   arma::vec pred = predict();
-//   if (as_response) {
-//     pred = used_loss->responseTransformation(pred);
-//   }
-//   return pred;
-// }
-
 // Predict for new data. Note: The data_map contains the raw columns of the used data.
 // Those columns are then transformed by the corresponding transform data function of the
 // specific factory. After the transformation, the transformed data is multiplied by the

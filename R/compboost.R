@@ -270,6 +270,7 @@ Compboost = R6::R6Class("Compboost",
 		learning.rate = NULL,
 		model = NULL,
 		bl.factory.list = NULL,
+		positive.category = NULL,
 		stop.if.all.stoppers.fulfilled = FALSE,
 		initialize = function(data, target, optimizer = GreedyOptimizer$new(), loss, learning.rate = 0.05) {
 			checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
@@ -280,10 +281,25 @@ Compboost = R6::R6Class("Compboost",
 				stop ("The target ", target, " is not present within the data")
 			}
 
-      # Initialize fields:
-			self$target = target
 			self$id = deparse(substitute(data))
-			self$response = data[[target]]
+
+			data = droplevels(data)
+			response = data[[target]]
+
+			if (! is.numeric(response)) {
+				response = as.factor(response)
+				
+				if (length(levels(response)) > 2) {
+					stop("Multiclass classification is not supported.")
+				}
+				self$positive.category = levels(response)[1]
+
+				# Transform to vector with -1 and 1:
+				response = as.integer(response) * (1 - as.integer(response)) + 1
+			}
+
+			self$target = target
+			self$response = response
 			self$data = data[, !colnames(data) %in% target, drop = FALSE]
 			self$optimizer = optimizer
 			self$loss = loss

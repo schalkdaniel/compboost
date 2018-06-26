@@ -83,7 +83,7 @@ public:
   
   /// Specific loss function
   virtual arma::vec definedLoss (const arma::vec&, const arma::vec&) const = 0;
-  
+ 
   /// Gradient of loss functions for pseudo residuals
   virtual arma::vec definedGradient (const arma::vec&, const arma::vec&) const = 0;
   

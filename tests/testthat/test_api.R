@@ -318,4 +318,23 @@ test_that("training with binomial loss works", {
   expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(response = TRUE))
   expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, response = TRUE))
 
+  expect_silent({
+    cboost = Compboost$new(mtcars, "hp", loss = BinomialLoss$new())
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+  })
+  expect_error(cboost$train(100, trace = FALSE))
+
+  mtcars$hp.cat = ifelse(mtcars$hp > 150, 1, 0)
+
+  expect_silent({
+    cboost = Compboost$new(mtcars, "hp.cat", loss = BinomialLoss$new())
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+  })
+  expect_error(cboost$train(100, trace = FALSE))
+
+  expect_error({ cboost = Compboost$new(iris, "Species", loss = BinomialLoss$new()) })
+  expect_silent({ cboost = Compboost$new(iris[1:100, ], "Species", loss = BinomialLoss$new()) })
+
 })
