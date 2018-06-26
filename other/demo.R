@@ -86,7 +86,7 @@ loss.quadratic = QuadraticLoss$new()
 ## Optimizer
 
 # Use the greedy optimizer:
-optimizer = GreedyOptimizer$new()
+optimizer = CoordinateDescent$new()
 
 ## Logger
 

@@ -11,7 +11,8 @@ Abstract loss class.
 
 
 
-Inheritance diagram for loss\+:\+:Loss\+:\nopagebreak
+Inheritance diagram for loss\+:\+:Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,11 +21,12 @@ Inheritance diagram for loss\+:\+:Loss\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for loss\+:\+:Loss\+:\nopagebreak
+Collaboration diagram for loss\+:\+:Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=187pt]{classloss_1_1_loss__coll__graph}
+\includegraphics[width=217pt]{classloss_1_1_loss__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -36,6 +38,8 @@ virtual arma\+::vec \hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
 virtual double \hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{constant\+Initializer} (const arma\+::vec \&) const =0
 \begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\item 
+virtual arma\+::vec \hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{response\+Transformation} (const arma\+::vec \&) const =0
+\begin{DoxyCompactList}\small\item\em Response function to map score to output space\+: \end{DoxyCompactList}\item 
 virtual \hyperlink{classloss_1_1_loss_a868a7908fd97590b6c4fc69f4eb3c570}{$\sim$\+Loss} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
@@ -120,11 +124,34 @@ Specific loss function.
 
 Implemented in \hyperlink{classloss_1_1_custom_cpp_loss_a5611805b67b0542449beb898051ab943}{loss\+::\+Custom\+Cpp\+Loss}, \hyperlink{classloss_1_1_custom_loss_a2a96bc5e4b4894bbaa64745a3f7c0fd5}{loss\+::\+Custom\+Loss}, \hyperlink{classloss_1_1_binomial_loss_aa4570a731257ba43b1b4d6099c0a4515}{loss\+::\+Binomial\+Loss}, \hyperlink{classloss_1_1_absolute_loss_acfef6f0de3cfcccebd4bbfc04133cf1e}{loss\+::\+Absolute\+Loss}, and \hyperlink{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}{loss\+::\+Quadratic\+Loss}.
 
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}\label{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}} 
+\index{loss\+::\+Loss@{loss\+::\+Loss}!response\+Transformation@{response\+Transformation}}
+\index{response\+Transformation@{response\+Transformation}!loss\+::\+Loss@{loss\+::\+Loss}}
+\subsubsection{\texorpdfstring{response\+Transformation()}{responseTransformation()}}
+{\footnotesize\ttfamily virtual arma\+::vec loss\+::\+Loss\+::response\+Transformation (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Response function to map score to output space\+: 
+
+
+
+Implemented in \hyperlink{classloss_1_1_custom_cpp_loss_a8ef296a7db08423f68dd389824b5aa77}{loss\+::\+Custom\+Cpp\+Loss}, \hyperlink{classloss_1_1_custom_loss_a0db8657c96f53b08aedaddc2fdac973b}{loss\+::\+Custom\+Loss}, \hyperlink{classloss_1_1_binomial_loss_a6fb5f28518ac455cb192441660e7b997}{loss\+::\+Binomial\+Loss}, \hyperlink{classloss_1_1_absolute_loss_aa7e0ac902d905ae97f9e2d0337c6c058}{loss\+::\+Absolute\+Loss}, and \hyperlink{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}{loss\+::\+Quadratic\+Loss}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4_icgraph}
 \end{center}
 \end{figure}
 

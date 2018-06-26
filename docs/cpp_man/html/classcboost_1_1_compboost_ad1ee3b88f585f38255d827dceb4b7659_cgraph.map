@@ -1,25 +1,26 @@
 <map id="cboost::Compboost::setToIteration" name="cboost::Compboost::setToIteration">
 <area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="683,5,871,47"/>
-<area shape="rect" id="node3" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="213,120,356,161"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="213,205,357,247"/>
-<area shape="rect" id="node20" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="197,275,372,316"/>
-<area shape="rect" id="node22" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="213,371,357,412"/>
-<area shape="rect" id="node4" href="$classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="439,107,616,148"/>
-<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="455,224,599,265"/>
-<area shape="rect" id="node7" href="$classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="699,71,854,112"/>
-<area shape="rect" id="node8" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="686,137,867,163"/>
-<area shape="rect" id="node9" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="703,188,850,229"/>
-<area shape="rect" id="node10" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="695,253,858,295"/>
+<area shape="rect" id="node3" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="213,149,356,191"/>
+<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="213,235,357,276"/>
+<area shape="rect" id="node21" href="$classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750" title="blearnertrack::Baselearner\lTrack::setToIteration" alt="" coords="197,304,372,345"/>
+<area shape="rect" id="node23" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="213,400,357,441"/>
+<area shape="rect" id="node4" href="$classlogger_1_1_logger.html#ae39cfa15ba833840ae52889c09cac994" title="Just a getter if the logger is also used as stopper. " alt="" coords="439,136,616,177"/>
+<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="455,253,599,295"/>
+<area shape="rect" id="node7" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="695,71,858,112"/>
+<area shape="rect" id="node8" href="$classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="699,136,854,177"/>
+<area shape="rect" id="node9" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="686,202,867,229"/>
+<area shape="rect" id="node10" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="703,253,850,295"/>
 <area shape="rect" id="node11" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="689,319,864,360"/>
 <area shape="rect" id="node16" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="704,384,849,425"/>
 <area shape="rect" id="node17" href="$classloggerlist_1_1_logger_list.html#a5fc042fd489ebd88c09c469763ee9faa" title="loggerlist::LoggerList\l::logCurrent" alt="" coords="705,449,848,491"/>
-<area shape="rect" id="node18" href="$classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="705,515,848,556"/>
-<area shape="rect" id="node19" href="$classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="705,580,848,621"/>
+<area shape="rect" id="node18" href="$classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="697,515,857,542"/>
+<area shape="rect" id="node19" href="$classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="705,567,848,608"/>
+<area shape="rect" id="node20" href="$classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="705,632,848,673"/>
 <area shape="rect" id="node12" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="919,253,1065,295"/>
 <area shape="rect" id="node14" href="$classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="919,319,1065,360"/>
 <area shape="rect" id="node15" href="$classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="919,384,1065,425"/>
 <area shape="rect" id="node13" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="1113,261,1300,287"/>
-<area shape="rect" id="node21" href="$classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="420,290,635,346"/>
-<area shape="rect" id="node23" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="440,371,615,412"/>
-<area shape="rect" id="node24" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="444,436,611,477"/>
+<area shape="rect" id="node22" href="$classblearnertrack_1_1_baselearner_track.html#a9b0678ef3573206959be2068d115c556" title="blearnertrack::Baselearner\lTrack::getEstimatedParameterOf\lIteration" alt="" coords="420,319,635,375"/>
+<area shape="rect" id="node24" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="440,400,615,441"/>
+<area shape="rect" id="node25" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb83b67769e5fb34e7acc14c7e651dfc" title="blearnerlist::Baselearner\lFactoryList::getDataMap" alt="" coords="444,465,611,507"/>
 </map>

@@ -158,17 +158,19 @@ Inheritance diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__inherit__graph.png" border="0" usemap="#loss_1_1_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_loss_inherit__map" id="loss_1_1_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,211,148,347"/>
-<area shape="rect" id="node3" href="classloss_1_1_binomial_loss.html" title="0&#45;1 Loss for binary classification derifed of the binomial distribution " alt="" coords="172,211,315,347"/>
-<area shape="rect" id="node4" href="classloss_1_1_custom_cpp_loss.html" title="With this loss it is possible to define custom functions in C++ " alt="" coords="339,204,489,355"/>
-<area shape="rect" id="node5" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="513,204,656,355"/>
-<area shape="rect" id="node6" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="680,211,823,347"/>
+<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,226,188,377"/>
+<area shape="rect" id="node3" href="classloss_1_1_binomial_loss.html" title="0&#45;1 Loss for binary classification derifed of the binomial distribution " alt="" coords="212,226,395,377"/>
+<area shape="rect" id="node4" href="classloss_1_1_custom_cpp_loss.html" title="With this loss it is possible to define custom functions in C++ " alt="" coords="419,219,601,384"/>
+<area shape="rect" id="node5" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="625,219,808,384"/>
+<area shape="rect" id="node6" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="832,226,1015,377"/>
 </map>
 </div>
 <div class="dynheader">
 Collaboration diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__coll__graph.png" border="0" usemap="#loss_1_1_loss_coll__map" alt="Collaboration graph"/></div>
+<map name="loss_1_1_loss_coll__map" id="loss_1_1_loss_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -182,6 +184,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a65fe7dcd9370e6a549b8d1cc95fc8798"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a65fe7dcd9370e6a549b8d1cc95fc8798">constantInitializer</a> (const arma::vec &amp;) const =0</td></tr>
 <tr class="memdesc:a65fe7dcd9370e6a549b8d1cc95fc8798"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant initialization of the empirical risk.  <a href="#a65fe7dcd9370e6a549b8d1cc95fc8798">More...</a><br /></td></tr>
 <tr class="separator:a65fe7dcd9370e6a549b8d1cc95fc8798"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a84b7df79b08e40b538aaa7e6ee75c4"><td class="memItemLeft" align="right" valign="top">virtual arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a0a84b7df79b08e40b538aaa7e6ee75c4">responseTransformation</a> (const arma::vec &amp;) const =0</td></tr>
+<tr class="memdesc:a0a84b7df79b08e40b538aaa7e6ee75c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Response function to map score to output space:  <a href="#a0a84b7df79b08e40b538aaa7e6ee75c4">More...</a><br /></td></tr>
+<tr class="separator:a0a84b7df79b08e40b538aaa7e6ee75c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a868a7908fd97590b6c4fc69f4eb3c570"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a868a7908fd97590b6c4fc69f4eb3c570">~Loss</a> ()</td></tr>
 <tr class="separator:a868a7908fd97590b6c4fc69f4eb3c570"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -358,8 +363,52 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph.png" border="0" usemap="#classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph" alt=""/></div>
 <map name="classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph" id="classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94_icgraph">
-<area shape="rect" id="node2" href="classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger " alt="" coords="212,5,373,47"/>
-<area shape="rect" id="node3" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="215,71,370,112"/>
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="223,64,367,105"/>
+<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="424,5,568,47"/>
+<area shape="rect" id="node6" href="classlogger_1_1_inbag_risk_logger.html#ad90612e1b684287a29bdbde1077d65d7" title="Log current step of compboost iteration for class InbagRiskLogger " alt="" coords="213,129,376,171"/>
+<area shape="rect" id="node7" href="classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="217,195,372,236"/>
+<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="424,71,568,112"/>
+<area shape="rect" id="node5" href="classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="616,71,760,112"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a0a84b7df79b08e40b538aaa7e6ee75c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a84b7df79b08e40b538aaa7e6ee75c4">&#9670;&nbsp;</a></span>responseTransformation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual arma::vec loss::Loss::responseTransformation </td>
+          <td>(</td>
+          <td class="paramtype">const arma::vec &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Response function to map score to output space: </p>
+
+<p>Implemented in <a class="el" href="classloss_1_1_custom_cpp_loss.html#a8ef296a7db08423f68dd389824b5aa77">loss::CustomCppLoss</a>, <a class="el" href="classloss_1_1_custom_loss.html#a0db8657c96f53b08aedaddc2fdac973b">loss::CustomLoss</a>, <a class="el" href="classloss_1_1_binomial_loss.html#a6fb5f28518ac455cb192441660e7b997">loss::BinomialLoss</a>, <a class="el" href="classloss_1_1_absolute_loss.html#aa7e0ac902d905ae97f9e2d0337c6c058">loss::AbsoluteLoss</a>, and <a class="el" href="classloss_1_1_quadratic_loss.html#a0a7f1ed4a208326bed1ba5f1bb4d37e5">loss::QuadraticLoss</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4_icgraph.png" border="0" usemap="#classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4_icgraph" alt=""/></div>
+<map name="classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4_icgraph" id="classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4_icgraph">
+<area shape="rect" id="node2" href="classcboost_1_1_compboost.html#a741143ae1cb41c54346e19f8bec3454d" title="cboost::Compboost::\lgetPrediction" alt="" coords="284,5,428,47"/>
+<area shape="rect" id="node3" href="classcboost_1_1_compboost.html#a51c59cdddec77c2bed757aadad6afe1d" title="cboost::Compboost::\lpredict" alt="" coords="284,71,428,112"/>
+<area shape="rect" id="node4" href="classcboost_1_1_compboost.html#abd00401a8914cde27a93673e12ab3468" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="284,136,428,177"/>
 </map>
 </div>
 

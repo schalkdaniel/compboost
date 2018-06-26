@@ -9,7 +9,7 @@
 #' @name Compboost
 #' @section Usage:
 #' \preformatted{
-#' cboost = Compboost$new(data, target, optimizer = GreedyOptimizer$new(), loss,
+#' cboost = Compboost$new(data, target, optimizer = CoordinateDescent$new(), loss,
 #'   learning.rate = 0.05)
 #'
 #' cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
@@ -39,7 +39,7 @@
 #' }
 #' \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
 #'   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
-#'   Default is the \code{GreedyOptimizer}.
+#'   Default is the \code{CoordinateDescent}.
 #' }
 #' \item{\code{loss}}{[\code{S4 Loss}]\cr
 #'   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
@@ -272,7 +272,7 @@ Compboost = R6::R6Class("Compboost",
 		bl.factory.list = NULL,
 		positive.category = NULL,
 		stop.if.all.stoppers.fulfilled = FALSE,
-		initialize = function(data, target, optimizer = GreedyOptimizer$new(), loss, learning.rate = 0.05) {
+		initialize = function(data, target, optimizer = CoordinateDescent$new(), loss, learning.rate = 0.05) {
 			checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
 			checkmate::assertCharacter(target)
 			checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, len = 1)
@@ -431,15 +431,18 @@ Compboost = R6::R6Class("Compboost",
 		},
 		print = function() {
 			p = glue::glue("\n
-				Componentwise Gradient Boosting\n
+				Component-Wise Gradient Boosting\n
 				Trained on {self$id} with target {self$target}
 				Number of base-learners: {self$bl.factory.list$getNumberOfRegisteredFactories()}
 				Learning rate: {self$learning.rate}
 				Iterations: {self$getCurrentIteration()}
 				")
 
+			if (! is.null(self$positive.category)) 
+				p = glue::glue(p, "\nPositive class: {self$positive.category}")
+
 			if(!is.null(self$model))
-				p = glue::glue(p, "\nOffset:{self$model$getOffset()}")
+				p = glue::glue(p, "\nOffset: {round(self$model$getOffset(), 4)}")
 
 			print(p)
 			print(self$loss)
@@ -527,12 +530,14 @@ Compboost = R6::R6Class("Compboost",
 			}
 
 			gg = gg + 
-			geom_line() + 
-			geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE, 
-				alpha = 0.8) + 
-			xlab(feat.name) + 
-			xlim(from, to) +
-			ylab("Additive Contribution")
+			  geom_line() + 
+			  geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE, 
+			  	alpha = 0.8) + 
+			  xlab(feat.name) + 
+			  xlim(from, to) +
+			  ylab("Additive Contribution") + 
+			  	  labs(title = paste0("Effect of ", blearner.type), 
+		          subtitle = "Additive contribution of predictor")
 
 			return(gg)
 		},

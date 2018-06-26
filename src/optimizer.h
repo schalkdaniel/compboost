@@ -76,12 +76,12 @@ class Optimizer
 // Greedy:
 // -----------------------
 
-class GreedyOptimizer : public Optimizer
+class CoordinateDescent : public Optimizer
 {
   public:
     
     // No special initialization necessary:
-    GreedyOptimizer ();
+    CoordinateDescent ();
 
     blearner::Baselearner* findBestBaselearner (const std::string&, 
       const arma::vec&, const blearner_factory_map&) const;

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['logger',['Logger',['../classlogger_1_1_logger.html',1,'logger']]],
-  ['loggerlist',['LoggerList',['../classloggerlist_1_1_logger_list.html',1,'loggerlist']]],
-  ['loss',['Loss',['../classloss_1_1_loss.html',1,'loss']]]
+  ['oobrisklogger',['OobRiskLogger',['../classlogger_1_1_oob_risk_logger.html',1,'logger']]],
+  ['optimizer',['Optimizer',['../classoptimizer_1_1_optimizer.html',1,'optimizer']]]
 ];

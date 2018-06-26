@@ -6,7 +6,8 @@
 
 
 
-Inheritance diagram for blearner\+:\+:Polynomial\+Blearner\+:\nopagebreak
+Inheritance diagram for blearner\+:\+:Polynomial\+Blearner\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -15,7 +16,8 @@ Inheritance diagram for blearner\+:\+:Polynomial\+Blearner\+:\nopagebreak
 \end{figure}
 
 
-Collaboration diagram for blearner\+:\+:Polynomial\+Blearner\+:\nopagebreak
+Collaboration diagram for blearner\+:\+:Polynomial\+Blearner\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -25,7 +27,7 @@ Collaboration diagram for blearner\+:\+:Polynomial\+Blearner\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classblearner_1_1_polynomial_blearner_a295589dd57691401ccaf49e4ec5cca8f}{Polynomial\+Blearner} (\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$, const std\+::string \&, const unsigned int \&)
+\hyperlink{classblearner_1_1_polynomial_blearner_abc12720faabbad27d60d2dbdb006802e}{Polynomial\+Blearner} (\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$, const std\+::string \&, const unsigned int \&, const bool \&)
 \item 
 \hyperlink{classblearner_1_1_baselearner}{Baselearner} $\ast$ \hyperlink{classblearner_1_1_polynomial_blearner_a4a93ace818c330e5d1f572108ba061c0}{clone} ()
 \item 
@@ -43,29 +45,33 @@ arma\+::mat \hyperlink{classblearner_1_1_polynomial_blearner_ae321c17adaab23b0d2
 \begin{DoxyCompactItemize}
 \item 
 unsigned int \hyperlink{classblearner_1_1_polynomial_blearner_a7a522e19634367a4bfad2d6ea532ec44}{degree}
+\item 
+bool \hyperlink{classblearner_1_1_polynomial_blearner_af16d0f9f97179d9b23ec8796a0c74709}{intercept}
 \end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classblearner_1_1_polynomial_blearner_a295589dd57691401ccaf49e4ec5cca8f}\label{classblearner_1_1_polynomial_blearner_a295589dd57691401ccaf49e4ec5cca8f}} 
+\mbox{\Hypertarget{classblearner_1_1_polynomial_blearner_abc12720faabbad27d60d2dbdb006802e}\label{classblearner_1_1_polynomial_blearner_abc12720faabbad27d60d2dbdb006802e}} 
 \index{blearner\+::\+Polynomial\+Blearner@{blearner\+::\+Polynomial\+Blearner}!Polynomial\+Blearner@{Polynomial\+Blearner}}
 \index{Polynomial\+Blearner@{Polynomial\+Blearner}!blearner\+::\+Polynomial\+Blearner@{blearner\+::\+Polynomial\+Blearner}}
 \subsubsection{\texorpdfstring{Polynomial\+Blearner()}{PolynomialBlearner()}}
-{\footnotesize\ttfamily blearner\+::\+Polynomial\+Blearner\+::\+Polynomial\+Blearner (\begin{DoxyParamCaption}\item[{\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$}]{data,  }\item[{const std\+::string \&}]{identifier,  }\item[{const unsigned int \&}]{degree }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily blearner\+::\+Polynomial\+Blearner\+::\+Polynomial\+Blearner (\begin{DoxyParamCaption}\item[{\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$}]{data,  }\item[{const std\+::string \&}]{identifier,  }\item[{const unsigned int \&}]{degree,  }\item[{const bool \&}]{intercept }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classblearner_1_1_polynomial_blearner_a295589dd57691401ccaf49e4ec5cca8f_cgraph}
+\includegraphics[width=350pt]{classblearner_1_1_polynomial_blearner_abc12720faabbad27d60d2dbdb006802e_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classblearner_1_1_polynomial_blearner_a295589dd57691401ccaf49e4ec5cca8f_icgraph}
+\includegraphics[width=350pt]{classblearner_1_1_polynomial_blearner_abc12720faabbad27d60d2dbdb006802e_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{classblearner_1_1_polynomial_blearner_ac3acf16e62db3dc6c34b4290f9f04f04}\label{classblearner_1_1_polynomial_blearner_ac3acf16e62db3dc6c34b4290f9f04f04}} 
@@ -87,7 +93,8 @@ Here is the caller graph for this function\+:\nopagebreak
 
 Implements \hyperlink{classblearner_1_1_baselearner_a8e12c6739f085917a7d2da6570c51a21}{blearner\+::\+Baselearner}.
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -170,6 +177,12 @@ Here is the call graph for this function\+:\nopagebreak
 \index{degree@{degree}!blearner\+::\+Polynomial\+Blearner@{blearner\+::\+Polynomial\+Blearner}}
 \subsubsection{\texorpdfstring{degree}{degree}}
 {\footnotesize\ttfamily unsigned int blearner\+::\+Polynomial\+Blearner\+::degree\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classblearner_1_1_polynomial_blearner_af16d0f9f97179d9b23ec8796a0c74709}\label{classblearner_1_1_polynomial_blearner_af16d0f9f97179d9b23ec8796a0c74709}} 
+\index{blearner\+::\+Polynomial\+Blearner@{blearner\+::\+Polynomial\+Blearner}!intercept@{intercept}}
+\index{intercept@{intercept}!blearner\+::\+Polynomial\+Blearner@{blearner\+::\+Polynomial\+Blearner}}
+\subsubsection{\texorpdfstring{intercept}{intercept}}
+{\footnotesize\ttfamily bool blearner\+::\+Polynomial\+Blearner\+::intercept\hspace{0.3cm}{\ttfamily [private]}}
 
 
 

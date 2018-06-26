@@ -157,7 +157,7 @@ Inheritance diagram for loss::BinomialLoss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_binomial_loss__inherit__graph.png" border="0" usemap="#loss_1_1_binomial_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_binomial_loss_inherit__map" id="loss_1_1_binomial_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,156"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,188,171"/>
 </map>
 </div>
 <div class="dynheader">
@@ -165,7 +165,7 @@ Collaboration diagram for loss::BinomialLoss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_binomial_loss__coll__graph.png" border="0" usemap="#loss_1_1_binomial_loss_coll__map" alt="Collaboration graph"/></div>
 <map name="loss_1_1_binomial_loss_coll__map" id="loss_1_1_binomial_loss_coll__map">
-<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,148,156"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss.html" title="Abstract loss class. " alt="" coords="5,5,188,171"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -186,6 +186,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1292422a2b07c8ebe1b168375940b029"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_binomial_loss.html#a1292422a2b07c8ebe1b168375940b029">constantInitializer</a> (const arma::vec &amp;) const</td></tr>
 <tr class="memdesc:a1292422a2b07c8ebe1b168375940b029"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constant initialization of the empirical risk.  <a href="#a1292422a2b07c8ebe1b168375940b029">More...</a><br /></td></tr>
 <tr class="separator:a1292422a2b07c8ebe1b168375940b029"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fb5f28518ac455cb192441660e7b997"><td class="memItemLeft" align="right" valign="top">arma::vec&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_binomial_loss.html#a6fb5f28518ac455cb192441660e7b997">responseTransformation</a> (const arma::vec &amp;) const</td></tr>
+<tr class="memdesc:a6fb5f28518ac455cb192441660e7b997"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definition of the response function.  <a href="#a6fb5f28518ac455cb192441660e7b997">More...</a><br /></td></tr>
+<tr class="separator:a6fb5f28518ac455cb192441660e7b997"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classloss_1_1_loss"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classloss_1_1_loss')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classloss_1_1_loss.html">loss::Loss</a></td></tr>
 <tr class="memitem:a868a7908fd97590b6c4fc69f4eb3c570 inherit pub_methods_classloss_1_1_loss"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classloss_1_1_loss.html#a868a7908fd97590b6c4fc69f4eb3c570">~Loss</a> ()</td></tr>
 <tr class="separator:a868a7908fd97590b6c4fc69f4eb3c570 inherit pub_methods_classloss_1_1_loss"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -402,6 +405,43 @@ Additional Inherited Members</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd><code>arma::vec</code> vector of elementwise application of the loss function </dd></dl>
 
 <p>Implements <a class="el" href="classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94">loss::Loss</a>.</p>
+
+</div>
+</div>
+<a id="a6fb5f28518ac455cb192441660e7b997"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fb5f28518ac455cb192441660e7b997">&#9670;&nbsp;</a></span>responseTransformation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">arma::vec loss::BinomialLoss::responseTransformation </td>
+          <td>(</td>
+          <td class="paramtype">const arma::vec &amp;&#160;</td>
+          <td class="paramname"><em>score</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition of the response function. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">score</td><td><code>arma::vec</code> The score trained during the fitting process</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><code>arma::vec</code> The transforemd score. </dd></dl>
+
+<p>Implements <a class="el" href="classloss_1_1_loss.html#a0a84b7df79b08e40b538aaa7e6ee75c4">loss::Loss</a>.</p>
 
 </div>
 </div>

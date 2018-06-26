@@ -11,20 +11,22 @@ With this loss it is possible to define custom functions in {\ttfamily C++}
 
 
 
-Inheritance diagram for loss\+:\+:Custom\+Cpp\+Loss\+:\nopagebreak
+Inheritance diagram for loss\+:\+:Custom\+Cpp\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=193pt]{classloss_1_1_custom_cpp_loss__inherit__graph}
+\includegraphics[width=217pt]{classloss_1_1_custom_cpp_loss__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for loss\+:\+:Custom\+Cpp\+Loss\+:\nopagebreak
+Collaboration diagram for loss\+:\+:Custom\+Cpp\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=193pt]{classloss_1_1_custom_cpp_loss__coll__graph}
+\includegraphics[width=217pt]{classloss_1_1_custom_cpp_loss__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -37,7 +39,9 @@ arma\+::vec \hyperlink{classloss_1_1_custom_cpp_loss_a5611805b67b0542449beb89805
 arma\+::vec \hyperlink{classloss_1_1_custom_cpp_loss_a3ff741b3a4d4c3f3515660dcb7b32781}{defined\+Gradient} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
 double \hyperlink{classloss_1_1_custom_cpp_loss_a7e3691161855a4a3152982274e74c96a}{constant\+Initializer} (const arma\+::vec \&) const
-\begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\item 
+arma\+::vec \hyperlink{classloss_1_1_custom_cpp_loss_a8ef296a7db08423f68dd389824b5aa77}{response\+Transformation} (const arma\+::vec \&) const
+\begin{DoxyCompactList}\small\item\em Definition of the response function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -160,6 +164,28 @@ Definition of the loss function (see description of the class)
 
 
 Implements \hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}.
+
+\mbox{\Hypertarget{classloss_1_1_custom_cpp_loss_a8ef296a7db08423f68dd389824b5aa77}\label{classloss_1_1_custom_cpp_loss_a8ef296a7db08423f68dd389824b5aa77}} 
+\index{loss\+::\+Custom\+Cpp\+Loss@{loss\+::\+Custom\+Cpp\+Loss}!response\+Transformation@{response\+Transformation}}
+\index{response\+Transformation@{response\+Transformation}!loss\+::\+Custom\+Cpp\+Loss@{loss\+::\+Custom\+Cpp\+Loss}}
+\subsubsection{\texorpdfstring{response\+Transformation()}{responseTransformation()}}
+{\footnotesize\ttfamily arma\+::vec loss\+::\+Custom\+Cpp\+Loss\+::response\+Transformation (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{score }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Definition of the response function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em score} & {\ttfamily arma\+::vec} The score trained during the fitting process\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} The transforemd score. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}.
 
 
 

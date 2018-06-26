@@ -6,7 +6,8 @@
 
 
 
-Collaboration diagram for cboost\+:\+:Compboost\+:\nopagebreak
+Collaboration diagram for cboost\+:\+:Compboost\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -26,7 +27,7 @@ void \hyperlink{classcboost_1_1_compboost_a52ea04dec53c68865fdc4a79461d17cb}{tra
 \item 
 void \hyperlink{classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07}{continue\+Training} (\hyperlink{classloggerlist_1_1_logger_list}{loggerlist\+::\+Logger\+List} $\ast$, const bool \&)
 \item 
-arma\+::vec \hyperlink{classcboost_1_1_compboost_a405c6b88de5b053fefdb24742791da4e}{get\+Prediction} () const
+arma\+::vec \hyperlink{classcboost_1_1_compboost_a741143ae1cb41c54346e19f8bec3454d}{get\+Prediction} (const bool \&) const
 \item 
 std\+::map$<$ std\+::string, arma\+::mat $>$ \hyperlink{classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537}{get\+Parameter} () const
 \item 
@@ -40,11 +41,15 @@ std\+::pair$<$ std\+::vector$<$ std\+::string $>$, arma\+::mat $>$ \hyperlink{cl
 \item 
 arma\+::vec \hyperlink{classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b}{predict} () const
 \item 
-arma\+::vec \hyperlink{classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58}{predict} (std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$) const
+arma\+::vec \hyperlink{classcboost_1_1_compboost_a51c59cdddec77c2bed757aadad6afe1d}{predict} (std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$, const bool \&) const
 \item 
-arma\+::vec \hyperlink{classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963}{prediction\+Of\+Iteration} (std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$, const unsigned int \&) const
+arma\+::vec \hyperlink{classcboost_1_1_compboost_abd00401a8914cde27a93673e12ab3468}{prediction\+Of\+Iteration} (std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$, const unsigned int \&, const bool \&) const
 \item 
 void \hyperlink{classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659}{set\+To\+Iteration} (const unsigned int \&)
+\item 
+double \hyperlink{classcboost_1_1_compboost_a3583df9670daa06c2fb065364a1e9883}{get\+Offset} () const
+\item 
+std\+::vector$<$ double $>$ \hyperlink{classcboost_1_1_compboost_a028c381577a136f8601aaf8433cf606c}{get\+Risk\+Vector} () const
 \item 
 void \hyperlink{classcboost_1_1_compboost_a7be8cb767054ece895d535c1f468233e}{summarize\+Compboost} () const
 \item 
@@ -58,6 +63,8 @@ arma\+::vec \hyperlink{classcboost_1_1_compboost_a01de924b977c9ba12a3f3be88e2586
 arma\+::vec \hyperlink{classcboost_1_1_compboost_acb8716c9e383e15ae7d8785a591860f7}{pseudo\+\_\+residuals}
 \item 
 arma\+::vec \hyperlink{classcboost_1_1_compboost_a7f7c7fe26c16c175e7d402aca781e8da}{model\+\_\+prediction}
+\item 
+std\+::vector$<$ double $>$ \hyperlink{classcboost_1_1_compboost_ab6ccd78f33c6843990bdc9e6c7f72518}{risk}
 \item 
 double \hyperlink{classcboost_1_1_compboost_aa6a7b77188ae60be668e87018d28835a}{learning\+\_\+rate}
 \item 
@@ -109,14 +116,16 @@ std\+::map$<$ std\+::string, \hyperlink{classloggerlist_1_1_logger_list}{loggerl
 \subsubsection{\texorpdfstring{continue\+Training()}{continueTraining()}}
 {\footnotesize\ttfamily void cboost\+::\+Compboost\+::continue\+Training (\begin{DoxyParamCaption}\item[{\hyperlink{classloggerlist_1_1_logger_list}{loggerlist\+::\+Logger\+List} $\ast$}]{logger,  }\item[{const bool \&}]{trace }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcboost_1_1_compboost_a191aa22dbfcc3d2e878ef75c0b196d07_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -129,13 +138,20 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{get\+Logger\+List()}{getLoggerList()}}
 {\footnotesize\ttfamily std\+::map$<$ std\+::string, \hyperlink{classloggerlist_1_1_logger_list}{loggerlist\+::\+Logger\+List} $\ast$ $>$ cboost\+::\+Compboost\+::get\+Logger\+List (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
+\mbox{\Hypertarget{classcboost_1_1_compboost_a3583df9670daa06c2fb065364a1e9883}\label{classcboost_1_1_compboost_a3583df9670daa06c2fb065364a1e9883}} 
+\index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!get\+Offset@{get\+Offset}}
+\index{get\+Offset@{get\+Offset}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
+\subsubsection{\texorpdfstring{get\+Offset()}{getOffset()}}
+{\footnotesize\ttfamily double cboost\+::\+Compboost\+::get\+Offset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
 \mbox{\Hypertarget{classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537}\label{classcboost_1_1_compboost_a7b90eaa8107f91806b09ceedf8581537}} 
 \index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!get\+Parameter@{get\+Parameter}}
 \index{get\+Parameter@{get\+Parameter}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
 \subsubsection{\texorpdfstring{get\+Parameter()}{getParameter()}}
 {\footnotesize\ttfamily std\+::map$<$ std\+::string, arma\+::mat $>$ cboost\+::\+Compboost\+::get\+Parameter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -148,7 +164,8 @@ Here is the call graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{get\+Parameter\+Matrix()}{getParameterMatrix()}}
 {\footnotesize\ttfamily std\+::pair$<$ std\+::vector$<$ std\+::string $>$, arma\+::mat $>$ cboost\+::\+Compboost\+::get\+Parameter\+Matrix (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -161,18 +178,33 @@ Here is the call graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{get\+Parameter\+Of\+Iteration()}{getParameterOfIteration()}}
 {\footnotesize\ttfamily std\+::map$<$ std\+::string, arma\+::mat $>$ cboost\+::\+Compboost\+::get\+Parameter\+Of\+Iteration (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{k }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcboost_1_1_compboost_a97b02aa81981e08658d896ff9798b5d0_cgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{classcboost_1_1_compboost_a405c6b88de5b053fefdb24742791da4e}\label{classcboost_1_1_compboost_a405c6b88de5b053fefdb24742791da4e}} 
+\mbox{\Hypertarget{classcboost_1_1_compboost_a741143ae1cb41c54346e19f8bec3454d}\label{classcboost_1_1_compboost_a741143ae1cb41c54346e19f8bec3454d}} 
 \index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!get\+Prediction@{get\+Prediction}}
 \index{get\+Prediction@{get\+Prediction}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
 \subsubsection{\texorpdfstring{get\+Prediction()}{getPrediction()}}
-{\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::get\+Prediction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::get\+Prediction (\begin{DoxyParamCaption}\item[{const bool \&}]{as\+\_\+response }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classcboost_1_1_compboost_a741143ae1cb41c54346e19f8bec3454d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classcboost_1_1_compboost_a028c381577a136f8601aaf8433cf606c}\label{classcboost_1_1_compboost_a028c381577a136f8601aaf8433cf606c}} 
+\index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!get\+Risk\+Vector@{get\+Risk\+Vector}}
+\index{get\+Risk\+Vector@{get\+Risk\+Vector}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
+\subsubsection{\texorpdfstring{get\+Risk\+Vector()}{getRiskVector()}}
+{\footnotesize\ttfamily std\+::vector$<$ double $>$ cboost\+::\+Compboost\+::get\+Risk\+Vector (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classcboost_1_1_compboost_ac66d4490e6539832d4d304a86db746dc}\label{classcboost_1_1_compboost_ac66d4490e6539832d4d304a86db746dc}} 
 \index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!get\+Selected\+Baselearner@{get\+Selected\+Baselearner}}
@@ -180,7 +212,8 @@ Here is the call graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{get\+Selected\+Baselearner()}{getSelectedBaselearner()}}
 {\footnotesize\ttfamily std\+::vector$<$ std\+::string $>$ cboost\+::\+Compboost\+::get\+Selected\+Baselearner (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -193,44 +226,48 @@ Here is the call graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{predict()}{predict()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::predict (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcboost_1_1_compboost_a32d1066a24607ff6ef2f934002adf62b_icgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58}\label{classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58}} 
+\mbox{\Hypertarget{classcboost_1_1_compboost_a51c59cdddec77c2bed757aadad6afe1d}\label{classcboost_1_1_compboost_a51c59cdddec77c2bed757aadad6afe1d}} 
 \index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!predict@{predict}}
 \index{predict@{predict}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
 \subsubsection{\texorpdfstring{predict()}{predict()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::predict (\begin{DoxyParamCaption}\item[{std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$}]{data\+\_\+map }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::predict (\begin{DoxyParamCaption}\item[{std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$}]{data\+\_\+map,  }\item[{const bool \&}]{as\+\_\+response }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classcboost_1_1_compboost_a1779a0c89cf9da32b250c0c083631c58_cgraph}
+\includegraphics[width=350pt]{classcboost_1_1_compboost_a51c59cdddec77c2bed757aadad6afe1d_cgraph}
 \end{center}
 \end{figure}
-\mbox{\Hypertarget{classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963}\label{classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963}} 
+\mbox{\Hypertarget{classcboost_1_1_compboost_abd00401a8914cde27a93673e12ab3468}\label{classcboost_1_1_compboost_abd00401a8914cde27a93673e12ab3468}} 
 \index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!prediction\+Of\+Iteration@{prediction\+Of\+Iteration}}
 \index{prediction\+Of\+Iteration@{prediction\+Of\+Iteration}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
 \subsubsection{\texorpdfstring{prediction\+Of\+Iteration()}{predictionOfIteration()}}
-{\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::prediction\+Of\+Iteration (\begin{DoxyParamCaption}\item[{std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$}]{data\+\_\+map,  }\item[{const unsigned int \&}]{k }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::prediction\+Of\+Iteration (\begin{DoxyParamCaption}\item[{std\+::map$<$ std\+::string, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$$>$}]{data\+\_\+map,  }\item[{const unsigned int \&}]{k,  }\item[{const bool \&}]{as\+\_\+response }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=350pt]{classcboost_1_1_compboost_a6582a12bf1060750367219aeae395963_cgraph}
+\includegraphics[width=350pt]{classcboost_1_1_compboost_abd00401a8914cde27a93673e12ab3468_cgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659}\label{classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659}} 
@@ -239,14 +276,16 @@ Here is the call graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{set\+To\+Iteration()}{setToIteration()}}
 {\footnotesize\ttfamily void cboost\+::\+Compboost\+::set\+To\+Iteration (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{k }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcboost_1_1_compboost_ad1ee3b88f585f38255d827dceb4b7659_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -259,7 +298,8 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{summarize\+Compboost()}{summarizeCompboost()}}
 {\footnotesize\ttfamily void cboost\+::\+Compboost\+::summarize\+Compboost (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -272,14 +312,16 @@ Here is the call graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{train()}{train()}}
 {\footnotesize\ttfamily void cboost\+::\+Compboost\+::train (\begin{DoxyParamCaption}\item[{const bool \&}]{trace,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\hyperlink{classloggerlist_1_1_logger_list}{loggerlist\+::\+Logger\+List} $\ast$}]{logger }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classcboost_1_1_compboost_aa898572eb2c83e0b95c12788a859333b_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -292,7 +334,8 @@ Here is the caller graph for this function\+:\nopagebreak
 \subsubsection{\texorpdfstring{train\+Compboost()}{trainCompboost()}}
 {\footnotesize\ttfamily void cboost\+::\+Compboost\+::train\+Compboost (\begin{DoxyParamCaption}\item[{const bool \&}]{trace }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -349,6 +392,12 @@ Here is the call graph for this function\+:\nopagebreak
 \index{response@{response}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
 \subsubsection{\texorpdfstring{response}{response}}
 {\footnotesize\ttfamily arma\+::vec cboost\+::\+Compboost\+::response\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classcboost_1_1_compboost_ab6ccd78f33c6843990bdc9e6c7f72518}\label{classcboost_1_1_compboost_ab6ccd78f33c6843990bdc9e6c7f72518}} 
+\index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!risk@{risk}}
+\index{risk@{risk}!cboost\+::\+Compboost@{cboost\+::\+Compboost}}
+\subsubsection{\texorpdfstring{risk}{risk}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ cboost\+::\+Compboost\+::risk\hspace{0.3cm}{\ttfamily [private]}}
 
 \mbox{\Hypertarget{classcboost_1_1_compboost_a40c118dcaf96479cd6574138f9b2620f}\label{classcboost_1_1_compboost_a40c118dcaf96479cd6574138f9b2620f}} 
 \index{cboost\+::\+Compboost@{cboost\+::\+Compboost}!stop\+\_\+if\+\_\+all\+\_\+stopper\+\_\+fulfilled@{stop\+\_\+if\+\_\+all\+\_\+stopper\+\_\+fulfilled}}

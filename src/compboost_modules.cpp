@@ -1970,11 +1970,11 @@ protected:
 //' the base-learner with the smallest SSE.
 //'
 //' @format \code{\link{S4}} object.
-//' @name GreedyOptimizer
+//' @name CoordinateDescent
 //'
 //' @section Usage:
 //' \preformatted{
-//' GreedyOptimizer$new()
+//' CoordinateDescent$new()
 //' }
 //'
 //' @section Details:
@@ -1986,13 +1986,13 @@ protected:
 //' @examples
 //'
 //' # Define optimizer:
-//' optimizer = GreedyOptimizer$new()
+//' optimizer = CoordinateDescent$new()
 //'
-//' @export GreedyOptimizer
-class GreedyOptimizer : public OptimizerWrapper
+//' @export CoordinateDescent
+class CoordinateDescent : public OptimizerWrapper
 {
 public:
-  GreedyOptimizer () { obj = new optimizer::GreedyOptimizer(); }
+  CoordinateDescent () { obj = new optimizer::CoordinateDescent(); }
 
   // Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
   // {
@@ -2019,7 +2019,7 @@ RCPP_MODULE(optimizer_module)
     .constructor ()
   ;
 
-  class_<GreedyOptimizer> ("GreedyOptimizer")
+  class_<CoordinateDescent> ("CoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
   ;
@@ -2166,7 +2166,7 @@ RCPP_MODULE(optimizer_module)
 //' loss.bin = BinomialLoss$new()
 //'
 //' # Define optimizer:
-//' optimizer = GreedyOptimizer$new()
+//' optimizer = CoordinateDescent$new()
 //'
 //' ## Logger
 //'

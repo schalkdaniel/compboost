@@ -1,8 +1,8 @@
 <map id="blearner::Baselearner::predict" name="blearner::Baselearner::predict">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="217,37,361,79"/>
-<area shape="rect" id="node6" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="212,103,367,144"/>
-<area shape="rect" id="node7" href="$classoptimizer_1_1_greedy_optimizer.html#adc36d8a0082dc065fc1340869d36069d" title="optimizer::GreedyOptimizer\l::findBestBaselearner" alt="" coords="199,168,380,209"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="428,5,572,47"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="428,71,572,112"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="620,71,764,112"/>
+<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="224,37,368,79"/>
+<area shape="rect" id="node6" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="219,103,373,144"/>
+<area shape="rect" id="node7" href="$classoptimizer_1_1_coordinate_descent.html#af5e8a9fb18b1f627b20534b372d62a6e" title="optimizer::CoordinateDescent\l::findBestBaselearner" alt="" coords="199,168,393,209"/>
+<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb" title="cboost::Compboost::\ltrainCompboost" alt="" coords="441,5,585,47"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="441,71,585,112"/>
+<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="633,71,777,112"/>
 </map>

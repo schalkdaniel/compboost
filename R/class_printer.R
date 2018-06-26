@@ -45,7 +45,7 @@ glueLoss = function (name, definition = NULL, additional.desc = "")
   if (is.null(definition)) {
     definition = "No function specified, probably you are using a custom loss."
   } else {
-    definition = paste0("Loss function: y = ", definition)
+    definition = paste0("Loss function: L(y,x) = ", definition)
   }
 
   ignore.me = glue::glue("
@@ -146,7 +146,7 @@ ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
 
 setClass("Rcpp_QuadraticLoss")
 ignore.me = setMethod("show", "Rcpp_QuadraticLoss", function (object) {
-  glueLoss("QuadraticLoss", "(y - f(x))^2")
+  glueLoss("QuadraticLoss", "0.5 * (y - f(x))^2")
 })
 
 setClass("Rcpp_AbsoluteLoss")
@@ -156,7 +156,8 @@ ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
 
 setClass("Rcpp_BinomialLoss")
 ignore.me = setMethod("show", "Rcpp_BinomialLoss", function (object) {
-  glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
+  # glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
+  glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))")
 })
 
 setClass("Rcpp_CustomLoss")
@@ -230,14 +231,14 @@ ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
 # Optimizer:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_GreedyOptimizer")
-ignore.me = setMethod("show", "Rcpp_GreedyOptimizer", function (object) {
+setClass("Rcpp_CoordinateDescent")
+ignore.me = setMethod("show", "Rcpp_CoordinateDescent", function (object) {
   cat("\n")
   cat("Greedy optimizer! Optmizing over all baselearner in each iteration and",
     "choose the one with the lowest SSE.\n")
   cat("\n\n")
 
-  return (invisible("GreedyOptimizerPrinter"))
+  return (invisible("CoordinateDescentPrinter"))
 })
 
 

@@ -38,7 +38,7 @@ test_that("train works", {
   expect_s4_class(cboost$model, "Rcpp_Compboost_internal")
   expect_s4_class(cboost$bl.factory.list, "Rcpp_BlearnerFactoryList")
   expect_s4_class(cboost$loss, "Rcpp_QuadraticLoss")
-  expect_s4_class(cboost$optimizer, "Rcpp_GreedyOptimizer")
+  expect_s4_class(cboost$optimizer, "Rcpp_CoordinateDescent")
 
   expect_equal(cboost$target, "mpg")
   expect_equal(cboost$response, mtcars[["mpg"]])

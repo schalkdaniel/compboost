@@ -317,7 +317,7 @@ loss.bin
 ## 
 ##   Labels should be coded as -1 and 1!</code></pre></div>
 <p>Since we are in the boosting context the classical way of selecting the best baselearner within one iteration by using the greedy optimizer:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">used.optimizer =<span class="st"> </span>GreedyOptimizer<span class="op">$</span><span class="kw">new</span>()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">used.optimizer =<span class="st"> </span>CoordinateDescent<span class="op">$</span><span class="kw">new</span>()</code></pre></div>
 </div>
 <div id="define-logger" class="section level2">
 <h2>Define Logger</h2>

@@ -11,20 +11,22 @@ Quadratic loss for regression tasks.
 
 
 
-Inheritance diagram for loss\+:\+:Quadratic\+Loss\+:\nopagebreak
+Inheritance diagram for loss\+:\+:Quadratic\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=187pt]{classloss_1_1_quadratic_loss__inherit__graph}
+\includegraphics[width=217pt]{classloss_1_1_quadratic_loss__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for loss\+:\+:Quadratic\+Loss\+:\nopagebreak
+Collaboration diagram for loss\+:\+:Quadratic\+Loss\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=187pt]{classloss_1_1_quadratic_loss__coll__graph}
+\includegraphics[width=217pt]{classloss_1_1_quadratic_loss__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -39,7 +41,9 @@ arma\+::vec \hyperlink{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a687
 arma\+::vec \hyperlink{classloss_1_1_quadratic_loss_adb4da1acbad702b5ba8570abaa17d373}{defined\+Gradient} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
 double \hyperlink{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}{constant\+Initializer} (const arma\+::vec \&) const
-\begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\item 
+arma\+::vec \hyperlink{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}{response\+Transformation} (const arma\+::vec \&) const
+\begin{DoxyCompactList}\small\item\em Definition of the response function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
@@ -156,6 +160,28 @@ Definition of the loss function (see description of the class)
 
 
 Implements \hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}.
+
+\mbox{\Hypertarget{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}\label{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}} 
+\index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}!response\+Transformation@{response\+Transformation}}
+\index{response\+Transformation@{response\+Transformation}!loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}}
+\subsubsection{\texorpdfstring{response\+Transformation()}{responseTransformation()}}
+{\footnotesize\ttfamily arma\+::vec loss\+::\+Quadratic\+Loss\+::response\+Transformation (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{score }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Definition of the response function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em score} & {\ttfamily arma\+::vec} The score trained during the fitting process\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} The transforemd score. 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}.
 
 
 

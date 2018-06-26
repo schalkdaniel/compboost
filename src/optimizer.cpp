@@ -49,12 +49,12 @@ Optimizer::~Optimizer () {
 // Optimizer implementations:
 // -------------------------------------------------------------------------- //
 
-// GreedyOptimizer:
+// CoordinateDescent:
 // -----------------------
 
-GreedyOptimizer::GreedyOptimizer () {}
+CoordinateDescent::CoordinateDescent () {}
 
-blearner::Baselearner* GreedyOptimizer::findBestBaselearner (const std::string& iteration_id, 
+blearner::Baselearner* CoordinateDescent::findBestBaselearner (const std::string& iteration_id, 
   const arma::vec& pseudo_residuals, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
