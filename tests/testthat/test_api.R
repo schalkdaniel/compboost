@@ -167,8 +167,8 @@ test_that("custom base-learner works through api", {
   }
 
   expect_silent({ 
-    cboost$addBaselearner("hp", "custom", CustomBlearner, instanitate_fun =  instantiateData, 
-      train_fun = trainFun, predict_fun = predictFun, param_fun = extractParameter) 
+    cboost$addBaselearner("hp", "custom", CustomBlearner, instanitate.fun =  instantiateData, 
+      train.fun = trainFun, predict.fun = predictFun, param.fun = extractParameter) 
   })
   expect_output({ cboost$train(100) })
 
@@ -190,8 +190,8 @@ test_that("custom cpp base-learner works through api", {
   expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new()) })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })  
   expect_silent({ 
-    cboost$addBaselearner("hp", "custom", CustomCppBlearner, instanitate_ptr =  dataFunSetter(), 
-      train_ptr = trainFunSetter(), pred_ptr = predictFunSetter()) 
+    cboost$addBaselearner("hp", "custom", CustomCppBlearner, instanitate.ptr =  dataFunSetter(), 
+      train.ptr = trainFunSetter(), pred.ptr = predictFunSetter()) 
   })
   expect_output({ cboost$train(100) })
 
@@ -340,6 +340,8 @@ test_that("training with binomial loss works", {
 })
 
 test_that("custom poisson family does the same as mboost", {
+
+  suppressWarnings(library(mboost))
 
   iris$Sepal.Length = as.integer(iris$Sepal.Length)
 

@@ -261,11 +261,6 @@ highlight {
 		-o-transform: scale(0.75);
 		-webkit-transform: scale(0.75);
 		transform: scale(0.75);
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> 779878566eeb833808e701f6f7b446cc96aff976
 		-ms-transform-origin: 0 0;
 		-moz-transform-origin: 0 0;
 		-o-transform-origin: 0 0;
@@ -284,4 +279,10 @@ highlight {
 		background: rgba(10, 41, 35, 0.2) !important;
 		font-family: Consolas, Monospace !important;
 		font-size: 18px;
+	}
+
+	td, th {
+		padding-left: 20px;
+		padding-right: 20px;	
+		padding-bottom: 20px;
 	}

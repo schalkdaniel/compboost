@@ -57,6 +57,53 @@
 
   <hr>
 
+  <table>
+  <tr>
+    <th>Base-Learner</th>
+    <th>Description</th>
+    <th>Arguments</th>
+  </tr>
+  <tr>
+    <td><code>PolynomialBlearner</code></td>
+    <td>
+      Fit polynomial base-learner. Note that this base-learner takes just the power of the selected feature. Hence, there is no linear part if one selects, for instance, <code>degree = 2</code>.
+    </td>
+    <td>
+      <b>degree</b>: Polynomial degree of feature (default: 1) <br>
+      <b>intercept</b>: Number of inner knots (default: TRUE)
+    </td>
+  </tr>
+  <tr>
+    <td><code>PSplineBlearner</code></td>
+    <td>Fit (penalized) spline regression base-learners.</td>
+    <td>
+      <b>degree</b>: Polynomial degree of bases (default: 3) <br>
+      <b>n.knots</b>: Number of inner knots (default: 20) <br>
+      <b>penalty</b>: Penalty parameter for smoother curves (default: 2) <br>
+      <b>differences</b>: Number of penalized differences of the knots (default: 2)
+    </td>
+  </tr>
+  <tr>
+    <td><code>CustomBlearner</code></td>
+    <td>Define a custom base-learner by using <code>R</code> functions.</td>
+    <td>
+      <b>instantiate.fun</b>: Feature transformation, e.g., create spline bases in the case of a spline learner <br> 
+      <b>train.fun</b>: Function to train on the data gained by <code>instantiate.fun</code><br>
+      <b>predict.fun</b>: Function to predict on the object returned by <code>train.fun</code><br>
+      <b>param.fun</b>: Function to extract parameters as matrix from the object returned by <code>train.fun</code>
+    </td>
+  </tr>
+  <tr>
+    <td><code>CustomCppBlearner</code></td>
+    <td>Define a custom base-learner by using <code>C++</code> functions.</td>
+    <td>
+      <b>instantiate.ptr</b>: External pointer containing the reference to the <code>C++</code> feature transformation <br>
+      <b>train.ptr</b>: Function to train on the data obtained by <code>instantiate.ptr</code> which always returns the parameter as matrix
+      <b>predict.ptr</b>: Function to predict by using the parameter obtained by <code>trian.ptr</code>
+    </td>
+  </tr>
+</table>
+
   <h2>Loss</h2>
 
   <hr>
