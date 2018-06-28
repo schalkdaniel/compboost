@@ -338,3 +338,74 @@ test_that("training with binomial loss works", {
   expect_silent({ cboost = Compboost$new(iris[1:100, ], "Species", loss = BinomialLoss$new()) })
 
 })
+
+test_that("custom poisson family does the same as mboost", {
+
+  iris$Sepal.Length = as.integer(iris$Sepal.Length)
+
+  lossPoisson = function (truth, response) {
+    return (-log(exp(response)^truth * exp(-exp(response)) / gamma(truth + 1)))
+  }
+  gradPoisson = function (truth, response) {
+    return (exp(response) - truth)
+  }
+  constInitPoisson = function (truth) {
+    return (log(mean.default(truth)))
+  }
+  expect_silent({ my.poisson.loss = CustomLoss$new(lossPoisson, gradPoisson, constInitPoisson) })
+  
+  expect_silent({
+    cboost = Compboost$new(iris, "Sepal.Length", loss = my.poisson.loss)
+    cboost$addBaselearner("Sepal.Width", "linear", PolynomialBlearner, 
+      degree = 1, intercept = TRUE)
+    cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
+      degree = 3, knots = 10, penalty = 2, differences = 2)
+    cboost$train(100, trace = FALSE)
+  })
+  mod = mboost(Sepal.Length ~ bols(Sepal.Width) + bbs(Petal.Length, differences = 2, lambda = 2, 
+    degree = 3, knots = 10), data = iris, family = Poisson(), 
+    control = boost_control(mstop = 100, nu = 0.05))
+  
+  expect_silent({
+    coef.cboost = cboost$coef()
+    coef.mboost = coef(mod)
+  })
+
+  expect_equal(coef.cboost$offset, attr(coef.mboost, "offset"))
+  expect_equal(as.numeric(coef.cboost[[1]]), as.numeric(coef.mboost[[2]]))
+  expect_equal(as.numeric(coef.cboost[[2]]), as.numeric(coef.mboost[[1]]))
+  expect_equal(as.numeric(cboost$predict()), as.numeric(predict(mod)))
+  for (i in seq_len(10)) {
+    idx = sample(seq_len(nrow(iris)), sample(seq_len(nrow(iris)), 1), TRUE)
+    x = iris[idx, ]
+    expect_equal(cboost$predict(x), predict(mod, x))
+  }
+})
+
+test_that("quadratic loss does the same as mboost", {
+
+  expect_silent({
+    cboost = Compboost$new(iris, "Sepal.Width", loss = QuadraticLoss$new())
+    cboost$addBaselearner("Sepal.Length", "linear", PolynomialBlearner, 
+      degree = 1, intercept = TRUE)
+    cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
+      degree = 3, knots = 10, penalty = 2, differences = 2)
+    cboost$train(100, trace = FALSE)
+  })
+  mod = mboost(Sepal.Width ~ bols(Sepal.Length) + bbs(Petal.Length, differences = 2, lambda = 2, 
+    degree = 3, knots = 10), data = iris, control = boost_control(mstop = 100, nu = 0.05))
+  
+  expect_silent({
+    coef.cboost = cboost$coef()
+    coef.mboost = coef(mod)
+  })
+  expect_equal(coef.cboost$offset, attr(coef.mboost, "offset"))
+  expect_equal(as.numeric(coef.cboost[[1]]), as.numeric(coef.mboost[[2]]))
+  expect_equal(as.numeric(coef.cboost[[2]]), as.numeric(coef.mboost[[1]]))
+  expect_equal(as.numeric(cboost$predict()), as.numeric(predict(mod)))
+  for (i in seq_len(10)) {
+    idx = sample(seq_len(nrow(iris)), sample(seq_len(nrow(iris)), 1), TRUE)
+    x = iris[idx, ]
+    expect_equal(cboost$predict(x), predict(mod, x))
+  }
+})
