@@ -383,6 +383,7 @@ test_that("custom poisson family does the same as mboost", {
 })
 
 test_that("quadratic loss does the same as mboost", {
+  suppressWarnings(library(mboost))
 
   expect_silent({
     cboost = Compboost$new(iris, "Sepal.Width", loss = QuadraticLoss$new())
