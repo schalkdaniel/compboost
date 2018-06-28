@@ -568,7 +568,13 @@ private = list(
 		private$bl.list[[id]]$source = data.source$new(as.matrix(data.columns), paste(feature, collapse = "_"))
 		private$bl.list[[id]]$feature = feature
 		private$bl.list[[id]]$target = data.target$new()
-		private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, ...)
+
+		# Call handler for default arguments and argument handling:
+		handler.name = paste0(".handle", bl.factory@.Data)
+		par.set = c(source = private$bl.list[[id]]$source, target = private$bl.list[[id]]$target, id = id.fac, do.call(handler.name, list(...)))
+		private$bl.list[[id]]$factory = do.call(bl.factory$new, par.set)
+    # private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, ...)
+		
 		self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
 		private$bl.list[[id]]$source = NULL
 
@@ -599,33 +605,33 @@ private = list(
 	)
 )
 
-if (FALSE) {
-	load_all()
-	cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
-	cars$foo_1 = rnorm(50)
-	cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
-	cb
-	cb$risk()
-	cb$selected()
-	cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
-	lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
-	cb$train(5)
-	cb$risk()
-	cb$selected()
-#	cb$addBaselearner(c("dist", "foo"), "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
- # cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
-  #cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
-	cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
-	cb$train(NULL)
-	cb
-	cb$predict()
-	cb$predict(cars)
-	cb$train(10)
-	cb2$train(200)
-	gc()
-	cb$train(100000)
-	cb$bl.factory.list
-	cb$model$getLoggerData()
-	head(cb$model$getParameterMatrix()[[2]])
-	cb$model$getParameterMatrix()[[1]]
-}
+# if (FALSE) {
+# 	load_all()
+# 	cars$dist_cat = ifelse(cars$speed > 15, "A", "B")
+# 	cars$foo_1 = rnorm(50)
+# 	cb = Compboost$new(cars, "speed", loss = QuadraticLoss$new(10))
+# 	cb
+# 	cb$risk()
+# 	cb$selected()
+# 	cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
+# 	lapply(c("dist", "foo_1"), function(x) cb$addBaselearner(x, "linear", PolynomialBlearnerFactory, degree = 1))
+# 	cb$train(5)
+# 	cb$risk()
+# 	cb$selected()
+# #	cb$addBaselearner(c("dist", "foo"), "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
+#  # cb$addBaselearner("dist", "spline", PSplineBlearnerFactory, degree = 3, knots = 10, penalty = 2, differences = 2)
+#   #cb$addBaselearner("dist_cat", "linear", PolynomialBlearnerFactory, degree = 1)
+# 	cb$addLogger(IterationLogger, use.as.stopper = TRUE, logger.id = "bla", iter.max = 500)
+# 	cb$train(NULL)
+# 	cb
+# 	cb$predict()
+# 	cb$predict(cars)
+# 	cb$train(10)
+# 	cb2$train(200)
+# 	gc()
+# 	cb$train(100000)
+# 	cb$bl.factory.list
+# 	cb$model$getLoggerData()
+# 	head(cb$model$getParameterMatrix()[[2]])
+# 	cb$model$getParameterMatrix()[[1]]
+# }

@@ -16,7 +16,7 @@ test_that("train works", {
   expect_error(cboost$train(10))
   expect_error(
   	cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearner, degree = 3, 
-      knots = 10, penalty = 2, differences = 2)
+      n.knots = 10, penalty = 2, differences = 2)
   )
 
   expect_silent(
@@ -25,7 +25,7 @@ test_that("train works", {
   )
   expect_silent(
   	cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
-    	knots = 10, penalty = 2, differences = 2)
+    	n.knots = 10, penalty = 2, differences = 2)
   )
   expect_output(cboost$train(4000))
   expect_output(cboost$print())
@@ -73,7 +73,7 @@ test_that("predict works", {
     cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearner, degree = 1, 
     	intercept = FALSE)
     cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
-    	knots = 10, penalty = 2, differences = 2)
+    	n.knots = 10, penalty = 2, differences = 2)
   })
 
   expect_silent(cboost$train(200, trace = FALSE))
@@ -93,7 +93,7 @@ test_that("plot works", {
     cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearner, degree = 1, 
     	intercept = TRUE)
     cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
-    	knots = 10, penalty = 2, differences = 2)
+    	n.knots = 10, penalty = 2, differences = 2)
     cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearner, degree = 2,
     	intercept = TRUE)
   })
@@ -122,7 +122,7 @@ test_that("multiple logger works", {
   expect_silent({ 
     cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
     cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3, 
-      knots = 10, penalty = 2, differences = 2)
+      n.knots = 10, penalty = 2, differences = 2)
     cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearner, degree = 2,
       intercept = TRUE)
   })
@@ -167,7 +167,7 @@ test_that("custom base-learner works through api", {
   }
 
   expect_silent({ 
-    cboost$addBaselearner("hp", "custom", CustomBlearner, instanitate.fun =  instantiateData, 
+    cboost$addBaselearner("hp", "custom", CustomBlearner, instantiate.fun =  instantiateData, 
       train.fun = trainFun, predict.fun = predictFun, param.fun = extractParameter) 
   })
   expect_output({ cboost$train(100) })
@@ -190,8 +190,8 @@ test_that("custom cpp base-learner works through api", {
   expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new()) })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })  
   expect_silent({ 
-    cboost$addBaselearner("hp", "custom", CustomCppBlearner, instanitate.ptr =  dataFunSetter(), 
-      train.ptr = trainFunSetter(), pred.ptr = predictFunSetter()) 
+    cboost$addBaselearner("hp", "custom", CustomCppBlearner, instantiate.ptr =  dataFunSetter(), 
+      train.ptr = trainFunSetter(), predict.ptr = predictFunSetter()) 
   })
   expect_output({ cboost$train(100) })
 
@@ -361,7 +361,7 @@ test_that("custom poisson family does the same as mboost", {
     cboost$addBaselearner("Sepal.Width", "linear", PolynomialBlearner, 
       degree = 1, intercept = TRUE)
     cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
-      degree = 3, knots = 10, penalty = 2, differences = 2)
+      degree = 3, n.knots = 10, penalty = 2, differences = 2)
     cboost$train(100, trace = FALSE)
   })
   mod = mboost(Sepal.Length ~ bols(Sepal.Width) + bbs(Petal.Length, differences = 2, lambda = 2, 
@@ -392,7 +392,7 @@ test_that("quadratic loss does the same as mboost", {
     cboost$addBaselearner("Sepal.Length", "linear", PolynomialBlearner, 
       degree = 1, intercept = TRUE)
     cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
-      degree = 3, knots = 10, penalty = 2, differences = 2)
+      degree = 3, n.knots = 10, penalty = 2, differences = 2)
     cboost$train(100, trace = FALSE)
   })
   mod = mboost(Sepal.Width ~ bols(Sepal.Length) + bbs(Petal.Length, differences = 2, lambda = 2, 
@@ -411,4 +411,47 @@ test_that("quadratic loss does the same as mboost", {
     x = iris[idx, ]
     expect_equal(cboost$predict(x), predict(mod, x))
   }
+})
+
+test_that("handler throws warnings", {
+  expect_silent({
+    cboost = Compboost$new(iris, "Sepal.Width", loss = QuadraticLoss$new())
+  })
+
+  expect_warning(cboost$addBaselearner("Sepal.Length", "linear", PolynomialBlearner, 
+      degree = 1, false.intercept = TRUE))
+  
+  expect_warning(cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
+      degree = 3, n.knots = 10, penalty = 2, differences = 2, i.am.not.used = NULL))
+
+  instantiateData = function (X) {
+    return(X);
+  }
+  trainFun = function (y, X) {
+    return(solve(t(X) %*% X) %*% t(X) %*% y)
+  }
+  predictFun = function (model, newdata) {
+    return(newdata %*% model)
+  }
+  extractParameter = function (model) {
+    return(model)
+  }
+
+  expect_warning(cboost$addBaselearner("Sepal.Length", "custom", CustomBlearner, instantiate.fun =  instantiateData, 
+      train.fun = trainFun, predict.fun = predictFun, param.fun = extractParameter, i.am.not.used = NULL))
+
+  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })  
+  expect_warning(cboost$addBaselearner("Sepal.Length", "custom", CustomCppBlearner, instantiate.ptr =  dataFunSetter(), 
+      train.ptr = trainFunSetter(), predict.ptr = predictFunSetter(), i.am.not.used = NULL)) 
+})
+
+
+test_that("default values are used by handler", {
+
+  expect_silent({
+    cboost = Compboost$new(iris, "Sepal.Width", loss = QuadraticLoss$new())
+  })
+  expect_silent(cboost$addBaselearner("Sepal.Length", "linear", PolynomialBlearner))
+  expect_silent(cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner))
+
 })
