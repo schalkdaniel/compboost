@@ -13,8 +13,8 @@ vignette: >
 
 ```{r, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
-devtools::load_all()
-# library(compboost)
+# devtools::load_all()
+library(compboost)
 
 options(width = 80)
 ```
