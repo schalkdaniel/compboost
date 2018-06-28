@@ -280,9 +280,26 @@ highlight {
 		font-family: Consolas, Monospace !important;
 		font-size: 18px;
 	}
-
-	td, th {
-		padding-left: 20px;
-		padding-right: 20px;	
-		padding-bottom: 20px;
+	table {
+		border-collapse: collapse;
 	}
+	td, th {
+		padding: 20px;
+		border-right: 2px solid rgb(255, 255, 255, 0.2);
+	}
+	td:last-child, th:last-child {
+		border-right: none;
+		width:40%;
+	}
+	tr {
+		border-bottom: 2px solid rgb(255, 255, 255, 0.2);
+	}
+	tr:first-child {
+		border-top: 2px solid rgb(255, 255, 255, 0.2);
+	}
+	tr:last-child {
+		border-bottom: none;
+	}
+	tr:nth-child(odd) {
+    background-color: rgb(255, 255, 255, 0.03);
+}

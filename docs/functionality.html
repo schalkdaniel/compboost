@@ -12,18 +12,18 @@
   <link href='//fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
   
   <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
+    MathJax.Hub.Config({
     tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
   });
-  </script>
-  <script type="text/javascript" async
-    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
-  </script>
+</script>
+<script type="text/javascript" async
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
-  <!-- include highlight.js -->
-  <link rel="stylesheet" href="highlight_js/styles/zenburn.css">
-  <script src="highlight_js/highlight.pack.js"></script>
-  <script>hljs.initHighlightingOnLoad();</script>
+<!-- include highlight.js -->
+<link rel="stylesheet" href="highlight_js/styles/zenburn.css">
+<script src="highlight_js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 </head>
 
@@ -39,79 +39,130 @@
   </div>
   
   <div class="content-noline">
-  
-  
-  <p>
-    <a class="badge", href="https://travis-ci.org/schalkdaniel/compboost">
-      <img src="https://api.travis-ci.org/schalkdaniel/compboost.svg?branch=master", alt="Build Status">
-    </a>
-    <a class="badge", href='https://coveralls.io/github/schalkdaniel/compboost?branch=master'>
-      <img src='https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master', alt='Coverage Status' />
-    </a>
-  </p>
-  
-  
-  <h1>Functionality</h1>
-  
-  <h2>Base-Learners</h2>
 
-  <hr>
 
-  <table>
-  <tr>
-    <th>Base-Learner</th>
-    <th>Description</th>
-    <th>Arguments</th>
-  </tr>
-  <tr>
-    <td><code>PolynomialBlearner</code></td>
-    <td>
-      Fit polynomial base-learner. Note that this base-learner takes just the power of the selected feature. Hence, there is no linear part if one selects, for instance, <code>degree = 2</code>.
-    </td>
-    <td>
-      <b>degree</b>: Polynomial degree of feature (default: 1) <br>
-      <b>intercept</b>: Number of inner knots (default: TRUE)
-    </td>
-  </tr>
-  <tr>
-    <td><code>PSplineBlearner</code></td>
-    <td>Fit (penalized) spline regression base-learners.</td>
-    <td>
-      <b>degree</b>: Polynomial degree of bases (default: 3) <br>
-      <b>n.knots</b>: Number of inner knots (default: 20) <br>
-      <b>penalty</b>: Penalty parameter for smoother curves (default: 2) <br>
-      <b>differences</b>: Number of penalized differences of the knots (default: 2)
-    </td>
-  </tr>
-  <tr>
-    <td><code>CustomBlearner</code></td>
-    <td>Define a custom base-learner by using <code>R</code> functions.</td>
-    <td>
-      <b>instantiate.fun</b>: Feature transformation, e.g., create spline bases in the case of a spline learner <br> 
-      <b>train.fun</b>: Function to train on the data gained by <code>instantiate.fun</code><br>
-      <b>predict.fun</b>: Function to predict on the object returned by <code>train.fun</code><br>
-      <b>param.fun</b>: Function to extract parameters as matrix from the object returned by <code>train.fun</code>
-    </td>
-  </tr>
-  <tr>
-    <td><code>CustomCppBlearner</code></td>
-    <td>Define a custom base-learner by using <code>C++</code> functions.</td>
-    <td>
-      <b>instantiate.ptr</b>: External pointer containing the reference to the <code>C++</code> feature transformation <br>
-      <b>train.ptr</b>: Function to train on the data obtained by <code>instantiate.ptr</code> which always returns the parameter as matrix
-      <b>predict.ptr</b>: Function to predict by using the parameter obtained by <code>trian.ptr</code>
-    </td>
-  </tr>
-</table>
+    <p>
+      <a class="badge", href="https://travis-ci.org/schalkdaniel/compboost">
+        <img src="https://api.travis-ci.org/schalkdaniel/compboost.svg?branch=master", alt="Build Status">
+      </a>
+      <a class="badge", href='https://coveralls.io/github/schalkdaniel/compboost?branch=master'>
+        <img src='https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master', alt='Coverage Status' />
+      </a>
+    </p>
 
-  <h2>Loss</h2>
 
-  <hr>
+    <h1>Functionality</h1>
 
+    <h2>Base-Learners</h2>
+
+    <table>
+      <tr>
+        <th>Base-Learner</th>
+        <th>Description</th>
+        <th>Arguments</th>
+      </tr>
+      <tr>
+        <td><code>PolynomialBlearner</code></td>
+        <td>
+          Fit polynomial base-learner. Note that this base-learner takes just the power of the selected feature. Hence, there is no linear part if one selects, for instance, <code>degree = 2</code>.
+        </td>
+        <td>
+          <dt><b>degree</b></dt> <dd>Polynomial degree of feature (default: 1)</dd>
+          <dt><b>intercept</b></dt> <dd>Number of inner knots (default: TRUE)</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>PSplineBlearner</code></td>
+        <td>Fit (penalized) spline regression base-learners.</td>
+        <td>
+          <dt><b>degree</b></dt> <dd>Polynomial degree of bases (default: 3)</dd>
+          <dt><b>n.knots</b></dt> <dd>Number of inner knots (default: 20)</dd>
+          <dt><b>penalty</b></dt> <dd>Penalty parameter for smoother curves (default: 2)</dd>
+          <dt><b>differences</b></dt> <dd>Number of penalized differences of the knots (default: 2)</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>CustomBlearner</code></td>
+        <td>Define a custom base-learner by using <code>R</code> functions.</td>
+        <td>
+          <dt><b>instantiate.fun</b></dt> <dd>Feature transformation, e.g., create spline bases in the case of a spline learner</dd> 
+          <dt><b>train.fun</b></dt> <dd>Function to train on the data gained by <code>instantiate.fun</code></dd>
+          <dt><b>predict.fun</b></dt> <dd>Function to predict on the object returned by <code>train.fun</code></dd>
+          <dt><b>param.fun</b></dt> <dd>Function to extract parameters as matrix from the object returned by <code>train.fun</code></dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>CustomCppBlearner</code></td>
+        <td>Define a custom base-learner by using <code>C++</code> functions.</td>
+        <td>
+          <dt><b>instantiate.ptr</b></dt> <dd>External pointer containing the reference to the <code>C++</code> feature transformation</dd>
+          <dt><b>train.ptr</b></dt> <dd>Function to train on the data obtained by <code>instantiate.ptr</code> which always returns the parameter as matrix</dd>
+          <dt><b>predict.ptr</b></dt> <dd>Function to predict by using the parameter obtained by <code>trian.ptr</code></dd>
+        </td>
+      </tr>
+    </table>
+
+    <h2>Loss</h2>
+
+    <table>
+      <tr>
+        <th>Loss</th>
+        <th>Description</th>
+        <th>Arguments</th>
+      </tr>
+      <tr>
+        <td><code>QuadraticLoss</code></td>
+        <td>
+          Using quadratic differences between prediction and response. This loss corresponds to the gaussian distribution and yields ordinary residuals as pseudo residuals.
+        </td>
+        <td>
+          <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>AbsoluteLoss</code></td>
+        <td>
+          Using absolute differences between prediction and response. This loss corresponds to the laplace distribution and yields the sign as pseudo residuals.
+        </td>
+        <td>
+          <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>BinomialLoss</code></td>
+        <td>
+          This loss can be used for binary classification and corresponds to the binomial distribution with logit link. Note that the labels are coded as -1 and 1 which yields slightly differences to other algorithms.
+        </td>
+        <td>
+          <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>CustomLoss</code></td>
+        <td>Define a custom loss by using <code>C++</code> functions.</td>
+        <td>
+          <dt><b>loss</b></dt> <dd><code>R</code> function which calculates the loss between true values and a prediction</dd>
+          <dt><b>gradient</b></dt> <dd><code>R</code> function to calculate the gradient of the loss function with ture values and prediction as input</dd>
+          <dt><b>constant.initializer</b></dt> <dd><code>R</code> function to compute the constant loss optimal initialization (using a custom offset suppress this function and returns just the offset)</dd>
+        </td>
+      </tr>      
+      <tr>
+        <td><code>CustomCppLoss</code></td>
+        <td>Define a custom loss by using <code>C++</code> functions.</td>
+        <td>
+          <dt><b>loss.ptr</b></dt> <dd><code>C++</code> pointer to a function which calculates the loss between true values and a prediction</dd>
+          <dt><b>gradient.ptr</b></dt> <dd><code>C++</code> pointer to a function to calculate the gradient of the loss function with ture values and prediction as input</dd>
+          <dt><b>constant.initializer.ptr</b></dt> <dd><code>C++</code> pointer to a function to compute the constant loss optimal initialization (using a custom offset suppress this function and returns just the offset)</dd>
+        </td>
+      </tr>
+    </table>
+
+
+<!--
   <h2>Optimizer</h2>
 
   <hr>
-
-  </div> 
+-->
+</div> 
 </body>
 </html>
