@@ -129,8 +129,7 @@ test_that("multiple logger works", {
 
   expect_silent(
     cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", 
-      max.time = 0, time.unit = "microseconds"
-    )
+      max.time = 0, time.unit = "microseconds")
   )
   expect_silent(
     cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "oob",

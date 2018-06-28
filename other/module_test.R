@@ -11,3 +11,21 @@ Uniform@fields
 
 u <- new(Uniform, 0, 10)
 u$draw(10L)
+
+
+
+library(nycflights13)
+
+data(flights)
+# flights = as.data.frame(na.omit(flights))
+flights = na.omit(flights)
+
+class(flights)
+
+cboost = Compboost$new(flights, target = "arr_delay", loss = QuadraticLoss$new())
+cboost$addBaselearner("month", "spline", PSplineBlearner)
+cboost$getFactoryNames()
+cboost$train(100)
+
+cboost$plot("month_spline")
+cboost$plot("month_spline", iters = c(5, 10, 20, 50, 100))

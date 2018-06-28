@@ -1,0 +1,197 @@
+---
+title: "compboost: Fast and Flexible Component-Wise Boosting Framework"
+author: "Daniel Schalk"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    css: compboost.css
+vignette: >
+  %\VignetteIndexEntry{compboost: Fast and Flexible Component-Wise Boosting Framework}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+devtools::load_all()
+# library(compboost)
+
+options(width = 80)
+```
+
+
+<hr>
+
+Component-wise boosting applies the boosting framework to statistical models, e.g., general additive models using component-wise smoothing splines. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces.
+
+The R package compboost is an alternative implementation of component-wise boosting written in C++ to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use R functions as well as C++ functions for custom base-learners, losses, logging mechanisms or stopping criteria.
+
+
+## Data: Titanic Passenger Survival Data Set
+
+We use the [titanic dataset](https://www.kaggle.com/c/titanic/data) with binary
+classification on `survived`. First of all we store the train and test data
+in two data frames and remove all rows taht contains `NA`s:
+
+```{r}
+# Store train and test data:
+df.train = na.omit(titanic::titanic_train)
+df.test  = na.omit(titanic::titanic_test)
+
+str(df.train)
+```
+
+In the next step we transform the response to a factor with more intuitive levels:
+ 
+```{r}
+df.train$Survived = factor(df.train$Survived, labels = c("no", "yes"))
+
+# Train and evaluation split for training:
+set.seed(1111)
+
+idx.train = sample(x = seq_len(nrow(df.train)), size = 0.6 * nrow(df.train))
+idx.eval  = setdiff(seq_len(nrow(df.train)), idx.train) 
+```
+
+This split will be used while the training to calculate the out of bag risk. 
+
+
+## Initializing Model
+
+Due to the `R6` API it is neccessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:
+```{r}
+cboost = Compboost$new(data = df.train[idx.train, ], target = "Survived", 
+  loss = BinomialLoss$new())
+```
+
+Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.
+
+## Adding Base-Learner
+
+Adding new base-learners is also done by giving a character to indicate the feature. As second argument it is important to name an identifier for the factory since we can define multiple base-learner on the same source.
+
+### Numerical Features
+
+For instance, we can define a spline and a linear base-learner of the same feature:
+```{r}
+# Spline base-learner of age:
+cboost$addBaselearner("Age", "spline", PSplineBlearner)
+
+# Linear base-learner of age (degree = 1 with intercept is default):
+cboost$addBaselearner("Age", "linear", PolynomialBlearner)
+```
+
+Additional arguments can be specified after naming the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the projec page:
+```{r}
+# Spline base-learner of fare:
+cboost$addBaselearner("Fare", "spline", PSplineBlearner, degree = 2,
+  n.knots = 14, penalty = 10, differences = 2)
+```
+
+### Categorical Features
+
+When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don't need an intercept here:
+```{r}
+cboost$addBaselearner("Sex", "categorical", PolynomialBlearner, 
+  intercept = FALSE)
+```
+
+Finally, we can check what factories are registered:
+```{r}
+cboost$getFactoryNames()
+```
+
+## Define Logger
+
+### Time logger
+
+This logger logs the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
+
+```{r}
+cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", 
+  max.time = 0, time.unit = "microseconds")
+```
+
+### Out of bag risk logger
+
+The out of bag risk logger does basically the same as the inbag risk logger but calculates the empirical risk using another data source. Therefore, the new data object have to be a list with data sources containing the evaluation data. This is automatically done by the `prepareData()` member of `Compboost`:
+```{r}
+cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id ="oob",
+  BinomialLoss$new(), 0.01, cboost$prepareData(df.train[idx.eval, ]), 
+  df.train[["Survived"]][idx.eval])
+```
+
+
+## Train Model and Access Elements
+
+After defining all object we can train the model:
+
+```{r}
+cboost$train(1000, trace = FALSE)
+cboost
+```
+
+## Accessing Elements
+
+Object of the `Compboost` class do have member functions such as `coef()`, `risk()` or `predict()` to access the results:
+```{r}
+str(cboost$coef())
+
+str(cboost$risk())
+
+str(cboost$predict())
+```
+
+To obtain a vector of selected learner just call `selected()`
+```{r}
+table(cboost$selected())
+```
+
+We can also predict on newdata to get estimated probabilities. Therefore we have to use `response = TRUE`:
+```{r}
+prob.newdata = cboost$predict(df.train[idx.eval, ], response = TRUE)
+
+table(df.train[idx.eval, "Survived"], ifelse(prob.newdata > 0.5, "no", "yes"))
+```
+
+## Retrain the Model
+
+To set the whole model to another iteration one can easily call `train()` to another iteration:
+```{r}
+cboost$train(1500)
+
+str(cboost$coef())
+
+str(cboost$risk())
+
+table(cboost$selected())
+
+# Get confusion matrix:
+prob.newdata = cboost$predict(df.train[idx.eval, ], response = TRUE)
+table(df.train[idx.eval, "Survived"], ifelse(prob.newdata > 0.5, "no", "yes"))
+```
+
+## Visualizing Base-Learner
+
+To visualize a base-learner it is important to exactly use a name from `getFactoryNames()`:
+```{r, eval=FALSE}
+gg1 = cboost$plot("Age_spline")
+gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
+```
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+gg1 = cboost$plot("Age_spline")
+gg2 = cboost$plot("Age_spline", iters = c(200, 500, 1000, 1500))
+
+gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+```
+
+```{r, eval=FALSE}
+gg1 = cboost$plot("Age_spline")
+gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
+```
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+gg1 = cboost$plot("Fare_spline")
+gg2 = cboost$plot("Fare_spline", iters = c(200, 500, 1000, 1500))
+
+gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+```

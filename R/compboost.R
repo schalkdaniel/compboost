@@ -283,7 +283,7 @@ Compboost = R6::R6Class("Compboost",
 
 			self$id = deparse(substitute(data))
 
-			data = droplevels(data)
+			data = droplevels(as.data.frame(data))
 			response = data[[target]]
 
 			# Transform factor or character labels to -1 and 1
@@ -529,9 +529,16 @@ Compboost = R6::R6Class("Compboost",
 				gg = ggplot(df.plot, aes(feature, effect))
 			}
 
+			# If there are too much rows we need to take just a sample or completely remove rugs:
+			if (nrow(self$data) > 1000) {
+				idx.rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
+			} else {
+				idx.rugs = seq_len(nrow(self$data))
+			}
+
 			gg = gg + 
 			  geom_line() + 
-			  geom_rug(data = self$data, aes_string(x = feat.name), inherit.aes = FALSE, 
+			  geom_rug(data = self$data[idx.rugs,], aes_string(x = feat.name), inherit.aes = FALSE, 
 			  	alpha = 0.8) + 
 			  xlab(feat.name) + 
 			  xlim(from, to) +
