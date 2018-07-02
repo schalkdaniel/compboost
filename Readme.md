@@ -58,19 +58,19 @@ For an introduction and overview about the functionality please visit the [proje
             - [ ] dataGetter
             - [ ] dataSetter
     
-- [ ] **General Implementation:**
+- [x] **General Implementation:**
     - [x] Implement parameter getter
         - [x] Getter for final parameter
         - [x] Getter for parameter of iteration `k < iter.max`
         - [x] Getter for parameter matrix for all iterations
-    - [ ] Prediction:
+    - [x] Prediction:
         - [x] General predict function on trian data
-        - [ ] Predict function for iteration `k < iter.max`
+        - [x] Predict function for iteration `k < iter.max`
         - [x] Prediction on newdata
         - [x] Prediction on newdata for iteration `k < iter.max`
         
-- [ ] **Tests:**
-    - [ ] Iterate over tests (they are not coded very well)
+- [x] **Tests:**
+    - [x] Iterate over tests (they are not coded very well)
     - [x] Test for `BaselearnerCpp` see #86
     
 - [x] **Naming:**
@@ -78,6 +78,12 @@ For an introduction and overview about the functionality please visit the [proje
     - [x] Use unified function naming
 
 ## Changelog/Updates
+
+- **29.06.2018** \
+  Compboost API is almost ready to use.
+  
+- **14.06.2018** \
+  Update naming `GreedyOptimizer` -> `CoordinateDescent` and small typos.
 
 - **30.03.2018** \
   Compboost is now ready to do binary classification by using the 
