@@ -303,5 +303,5 @@ cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3,
 cboost$train(1000)
 
 table(cboost$selected())
-cboost$plot()
+cboost$plot("hp_spline")
 }
