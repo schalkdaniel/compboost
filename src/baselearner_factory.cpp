@@ -274,6 +274,7 @@ blearner::Baselearner *CustomBlearnerFactory::createBaselearner (const std::stri
   
   blearner_obj = new blearner::CustomBlearner(data_target, identifier, 
     instantiateDataFun, trainFun, predictFun, extractParameter);
+  blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
@@ -313,6 +314,7 @@ blearner::Baselearner* CustomCppBlearnerFactory::createBaselearner (const std::s
   
   blearner_obj = new blearner::CustomCppBlearner(data_target, identifier, 
     instantiateDataFun, trainFun, predictFun);
+  blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:

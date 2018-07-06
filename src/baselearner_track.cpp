@@ -55,7 +55,8 @@ void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner)
   blearner_vector.push_back(blearner);
   
   std::string insert_id = blearner->getDataIdentifier() + "_" + blearner->getBaselearnerType();
-  
+  // std::cout << "Insert base-learner with base-learner id: " << blearner->getBaselearnerType() << std::endl;;
+
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
   std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(insert_id);

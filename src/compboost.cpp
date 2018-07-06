@@ -267,6 +267,7 @@ arma::vec Compboost::predict () const
 arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const bool& as_response) const
 {
   // IMPROVE THIS FUNCTION!!! See: 
+  // https://github.com/schalkdaniel/compboost/issues/206
   
   std::map<std::string, arma::mat> parameter_map = blearner_track.getParameterMap();
 
@@ -291,7 +292,7 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
     it_newdata = data_map.find(sel_factory_obj->getDataIdentifier());
 
     if (it_newdata != data_map.end()) {
-      arma::mat data_trafo = sel_factory_obj->instantiateData((it_newdata->second->getData()));
+      arma::mat data_trafo = sel_factory_obj->instantiateData(it_newdata->second->getData());
       pred += data_trafo * it.second;
     }
   }

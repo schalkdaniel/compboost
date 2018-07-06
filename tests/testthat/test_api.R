@@ -32,7 +32,7 @@ test_that("train works", {
 
   expect_error(
     cboost$addBaselearner("wt", "spline", PSplineBlearner, degree = 3, 
-      knots = 10, penalty = 2, differences = 2)
+      n.knots = 10, penalty = 2, differences = 2)
   )
 
   expect_s4_class(cboost$model, "Rcpp_Compboost_internal")

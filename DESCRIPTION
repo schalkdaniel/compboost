@@ -15,7 +15,7 @@ Description: A C++ implementation of component-wise boosting. The idea is to
     slow down the whole algorithm. Nevertheless, it is possible to do some
     prototyping within R for custom base-learner and implement then in C++
     without recompiling the whole package.
-License: GPL (>= 3)
+License: GPL (>= 3) + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1

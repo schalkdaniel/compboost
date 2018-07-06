@@ -19,11 +19,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//   Implementations for "Baselearner" class.
-//
 // Written by:
 // -----------
 //

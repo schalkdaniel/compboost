@@ -31,6 +31,14 @@ cboost$risk()
 
 cboost$selected()
 
+cboost$coef()
+
+cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
+
+cboost$getFactoryNames()
+
+cboost$prepareData(newdata)
+
 }
 }
 
@@ -121,6 +129,24 @@ cboost$selected()
 \describe{
 \item{\code{newdata}}{[\code{data.frame()}]\cr
 	 Data to predict on. If \code{NULL} predictions on the training data are returned.
+}
+}
+\strong{For cboost$plot()}:
+\describe{
+\item{\code{blearner.type}}{[\code{character(1)}]\cr
+	 Character name of the base-learner to plot the additional contribution to the response.
+}
+\item{\code{iters}}{[\code{integer()}]\cr
+	 Integer vector containing the iterations the user wants to illustrate. 
+}
+\item{\code{from}}{[\code{numeric(1)}]\cr
+	 Lower bound for plotting (should be smaller than \code{to}).
+}
+\item{\code{to}}{[\code{numeric(1)}]\cr
+	 Upper bound for plotting (should be greater than \code{from}).
+}
+\item{\code{length.out}}{[\code{integer(1)}]\cr
+	 Number of equidistant points between \code{from} and \code{to} used for plotting.
 }
 }
 }
@@ -245,6 +271,9 @@ cboost$selected()
 \item{\code{bl.factory.list} [\code{S4 FactoryList}]}{
   List of all registered factories represented as \code{S4 FactoryList} class.
 }
+\item{\code{positive.category} [\code{character(1)}]}{
+  Character containing the name of the positive class in the case of classification.
+}
 \item{\code{stop.if.all.stoppers.fulfilled} [\code{logical(1)}]}{
   Logical indicating whether all stopper should be used symultaniously or if it is sufficient
   that the first stopper which is fulfilled breaks the algorithm.
@@ -256,19 +285,23 @@ cboost$selected()
 
 \describe{
 \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
-\item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 \item{\code{addBaselearner}}{method to add a new base-learner factories to the algorithm (Note: This is just possible before the training).}
-\item{\code{train}}{method train the algorithm.}
-\item{\code{initializeModel}}{[internal] method to initialize the \code{Compboost} object}
-\item{\code{addSingleBl}}{[internal] method to add a single factory to the factory list.}
-\item{\code{AddSingleNumericBl}}{[internal] method to add a single factory list for a numerical feature.}
-\item{\code{AddSingleCatBl}}{[internal] method to add a single factory list for a categorical feature.}
+\item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
+\item{\code{train}}{method to train the algorithm.}
+\item{\code{predict}}{method to predict on a trained object.}
+\item{\code{selected}}{method to get a character vector of selected base-learner.}
+\item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
+\item{\code{plot}}{method to plot the \code{Compboost} object.}
+\item{\code{getFactoryNames}}{method to get names of registered fatories.}
 }
 }
 
 \examples{
 cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
 cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3,
-  knots = 10, penalty = 2, differences = 2)
+  n.knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)
+
+table(cboost$selected())
+cboost$plot()
 }
