@@ -288,7 +288,7 @@
 #' cboost$train(1000)
 #' 
 #' table(cboost$selected())
-#' cboost$plot()
+#' cboost$plot("hp_spline")
 NULL
 
 #'@export
