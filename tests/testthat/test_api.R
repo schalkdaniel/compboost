@@ -188,6 +188,7 @@ test_that("custom base-learner works through api", {
 
   expect_equivalent(cboost$coef(), cboost1$coef())
   expect_equal(cboost$predict(), cboost1$predict())
+  expect_equal(cboost$predict(), cboost$predict(mtcars))
 
 })
 
@@ -211,6 +212,7 @@ test_that("custom cpp base-learner works through api", {
 
   expect_equivalent(cboost$coef(), cboost1$coef())
   expect_equal(cboost$predict(), cboost1$predict())
+  expect_equal(cboost$predict(), cboost$predict(mtcars))
 
 })
 
