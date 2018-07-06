@@ -96,12 +96,15 @@ test_that("plot works", {
     	n.knots = 10, penalty = 2, differences = 2)
     cboost$addBaselearner(c("hp", "wt"), "quadratic", PolynomialBlearner, degree = 2,
     	intercept = TRUE)
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = TRUE) 
   })
 
 	expect_error(cboost$plot("hp_spline"))
 
 	expect_silent(cboost$train(2000, trace = FALSE))
 
+	expect_error(cboost$plot())
 	expect_error(cboost$plot("mpg_cat_A_linear"))
 	expect_error(cboost$plot("i_an_no_baselearner"))
 	expect_error(cboost$plot("hp_wt_quadratic"))
@@ -115,6 +118,11 @@ test_that("plot works", {
 	expect_s3_class(cboost$plot("hp_spline", iters = c(10, 200, 500)), "ggplot")
   expect_s3_class(cboost$plot("hp_spline", from = 150, to = 250), "ggplot")
 
+  expect_warning(cboost$plot("wt_linear", iters = c(1, 10)))
+  
+  expect_silent(cboost$train(200, trace = FALSE))
+  expect_error(cboost$plot("mpg_cat_A_linear"))
+  
 })
 
 test_that("multiple logger works", {
@@ -298,6 +306,19 @@ test_that("training with absolute loss works", {
 
 })
 
+test_that("training throws an error with pre-defined iteration logger", {
+  
+  expect_silent({
+    cboost = Compboost$new(mtcars, "hp", loss = AbsoluteLoss$new())
+    cboost$addLogger(IterationLogger, use.as.stopper = TRUE, "iteration", max.iter = 1000)
+    cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
+      intercept = FALSE)
+  })
+  
+  expect_warning(cboost$train(200)) 
+  expect_length(cboost$risk(), 1001)
+})
+
 test_that("training with binomial loss works", {
 
   mtcars$hp.cat = ifelse(mtcars$hp > 150, 1, -1)
@@ -310,6 +331,8 @@ test_that("training with binomial loss works", {
       intercept = FALSE)
     cboost$train(100, trace = FALSE)
   })
+  
+  expect_output(cboost$print())
 
   expect_length(cboost$selected(), 100)
   expect_length(cboost$risk(), 101)
