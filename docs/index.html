@@ -79,14 +79,14 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
       The illustration above uses three base-learners \(b_1\), \(b_2\), and \(b_3\). You can think of each base-learner as wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more often than another one indicates that this base-learner (or feature) is more important than the other ones. To get a sparser model in terms of selected features there is also a learning rate \(\beta\) to shrink the parameter in each iteration. The learning rate corresponds to the step size used for gradient descent. The three models within each iteration of the illustration are:
       \[
       \begin{align}
-      \text{Iteration 1:} \ &\hat{f}^{[1]}(x) = \beta b_3(x_3, \theta^{[1]}) \\
-      \text{Iteration 2:} \ &\hat{f}^{[2]}(x) = \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) \\
-      \text{Iteration 2:} \ &\hat{f}^{[3]}(x) = \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) + \beta b_1(x_1, \theta^{[3]})
+      \text{Iteration 1:} \ &\hat{f}^{[1]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) \\
+      \text{Iteration 2:} \ &\hat{f}^{[2]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) \\
+      \text{Iteration 2:} \ &\hat{f}^{[3]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) + \beta b_1(x_1, \theta^{[3]})
       \end{align}
       \]
       Using the linearity of the base-learners it is possible to aggregate the \(b_3\) base-learners:
       \[
-      \hat{f}^{[3]}(x) = \beta \left( b_3(x_3, \theta^{[1]} + \theta^{[2]}) + b_1(x_1, \theta^{[3]}) \right)
+      \hat{f}^{[3]}(x) = f_0 + \beta \left( b_3(x_3, \theta^{[1]} + \theta^{[2]}) + b_1(x_1, \theta^{[3]}) \right)
       \]
     </p>
     <p>
