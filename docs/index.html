@@ -76,7 +76,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
     </p>
     <img src="images/cboost.gif" class="center">
     <p>
-      The illustration above uses three base-learners \(b_1\), \(b_1\), and \(b_1\). You can think of each base-learner as wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more often than another one indicates that this base-learner (or feature) is more important than the other ones. To get a sparser model in terms of selected features there is also a learning rate \(\beta\) to shrink the parameter in each iteration. The learning rate corresponds to the step size used for gradient descent. The three models within each iteration of the illustration are:
+      The illustration above uses three base-learners \(b_1\), \(b_2\), and \(b_3\). You can think of each base-learner as wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more often than another one indicates that this base-learner (or feature) is more important than the other ones. To get a sparser model in terms of selected features there is also a learning rate \(\beta\) to shrink the parameter in each iteration. The learning rate corresponds to the step size used for gradient descent. The three models within each iteration of the illustration are:
       \[
       \begin{align}
       \text{Iteration 1:} \ &\hat{f}^{[1]}(x) = \beta b_3(x_3, \theta^{[1]}) \\
