@@ -13,6 +13,10 @@ boostSplines(data, target, optimizer = GreedyOptimizer$new(), loss,
 \item{data}{[\code{data.frame}]\cr
 A data frame containing the data on which the model should be built.}
 
+\item{target}{[\code{character(1)}]\cr
+Character indicating the target variable. Note that the loss must match the 
+data type of the target.}
+
 \item{optimizer}{[\code{S4 Optimizer}]\cr
 Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
 exposed by Rcpp (for instance \code{CoordinateDescent$new()}).}
@@ -54,10 +58,6 @@ just in memory training is supported.}
 \item{data.target}{[\code{S4 Data}]\cr
 Unitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
-
-\item{taget}{[\code{character(1)}]\cr
-Character indicating the target variable. Note that the loss must match the 
-data type of the target.}
 }
 \value{
 Usually a model of class \code{Compboost}. This model is an \code{R6} object

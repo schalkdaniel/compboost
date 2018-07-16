@@ -14,7 +14,7 @@
 #'   \code{?Compboost}.
 #' @param data [\code{data.frame}]\cr
 #'   A data frame containing the data on which the model should be built. 
-#' @param taget [\code{character(1)}]\cr
+#' @param target [\code{character(1)}]\cr
 #'   Character indicating the target variable. Note that the loss must match the 
 #'   data type of the target.
 #' @param optimizer [\code{S4 Optimizer}]\cr
