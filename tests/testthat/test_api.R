@@ -140,11 +140,11 @@ test_that("multiple logger works", {
       max.time = 0, time.unit = "microseconds")
   )
   expect_silent(
-    cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "oob",
+    cboost$addLogger(logger = OobRiskLogger, use.as.stopper = TRUE, logger.id = "oob",
       QuadraticLoss$new(), 0.01, cboost$prepareData(mtcars), mtcars[["mpg"]])
   )
   expect_silent(
-    cboost$addLogger(logger = InbagRiskLogger, use.as.stopper = FALSE, logger.id = "inbag",
+    cboost$addLogger(logger = InbagRiskLogger, use.as.stopper = TRUE, logger.id = "inbag",
       QuadraticLoss$new(), 0.01)
   )
 
