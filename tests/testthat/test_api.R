@@ -44,7 +44,7 @@ test_that("train works", {
   expect_equal(cboost$response, mtcars[["mpg"]])
   expect_equal(cboost$data, mtcars[, -which(names(mtcars) == "mpg")])
   expect_equal(cboost$bl.factory.list$getNumberOfRegisteredFactories(), 3L)
-  expect_equal(sort(cboost$getFactoryNames()), sort(c("mpg_cat_A_linear", "mpg_cat_B_linear", "hp_spline")))
+  expect_equal(sort(cboost$getBaselearnerNames()), sort(c("mpg_cat_A_linear", "mpg_cat_B_linear", "hp_spline")))
   expect_equal(cboost$bl.factory.list$getRegisteredFactoryNames(), sort(c("mpg_cat_A_linear", "mpg_cat_B_linear", "hp_spline")))
 
   expect_equal(cboost$getCurrentIteration(), 4000)

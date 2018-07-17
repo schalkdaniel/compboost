@@ -24,7 +24,7 @@ class(flights)
 
 cboost = Compboost$new(flights, target = "arr_delay", loss = QuadraticLoss$new())
 cboost$addBaselearner("month", "spline", PSplineBlearner)
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 cboost$train(100)
 
 cboost$plot("month_spline")

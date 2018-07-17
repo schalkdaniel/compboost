@@ -29,7 +29,7 @@ cboost$addBaselearner("hp", "quadratic", PolynomialBlearnerFactory, degree = 2, 
 cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
 
 cboost$bl.factory.list
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 cboost$bl.factory.list$getRegisteredFactoryNames()
 
 cboost$train(4000)
@@ -48,7 +48,7 @@ cboost$predict(mtcars[1:2,])
 a = cboost$selected()
 a[1:20]
 table(a)
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 
 cboost$coef()
 
