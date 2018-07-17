@@ -25,11 +25,20 @@ affiliations:
 # Summary
 <!-- A clear statement of need that illustrates the purpose of the software-->
 
+Component-wise boosting applies the boosting framework to statistical models, e.~g., general additive models using component-wise smoothing splines [@schmid2008boosting]. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces.
+
+The `R` [@R] package `compboost` is an implementation of component-wise boosting written in `C++` to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use R functions as well as C++ functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
 
 <!-- A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience-->
 
 
+
+![Example figure.](cboost_viz.png)
+
 <!-- Mentions (if applicable) of any ongoing research projects using the software or recent scholarly publications enabled by it -->
+
+- Reference to mboost and why we write compboost (faster, better modular principle, ...)
+
 
 # Acknowledgements
 
