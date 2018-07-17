@@ -56,7 +56,7 @@
 #' mod$predict()
 #' mod$plot("Sepal.Width_spline")
 #' @export
-boostSplines = function(data, target, optimizer = GreedyOptimizer$new(), loss, 
+boostSplines = function(data, target, optimizer = CoordinateDescent$new(), loss, 
   learning.rate = 0.05, iterations = 100, trace = TRUE, degree = 3, n.knots = 20, 
   penalty = 2, differences = 2, data.source = InMemoryData, data.target = InMemoryData) 
 {

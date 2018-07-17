@@ -39,13 +39,13 @@ library(compboost)
 data(PimaIndiansDiabetes, package = "mlbench")
 
 # Quadratic loss as ordinary regression loss:
-mod = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
+cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
 	loss = BinomialLoss$new())
 ```
 
 The resulting model is an object using `R6`. Hence, `mod` has member functions to access the elements of the model such as the names of registered base-learner, selected base-learner, the estimated parameter or continue the training:
 ```r
-mod$getBaselearnerNames()
+cboost$getBaselearnerNames()
 ## [1] "pregnant_spline" "glucose_spline"  "pressure_spline" "triceps_spline" 
 ## [5] "insulin_spline"  "mass_spline"     "pedigree_spline" "age_spline" 
 
@@ -56,7 +56,7 @@ table(selected.features)
 ##    age_spline glucose_spline    mass_spline 
 ##            23             61             16 
 
-params = mod$coef()
+params = cboost$coef()
 str(params)
 ## List of 4
 ##  $ age_spline    : num [1:24, 1] 0.40127 0.25655 0.14807 0.11766 -0.00586 ...
@@ -64,7 +64,7 @@ str(params)
 ##  $ mass_spline   : num [1:24, 1] 0.0681 0.0949 0.1216 0.1473 0.1714 ...
 ##  $ offset        : num 0.312
 
-mod$train(3000)
+cboost$train(3000)
 ## 
 ## You have already trained 100 iterations.
 ## Train 2900 additional iterations.
@@ -73,13 +73,43 @@ mod$train(3000)
 
 Additionally it is possible to visualize the effect of single features by calling the member function `plot()` of a specific learner. Additionally, it is possible to pass a vector of iterations used for the graphic:
 ```r
-mod$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000))
+cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000))
 ```
 ![Visualize compboost](cboost_viz.png)
+
+Instead of using `boostLinear()` or `boostSplines()` one can also explicitely define the parts of the algorithm by using the `R6` interface:
+```r
+cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes",
+loss = BinomialLoss$new())
+
+# Adding a linear and spline base-learner to the Compboost object:
+cboost$addBaselearner(feature = "mass", id = "linear", PolynomialBlearner,
+degree = 1, intercept = TRUE)
+cboost$addBaselearner(feature = "age", id = "spline", PSplineBlearner,
+degree = 3, n.knots = 10, penalty = 2, differences = 2)
+
+cboost$train(2000, trace = FALSE)
+cboost
+## Component-Wise Gradient Boosting
+##
+## Trained on PimaIndiansDiabetes with target diabetes
+## Number of base-learners: 2
+## Learning rate: 0.05
+## Iterations: 2000
+## Positive class: neg
+## Offset: 0.3118
+##
+## BinomialLoss Loss:
+##
+##   Loss function: L(y,x) = log(1 + exp(-2yf(x))
+##
+##
+```
 
 <!-- Mentions (if applicable) of any ongoing research projects using the software or recent scholarly publications enabled by it -->
 
 - Reference to mboost and why we write compboost (faster, better modular principle, ...)
+- ongoing research (e.g. optimizer stuff and fda)
 
 
 # Acknowledgements
