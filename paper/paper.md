@@ -31,7 +31,21 @@ The `R` [@R] package `compboost` is an implementation of component-wise boosting
 
 <!-- A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience-->
 
+The pacakge provides two high level wrapper functions `boostLinear()` and `boostSplines()` to boost linear models or general additive models using p-splines of each numerical feature:
+```r
+library(compboost)
 
+mod = boostSplines(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+```
+
+The resulting model is an object using `R6`. Hence, `mod` has member functions to access the elements of the model such as selected base-learner, the estimated parameter or the names of registered base-learner:
+```r
+selected.features = mod$selected()
+table(selected.features)
+## selected.features
+## Petal.Length_spline  Petal.Width_spline  Sepal.Width_spline
+##                  46                  25                  29
+```
 
 ![Example figure.](cboost_viz.png)
 

@@ -31,7 +31,7 @@
 #' 
 #' cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
 #' 
-#' cboost$getFactoryNames()
+#' cboost$getBaselearnerNames()
 #' 
 #' cboost$prepareData(newdata)
 #'
@@ -278,7 +278,7 @@
 #' \item{\code{selected}}{method to get a character vector of selected base-learner.}
 #' \item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
 #' \item{\code{plot}}{method to plot the \code{Compboost} object.}
-#' \item{\code{getFactoryNames}}{method to get names of registered fatories.}
+#' \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
 #' }
 #'
 #' @examples
@@ -498,7 +498,7 @@ Compboost = R6::R6Class("Compboost",
         stop("Please specify a valid base-learner plus feature.")
       }
       if (! blearner.type %in% names(private$bl.list)) {
-        stop("Your requested feature plus learner is not available. Check 'getFactoryNames()' for available learners.")
+        stop("Your requested feature plus learner is not available. Check 'getBaselearnerNames()' for available learners.")
       }
       if (length(private$bl.list[[blearner.type]]$feature) > 1) {
         stop("Only univariate plotting is supported.")
@@ -581,7 +581,7 @@ Compboost = R6::R6Class("Compboost",
       
       return(gg)
     },
-    getFactoryNames = function () {
+    getBaselearnerNames = function () {
       # return(lapply(private$bl.list, function (bl) bl[[1]]$target$getIdentifier()))
       return(names(private$bl.list))
     }

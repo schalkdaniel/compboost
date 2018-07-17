@@ -40,7 +40,7 @@
 #'   just in memory training is supported.
 #' @examples
 #' mod = boostLinear(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
-#' mod$getFactoryNames()
+#' mod$getBaselearnerNames()
 #' mod$coef()
 #' table(mod$selected())
 #' mod$predict()

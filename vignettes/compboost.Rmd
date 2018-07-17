@@ -98,7 +98,7 @@ cboost$addBaselearner("Sex", "categorical", PolynomialBlearner,
 
 Finally, we can check what factories are registered:
 ```{r}
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 ```
 
 ## Define Logger

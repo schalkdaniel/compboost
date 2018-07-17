@@ -131,14 +131,14 @@ cboost
 cboost$addBaselearner(feature = c("Sepal.Length", "Sepal.Width"), id = "2dim_linear", 
   bl.factory = PolynomialBlearner, degree = 1, intercept = TRUE)
 
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 ## [1] "Petal.Width_spline"
 ## [2] "Sepal.Length_Sepal.Width_2dim_linear"</code></pre>
       Adding a categorical feature always registers each single group as feature for the base-learner using dummy encoding:
       <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = PolynomialBlearner, 
   degree = 1, intercept = FALSE)
 
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 ## [1] "Petal.Width_spline"
 ## [2] "Sepal.Length_Sepal.Width_2dim_linear"
 ## [3] "Species_setosa_categorical"
@@ -181,7 +181,7 @@ table(cboost$selected())
 ## You have already trained 1000 iterations.
 ## Train 500 additional iterations.
 ## </code></pre> 
-      After the training it is also possible to visualize the contribution of a single base-learner to the response. Note that at the moment just univariate plotting is supported. It is also important to call exactly the same name as given in <code>getFactoryNames()</code>. Otherwise <code>compboost</code> can't match the learner:
+      After the training it is also possible to visualize the contribution of a single base-learner to the response. Note that at the moment just univariate plotting is supported. It is also important to call exactly the same name as given in <code>getBaselearnerNames()</code>. Otherwise <code>compboost</code> can't match the learner:
       <pre class="r"><code>cboost$plot("Petal.Width_spline")</code></pre>
       <p style="text-align:center;">
         <img src="images/plot1.png" alt="Visualization 1" style="width:50%;">

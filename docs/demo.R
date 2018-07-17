@@ -16,7 +16,7 @@ cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = Poly
   degree = 1, intercept = FALSE)
 
 # Print registered base-learner:
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 
 # Train 1000 iterations:
 cboost$train(1000)

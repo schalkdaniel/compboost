@@ -35,7 +35,7 @@ cboost$coef()
 
 cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
 
-cboost$getFactoryNames()
+cboost$getBaselearnerNames()
 
 cboost$prepareData(newdata)
 
@@ -292,7 +292,7 @@ cboost$prepareData(newdata)
 \item{\code{selected}}{method to get a character vector of selected base-learner.}
 \item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
 \item{\code{plot}}{method to plot the \code{Compboost} object.}
-\item{\code{getFactoryNames}}{method to get names of registered fatories.}
+\item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
 }
 }
 
