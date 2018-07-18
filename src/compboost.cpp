@@ -245,17 +245,16 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::getParameterMatrix () 
 arma::vec Compboost::predict () const
 {
   std::map<std::string, arma::mat> parameter_map  = blearner_track.getParameterMap();
-  std::map<std::string, arma::mat> train_data_map = used_baselearner_list.getDataMap();
+  // std::map<std::string, arma::mat> train_data_map = used_baselearner_list.getDataMap();
   
-  arma::vec pred(train_data_map.begin()->second.n_rows);
+  arma::vec pred(model_prediction.n_elem);
   pred.fill(initialization);
   
   // Calculate vector - matrix product for each selected base-learner:
-  for (auto& it : parameter_map) {
-    
+  for (auto& it : parameter_map) {    
     std::string sel_factory = it.first;
-    pred += train_data_map.find(sel_factory)->second * it.second;
-    
+    pred += used_baselearner_list.getMap().find(sel_factory)->second->getData() * it.second;
+    // pred += train_data_map.find(sel_factory)->second * it.second;    
   }
   return pred;
 }
@@ -291,6 +290,7 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
     std::map<std::string, data::Data*>::iterator it_newdata;
     it_newdata = data_map.find(sel_factory_obj->getDataIdentifier());
 
+    // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
     if (it_newdata != data_map.end()) {
       arma::mat data_trafo = sel_factory_obj->instantiateData(it_newdata->second->getData());
       pred += data_trafo * it.second;

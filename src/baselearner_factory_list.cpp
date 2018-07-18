@@ -111,15 +111,15 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelF
   return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
 }
 
-std::map<std::string, arma::mat> BaselearnerFactoryList::getDataMap () const
-{
-  std::map<std::string, arma::mat> out_map;
+// std::map<std::string, arma::mat> BaselearnerFactoryList::getDataMap () const
+// {
+//   std::map<std::string, arma::mat> out_map;
   
-  for (auto& it : my_factory_map) {
-    out_map[it.first] = it.second->getData();
-  }
-  return out_map;
-}
+//   for (auto& it : my_factory_map) {
+//     out_map[it.first] = it.second->getData();
+//   }
+//   return out_map;
+// }
 
 std::vector<std::string> BaselearnerFactoryList::getRegisteredFactoryNames () const
 {
