@@ -459,7 +459,7 @@ public:
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
     
     obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
-       data_target.getDataObj(), degree, n_knots, penalty, differences);      
+       data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);      
 
   }
 
@@ -469,7 +469,7 @@ public:
     : degree ( degree )
   {
     obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), degree, n_knots, penalty, differences);
+      data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);
 
   }
 

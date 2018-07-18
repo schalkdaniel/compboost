@@ -220,11 +220,12 @@ PolynomialBlearner::~PolynomialBlearner () {}
 
 PSplineBlearner::PSplineBlearner (data::Data* data, const std::string& identifier,
   const unsigned int& degree, const unsigned int& n_knots, const double& penalty, 
-  const unsigned int& differences)
+  const unsigned int& differences, const bool& use_sparse_matrices)
   : degree ( degree ),
     n_knots ( n_knots ),
     penalty ( penalty ),
-    differences ( differences )
+    differences ( differences ),
+    use_sparse_matrices ( use_sparse_matrices )
 { 
   // Called from parent class 'Baselearner':
   Baselearner::setData(data);
@@ -273,7 +274,11 @@ arma::mat PSplineBlearner::instantiateData (const arma::mat& newdata)
  */
 void PSplineBlearner::train (const arma::vec& response)
 {
-  parameter = data_ptr->XtX_inv * data_ptr->data_mat.t() * response;
+  if (use_sparse_matrices) {
+    parameter = data_ptr->XtX_inv * data_ptr->sparse_data_mat.t() * response;
+  } else {
+    parameter = data_ptr->XtX_inv * data_ptr->data_mat.t() * response;
+  }
 }
 
 /**
@@ -283,7 +288,13 @@ void PSplineBlearner::train (const arma::vec& response)
  */
 arma::mat PSplineBlearner::predict ()
 {
-  return data_ptr->data_mat * parameter;
+  arma::mat out;
+  if (use_sparse_matrices) {
+    out = data_ptr->sparse_data_mat * parameter;
+  } else {
+    out = data_ptr->data_mat * parameter;
+  }
+  return out;
 }
 
 /**

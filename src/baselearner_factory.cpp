@@ -45,10 +45,10 @@ namespace blearnerfactory {
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
-arma::mat BaselearnerFactory::getData () const
-{
-  return data_target->getData();
-}
+// arma::mat BaselearnerFactory::getData () const
+// {
+//   return data_target->getData();
+// }
 
 std::string BaselearnerFactory::getDataIdentifier () const
 {
@@ -125,6 +125,24 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
   return blearner_obj;
 }
 
+/**
+ * \brief Data getter which always returns an arma::mat
+ * 
+ * This function is important to have a unified interface to access the data
+ * matrices. Especially for predicting we have to get the data of each factory
+ * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
+ * this function should only be used to get temporary matrices which are deleted
+ * when they run out of scope to reduce memory load. Also note that there is a
+ * dispatch with the getData() function of the Data objects which are mostly 
+ * called internally.
+ * 
+ * \returns `arma::mat` of data used for modelling a single base-learner
+ */
+arma::mat PolynomialBlearnerFactory::getData () const
+{
+  return data_target->getData();
+}
+
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
 arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata)
@@ -165,11 +183,13 @@ arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata)
 
 PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type0, 
   data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
-  const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
+  const unsigned int& n_knots, const double& penalty, const unsigned int& differences,
+  const bool& use_sparse_matrices)
   : degree ( degree ),
     n_knots ( n_knots ),
     penalty ( penalty ),
-    differences ( differences )
+    differences ( differences ),
+    use_sparse_matrices ( use_sparse_matrices )
 {
   blearner_type = blearner_type0;
   // Set data, data identifier and the data_mat (dense at this stage)
@@ -197,12 +217,13 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   data_target->setDataIdentifier(data_source->getDataIdentifier());
   
   // Get the data of the source, transform it and write it into the target:
-  data_target->setData(instantiateData(data_source->getData()));
-
-  data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
-  
-  // Set blearner type:
-  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  if (use_sparse_matrices) {
+    data_target->sparse_data_mat = createBasis (data_source->getData(), degree, data_target->knots);
+    data_target->XtX_inv = arma::inv(data_target->sparse_data_mat.t() * data_target->sparse_data_mat + penalty * data_target->penalty_mat);
+  } else {
+    data_target->setData(instantiateData(data_source->getData()));
+    data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
+  } 
 }
 
 /**
@@ -217,7 +238,7 @@ blearner::Baselearner* PSplineBlearnerFactory::createBaselearner (const std::str
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
   blearner_obj = new blearner::PSplineBlearner(data_target, identifier, degree,
-    n_knots, penalty, differences);
+    n_knots, penalty, differences, use_sparse_matrices);
   blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
@@ -231,6 +252,29 @@ blearner::Baselearner* PSplineBlearnerFactory::createBaselearner (const std::str
   //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
   // }
   return blearner_obj;
+}
+
+/**
+ * \brief Data getter which always returns an arma::mat
+ * 
+ * This function is important to have a unified interface to access the data
+ * matrices. Especially for predicting we have to get the data of each factory
+ * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
+ * this function should only be used to get temporary matrices which are deleted
+ * when they run out of scope to reduce memory load. Also note that there is a
+ * dispatch with the getData() function of the Data objects which are mostly 
+ * called internally.
+ * 
+ * \returns `arma::mat` of data used for modelling a single base-learner
+ */
+arma::mat PSplineBlearnerFactory::getData () const
+{
+  if (use_sparse_matrices) {
+    arma::mat out (data_target->sparse_data_mat);
+    return out;
+  } else {
+    return data_target->getData();
+  }
 }
 
 /**
@@ -286,6 +330,24 @@ blearner::Baselearner *CustomBlearnerFactory::createBaselearner (const std::stri
   return blearner_obj;
 }
 
+/**
+ * \brief Data getter which always returns an arma::mat
+ * 
+ * This function is important to have a unified interface to access the data
+ * matrices. Especially for predicting we have to get the data of each factory
+ * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
+ * this function should only be used to get temporary matrices which are deleted
+ * when they run out of scope to reduce memory load. Also note that there is a
+ * dispatch with the getData() function of the Data objects which are mostly 
+ * called internally.
+ * 
+ * \returns `arma::mat` of data used for modelling a single base-learner
+ */
+arma::mat CustomBlearnerFactory::getData () const
+{
+  return data_target->getData();
+}
+
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
 arma::mat CustomBlearnerFactory::instantiateData (const arma::mat& newdata)
@@ -324,6 +386,24 @@ blearner::Baselearner* CustomCppBlearnerFactory::createBaselearner (const std::s
   //   is_data_instantiated = true;
   // }
   return blearner_obj;
+}
+
+/**
+ * \brief Data getter which always returns an arma::mat
+ * 
+ * This function is important to have a unified interface to access the data
+ * matrices. Especially for predicting we have to get the data of each factory
+ * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
+ * this function should only be used to get temporary matrices which are deleted
+ * when they run out of scope to reduce memory load. Also note that there is a
+ * dispatch with the getData() function of the Data objects which are mostly 
+ * called internally.
+ * 
+ * \returns `arma::mat` of data used for modelling a single base-learner
+ */
+arma::mat CustomCppBlearnerFactory::getData () const
+{
+  return data_target->getData();
 }
 
 // Transform data. This is done twice since it makes the prediction

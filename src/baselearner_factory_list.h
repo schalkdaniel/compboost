@@ -77,9 +77,6 @@ public:
   
   // Get the data used for modelling:
   std::pair<std::vector<std::string>, arma::mat> getModelFrame () const;
-  
-  // // Get the data as std::map, convenient for Compboost::setToIteration:
-  // std::map<std::string, arma::mat> getDataMap () const;
 
   // Get names of registered factories:
   std::vector<std::string> getRegisteredFactoryNames () const;

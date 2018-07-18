@@ -77,11 +77,12 @@ public:
   virtual blearner::Baselearner* createBaselearner (const std::string&) = 0;
   
   // Getter for data, data identifier and the baselearner type:
-  arma::mat getData () const;
+  // arma::mat getData () const;
   std::string getDataIdentifier () const;
   std::string getBaselearnerType () const;
   
   virtual arma::mat instantiateData (const arma::mat&) = 0;
+  virtual arma::mat getData() const = 0;
   
   void initializeDataObjects (data::Data*, data::Data*);
   
@@ -118,6 +119,9 @@ public:
   
   blearner::Baselearner* createBaselearner (const std::string&);
   
+  /// Get data used for modelling
+  arma::mat getData() const;
+  
   arma::mat instantiateData (const arma::mat&);
 };
 
@@ -130,7 +134,6 @@ public:
  * \brief Factory to creaet `PSplineBlearner` objects
  * 
  */
-
 class PSplineBlearnerFactory : public BaselearnerFactory
 {
 private:
@@ -146,17 +149,23 @@ private:
   
   /// Order of differences used for penalty matrix
   const unsigned int differences;
+
+  /// Flag if sparse matrices should be used:
+  const bool use_sparse_matrices;
   
 public:
 
   /// Default constructor of class `PSplineBleanrerFactory`
   PSplineBlearnerFactory (const std::string&, data::Data*, data::Data*, 
     const unsigned int&, const unsigned int&, const double&, 
-    const unsigned int&);
+    const unsigned int&, const bool&);
   
   /// Create new `PSplineBlearner` object
   blearner::Baselearner* createBaselearner (const std::string&);
   
+  /// Get data used for modelling
+  arma::mat getData() const;
+
   /// Instantiate the design matrix
   arma::mat instantiateData (const arma::mat&);
 };
@@ -181,6 +190,9 @@ public:
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
   
   blearner::Baselearner* createBaselearner (const std::string&);
+  
+  /// Get data used for modelling
+  arma::mat getData() const;
   
   arma::mat instantiateData (const arma::mat&);
   
@@ -207,6 +219,9 @@ public:
   
   blearner::Baselearner* createBaselearner (const std::string&);
   
+  /// Get data used for modelling
+  arma::mat getData() const;
+
   arma::mat instantiateData (const arma::mat&);
   
 };

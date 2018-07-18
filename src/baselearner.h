@@ -180,10 +180,13 @@ private:
   /// Differences of penalty matrix
   unsigned int differences;
 
+  /// Flag if sparse matrices should be used:
+  const bool use_sparse_matrices;
+
 public:
   /// Default constructor of `PSplineBlearner` class
   PSplineBlearner (data::Data*, const std::string&, const unsigned int&,
-    const unsigned int&, const double&, const unsigned int&);
+    const unsigned int&, const double&, const unsigned int&, const bool&);
   
   /// Clean copy of baselearner
   Baselearner* clone ();

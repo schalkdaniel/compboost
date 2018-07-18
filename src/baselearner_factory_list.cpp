@@ -95,8 +95,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelF
   std::vector<std::string> rownames;
   
   for (auto& it : my_factory_map) {
-    // This step converts the matrix from get data to an arma::mat, especially
-    // if getData returns an arma::sp_mat:
+
     arma::mat data_temp(it.second->getData());
     out_matrix = arma::join_rows(out_matrix, data_temp);
     
@@ -110,16 +109,6 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerFactoryList::getModelF
   }
   return std::pair<std::vector<std::string>, arma::mat>(rownames, out_matrix);
 }
-
-// std::map<std::string, arma::mat> BaselearnerFactoryList::getDataMap () const
-// {
-//   std::map<std::string, arma::mat> out_map;
-  
-//   for (auto& it : my_factory_map) {
-//     out_map[it.first] = it.second->getData();
-//   }
-//   return out_map;
-// }
 
 std::vector<std::string> BaselearnerFactoryList::getRegisteredFactoryNames () const
 {

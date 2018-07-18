@@ -1,5 +1,3 @@
-
-
 #include "splines.h"
 
 /**
@@ -76,64 +74,6 @@ unsigned int findSpan (const double& x, const arma::vec& knots)
 }
 
 /**
- * \brief De Boors algorithm to find basis functions
- * 
- * \param x `double` Point to search for position in knots.
- * \param degree `unsigned int` Degree of the polynomial between the knots.
- * \param knots `arma::vec` Vector of knots. It's the users responsibility to
- *   pass a **SORTED** vector.
- *   
- * \returns `arma::sp_mat` Sparse matrix containing the basis functions.
- */
-
-arma::rowvec basisFuns (const double& x, const unsigned int& degree, 
-  const arma::vec& knots)
-{
-  // Sparse output vector of bases:
-  arma::rowvec full_base(knots.size() - (degree + 1), arma::fill::zeros);
-  
-  // Index of x within the konts:
-  unsigned int idx = findSpan(x, knots);
-  
-  // A problem occurs if x = max(knots), then idx is bigger than
-  // length(full_base) which couses problems. Catch that:
-  if (idx > (full_base.n_cols - 1)) { idx = full_base.n_cols - 1; }
-  
-  // Output for basis functions. Here we have the non-zero entries:
-  arma::rowvec N(degree + 1, arma::fill::zeros);
-  N[0] = 1.0;
-  
-  arma::vec left(degree + 1, arma::fill::zeros);
-  arma::vec right(degree + 1, arma::fill::zeros);
-  
-  double saved;
-  double temp;
-  
-  // De Boors algorithm to recursive find base in a triangle scheme:
-  for (unsigned int j = 1; j <= degree; j++) {
-
-    left[j]  = x - knots[idx + 1 - j];
-    right[j] = knots[idx + j] - x;
-
-    saved = 0;
-
-    for (unsigned int r = 0; r < j; r++) {
-      temp  = N[r] / (right[r + 1] + left[j - r]);
-      N[r]  = saved + right[r + 1] * temp;
-      saved = left[j - r] * temp;
-    }
-    N[j] = saved;
-  }
-  
-  full_base(arma::span(idx - degree, idx)) = N;
-  
-  // arma::sp_mat out(1, full_base.size());
-  // out.row(0) = full_base.t();
-  
-  return full_base;
-}
-
-/**
  * \brief Create knots for a specific number, degree and values
  * 
  * This functions takes a vector of points and creates knots used for the
@@ -174,9 +114,9 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
 }
 
 /**
- * \brief Transformation from a vector of input points to sparse matrix of basis
+ * \brief Transformation from a vector of input points to matrix of basis
  * 
- * This functions takes a vector of points and create a sparse matrix of
+ * This functions takes a vector of points and create a matrix of
  * basis functions. Each row contains the basis of the corresponding value 
  * in `values`.
  * 
@@ -190,13 +130,139 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
 arma::mat createBasis (const arma::vec& values, const unsigned int& degree, 
   const arma::vec& knots)
 {
+  unsigned int n_cols =  knots.size() - (degree + 1);
+
+  // Index for binary search:
+  unsigned int idx;
+  // Variable for value on which the basis should be computed:
+  double x;
+
   // Frame for output:
-  arma::mat spline_basis(values.size(), knots.size() - (degree + 1), arma::fill::zeros);
+  arma::mat spline_basis(values.size(), n_cols, arma::fill::zeros);
   
-  // Fill frame with functions:
-  for (unsigned int i = 0; i < values.size(); i++) {
-    spline_basis.row(i) = basisFuns(values[i], degree, knots);
+  // Inserting rowwise. This loop creates the basis functions for each row:
+  for (unsigned int actual_row = 0; actual_row < values.size(); actual_row++) {
+
+    x = values(actual_row);
+
+    // Index of x within the konts:
+    idx = findSpan(x, knots);
+
+    // A problem occurs if x = max(knots), then idx is bigger than
+    // number of columns which couses problems. Catch that:
+    if (idx > (n_cols - 1)) { idx = n_cols - 1; }
+
+    // Output for basis functions. Here we have the non-zero entries:
+    arma::rowvec N(degree + 1, arma::fill::zeros);
+    N[0] = 1.0;
+
+    arma::vec left(degree + 1, arma::fill::zeros);
+    arma::vec right(degree + 1, arma::fill::zeros);
+
+    double saved;
+    double temp;
+
+    // De Boors algorithm to recursive find base in a triangle scheme:
+    for (unsigned int j = 1; j <= degree; j++) {
+
+      left[j]  = x - knots[idx + 1 - j];
+      right[j] = knots[idx + j] - x;
+
+      saved = 0;
+
+      for (unsigned int r = 0; r < j; r++) {
+        temp  = N[r] / (right[r + 1] + left[j - r]);
+        N[r]  = saved + right[r + 1] * temp;
+        saved = left[j - r] * temp;
+      }
+      N[j] = saved;
+    }
+    spline_basis(actual_row, arma::span(idx - degree, idx)) = N;
   }
-  
   return spline_basis;
+}
+
+/**
+ * \brief Transformation from a vector of input points to sparse matrix of basis
+ * 
+ * This functions takes a vector of points and create a sparse matrix of
+ * basis functions. Each row contains the basis of the corresponding value 
+ * in `values`.
+ *
+ * Instead of calculating each row through a helper function we directly 
+ * calculate deboors algorithm here. This is due to the procedure how 
+ * sparse matrices should be allocated and constructed.
+ * 
+ * \param param values `arma::vec` Points to create the basis matrix.
+ * \param param n_knots `unsigned int` Number of innter knots.
+ * \param param degree `unsigned int` polynomial degree of splines.
+ *    
+ * \returns `arma::sp_mat` sparse matrix of base functions.
+ */
+
+arma::sp_mat createSparseBasis (arma::vec& values, const unsigned int& degree, 
+  const arma::vec& knots)
+{
+
+  // Allocate memory for index matrix and values of the sparse matrix:
+  arma::umat idx_sparse(2, (degree + 1) * values.size(), arma::fill::zeros);
+  arma::vec insert_values((degree + 1) * values.size(), arma::fill::zeros);
+
+  double x;
+  unsigned int idx;
+  unsigned int idx_insert;
+
+  for (unsigned int actual_row = 0; actual_row < values.size(); actual_row++) {
+
+    x = values(actual_row);
+
+    // Sparse output vector of bases:
+    arma::mat full_base(1, knots.size() - (degree + 1));
+
+    // Index of x within the konts:
+    idx = findSpan(x, knots);
+
+    // A problem occurs if x = max(knots), then idx is bigger than
+    // length(full_base) which couses problems. Catch that:
+    if (idx > (full_base.n_cols - 1)) { idx = full_base.n_cols - 1; }
+
+    // Output for basis functions. Here we have the non-zero entries:
+    arma::rowvec N(degree + 1, arma::fill::zeros);
+    N[0] = 1.0;
+
+    arma::vec left(degree + 1, arma::fill::zeros);
+    arma::vec right(degree + 1, arma::fill::zeros);
+
+    double saved;
+    double temp;
+
+    // De Boors algorithm to recursive find base in a triangle scheme:
+    for (unsigned int j = 1; j <= degree; j++) {
+
+      left[j]  = x - knots[idx + 1 - j];
+      right[j] = knots[idx + j] - x;
+
+      saved = 0;
+
+      for (unsigned int r = 0; r < j; r++) {
+        temp  = N[r] / (right[r + 1] + left[j - r]);
+        N[r]  = saved + right[r + 1] * temp;
+        saved = left[j - r] * temp;
+      }
+      N[j] = saved;
+    }
+    // Fill variables needed to define the sparse matrix:
+    for (unsigned int i = 0; i < N.size(); i++) {
+
+      idx_insert = i + actual_row * N.size();
+
+      idx_sparse(0, idx_insert) = actual_row;
+      idx_sparse(1, idx_insert) = idx - degree + i;
+      insert_values(idx_insert) = N(i);
+    }
+  }
+  // Create sparse matrix:
+  arma::sp_mat out(idx_sparse, insert_values, values.size(), knots.size() - (degree + 1));
+  
+  return out;
 }
