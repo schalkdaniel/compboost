@@ -126,7 +126,14 @@ Remember the workflow of the factory which takes the data source, transform the
 data and write it into the target. We can access the transformed data of the
 target by calling the member function `getData()`:
 ```{r}
-data.target.fare$getData()[1:10, 1:5]
+spline.factory.age$getData()[1:10, 1:5]
+```
+
+An idiosyncraty of splines here is that they initialize sparse matrices by default
+which can be handled very well by the data object. Hence, calling `getData()` of the
+data target object returns an empty matrix:
+```{r}
+data.target.age$getData()
 ```
 
 We also want to have out of bag information while fitting the algorithm. 
