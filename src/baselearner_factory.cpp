@@ -270,9 +270,11 @@ blearner::Baselearner* PSplineBlearnerFactory::createBaselearner (const std::str
 arma::mat PSplineBlearnerFactory::getData () const
 {
   if (use_sparse_matrices) {
+    // std::cout << "Use sparse matrices" << std::endl;
     arma::mat out (data_target->sparse_data_mat);
     return out;
   } else {
+    // std::cout << "Use dense matrices" << std::endl;
     return data_target->getData();
   }
 }
