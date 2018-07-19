@@ -76,9 +76,11 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
       Component-wise boosting applies the boosting framework to statistical models, e.g., general additive models using component-wise smoothing splines. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces. 
     </p>
     <p>
-      The <code>R</code> package <code>compboost</code> is an alternative implementation of component-wise boosting written in <code>C++</code> to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use <code>R</code> functions as well as <code>C++</code> functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
+      The <code>R</code> package <code>compboost</code> is an alternative implementation of component-wise boosting written in <code>C++</code> using <a class="text" target="_blank" href="http://arma.sourceforge.net"><code>Armadillo</code></a>to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use <code>R</code> functions as well as <code>C++</code> functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
     </p>
+    <p>
 
+    </p>
     <h2>What is component-wise boosting?</h2>
 
     <hr>
@@ -88,7 +90,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
       \[
       b_j(x, \theta^{[m]}) + b_j(x, \theta^{[m^\prime]}) = b_j(x, \theta^{[m]} + \theta^{[m^\prime]})
       \] 
-      So, instead of boosting trees as <code>xgboost</code> does to obtain huge predictive power, the result of model-based boosting is a selection of important base-learners, each with estimated parameters. 
+      So, instead of boosting trees like <code>xgboost</code>, model-based boosting uses a selection of important base-learners, each with estimated parameters. 
     </p>
     <p>
       The ordinary way of finding good base-learners is done by a greedy search. Therefore, in each iteration all base-learners are fitted to the so called pseudo residuals at the current iteration that acts as a kind of error of the actual model. A new base-learner is then selected by choosing the one with the smallest empirical risk \(\mathcal{R}_\text{emp}\).
