@@ -218,7 +218,7 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   
   // Get the data of the source, transform it and write it into the target:
   if (use_sparse_matrices) {
-    data_target->sparse_data_mat = createBasis (data_source->getData(), degree, data_target->knots);
+    data_target->sparse_data_mat = createSparseSplineBasis (data_source->getData(), degree, data_target->knots);
     data_target->XtX_inv = arma::inv(data_target->sparse_data_mat.t() * data_target->sparse_data_mat + penalty * data_target->penalty_mat);
   } else {
     data_target->setData(instantiateData(data_source->getData()));
@@ -296,7 +296,7 @@ arma::mat PSplineBlearnerFactory::instantiateData (const arma::mat& newdata)
 {
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
-  return createBasis (newdata, degree, data_target->knots);
+  return createSplineBasis (newdata, degree, data_target->knots);
 }
 
 // CustomBlearner:

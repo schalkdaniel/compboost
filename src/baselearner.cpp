@@ -262,7 +262,7 @@ arma::mat PSplineBlearner::instantiateData (const arma::mat& newdata)
 {
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
-  return createBasis (newdata, degree, data_ptr->knots);
+  return createSplineBasis (newdata, degree, data_ptr->knots);
 }
 
 /**

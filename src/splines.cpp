@@ -127,7 +127,7 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
  * \returns `sp_mat` sparse matrix of base functions.
  */
 
-arma::mat createBasis (const arma::vec& values, const unsigned int& degree, 
+arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree, 
   const arma::vec& knots)
 {
   unsigned int n_cols =  knots.size() - (degree + 1);
@@ -200,17 +200,16 @@ arma::mat createBasis (const arma::vec& values, const unsigned int& degree,
  * \returns `arma::sp_mat` sparse matrix of base functions.
  */
 
-arma::sp_mat createSparseBasis (arma::vec& values, const unsigned int& degree, 
+arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned int& degree, 
   const arma::vec& knots)
 {
-
   // Allocate memory for index matrix and values of the sparse matrix:
   arma::umat idx_sparse(2, (degree + 1) * values.size(), arma::fill::zeros);
   arma::vec insert_values((degree + 1) * values.size(), arma::fill::zeros);
 
-  double x;
-  unsigned int idx;
-  unsigned int idx_insert;
+  double x; // Value to store single numbers of values
+  unsigned int idx; // Number of span in which x lies (boundaries given by knots)
+  unsigned int idx_insert; // Index where the basis and indexes for sparse matrices are inserted
 
   for (unsigned int actual_row = 0; actual_row < values.size(); actual_row++) {
 
