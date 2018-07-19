@@ -25,13 +25,16 @@ affiliations:
 # Summary
 <!-- A clear statement of need that illustrates the purpose of the software-->
 
-Component-wise boosting applies the boosting framework to statistical models, e.~g., general additive models using component-wise smoothing splines [@schmid2008boosting]. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces.
+Component-wise boosting applies the boosting framework  to statistical models, e.g., general additive models using component-wise smoothing splines [@schmid2008boosting]. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces.
 
-The `R` [@R] package `compboost` is an implementation of component-wise boosting written in `C++` to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use R functions as well as C++ functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
+The `R` [@R] package `compboost` is an implementation of component-wise boosting written in `C++` using `Armadillo` [@sanderson2016armadillo] to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use R functions as well as C++ functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
+
+In addition to tree based boosting implementations as `xgboost` [@xgboost], `compboost`, which is not a tree based method, maintains interpretability by estimating parameter for each used base-learner. This allows visualizing the selected effects, jumping back and forth in the algorithm, and looking into the model how the learner are selected to obtain information about the feature importance. 
 
 <!-- A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience-->
+# How to Use
 
-The pacakge provides two high level wrapper functions `boostLinear()` and `boostSplines()` to boost linear models or general additive models using p-splines of each numerical feature:
+The package provides two high level wrapper functions `boostLinear()` and `boostSplines()` to boost linear models or general additive models using p-splines of each numerical feature:
 ```r
 library(compboost)
 
@@ -106,13 +109,11 @@ cboost
 ##
 ```
 
+A similar software is the well known `R` implementation `mboost` [@mboost1]. The advantage of `mboost` over `compboost` is the extensive functionality which includes more base-learners and loss functions (families). Nevertheless, `mboost` has issues when it comes to large datasets. In addition, `compboost` is much faster in terms of runtime and uses much less memory. This makes `compboost` more applicable in terms of big data. 
+
 <!-- Mentions (if applicable) of any ongoing research projects using the software or recent scholarly publications enabled by it -->
 
-- Reference to mboost and why we write compboost (faster, better modular principle, ...)
-- ongoing research (e.g. optimizer stuff and fda)
-
-
-# Acknowledgements
+The modular principle of `compboost` allows it to extend the algorithm to do more complicated analyses as boosting functional data, investigating on different optizer, or improve the intrinsic feature selection using resampling.
 
 <!-- A list of key references including a link to the software archive -->
 # References
