@@ -1,0 +1,6 @@
+<map id="createSplineBasis" name="createSplineBasis">
+<area shape="rect" id="node2" href="$classblearner_1_1_p_spline_blearner.html#ac0604daac451678e67a6a2ac60dd1b01" title="Instatiate data matrix (design matrix) " alt="" coords="201,8,370,49"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#a290a1c60224d027059939a895b474aa1" title="Instantiate the design matrix. " alt="" coords="180,75,391,116"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_p_spline_blearner.html#a9d35aeb36c403c167fb7519379825873" title="Predict on newdata. " alt="" coords="461,5,631,47"/>
+<area shape="rect" id="node5" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#af0b1b2a0c594d4adfd038a467a32649d" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="439,71,653,127"/>
+</map>

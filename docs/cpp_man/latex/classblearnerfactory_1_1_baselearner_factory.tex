@@ -16,11 +16,12 @@ Inheritance diagram for blearnerfactory\+:\+:Baselearner\+Factory\+:
 \end{figure}
 
 
-Collaboration diagram for blearnerfactory\+:\+:Baselearner\+Factory\+:\nopagebreak
+Collaboration diagram for blearnerfactory\+:\+:Baselearner\+Factory\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=218pt]{classblearnerfactory_1_1_baselearner_factory__coll__graph}
+\includegraphics[width=219pt]{classblearnerfactory_1_1_baselearner_factory__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
@@ -28,13 +29,13 @@ Collaboration diagram for blearnerfactory\+:\+:Baselearner\+Factory\+:\nopagebre
 \item 
 virtual \hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$ \hyperlink{classblearnerfactory_1_1_baselearner_factory_ac3584a20a84834099a15908690b837bb}{create\+Baselearner} (const std\+::string \&)=0
 \item 
-arma\+::mat \hyperlink{classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be}{get\+Data} () const
-\item 
 std\+::string \hyperlink{classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599}{get\+Data\+Identifier} () const
 \item 
 std\+::string \hyperlink{classblearnerfactory_1_1_baselearner_factory_a05d5c00f7a434548868c4ad21d0f5fda}{get\+Baselearner\+Type} () const
 \item 
 virtual arma\+::mat \hyperlink{classblearnerfactory_1_1_baselearner_factory_ac4a38c4815fb33b8d4785745117c5e57}{instantiate\+Data} (const arma\+::mat \&)=0
+\item 
+virtual arma\+::mat \hyperlink{classblearnerfactory_1_1_baselearner_factory_aa3e4580bca870ca3b742dda6c820e1e6}{get\+Data} () const =0
 \item 
 void \hyperlink{classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2}{initialize\+Data\+Objects} (\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$, \hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$)
 \item 
@@ -77,26 +78,24 @@ Implemented in \hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory_a
 \subsubsection{\texorpdfstring{get\+Baselearner\+Type()}{getBaselearnerType()}}
 {\footnotesize\ttfamily std\+::string blearnerfactory\+::\+Baselearner\+Factory\+::get\+Baselearner\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be}\label{classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be}} 
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_factory_aa3e4580bca870ca3b742dda6c820e1e6}\label{classblearnerfactory_1_1_baselearner_factory_aa3e4580bca870ca3b742dda6c820e1e6}} 
 \index{blearnerfactory\+::\+Baselearner\+Factory@{blearnerfactory\+::\+Baselearner\+Factory}!get\+Data@{get\+Data}}
 \index{get\+Data@{get\+Data}!blearnerfactory\+::\+Baselearner\+Factory@{blearnerfactory\+::\+Baselearner\+Factory}}
 \subsubsection{\texorpdfstring{get\+Data()}{getData()}}
-{\footnotesize\ttfamily arma\+::mat blearnerfactory\+::\+Baselearner\+Factory\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+{\footnotesize\ttfamily virtual arma\+::mat blearnerfactory\+::\+Baselearner\+Factory\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
 
-Here is the call graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be_cgraph}
-\end{center}
-\end{figure}
+
+
+Implemented in \hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory_a29cc0d142660d6e52245c264f71dd651}{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory}, \hyperlink{classblearnerfactory_1_1_custom_blearner_factory_a53db4c5d9eb3875241bb47a8d73744e2}{blearnerfactory\+::\+Custom\+Blearner\+Factory}, \hyperlink{classblearnerfactory_1_1_p_spline_blearner_factory_a9363131f08b3b3c1c482786347d13f7c}{blearnerfactory\+::\+P\+Spline\+Blearner\+Factory}, and \hyperlink{classblearnerfactory_1_1_polynomial_blearner_factory_addce36fbb590b2cd3d9325b53ae74566}{blearnerfactory\+::\+Polynomial\+Blearner\+Factory}.
+
 \mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599}\label{classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599}} 
 \index{blearnerfactory\+::\+Baselearner\+Factory@{blearnerfactory\+::\+Baselearner\+Factory}!get\+Data\+Identifier@{get\+Data\+Identifier}}
 \index{get\+Data\+Identifier@{get\+Data\+Identifier}!blearnerfactory\+::\+Baselearner\+Factory@{blearnerfactory\+::\+Baselearner\+Factory}}
 \subsubsection{\texorpdfstring{get\+Data\+Identifier()}{getDataIdentifier()}}
 {\footnotesize\ttfamily std\+::string blearnerfactory\+::\+Baselearner\+Factory\+::get\+Data\+Identifier (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -117,14 +116,16 @@ Here is the caller graph for this function\+:
 \subsubsection{\texorpdfstring{initialize\+Data\+Objects()}{initializeDataObjects()}}
 {\footnotesize\ttfamily void blearnerfactory\+::\+Baselearner\+Factory\+::initialize\+Data\+Objects (\begin{DoxyParamCaption}\item[{\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$}]{data\+\_\+source0,  }\item[{\hyperlink{classdata_1_1_data}{data\+::\+Data} $\ast$}]{data\+\_\+target0 }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:\nopagebreak
+Here is the call graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

@@ -6,16 +6,18 @@
 
 
 
-Inheritance diagram for blearnerfactory\+:\+:Custom\+Cpp\+Blearner\+Factory\+:\nopagebreak
+Inheritance diagram for blearnerfactory\+:\+:Custom\+Cpp\+Blearner\+Factory\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=232pt]{classblearnerfactory_1_1_custom_cpp_blearner_factory__inherit__graph}
+\includegraphics[width=233pt]{classblearnerfactory_1_1_custom_cpp_blearner_factory__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Collaboration diagram for blearnerfactory\+:\+:Custom\+Cpp\+Blearner\+Factory\+:\nopagebreak
+Collaboration diagram for blearnerfactory\+:\+:Custom\+Cpp\+Blearner\+Factory\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -29,6 +31,8 @@ Collaboration diagram for blearnerfactory\+:\+:Custom\+Cpp\+Blearner\+Factory\+:
 \item 
 \hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$ \hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory_ac98fae043e6822605261c7c6f7125e8c}{create\+Baselearner} (const std\+::string \&)
 \item 
+arma\+::mat \hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory_a29cc0d142660d6e52245c264f71dd651}{get\+Data} () const
+\begin{DoxyCompactList}\small\item\em Get data used for modelling. \end{DoxyCompactList}\item 
 arma\+::mat \hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory_abc9c251017197087af3ef8a1c0421969}{instantiate\+Data} (const arma\+::mat \&)
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
@@ -70,6 +74,43 @@ Here is the call graph for this function\+:\nopagebreak
 
 Implements \hyperlink{classblearnerfactory_1_1_baselearner_factory_ac3584a20a84834099a15908690b837bb}{blearnerfactory\+::\+Baselearner\+Factory}.
 
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnerfactory_1_1_custom_cpp_blearner_factory_ac98fae043e6822605261c7c6f7125e8c_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnerfactory_1_1_custom_cpp_blearner_factory_a29cc0d142660d6e52245c264f71dd651}\label{classblearnerfactory_1_1_custom_cpp_blearner_factory_a29cc0d142660d6e52245c264f71dd651}} 
+\index{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory@{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory}!get\+Data@{get\+Data}}
+\index{get\+Data@{get\+Data}!blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory@{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory}}
+\subsubsection{\texorpdfstring{get\+Data()}{getData()}}
+{\footnotesize\ttfamily arma\+::mat blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Get data used for modelling. 
+
+Data getter which always returns an arma\+::mat.
+
+This function is important to have a unified interface to access the data matrices. Especially for predicting we have to get the data of each factory as dense matrix. This is a huge drawback in terms of memory usage. Therefore, this function should only be used to get temporary matrices which are deleted when they run out of scope to reduce memory load. Also note that there is a dispatch with the \hyperlink{classblearnerfactory_1_1_custom_cpp_blearner_factory_a29cc0d142660d6e52245c264f71dd651}{get\+Data()} function of the Data objects which are mostly called internally.
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::mat} of data used for modelling a single base-\/learner 
+\end{DoxyReturn}
+
+
+Implements \hyperlink{classblearnerfactory_1_1_baselearner_factory_aa3e4580bca870ca3b742dda6c820e1e6}{blearnerfactory\+::\+Baselearner\+Factory}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnerfactory_1_1_custom_cpp_blearner_factory_a29cc0d142660d6e52245c264f71dd651_cgraph}
+\end{center}
+\end{figure}
 \mbox{\Hypertarget{classblearnerfactory_1_1_custom_cpp_blearner_factory_abc9c251017197087af3ef8a1c0421969}\label{classblearnerfactory_1_1_custom_cpp_blearner_factory_abc9c251017197087af3ef8a1c0421969}} 
 \index{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory@{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory}!instantiate\+Data@{instantiate\+Data}}
 \index{instantiate\+Data@{instantiate\+Data}!blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory@{blearnerfactory\+::\+Custom\+Cpp\+Blearner\+Factory}}

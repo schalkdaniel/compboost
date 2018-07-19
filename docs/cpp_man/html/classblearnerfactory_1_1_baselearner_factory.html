@@ -155,10 +155,10 @@ Inheritance diagram for blearnerfactory::BaselearnerFactory:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearnerfactory_1_1_baselearner_factory__inherit__graph.png" border="0" usemap="#blearnerfactory_1_1_baselearner_factory_inherit__map" alt="Inheritance graph"/></div>
 <map name="blearnerfactory_1_1_baselearner_factory_inherit__map" id="blearnerfactory_1_1_baselearner_factory_inherit__map">
-<area shape="rect" id="node2" href="classblearnerfactory_1_1_custom_blearner_factory.html" title="{blearnerfactory::CustomBlearner\lFactory\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l&#45; extractParameter\l|+ CustomBlearnerFactory()\l+ createBaselearner()\l+ instantiateData()\l}" alt="" coords="5,263,216,428"/>
-<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html" title="{blearnerfactory::CustomCpp\lBlearnerFactory\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l|+ CustomCppBlearnerFactory()\l+ createBaselearner()\l+ instantiateData()\l}" alt="" coords="241,270,445,421"/>
-<area shape="rect" id="node4" href="classblearnerfactory_1_1_polynomial_blearner_factory.html" title="{blearnerfactory::Polynomial\lBlearnerFactory\n|&#45; degree\l&#45; intercept\l|+ PolynomialBlearnerFactory()\l+ createBaselearner()\l+ instantiateData()\l}" alt="" coords="469,277,667,413"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_p_spline_blearner_factory.html" title="Factory to creaet PSplineBlearner objects. " alt="" coords="692,263,871,428"/>
+<area shape="rect" id="node2" href="classblearnerfactory_1_1_custom_blearner_factory.html" title="{blearnerfactory::CustomBlearner\lFactory\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l&#45; extractParameter\l|+ CustomBlearnerFactory()\l+ createBaselearner()\l+ getData()\l+ instantiateData()\l}" alt="" coords="5,270,216,450"/>
+<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html" title="{blearnerfactory::CustomCpp\lBlearnerFactory\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l|+ CustomCppBlearnerFactory()\l+ createBaselearner()\l+ getData()\l+ instantiateData()\l}" alt="" coords="241,277,445,443"/>
+<area shape="rect" id="node4" href="classblearnerfactory_1_1_polynomial_blearner_factory.html" title="{blearnerfactory::Polynomial\lBlearnerFactory\n|&#45; degree\l&#45; intercept\l|+ PolynomialBlearnerFactory()\l+ createBaselearner()\l+ getData()\l+ instantiateData()\l}" alt="" coords="469,285,667,435"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_p_spline_blearner_factory.html" title="Factory to creaet PSplineBlearner objects. " alt="" coords="692,263,871,457"/>
 </map>
 </div>
 <div class="dynheader">
@@ -166,7 +166,7 @@ Collaboration diagram for blearnerfactory::BaselearnerFactory:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearnerfactory_1_1_baselearner_factory__coll__graph.png" border="0" usemap="#blearnerfactory_1_1_baselearner_factory_coll__map" alt="Collaboration graph"/></div>
 <map name="blearnerfactory_1_1_baselearner_factory_coll__map" id="blearnerfactory_1_1_baselearner_factory_coll__map">
-<area shape="rect" id="node2" href="classdata_1_1_data.html" title="{data::Data\n|+ data_mat\l+ sparse_data_mat\l+ data_mat_ptr\l+ penalty_mat\l+ knots\l+ knot_boundaries\l+ XtX_inv\l# data_identifier\l# data_type\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ setDataType()\l+ ~Data()\l}" alt="" coords="30,5,165,288"/>
+<area shape="rect" id="node2" href="classdata_1_1_data.html" title="{data::Data\n|+ data_mat\l+ sparse_data_mat\l+ data_mat_ptr\l+ penalty_mat\l+ knots\l+ knot_boundaries\l+ XtX_inv\l# data_identifier\l# data_type\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ setDataType()\l+ ~Data()\l}" alt="" coords="29,5,167,288"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -174,14 +174,14 @@ Collaboration diagram for blearnerfactory::BaselearnerFactory:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:ac3584a20a84834099a15908690b837bb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classblearner_1_1_baselearner.html">blearner::Baselearner</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#ac3584a20a84834099a15908690b837bb">createBaselearner</a> (const std::string &amp;)=0</td></tr>
 <tr class="separator:ac3584a20a84834099a15908690b837bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9da09739f04e5c8bd268551251801be"><td class="memItemLeft" align="right" valign="top">arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#ad9da09739f04e5c8bd268551251801be">getData</a> () const</td></tr>
-<tr class="separator:ad9da09739f04e5c8bd268551251801be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40703963bb3fd273b835a99263d9b599"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599">getDataIdentifier</a> () const</td></tr>
 <tr class="separator:a40703963bb3fd273b835a99263d9b599"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05d5c00f7a434548868c4ad21d0f5fda"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#a05d5c00f7a434548868c4ad21d0f5fda">getBaselearnerType</a> () const</td></tr>
 <tr class="separator:a05d5c00f7a434548868c4ad21d0f5fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4a38c4815fb33b8d4785745117c5e57"><td class="memItemLeft" align="right" valign="top">virtual arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57">instantiateData</a> (const arma::mat &amp;)=0</td></tr>
 <tr class="separator:ac4a38c4815fb33b8d4785745117c5e57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3e4580bca870ca3b742dda6c820e1e6"><td class="memItemLeft" align="right" valign="top">virtual arma::mat&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#aa3e4580bca870ca3b742dda6c820e1e6">getData</a> () const =0</td></tr>
+<tr class="separator:aa3e4580bca870ca3b742dda6c820e1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a147d4ef123ec382fe402d562a91df4d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2">initializeDataObjects</a> (<a class="el" href="classdata_1_1_data.html">data::Data</a> *, <a class="el" href="classdata_1_1_data.html">data::Data</a> *)</td></tr>
 <tr class="separator:a147d4ef123ec382fe402d562a91df4d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc9d1d3c8fc774c9d856117632c8aadb"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearnerfactory_1_1_baselearner_factory.html#adc9d1d3c8fc774c9d856117632c8aadb">~BaselearnerFactory</a> ()</td></tr>
@@ -268,28 +268,30 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="ad9da09739f04e5c8bd268551251801be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9da09739f04e5c8bd268551251801be">&#9670;&nbsp;</a></span>getData()</h2>
+<a id="aa3e4580bca870ca3b742dda6c820e1e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3e4580bca870ca3b742dda6c820e1e6">&#9670;&nbsp;</a></span>getData()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">arma::mat blearnerfactory::BaselearnerFactory::getData </td>
+          <td class="memname">virtual arma::mat blearnerfactory::BaselearnerFactory::getData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be_cgraph.png" border="0" usemap="#classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be_cgraph" alt=""/></div>
-<map name="classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be_cgraph" id="classblearnerfactory_1_1_baselearner_factory_ad9da09739f04e5c8bd268551251801be_cgraph">
-<area shape="rect" id="node2" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="237,13,372,39"/>
-</map>
-</div>
+
+<p>Implemented in <a class="el" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a29cc0d142660d6e52245c264f71dd651">blearnerfactory::CustomCppBlearnerFactory</a>, <a class="el" href="classblearnerfactory_1_1_custom_blearner_factory.html#a53db4c5d9eb3875241bb47a8d73744e2">blearnerfactory::CustomBlearnerFactory</a>, <a class="el" href="classblearnerfactory_1_1_p_spline_blearner_factory.html#a9363131f08b3b3c1c482786347d13f7c">blearnerfactory::PSplineBlearnerFactory</a>, and <a class="el" href="classblearnerfactory_1_1_polynomial_blearner_factory.html#addce36fbb590b2cd3d9325b53ae74566">blearnerfactory::PolynomialBlearnerFactory</a>.</p>
 
 </div>
 </div>
@@ -312,7 +314,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599_cgraph.png" border="0" usemap="#classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599_cgraph" alt=""/></div>
 <map name="classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599_cgraph" id="classblearnerfactory_1_1_baselearner_factory_a40703963bb3fd273b835a99263d9b599_cgraph">
-<area shape="rect" id="node2" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="237,13,420,39"/>
+<area shape="rect" id="node2" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="239,13,425,39"/>
 </map>
 </div>
 <div class="dynheader">
@@ -357,11 +359,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_cgraph.png" border="0" usemap="#classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_cgraph" alt=""/></div>
 <map name="classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_cgraph" id="classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_cgraph">
-<area shape="rect" id="node2" href="classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc" title="data::Data::setDataIdentifier" alt="" coords="247,5,430,32"/>
-<area shape="rect" id="node3" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="247,56,430,83"/>
-<area shape="rect" id="node4" href="classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="271,107,406,133"/>
-<area shape="rect" id="node5" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="247,158,431,199"/>
-<area shape="rect" id="node6" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="271,224,406,251"/>
+<area shape="rect" id="node2" href="classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc" title="data::Data::setDataIdentifier" alt="" coords="248,5,435,32"/>
+<area shape="rect" id="node3" href="classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="248,56,435,83"/>
+<area shape="rect" id="node4" href="classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="273,107,410,133"/>
+<area shape="rect" id="node5" href="classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="249,158,434,199"/>
+<area shape="rect" id="node6" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="273,224,410,251"/>
 </map>
 </div>
 <div class="dynheader">
@@ -369,8 +371,8 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_icgraph.png" border="0" usemap="#classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_icgraph" alt=""/></div>
 <map name="classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_icgraph" id="classblearnerfactory_1_1_baselearner_factory_a147d4ef123ec382fe402d562a91df4d2_icgraph">
-<area shape="rect" id="node2" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="261,5,471,47"/>
-<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="247,71,485,127"/>
+<area shape="rect" id="node2" href="classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="262,5,474,47"/>
+<area shape="rect" id="node3" href="classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="248,71,488,127"/>
 </map>
 </div>
 

@@ -3,7 +3,7 @@
 <area shape="rect" id="node9" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="265,235,450,276"/>
 <area shape="rect" id="node12" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="260,300,455,341"/>
 <area shape="rect" id="node15" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#a4db6750e7534eb7731cc3d60350d91cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="240,366,475,422"/>
-<area shape="rect" id="node16" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="250,446,465,502"/>
+<area shape="rect" id="node16" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#af0b1b2a0c594d4adfd038a467a32649d" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="250,446,465,502"/>
 <area shape="rect" id="node3" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="555,39,730,80"/>
 <area shape="rect" id="node8" href="$classlogger_1_1_oob_risk_logger.html#a948a89f02ac782c25a15c49c4a108c02" title="Log current step of compboost iteration for class OobRiskLogger " alt="" coords="565,104,720,145"/>
 <area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="811,39,955,80"/>

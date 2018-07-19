@@ -1,3 +1,3 @@
 <map id="blearnerfactory::PSplineBlearnerFactory" name="blearnerfactory::PSplineBlearnerFactory">
-<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html" title="{blearnerfactory::Baselearner\lFactory\n|# blearner_type\l# data_source\l# data_target\l|+ createBaselearner()\l+ getData()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ instantiateData()\l+ initializeDataObjects()\l+ ~BaselearnerFactory()\l}" alt="" coords="5,5,189,215"/>
+<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html" title="{blearnerfactory::Baselearner\lFactory\n|# blearner_type\l# data_source\l# data_target\l|+ createBaselearner()\l+ getDataIdentifier()\l+ getBaselearnerType()\l+ instantiateData()\l+ getData()\l+ initializeDataObjects()\l+ ~BaselearnerFactory()\l}" alt="" coords="5,5,191,215"/>
 </map>

@@ -2,5 +2,5 @@
 <area shape="rect" id="node2" href="$classblearner_1_1_custom_blearner.html" title="{blearner::CustomBlearner\n|&#45; model\l&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l&#45; extractParameter\l|+ CustomBlearner()\l+ clone()\l+ instantiateData()\l+ train()\l+ predict()\l+ predict()\l+ ~CustomBlearner()\l}" alt="" coords="5,365,176,589"/>
 <area shape="rect" id="node3" href="$classblearner_1_1_custom_cpp_blearner.html" title="{blearner::CustomCppBlearner\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l|+ CustomCppBlearner()\l+ clone()\l+ instantiateData()\l+ train()\l+ predict()\l+ predict()\l+ ~CustomCppBlearner()\l}" alt="" coords="200,380,395,575"/>
 <area shape="rect" id="node4" href="$classblearner_1_1_polynomial_blearner.html" title="{blearner::PolynomialBlearner\n|&#45; degree\l&#45; intercept\l|+ PolynomialBlearner()\l+ clone()\l+ instantiateData()\l+ train()\l+ predict()\l+ predict()\l+ ~PolynomialBlearner()\l}" alt="" coords="419,387,607,567"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_p_spline_blearner.html" title="P&#45;Spline Baselearner. " alt="" coords="631,373,801,582"/>
+<area shape="rect" id="node5" href="$classblearner_1_1_p_spline_blearner.html" title="P&#45;Spline Baselearner. " alt="" coords="631,365,801,589"/>
 </map>

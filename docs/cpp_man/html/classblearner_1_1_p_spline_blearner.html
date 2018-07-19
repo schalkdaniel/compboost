@@ -173,9 +173,9 @@ Collaboration diagram for blearner::PSplineBlearner:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aceffa2bd25f0d8ff728cb7c6eb084809"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearner_1_1_p_spline_blearner.html#aceffa2bd25f0d8ff728cb7c6eb084809">PSplineBlearner</a> (<a class="el" href="classdata_1_1_data.html">data::Data</a> *, const std::string &amp;, const unsigned int &amp;, const unsigned int &amp;, const double &amp;, const unsigned int &amp;)</td></tr>
-<tr class="memdesc:aceffa2bd25f0d8ff728cb7c6eb084809"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor of <code><a class="el" href="classblearner_1_1_p_spline_blearner.html" title="P-Spline Baselearner. ">PSplineBlearner</a></code> class.  <a href="#aceffa2bd25f0d8ff728cb7c6eb084809">More...</a><br /></td></tr>
-<tr class="separator:aceffa2bd25f0d8ff728cb7c6eb084809"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58ec2c4bf9d0da690dd1b433c6755a87"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearner_1_1_p_spline_blearner.html#a58ec2c4bf9d0da690dd1b433c6755a87">PSplineBlearner</a> (<a class="el" href="classdata_1_1_data.html">data::Data</a> *, const std::string &amp;, const unsigned int &amp;, const unsigned int &amp;, const double &amp;, const unsigned int &amp;, const bool &amp;)</td></tr>
+<tr class="memdesc:a58ec2c4bf9d0da690dd1b433c6755a87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor of <code><a class="el" href="classblearner_1_1_p_spline_blearner.html" title="P-Spline Baselearner. ">PSplineBlearner</a></code> class.  <a href="#a58ec2c4bf9d0da690dd1b433c6755a87">More...</a><br /></td></tr>
+<tr class="separator:a58ec2c4bf9d0da690dd1b433c6755a87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fca532d2d20dfa284acc474ee1d7531"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classblearner_1_1_baselearner.html">Baselearner</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearner_1_1_p_spline_blearner.html#a6fca532d2d20dfa284acc474ee1d7531">clone</a> ()</td></tr>
 <tr class="memdesc:a6fca532d2d20dfa284acc474ee1d7531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clean copy of baselearner.  <a href="#a6fca532d2d20dfa284acc474ee1d7531">More...</a><br /></td></tr>
 <tr class="separator:a6fca532d2d20dfa284acc474ee1d7531"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -228,6 +228,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a93ea3a6c970521e14822d78f0f687ad4"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearner_1_1_p_spline_blearner.html#a93ea3a6c970521e14822d78f0f687ad4">differences</a></td></tr>
 <tr class="memdesc:a93ea3a6c970521e14822d78f0f687ad4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Differences of penalty matrix.  <a href="#a93ea3a6c970521e14822d78f0f687ad4">More...</a><br /></td></tr>
 <tr class="separator:a93ea3a6c970521e14822d78f0f687ad4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5b07123065e500bcaf02c33b7ebb64f"><td class="memItemLeft" align="right" valign="top">const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classblearner_1_1_p_spline_blearner.html#ab5b07123065e500bcaf02c33b7ebb64f">use_sparse_matrices</a></td></tr>
+<tr class="memdesc:ab5b07123065e500bcaf02c33b7ebb64f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flag if sparse matrices should be used:  <a href="#ab5b07123065e500bcaf02c33b7ebb64f">More...</a><br /></td></tr>
+<tr class="separator:ab5b07123065e500bcaf02c33b7ebb64f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -246,8 +249,8 @@ Additional Inherited Members</h2></td></tr>
 <p>This class implements the P-Spline baselearners. We have used de Boors algorithm (from the Nurbs Book) to create the basis. The penalty parameter can be specified directly or by using the degrees of freedom. If you are using the degrees of freedom insteat of the penalty parameter, then this is transformed to a penalty parameter using the Demmler-Reinsch Orthogonalization.</p>
 <p>Please note, that this baselearner is just the dummy object. The most functionality is done while creating the data target which contains the most object which are used here. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aceffa2bd25f0d8ff728cb7c6eb084809"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceffa2bd25f0d8ff728cb7c6eb084809">&#9670;&nbsp;</a></span>PSplineBlearner()</h2>
+<a id="a58ec2c4bf9d0da690dd1b433c6755a87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58ec2c4bf9d0da690dd1b433c6755a87">&#9670;&nbsp;</a></span>PSplineBlearner()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +289,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const unsigned int &amp;&#160;</td>
-          <td class="paramname"><em>differences</em>&#160;</td>
+          <td class="paramname"><em>differences</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const bool &amp;&#160;</td>
+          <td class="paramname"><em>use_sparse_matrices</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -323,8 +332,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_cgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_cgraph" alt=""/></div>
-<map name="classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_cgraph" id="classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_cgraph">
+<div class="center"><img src="classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_cgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_cgraph" alt=""/></div>
+<map name="classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_cgraph" id="classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_cgraph">
 <area shape="rect" id="node2" href="classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4" title="blearner::Baselearner\l::setData" alt="" coords="223,5,368,47"/>
 <area shape="rect" id="node3" href="classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76" title="blearner::Baselearner\l::setIdentifier" alt="" coords="223,71,368,112"/>
 </map>
@@ -332,8 +341,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_icgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_icgraph" alt=""/></div>
-<map name="classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_icgraph" id="classblearner_1_1_p_spline_blearner_aceffa2bd25f0d8ff728cb7c6eb084809_icgraph">
+<div class="center"><img src="classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_icgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_icgraph" alt=""/></div>
+<map name="classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_icgraph" id="classblearner_1_1_p_spline_blearner_a58ec2c4bf9d0da690dd1b433c6755a87_icgraph">
 <area shape="rect" id="node2" href="classblearner_1_1_p_spline_blearner.html#a6fca532d2d20dfa284acc474ee1d7531" title="Clean copy of baselearner. " alt="" coords="223,5,392,47"/>
 </map>
 </div>
@@ -392,7 +401,7 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearner_1_1_p_spline_blearner_a6fca532d2d20dfa284acc474ee1d7531_cgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_a6fca532d2d20dfa284acc474ee1d7531_cgraph" alt=""/></div>
 <map name="classblearner_1_1_p_spline_blearner_a6fca532d2d20dfa284acc474ee1d7531_cgraph" id="classblearner_1_1_p_spline_blearner_a6fca532d2d20dfa284acc474ee1d7531_cgraph">
-<area shape="rect" id="node2" href="classblearner_1_1_p_spline_blearner.html#aceffa2bd25f0d8ff728cb7c6eb084809" title="Default constructor of PSplineBlearner class. " alt="" coords="223,37,392,79"/>
+<area shape="rect" id="node2" href="classblearner_1_1_p_spline_blearner.html#a58ec2c4bf9d0da690dd1b433c6755a87" title="Default constructor of PSplineBlearner class. " alt="" coords="223,37,392,79"/>
 <area shape="rect" id="node5" href="classblearner_1_1_baselearner.html#ae8f114ca7c497f03c80de5981c7f811d" title="blearner::Baselearner\l::copyMembers" alt="" coords="235,103,380,144"/>
 <area shape="rect" id="node3" href="classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4" title="blearner::Baselearner\l::setData" alt="" coords="440,5,585,47"/>
 <area shape="rect" id="node4" href="classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76" title="blearner::Baselearner\l::setIdentifier" alt="" coords="440,71,585,112"/>
@@ -443,9 +452,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="classblearner_1_1_p_spline_blearner_ac0604daac451678e67a6a2ac60dd1b01_cgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_ac0604daac451678e67a6a2ac60dd1b01_cgraph" alt=""/></div>
 <map name="classblearner_1_1_p_spline_blearner_ac0604daac451678e67a6a2ac60dd1b01_cgraph" id="classblearner_1_1_p_spline_blearner_ac0604daac451678e67a6a2ac60dd1b01_cgraph">
-<area shape="rect" id="node2" href="splines_8cpp.html#ac43a2b9f7f3a9589acb14ff221a3fc0e" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="223,13,313,39"/>
-<area shape="rect" id="node3" href="splines_8cpp.html#ab5674a405e1cfc5b8e04ae2d113b9868" title="De Boors algorithm to find basis functions. " alt="" coords="361,13,444,39"/>
-<area shape="rect" id="node4" href="splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="492,13,564,39"/>
+<area shape="rect" id="node2" href="splines_8cpp.html#abd6cd4b9729094d96d4cebdc1a1b23e9" title="Transformation from a vector of input points to matrix of basis. " alt="" coords="223,13,349,39"/>
+<area shape="rect" id="node3" href="splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="397,13,471,39"/>
 </map>
 </div>
 <div class="dynheader">
@@ -529,10 +537,9 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="classblearner_1_1_p_spline_blearner_a9d35aeb36c403c167fb7519379825873_cgraph.png" border="0" usemap="#classblearner_1_1_p_spline_blearner_a9d35aeb36c403c167fb7519379825873_cgraph" alt=""/></div>
 <map name="classblearner_1_1_p_spline_blearner_a9d35aeb36c403c167fb7519379825873_cgraph" id="classblearner_1_1_p_spline_blearner_a9d35aeb36c403c167fb7519379825873_cgraph">
 <area shape="rect" id="node2" href="classblearner_1_1_p_spline_blearner.html#ac0604daac451678e67a6a2ac60dd1b01" title="Instatiate data matrix (design matrix) " alt="" coords="223,5,392,47"/>
-<area shape="rect" id="node6" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="240,71,375,98"/>
-<area shape="rect" id="node3" href="splines_8cpp.html#ac43a2b9f7f3a9589acb14ff221a3fc0e" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="440,13,531,39"/>
-<area shape="rect" id="node4" href="splines_8cpp.html#ab5674a405e1cfc5b8e04ae2d113b9868" title="De Boors algorithm to find basis functions. " alt="" coords="579,13,661,39"/>
-<area shape="rect" id="node5" href="splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="709,13,781,39"/>
+<area shape="rect" id="node5" href="classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="239,71,376,98"/>
+<area shape="rect" id="node3" href="splines_8cpp.html#abd6cd4b9729094d96d4cebdc1a1b23e9" title="Transformation from a vector of input points to matrix of basis. " alt="" coords="440,13,567,39"/>
+<area shape="rect" id="node4" href="splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="615,13,688,39"/>
 </map>
 </div>
 
@@ -670,6 +677,30 @@ Here is the call graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Penalty parameter. </p>
+
+</div>
+</div>
+<a id="ab5b07123065e500bcaf02c33b7ebb64f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5b07123065e500bcaf02c33b7ebb64f">&#9670;&nbsp;</a></span>use_sparse_matrices</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const bool blearner::PSplineBlearner::use_sparse_matrices</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flag if sparse matrices should be used: </p>
 
 </div>
 </div>

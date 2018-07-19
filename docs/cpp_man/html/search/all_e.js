@@ -14,6 +14,6 @@ var searchData=
   ['printregisteredfactorys',['printRegisteredFactorys',['../classblearnerlist_1_1_baselearner_factory_list.html#a1d0242c96044f78c448183ed4a97e079',1,'blearnerlist::BaselearnerFactoryList']]],
   ['printregisteredlogger',['printRegisteredLogger',['../classloggerlist_1_1_logger_list.html#a28cd5371bbd9e31f0cf041d6e73d156c',1,'loggerlist::LoggerList']]],
   ['pseudo_5fresiduals',['pseudo_residuals',['../classcboost_1_1_compboost.html#acb8716c9e383e15ae7d8785a591860f7',1,'cboost::Compboost']]],
-  ['psplineblearner',['PSplineBlearner',['../classblearner_1_1_p_spline_blearner.html',1,'blearner::PSplineBlearner'],['../classblearner_1_1_p_spline_blearner.html#aceffa2bd25f0d8ff728cb7c6eb084809',1,'blearner::PSplineBlearner::PSplineBlearner()']]],
-  ['psplineblearnerfactory',['PSplineBlearnerFactory',['../classblearnerfactory_1_1_p_spline_blearner_factory.html',1,'blearnerfactory::PSplineBlearnerFactory'],['../classblearnerfactory_1_1_p_spline_blearner_factory.html#ac5218d98736f787d4a2cca8faf317470',1,'blearnerfactory::PSplineBlearnerFactory::PSplineBlearnerFactory()']]]
+  ['psplineblearner',['PSplineBlearner',['../classblearner_1_1_p_spline_blearner.html',1,'blearner::PSplineBlearner'],['../classblearner_1_1_p_spline_blearner.html#a58ec2c4bf9d0da690dd1b433c6755a87',1,'blearner::PSplineBlearner::PSplineBlearner()']]],
+  ['psplineblearnerfactory',['PSplineBlearnerFactory',['../classblearnerfactory_1_1_p_spline_blearner_factory.html',1,'blearnerfactory::PSplineBlearnerFactory'],['../classblearnerfactory_1_1_p_spline_blearner_factory.html#af0b1b2a0c594d4adfd038a467a32649d',1,'blearnerfactory::PSplineBlearnerFactory::PSplineBlearnerFactory()']]]
 ];

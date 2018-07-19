@@ -22,89 +22,15 @@ arma\+::mat \hyperlink{splines_8h_add35190bf14503fafae37da8ff69eeec}{penalty\+Ma
 \begin{DoxyCompactList}\small\item\em Calculating penalty matrix. \end{DoxyCompactList}\item 
 unsigned int \hyperlink{splines_8h_a29ec9fa6acf5b1afbf860968368fc9d9}{find\+Span} (const double \&, const arma\+::vec \&)
 \begin{DoxyCompactList}\small\item\em Binary search to find index of given point within knots. \end{DoxyCompactList}\item 
-arma\+::rowvec \hyperlink{splines_8h_a80dc3f8524ccf40a3031b003cf0a04bc}{basis\+Funs} (const double \&, const unsigned int \&, const arma\+::vec \&)
-\begin{DoxyCompactList}\small\item\em De Boors algorithm to find basis functions. \end{DoxyCompactList}\item 
 arma\+::vec \hyperlink{splines_8h_a5c5acc4a41114729ca30d3a49ba0365d}{create\+Knots} (const arma\+::vec \&, const unsigned int \&, const unsigned int \&)
 \begin{DoxyCompactList}\small\item\em Create knots for a specific number, degree and values. \end{DoxyCompactList}\item 
-arma\+::mat \hyperlink{splines_8h_aac49156757a6f3ce2d8cb3a01ed0bbe6}{create\+Basis} (const arma\+::vec \&, const unsigned int \&, const arma\+::vec \&)
+arma\+::mat \hyperlink{splines_8h_a337394c7b0e3d15a0fd43f1b2dce4767}{create\+Spline\+Basis} (const arma\+::vec \&, const unsigned int \&, const arma\+::vec \&)
+\begin{DoxyCompactList}\small\item\em Transformation from a vector of input points to matrix of basis. \end{DoxyCompactList}\item 
+arma\+::sp\+\_\+mat \hyperlink{splines_8h_ac48ccbc9a36de85b7f1616a7fcf6b870}{create\+Sparse\+Spline\+Basis} (const arma\+::vec \&, const unsigned int \&, const arma\+::vec \&)
 \begin{DoxyCompactList}\small\item\em Transformation from a vector of input points to sparse matrix of basis. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
-\mbox{\Hypertarget{splines_8h_a80dc3f8524ccf40a3031b003cf0a04bc}\label{splines_8h_a80dc3f8524ccf40a3031b003cf0a04bc}} 
-\index{splines.\+h@{splines.\+h}!basis\+Funs@{basis\+Funs}}
-\index{basis\+Funs@{basis\+Funs}!splines.\+h@{splines.\+h}}
-\subsubsection{\texorpdfstring{basis\+Funs()}{basisFuns()}}
-{\footnotesize\ttfamily arma\+::rowvec basis\+Funs (\begin{DoxyParamCaption}\item[{const double \&}]{x,  }\item[{const unsigned int \&}]{degree,  }\item[{const arma\+::vec \&}]{knots }\end{DoxyParamCaption})}
-
-
-
-De Boors algorithm to find basis functions. 
-
-
-\begin{DoxyParams}{Parameters}
-{\em x} & {\ttfamily double} Point to search for position in knots. \\
-\hline
-{\em degree} & {\ttfamily unsigned int} Degree of the polynomial between the knots. \\
-\hline
-{\em knots} & {\ttfamily arma\+::vec} Vector of knots. It\textquotesingle{}s the users responsibility to pass a {\bfseries S\+O\+R\+T\+ED} vector.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-{\ttfamily arma\+::sp\+\_\+mat} Sparse matrix containing the basis functions. 
-\end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=232pt]{splines_8h_a80dc3f8524ccf40a3031b003cf0a04bc_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{splines_8h_a80dc3f8524ccf40a3031b003cf0a04bc_icgraph}
-\end{center}
-\end{figure}
-\mbox{\Hypertarget{splines_8h_aac49156757a6f3ce2d8cb3a01ed0bbe6}\label{splines_8h_aac49156757a6f3ce2d8cb3a01ed0bbe6}} 
-\index{splines.\+h@{splines.\+h}!create\+Basis@{create\+Basis}}
-\index{create\+Basis@{create\+Basis}!splines.\+h@{splines.\+h}}
-\subsubsection{\texorpdfstring{create\+Basis()}{createBasis()}}
-{\footnotesize\ttfamily arma\+::mat create\+Basis (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{values,  }\item[{const unsigned int \&}]{degree,  }\item[{const arma\+::vec \&}]{knots }\end{DoxyParamCaption})}
-
-
-
-Transformation from a vector of input points to sparse matrix of basis. 
-
-This functions takes a vector of points and create a sparse matrix of basis functions. Each row contains the basis of the corresponding value in {\ttfamily values}.
-
-
-\begin{DoxyParams}{Parameters}
-{\em values} & {\ttfamily arma\+::vec} Points to create the basis matrix. \\
-\hline
-{\em n\+\_\+knots} & {\ttfamily unsigned int} Number of innter knots. \\
-\hline
-{\em degree} & {\ttfamily unsigned int} polynomial degree of splines.\\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-{\ttfamily sp\+\_\+mat} sparse matrix of base functions. 
-\end{DoxyReturn}
-Here is the call graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=336pt]{splines_8h_aac49156757a6f3ce2d8cb3a01ed0bbe6_cgraph}
-\end{center}
-\end{figure}
-Here is the caller graph for this function\+:\nopagebreak
-\begin{figure}[H]
-\begin{center}
-\leavevmode
-\includegraphics[width=350pt]{splines_8h_aac49156757a6f3ce2d8cb3a01ed0bbe6_icgraph}
-\end{center}
-\end{figure}
 \mbox{\Hypertarget{splines_8h_a5c5acc4a41114729ca30d3a49ba0365d}\label{splines_8h_a5c5acc4a41114729ca30d3a49ba0365d}} 
 \index{splines.\+h@{splines.\+h}!create\+Knots@{create\+Knots}}
 \index{create\+Knots@{create\+Knots}!splines.\+h@{splines.\+h}}
@@ -129,11 +55,94 @@ This functions takes a vector of points and creates knots used for the splines d
 \begin{DoxyReturn}{Returns}
 {\ttfamily arma\+::vec} of knots. 
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=346pt]{splines_8h_a5c5acc4a41114729ca30d3a49ba0365d_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{splines_8h_ac48ccbc9a36de85b7f1616a7fcf6b870}\label{splines_8h_ac48ccbc9a36de85b7f1616a7fcf6b870}} 
+\index{splines.\+h@{splines.\+h}!create\+Sparse\+Spline\+Basis@{create\+Sparse\+Spline\+Basis}}
+\index{create\+Sparse\+Spline\+Basis@{create\+Sparse\+Spline\+Basis}!splines.\+h@{splines.\+h}}
+\subsubsection{\texorpdfstring{create\+Sparse\+Spline\+Basis()}{createSparseSplineBasis()}}
+{\footnotesize\ttfamily arma\+::sp\+\_\+mat create\+Sparse\+Spline\+Basis (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{values,  }\item[{const unsigned int \&}]{degree,  }\item[{const arma\+::vec \&}]{knots }\end{DoxyParamCaption})}
+
+
+
+Transformation from a vector of input points to sparse matrix of basis. 
+
+This functions takes a vector of points and create a sparse matrix of basis functions. Each row contains the basis of the corresponding value in {\ttfamily values}.
+
+Instead of calculating each row through a helper function we directly calculate deboors algorithm here. This is due to the procedure how sparse matrices should be allocated and constructed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em param} & values {\ttfamily arma\+::vec} Points to create the basis matrix. \\
+\hline
+{\em param} & n\+\_\+knots {\ttfamily unsigned int} Number of innter knots. \\
+\hline
+{\em param} & degree {\ttfamily unsigned int} polynomial degree of splines.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::sp\+\_\+mat} sparse matrix of base functions. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=297pt]{splines_8h_ac48ccbc9a36de85b7f1616a7fcf6b870_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{splines_8h_ac48ccbc9a36de85b7f1616a7fcf6b870_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{splines_8h_a337394c7b0e3d15a0fd43f1b2dce4767}\label{splines_8h_a337394c7b0e3d15a0fd43f1b2dce4767}} 
+\index{splines.\+h@{splines.\+h}!create\+Spline\+Basis@{create\+Spline\+Basis}}
+\index{create\+Spline\+Basis@{create\+Spline\+Basis}!splines.\+h@{splines.\+h}}
+\subsubsection{\texorpdfstring{create\+Spline\+Basis()}{createSplineBasis()}}
+{\footnotesize\ttfamily arma\+::mat create\+Spline\+Basis (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{values,  }\item[{const unsigned int \&}]{degree,  }\item[{const arma\+::vec \&}]{knots }\end{DoxyParamCaption})}
+
+
+
+Transformation from a vector of input points to matrix of basis. 
+
+This functions takes a vector of points and create a matrix of basis functions. Each row contains the basis of the corresponding value in {\ttfamily values}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em values} & {\ttfamily arma\+::vec} Points to create the basis matrix. \\
+\hline
+{\em n\+\_\+knots} & {\ttfamily unsigned int} Number of innter knots. \\
+\hline
+{\em degree} & {\ttfamily unsigned int} polynomial degree of splines.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+{\ttfamily sp\+\_\+mat} sparse matrix of base functions. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{splines_8h_a337394c7b0e3d15a0fd43f1b2dce4767_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{splines_8h_a337394c7b0e3d15a0fd43f1b2dce4767_icgraph}
 \end{center}
 \end{figure}
 \mbox{\Hypertarget{splines_8h_a29ec9fa6acf5b1afbf860968368fc9d9}\label{splines_8h_a29ec9fa6acf5b1afbf860968368fc9d9}} 
@@ -160,7 +169,8 @@ Note that this function returns the {\ttfamily C++} index which starts with {\tt
 \begin{DoxyReturn}{Returns}
 {\ttfamily unsigned int} of position of {\ttfamily x} in {\ttfamily knots}. 
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -189,7 +199,8 @@ This function calculates the penalty matrix for a given number of parameters ({\
 \begin{DoxyReturn}{Returns}
 {\ttfamily arma\+::sp\+\_\+mat} Sparse penalty matrix used for p splines. 
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
