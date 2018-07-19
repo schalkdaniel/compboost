@@ -29,12 +29,12 @@ Component-wise boosting applies the boosting framework  to statistical models, e
 
 The `R` [@R] package `compboost` is an implementation of component-wise boosting written in `C++` using `Armadillo` [@sanderson2016armadillo] to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use R functions as well as C++ functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
 
-In addition to tree based boosting implementations as `xgboost` [@xgboost], `compboost`, which is not a tree based method, maintains interpretability by estimating parameter for each used base-learner. This allows visualizing the selected effects, jumping back and forth in the algorithm, and looking into the model how the learner are selected to obtain information about the feature importance. 
+In addition to tree based boosting implementations as `xgboost` [@xgboost], `compboost`, which is not a tree based method, maintains interpretability by estimating parameter for each used base-learner. This allows visualizing the selected effects, jumping back and forth in the algorithm, and looking into the model how the learners are selected to obtain information about the feature importance. 
 
 <!-- A summary describing the high-level functionality and purpose of the software for a diverse, non-specialist audience-->
 # How to Use
 
-The package provides two high level wrapper functions `boostLinear()` and `boostSplines()` to boost linear models or general additive models using p-splines of each numerical feature:
+The package provides two high level wrapper functions `boostLinear()` and `boostSplines()` to boost linear models or general additive models using p-splines of each numerical feature. The data used for the demo are from the `mlbench` [@mlbench] package:
 ```r
 library(compboost)
 
@@ -46,7 +46,7 @@ cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes",
 	loss = BinomialLoss$new())
 ```
 
-The resulting model is an object using `R6`. Hence, `mod` has member functions to access the elements of the model such as the names of registered base-learner, selected base-learner, the estimated parameter or continue the training:
+The resulting model is an `R6` [@R6] object. Hence, `mod` has member functions to access the elements of the model such as the names of registered base-learner, selected base-learner, the estimated parameter, or to continue the training:
 ```r
 cboost$getBaselearnerNames()
 ## [1] "pregnant_spline" "glucose_spline"  "pressure_spline" "triceps_spline" 
@@ -74,7 +74,7 @@ cboost$train(3000)
 ## 
 ```
 
-Additionally it is possible to visualize the effect of single features by calling the member function `plot()` of a specific learner. Additionally, it is possible to pass a vector of iterations used for the graphic:
+Additionally, it is possible to visualize the effect of single features by calling the member function `plot()` and passing the name of a specific learner. Furthermore, a vector of iterations can be used to plot the effect at different stages of the model:
 ```r
 cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000))
 ```
@@ -109,11 +109,11 @@ cboost
 ##
 ```
 
-A similar software is the well known `R` implementation `mboost` [@mboost1]. The advantage of `mboost` over `compboost` is the extensive functionality which includes more base-learners and loss functions (families). Nevertheless, `mboost` has issues when it comes to large datasets. In addition, `compboost` is much faster in terms of runtime and uses much less memory. This makes `compboost` more applicable in terms of big data. 
+A similar software is the well known `R` implementation `mboost` [@mboost1]. The advantage of `mboost` over `compboost` is the extensive functionality which includes more base-learners and loss functions (families). Nevertheless, `mboost` has issues if trained on large datasets. In addition, `compboost` is much faster in terms of runtime and uses much less memory. This makes `compboost` more applicable for big data. 
 
 <!-- Mentions (if applicable) of any ongoing research projects using the software or recent scholarly publications enabled by it -->
 
-The modular principle of `compboost` allows it to extend the algorithm to do more complicated analyses as boosting functional data, investigating on different optizer, or improve the intrinsic feature selection using resampling.
+The modular principle of `compboost` allows to extend the algorithm to do more complicated analyses as boosting functional data, investigating on different optizer, or improve the intrinsic feature selection using resampling.
 
 <!-- A list of key references including a link to the software archive -->
 # References
