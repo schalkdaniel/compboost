@@ -1,5 +1,19 @@
 library(compboost)
 
+
+# Quickstart with wrapper functions
+# --------------------------------------------
+
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+cboost
+
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new(),
+  n.knots = 4, penalty = 4)
+
+
+# Explicitely defining elements
+# --------------------------------------------
+
 # Define Compboost object:
 cboost = Compboost$new(data = iris, target = "Petal.Length", 
   loss = QuadraticLoss$new())
@@ -20,6 +34,10 @@ cboost$getBaselearnerNames()
 
 # Train 1000 iterations:
 cboost$train(1000)
+
+
+# Acess elements of a fitted model
+# --------------------------------------------
 
 # Get vector of selected base-learner
 selected = cboost$selected()

@@ -99,8 +99,33 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
     <hr>
 
     <p>
-      First of all, the <code>compboost</code> <code>R</code> API is written as <a class="text" href="https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html">R6 class</a>. Hence, defining base-learners works a bit different than using the common formula interface. 
+      First of all, the <code>compboost</code> <code>R</code> API is written as <a class="text" href="https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html" target="_blank">R6 class</a>. Hence, defining base-learners works a bit different than using the common formula interface. 
     </p>
+
+    <h3>Quickstart with wrapper functions</h3>
+    <p>
+      The easiest way of training a component-wise boosting model is to use <code>boostLinear()</code> or <code>boostSplines()</code>. Those two functions takes each feature and wrap them into a linear or a spline base-learner. The parameter are then used for each base-learner. For instance, wrapping each feature by a spline base-learner we can easily use:
+      <pre class="r"><code>cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+cboost
+## Component-Wise Gradient Boosting
+## 
+## Trained on data with target Petal.Length
+## Number of base-learners: 6
+## Learning rate: 0.05
+## Iterations: 100
+## Offset: 3.758
+## 
+## QuadraticLoss Loss:
+## 
+##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
+## 
+## </code></pre>
+      If we adjust parameters like the number of knots (<code>n.knots</code>) or the penalty term (<code>penalty</code>), then they are applied on each base-learner:
+      <pre class="r"><code>cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new(),
+  n.knots = 4, penalty = 4)</code></pre>
+      The object returned by <code>boostLinear()</code> and <code>boostSplines()</code> is an <code>R6 Compboost</code> object. For details on how to use those objects see the section on how to access elements of a fitted model.
+    </p>
+    <h3>Explicitely defining elements</h3>
     <p>
       The idea is to explicitely define which learner you want to use on which feature. But first of all we need to define a <code>Compboost</code> object (for convenience we are using the <code>iris</code> dataset): 
       <pre class="r"><code>library(compboost)
@@ -162,6 +187,9 @@ cboost$getBaselearnerNames()
 ##          9/1000 |
 ##         10/1000 |
 ##               ...</code></pre> 
+    </p>
+    <h3>Acess elements of a fitted model</h3>
+    <p>
       To get a vector of selected feature call <code>selected()</code>:      
       <pre class="r"><code>cboost$selected()[1:10]
 ##  [1] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
