@@ -38,7 +38,7 @@ For an introduction and overview about the functionality please visit the [proje
     - [ ] Parallel computations:
         - [ ] Greedy optimizer
         - [ ] Data transformation for spline learner
-    - [ ] Make the algorithm more memory friendly by using sparse matrices (if possible)
+    - [x] Make the algorithm more memory friendly by using sparse matrices (if possible)
     
 - [x] **Classes:**    
     - [x] Baselearner Class:
@@ -78,6 +78,9 @@ For an introduction and overview about the functionality please visit the [proje
     - [x] Use unified function naming
 
 ## Changelog/Updates
+
+- **19.07.2018** \
+  Compboost now uses sparse matrices for splines to reduce memory load.
 
 - **29.06.2018** \
   Compboost API is almost ready to use.
