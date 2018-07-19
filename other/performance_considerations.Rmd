@@ -1,0 +1,71 @@
+---
+output: html_document
+---
+
+# Performance Considerations Using Sparse Matrices
+
+## Sparse Matrices
+
+### Store Sparse Matrices
+
+To store sparse matrices we use a trick and don't store $X$ as ordinary $n \times p$ matrix but as $p \times n$ matrix. Hence, we store a matrix $Y = X^T$. Reasons for that:
+
+- The inverse of $X^TX$ is calculated just once and it does not matter if we calculate $X^T X$ or $X X^T$.
+- Each training and prediction can then be programmed to use the matrix as it is stored. It is not neccessary to transpose $X$ or do another matrix operation.
+
+### Train Base-Learner
+
+Here it is important how we set the brackets due to the CRC sparse matrix format:
+
+```cpp
+// Slow version:
+data_ptr->XtX_inv * data_ptr->sparse_data_mat * response 
+// same as:
+(data_ptr->XtX_inv * data_ptr->sparse_data_mat) * response
+
+// Fast version:
+data_ptr->XtX_inv * (data_ptr->sparse_data_mat * response)
+```
+
+### Predict Base-learner
+
+This has a huge effect on the performance. The ordinary way of making predictions is to do ordinary matrix multiplications:
+\[
+\hat{y} = X * \hat{\beta} = Y^T \hat{\beta}
+\]
+This forces us to transpose $X$ due to the transposed structure. To avoid transposing $Y$ we can do the following:
+\[
+\hat{y} = (Y^T \hat{\beta})^{TT} = (\hat{\beta}^T Y)^T
+\]
+Within that equation we do not transpose $Y$ and therefore can take advanatage of the sparse structure. In `C++` this looks as follows (in `baselearner.cpp` function `PSplineBlearner::predict()`):
+```cpp
+// Old very slow multiplication:
+data_ptr->sparse_data_mat * parameter
+// New faster version:
+(parameter.t() * data_ptr->sparse_data_mat).t()
+```
+
+## Memory and Runtime Comparison
+
+To get a very short idea of how using sparce matrices speed up things we have here a small comparison with `mboost`.
+
+### Algorithm Configurations
+
+| **Setting** | **Knots** | **Features** | **Observations** | **Iterations** |
+| ----------- | --------- | ------------ | ---------------- | -------------- |
+|           A |        20 |           50 |            10000 |            500 |
+|           B |       100 |          200 |            10000 |            200 |
+
+### Table of Memory Usage
+
+| **Setting** | **mboost** sparse | **mboost** dense | **compboost** sparse | **compboost** dense |
+| ----------- | ----------------- | ---------------- | -------------------- | ------------------- |
+|           A |            130 MB |           239 MB |                27 MB |              118 MB |
+|           B |            320 MB |          2632 MB |               192 MB |             1673 MB |
+
+### Table of Evaluation Time
+
+| **Setting** | **mboost** sparse | **mboost** dense | **compboost** sparse | **compboost** dense |
+| ----------- | ----------------- | ---------------- | -------------------- | ------------------- |
+|           A |         23.79 Sec |        34.59 Sec |             9.08 Sec |           14.78 Sec |
+|           B |         57.17 sec |       241.40 Sec |            15.60 Sec |          127.20 Sec |

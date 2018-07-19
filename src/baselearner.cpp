@@ -275,7 +275,7 @@ arma::mat PSplineBlearner::instantiateData (const arma::mat& newdata)
 void PSplineBlearner::train (const arma::vec& response)
 {
   if (use_sparse_matrices) {
-    parameter = data_ptr->XtX_inv * data_ptr->sparse_data_mat.t() * response;
+    parameter = data_ptr->XtX_inv * (data_ptr->sparse_data_mat * response);
   } else {
     parameter = data_ptr->XtX_inv * data_ptr->data_mat.t() * response;
   }
@@ -288,13 +288,16 @@ void PSplineBlearner::train (const arma::vec& response)
  */
 arma::mat PSplineBlearner::predict ()
 {
-  arma::mat out;
+  // arma::mat out;
   if (use_sparse_matrices) {
-    out = data_ptr->sparse_data_mat * parameter;
+    // Trick to speed up things. Try to avoid transposing the sparse matrix. The
+    // original one (data_ptr->sparse_data_mat * parameter) is about 4 or 5 times
+    // slower than that one:
+    return (parameter.t() * data_ptr->sparse_data_mat).t();
   } else {
-    out = data_ptr->data_mat * parameter;
+    return data_ptr->data_mat * parameter;
   }
-  return out;
+  // return out;
 }
 
 /**

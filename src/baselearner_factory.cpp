@@ -216,10 +216,14 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
   
-  // Get the data of the source, transform it and write it into the target:
+  // Get the data of the source, transform it and write it into the target. This needs some explanations:
+  //   - If we use sparse matrices we want to store the sparse matrix into the sparse data matrix member of
+  //     the data object. This also requires to adopt getData() for that purpose.
+  //   - To get some (very) nice speed ups we store the transposed matrix not the standard one. This also 
+  //     affects how the training in baselearner.cpp is done. Nevertheless, this speed up things dramatically.
   if (use_sparse_matrices) {
-    data_target->sparse_data_mat = createSparseSplineBasis (data_source->getData(), degree, data_target->knots);
-    data_target->XtX_inv = arma::inv(data_target->sparse_data_mat.t() * data_target->sparse_data_mat + penalty * data_target->penalty_mat);
+    data_target->sparse_data_mat = createSparseSplineBasis (data_source->getData(), degree, data_target->knots).t();
+    data_target->XtX_inv = arma::inv(data_target->sparse_data_mat * data_target->sparse_data_mat.t() + penalty * data_target->penalty_mat);
   } else {
     data_target->setData(instantiateData(data_source->getData()));
     data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
@@ -271,7 +275,7 @@ arma::mat PSplineBlearnerFactory::getData () const
 {
   if (use_sparse_matrices) {
     // std::cout << "Use sparse matrices" << std::endl;
-    arma::mat out (data_target->sparse_data_mat);
+    arma::mat out (data_target->sparse_data_mat.t());
     return out;
   } else {
     // std::cout << "Use dense matrices" << std::endl;
