@@ -36,7 +36,7 @@ data(PimaIndiansDiabetes, package = "mlbench")
 
 # Use Binomial loss for binary classification:
 cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
-	loss = BinomialLoss$new())
+  loss = BinomialLoss$new())
 
 cboost$getBaselearnerNames()
 ## [1] "pregnant_spline" "glucose_spline"  "pressure_spline" "triceps_spline" 
