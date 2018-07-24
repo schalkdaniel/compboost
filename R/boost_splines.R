@@ -77,7 +77,3 @@ boostSplines = function(data, target, optimizer = CoordinateDescent$new(), loss,
   model$train(iterations, trace)
   return(model)
 }
-
-if (FALSE) {
-  mod = boostSplines(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
-}
