@@ -1,6 +1,7 @@
 todo-files
 ^test*.R$
 .gitignore
+.gitattributes
 .ignore
 .travis.yml
 ^.*tar.gz$
