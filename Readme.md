@@ -43,7 +43,7 @@ cboost$getBaselearnerNames()
 ## [5] "insulin_spline"  "mass_spline"     "pedigree_spline" "age_spline" 
 
 
-selected.features = mod$selected()
+selected.features = cboost$selected()
 table(selected.features)
 ## selected.features
 ##    age_spline glucose_spline    mass_spline 
