@@ -3,8 +3,6 @@
 
 ## compboost: Fast and Flexible Component-Wise Boosting Framework
 
-## About
-
 Component-wise boosting applies the boosting framework to
 statistical models, e.g., general additive models using component-wise smoothing 
 splines. Boosting these kinds of models maintains interpretability and enables 
@@ -18,6 +16,8 @@ source code. Therefore, it is possible to use `R` functions as well as
 `C++` functions for custom base-learners, losses, logging mechanisms or 
 stopping criteria. 
 
+For an introduction and overview about the functionality visit the [project page](https://schalkdaniel.github.io/compboost/).
+
 ## Installation
 
 #### Developer version:
@@ -26,10 +26,50 @@ stopping criteria.
 devtools::install_github("schalkdaniel/compboost")
 ```
 
-## Usage
+## Examples
 
-For an introduction and overview about the functionality please visit the [project page](https://schalkdaniel.github.io/compboost/).
+```r
+library(compboost)
 
+# Load data set with binary classification task:
+data(PimaIndiansDiabetes, package = "mlbench")
+
+# Use Binomial loss for binary classification:
+cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
+	loss = BinomialLoss$new())
+
+cboost$getBaselearnerNames()
+## [1] "pregnant_spline" "glucose_spline"  "pressure_spline" "triceps_spline" 
+## [5] "insulin_spline"  "mass_spline"     "pedigree_spline" "age_spline" 
+
+
+selected.features = mod$selected()
+table(selected.features)
+## selected.features
+##    age_spline glucose_spline    mass_spline 
+##            23             61             16 
+
+params = cboost$coef()
+str(params)
+## List of 4
+##  $ age_spline    : num [1:24, 1] 0.40127 0.25655 0.14807 0.11766 -0.00586 ...
+##  $ glucose_spline: num [1:24, 1] -0.2041 0.0343 0.2703 0.4921 0.6856 ...
+##  $ mass_spline   : num [1:24, 1] 0.0681 0.0949 0.1216 0.1473 0.1714 ...
+##  $ offset        : num 0.312
+
+cboost$train(3000)
+## 
+## You have already trained 100 iterations.
+## Train 2900 additional iterations.
+## 
+
+cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000))
+```
+<p align="center">
+  <img src="docs/images/cboost_viz.png" alt="Compboost Visualization" width="70%">
+</p>
+
+<!--
 ## Road Map
 
 - [ ] **Technical Stuff:**
@@ -76,6 +116,8 @@ For an introduction and overview about the functionality please visit the [proje
 - [x] **Naming:**
     - [x] Consistent class naming between `R` and `C++`
     - [x] Use unified function naming
+
+-->
 
 ## Changelog/Updates
 
