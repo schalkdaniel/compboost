@@ -25,15 +25,16 @@ affiliations:
 # Summary
 <!-- A clear statement of need that illustrates the purpose of the software-->
 
-In high-dimensional prediction problems, especially if the number of features greatly exceeds the number of observations, feature selection in an essential tool. One fundamental method for these problems is component-wise gradient boosting, which applies the boosting framework to additive statistical models, e.g., general additive models using component-wise smoothing splines [@schmid2008boosting]. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high-dimensional feature spaces [@hofner2011framework].
+In high-dimensional prediction problems, especially in the $p \geq n$ situation, feature selection is an essential tool. A fundamental method for problem of this type is component-wise gradient boosting, which automatically selects from a pool of base learners -- e.g. simple linear effects or component-wise smoothing splines [@schmid2008boosting] --  and produces a sparse additive statistical model. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high-dimensional feature spaces [@hofner2011framework].
 
-The `R` [@R] package `compboost` is an implementation of component-wise boosting written in `C++` using`Armadillo` [@sanderson2016armadillo] to achieve fast runtime and full memory control. The central motivation is to provide a modular object oriented system which can be extended with new base-learners, loss functions, optimization strategies, and stopping criteria at runtime.  These extensions can be written in `R` for easy prototyping or directly in `C++` for optimized speed.This allows researchers to easily implement more specialized base-learners, e.g., for spatial or random effects, used in their respective research area.
+The `R` [@R] package `compboost` implements component-wise boosting in `C++` using `Rcpp` [@eddelbuettel2013seamless] and `Armadillo` [@sanderson2016armadillo] to achieve efficient runtime and full memory control. The central motivation is to provide a modular object oriented system which can be extended with new base-learners, loss functions, optimization strategies, and stopping criteria at runtime. These extensions can be written in `R` for easy prototyping or directly in `C++` for optimized speed. This allows researchers to easily implement more specialized base-learners, e.g., for spatial or random effects, used in their respective research area.
 
-Visualization of selected effects, adjusting the algorithm by efficiently setting it to different iterations efficiently jumping back and forth between iterations of the algorithm, and traces of selected base-learners and losses to obtain information about the feature importance are supported.
+Visualization of selected effects, efficient adjustment of the number of iterations by a smart caching strategy, and traces of selected base-learners and losses to obtain information about the feature importance are supported.
 
 Compared to the reference implementation for component-wise gradient boosting in `R`, `mboost` [@mboost1], `compboost` is optimized for larger datasets and easier to extend, even though it currently lacks some of the large functionality `mboost` provides. 
 
-The modular design of `compboost` allows extension to more complicated settings like functional data or survival analysis. Further research for component-wise gradient boosting on parallel computation, better feature selection, faster optimization techniques such as momentum and adaptive learning rates, as well as reduced overfitting areis conducted based on `compboost`. 
+The modular design of `compboost` allows extension to more complicated settings like functional data or survival analysis. Further research for component-wise gradient boosting on parallel computation, better feature selection, faster optimization techniques such as momentum and adaptive learning rates, as well as reduced overfitting are conducted based on `compboost`. 
+
 
 <!-- A list of key references including a link to the software archive -->
 # References
