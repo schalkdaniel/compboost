@@ -126,7 +126,9 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
     <h3>Quickstart with wrapper functions</h3>
     <p>
       The easiest way of training a component-wise boosting model is to use <code>boostLinear()</code> or <code>boostSplines()</code>. Those two functions takes each feature and wrap them into a linear or a spline base-learner. The parameter are then used for each base-learner. For instance, wrapping each feature by a spline base-learner we can easily use:
-      <pre class="r"><code>cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+      <pre class="r"><code>library(compboost)
+
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
 cboost
 ## Component-Wise Gradient Boosting
 ## 
@@ -152,7 +154,6 @@ cboost
       <pre class="r"><code>library(compboost)
 
 cboost = Compboost$new(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
-
 cboost
 ## 
 ## Componentwise Gradient Boosting

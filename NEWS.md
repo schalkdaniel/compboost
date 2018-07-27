@@ -1,4 +1,4 @@
-## compboost 0.1
+## compboost 0.1.0
 
 Initial release
 

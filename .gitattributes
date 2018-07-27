@@ -1,3 +1,5 @@
 *.html linguist-vendored=true
 *.css linguist-vendored=true
 *.js linguist-vendored=true
+*.md linguist-vendored=true
+*.Rmd linguist-vendored=true

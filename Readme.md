@@ -1,148 +1,198 @@
-[![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost)
-[![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
+
+[![Build
+Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost)
+[![Coverage
+Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
 ## compboost: Fast and Flexible Component-Wise Boosting Framework
 
-Component-wise boosting applies the boosting framework to
-statistical models, e.g., general additive models using component-wise smoothing 
-splines. Boosting these kinds of models maintains interpretability and enables 
-unbiased model selection in high dimensional feature spaces. 
+Component-wise boosting applies the boosting framework to statistical
+models, e.g., general additive models using component-wise smoothing
+splines. Boosting these kinds of models maintains interpretability and
+enables unbiased model selection in high dimensional feature spaces.
 
-The `R` package `compboost` is an alternative implementation of component-wise
-boosting written in `C++` to obtain high runtime
-performance and full memory control. The main idea is to provide a modular
-class system which can be extended without editing the
-source code. Therefore, it is possible to use `R` functions as well as
-`C++` functions for custom base-learners, losses, logging mechanisms or 
-stopping criteria. 
+The `R` package `compboost` is an alternative implementation of
+component-wise boosting written in `C++` to obtain high runtime
+performance and full memory control. The main idea is to provide a
+modular class system which can be extended without editing the source
+code. Therefore, it is possible to use `R` functions as well as `C++`
+functions for custom base-learners, losses, logging mechanisms or
+stopping criteria.
 
-For an introduction and overview about the functionality visit the [project page](https://schalkdaniel.github.io/compboost/).
+For an introduction and overview about the functionality visit the
+[project page](https://schalkdaniel.github.io/compboost/).
 
 ## Installation
 
 #### Developer version:
 
-```r
+``` r
 devtools::install_github("schalkdaniel/compboost")
 ```
 
 ## Examples
 
-```r
+This examples are rendered using <code>compboost 0.1.0</code>:
+
+## Using the R6 API
+
+To be as flexible as possible one should use the `R6` API do define
+base-learner, losses, stopping criteria, or optimizer as desired:
+
+``` r
 library(compboost)
+
+# Check installed version:
+packageVersion("compboost")
+## [1] '0.1.0'
 
 # Load data set with binary classification task:
 data(PimaIndiansDiabetes, package = "mlbench")
+# Create categorical feature:
+PimaIndiansDiabetes$pregnant.cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
 
-# Use Binomial loss for binary classification:
-cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
-  loss = BinomialLoss$new())
+# Define Compboost object:
+cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = QuadraticLoss$new())
+cboost
+## Component-Wise Gradient Boosting
+## 
+## Trained on PimaIndiansDiabetes with target diabetes
+## Number of base-learners: 0
+## Learning rate: 0.05
+## Iterations: 0
+## Positive class: neg
+## 
+## QuadraticLoss Loss:
+## 
+##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
+## 
+## 
+
+# Add p-spline base-learner with default parameter:
+cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = PSplineBlearner)
+
+# Add another p-spline learner with custom parameters:
+cboost$addBaselearner(feature = "age", id = "spline", bl.factory = PSplineBlearner, degree = 3, 
+  knots = 10, penalty = 4, differences = 2)
+## Warning in .handleRcpp_PSplineBlearner(degree = 3, knots = 10, penalty =
+## 4, : Following arguments are ignored by the spline base-learner: knots
+
+# Add categorical feature (as single linear base-learner):
+cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = PolynomialBlearner,
+    degree = 1, intercept = FALSE)
+
+# Check all registered base-learner:
+cboost$getBaselearnerNames()
+## [1] "pressure_spline"           "age_spline"               
+## [3] "pregnant.cat_yes_category" "pregnant.cat_no_category"
+
+# Train model:
+cboost$train(1000L, trace = FALSE)
+cboost
+## Component-Wise Gradient Boosting
+## 
+## Trained on PimaIndiansDiabetes with target diabetes
+## Number of base-learners: 4
+## Learning rate: 0.05
+## Iterations: 1000
+## Positive class: neg
+## Offset: 0.3021
+## 
+## QuadraticLoss Loss:
+## 
+##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
+## 
+## 
 
 cboost$getBaselearnerNames()
-## [1] "pregnant_spline" "glucose_spline"  "pressure_spline" "triceps_spline" 
-## [5] "insulin_spline"  "mass_spline"     "pedigree_spline" "age_spline" 
-
+## [1] "pressure_spline"           "age_spline"               
+## [3] "pregnant.cat_yes_category" "pregnant.cat_no_category"
 
 selected.features = cboost$selected()
 table(selected.features)
 ## selected.features
-##    age_spline glucose_spline    mass_spline 
-##            23             61             16 
+##               age_spline pregnant.cat_no_category          pressure_spline 
+##                      676                       52                      272
 
 params = cboost$coef()
 str(params)
 ## List of 4
-##  $ age_spline    : num [1:24, 1] 0.40127 0.25655 0.14807 0.11766 -0.00586 ...
-##  $ glucose_spline: num [1:24, 1] -0.2041 0.0343 0.2703 0.4921 0.6856 ...
-##  $ mass_spline   : num [1:24, 1] 0.0681 0.0949 0.1216 0.1473 0.1714 ...
-##  $ offset        : num 0.312
+##  $ age_spline              : num [1:24, 1] 1.0107 0.5065 0.2452 0.2291 -0.0589 ...
+##  $ pregnant.cat_no_category: num [1, 1] -0.159
+##  $ pressure_spline         : num [1:24, 1] -0.4856 -0.2185 0.0367 0.2206 0.2616 ...
+##  $ offset                  : num 0.302
 
 cboost$train(3000)
 ## 
-## You have already trained 100 iterations.
-## Train 2900 additional iterations.
+## You have already trained 1000 iterations.
+## Train 2000 additional iterations.
+
+cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
+  ggthemes::theme_tufte() + 
+  ggplot2::scale_color_brewer(palette = "Spectral")
+```
+
+<img src="Readme_files/figure-gfm/unnamed-chunk-2-1.png" width="70%" style="display: block; margin: auto;" />
+
+## Using Wrapper Functions
+
+If you are interested in wrapping each feature, for instance, with a
+spline base-learner, then just call the wrapper function
+`boostSplines()`:
+
+``` r
+cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
+  loss = BinomialLoss$new(), trace = FALSE)
+cboost
+## Component-Wise Gradient Boosting
+## 
+## Trained on data with target diabetes
+## Number of base-learners: 10
+## Learning rate: 0.05
+## Iterations: 100
+## Positive class: neg
+## Offset: 0.3118
+## 
+## BinomialLoss Loss:
+## 
+##   Loss function: L(y,x) = log(1 + exp(-2yf(x))
+## 
 ## 
 
-cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000))
+cboost$getBaselearnerNames()
+##  [1] "pregnant_spline"           "glucose_spline"           
+##  [3] "pressure_spline"           "triceps_spline"           
+##  [5] "insulin_spline"            "mass_spline"              
+##  [7] "pedigree_spline"           "age_spline"               
+##  [9] "pregnant.cat_yes_category" "pregnant.cat_no_category"
 ```
-<p align="center">
-  <img src="docs/images/cboost_viz.png" alt="Compboost Visualization" width="70%">
-</p>
-
-<!--
-## Road Map
-
-- [ ] **Technical Stuff:**
-    - [x] Deal with destructors and remove data cleanly
-    - [x] Fix compboost that it doesn't crash `R` after some time
-    - [ ] Parallel computations:
-        - [ ] Greedy optimizer
-        - [ ] Data transformation for spline learner
-    - [x] Make the algorithm more memory friendly by using sparse matrices (if possible)
-    
-- [x] **Classes:**    
-    - [x] Baselearner Class:
-        - [x] Implement B-Spline baselearner
-        - [x] Implement P-Spline baselearner
-    
-    - [x] Logger Class:
-        - [x] Implement OOB Logger
-        - [x] Implement inbag logger (basically done by the design of the algorithm, but it isn't tracked at the moment)
-    
-    - [ ] Data Class:
-        - [x] Abstract class setting
-        - [x] In memory child:
-            - [x] dataGetter
-            - [x] dataSetter
-        - [ ] Out of memory child:
-            - [ ] dataGetter
-            - [ ] dataSetter
-    
-- [x] **General Implementation:**
-    - [x] Implement parameter getter
-        - [x] Getter for final parameter
-        - [x] Getter for parameter of iteration `k < iter.max`
-        - [x] Getter for parameter matrix for all iterations
-    - [x] Prediction:
-        - [x] General predict function on trian data
-        - [x] Predict function for iteration `k < iter.max`
-        - [x] Prediction on newdata
-        - [x] Prediction on newdata for iteration `k < iter.max`
-        
-- [x] **Tests:**
-    - [x] Iterate over tests (they are not coded very well)
-    - [x] Test for `BaselearnerCpp` see #86
-    
-- [x] **Naming:**
-    - [x] Consistent class naming between `R` and `C++`
-    - [x] Use unified function naming
-
--->
 
 ## License
 
 © 2018 [Daniel Schalk](https://danielschalk.com)
 
-The contents of this repository are distributed under the MIT license. See below for details:
+The contents of this repository are distributed under the MIT license.
+See below for details:
 
 > The MIT License (MIT)
 > 
 > Copyright (c) 2018 Daniel Schalk
 > 
-> Permission is hereby granted, free of charge, to any person obtaining a copy
-> of this software and associated documentation files (the "Software"), to deal
-> in the Software without restriction, including without limitation the rights
-> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> copies of the Software, and to permit persons to whom the Software is
-> furnished to do so, subject to the following conditions:
+> Permission is hereby granted, free of charge, to any person obtaining
+> a copy of this software and associated documentation files (the
+> “Software”), to deal in the Software without restriction, including
+> without limitation the rights to use, copy, modify, merge, publish,
+> distribute, sublicense, and/or sell copies of the Software, and to
+> permit persons to whom the Software is furnished to do so, subject to
+> the following conditions:
 > 
-> The above copyright notice and this permission notice shall be included in all
-> copies or substantial portions of the Software.
+> The above copyright notice and this permission notice shall be
+> included in all copies or substantial portions of the Software.
 > 
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-> AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-> SOFTWARE.
+> THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
+> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+> IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+> CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+> TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+> SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
