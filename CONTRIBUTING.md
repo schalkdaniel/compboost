@@ -71,7 +71,7 @@ Pull requests will be evaluated against the a checklist:
    how your pull request solves it as concisely as possible.
 
     Also include this motivation in `NEWS` so that when a new release of
-    ggplot2 comes out it's easy for users to see what's changed. Add your
+    `compboost` comes out it's easy for users to see what's changed. Add your
     item at the top of the file and use markdown for formatting. The
     news item should end with `(@yourGithubUsername, #the_issue_number)`.
 
