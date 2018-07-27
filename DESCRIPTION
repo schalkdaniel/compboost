@@ -27,12 +27,12 @@ Imports:
     methods,
     glue,
     R6,
-    checkmate,
-    ggplot2
+    checkmate
 LinkingTo:
     Rcpp,
     RcppArmadillo
 Suggests:
+    ggplot2,
     testthat,
     rpart,
     mboost,
