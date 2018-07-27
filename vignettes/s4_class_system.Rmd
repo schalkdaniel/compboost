@@ -29,8 +29,8 @@ generated using @eddelbuettel2017exposing
 [Rcpp modules](https://cran.r-project.org/web/packages/Rcpp/vignettes/Rcpp-modules.pdf).
 We will have a look at:
 
-- Define the data and factory (baselearner generators) objects.
-- Define the used loss and optimizer for modelling.
+- Define the data and factory (base-learner generators) objects.
+- Define the used loss and optimizer for modeling.
 - Define different logger for tracking the algorithm.
 - Run the algorithm and access the fitted values.
 - Continue training of the algorithm and set the algorithm to a specific 
@@ -44,7 +44,7 @@ related see the [C++ documentation of the package](https://schalkdaniel.github.i
 
 We use the [titanic dataset](https://www.kaggle.com/c/titanic/data) with binary
 classification on `survived`. First of all we store the train and test data
-in two data frames and prevent compboost from crashing by removing all rows
+in two data frames and prevent `compboost` from crashing by removing all rows
 containing `NA`s:
 
 ```{r}
@@ -75,24 +75,24 @@ This split will be used while the training to calculate the out of bag risk.
 ## Data and Factories
 
 The data classes can just handle matrices. Hence, the user is responsible
-for giving an appropriate data matrix to a specific baselearner. For instance
-the spline baselearner/factory can just handle a matrix with one column while 
-the polynomial baselearner/factory can handle arbitrary matrices. A linear 
-baselearner with intercept can be achieved by giving a matrix with an intercept
+for giving an appropriate data matrix to a specific base-learner. For instance
+the spline base-learner/factory can just handle a matrix with one column while 
+the polynomial base-learner/factory can handle arbitrary matrices. A linear 
+base-learner with intercept can be achieved by giving a matrix with an intercept
 column which contains just ones and an ordinary data column.
 
-In compboost the factories accept two data object as arguments. The first one
+In `compboost` the factories accept two data object as arguments. The first one
 is the data source and the second one the data target (which should be an
 empty data object). The factory then does the following:
 
 1. Takes the data of the data source object.
-2. Transform the data depending on the baselearner (e.g. compute spline bases).
+2. Transform the data depending on the base-learner (e.g. compute spline bases).
 3. Write the design matrix and other permanent data into the data target object.
 
 ### Numerical Feature
 
 We now want to include the ticket price `Fare` and the age of the passenger 
-`Age` by using spline baselearner. 
+`Age` by using spline base-learner. 
 
 ```{r}
 # Fare:
@@ -122,14 +122,14 @@ spline.factory.age = PSplineBlearner$new(data_source = data.source.age,
 ```
 
 
-Remember the workflow of the factory which takes the data source, transform the
+Remember the work-flow of the factory which takes the data source, transform the
 data and write it into the target. We can access the transformed data of the
 target by calling the member function `getData()`:
 ```{r}
 spline.factory.age$getData()[1:10, 1:5]
 ```
 
-An idiosyncraty of splines here is that they initialize sparse matrices by default
+An idiosyncrasy of splines here is that they initialize sparse matrices by default
 which can be handled very well by the data object. Hence, calling `getData()` of the
 data target object returns an empty matrix:
 ```{r}
@@ -159,8 +159,8 @@ table(df.train$Pclass)
 
 In component-wise boosting we use one hot encoding (dummy encoding) and give
 each binary vector as one source data matrix. This is done for every category
-of the vector. As baselearner we use a linear baselearner to estimate group 
-specific means. The advantage of using every group as own baselearner is the
+of the vector. As base-learner we use a linear base-learner to estimate group 
+specific means. The advantage of using every group as own base-learner is the
 possibility, that just important groups are selected. It is not necessary to 
 update all parameters (means) of the categorical feature simultaneously. This 
 procedure also reduces the bias of the model selection which is done inherent
@@ -268,8 +268,8 @@ for (class in classes.pclass) {
 }
 ```
 
-Finally we need to register all the baselearner factories we want to use for
-modelling:
+Finally we need to register all the base-learner factories we want to use for
+modeling:
 ```{r}
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()
@@ -302,7 +302,7 @@ loss.bin
 ```
 
 Since we are in the boosting context the classical way of selecting the best
-baselearner within one iteration by using the greedy optimizer:
+base-learner within one iteration by using the greedy optimizer:
 ```{r}
 used.optimizer = CoordinateDescent$new()
 ```
@@ -416,7 +416,7 @@ log.oob.auc   = OobRiskLogger$new(use_as_stopper = FALSE, used_loss = auc.loss,
 
 
 This procedure can be used for any other risk measure. For a detailed 
-description on how to extending compboost with custom losses or baselearner 
+description on how to extending `compboost` with custom losses or base-learner 
 see the [extending compboost vignette]().
 
 
@@ -470,7 +470,7 @@ params = cboost$getEstimatedParameter()
 str(params)
 ```
 
-It is also possible to get the trace how the baselearner are fitted by calling
+It is also possible to get the trace how the base-learner are fitted by calling
 `getSelectedBaselearner()`
 ```{r}
 blearner.trace = cboost$getSelectedBaselearner()
@@ -528,7 +528,7 @@ ggplot(data = myroc, aes(x = FPR, y = TPR)) +
 The fastest way to continuing the training is to use the `setToIteration()`
 function. If we set the algorithm to an iteration bigger than the actual
 maximal iteration, then `compboost` automatically trains the remaining 
-baselearner:
+base-learner:
 ```{r}
 cboost$setToIteration(k = 3000)
 cboost
@@ -539,7 +539,7 @@ continuing logging. The logger data for the second training (from iteration
 501 to 1000) is then just a vector of the iterations.
 
 Additionally, it is possible to continuing the training using the 
-`continueTraining()` function. This function takes a boolian to indicate if the
+`continueTraining()` function. This function takes a boolean to indicate if the
 trace should be printed and another logger list to get more control about the 
 retraining. For instance, we can continuing the training for 3 seconds and see
 how far we get. We also want to reuse the out of bag logger:
@@ -617,7 +617,7 @@ bag risk also falls till approximately 1200 and then starts to increase. This
 are clear signs that for more than 1200 iterations the algorithm starts to
 overfit. We should think about using the model at the 1200th iteration.
 
-### Fare Spline Baselearner
+### Fare Spline Base-Learner
 
 One of the key advantages of component-wise boosting is to have an interpretable
 model. For instance it is now possible to illustrate the effect of fare. 
@@ -669,7 +669,7 @@ ggplot(data = plot.data, aes(x = x, y = y)) +
 Finally we want to get an idea on how the curve evolves over the iterations. 
 Therefore we can use [ImageMagick](https://www.imagemagick.org/script/index.php)
 to create a `gif`. The approach is to get the parameter matrix by
-`getParameterMatrix()`, then select for the spline baselearner corresponding to
+`getParameterMatrix()`, then select for the spline base-learner corresponding to
 `Fare` and create the `gif`:
 ```{r}
 param.mat = cboost$getParameterMatrix()
@@ -741,10 +741,10 @@ On Windows we need `magick` while on Linux we have to use `convert`.
   
 - Since `compboost` is in an very early stage, the functionality isn't very 
   comprehensive. For instance there is just one optimizer at the moment and
-  one loss class for binary classification. There is also no multiclass
+  one loss class for binary classification. There is also no multi-class
   support at the moment.
   
-- If someone wants to use a custom loss or baselearner we have implemented 
+- If someone wants to use a custom loss or base-learner we have implemented 
   ways to extend compboost without recompiling the `C++` code. Therefore see
   the [extending compboost vignette]().
 
