@@ -132,7 +132,11 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
   ggplot2::scale_color_brewer(palette = "Spectral")
 ```
 
-<img src="Readme_files/figure-gfm/unnamed-chunk-2-1.png" width="70%" style="display: block; margin: auto;" />
+<p align="center">
+
+<img src="Readme_files/figure-gfm/cboost-1.png" width="70%" />
+
+</p>
 
 ## Using Wrapper Functions
 
