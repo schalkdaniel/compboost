@@ -36,7 +36,7 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Examples
 
-This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>:
+This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 
 ## Using the R6 API
 

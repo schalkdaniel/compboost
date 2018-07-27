@@ -32,7 +32,7 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Examples
 
-This examples are rendered using <code>compboost 0.1.0</code>:
+This examples are rendered using <code>compboost 0.1.0</code>.
 
 ## Using the R6 API
 
