@@ -488,98 +488,103 @@ Compboost = R6::R6Class("Compboost",
     },
     plot = function (blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000) {
       
-      if (is.null(self$model)) {
-        stop("Model needs to be trained first.")
-      }
-      checkmate::assertIntegerish(iters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
-      checkmate::assertCharacter(blearner.type, len = 1, null.ok = TRUE)
-      
-      if (is.null(blearner.type)) {
-        stop("Please specify a valid base-learner plus feature.")
-      }
-      if (! blearner.type %in% names(private$bl.list)) {
-        stop("Your requested feature plus learner is not available. Check 'getBaselearnerNames()' for available learners.")
-      }
-      if (length(private$bl.list[[blearner.type]]$feature) > 1) {
-        stop("Only univariate plotting is supported.")
-      }
-      # Check if selected base-learner includes the proposed one + check if iters is big enough:
-      iter.min = which(self$selected() == blearner.type)[1]
-      if (! blearner.type %in% unique(self$selected())) {
-        stop("Requested base-learner plus feature was not selected.")
-      } else {
-        if (any(iters < iter.min)) {
-          warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
+      if (requireNamespace("ggplot2")) {
+        
+        if (is.null(self$model)) {
+          stop("Model needs to be trained first.")
         }
-      }
-      feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
-      
-      checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
-      checkmate::assertNumeric(from, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
-      checkmate::assertNumeric(to, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
-      
-      if (is.null(from)) { 				
-        from = min(self$data[[feat.name]])
-      }
-      if (is.null(to)) {
-        to = max(self$data[[feat.name]])
-      }
-      if (from >= to) {
-        warning("Argument from is smaller than to, hence the x interval is [to, from].")
-        temp = from
-        from = to
-        to = temp
-      }
-      
-      plot.data = as.matrix(seq(from = from, to = to, length.out = length.out))
-      feat.map  = private$bl.list[[blearner.type]]$factory$transformData(plot.data)
-      
-      # Create data.frame for plotting depending if iters is specified:
-      if (!is.null(iters[1])) {
-        preds = lapply(iters, function (x) {
-          if (x >= iter.min) {
-            return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
-          } else {
-            return(rep(0, length.out))
+        checkmate::assertIntegerish(iters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
+        checkmate::assertCharacter(blearner.type, len = 1, null.ok = TRUE)
+        
+        if (is.null(blearner.type)) {
+          stop("Please specify a valid base-learner plus feature.")
+        }
+        if (! blearner.type %in% names(private$bl.list)) {
+          stop("Your requested feature plus learner is not available. Check 'getBaselearnerNames()' for available learners.")
+        }
+        if (length(private$bl.list[[blearner.type]]$feature) > 1) {
+          stop("Only univariate plotting is supported.")
+        }
+        # Check if selected base-learner includes the proposed one + check if iters is big enough:
+        iter.min = which(self$selected() == blearner.type)[1]
+        if (! blearner.type %in% unique(self$selected())) {
+          stop("Requested base-learner plus feature was not selected.")
+        } else {
+          if (any(iters < iter.min)) {
+            warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
           }
-        })
-        names(preds) = iters
+        }
+        feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
         
-        df.plot = data.frame(
-          effect    = unlist(preds),
-          iteration = as.factor(rep(iters, each = length.out)),
-          feature   = plot.data
-        )
+        checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
+        checkmate::assertNumeric(from, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
+        checkmate::assertNumeric(to, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
         
-        gg = ggplot(df.plot, aes(feature, effect, color = iteration))
+        if (is.null(from)) { 				
+          from = min(self$data[[feat.name]])
+        }
+        if (is.null(to)) {
+          to = max(self$data[[feat.name]])
+        }
+        if (from >= to) {
+          warning("Argument from is smaller than to, hence the x interval is [to, from].")
+          temp = from
+          from = to
+          to = temp
+        }
         
+        plot.data = as.matrix(seq(from = from, to = to, length.out = length.out))
+        feat.map  = private$bl.list[[blearner.type]]$factory$transformData(plot.data)
+        
+        # Create data.frame for plotting depending if iters is specified:
+        if (!is.null(iters[1])) {
+          preds = lapply(iters, function (x) {
+            if (x >= iter.min) {
+              return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
+            } else {
+              return(rep(0, length.out))
+            }
+          })
+          names(preds) = iters
+          
+          df.plot = data.frame(
+            effect    = unlist(preds),
+            iteration = as.factor(rep(iters, each = length.out)),
+            feature   = plot.data
+          )
+          
+          gg = ggplot(df.plot, aes(feature, effect, color = iteration))
+          
+        } else {
+          df.plot = data.frame(
+            effect  = feat.map %*% self$coef()[[blearner.type]],
+            feature = plot.data
+          )
+          
+          gg = ggplot(df.plot, aes(feature, effect))
+        }
+        
+        # If there are too much rows we need to take just a sample or completely remove rugs:
+        if (nrow(self$data) > 1000) {
+          idx.rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
+        } else {
+          idx.rugs = seq_len(nrow(self$data))
+        }
+        
+        gg = gg + 
+          geom_line() + 
+          geom_rug(data = self$data[idx.rugs,], aes_string(x = feat.name), inherit.aes = FALSE, 
+            alpha = 0.8) + 
+          xlab(feat.name) + 
+          xlim(from, to) +
+          ylab("Additive Contribution") + 
+          labs(title = paste0("Effect of ", blearner.type), 
+            subtitle = "Additive contribution of predictor")
+        
+        return(gg)
       } else {
-        df.plot = data.frame(
-          effect  = feat.map %*% self$coef()[[blearner.type]],
-          feature = plot.data
-        )
-        
-        gg = ggplot(df.plot, aes(feature, effect))
+        message("Please install ggplot2 to create plots.")
       }
-      
-      # If there are too much rows we need to take just a sample or completely remove rugs:
-      if (nrow(self$data) > 1000) {
-        idx.rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
-      } else {
-        idx.rugs = seq_len(nrow(self$data))
-      }
-      
-      gg = gg + 
-        geom_line() + 
-        geom_rug(data = self$data[idx.rugs,], aes_string(x = feat.name), inherit.aes = FALSE, 
-          alpha = 0.8) + 
-        xlab(feat.name) + 
-        xlim(from, to) +
-        ylab("Additive Contribution") + 
-        labs(title = paste0("Effect of ", blearner.type), 
-          subtitle = "Additive contribution of predictor")
-      
-      return(gg)
     },
     getBaselearnerNames = function () {
       # return(lapply(private$bl.list, function (bl) bl[[1]]$target$getIdentifier()))
