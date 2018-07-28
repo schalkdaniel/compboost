@@ -89,7 +89,7 @@ cboost$prepareData(newdata)
 
 \strong{For cboost$addBaselearner()}:
 \describe{
-\item{\code{features}}{[\code{vector(mode = "character")}]\cr
+\item{\code{features}}{[\code{character()}]\cr
   Vector of column names which are used as input data matrix for a single base-learner. Note that not 
   every base-learner supports the use of multiple features (e.g. the spline base-learner).
 }
