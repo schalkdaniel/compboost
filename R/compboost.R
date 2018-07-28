@@ -561,7 +561,7 @@ Compboost = R6::R6Class("Compboost",
             feature = plot.data
           )
           
-          gg = ggplpot2::ggplot(df.plot, ggplot2::aes(feature, effect))
+          gg = ggplot2::ggplot(df.plot, ggplot2::aes(feature, effect))
         }
         
         # If there are too much rows we need to take just a sample or completely remove rugs:
