@@ -17,6 +17,12 @@ knitr::opts_chunk$set(collapse = TRUE)
 library(compboost)
 
 options(width = 80)
+
+required.pcks = c("ggplot2")
+
+dependencies = all(
+  unlist(lapply(required.pcks, requireNamespace, quietly = TRUE))
+)
 ```
 
 
@@ -169,7 +175,7 @@ table(df.train[idx.eval, "Survived"], ifelse(prob.newdata > 0.5, "no", "yes"))
 ## Visualizing Base-Learner
 
 To visualize a base-learner it is important to exactly use a name from `getBaselearnerNames()`:
-```{r, eval=FALSE}
+```{r, eval=FALSE, eval=dependencies}
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
 ```
@@ -180,7 +186,7 @@ gg2 = cboost$plot("Age_spline", iters = c(200, 500, 1000, 1500))
 gridExtra::grid.arrange(gg1, gg2, ncol = 2)
 ```
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, eval=dependencies}
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
 ```

@@ -553,7 +553,7 @@ Compboost = R6::R6Class("Compboost",
             feature   = plot.data
           )
           
-          gg = ggplot(df.plot, aes(feature, effect, color = iteration))
+          gg = ggplot2::ggplot(df.plot, ggplot2::aes(feature, effect, color = iteration))
           
         } else {
           df.plot = data.frame(
@@ -561,7 +561,7 @@ Compboost = R6::R6Class("Compboost",
             feature = plot.data
           )
           
-          gg = ggplot(df.plot, aes(feature, effect))
+          gg = ggplpot2::ggplot(df.plot, ggplot2::aes(feature, effect))
         }
         
         # If there are too much rows we need to take just a sample or completely remove rugs:
@@ -572,18 +572,19 @@ Compboost = R6::R6Class("Compboost",
         }
         
         gg = gg + 
-          geom_line() + 
-          geom_rug(data = self$data[idx.rugs,], aes_string(x = feat.name), inherit.aes = FALSE, 
+          ggplot2::geom_line() + 
+          ggplot2::geom_rug(data = self$data[idx.rugs,], ggplot2::aes_string(x = feat.name), inherit.aes = FALSE, 
             alpha = 0.8) + 
-          xlab(feat.name) + 
-          xlim(from, to) +
-          ylab("Additive Contribution") + 
-          labs(title = paste0("Effect of ", blearner.type), 
+          ggplot2::xlab(feat.name) + 
+          ggplot2::xlim(from, to) +
+          ggplot2::ylab("Additive Contribution") + 
+          ggplot2::labs(title = paste0("Effect of ", blearner.type), 
             subtitle = "Additive contribution of predictor")
         
         return(gg)
       } else {
         message("Please install ggplot2 to create plots.")
+        return(NULL)
       }
     },
     getBaselearnerNames = function () {
