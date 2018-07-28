@@ -1,28 +1,17 @@
 
-[![Build
-Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost)
-[![Coverage
-Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
+[![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
-## compboost: Fast and Flexible Component-Wise Boosting Framework
+compboost: Fast and Flexible Component-Wise Boosting Framework
+--------------------------------------------------------------
 
-Component-wise boosting applies the boosting framework to statistical
-models, e.g., general additive models using component-wise smoothing
-splines. Boosting these kinds of models maintains interpretability and
-enables unbiased model selection in high dimensional feature spaces.
+Component-wise boosting applies the boosting framework to statistical models, e.g., general additive models using component-wise smoothing splines. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces.
 
-The `R` package `compboost` is an alternative implementation of
-component-wise boosting written in `C++` to obtain high runtime
-performance and full memory control. The main idea is to provide a
-modular class system which can be extended without editing the source
-code. Therefore, it is possible to use `R` functions as well as `C++`
-functions for custom base-learners, losses, logging mechanisms or
-stopping criteria.
+The `R` package `compboost` is an alternative implementation of component-wise boosting written in `C++` to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use `R` functions as well as `C++` functions for custom base-learners, losses, logging mechanisms or stopping criteria.
 
-For an introduction and overview about the functionality visit the
-[project page](https://schalkdaniel.github.io/compboost/).
+For an introduction and overview about the functionality visit the [project page](https://schalkdaniel.github.io/compboost/).
 
-## Installation
+Installation
+------------
 
 #### Developer version:
 
@@ -30,14 +19,12 @@ For an introduction and overview about the functionality visit the
 devtools::install_github("schalkdaniel/compboost")
 ```
 
-## Examples
+Examples
+--------
 
 This examples are rendered using <code>compboost 0.1.0</code>.
 
-## Using the R6 API
-
-To be as flexible as possible one should use the `R6` API do define
-base-learner, losses, stopping criteria, or optimizer as desired:
+To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
 
 ``` r
 library(compboost)
@@ -133,70 +120,21 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 ```
 
 <p align="center">
-
-<img src="Readme_files/figure-gfm/cboost-1.png" width="70%" />
-
+<img src="Readme_files/cboost-1.png" width="70%" />
 </p>
-
-## Using Wrapper Functions
-
-If you are interested in wrapping each feature, for instance, with a
-spline base-learner, then just call the wrapper function
-`boostSplines()`:
-
-``` r
-cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
-  loss = BinomialLoss$new(), trace = FALSE)
-cboost
-## Component-Wise Gradient Boosting
-## 
-## Trained on data with target diabetes
-## Number of base-learners: 10
-## Learning rate: 0.05
-## Iterations: 100
-## Positive class: neg
-## Offset: 0.3118
-## 
-## BinomialLoss Loss:
-## 
-##   Loss function: L(y,x) = log(1 + exp(-2yf(x))
-## 
-## 
-
-cboost$getBaselearnerNames()
-##  [1] "pregnant_spline"           "glucose_spline"           
-##  [3] "pressure_spline"           "triceps_spline"           
-##  [5] "insulin_spline"            "mass_spline"              
-##  [7] "pedigree_spline"           "age_spline"               
-##  [9] "pregnant.cat_yes_category" "pregnant.cat_no_category"
-```
-
-## License
+License
+-------
 
 © 2018 [Daniel Schalk](https://danielschalk.com)
 
-The contents of this repository are distributed under the MIT license.
-See below for details:
+The contents of this repository are distributed under the MIT license. See below for details:
 
 > The MIT License (MIT)
-> 
+>
 > Copyright (c) 2018 Daniel Schalk
-> 
-> Permission is hereby granted, free of charge, to any person obtaining
-> a copy of this software and associated documentation files (the
-> “Software”), to deal in the Software without restriction, including
-> without limitation the rights to use, copy, modify, merge, publish,
-> distribute, sublicense, and/or sell copies of the Software, and to
-> permit persons to whom the Software is furnished to do so, subject to
-> the following conditions:
-> 
-> The above copyright notice and this permission notice shall be
-> included in all copies or substantial portions of the Software.
-> 
-> THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND,
-> EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-> MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-> IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-> CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-> TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-> SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
