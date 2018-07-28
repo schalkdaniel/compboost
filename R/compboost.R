@@ -96,7 +96,7 @@
 #' \item{\code{data.source}}{[\code{S4 Data}]\cr
 #'   Data source object. At the moment just in memory is supported.
 #' }
-#' \item{\code{bl.factory}}{[\code{S4 Data}]\cr
+#' \item{\code{data.target}}{[\code{S4 Data}]\cr
 #'   Data target object. At the moment just in memory is supported.
 #' }
 #' \item{}{\code{...}\cr
