@@ -488,7 +488,7 @@ Compboost = R6::R6Class("Compboost",
     },
     plot = function (blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000) {
       
-      if (requireNamespace("ggplot2")) {
+      if (requireNamespace("ggplot2", quietly = TRUE)) {
         
         if (is.null(self$model)) {
           stop("Model needs to be trained first.")
@@ -583,7 +583,7 @@ Compboost = R6::R6Class("Compboost",
         
         return(gg)
       } else {
-        message("Please install and load ggplot2 to create plots.")
+        message("Please install ggplot2 to create plots.")
       }
     },
     getBaselearnerNames = function () {
