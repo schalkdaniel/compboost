@@ -90,11 +90,11 @@ cboost$prepareData(newdata)
 \strong{For cboost$addBaselearner()}:
 \describe{
 \item{\code{features}}{[\code{vector(mode = "character")}]\cr
-  Vector of column names which are used within the specified base-learner. Each column is defined as
-  new base-learner by using the learner given by \code{bl.factory}.
+  Vector of column names which are used as input data matrix for a single base-learner. Note that not 
+  every base-learner supports the use of multiple features (e.g. the spline base-learner).
 }
 \item{\code{id}}{[\code{character(1)}]\cr
-  Id of the base-learners. This is necessry to define multiple learners with the same underlying data.
+  Id of the base-learners. This is necessry since it is possible to define multiple learners with the same underlying data.
 }
 \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
   Uninitialized base-learner factory represented as \code{S4 Factory} class. See the details
