@@ -122,6 +122,7 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 <p align="center">
 <img src="Readme_files/cboost-1.png" width="70%" />
 </p>
+
 License
 -------
 
