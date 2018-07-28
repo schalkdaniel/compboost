@@ -179,7 +179,7 @@ To visualize a base-learner it is important to exactly use a name from `getBasel
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
 ```
-```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(200, 500, 1000, 1500))
 
@@ -190,7 +190,7 @@ gridExtra::grid.arrange(gg1, gg2, ncol = 2)
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
 ```
-```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 gg1 = cboost$plot("Fare_spline")
 gg2 = cboost$plot("Fare_spline", iters = c(200, 500, 1000, 1500))
 
