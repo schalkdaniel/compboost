@@ -5,6 +5,12 @@ test_that("train works", {
   mtcars$mpg_cat = ifelse(mtcars$mpg > 15, "A", "B")  
   
   expect_error({ cboost = Compboost$new(mtcars, "i_am_no_feature", loss = QuadraticLoss$new()) })
+  expect_error({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss) })
+  expect_error({ cboost = Compboost$new(mtcars, "mpg", loss = AbsoluteLoss) })
+  expect_error({ cboost = Compboost$new(mtcars, "mpg", loss = BinomialLoss) })
+  expect_error({ cboost = Compboost$new(mtcars, "mpg", loss = CustomLoss) })
+  expect_error({ cboost = Compboost$new(mtcars, "mpg", loss = CustomCppLoss) })
+  
   expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new()) })
   expect_output(cboost$print())
 

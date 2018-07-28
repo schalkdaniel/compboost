@@ -313,6 +313,9 @@ Compboost = R6::R6Class("Compboost",
       if (! target %in% names(data)) {
         stop ("The target ", target, " is not present within the data")
       }
+      if (inherits(QuadraticLoss, "C++Class")) {
+        stop ("Loss should be an initialized loss object by calling the $new() constructor.")
+      }
       
       self$id = deparse(substitute(data))
       
