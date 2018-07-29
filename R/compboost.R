@@ -23,7 +23,7 @@
 #'
 #' cboost$predict(newdata = NULL)
 #'
-#' cboost$risk()
+#' cboost$getInbagRisk()
 #'
 #' cboost$selected()
 #' 
@@ -453,7 +453,7 @@ Compboost = R6::R6Class("Compboost",
         return(self$model$predict(self$prepareData(newdata), response))
       }
     },
-    risk = function() {
+    getInbagRisk = function() {
       if(!is.null(self$model)) {
         # Return the risk + intercept, hence the current iteration + 1:
         return(self$model$getRiskVector()[seq_len(self$getCurrentIteration() + 1)])

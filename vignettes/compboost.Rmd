@@ -134,11 +134,11 @@ cboost
 
 ## Accessing Elements
 
-Object of the `Compboost` class do have member functions such as `coef()`, `risk()` or `predict()` to access the results:
+Object of the `Compboost` class do have member functions such as `coef()`, `getInbagRisk()` or `predict()` to access the results:
 ```{r}
 str(cboost$coef())
 
-str(cboost$risk())
+str(cboost$getInbagRisk())
 
 str(cboost$predict())
 ```
@@ -163,7 +163,7 @@ cboost$train(1500)
 
 str(cboost$coef())
 
-str(cboost$risk())
+str(cboost$getInbagRisk())
 
 table(cboost$selected())
 
