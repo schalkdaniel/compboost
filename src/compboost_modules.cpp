@@ -226,17 +226,17 @@ protected:
 
 //' Baselearner factory to make polynomial regression
 //'
-//' \code{PolynomialBlearner} creates a polynomial base-learner factory
+//' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 //'  object which can be registered within a base-learner list and then used
 //'  for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name PolynomialBlearner
+//' @name BaselearnerPolynomial
 //'
 //' @section Usage:
 //' \preformatted{
-//' PolynomialBlearner$new(data_source, data_target, degree, intercept)
-//' PolynomialBlearner$new(data_source, data_target, blearner_type, degree, intercept)
+//' BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
+//' BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
 //' }
 //'
 //' @section Arguments:
@@ -288,9 +288,9 @@ protected:
 //' data.target2 = InMemoryData$new()
 //'
 //' # Create new linear base-learner factory:
-//' lin.factory = PolynomialBlearner$new(data.source, data.target1, 
+//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
 //'   degree = 2, intercept = FALSE)
-//' lin.factory.int = PolynomialBlearner$new(data.source, data.target2, 
+//' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
 //'   degree = 2, intercept = TRUE)
 //'
 //' # Get the transformed data:
@@ -304,8 +304,8 @@ protected:
 //' lin.factory$transformData(data.mat)
 //' lin.factory.int$transformData(data.mat)
 //'
-//' @export PolynomialBlearner
-class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerPolynomial
+class BaselearnerPolynomialFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   const unsigned int degree;
@@ -313,23 +313,23 @@ private:
 
 public:
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const unsigned int& degree, bool intercept)
     : degree ( degree ),
       intercept ( intercept )
   {
     std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
 
-    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type_temp, data_source.getDataObj(),
       data_target.getDataObj(), degree, intercept);
   }
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, const unsigned int& degree, bool intercept)
     : degree ( degree ),
       intercept ( intercept )
   {
-    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), degree, intercept);
   }
 
@@ -363,16 +363,16 @@ public:
 
 //' Base-learner factory to do non-parametric B or P-spline regression
 //'
-//' \code{PSplineBlearner} creates a spline base-learner factory
+//' \code{BaselearnerPSpline} creates a spline base-learner factory
 //'  object which can be registered within a base-learner list and then used
 //'  for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name PSplineBlearner
+//' @name BaselearnerPSpline
 //'
 //' @section Usage:
 //' \preformatted{
-//' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
+//' BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
 //'   differences)
 //' }
 //'
@@ -431,7 +431,7 @@ public:
 //' data.target = InMemoryData$new()
 //'
 //' # Create new linear base-learner:
-//' spline.factory = PSplineBlearner$new(data.source, data.target,
+//' spline.factory = BaselearnerPSpline$new(data.source, data.target,
 //'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
 //'
 //' # Get the transformed data:
@@ -443,32 +443,32 @@ public:
 //' # Transform data manually:
 //' spline.factory$transformData(data.mat)
 //'
-//' @export PSplineBlearner
-class PSplineBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerPSpline
+class BaselearnerPSplineFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   const unsigned int degree;
 
 public:
 
-  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const unsigned int& degree, const unsigned int& n_knots, const double& penalty,
     const unsigned int& differences)
     : degree ( degree )
   {
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
     
-    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type_temp, data_source.getDataObj(),
        data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);      
 
   }
 
-  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, const unsigned int& degree, 
     const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
     : degree ( degree )
   {
-    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);
 
   }
@@ -492,16 +492,16 @@ public:
 
 //' Create custom base-learner factory by using R functions.
 //'
-//' \code{CustomBlearner} creates a custom base-learner factory by
+//' \code{BaselearnerCustom} creates a custom base-learner factory by
 //'   setting custom \code{R} functions. This factory object can be registered
 //'   within a base-learner list and then used for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomBlearner
+//' @name BaselearnerCustom
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomBlearner$new(data_source, data_target, instantiateData, train,
+//' BaselearnerCustom$new(data_source, data_target, instantiateData, train,
 //'   predict, extractParameter)
 //' }
 //'
@@ -592,7 +592,7 @@ public:
 //' }
 //'
 //' # Create new custom linear base-learner factory:
-//' custom.lin.factory = CustomBlearner$new(data.source, data.target,
+//' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
 //'   instantiateDataFun, trainFun, predictFun, extractParameter)
 //'
 //' # Get the transformed data:
@@ -604,24 +604,24 @@ public:
 //' # Transform data manually:
 //' custom.lin.factory$transformData(data.mat)
 //'
-//' @export CustomBlearner
-class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerCustom
+class BaselearnerCustomFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomBlearnerFactory("custom", data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomFactory("custom", data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
-  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
@@ -646,16 +646,16 @@ public:
 //' Create custom cpp base-learner factory by using cpp functions and external
 //' pointer.
 //'
-//' \code{CustomCppBlearner} creates a custom base-learner factory by
+//' \code{BaselearnerCustomCpp} creates a custom base-learner factory by
 //'   setting custom \code{C++} functions. This factory object can be registered
 //'   within a base-learner list and then used for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomCppBlearner
+//' @name BaselearnerCustomCpp
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomCppBlearner$new(data_source, data_target, instantiate_data_ptr,
+//' BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 //'   train_ptr, predict_ptr)
 //' }
 //'
@@ -710,7 +710,7 @@ public:
 //' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 //'
 //' # Create new linear base-learner:
-//' custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
+//' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
 //'   dataFunSetter(), trainFunSetter(), predictFunSetter())
 //'
 //' # Get the transformed data:
@@ -722,22 +722,22 @@ public:
 //' # Transform data manually:
 //' custom.cpp.factory$transformData(data.mat)
 //'
-//' @export CustomCppBlearner
-class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerCustomCpp
+class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory("custom_cpp", data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomCppFactory("custom_cpp", data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
-  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomCppFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
@@ -784,42 +784,42 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor ("Create BaselearnerFactory class")
   ;
 
-  class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearner")
+  class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     // .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
     // .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int> ("", &fun1)
     .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> () // ("", &fun2)
     .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, bool> ()
-     .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",     &PolynomialBlearnerFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
-     .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+     .method("getData",          &BaselearnerPolynomialFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",     &BaselearnerPolynomialFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
+     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
-  class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearner")
+  class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, unsigned int, double, unsigned int> ()
-    .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
-    .method("transformData",    &PSplineBlearnerFactoryWrapper::transformData, "Compute spline basis for new data")
-    .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("getData",          &BaselearnerPSplineFactoryWrapper::getData, "Get design matrix")
+    .method("transformData",    &BaselearnerPSplineFactoryWrapper::transformData, "Compute spline basis for new data")
+    .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
-  class_<CustomBlearnerFactoryWrapper> ("CustomBlearner")
+  class_<BaselearnerCustomFactoryWrapper> ("BaselearnerCustom")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-     .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &CustomBlearnerFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+     .method("getData",          &BaselearnerCustomFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &BaselearnerCustomFactoryWrapper::transformData, "Transform data")
+     .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
-  class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearner")
+  class_<BaselearnerCustomCppFactoryWrapper> ("BaselearnerCustomCpp")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
-     .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+     .method("getData",          &BaselearnerCustomCppFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &BaselearnerCustomCppFactoryWrapper::transformData, "Transform data")
+     .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 }
 
@@ -875,8 +875,8 @@ RCPP_MODULE (baselearner_factory_module)
 //' data.target1 = InMemoryData$new()
 //' data.target2 = InMemoryData$new()
 //'
-//' lin.factory = PolynomialBlearner$new(data.source, data.target1, 1, TRUE)
-//' poly.factory = PolynomialBlearner$new(data.source, data.target2, 2, TRUE)
+//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
+//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
 //'
 //' # Create new base-learner list:
 //' my.bl.list = BlearnerFactoryList$new()
@@ -2148,10 +2148,10 @@ RCPP_MODULE(optimizer_module)
 //' test.data = oob.data
 //'
 //' # Factories:
-//' linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
-//' linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
-//' quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
-//' spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
+//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
+//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
+//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 //'
 //' # Create new factory list:
 //' factory.list = BlearnerFactoryList$new()

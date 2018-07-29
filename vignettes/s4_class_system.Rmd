@@ -109,7 +109,7 @@ data.source.fare = InMemoryData$new(as.matrix(df.train$Fare[idx.train]), "Fare")
 # Define data target:
 data.target.fare = InMemoryData$new()
 # Define spline factory:
-spline.factory.fare = PSplineBlearner$new(data_source = data.source.fare, 
+spline.factory.fare = BaselearnerPSpline$new(data_source = data.source.fare, 
   data_target = data.target.fare, degree = 3, n_knots = 20, penalty = 10, 
   differences = 2)
 
@@ -122,7 +122,7 @@ data.source.age = InMemoryData$new(as.matrix(df.train$Age[idx.train]), "Age")
 # Define data target:
 data.target.age = InMemoryData$new()
 # Define spline factory:
-spline.factory.age = PSplineBlearner$new(data_source = data.source.age, 
+spline.factory.age = BaselearnerPSpline$new(data_source = data.source.age, 
   data_target = data.target.age, degree = 3, n_knots = 20, penalty = 10, 
   differences = 2)
 ```
@@ -218,7 +218,7 @@ for (class in classes.sex) {
   
   # Define Factory object:
   data.sex.list[["factory"]][[data.name]] = list()
-  data.sex.list[["factory"]][[data.name]] = PolynomialBlearner$new(
+  data.sex.list[["factory"]][[data.name]] = BaselearnerPolynomial$new(
     data_source = data.sex.list[["source"]][[data.name]],
     data_target = data.sex.list[["target"]][[data.name]],
     degree      = 1,
@@ -265,7 +265,7 @@ for (class in classes.pclass) {
   
   # Define Factory object:
   data.pclass.list[["factory"]][[data.name]] = list()
-  data.pclass.list[["factory"]][[data.name]] = PolynomialBlearner$new(
+  data.pclass.list[["factory"]][[data.name]] = BaselearnerPolynomial$new(
     data_source = data.pclass.list[["source"]][[data.name]],
     data_target = data.pclass.list[["target"]][[data.name]],
     degree      = 1,

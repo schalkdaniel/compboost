@@ -30,7 +30,7 @@
 #' @param trace [\code{logical(1)}]\cr
 #'   Logical to indicate whether the trace should be printed or not.
 #' @param intercept [\code{logical(1)}]\cr
-#'   Internally used by \code{PolynomialBlearner}. This logical value indicates if
+#'   Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 #'   each feature should get an intercept or not (default is \code{TRUE}).
 #' @param data.source [\code{S4 Data}]\cr
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
@@ -57,10 +57,10 @@ boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(
 	# Issue: 
 	for(feat in features) {
 		if (is.numeric(data[[feat]])) {
-			model$addBaselearner(feat, "linear", PolynomialBlearner, data.source, data.target,
+			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data.source, data.target,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "category", PolynomialBlearner, data.source, data.target,
+			model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
 				degree = 1, intercept = FALSE)
 		}
 	}

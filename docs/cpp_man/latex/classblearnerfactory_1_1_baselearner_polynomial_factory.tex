@@ -1,0 +1,151 @@
+\hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory}{}\section{blearnerfactory\+:\+:Baselearner\+Polynomial\+Factory Class Reference}
+\label{classblearnerfactory_1_1_baselearner_polynomial_factory}\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+
+
+{\ttfamily \#include $<$baselearner\+\_\+factory.\+h$>$}
+
+
+
+Inheritance diagram for blearnerfactory\+:\+:Baselearner\+Polynomial\+Factory\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=244pt]{classblearnerfactory_1_1_baselearner_polynomial_factory__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for blearnerfactory\+:\+:Baselearner\+Polynomial\+Factory\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classblearnerfactory_1_1_baselearner_polynomial_factory__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_aaa0dbb3dab4a98dfb1835998fc3ffa50}{Baselearner\+Polynomial\+Factory}} (const std\+::string \&, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$, const unsigned int \&, const bool \&)
+\item 
+\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$ \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_a18095806fa93e6ac2159e966ededc1cf}{create\+Baselearner}} (const std\+::string \&)
+\item 
+arma\+::mat \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_af6d997c89f2e81a490352f23dee1ef9d}{get\+Data}} () const
+\begin{DoxyCompactList}\small\item\em Get data used for modelling. \end{DoxyCompactList}\item 
+arma\+::mat \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_ae8a2c70c75eb37e6c782d1bb17627272}{instantiate\+Data}} (const arma\+::mat \&)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const unsigned int \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_a09e03424857dc2d345af9ac98173b74c}{degree}}
+\item 
+bool \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_acb53ec3a5ea73dac4cb157ea1cf641d2}{intercept}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory_aaa0dbb3dab4a98dfb1835998fc3ffa50}\label{classblearnerfactory_1_1_baselearner_polynomial_factory_aaa0dbb3dab4a98dfb1835998fc3ffa50}} 
+\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}!Baselearner\+Polynomial\+Factory@{Baselearner\+Polynomial\+Factory}}
+\index{Baselearner\+Polynomial\+Factory@{Baselearner\+Polynomial\+Factory}!blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+\subsubsection{\texorpdfstring{Baselearner\+Polynomial\+Factory()}{BaselearnerPolynomialFactory()}}
+{\footnotesize\ttfamily blearnerfactory\+::\+Baselearner\+Polynomial\+Factory\+::\+Baselearner\+Polynomial\+Factory (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{blearner\+\_\+type0,  }\item[{\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$}]{data\+\_\+source0,  }\item[{\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$}]{data\+\_\+target0,  }\item[{const unsigned int \&}]{degree,  }\item[{const bool \&}]{intercept }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnerfactory_1_1_baselearner_polynomial_factory_aaa0dbb3dab4a98dfb1835998fc3ffa50_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory_a18095806fa93e6ac2159e966ededc1cf}\label{classblearnerfactory_1_1_baselearner_polynomial_factory_a18095806fa93e6ac2159e966ededc1cf}} 
+\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}!create\+Baselearner@{create\+Baselearner}}
+\index{create\+Baselearner@{create\+Baselearner}!blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+\subsubsection{\texorpdfstring{create\+Baselearner()}{createBaselearner()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$ blearnerfactory\+::\+Baselearner\+Polynomial\+Factory\+::create\+Baselearner (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{identifier }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_factory_ac3584a20a84834099a15908690b837bb}{blearnerfactory\+::\+Baselearner\+Factory}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnerfactory_1_1_baselearner_polynomial_factory_a18095806fa93e6ac2159e966ededc1cf_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory_af6d997c89f2e81a490352f23dee1ef9d}\label{classblearnerfactory_1_1_baselearner_polynomial_factory_af6d997c89f2e81a490352f23dee1ef9d}} 
+\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}!get\+Data@{get\+Data}}
+\index{get\+Data@{get\+Data}!blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+\subsubsection{\texorpdfstring{get\+Data()}{getData()}}
+{\footnotesize\ttfamily arma\+::mat blearnerfactory\+::\+Baselearner\+Polynomial\+Factory\+::get\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Get data used for modelling. 
+
+Data getter which always returns an arma\+::mat.
+
+This function is important to have a unified interface to access the data matrices. Especially for predicting we have to get the data of each factory as dense matrix. This is a huge drawback in terms of memory usage. Therefore, this function should only be used to get temporary matrices which are deleted when they run out of scope to reduce memory load. Also note that there is a dispatch with the \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_polynomial_factory_af6d997c89f2e81a490352f23dee1ef9d}{get\+Data()}} function of the Data objects which are mostly called internally.
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::mat} of data used for modelling a single base-\/learner 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_factory_aa3e4580bca870ca3b742dda6c820e1e6}{blearnerfactory\+::\+Baselearner\+Factory}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnerfactory_1_1_baselearner_polynomial_factory_af6d997c89f2e81a490352f23dee1ef9d_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory_ae8a2c70c75eb37e6c782d1bb17627272}\label{classblearnerfactory_1_1_baselearner_polynomial_factory_ae8a2c70c75eb37e6c782d1bb17627272}} 
+\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}!instantiate\+Data@{instantiate\+Data}}
+\index{instantiate\+Data@{instantiate\+Data}!blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+\subsubsection{\texorpdfstring{instantiate\+Data()}{instantiateData()}}
+{\footnotesize\ttfamily arma\+::mat blearnerfactory\+::\+Baselearner\+Polynomial\+Factory\+::instantiate\+Data (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{newdata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearnerfactory_1_1_baselearner_factory_ac4a38c4815fb33b8d4785745117c5e57}{blearnerfactory\+::\+Baselearner\+Factory}}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearnerfactory_1_1_baselearner_polynomial_factory_ae8a2c70c75eb37e6c782d1bb17627272_icgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory_a09e03424857dc2d345af9ac98173b74c}\label{classblearnerfactory_1_1_baselearner_polynomial_factory_a09e03424857dc2d345af9ac98173b74c}} 
+\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}!degree@{degree}}
+\index{degree@{degree}!blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+\subsubsection{\texorpdfstring{degree}{degree}}
+{\footnotesize\ttfamily const unsigned int blearnerfactory\+::\+Baselearner\+Polynomial\+Factory\+::degree\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classblearnerfactory_1_1_baselearner_polynomial_factory_acb53ec3a5ea73dac4cb157ea1cf641d2}\label{classblearnerfactory_1_1_baselearner_polynomial_factory_acb53ec3a5ea73dac4cb157ea1cf641d2}} 
+\index{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}!intercept@{intercept}}
+\index{intercept@{intercept}!blearnerfactory\+::\+Baselearner\+Polynomial\+Factory@{blearnerfactory\+::\+Baselearner\+Polynomial\+Factory}}
+\subsubsection{\texorpdfstring{intercept}{intercept}}
+{\footnotesize\ttfamily bool blearnerfactory\+::\+Baselearner\+Polynomial\+Factory\+::intercept\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{baselearner__factory_8h}{baselearner\+\_\+factory.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{baselearner__factory_8cpp}{baselearner\+\_\+factory.\+cpp}}\end{DoxyCompactItemize}

@@ -55,8 +55,8 @@ data.source = InMemoryData$new(data.mat, "my.data.name")
 data.target1 = InMemoryData$new()
 data.target2 = InMemoryData$new()
 
-lin.factory = PolynomialBlearner$new(data.source, data.target1, 1, TRUE)
-poly.factory = PolynomialBlearner$new(data.source, data.target2, 2, TRUE)
+lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
+poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
 
 # Create new base-learner list:
 my.bl.list = BlearnerFactoryList$new()

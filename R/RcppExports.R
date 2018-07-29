@@ -73,17 +73,17 @@ NULL
 
 #' Baselearner factory to make polynomial regression
 #'
-#' \code{PolynomialBlearner} creates a polynomial base-learner factory
+#' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 #'  object which can be registered within a base-learner list and then used
 #'  for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name PolynomialBlearner
+#' @name BaselearnerPolynomial
 #'
 #' @section Usage:
 #' \preformatted{
-#' PolynomialBlearner$new(data_source, data_target, degree, intercept)
-#' PolynomialBlearner$new(data_source, data_target, blearner_type, degree, intercept)
+#' BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
+#' BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
 #' }
 #'
 #' @section Arguments:
@@ -135,9 +135,9 @@ NULL
 #' data.target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin.factory = PolynomialBlearner$new(data.source, data.target1, 
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
 #'   degree = 2, intercept = FALSE)
-#' lin.factory.int = PolynomialBlearner$new(data.source, data.target2, 
+#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
 #'   degree = 2, intercept = TRUE)
 #'
 #' # Get the transformed data:
@@ -151,21 +151,21 @@ NULL
 #' lin.factory$transformData(data.mat)
 #' lin.factory.int$transformData(data.mat)
 #'
-#' @export PolynomialBlearner
+#' @export BaselearnerPolynomial
 NULL
 
 #' Base-learner factory to do non-parametric B or P-spline regression
 #'
-#' \code{PSplineBlearner} creates a spline base-learner factory
+#' \code{BaselearnerPSpline} creates a spline base-learner factory
 #'  object which can be registered within a base-learner list and then used
 #'  for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name PSplineBlearner
+#' @name BaselearnerPSpline
 #'
 #' @section Usage:
 #' \preformatted{
-#' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
+#' BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
 #'   differences)
 #' }
 #'
@@ -224,7 +224,7 @@ NULL
 #' data.target = InMemoryData$new()
 #'
 #' # Create new linear base-learner:
-#' spline.factory = PSplineBlearner$new(data.source, data.target,
+#' spline.factory = BaselearnerPSpline$new(data.source, data.target,
 #'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
 #'
 #' # Get the transformed data:
@@ -236,21 +236,21 @@ NULL
 #' # Transform data manually:
 #' spline.factory$transformData(data.mat)
 #'
-#' @export PSplineBlearner
+#' @export BaselearnerPSpline
 NULL
 
 #' Create custom base-learner factory by using R functions.
 #'
-#' \code{CustomBlearner} creates a custom base-learner factory by
+#' \code{BaselearnerCustom} creates a custom base-learner factory by
 #'   setting custom \code{R} functions. This factory object can be registered
 #'   within a base-learner list and then used for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomBlearner
+#' @name BaselearnerCustom
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomBlearner$new(data_source, data_target, instantiateData, train,
+#' BaselearnerCustom$new(data_source, data_target, instantiateData, train,
 #'   predict, extractParameter)
 #' }
 #'
@@ -341,7 +341,7 @@ NULL
 #' }
 #'
 #' # Create new custom linear base-learner factory:
-#' custom.lin.factory = CustomBlearner$new(data.source, data.target,
+#' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
 #'   instantiateDataFun, trainFun, predictFun, extractParameter)
 #'
 #' # Get the transformed data:
@@ -353,22 +353,22 @@ NULL
 #' # Transform data manually:
 #' custom.lin.factory$transformData(data.mat)
 #'
-#' @export CustomBlearner
+#' @export BaselearnerCustom
 NULL
 
 #' Create custom cpp base-learner factory by using cpp functions and external
 #' pointer.
 #'
-#' \code{CustomCppBlearner} creates a custom base-learner factory by
+#' \code{BaselearnerCustomCpp} creates a custom base-learner factory by
 #'   setting custom \code{C++} functions. This factory object can be registered
 #'   within a base-learner list and then used for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomCppBlearner
+#' @name BaselearnerCustomCpp
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomCppBlearner$new(data_source, data_target, instantiate_data_ptr,
+#' BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 #'   train_ptr, predict_ptr)
 #' }
 #'
@@ -423,7 +423,7 @@ NULL
 #' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 #'
 #' # Create new linear base-learner:
-#' custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
+#' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
 #'   dataFunSetter(), trainFunSetter(), predictFunSetter())
 #'
 #' # Get the transformed data:
@@ -435,7 +435,7 @@ NULL
 #' # Transform data manually:
 #' custom.cpp.factory$transformData(data.mat)
 #'
-#' @export CustomCppBlearner
+#' @export BaselearnerCustomCpp
 NULL
 
 #' Base-learner factory list to define the set of base-learners
@@ -484,8 +484,8 @@ NULL
 #' data.target1 = InMemoryData$new()
 #' data.target2 = InMemoryData$new()
 #'
-#' lin.factory = PolynomialBlearner$new(data.source, data.target1, 1, TRUE)
-#' poly.factory = PolynomialBlearner$new(data.source, data.target2, 2, TRUE)
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
+#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
 #'
 #' # Create new base-learner list:
 #' my.bl.list = BlearnerFactoryList$new()
@@ -1301,10 +1301,10 @@ NULL
 #' test.data = oob.data
 #'
 #' # Factories:
-#' linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
-#' linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
-#' quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
-#' spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
+#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
+#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
+#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 #'
 #' # Create new factory list:
 #' factory.list = BlearnerFactoryList$new()

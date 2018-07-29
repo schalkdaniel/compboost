@@ -11,8 +11,8 @@ test_that("polynomial factory works", {
   expect_silent({ data.source = InMemoryData$new(as.matrix(X.linear), "my_variable") })
   expect_silent({ data.target.lin = InMemoryData$new() })
   expect_silent({ data.target.cub = InMemoryData$new() })
-  expect_silent({ linear.factory = PolynomialBlearner$new(data.source, data.target.lin, 1, FALSE) })
-  expect_silent({ cubic.factory = PolynomialBlearner$new(data.source, data.target.cub, 3, FALSE) })
+  expect_silent({ linear.factory = BaselearnerPolynomial$new(data.source, data.target.lin, 1, FALSE) })
+  expect_silent({ cubic.factory = BaselearnerPolynomial$new(data.source, data.target.cub, 3, FALSE) })
 
   mod.linear = lm(y ~ 0 + X.linear)
   mod.cubic  = lm(y ~ 0 + X.cubic)
@@ -58,7 +58,7 @@ test_that("custom factory works", {
   expect_silent({ data.source = InMemoryData$new(X, "variable_1") })
   expect_silent({ data.target = InMemoryData$new() })
   expect_silent({
-    custom.factory = CustomBlearner$new(data.source, data.target, 
+    custom.factory = BaselearnerCustom$new(data.source, data.target, 
       instantiateDataFun, trainFun, predictFun, extractParameter)
   })
   expect_equal(
@@ -83,7 +83,7 @@ test_that("custom cpp factory works", {
   expect_silent({ data.source = InMemoryData$new(X, "my_variable_name") })
   expect_silent({ data.target = InMemoryData$new() })
   expect_silent({
-    custom.cpp.factory = CustomCppBlearner$new(data.source, data.target, 
+    custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target, 
       dataFunSetter(), trainFunSetter(), predictFunSetter())
   })
   expect_equal(custom.cpp.factory$getData(), X)  

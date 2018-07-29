@@ -21,9 +21,9 @@ test_that("Compboost loggs correctly", {
   learning.rate = 0.05
   iter.max      = 500
 
-  expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, FALSE) })
-  expect_silent({ linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt, 1, FALSE) })
-  expect_silent({ quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, FALSE) })
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 1, FALSE) })
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, FALSE) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
   expect_silent({ factory.list$registerFactory(linear.factory.hp) })
   expect_silent({ factory.list$registerFactory(linear.factory.wt) })
@@ -89,9 +89,9 @@ test_that("compboost does the same as mboost", {
   learning.rate = 0.05
   iter.max = 500
 
-  expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, FALSE) })
-  expect_silent({ linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt, 1, FALSE) })
-  expect_silent({ quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, FALSE) })
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 1, FALSE) })
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, FALSE) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
 
   # Register factorys:

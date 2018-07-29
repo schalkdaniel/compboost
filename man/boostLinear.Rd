@@ -35,7 +35,7 @@ Number of iterations that are trained.}
 Logical to indicate whether the trace should be printed or not.}
 
 \item{intercept}{[\code{logical(1)}]\cr
-Internally used by \code{PolynomialBlearner}. This logical value indicates if
+Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
 \item{data.source}{[\code{S4 Data}]\cr

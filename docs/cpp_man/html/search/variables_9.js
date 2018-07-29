@@ -2,7 +2,7 @@ var searchData=
 [
   ['max_5fiterations',['max_iterations',['../classlogger_1_1_iteration_logger.html#a3fe389ce81d0790729b59b96414a3909',1,'logger::IterationLogger']]],
   ['max_5ftime',['max_time',['../classlogger_1_1_time_logger.html#a48ea18ddd1f44f11ad52448cfde37e63',1,'logger::TimeLogger']]],
-  ['model',['model',['../classblearner_1_1_custom_blearner.html#a7e802c5c67838d6d5a411f26a536d657',1,'blearner::CustomBlearner']]],
+  ['model',['model',['../classblearner_1_1_baselearner_custom.html#a99cf99e3a150fdbf77d7e738682df1cf',1,'blearner::BaselearnerCustom']]],
   ['model_5fis_5ftrained',['model_is_trained',['../classcboost_1_1_compboost.html#af1da66c1def3edd484f5d30b36e64eeb',1,'cboost::Compboost']]],
   ['model_5fprediction',['model_prediction',['../classcboost_1_1_compboost.html#a7f7c7fe26c16c175e7d402aca781e8da',1,'cboost::Compboost']]],
   ['my_5fblearner_5ffactory_5fmap',['my_blearner_factory_map',['../classoptimizer_1_1_optimizer.html#a93f8af0ef81986bc208cab5e3cc2ba31',1,'optimizer::Optimizer']]],

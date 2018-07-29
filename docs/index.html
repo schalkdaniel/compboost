@@ -172,18 +172,18 @@ cboost
       Note, that the <code>loss</code> is given as instantiated object. This object is an instantiated <code>S4</code> class since the objects are exposed by the <a class="text" href="http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf">Rcpp modules</a>. This also gives the possibility to define a loss with a custom offset. Therefore just call, for instance, <code>QuadraticLoss$new(offset = 10)</code>.
     </p>
     <p>
-      Now we can add base-learner for the training. The base-learner are added by calling the <code>addBaselearner()</code> member function. This function gets an <strong>uninstantiated</strong> base-learner object (such as <code>PSplineBlearner</code> or <code>CustomCppBlearner</code>). Note that each base-learner needs an identifier which must be given by the user. This makes the selected learner unique and yields an intuitive naming:
-    <pre class="r"><code>cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = PSplineBlearner, degree = 3, 
+      Now we can add base-learner for the training. The base-learner are added by calling the <code>addBaselearner()</code> member function. This function gets an <strong>uninstantiated</strong> base-learner object (such as <code>BaselearnerPSpline</code> or <code>BaselearnerCustomCpp</code>). Note that each base-learner needs an identifier which must be given by the user. This makes the selected learner unique and yields an intuitive naming:
+    <pre class="r"><code>cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
   knots = 10, penalty = 2, differences = 2)
 
 cboost$addBaselearner(feature = c("Sepal.Length", "Sepal.Width"), id = "2dim_linear", 
-  bl.factory = PolynomialBlearner, degree = 1, intercept = TRUE)
+  bl.factory = BaselearnerPolynomial, degree = 1, intercept = TRUE)
 
 cboost$getBaselearnerNames()
 ## [1] "Petal.Width_spline"
 ## [2] "Sepal.Length_Sepal.Width_2dim_linear"</code></pre>
       Adding a categorical feature always registers each single group as feature for the base-learner using dummy encoding:
-      <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = PolynomialBlearner, 
+      <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = BaselearnerPolynomial, 
   degree = 1, intercept = FALSE)
 
 cboost$getBaselearnerNames()

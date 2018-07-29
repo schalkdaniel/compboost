@@ -78,18 +78,18 @@ test.data = oob.data
 ## Baselearner
 
 # Create new linear baselearner of hp and wt:
-linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1)
+linear.factory.hp = BaselearnerPolynomialFactory$new(data.source.hp, data.target.hp1, 1)
+linear.factory.wt = BaselearnerPolynomialFactory$new(data.source.wt, data.target.wt1, 1)
 
 # Create new quadratic baselearner of hp:
-quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+quadratic.factory.hp = BaselearnerPolynomialFactory$new(data.source.hp, data.target.hp2, 2)
 
 # Create spline factory for wt with:
 #   - degree: 2
 #   - 10 knots
 #   - penalty parameter: 2
 #   - differences: 2
-spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+spline.factory.wt = BaselearnerPSplineFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 
 
 # Create new factory list:

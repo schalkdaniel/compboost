@@ -1,3 +1,3 @@
-<map id="blearnerfactory::CustomCppBlearnerFactory::getData" name="blearnerfactory::CustomCppBlearnerFactory::getData">
+<map id="blearnerfactory::BaselearnerCustomCppFactory::getData" name="blearnerfactory::BaselearnerCustomCppFactory::getData">
 <area shape="rect" id="node2" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="240,13,377,39"/>
 </map>

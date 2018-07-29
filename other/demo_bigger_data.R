@@ -44,16 +44,16 @@ size.compboost = pryr::mem_change({
   
   # Just linear:
   
-  linear.factory.arrdelay = PolynomialBlearnerFactory$new(data.source.arrdelay, data.target.arrdelay, 1)
-  linear.factory.taxiin   = PolynomialBlearnerFactory$new(data.source.taxiin, data.target.taxiin, 1)
-  linear.factory.dist     = PolynomialBlearnerFactory$new(data.source.dist, data.target.dist, 1)
-  linear.factory.aet      = PolynomialBlearnerFactory$new(data.source.aet, data.target.aet, 1)
+  linear.factory.arrdelay = BaselearnerPolynomialFactory$new(data.source.arrdelay, data.target.arrdelay, 1)
+  linear.factory.taxiin   = BaselearnerPolynomialFactory$new(data.source.taxiin, data.target.taxiin, 1)
+  linear.factory.dist     = BaselearnerPolynomialFactory$new(data.source.dist, data.target.dist, 1)
+  linear.factory.aet      = BaselearnerPolynomialFactory$new(data.source.aet, data.target.aet, 1)
   
   # Splines:
   
-  spline.factory.dist     = PSplineBlearnerFactory$new(data.source.dist.sp, data.target.dist.sp, 3, 10, 2, 2)
-  spline.factory.arrdelay = PSplineBlearnerFactory$new(data.source.arrdelay.sp, data.target.arrdelay.sp, 3, 10, 2, 2)
-  spline.factory.aet      = PSplineBlearnerFactory$new(data.source.aet.sp, data.target.aet.sp, 3, 10, 2, 2)
+  spline.factory.dist     = BaselearnerPSplineFactory$new(data.source.dist.sp, data.target.dist.sp, 3, 10, 2, 2)
+  spline.factory.arrdelay = BaselearnerPSplineFactory$new(data.source.arrdelay.sp, data.target.arrdelay.sp, 3, 10, 2, 2)
+  spline.factory.aet      = BaselearnerPSplineFactory$new(data.source.aet.sp, data.target.aet.sp, 3, 10, 2, 2)
   
   # Create new factory list:
   factory.list = BlearnerFactoryList$new()

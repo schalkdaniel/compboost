@@ -76,16 +76,16 @@ Adding new base-learners is also done by giving a character to indicate the feat
 For instance, we can define a spline and a linear base-learner of the same feature:
 ```{r}
 # Spline base-learner of age:
-cboost$addBaselearner("Age", "spline", PSplineBlearner)
+cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 
 # Linear base-learner of age (degree = 1 with intercept is default):
-cboost$addBaselearner("Age", "linear", PolynomialBlearner)
+cboost$addBaselearner("Age", "linear", BaselearnerPolynomial)
 ```
 
 Additional arguments can be specified after naming the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the project page:
 ```{r}
 # Spline base-learner of fare:
-cboost$addBaselearner("Fare", "spline", PSplineBlearner, degree = 2,
+cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
   n.knots = 14, penalty = 10, differences = 2)
 ```
 
@@ -93,7 +93,7 @@ cboost$addBaselearner("Fare", "spline", PSplineBlearner, degree = 2,
 
 When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don't need an intercept here:
 ```{r}
-cboost$addBaselearner("Sex", "categorical", PolynomialBlearner, 
+cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, 
   intercept = FALSE)
 ```
 
