@@ -438,19 +438,19 @@ padding-right: 10px;
 <div id="iterations-logger" class="section level3">
 <h3>Iterations logger</h3>
 <p>This logger just logs the current iteration and stops if <code>max_iterations</code> is reached. In our case we want to stop after 2500 iterations:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">log.iterations =<span class="st"> </span>IterationLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_iterations =</span> <span class="dv">2500</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">log.iterations =<span class="st"> </span>LoggerIteration<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_iterations =</span> <span class="dv">2500</span>)</a></code></pre></div>
 <p>Note that the arguments as <code>max_iterations</code> are just used if we define the logger also as stopper. Otherwise the arguments are ignored.</p>
 </div>
 <div id="time-logger" class="section level3">
 <h3>Time logger</h3>
 <p>This logger logs the elapsed time. The time unit can be one of <code>microseconds</code>, <code>seconds</code> or <code>minutes</code>. The logger stops if <code>max_time</code> is reached:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">log.time =<span class="st"> </span>TimeLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_topper =</span> <span class="ot">FALSE</span>, <span class="dt">max_time =</span> <span class="dv">120</span>, </a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">log.time =<span class="st"> </span>LoggerTime<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_topper =</span> <span class="ot">FALSE</span>, <span class="dt">max_time =</span> <span class="dv">120</span>, </a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">time_unit =</span> <span class="st">&quot;seconds&quot;</span>)</a></code></pre></div>
 </div>
 <div id="inbag-risk-logger" class="section level3">
 <h3>Inbag risk logger</h3>
 <p>This logger logs the inbag risk by calculating the empirical risk using the training data. Note that it is necessary to specify a loss which is used to calculate the empirical risk. In the most common situation we use the the same loss as used for training to display the progress of the fitting:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">log.inbag =<span class="st"> </span>InbagRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">log.inbag =<span class="st"> </span>LoggerInbagRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>)</a></code></pre></div>
 </div>
 <div id="out-of-bag-risk-logger" class="section level3">
@@ -471,7 +471,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb15-13" data-line-number="13">  oob.list =<span class="st"> </span><span class="kw">c</span>(oob.list, lst)</a>
 <a class="sourceLine" id="cb15-14" data-line-number="14">}</a></code></pre></div>
 <p>Finally we create the out of bag risk object by also specifying the corresponding <code>y</code> labels:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">log.oob =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">log.oob =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a></code></pre></div>
 </div>
 <div id="custom-auc-logger" class="section level3">
@@ -494,9 +494,9 @@ padding-right: 10px;
 <a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co"># Define loss:</span></a>
 <a class="sourceLine" id="cb17-16" data-line-number="16">auc.loss =<span class="st"> </span>LossCustom<span class="op">$</span><span class="kw">new</span>(aucLoss, gradDummy, constInitDummy)</a></code></pre></div>
 <p>Now we can create a new inbag and out of bag logger to log the AUC while fitting the model:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">log.inbag.auc =<span class="st"> </span>InbagRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">log.inbag.auc =<span class="st"> </span>LoggerInbagRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">log.oob.auc   =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">log.oob.auc   =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a></code></pre></div>
 <p>This procedure can be used for any other risk measure. For a detailed description on how to extending <code>compboost</code> with custom losses or base-learner see the <a href>extending compboost vignette</a>.</p>
 </div>
@@ -631,16 +631,16 @@ padding-right: 10px;
 <p>The drawback of using <code>setToIteration()</code> is, that the function doesn’t continuing logging. The logger data for the second training (from iteration 501 to 1000) is then just a vector of the iterations.</p>
 <p>Additionally, it is possible to continuing the training using the <code>continueTraining()</code> function. This function takes a boolean to indicate if the trace should be printed and another logger list to get more control about the retraining. For instance, we can continuing the training for 3 seconds and see how far we get. We also want to reuse the out of bag logger:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># Define new time logger:</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">new.time.logger =<span class="st"> </span>TimeLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_time =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">new.time.logger =<span class="st"> </span>LoggerTime<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_time =</span> <span class="dv">3</span>,</a>
 <a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">time_unit =</span> <span class="st">&quot;seconds&quot;</span>)</a>
 <a class="sourceLine" id="cb26-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co"># Define new logger list and register logger:</span></a>
 <a class="sourceLine" id="cb26-6" data-line-number="6">new.logger.list =<span class="st"> </span>LoggerList<span class="op">$</span><span class="kw">new</span>()</a>
 <a class="sourceLine" id="cb26-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co"># Define new oob logger to prevent old logger data from overwriting:</span></a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">new.oob.log     =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">new.oob.log     =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
 <a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a>
-<a class="sourceLine" id="cb26-11" data-line-number="11">new.oob.auc.log =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">new.oob.auc.log =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a>
 <a class="sourceLine" id="cb26-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb26-14" data-line-number="14">new.logger.list<span class="op">$</span><span class="kw">registerLogger</span>(<span class="st">&quot;time&quot;</span>, new.time.logger)</a>

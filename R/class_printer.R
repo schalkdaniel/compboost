@@ -174,40 +174,40 @@ ignore.me = setMethod("show", "Rcpp_LossCustomCpp", function (object) {
 # Logger:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_IterationLogger")
-ignore.me = setMethod("show", "Rcpp_IterationLogger", function (object) {
+setClass("Rcpp_LoggerIteration")
+ignore.me = setMethod("show", "Rcpp_LoggerIteration", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("IterationLoggerPrinter")
+  return ("LoggerIterationPrinter")
 })
 
-setClass("Rcpp_InbagRiskLogger")
-ignore.me = setMethod("show", "Rcpp_InbagRiskLogger", function (object) {
+setClass("Rcpp_LoggerInbagRisk")
+ignore.me = setMethod("show", "Rcpp_LoggerInbagRisk", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("InbagRiskLoggerPrinter")
+  return ("LoggerInbagRiskPrinter")
 })
 
-setClass("Rcpp_OobRiskLogger")
-ignore.me = setMethod("show", "Rcpp_OobRiskLogger", function (object) {
+setClass("Rcpp_LoggerOobRisk")
+ignore.me = setMethod("show", "Rcpp_LoggerOobRisk", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("OobRiskLoggerPrinter")
+  return ("LoggerOobRiskPrinter")
 })
 
-setClass("Rcpp_TimeLogger")
-ignore.me = setMethod("show", "Rcpp_TimeLogger", function (object) {
+setClass("Rcpp_LoggerTime")
+ignore.me = setMethod("show", "Rcpp_LoggerTime", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("TimeLoggerPrinter")
+  return ("LoggerTimePrinter")
 })
 
 # ---------------------------------------------------------------------------- #
