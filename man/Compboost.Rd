@@ -29,7 +29,7 @@ cboost$predict(newdata = NULL)
 
 cboost$getInbagRisk()
 
-cboost$selected()
+cboost$getSelectedBaselearner()
 
 cboost$coef()
 
@@ -289,7 +289,7 @@ cboost$prepareData(newdata)
 \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 \item{\code{train}}{method to train the algorithm.}
 \item{\code{predict}}{method to predict on a trained object.}
-\item{\code{selected}}{method to get a character vector of selected base-learner.}
+\item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
 \item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
 \item{\code{plot}}{method to plot the \code{Compboost} object.}
 \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
@@ -302,6 +302,6 @@ cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3,
   n.knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 cboost$plot("hp_spline")
 }

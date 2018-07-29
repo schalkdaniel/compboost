@@ -143,9 +143,9 @@ str(cboost$getInbagRisk())
 str(cboost$predict())
 ```
 
-To obtain a vector of selected learner just call `selected()`
+To obtain a vector of selected learner just call `getSelectedBaselearner()`
 ```{r}
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 ```
 
 We can also predict on new data to get estimated probabilities. Therefore we have to use `response = TRUE`:
@@ -165,7 +165,7 @@ str(cboost$coef())
 
 str(cboost$getInbagRisk())
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 
 # Get confusion matrix:
 prob.newdata = cboost$predict(df.train[idx.eval, ], response = TRUE)

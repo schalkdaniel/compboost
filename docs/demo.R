@@ -40,7 +40,7 @@ cboost$train(1000)
 # --------------------------------------------
 
 # Get vector of selected base-learner
-selected = cboost$selected()
+selected = cboost$getSelectedBaselearner()
 selected[1:10]
 
 table(selected)

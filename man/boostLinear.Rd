@@ -66,7 +66,7 @@ used for further analyses (see \code{?Compboost} for details).
 mod = boostLinear(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
 mod$getBaselearnerNames()
 mod$coef()
-table(mod$selected())
+table(mod$getSelectedBaselearner())
 mod$predict()
 mod$plot("Sepal.Width_linear")
 }
