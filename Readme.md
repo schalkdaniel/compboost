@@ -42,7 +42,7 @@ data(PimaIndiansDiabetes, package = "mlbench")
 PimaIndiansDiabetes$pregnant.cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
 
 # Define Compboost object:
-cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = QuadraticLoss$new())
+cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossQuadratic$new())
 cboost
 ## Component-Wise Gradient Boosting
 ## 
@@ -52,7 +52,7 @@ cboost
 ## Iterations: 0
 ## Positive class: neg
 ## 
-## QuadraticLoss Loss:
+## LossQuadratic Loss:
 ## 
 ##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
 ## 
@@ -88,7 +88,7 @@ cboost
 ## Positive class: neg
 ## Offset: 0.3021
 ## 
-## QuadraticLoss Loss:
+## LossQuadratic Loss:
 ## 
 ##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
 ## 

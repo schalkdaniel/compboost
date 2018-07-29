@@ -1005,12 +1005,12 @@ protected:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name QuadraticLoss
+//' @name LossQuadratic
 //'
 //' @section Usage:
 //' \preformatted{
-//' QuadraticLoss$new()
-//' QuadraticLoss$new(offset)
+//' LossQuadratic$new()
+//' LossQuadratic$new(offset)
 //' }
 //'
 //' @section Arguments:
@@ -1030,15 +1030,15 @@ protected:
 //' @examples
 //'
 //' # Create new loss object:
-//' quadratic.loss = QuadraticLoss$new()
+//' quadratic.loss = LossQuadratic$new()
 //' quadratic.loss
 //'
-//' @export QuadraticLoss
-class QuadraticLossWrapper : public LossWrapper
+//' @export LossQuadratic
+class LossQuadraticWrapper : public LossWrapper
 {
 public:
-  QuadraticLossWrapper () { obj = new loss::QuadraticLoss(); }
-  QuadraticLossWrapper (double custom_offset) { obj = new loss::QuadraticLoss(custom_offset); }
+  LossQuadraticWrapper () { obj = new loss::LossQuadratic(); }
+  LossQuadraticWrapper (double custom_offset) { obj = new loss::LossQuadratic(custom_offset); }
 };
 
 //' Absolute loss for regression tasks.
@@ -1060,12 +1060,12 @@ public:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name AbsoluteLoss
+//' @name LossAbsolute
 //'
 //' @section Usage:
 //' \preformatted{
-//' AbsoluteLoss$new()
-//' AbsoluteLoss$new(offset)
+//' LossAbsolute$new()
+//' LossAbsolute$new(offset)
 //' }
 //'
 //' @section Arguments:
@@ -1085,15 +1085,15 @@ public:
 //' @examples
 //'
 //' # Create new loss object:
-//' absolute.loss = AbsoluteLoss$new()
+//' absolute.loss = LossAbsolute$new()
 //' absolute.loss
 //'
-//' @export AbsoluteLoss
-class AbsoluteLossWrapper : public LossWrapper
+//' @export LossAbsolute
+class LossAbsoluteWrapper : public LossWrapper
 {
 public:
-  AbsoluteLossWrapper () { obj = new loss::AbsoluteLoss(); }
-  AbsoluteLossWrapper (double custom_offset) { obj = new loss::AbsoluteLoss(custom_offset); }
+  LossAbsoluteWrapper () { obj = new loss::LossAbsolute(); }
+  LossAbsoluteWrapper (double custom_offset) { obj = new loss::LossAbsolute(custom_offset); }
 };
 
 //' 0-1 Loss for binary classification derifed of the binomial distribution
@@ -1120,12 +1120,12 @@ public:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name BinomialLoss
+//' @name LossBinomial
 //'
 //' @section Usage:
 //' \preformatted{
-//' BinomialLoss$new()
-//' BinomialLoss$new(offset)
+//' LossBinomial$new()
+//' LossBinomial$new(offset)
 //' }
 //'
 //' @section Arguments:
@@ -1145,28 +1145,28 @@ public:
 //' @examples
 //' 
 //' # Create new loss object:
-//' bin.loss = BinomialLoss$new()
+//' bin.loss = LossBinomial$new()
 //' bin.loss
 //'
-//' @export BinomialLoss
-class BinomialLossWrapper : public LossWrapper
+//' @export LossBinomial
+class LossBinomialWrapper : public LossWrapper
 {
 public:
-  BinomialLossWrapper () { obj = new loss::BinomialLoss(); }
-  BinomialLossWrapper (double custom_offset) { obj = new loss::BinomialLoss(custom_offset); }
+  LossBinomialWrapper () { obj = new loss::LossBinomial(); }
+  LossBinomialWrapper (double custom_offset) { obj = new loss::LossBinomial(custom_offset); }
 };
 
-//' Create customloss by using R functions.
+//' Create LossCustom by using R functions.
 //'
-//' \code{CustomLoss} creates a custom loss by using
+//' \code{LossCustom} creates a custom loss by using
 //' \code{Rcpp::Function} to set \code{R} functions.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomLoss
+//' @name LossCustom
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomLoss$new(lossFun, gradientFun, initFun)
+//' LossCustom$new(lossFun, gradientFun, initFun)
 //' }
 //'
 //' @section Arguments:
@@ -1225,30 +1225,30 @@ public:
 //' }
 //'
 //' # Create new custom quadratic loss:
-//' my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
+//' my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
 //'
-//' @export CustomLoss
-class CustomLossWrapper : public LossWrapper
+//' @export LossCustom
+class LossCustomWrapper : public LossWrapper
 {
 public:
-  CustomLossWrapper (Rcpp::Function lossFun, Rcpp::Function gradientFun,
+  LossCustomWrapper (Rcpp::Function lossFun, Rcpp::Function gradientFun,
     Rcpp::Function initFun)
   {
-    obj = new loss::CustomLoss(lossFun, gradientFun, initFun);
+    obj = new loss::LossCustom(lossFun, gradientFun, initFun);
   }
 };
 
 //' Create custom cpp losses by using cpp functions and external pointer.
 //'
-//' \code{CustomCppLoss} creates a custom loss by using
+//' \code{LossCustomCpp} creates a custom loss by using
 //' \code{Rcpp::XPtr} to set \code{C++} functions.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomCppLoss
+//' @name LossCustomCpp
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
+//' LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 //' }
 //'
 //' @section Arguments:
@@ -1278,16 +1278,16 @@ public:
 //' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 //'
 //' # Create new custom quadratic loss:
-//' my.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+//' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 //'
 //'
-//' @export CustomCppLoss
-class CustomCppLossWrapper : public LossWrapper
+//' @export LossCustomCpp
+class LossCustomCppWrapper : public LossWrapper
 {
 public:
-  CustomCppLossWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
+  LossCustomCppWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
   {
-    obj = new loss::CustomCppLoss(loss_ptr, grad_ptr, const_init_ptr);
+    obj = new loss::LossCustomCpp(loss_ptr, grad_ptr, const_init_ptr);
   }
 };
 
@@ -1301,30 +1301,30 @@ RCPP_MODULE (loss_module)
     .constructor ()
   ;
 
-  class_<QuadraticLossWrapper> ("QuadraticLoss")
+  class_<LossQuadraticWrapper> ("LossQuadratic")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
   ;
 
-  class_<AbsoluteLossWrapper> ("AbsoluteLoss")
+  class_<LossAbsoluteWrapper> ("LossAbsolute")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
   ;
 
-  class_<BinomialLossWrapper> ("BinomialLoss")
+  class_<LossBinomialWrapper> ("LossBinomial")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
   ;
 
-  class_<CustomLossWrapper> ("CustomLoss")
+  class_<LossCustomWrapper> ("LossCustom")
     .derives<LossWrapper> ("Loss")
     .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
   ;
 
-  class_<CustomCppLossWrapper> ("CustomCppLoss")
+  class_<LossCustomCppWrapper> ("LossCustomCpp")
     .derives<LossWrapper> ("Loss")
     .constructor<SEXP, SEXP, SEXP> ()
   ;
@@ -1508,7 +1508,7 @@ public:
 //' }
 //' @examples
 //' # Used loss:
-//' log.bin = BinomialLoss$new()
+//' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
 //' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
@@ -1645,7 +1645,7 @@ public:
 //' y.oob = rnorm(10)
 //'
 //' # Used loss:
-//' log.bin = BinomialLoss$new()
+//' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
 //' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
@@ -2163,7 +2163,7 @@ RCPP_MODULE(optimizer_module)
 //' factory.list$registerFactory(spline.factory.wt)
 //'
 //' # Define loss:
-//' loss.bin = BinomialLoss$new()
+//' loss.bin = LossBinomial$new()
 //'
 //' # Define optimizer:
 //' optimizer = OptimizerCoordinateDescent$new()

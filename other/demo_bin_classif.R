@@ -29,7 +29,7 @@ gradDummy = function (trutz, response) { return (NA) }
 constInitDummy = function (truth, response) { return (NA) }
 
 # Define loss:
-auc.loss = CustomLoss$new(aucLoss, gradDummy, constInitDummy)
+auc.loss = LossCustom$new(aucLoss, gradDummy, constInitDummy)
 
 # Test loss:
 response = rnorm(10)
@@ -111,7 +111,7 @@ factory.list$getModelFrame()
 ## Loss
 
 # Use quadratic loss:
-loss.bin = BinomialLoss$new()
+loss.bin = LossBinomial$new()
 
 
 ## Optimizer

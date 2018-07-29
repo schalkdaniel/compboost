@@ -130,7 +130,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         <th>Arguments</th>
       </tr>
       <tr>
-        <td><code>QuadraticLoss</code></td>
+        <td><code>LossQuadratic</code></td>
         <td>
           Using quadratic differences between prediction and response. This loss corresponds to the gaussian distribution and yields ordinary residuals as pseudo residuals.
         </td>
@@ -139,7 +139,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>AbsoluteLoss</code></td>
+        <td><code>LossAbsolute</code></td>
         <td>
           Using absolute differences between prediction and response. This loss corresponds to the laplace distribution and yields the sign as pseudo residuals.
         </td>
@@ -148,7 +148,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>BinomialLoss</code></td>
+        <td><code>LossBinomial</code></td>
         <td>
           This loss can be used for binary classification and corresponds to the binomial distribution with logit link. Note that the labels are coded as -1 and 1 which yields slightly differences to other algorithms.
         </td>
@@ -157,7 +157,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>CustomLoss</code></td>
+        <td><code>LossCustom</code></td>
         <td>Define a custom loss by using <code>C++</code> functions.</td>
         <td>
           <dt><b>loss</b></dt> <dd><code>R</code> function which calculates the loss between true values and a prediction</dd>
@@ -166,7 +166,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>      
       <tr>
-        <td><code>CustomCppLoss</code></td>
+        <td><code>LossCustomCpp</code></td>
         <td>Define a custom loss by using <code>C++</code> functions.</td>
         <td>
           <dt><b>loss.ptr</b></dt> <dd><code>C++</code> pointer to a function which calculates the loss between true values and a prediction</dd>

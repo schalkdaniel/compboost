@@ -528,12 +528,12 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name QuadraticLoss
+#' @name LossQuadratic
 #'
 #' @section Usage:
 #' \preformatted{
-#' QuadraticLoss$new()
-#' QuadraticLoss$new(offset)
+#' LossQuadratic$new()
+#' LossQuadratic$new(offset)
 #' }
 #'
 #' @section Arguments:
@@ -553,10 +553,10 @@ NULL
 #' @examples
 #'
 #' # Create new loss object:
-#' quadratic.loss = QuadraticLoss$new()
+#' quadratic.loss = LossQuadratic$new()
 #' quadratic.loss
 #'
-#' @export QuadraticLoss
+#' @export LossQuadratic
 NULL
 
 #' Absolute loss for regression tasks.
@@ -578,12 +578,12 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name AbsoluteLoss
+#' @name LossAbsolute
 #'
 #' @section Usage:
 #' \preformatted{
-#' AbsoluteLoss$new()
-#' AbsoluteLoss$new(offset)
+#' LossAbsolute$new()
+#' LossAbsolute$new(offset)
 #' }
 #'
 #' @section Arguments:
@@ -603,10 +603,10 @@ NULL
 #' @examples
 #'
 #' # Create new loss object:
-#' absolute.loss = AbsoluteLoss$new()
+#' absolute.loss = LossAbsolute$new()
 #' absolute.loss
 #'
-#' @export AbsoluteLoss
+#' @export LossAbsolute
 NULL
 
 #' 0-1 Loss for binary classification derifed of the binomial distribution
@@ -633,12 +633,12 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name BinomialLoss
+#' @name LossBinomial
 #'
 #' @section Usage:
 #' \preformatted{
-#' BinomialLoss$new()
-#' BinomialLoss$new(offset)
+#' LossBinomial$new()
+#' LossBinomial$new(offset)
 #' }
 #'
 #' @section Arguments:
@@ -658,23 +658,23 @@ NULL
 #' @examples
 #' 
 #' # Create new loss object:
-#' bin.loss = BinomialLoss$new()
+#' bin.loss = LossBinomial$new()
 #' bin.loss
 #'
-#' @export BinomialLoss
+#' @export LossBinomial
 NULL
 
-#' Create customloss by using R functions.
+#' Create LossCustom by using R functions.
 #'
-#' \code{CustomLoss} creates a custom loss by using
+#' \code{LossCustom} creates a custom loss by using
 #' \code{Rcpp::Function} to set \code{R} functions.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomLoss
+#' @name LossCustom
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomLoss$new(lossFun, gradientFun, initFun)
+#' LossCustom$new(lossFun, gradientFun, initFun)
 #' }
 #'
 #' @section Arguments:
@@ -733,22 +733,22 @@ NULL
 #' }
 #'
 #' # Create new custom quadratic loss:
-#' my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
+#' my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
 #'
-#' @export CustomLoss
+#' @export LossCustom
 NULL
 
 #' Create custom cpp losses by using cpp functions and external pointer.
 #'
-#' \code{CustomCppLoss} creates a custom loss by using
+#' \code{LossCustomCpp} creates a custom loss by using
 #' \code{Rcpp::XPtr} to set \code{C++} functions.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomCppLoss
+#' @name LossCustomCpp
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
+#' LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 #' }
 #'
 #' @section Arguments:
@@ -778,10 +778,10 @@ NULL
 #' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 #'
 #' # Create new custom quadratic loss:
-#' my.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+#' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 #'
 #'
-#' @export CustomCppLoss
+#' @export LossCustomCpp
 NULL
 
 #' Logger class to log the current iteration
@@ -909,7 +909,7 @@ NULL
 #' }
 #' @examples
 #' # Used loss:
-#' log.bin = BinomialLoss$new()
+#' log.bin = LossBinomial$new()
 #'
 #' # Define logger:
 #' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
@@ -1022,7 +1022,7 @@ NULL
 #' y.oob = rnorm(10)
 #'
 #' # Used loss:
-#' log.bin = BinomialLoss$new()
+#' log.bin = LossBinomial$new()
 #'
 #' # Define logger:
 #' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
@@ -1316,7 +1316,7 @@ NULL
 #' factory.list$registerFactory(spline.factory.wt)
 #'
 #' # Define loss:
-#' loss.bin = BinomialLoss$new()
+#' loss.bin = LossBinomial$new()
 #'
 #' # Define optimizer:
 #' optimizer = OptimizerCoordinateDescent$new()

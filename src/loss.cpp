@@ -54,25 +54,25 @@ Loss::~Loss () {
 // Child classes:
 // -------------------------------------------------------------------------- //
 
-// QuadraticLoss loss:
+// LossQuadratic loss:
 // -----------------------
 
 /**
- * \brief Default constructor of `QuadraticLoss`
+ * \brief Default constructor of `LossQuadratic`
  * 
  */
 
-QuadraticLoss::QuadraticLoss () { }
+LossQuadratic::LossQuadratic () { }
 
 /**
- * \brief Constructor to initialize custom offset of `QuadraticLoss`
+ * \brief Constructor to initialize custom offset of `LossQuadratic`
  * 
  * \param custom_offset0 `double` Offset which is used instead of the pre 
  *   defined initialization
  * 
  */
 
-QuadraticLoss::QuadraticLoss (const double& custom_offset0)
+LossQuadratic::LossQuadratic (const double& custom_offset0)
 { 
   custom_offset = custom_offset0;
   use_custom_offset = true;
@@ -88,7 +88,7 @@ QuadraticLoss::QuadraticLoss (const double& custom_offset0)
  * \returns `arma::vec` vector of elementwise application of the loss function
  */
 
-arma::vec QuadraticLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossQuadratic::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss of child class Quadratic!" << std::endl;
@@ -104,7 +104,7 @@ arma::vec QuadraticLoss::definedLoss (const arma::vec& true_value, const arma::v
  * \returns `arma::vec` vector of elementwise application of the gradient
  */
 
-arma::vec QuadraticLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossQuadratic::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient of child class Quadratic!" << std::endl;
@@ -119,7 +119,7 @@ arma::vec QuadraticLoss::definedGradient (const arma::vec& true_value, const arm
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-double QuadraticLoss::constantInitializer (const arma::vec& true_value) const
+double LossQuadratic::constantInitializer (const arma::vec& true_value) const
 {
   if (use_custom_offset) { return custom_offset; }
   return arma::mean(true_value);
@@ -132,7 +132,7 @@ double QuadraticLoss::constantInitializer (const arma::vec& true_value) const
  * 
  * \returns `arma::vec` The transforemd score.
  */
-arma::vec QuadraticLoss::responseTransformation (const arma::vec& score) const 
+arma::vec LossQuadratic::responseTransformation (const arma::vec& score) const 
 {
   return score;
 }
@@ -142,21 +142,21 @@ arma::vec QuadraticLoss::responseTransformation (const arma::vec& score) const
 // -----------------------
 
 /**
- * \brief Default constructor of `AbsoluteLoss`
+ * \brief Default constructor of `LossAbsolute`
  * 
  */
 
-AbsoluteLoss::AbsoluteLoss () { }
+LossAbsolute::LossAbsolute () { }
 
 /**
- * \brief Constructor to initialize custom offset of `AbsoluteLoss`
+ * \brief Constructor to initialize custom offset of `LossAbsolute`
  * 
  * \param custom_offset0 `double` Offset which is used instead of the pre 
  *   defined initialization
  * 
  */
 
-AbsoluteLoss::AbsoluteLoss (const double& custom_offset0)
+LossAbsolute::LossAbsolute (const double& custom_offset0)
 { 
   custom_offset = custom_offset0;
   use_custom_offset = true;
@@ -171,7 +171,7 @@ AbsoluteLoss::AbsoluteLoss (const double& custom_offset0)
  * \returns `arma::vec` vector of elementwise application of the loss function
  */
 
-arma::vec AbsoluteLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossAbsolute::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss of child class Absolute!" << std::endl;
@@ -187,7 +187,7 @@ arma::vec AbsoluteLoss::definedLoss (const arma::vec& true_value, const arma::ve
  * \returns `arma::vec` vector of elementwise application of the gradient
  */
 
-arma::vec AbsoluteLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossAbsolute::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient of child class Absolute!" << std::endl;
@@ -202,7 +202,7 @@ arma::vec AbsoluteLoss::definedGradient (const arma::vec& true_value, const arma
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
+double LossAbsolute::constantInitializer (const arma::vec& true_value) const
 {
   if (use_custom_offset) { return custom_offset; }
   return arma::median(true_value);
@@ -215,7 +215,7 @@ double AbsoluteLoss::constantInitializer (const arma::vec& true_value) const
  * 
  * \returns `arma::vec` The transforemd score.
  */
-arma::vec AbsoluteLoss::responseTransformation (const arma::vec& score) const 
+arma::vec LossAbsolute::responseTransformation (const arma::vec& score) const 
 {
   return score;
 }
@@ -225,25 +225,25 @@ arma::vec AbsoluteLoss::responseTransformation (const arma::vec& score) const
 // -----------------------
 
 /**
- * \brief Default constructor of `BinomialLoss`
+ * \brief Default constructor of `LossBinomial`
  * 
  */
 
-BinomialLoss::BinomialLoss () { }
+LossBinomial::LossBinomial () { }
 
 /**
-* \brief Constructor to initialize custom offset of `AbsoluteLoss`
+* \brief Constructor to initialize custom offset of `LossAbsolute`
 * 
 * \param custom_offset0 `double` Offset which is used instead of the pre 
 *   defined initialization
 * 
 */
 
-BinomialLoss::BinomialLoss (const double& custom_offset0)
+LossBinomial::LossBinomial (const double& custom_offset0)
 { 
   if (custom_offset0 > 1 || custom_offset0 < -1) {
     
-    Rcpp::warning("BinomialLoss allows just values between -1 and 1 as offset. Continuing with default offset.");
+    Rcpp::warning("LossBinomial allows just values between -1 and 1 as offset. Continuing with default offset.");
       
   } else {
     
@@ -262,7 +262,7 @@ BinomialLoss::BinomialLoss (const double& custom_offset0)
 * \returns `arma::vec` vector of elementwise application of the loss function
 */
 
-arma::vec BinomialLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossBinomial::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   return arma::log(1 + arma::exp(- true_value % prediction));
 }
@@ -276,7 +276,7 @@ arma::vec BinomialLoss::definedLoss (const arma::vec& true_value, const arma::ve
 * \returns `arma::vec` vector of elementwise application of the gradient
 */
 
-arma::vec BinomialLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossBinomial::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   return - true_value / (1 + arma::exp(true_value % prediction));
 }
@@ -289,7 +289,7 @@ arma::vec BinomialLoss::definedGradient (const arma::vec& true_value, const arma
 * \returns `double` constant which minimizes the empirical risk for the given true value
 */
 
-double BinomialLoss::constantInitializer (const arma::vec& true_value) const
+double LossBinomial::constantInitializer (const arma::vec& true_value) const
 {
   arma::vec unique_values = arma::unique(true_value);
   // This is necessary to prevent the program from segfolds... whyever???
@@ -320,7 +320,7 @@ double BinomialLoss::constantInitializer (const arma::vec& true_value) const
  * 
  * \returns `arma::vec` The transforemd score.
  */
-arma::vec BinomialLoss::responseTransformation (const arma::vec& score) const 
+arma::vec LossBinomial::responseTransformation (const arma::vec& score) const 
 {
   return 1 / (1 + arma::exp(-score));
 }
@@ -340,7 +340,7 @@ arma::vec BinomialLoss::responseTransformation (const arma::vec& score) const
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) 
+LossCustom::LossCustom (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp::Function initFun) 
   : lossFun( lossFun ), 
     gradientFun( gradientFun ), 
     initFun( initFun )
@@ -359,7 +359,7 @@ CustomLoss::CustomLoss (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp
  * \returns `arma::vec` vector of elementwise application of the loss function
  */
 
-arma::vec CustomLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossCustom::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss for a custom loss!" << std::endl;
@@ -376,7 +376,7 @@ arma::vec CustomLoss::definedLoss (const arma::vec& true_value, const arma::vec&
  * \returns `arma::vec` vector of elementwise application of the gradient
  */
 
-arma::vec CustomLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossCustom::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient for a custom loss!" << std::endl;
@@ -392,7 +392,7 @@ arma::vec CustomLoss::definedGradient (const arma::vec& true_value, const arma::
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-double CustomLoss::constantInitializer (const arma::vec& true_value) const
+double LossCustom::constantInitializer (const arma::vec& true_value) const
 {
   // for debugging:
   // Rcpp::Rcout << "Initialize custom loss!" << std::endl;
@@ -409,7 +409,7 @@ double CustomLoss::constantInitializer (const arma::vec& true_value) const
  * 
  * \returns `arma::vec` The transforemd score.
  */
-arma::vec CustomLoss::responseTransformation (const arma::vec& score) const 
+arma::vec LossCustom::responseTransformation (const arma::vec& score) const 
 {
   return score;
 }
@@ -430,7 +430,7 @@ arma::vec CustomLoss::responseTransformation (const arma::vec& score) const
 * \returns `double` constant which minimizes the empirical risk for the given true value
 */
 
-CustomCppLoss::CustomCppLoss (SEXP lossFun0, SEXP gradFun0, SEXP constInitFun0)
+LossCustomCpp::LossCustomCpp (SEXP lossFun0, SEXP gradFun0, SEXP constInitFun0)
 {
   // Set functions:
   Rcpp::XPtr<lossFunPtr> myTempLoss (lossFun0);
@@ -452,7 +452,7 @@ CustomCppLoss::CustomCppLoss (SEXP lossFun0, SEXP gradFun0, SEXP constInitFun0)
  * \returns `arma::vec` vector of elementwise application of the loss function
  */
 
-arma::vec CustomCppLoss::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossCustomCpp::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
   return lossFun(true_value, prediction);
 }
@@ -466,7 +466,7 @@ arma::vec CustomCppLoss::definedLoss (const arma::vec& true_value, const arma::v
 * \returns `arma::vec` vector of elementwise application of the gradient
 */
 
-arma::vec CustomCppLoss::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::vec LossCustomCpp::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
   return gradFun(true_value, prediction);
 }
@@ -479,7 +479,7 @@ arma::vec CustomCppLoss::definedGradient (const arma::vec& true_value, const arm
 * \returns `double` constant which minimizes the empirical risk for the given true value
 */
 
-double CustomCppLoss::constantInitializer (const arma::vec& true_value) const
+double LossCustomCpp::constantInitializer (const arma::vec& true_value) const
 {
   return constInitFun(true_value);
 }
@@ -491,7 +491,7 @@ double CustomCppLoss::constantInitializer (const arma::vec& true_value) const
  * 
  * \returns `arma::vec` The transforemd score.
  */
-arma::vec CustomCppLoss::responseTransformation (const arma::vec& score) const 
+arma::vec LossCustomCpp::responseTransformation (const arma::vec& score) const 
 {
   return score;
 }

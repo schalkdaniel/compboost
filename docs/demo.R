@@ -4,10 +4,10 @@ library(compboost)
 # Quickstart with wrapper functions
 # --------------------------------------------
 
-cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new())
 cboost
 
-cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new(),
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new(),
   n.knots = 4, penalty = 4)
 
 
@@ -16,7 +16,7 @@ cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss
 
 # Define Compboost object:
 cboost = Compboost$new(data = iris, target = "Petal.Length", 
-  loss = QuadraticLoss$new())
+  loss = LossQuadratic$new())
 cboost
 
 # Add base-learner:

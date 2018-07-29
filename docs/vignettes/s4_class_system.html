@@ -421,10 +421,10 @@ padding-right: 10px;
 <div id="loss-and-optimizer" class="section level2">
 <h2>Loss and Optimizer</h2>
 <p>Since we are interested in binary classification we can use the binomial loss. This loss is used while training and determines the pseudo residuals as well as the empirical risk which we want to minimize:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">loss.bin =<span class="st"> </span>BinomialLoss<span class="op">$</span><span class="kw">new</span>()</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">loss.bin =<span class="st"> </span>LossBinomial<span class="op">$</span><span class="kw">new</span>()</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">loss.bin</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">## BinomialLoss Loss:</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">## LossBinomial Loss:</span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">## </span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">##   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">## </span></a>
@@ -492,7 +492,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb17-13" data-line-number="13">constInitDummy =<span class="st"> </span><span class="cf">function</span> (truth, response) { <span class="kw">return</span> (<span class="ot">NA</span>) }</a>
 <a class="sourceLine" id="cb17-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co"># Define loss:</span></a>
-<a class="sourceLine" id="cb17-16" data-line-number="16">auc.loss =<span class="st"> </span>CustomLoss<span class="op">$</span><span class="kw">new</span>(aucLoss, gradDummy, constInitDummy)</a></code></pre></div>
+<a class="sourceLine" id="cb17-16" data-line-number="16">auc.loss =<span class="st"> </span>LossCustom<span class="op">$</span><span class="kw">new</span>(aucLoss, gradDummy, constInitDummy)</a></code></pre></div>
 <p>Now we can create a new inbag and out of bag logger to log the AUC while fitting the model:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">log.inbag.auc =<span class="st"> </span>InbagRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>)</a>

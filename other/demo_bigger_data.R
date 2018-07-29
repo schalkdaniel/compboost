@@ -74,7 +74,7 @@ size.compboost = pryr::mem_change({
   ## Loss
   
   # Use quadratic loss:
-  loss.quadratic = QuadraticLoss$new()
+  loss.quadratic = LossQuadratic$new()
   
   
   ## Optimizer
