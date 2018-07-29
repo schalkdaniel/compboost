@@ -27,7 +27,7 @@ cboost$getCurrentIteration()
 
 cboost$predict(newdata = NULL)
 
-cboost$risk()
+cboost$getInbagRisk()
 
 cboost$selected()
 
