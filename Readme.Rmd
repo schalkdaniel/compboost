@@ -81,7 +81,7 @@ cboost
 
 cboost$getBaselearnerNames()
 
-selected.features = cboost$selected()
+selected.features = cboost$getSelectedBaselearner()
 table(selected.features)
 
 params = cboost$getEstimatedCoef()

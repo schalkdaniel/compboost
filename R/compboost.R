@@ -23,9 +23,9 @@
 #'
 #' cboost$predict(newdata = NULL)
 #'
-#' cboost$risk()
+#' cboost$getInbagRisk()
 #'
-#' cboost$selected()
+#' cboost$getSelectedBaselearner()
 #' 
 #' cboost$getEstimatedCoef()
 #' 
@@ -275,7 +275,7 @@
 #' \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 #' \item{\code{train}}{method to train the algorithm.}
 #' \item{\code{predict}}{method to predict on a trained object.}
-#' \item{\code{selected}}{method to get a character vector of selected base-learner.}
+#' \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
 #' \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient for each selected base-learner.}
 #' \item{\code{plot}}{method to plot the \code{Compboost} object.}
 #' \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
@@ -287,7 +287,7 @@
 #'   n.knots = 10, penalty = 2, differences = 2)
 #' cboost$train(1000)
 #' 
-#' table(cboost$selected())
+#' table(cboost$getSelectedBaselearner())
 #' cboost$plot("hp_spline")
 NULL
 
@@ -453,14 +453,14 @@ Compboost = R6::R6Class("Compboost",
         return(self$model$predict(self$prepareData(newdata), response))
       }
     },
-    risk = function() {
+    getInbagRisk = function() {
       if(!is.null(self$model)) {
         # Return the risk + intercept, hence the current iteration + 1:
         return(self$model$getRiskVector()[seq_len(self$getCurrentIteration() + 1)])
       }
       return(NULL)
     },
-    selected = function() {
+    getSelectedBaselearner = function() {
       if(!is.null(self$model))
         return(self$model$getSelectedBaselearner())
       return(NULL)
@@ -509,8 +509,8 @@ Compboost = R6::R6Class("Compboost",
           stop("Only univariate plotting is supported.")
         }
         # Check if selected base-learner includes the proposed one + check if iters is big enough:
-        iter.min = which(self$selected() == blearner.type)[1]
-        if (! blearner.type %in% unique(self$selected())) {
+        iter.min = which(self$getSelectedBaselearner() == blearner.type)[1]
+        if (! blearner.type %in% unique(self$getSelectedBaselearner())) {
           stop("Requested base-learner plus feature was not selected.")
         } else {
           if (any(iters < iter.min)) {

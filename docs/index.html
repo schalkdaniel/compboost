@@ -213,14 +213,14 @@ cboost$getBaselearnerNames()
     </p>
     <h3>Access elements of a fitted model</h3>
     <p>
-      To get a vector of selected feature call <code>selected()</code>:      
-      <pre class="r"><code>cboost$selected()[1:10]
+      To get a vector of selected feature call <code>getSelectedBaselearner()</code>:      
+      <pre class="r"><code>cboost$getSelectedBaselearner()[1:10]
 ##  [1] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
 ##  [4] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
 ##  [7] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
 ## [10] "Petal.Width_spline"
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 ## 
 ##                   Petal.Width_spline Sepal.Length_Sepal.Width_2dim_linear
 ##                                  520                                  105
@@ -253,8 +253,8 @@ cboost$plot("Petal.Width_spline", iters = c(5, 100, 500, 1000, 1500)) +
       To make prediction using a new dataset we can call the <code>predict()</code> member function:
       <pre class="r"><code>all.equal(cboost$predict(), cboost$predict(iris))
 ## TRUE</code></pre>   
-      Additional useful member functions are <code>risk()</code> or <code>coef()</code> to get the inbag risk and the estimated parameter: 
-      <pre class="r"><code>str(cboost$risk())
+      Additional useful member functions are <code>getInbagRisk()</code> or <code>coef()</code> to get the inbag risk and the estimated parameter: 
+      <pre class="r"><code>str(cboost$getInbagRisk())
 ##  num [1:1501] 1.55 1.4 1.27 1.16 1.05 ...
 
 str(cboost$coef())

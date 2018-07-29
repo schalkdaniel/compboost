@@ -134,18 +134,18 @@ cboost
 
 ## Accessing Elements
 
-Object of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `risk()` or `predict()` to access the results:
+Object of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `getInbagRisk()` or `predict()` to access the results:
 ```{r}
 str(cboost$getEstimatedCoef())
 
-str(cboost$risk())
+str(cboost$getInbagRisk())
 
 str(cboost$predict())
 ```
 
-To obtain a vector of selected learner just call `selected()`
+To obtain a vector of selected learner just call `getSelectedBaselearner()`
 ```{r}
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 ```
 
 We can also predict on new data to get estimated probabilities. Therefore we have to use `response = TRUE`:
@@ -163,9 +163,9 @@ cboost$train(1500)
 
 str(cboost$getEstimatedCoef())
 
-str(cboost$risk())
+str(cboost$getInbagRisk())
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 
 # Get confusion matrix:
 prob.newdata = cboost$predict(df.train[idx.eval, ], response = TRUE)

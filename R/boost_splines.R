@@ -52,7 +52,7 @@
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
-#' table(mod$selected())
+#' table(mod$getSelectedBaselearner())
 #' mod$predict()
 #' mod$plot("Sepal.Width_spline")
 #' @export

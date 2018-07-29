@@ -40,13 +40,13 @@ cboost$train(1000)
 # --------------------------------------------
 
 # Get vector of selected base-learner
-selected = cboost$selected()
+selected = cboost$getSelectedBaselearner()
 selected[1:10]
 
 table(selected)
 
 # Get vector of inbag risk:
-risk = cboost$risk()
+risk = cboost$getInbagRisk()
 risk[1:10]
 
 # Train 500 additional iterations:
