@@ -150,7 +150,7 @@ data_ptr-&gt;XtX_inv * (data_ptr-&gt;sparse_data_mat * response)</code></pre>
 \hat{y} = X * \hat{\beta} = Y^T \hat{\beta}
 \]</span> This forces us to transpose <span class="math inline">\(X\)</span> due to the transposed structure. To avoid transposing <span class="math inline">\(Y\)</span> we can do the following: <span class="math display">\[
 \hat{y} = (Y^T \hat{\beta})^{TT} = (\hat{\beta}^T Y)^T
-\]</span> Within that equation we do not transpose <span class="math inline">\(Y\)</span> and therefore can take advanatage of the sparse structure. In <code>C++</code> this looks as follows (in <code>baselearner.cpp</code> function <code>PSplineBlearner::predict()</code>):</p>
+\]</span> Within that equation we do not transpose <span class="math inline">\(Y\)</span> and therefore can take advanatage of the sparse structure. In <code>C++</code> this looks as follows (in <code>baselearner.cpp</code> function <code>BaselearnerPSpline::predict()</code>):</p>
 <pre class="cpp"><code>// Old very slow multiplication:
 data_ptr-&gt;sparse_data_mat * parameter
 // New faster version:

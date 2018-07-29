@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['quadraticloss',['QuadraticLoss',['../classloss_1_1_quadratic_loss.html',1,'loss']]]
+  ['timelogger',['TimeLogger',['../classlogger_1_1_time_logger.html',1,'logger']]]
 ];

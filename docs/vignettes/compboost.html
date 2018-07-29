@@ -229,19 +229,19 @@ padding-right: 10px;
 <h3>Numerical Features</h3>
 <p>For instance, we can define a spline and a linear base-learner of the same feature:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Spline base-learner of age:</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;spline&quot;</span>, PSplineBlearner)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;spline&quot;</span>, BaselearnerPSpline)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># Linear base-learner of age (degree = 1 with intercept is default):</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;linear&quot;</span>, PolynomialBlearner)</a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;linear&quot;</span>, BaselearnerPolynomial)</a></code></pre></div>
 <p>Additional arguments can be specified after naming the base-learner. For a complete list see the <a href="https://compboost.org/functionality.html">functionality</a> at the project page:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Spline base-learner of fare:</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Fare&quot;</span>, <span class="st">&quot;spline&quot;</span>, PSplineBlearner, <span class="dt">degree =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Fare&quot;</span>, <span class="st">&quot;spline&quot;</span>, BaselearnerPSpline, <span class="dt">degree =</span> <span class="dv">2</span>,</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">n.knots =</span> <span class="dv">14</span>, <span class="dt">penalty =</span> <span class="dv">10</span>, <span class="dt">differences =</span> <span class="dv">2</span>)</a></code></pre></div>
 </div>
 <div id="categorical-features" class="section level3">
 <h3>Categorical Features</h3>
 <p>When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don’t need an intercept here:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;categorical&quot;</span>, PolynomialBlearner, </a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;categorical&quot;</span>, BaselearnerPolynomial, </a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Finally, we can check what factories are registered:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">getBaselearnerNames</span>()</a>

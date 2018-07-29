@@ -5,7 +5,7 @@ y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
 sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
 
-custom.cpp.factory = CustomCppBlearnerFactory$new(X, "my_variable_name", dataFunSetter(),
+custom.cpp.factory = BaselearnerCustomCppFactory$new(X, "my_variable_name", dataFunSetter(),
   trainFunSetter(), predictFunSetter())
 
 custom.cpp.factory$testTrain(y)

@@ -89,40 +89,40 @@ ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
 # Factories:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_PolynomialBlearner")
-ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
+setClass("Rcpp_BaselearnerPolynomial")
+ignore.me = setMethod("show", "Rcpp_BaselearnerPolynomial", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("PolynomialBlearnerPrinter")
+  return ("BaselearnerPolynomialPrinter")
 })
 
-setClass("Rcpp_PSplineBlearner")
-ignore.me = setMethod("show", "Rcpp_PSplineBlearner", function (object) {
+setClass("Rcpp_BaselearnerPSpline")
+ignore.me = setMethod("show", "Rcpp_BaselearnerPSpline", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("PSplineBlearnerPrinter")
+  return ("BaselearnerPSplinePrinter")
 })
 
-setClass("Rcpp_CustomBlearner")
-ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
+setClass("Rcpp_BaselearnerCustom")
+ignore.me = setMethod("show", "Rcpp_BaselearnerCustom", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("CustomBlearnerPrinter")
+  return ("BaselearnerCustomPrinter")
 })
 
-setClass("Rcpp_CustomCppBlearner")
-ignore.me = setMethod("show", "Rcpp_CustomCppBlearner", function (object) {
+setClass("Rcpp_BaselearnerCustomCpp")
+ignore.me = setMethod("show", "Rcpp_BaselearnerCustomCpp", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("CustomCppBlearnerPrinter")
+  return ("BaselearnerCustomCppPrinter")
 })
 
 # ---------------------------------------------------------------------------- #

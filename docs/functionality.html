@@ -81,7 +81,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         <th>Arguments</th>
       </tr>
       <tr>
-        <td><code>PolynomialBlearner</code></td>
+        <td><code>BaselearnerPolynomial</code></td>
         <td>
           Fit polynomial base-learner. Note that this base-learner takes just the power of the selected feature. Hence, there is no linear part if one selects, for instance, <code>degree = 2</code>.
         </td>
@@ -91,7 +91,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>PSplineBlearner</code></td>
+        <td><code>BaselearnerPSpline</code></td>
         <td>Fit (penalized) spline regression base-learners.</td>
         <td>
           <dt><b>degree</b></dt> <dd>Polynomial degree of bases (default: 3)</dd>
@@ -101,7 +101,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>CustomBlearner</code></td>
+        <td><code>BaselearnerCustom</code></td>
         <td>Define a custom base-learner by using <code>R</code> functions.</td>
         <td>
           <dt><b>instantiate.fun</b></dt> <dd>Feature transformation, e.g., create spline bases in the case of a spline learner</dd> 
@@ -111,7 +111,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>CustomCppBlearner</code></td>
+        <td><code>BaselearnerCustomCpp</code></td>
         <td>Define a custom base-learner by using <code>C++</code> functions.</td>
         <td>
           <dt><b>instantiate.ptr</b></dt> <dd>External pointer containing the reference to the <code>C++</code> feature transformation</dd>

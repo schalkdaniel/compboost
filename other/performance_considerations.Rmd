@@ -37,7 +37,7 @@ This forces us to transpose $X$ due to the transposed structure. To avoid transp
 \[
 \hat{y} = (Y^T \hat{\beta})^{TT} = (\hat{\beta}^T Y)^T
 \]
-Within that equation we do not transpose $Y$ and therefore can take advanatage of the sparse structure. In `C++` this looks as follows (in `baselearner.cpp` function `PSplineBlearner::predict()`):
+Within that equation we do not transpose $Y$ and therefore can take advanatage of the sparse structure. In `C++` this looks as follows (in `baselearner.cpp` function `BaselearnerPSpline::predict()`):
 ```cpp
 // Old very slow multiplication:
 data_ptr->sparse_data_mat * parameter

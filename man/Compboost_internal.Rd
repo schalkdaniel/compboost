@@ -129,10 +129,10 @@ oob.data = list(data.source.hp, data.source.wt)
 test.data = oob.data
 
 # Factories:
-linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
-linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
-quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
-spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
+linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
+quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
+spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()

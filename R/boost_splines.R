@@ -67,10 +67,10 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   # Issue: 
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", PSplineBlearner, data.source, data.target,
+      model$addBaselearner(feat, "spline", BaselearnerPSpline, data.source, data.target,
         degree = degree, n.knots = n.knots, penalty = penalty, differences = differences)
     } else {
-      model$addBaselearner(feat, "category", PolynomialBlearner, data.source, data.target,
+      model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
         degree = 1, intercept = FALSE)
     }
   }

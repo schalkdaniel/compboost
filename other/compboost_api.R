@@ -14,17 +14,17 @@ cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
 # Should throw an error:
 cboost$train(10)
 
-cboost$addBaselearner("wt", "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner("wt", "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
-cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = FALSE)
+cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomialFactory, degree = 1, intercept = FALSE)
 
 # Error should apprear:
-cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner(c("hp", "wt"), "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
-cboost$addBaselearner(c("hp", "wt"), "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
-cboost$addBaselearner("hp", "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
+cboost$addBaselearner(c("hp", "wt"), "linear", BaselearnerPolynomialFactory, degree = 1, intercept = TRUE)
+cboost$addBaselearner("hp", "quadratic", BaselearnerPolynomialFactory, degree = 2, intercept = TRUE)
 
 cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
 
@@ -125,8 +125,8 @@ data.target1 = InMemoryData$new()
 data.target2 = InMemoryData$new()
 
 
-lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, degree = 2, intercept = TRUE)
-lin.factory.intercept = PolynomialBlearnerFactory$new(data.source, data.target2, "quadratic", degree = 2, intercept = TRUE)
+lin.factory = BaselearnerPolynomialFactory$new(data.source, data.target1, degree = 2, intercept = TRUE)
+lin.factory.intercept = BaselearnerPolynomialFactory$new(data.source, data.target2, "quadratic", degree = 2, intercept = TRUE)
 # Get the transformed data:
 lin.factory
 lin.factory.intercept
@@ -161,7 +161,7 @@ idx.test = setdiff(seq_len(nrow(mtcars)), idx.train)
 
 cboost = Compboost$new(mtcars[idx.train,], "mpg_bin", loss = BinomialLoss$new())
 
-cboost$addBaselearner("wt", "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner("wt", "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
 cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")

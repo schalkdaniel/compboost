@@ -98,7 +98,7 @@ getCustomCppExample = function (example = "blearner", silent = FALSE)
   // ------------------
   
   // Now here we wrap the function to an XPtr. This one stores the pointer
-  // to the function and can be used as parameter for the CustomCppBlearnerFactory.
+  // to the function and can be used as parameter for the BaselearnerCustomCppFactory.
   
   // Note that we don't have to export the upper functions since we are just
   // interested in the pointer of the functions.
@@ -162,7 +162,7 @@ getCustomCppExample = function (example = "blearner", silent = FALSE)
   // ------------------
   
   // Now wrap the function to an XPtr. This one stores the pointer
-  // to the function and can be used as parameter for the CustomCppBlearnerFactory.
+  // to the function and can be used as parameter for the BaselearnerCustomCppFactory.
   
   // Note that it isn't necessary to export the upper functions since we are
   // interested in exporting the pointer not the function.

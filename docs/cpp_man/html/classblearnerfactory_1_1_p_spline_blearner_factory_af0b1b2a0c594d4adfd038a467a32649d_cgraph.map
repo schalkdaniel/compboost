@@ -1,4 +1,4 @@
-<map id="blearnerfactory::PSplineBlearnerFactory::PSplineBlearnerFactory" name="blearnerfactory::PSplineBlearnerFactory::PSplineBlearnerFactory">
+<map id="blearnerfactory::BaselearnerPSplineFactory::BaselearnerPSplineFactory" name="blearnerfactory::BaselearnerPSplineFactory::BaselearnerPSplineFactory">
 <area shape="rect" id="node2" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="305,5,442,32"/>
 <area shape="rect" id="node3" href="$splines_8cpp.html#ab51b53f392c4013697c072d010b250e4" title="Create knots for a specific number, degree and values. " alt="" coords="327,56,419,83"/>
 <area shape="rect" id="node4" href="$splines_8cpp.html#ab7f1f66c6e47e61810120b41dae2956d" title="Calculating penalty matrix. " alt="" coords="330,107,417,133"/>

@@ -1,7 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$classblearnerfactory_1_1_baselearner_factory.html" title="blearnerfactory::Baselearner\lFactory" alt="" coords="5,104,189,145"/>
-<area shape="rect" id="node2" href="$classblearnerfactory_1_1_custom_blearner_factory.html" title="blearnerfactory::CustomBlearner\lFactory" alt="" coords="237,5,445,47"/>
-<area shape="rect" id="node3" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html" title="blearnerfactory::CustomCpp\lBlearnerFactory" alt="" coords="250,71,433,112"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html" title="blearnerfactory::Polynomial\lBlearnerFactory" alt="" coords="252,136,431,177"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html" title="Factory to creaet PSplineBlearner objects. " alt="" coords="261,201,421,243"/>
+<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_custom_cpp_factory.html" title="blearnerfactory::Baselearner\lCustomCppFactory" alt="" coords="237,5,421,47"/>
+<area shape="rect" id="node3" href="$classblearnerfactory_1_1_baselearner_custom_factory.html" title="blearnerfactory::Baselearner\lCustomFactory" alt="" coords="237,71,421,112"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_polynomial_factory.html" title="blearnerfactory::Baselearner\lPolynomialFactory" alt="" coords="237,136,421,177"/>
+<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html" title="Factory to creaet BaselearnerPSpline objects. " alt="" coords="237,201,421,243"/>
 </map>

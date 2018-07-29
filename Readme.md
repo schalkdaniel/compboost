@@ -59,16 +59,16 @@ cboost
 ## 
 
 # Add p-spline base-learner with default parameter:
-cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = PSplineBlearner)
+cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = BaselearnerPSpline)
 
 # Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl.factory = PSplineBlearner, degree = 3, 
+cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
   knots = 10, penalty = 4, differences = 2)
-## Warning in .handleRcpp_PSplineBlearner(degree = 3, knots = 10, penalty =
+## Warning in .handleRcpp_BaselearnerPSpline(degree = 3, knots = 10, penalty =
 ## 4, : Following arguments are ignored by the spline base-learner: knots
 
 # Add categorical feature (as single linear base-learner):
-cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = PolynomialBlearner,
+cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = BaselearnerPolynomial,
     degree = 1, intercept = FALSE)
 
 # Check all registered base-learner:

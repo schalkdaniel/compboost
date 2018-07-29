@@ -1,7 +1,7 @@
 <map id="data::Data::setDataIdentifier" name="data::Data::setDataIdentifier">
-<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="257,41,450,83"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#a4db6750e7534eb7731cc3d60350d91cf" title="blearnerfactory::Polynomial\lBlearnerFactory::PolynomialBlearner\lFactory" alt="" coords="236,107,471,163"/>
-<area shape="rect" id="node6" href="$classblearnerfactory_1_1_p_spline_blearner_factory.html#af0b1b2a0c594d4adfd038a467a32649d" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="246,187,461,243"/>
-<area shape="rect" id="node3" href="$classblearnerfactory_1_1_custom_blearner_factory.html#a1a006cb772dc79cbcbcab810f5431b2c" title="blearnerfactory::CustomBlearner\lFactory::CustomBlearnerFactory" alt="" coords="533,5,743,47"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_custom_cpp_blearner_factory.html#a390de0fb001434b3252e5f723c55d7b3" title="blearnerfactory::CustomCpp\lBlearnerFactory::CustomCppBlearner\lFactory" alt="" coords="519,71,757,127"/>
+<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="275,53,468,94"/>
+<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_polynomial_factory.html#aaa0dbb3dab4a98dfb1835998fc3ffa50" title="blearnerfactory::Baselearner\lPolynomialFactory::BaselearnerPolynomial\lFactory" alt="" coords="236,119,507,175"/>
+<area shape="rect" id="node6" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html#a295bad8fb9554cb45a56c8b6c5e8e047" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="255,199,488,255"/>
+<area shape="rect" id="node3" href="$classblearnerfactory_1_1_baselearner_custom_factory.html#a17a9ea35c905f9641f684db8928d3fa8" title="blearnerfactory::Baselearner\lCustomFactory::BaselearnerCustom\lFactory" alt="" coords="566,5,799,61"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_custom_cpp_factory.html#aede05893f296f7cc4fa07b0601a426e8" title="blearnerfactory::Baselearner\lCustomCppFactory::BaselearnerCustom\lCppFactory" alt="" coords="555,85,811,141"/>
 </map>

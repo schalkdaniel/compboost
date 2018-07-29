@@ -101,7 +101,7 @@
 #' }
 #' \item{}{\code{...}\cr
 #'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory})
+#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
 #'   of the \code{S4} classes.
 #' }
 #' }
@@ -283,7 +283,7 @@
 #'
 #' @examples
 #' cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-#' cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3,
+#' cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
 #'   n.knots = 10, penalty = 2, differences = 2)
 #' cboost$train(1000)
 #' 

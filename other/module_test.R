@@ -23,7 +23,7 @@ flights = na.omit(flights)
 class(flights)
 
 cboost = Compboost$new(flights, target = "arr_delay", loss = QuadraticLoss$new())
-cboost$addBaselearner("month", "spline", PSplineBlearner)
+cboost$addBaselearner("month", "spline", BaselearnerPSpline)
 cboost$getBaselearnerNames()
 cboost$train(100)
 
