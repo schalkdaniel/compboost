@@ -24,3 +24,7 @@ tutorials
 other
 docs
 Readme_files
+paper
+Readme.*
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
