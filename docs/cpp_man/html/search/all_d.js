@@ -6,5 +6,6 @@ var searchData=
   ['oobrisklogger',['OobRiskLogger',['../classlogger_1_1_oob_risk_logger.html',1,'logger::OobRiskLogger'],['../classlogger_1_1_oob_risk_logger.html#a6c4e307fe35f2c1f329b5cddc1bfe56d',1,'logger::OobRiskLogger::OobRiskLogger()']]],
   ['optimizer',['Optimizer',['../classoptimizer_1_1_optimizer.html',1,'optimizer::Optimizer'],['../namespaceoptimizer.html',1,'optimizer']]],
   ['optimizer_2ecpp',['optimizer.cpp',['../optimizer_8cpp.html',1,'']]],
-  ['optimizer_2eh',['optimizer.h',['../optimizer_8h.html',1,'']]]
+  ['optimizer_2eh',['optimizer.h',['../optimizer_8h.html',1,'']]],
+  ['optimizercoordinatedescent',['OptimizerCoordinateDescent',['../classoptimizer_1_1_optimizer_coordinate_descent.html',1,'optimizer::OptimizerCoordinateDescent'],['../classoptimizer_1_1_optimizer_coordinate_descent.html#a5c525d14644774eeade27e1affece099',1,'optimizer::OptimizerCoordinateDescent::OptimizerCoordinateDescent()']]]
 ];

@@ -231,14 +231,14 @@ ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
 # Optimizer:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_CoordinateDescent")
-ignore.me = setMethod("show", "Rcpp_CoordinateDescent", function (object) {
+setClass("Rcpp_OptimizerCoordinateDescent")
+ignore.me = setMethod("show", "Rcpp_OptimizerCoordinateDescent", function (object) {
   cat("\n")
   cat("Greedy optimizer! Optmizing over all baselearner in each iteration and",
     "choose the one with the lowest SSE.\n")
   cat("\n\n")
 
-  return (invisible("CoordinateDescentPrinter"))
+  return (invisible("OptimizerCoordinateDescentPrinter"))
 })
 
 

@@ -1162,11 +1162,11 @@ NULL
 #' the base-learner with the smallest SSE.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CoordinateDescent
+#' @name OptimizerCoordinateDescent
 #'
 #' @section Usage:
 #' \preformatted{
-#' CoordinateDescent$new()
+#' OptimizerCoordinateDescent$new()
 #' }
 #'
 #' @section Details:
@@ -1178,9 +1178,9 @@ NULL
 #' @examples
 #'
 #' # Define optimizer:
-#' optimizer = CoordinateDescent$new()
+#' optimizer = OptimizerCoordinateDescent$new()
 #'
-#' @export CoordinateDescent
+#' @export OptimizerCoordinateDescent
 NULL
 
 #' Main Compboost Class
@@ -1319,7 +1319,7 @@ NULL
 #' loss.bin = BinomialLoss$new()
 #'
 #' # Define optimizer:
-#' optimizer = CoordinateDescent$new()
+#' optimizer = OptimizerCoordinateDescent$new()
 #'
 #' ## Logger
 #'

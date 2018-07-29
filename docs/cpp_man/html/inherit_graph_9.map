@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classoptimizer_1_1_optimizer.html" title="optimizer::Optimizer" alt="" coords="5,5,144,32"/>
-<area shape="rect" id="node2" href="$classoptimizer_1_1_coordinate_descent.html" title="optimizer::CoordinateDescent" alt="" coords="192,5,387,32"/>
+<area shape="rect" id="node1" href="$classoptimizer_1_1_optimizer.html" title="optimizer::Optimizer" alt="" coords="5,13,144,39"/>
+<area shape="rect" id="node2" href="$classoptimizer_1_1_optimizer_coordinate_descent.html" title="optimizer::OptimizerCoordinate\lDescent" alt="" coords="192,5,393,47"/>
 </map>

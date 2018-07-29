@@ -1,4 +1,4 @@
 <map id="blearner::CustomCppBlearner::predict" name="blearner::CustomCppBlearner::predict">
-<area shape="rect" id="node2" href="$classblearner_1_1_custom_blearner.html#a18971368219f6948456b8e60c20b6968" title="blearner::CustomBlearner\l::instantiateData" alt="" coords="248,5,419,47"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="265,71,402,98"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_custom_cpp_blearner.html#a14607a1d1f312d46a3024b37085c146d" title="blearner::CustomCppBlearner\l::instantiateData" alt="" coords="245,5,437,47"/>
+<area shape="rect" id="node3" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="274,71,409,98"/>
 </map>

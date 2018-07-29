@@ -117,7 +117,7 @@ loss.bin = BinomialLoss$new()
 ## Optimizer
 
 # Use the greedy optimizer:
-optimizer = CoordinateDescent$new()
+optimizer = OptimizerCoordinateDescent$new()
 
 ## Logger
 

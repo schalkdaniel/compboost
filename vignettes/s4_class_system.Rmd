@@ -310,7 +310,7 @@ loss.bin
 Since we are in the boosting context the classical way of selecting the best
 base-learner within one iteration by using the greedy optimizer:
 ```{r}
-used.optimizer = CoordinateDescent$new()
+used.optimizer = OptimizerCoordinateDescent$new()
 ```
 
 ## Define Logger

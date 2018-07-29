@@ -9,7 +9,7 @@
 #' @name Compboost
 #' @section Usage:
 #' \preformatted{
-#' cboost = Compboost$new(data, target, optimizer = CoordinateDescent$new(), loss,
+#' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
 #'   learning.rate = 0.05)
 #'
 #' cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
@@ -47,7 +47,7 @@
 #' }
 #' \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
 #'   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
-#'   Default is the \code{CoordinateDescent}.
+#'   Default is the \code{OptimizerCoordinateDescent}.
 #' }
 #' \item{\code{loss}}{[\code{S4 Loss}]\cr
 #'   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
@@ -305,7 +305,7 @@ Compboost = R6::R6Class("Compboost",
     bl.factory.list = NULL,
     positive.category = NULL,
     stop.if.all.stoppers.fulfilled = FALSE,
-    initialize = function(data, target, optimizer = CoordinateDescent$new(), loss, learning.rate = 0.05) {
+    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning.rate = 0.05) {
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertCharacter(target)
       checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, len = 1)

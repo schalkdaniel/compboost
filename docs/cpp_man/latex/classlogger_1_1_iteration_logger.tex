@@ -2,7 +2,7 @@
 \label{classlogger_1_1_iteration_logger}\index{logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}}
 
 
-\hyperlink{classlogger_1_1_logger}{Logger} class to log the current iteration.  
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the current iteration.  
 
 
 
@@ -30,32 +30,32 @@ Collaboration diagram for logger\+:\+:Iteration\+Logger\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classlogger_1_1_iteration_logger_a571269a473e45ed773685092fab123c6}{Iteration\+Logger} (const bool \&, const unsigned int \&)
-\begin{DoxyCompactList}\small\item\em Default constructor of class {\ttfamily \hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}} \end{DoxyCompactList}\item 
-void \hyperlink{classlogger_1_1_iteration_logger_a36437ff3a6e6a617f6d2107eab9fba7a}{log\+Step} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$, const double \&, const double \&)
-\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration of class {\ttfamily \hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}} \end{DoxyCompactList}\item 
-bool \hyperlink{classlogger_1_1_iteration_logger_a8b66f0d8d2ddb7f15ca14e2b9150ea80}{reached\+Stop\+Criteria} () const
+\mbox{\hyperlink{classlogger_1_1_iteration_logger_a571269a473e45ed773685092fab123c6}{Iteration\+Logger}} (const bool \&, const unsigned int \&)
+\begin{DoxyCompactList}\small\item\em Default constructor of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}}} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlogger_1_1_iteration_logger_a36437ff3a6e6a617f6d2107eab9fba7a}{log\+Step}} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$, const double \&, const double \&)
+\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}}} \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classlogger_1_1_iteration_logger_a8b66f0d8d2ddb7f15ca14e2b9150ea80}{reached\+Stop\+Criteria}} () const
 \begin{DoxyCompactList}\small\item\em Stop criteria is fulfilled if the current iteration exceed {\ttfamily max\+\_\+iteration} \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classlogger_1_1_iteration_logger_ab073ed2a2806372ec823aa495112cf24}{get\+Logged\+Data} () const
+arma\+::vec \mbox{\hyperlink{classlogger_1_1_iteration_logger_ab073ed2a2806372ec823aa495112cf24}{get\+Logged\+Data}} () const
 \begin{DoxyCompactList}\small\item\em Return the data stored within the iteration logger. \end{DoxyCompactList}\item 
-void \hyperlink{classlogger_1_1_iteration_logger_a7439c16a1482ad8c09f8ab37baf45690}{clear\+Logger\+Data} ()
+void \mbox{\hyperlink{classlogger_1_1_iteration_logger_a7439c16a1482ad8c09f8ab37baf45690}{clear\+Logger\+Data}} ()
 \begin{DoxyCompactList}\small\item\em Clear the logger data. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{classlogger_1_1_iteration_logger_ac4ba1eb6419eef2a3c21e9a4323aec1c}{initialize\+Logger\+Printer} () const
+std\+::string \mbox{\hyperlink{classlogger_1_1_iteration_logger_ac4ba1eb6419eef2a3c21e9a4323aec1c}{initialize\+Logger\+Printer}} () const
 \begin{DoxyCompactList}\small\item\em Print the head of the trace which is printed to the console. \end{DoxyCompactList}\item 
-std\+::string \hyperlink{classlogger_1_1_iteration_logger_ac3c13bef35391c0408eb196d01b2a286}{print\+Logger\+Status} () const
+std\+::string \mbox{\hyperlink{classlogger_1_1_iteration_logger_ac3c13bef35391c0408eb196d01b2a286}{print\+Logger\+Status}} () const
 \begin{DoxyCompactList}\small\item\em Print status of current iteration into the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-unsigned int \hyperlink{classlogger_1_1_iteration_logger_a3fe389ce81d0790729b59b96414a3909}{max\+\_\+iterations}
+unsigned int \mbox{\hyperlink{classlogger_1_1_iteration_logger_a3fe389ce81d0790729b59b96414a3909}{max\+\_\+iterations}}
 \begin{DoxyCompactList}\small\item\em Maximal number of iterations (only interesting if used as stopper) \end{DoxyCompactList}\item 
-std\+::vector$<$ unsigned int $>$ \hyperlink{classlogger_1_1_iteration_logger_a7c9d7b0bd792a93a6dd5d9601a10a9b4}{iterations}
+std\+::vector$<$ unsigned int $>$ \mbox{\hyperlink{classlogger_1_1_iteration_logger_a7c9d7b0bd792a93a6dd5d9601a10a9b4}{iterations}}
 \begin{DoxyCompactList}\small\item\em Vector to log the iterations. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
-\hyperlink{classlogger_1_1_logger}{Logger} class to log the current iteration. 
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the current iteration. 
 
 This class seems to be useless, but it gives more control about the algorithm and doesn\textquotesingle{}t violate the idea of object programming here. Additionally, it is quite convenient to have this class instead of tracking the iteration at any stage of the fitting within the compboost object as another vector. 
 
@@ -68,7 +68,7 @@ This class seems to be useless, but it gives more control about the algorithm an
 
 
 
-Default constructor of class {\ttfamily \hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}} 
+Default constructor of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}}} 
 
 Sets the private member {\ttfamily max\+\_\+iteration} and the tag if the logger should be used as stopper.
 
@@ -94,7 +94,7 @@ Clear the logger data.
 
 This is an important thing which is called every time in front of retraining the model. If we don\textquotesingle{}t clear the data, the new iterations are just pasted at the end of the existing vectors which couses some troubles. 
 
-Implements \hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}.
+Implements \mbox{\hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}}.
 
 \mbox{\Hypertarget{classlogger_1_1_iteration_logger_ab073ed2a2806372ec823aa495112cf24}\label{classlogger_1_1_iteration_logger_ab073ed2a2806372ec823aa495112cf24}} 
 \index{logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}!get\+Logged\+Data@{get\+Logged\+Data}}
@@ -113,7 +113,7 @@ This function returns the logged integer. An issue here is, that the later trans
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}.
+Implements \mbox{\hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}}.
 
 \mbox{\Hypertarget{classlogger_1_1_iteration_logger_ac4ba1eb6419eef2a3c21e9a4323aec1c}\label{classlogger_1_1_iteration_logger_ac4ba1eb6419eef2a3c21e9a4323aec1c}} 
 \index{logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}!initialize\+Logger\+Printer@{initialize\+Logger\+Printer}}
@@ -130,17 +130,17 @@ Print the head of the trace which is printed to the console.
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}{logger\+::\+Logger}.
+Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}{logger\+::\+Logger}}.
 
 \mbox{\Hypertarget{classlogger_1_1_iteration_logger_a36437ff3a6e6a617f6d2107eab9fba7a}\label{classlogger_1_1_iteration_logger_a36437ff3a6e6a617f6d2107eab9fba7a}} 
 \index{logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}!log\+Step@{log\+Step}}
 \index{log\+Step@{log\+Step}!logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}}
 \subsubsection{\texorpdfstring{log\+Step()}{logStep()}}
-{\footnotesize\ttfamily void logger\+::\+Iteration\+Logger\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily void logger\+::\+Iteration\+Logger\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
 
-Log current step of compboost iteration of class {\ttfamily \hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}} 
+Log current step of compboost iteration of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_iteration_logger}{Iteration\+Logger}}} 
 
 This function loggs the current iteration.
 
@@ -161,7 +161,7 @@ This function loggs the current iteration.
 \end{DoxyParams}
 
 
-Implements \hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}.
+Implements \mbox{\hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}}.
 
 \mbox{\Hypertarget{classlogger_1_1_iteration_logger_ac3c13bef35391c0408eb196d01b2a286}\label{classlogger_1_1_iteration_logger_ac3c13bef35391c0408eb196d01b2a286}} 
 \index{logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}!print\+Logger\+Status@{print\+Logger\+Status}}
@@ -173,14 +173,14 @@ Implements \hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{
 
 Print status of current iteration into the console. 
 
-The string which is created in this functions must have exactly the same length as the string from {\ttfamily \hyperlink{classlogger_1_1_iteration_logger_ac4ba1eb6419eef2a3c21e9a4323aec1c}{initialize\+Logger\+Printer()}}. Those strings are printed line by line.
+The string which is created in this functions must have exactly the same length as the string from {\ttfamily \mbox{\hyperlink{classlogger_1_1_iteration_logger_ac4ba1eb6419eef2a3c21e9a4323aec1c}{initialize\+Logger\+Printer()}}}. Those strings are printed line by line.
 
 \begin{DoxyReturn}{Returns}
 {\ttfamily std\+::string} which includes the log of the current iteration 
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}.
+Implements \mbox{\hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}}.
 
 \mbox{\Hypertarget{classlogger_1_1_iteration_logger_a8b66f0d8d2ddb7f15ca14e2b9150ea80}\label{classlogger_1_1_iteration_logger_a8b66f0d8d2ddb7f15ca14e2b9150ea80}} 
 \index{logger\+::\+Iteration\+Logger@{logger\+::\+Iteration\+Logger}!reached\+Stop\+Criteria@{reached\+Stop\+Criteria}}
@@ -197,7 +197,7 @@ Stop criteria is fulfilled if the current iteration exceed {\ttfamily max\+\_\+i
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}.
+Implements \mbox{\hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}}.
 
 
 
@@ -226,5 +226,5 @@ Maximal number of iterations (only interesting if used as stopper)
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8h}{logger.\+h}\item 
-/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8cpp}{logger.\+cpp}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}

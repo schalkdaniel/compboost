@@ -13,7 +13,7 @@ with the most \code{S4} classes. This together defines the compboost API.
 \section{Usage}{
 
 \preformatted{
-cboost = Compboost$new(data, target, optimizer = CoordinateDescent$new(), loss,
+cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning.rate = 0.05)
 
 cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
@@ -54,7 +54,7 @@ cboost$prepareData(newdata)
 }
 \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
-  Default is the \code{CoordinateDescent}.
+  Default is the \code{OptimizerCoordinateDescent}.
 }
 \item{\code{loss}}{[\code{S4 Loss}]\cr
   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the

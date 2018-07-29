@@ -112,9 +112,9 @@ test_that("Baselearner factory printer works", {
 
 test_that("Optimizer printer works", {
 
-  expect_silent({ greedy.optimizer = CoordinateDescent$new() })
+  expect_silent({ greedy.optimizer = OptimizerCoordinateDescent$new() })
   expect_output({ greedy.optimizer.printer = show(greedy.optimizer) })
-  expect_equal(greedy.optimizer.printer, "CoordinateDescentPrinter")
+  expect_equal(greedy.optimizer.printer, "OptimizerCoordinateDescentPrinter")
 
 })
 
@@ -192,7 +192,7 @@ test_that("Compboost printer works", {
   expect_silent(factory.list$registerFactory(quadratic.factory.hp))
 
   expect_silent({ loss.quadratic = QuadraticLoss$new() })
-  expect_silent({ optimizer = CoordinateDescent$new() })
+  expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
 
   expect_silent({ log.iterations = IterationLogger$new(TRUE, iter.max) })
   expect_silent({ log.time.ms    = TimeLogger$new(TRUE, 50000, "microseconds") })

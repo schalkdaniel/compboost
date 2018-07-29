@@ -19,7 +19,7 @@
 #'   data type of the target.
 #' @param optimizer [\code{S4 Optimizer}]\cr
 #'   Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-#'   exposed by Rcpp (for instance \code{CoordinateDescent$new()}).
+#'   exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).
 #' @param loss [\code{S4 Loss}]\cr
 #'   Loss used to calculate the risk and pseudo residuals. This object must be an initialized
 #'   \code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).
@@ -56,7 +56,7 @@
 #' mod$predict()
 #' mod$plot("Sepal.Width_spline")
 #' @export
-boostSplines = function(data, target, optimizer = CoordinateDescent$new(), loss, 
+boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
   learning.rate = 0.05, iterations = 100, trace = TRUE, degree = 3, n.knots = 20, 
   penalty = 2, differences = 2, data.source = InMemoryData, data.target = InMemoryData) 
 {
