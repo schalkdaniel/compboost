@@ -17,7 +17,7 @@ test_that("train works", {
   expect_equal(cboost$getCurrentIteration(), 0)
   expect_equal(cboost$getInbagRisk(), NULL)
   expect_equal(cboost$getSelectedBaselearner(), NULL)
-  expect_equal(cboost$coef(), NULL)
+  expect_equal(cboost$getEstimatedCoef(), NULL)
 
   expect_error(cboost$train(10))
   expect_error(
@@ -192,7 +192,7 @@ test_that("custom base-learner works through api", {
     cboost1$train(100, trace = FALSE)
   })
 
-  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$predict(), cboost$predict(mtcars))
 
@@ -216,7 +216,7 @@ test_that("custom cpp base-learner works through api", {
     cboost1$train(100, trace = FALSE)
   })
 
-  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$predict(), cboost$predict(mtcars))
 
@@ -252,7 +252,7 @@ test_that("custom loss works through api", {
     cboost1$train(100, trace = FALSE)
   })
 
-  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
   expect_equal(cboost$predict(mtcars), cboost$predict())
@@ -289,7 +289,7 @@ test_that("custom cpp loss works through api", {
     cboost1$train(100, trace = FALSE)
   })
 
-  expect_equivalent(cboost$coef(), cboost1$coef())
+  expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
   expect_equal(cboost$predict(mtcars), cboost$predict())
@@ -308,7 +308,7 @@ test_that("training with absolute loss works", {
 
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
-  expect_equal(cboost$coef()$offset, median(mtcars$hp))
+  expect_equal(cboost$getEstimatedCoef()$offset, median(mtcars$hp))
   expect_equal(cboost$predict(), cboost$predict(response = TRUE))
   expect_equal(cboost$predict(mtcars), cboost$predict(mtcars, response = TRUE))
 
@@ -344,7 +344,7 @@ test_that("training with binomial loss works", {
 
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
-  expect_equal(cboost$coef()$offset, 0.5 * log(sum(mtcars$hp.cat > 0)/ sum(mtcars$hp.cat < 0)))
+  expect_equal(cboost$getEstimatedCoef()$offset, 0.5 * log(sum(mtcars$hp.cat > 0)/ sum(mtcars$hp.cat < 0)))
   expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(response = TRUE))
   expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, response = TRUE))
 
@@ -399,7 +399,7 @@ test_that("custom poisson family does the same as mboost", {
     control = boost_control(mstop = 100, nu = 0.05))
   
   expect_silent({
-    coef.cboost = cboost$coef()
+    coef.cboost = cboost$getEstimatedCoef()
     coef.mboost = coef(mod)
   })
 
@@ -429,7 +429,7 @@ test_that("quadratic loss does the same as mboost", {
     degree = 3, knots = 10), data = iris, control = boost_control(mstop = 100, nu = 0.05))
   
   expect_silent({
-    coef.cboost = cboost$coef()
+    coef.cboost = cboost$getEstimatedCoef()
     coef.mboost = coef(mod)
   })
   expect_equal(coef.cboost$offset, attr(coef.mboost, "offset"))

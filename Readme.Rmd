@@ -84,7 +84,7 @@ cboost$getBaselearnerNames()
 selected.features = cboost$getSelectedBaselearner()
 table(selected.features)
 
-params = cboost$coef()
+params = cboost$getEstimatedCoef()
 str(params)
 
 cboost$train(3000)

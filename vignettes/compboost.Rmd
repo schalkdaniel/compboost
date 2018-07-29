@@ -134,9 +134,9 @@ cboost
 
 ## Accessing Elements
 
-Object of the `Compboost` class do have member functions such as `coef()`, `getInbagRisk()` or `predict()` to access the results:
+Object of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `getInbagRisk()` or `predict()` to access the results:
 ```{r}
-str(cboost$coef())
+str(cboost$getEstimatedCoef())
 
 str(cboost$getInbagRisk())
 
@@ -161,7 +161,7 @@ To set the whole model to another iteration one can easily call `train()` to ano
 ```{r}
 cboost$train(1500)
 
-str(cboost$coef())
+str(cboost$getEstimatedCoef())
 
 str(cboost$getInbagRisk())
 
