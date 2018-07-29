@@ -144,30 +144,30 @@ ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
 # Loss:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_QuadraticLoss")
-ignore.me = setMethod("show", "Rcpp_QuadraticLoss", function (object) {
-  glueLoss("QuadraticLoss", "0.5 * (y - f(x))^2")
+setClass("Rcpp_LossQuadratic")
+ignore.me = setMethod("show", "Rcpp_LossQuadratic", function (object) {
+  glueLoss("LossQuadratic", "0.5 * (y - f(x))^2")
 })
 
-setClass("Rcpp_AbsoluteLoss")
-ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
-  glueLoss("AbsoluteLoss", "|y - f(x)|")
+setClass("Rcpp_LossAbsolute")
+ignore.me = setMethod("show", "Rcpp_LossAbsolute", function (object) {
+  glueLoss("LossAbsolute", "|y - f(x)|")
 })
 
-setClass("Rcpp_BinomialLoss")
-ignore.me = setMethod("show", "Rcpp_BinomialLoss", function (object) {
-  # glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
-  glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))")
+setClass("Rcpp_LossBinomial")
+ignore.me = setMethod("show", "Rcpp_LossBinomial", function (object) {
+  # glueLoss("LossBinomial", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
+  glueLoss("LossBinomial", "log(1 + exp(-2yf(x))")
 })
 
-setClass("Rcpp_CustomLoss")
-ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
-  glueLoss("CustomLoss")
+setClass("Rcpp_LossCustom")
+ignore.me = setMethod("show", "Rcpp_LossCustom", function (object) {
+  glueLoss("LossCustom")
 })
 
-setClass("Rcpp_CustomCppLoss")
-ignore.me = setMethod("show", "Rcpp_CustomCppLoss", function (object) {
-  glueLoss("CustomCppLoss")
+setClass("Rcpp_LossCustomCpp")
+ignore.me = setMethod("show", "Rcpp_LossCustomCpp", function (object) {
+  glueLoss("LossCustomCpp")
 })
 
 # ---------------------------------------------------------------------------- #

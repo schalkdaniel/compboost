@@ -144,7 +144,7 @@ factory.list$registerFactory(quadratic.factory.hp)
 factory.list$registerFactory(spline.factory.wt)
 
 # Define loss:
-loss.bin = BinomialLoss$new()
+loss.bin = LossBinomial$new()
 
 # Define optimizer:
 optimizer = OptimizerCoordinateDescent$new()

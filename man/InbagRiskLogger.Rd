@@ -87,7 +87,7 @@ iteration \eqn{m} is calculated by:
 
 \examples{
 # Used loss:
-log.bin = BinomialLoss$new()
+log.bin = LossBinomial$new()
 
 # Define logger:
 log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)

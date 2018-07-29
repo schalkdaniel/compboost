@@ -9,7 +9,7 @@ devtools::load_all()
 # Create categorical feature:
 mtcars$mpg_cat = ifelse(mtcars$mpg > 15, "A", "B")
 
-cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new())
 
 # Should throw an error:
 cboost$train(10)
@@ -152,14 +152,14 @@ gradDummy = function (trutz, response) { return (NA) }
 constInitDummy = function (truth, response) { return (NA) }
 
 # Define loss:
-auc.loss = CustomLoss$new(aucLoss, gradDummy, constInitDummy)
+auc.loss = LossCustom$new(aucLoss, gradDummy, constInitDummy)
 
 
 mtcars$mpg_bin = ifelse(mtcars$mpg > 15, -1, 1)
 idx.train = sample(seq_len(nrow(mtcars)), nrow(mtcars) * 0.6)
 idx.test = setdiff(seq_len(nrow(mtcars)), idx.train)
 
-cboost = Compboost$new(mtcars[idx.train,], "mpg_bin", loss = BinomialLoss$new())
+cboost = Compboost$new(mtcars[idx.train,], "mpg_bin", loss = LossBinomial$new())
 
 cboost$addBaselearner("wt", "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
@@ -170,7 +170,7 @@ cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "au
 cboost$addLogger(logger = InbagRiskLogger, use.as.stopper = FALSE, logger.id = "auc_inbag",
 	auc.loss, 0.01)
 cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "risk_oob",
-	BinomialLoss$new(), 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
+	LossBinomial$new(), 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
 
 cboost$train(2000)
 

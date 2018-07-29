@@ -80,7 +80,7 @@ factory.list$getModelFrame()
 ## Loss
 
 # Use quadratic loss:
-loss.quadratic = QuadraticLoss$new()
+loss.quadratic = LossQuadratic$new()
 
 
 ## Optimizer

@@ -23,7 +23,7 @@ exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).}
 
 \item{loss}{[\code{S4 Loss}]\cr
 Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-\code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).}
+\code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).}
 
 \item{learning.rate}{[\code{numeric(1)}]\cr
 Learning rate which is used to shrink the parameter in each step.}
@@ -76,7 +76,7 @@ The returend object is an object of the \code{Compboost} class which then can be
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
-mod = boostSplines(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())

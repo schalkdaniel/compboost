@@ -111,11 +111,11 @@ protected:
 // Loss implementations as child classes:
 // -------------------------------------------------------------------------- //
 
-// QuadraticLoss loss:
+// LossQuadratic loss:
 // -----------------------
 
 /**
- * \class QuadraticLoss
+ * \class LossQuadratic
  * 
  * \brief Quadratic loss for regression tasks.
  * 
@@ -136,15 +136,15 @@ protected:
  * \f]
  * 
  */
-class QuadraticLoss : public Loss
+class LossQuadratic : public Loss
 {
 public:
   
   /// Default Constructor
-  QuadraticLoss ();
+  LossQuadratic ();
   
   /// Constructor to initialize custom offset
-  QuadraticLoss (const double&);
+  LossQuadratic (const double&);
   
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
@@ -159,11 +159,11 @@ public:
   arma::vec responseTransformation (const arma::vec&) const;
 };
 
-// AbsoluteLoss loss:
+// LossAbsolute loss:
 // -----------------------
 
 /**
- * \class AbsoluteLoss
+ * \class LossAbsolute
  * 
  * \brief Absolute loss for regression tasks.
  * 
@@ -182,15 +182,15 @@ public:
  * \f]
  * 
  */
-class AbsoluteLoss : public Loss
+class LossAbsolute : public Loss
 {
 public:
   
   /// Default Constructor
-  AbsoluteLoss ();
+  LossAbsolute ();
   
   /// Constructor to initialize custom offset
-  AbsoluteLoss (const double&);
+  LossAbsolute (const double&);
   
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
@@ -209,7 +209,7 @@ public:
 // -----------------------
 
 /**
- * \class BinomialLoss
+ * \class LossBinomial
  * 
  * \brief 0-1 Loss for binary classification derifed of the binomial distribution
  * 
@@ -238,15 +238,15 @@ public:
  * 
  */
 
-class BinomialLoss : public Loss
+class LossBinomial : public Loss
 {
 public:
   
   /// Default Constructor
-  BinomialLoss ();
+  LossBinomial ();
   
   /// Constructor to initialize custom offset
-  BinomialLoss (const double&);
+  LossBinomial (const double&);
   
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
@@ -265,7 +265,7 @@ public:
 // -----------------------
 
 /**
- * \class CustomLoss
+ * \class LossCustom
  * 
  * \brief With this loss it is possible to define custom functions out of `R`
  * 
@@ -284,7 +284,7 @@ public:
  * define a custom offset within the `initFun` function.
  * 
  */
-class CustomLoss : public Loss
+class LossCustom : public Loss
 {
 private:
   
@@ -300,7 +300,7 @@ private:
 public:
 
   /// Default constructor
-  CustomLoss (Rcpp::Function, Rcpp::Function, Rcpp::Function);
+  LossCustom (Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
@@ -319,7 +319,7 @@ public:
 // -----------------------
 
 /**
-* \class CustomCppLoss
+* \class LossCustomCpp
 * 
 * \brief With this loss it is possible to define custom functions in `C++`
 * 
@@ -338,7 +338,7 @@ typedef arma::vec (*lossFunPtr) (const arma::vec& true_value, const arma::vec& p
 typedef arma::vec (*gradFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
 typedef double (*constInitFunPtr) (const arma::vec& true_value);
 
-class CustomCppLoss : public Loss
+class LossCustomCpp : public Loss
 {
 private:
   
@@ -355,7 +355,7 @@ public:
   
   /// Default constructor to set pointer (`Rcpp`s `XPtr` class) out of 
   /// external pointer wrapped by SEXP
-  CustomCppLoss (SEXP, SEXP, SEXP);
+  LossCustomCpp (SEXP, SEXP, SEXP);
   
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;

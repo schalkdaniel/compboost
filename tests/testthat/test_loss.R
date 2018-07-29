@@ -2,22 +2,22 @@ context("The implemented loss object")
 
 test_that("Quadratic loss works", {
   
-  expect_silent({ quadratic.loss = QuadraticLoss$new() })
-  expect_silent({ quadratic.loss.custom = QuadraticLoss$new(2) })
+  expect_silent({ quadratic.loss = LossQuadratic$new() })
+  expect_silent({ quadratic.loss.custom = LossQuadratic$new(2) })
 
 })
 
 test_that("Absolute loss works", {
 
-  expect_silent({ absolute.loss = AbsoluteLoss$new() })
-  expect_silent({ absolute.loss.custom = AbsoluteLoss$new(pi) })
+  expect_silent({ absolute.loss = LossAbsolute$new() })
+  expect_silent({ absolute.loss.custom = LossAbsolute$new(pi) })
 
 })
 
 test_that("Binomial loss works", {
 
-  expect_silent({ binomial.loss = BinomialLoss$new() })
-  expect_silent({ binomial.loss.custom = BinomialLoss$new(0.7) })
+  expect_silent({ binomial.loss = LossBinomial$new() })
+  expect_silent({ binomial.loss.custom = LossBinomial$new(0.7) })
 
 })
 
@@ -34,12 +34,12 @@ test_that("Custom loss works", {
       )
     )
   }
-  expect_silent({ custom.loss = CustomLoss$new(myLossFun, myGradientFun, myConstantInitializerFun) })
+  expect_silent({ custom.loss = LossCustom$new(myLossFun, myGradientFun, myConstantInitializerFun) })
 })
 
 
 test_that("Custom cpp loss works", {
   
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })  
-  expect_silent({ custom.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
+  expect_silent({ custom.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
 })

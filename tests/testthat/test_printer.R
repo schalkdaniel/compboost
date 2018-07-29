@@ -23,17 +23,17 @@ test_that("factory list printer works", {
 
 test_that("Loss printer works", {
 
-  expect_silent({ quadratic.loss = QuadraticLoss$new() })
-  expect_silent({ absolute.loss  = AbsoluteLoss$new() })
-  expect_silent({ binomial.loss = BinomialLoss$new() })
+  expect_silent({ quadratic.loss = LossQuadratic$new() })
+  expect_silent({ absolute.loss  = LossAbsolute$new() })
+  expect_silent({ binomial.loss = LossBinomial$new() })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })  
 
   myLossFun = function (true.value, prediction) NULL
   myGradientFun = function (true.value, prediction) NULL
   myConstantInitializerFun = function (true.value) NULL
 
-  expect_silent({ custom.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
-  expect_silent({ custom.loss = CustomLoss$new(myLossFun, myGradientFun, myConstantInitializerFun) })
+  expect_silent({ custom.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
+  expect_silent({ custom.loss = LossCustom$new(myLossFun, myGradientFun, myConstantInitializerFun) })
 
   expect_output({ test.quadratic.printer  = show(quadratic.loss) })
   expect_output({ test.absolute.printer   = show(absolute.loss) })
@@ -41,11 +41,11 @@ test_that("Loss printer works", {
   expect_output({ test.custom.cpp.printer = show(custom.cpp.loss) })
   expect_output({ test.binomialprinter    = show(binomial.loss) })
 
-  expect_equal(test.quadratic.printer, "QuadraticLossPrinter")
-  expect_equal(test.absolute.printer, "AbsoluteLossPrinter")
-  expect_equal(test.binomialprinter, "BinomialLossPrinter")
-  expect_equal(test.custom.cpp.printer, "CustomCppLossPrinter")
-  expect_equal(test.custom.printer, "CustomLossPrinter")
+  expect_equal(test.quadratic.printer, "LossQuadraticPrinter")
+  expect_equal(test.absolute.printer, "LossAbsolutePrinter")
+  expect_equal(test.binomialprinter, "LossBinomialPrinter")
+  expect_equal(test.custom.cpp.printer, "LossCustomCppPrinter")
+  expect_equal(test.custom.printer, "LossCustomPrinter")
 
 })
 
@@ -120,7 +120,7 @@ test_that("Optimizer printer works", {
 
 test_that("Logger(List) printer works", {
 
-  expect_silent({ loss.quadratic = QuadraticLoss$new() })
+  expect_silent({ loss.quadratic = LossQuadratic$new() })
 
   expect_silent({
     eval.oob.test = list(
@@ -191,7 +191,7 @@ test_that("Compboost printer works", {
   expect_silent(factory.list$registerFactory(linear.factory.wt))
   expect_silent(factory.list$registerFactory(quadratic.factory.hp))
 
-  expect_silent({ loss.quadratic = QuadraticLoss$new() })
+  expect_silent({ loss.quadratic = LossQuadratic$new() })
   expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
 
   expect_silent({ log.iterations = IterationLogger$new(TRUE, iter.max) })

@@ -113,7 +113,7 @@ set.seed(123)
 y.oob = rnorm(10)
 
 # Used loss:
-log.bin = BinomialLoss$new()
+log.bin = LossBinomial$new()
 
 # Define logger:
 log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)

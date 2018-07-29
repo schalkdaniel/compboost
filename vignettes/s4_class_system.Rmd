@@ -303,7 +303,7 @@ Since we are interested in binary classification we can use the binomial
 loss. This loss is used while training and determines the pseudo residuals as 
 well as the empirical risk which we want to minimize:
 ```{r}
-loss.bin = BinomialLoss$new()
+loss.bin = LossBinomial$new()
 loss.bin
 ```
 
@@ -408,7 +408,7 @@ gradDummy = function (trutz, response) { return (NA) }
 constInitDummy = function (truth, response) { return (NA) }
 
 # Define loss:
-auc.loss = CustomLoss$new(aucLoss, gradDummy, constInitDummy)
+auc.loss = LossCustom$new(aucLoss, gradDummy, constInitDummy)
 ```
 
 Now we can create a new inbag and out of bag logger to log the AUC while 

@@ -178,11 +178,11 @@ Inheritance diagram for loss::Loss:</div>
 <div class="dyncontent">
 <div class="center"><img src="classloss_1_1_loss__inherit__graph.png" border="0" usemap="#loss_1_1_loss_inherit__map" alt="Inheritance graph"/></div>
 <map name="loss_1_1_loss_inherit__map" id="loss_1_1_loss_inherit__map">
-<area shape="rect" id="node2" href="classloss_1_1_absolute_loss.html" title="Absolute loss for regression tasks. " alt="" coords="5,226,188,377"/>
-<area shape="rect" id="node3" href="classloss_1_1_binomial_loss.html" title="0&#45;1 Loss for binary classification derifed of the binomial distribution " alt="" coords="212,226,395,377"/>
-<area shape="rect" id="node4" href="classloss_1_1_custom_cpp_loss.html" title="With this loss it is possible to define custom functions in C++ " alt="" coords="419,219,601,384"/>
-<area shape="rect" id="node5" href="classloss_1_1_custom_loss.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="625,219,808,384"/>
-<area shape="rect" id="node6" href="classloss_1_1_quadratic_loss.html" title="Quadratic loss for regression tasks. " alt="" coords="832,226,1015,377"/>
+<area shape="rect" id="node2" href="classloss_1_1_loss_absolute.html" title="Absolute loss for regression tasks. " alt="" coords="5,226,185,377"/>
+<area shape="rect" id="node3" href="classloss_1_1_loss_binomial.html" title="0&#45;1 Loss for binary classification derifed of the binomial distribution " alt="" coords="209,226,389,377"/>
+<area shape="rect" id="node4" href="classloss_1_1_loss_custom.html" title="With this loss it is possible to define custom functions out of R " alt="" coords="413,219,593,384"/>
+<area shape="rect" id="node5" href="classloss_1_1_loss_custom_cpp.html" title="With this loss it is possible to define custom functions in C++ " alt="" coords="617,219,797,384"/>
+<area shape="rect" id="node6" href="classloss_1_1_loss_quadratic.html" title="Quadratic loss for regression tasks. " alt="" coords="821,226,1001,377"/>
 </map>
 </div>
 <div class="dynheader">
@@ -276,7 +276,7 @@ Protected Attributes</h2></td></tr>
 
 <p>Constant initialization of the empirical risk. </p>
 
-<p>Implemented in <a class="el" href="classloss_1_1_custom_cpp_loss.html#a7e3691161855a4a3152982274e74c96a">loss::CustomCppLoss</a>, <a class="el" href="classloss_1_1_custom_loss.html#adf283025a8511731504cd5b620cc8b37">loss::CustomLoss</a>, <a class="el" href="classloss_1_1_binomial_loss.html#a1292422a2b07c8ebe1b168375940b029">loss::BinomialLoss</a>, <a class="el" href="classloss_1_1_absolute_loss.html#aa2ac5fb1fdf3ce0f48decd77d375ef76">loss::AbsoluteLoss</a>, and <a class="el" href="classloss_1_1_quadratic_loss.html#a43989f3fbecc27351513afe1136cdf38">loss::QuadraticLoss</a>.</p>
+<p>Implemented in <a class="el" href="classloss_1_1_loss_custom_cpp.html#af6d7652231c313abe11009e44b51d0b1">loss::LossCustomCpp</a>, <a class="el" href="classloss_1_1_loss_custom.html#a0c8abe2bf210898813d2f9e5049cc1e8">loss::LossCustom</a>, <a class="el" href="classloss_1_1_loss_binomial.html#a21c384401aa0ef9b2db379e6822c3570">loss::LossBinomial</a>, <a class="el" href="classloss_1_1_loss_absolute.html#a5272a952bf768a7bd790318b2f9cdcd6">loss::LossAbsolute</a>, and <a class="el" href="classloss_1_1_loss_quadratic.html#a8519141a797078485d04038ad44a4592">loss::LossQuadratic</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -324,7 +324,7 @@ Here is the caller graph for this function:</div>
 
 <p>Gradient of loss functions for pseudo residuals. </p>
 
-<p>Implemented in <a class="el" href="classloss_1_1_custom_cpp_loss.html#a3ff741b3a4d4c3f3515660dcb7b32781">loss::CustomCppLoss</a>, <a class="el" href="classloss_1_1_custom_loss.html#a3a79dc019e781c2956b52fb8e1cfcc56">loss::CustomLoss</a>, <a class="el" href="classloss_1_1_binomial_loss.html#a47a27e1be3e7f2c275046b42557ca21a">loss::BinomialLoss</a>, <a class="el" href="classloss_1_1_absolute_loss.html#a1886fc8ca065c6f0a207b7a8a0f8444d">loss::AbsoluteLoss</a>, and <a class="el" href="classloss_1_1_quadratic_loss.html#adb4da1acbad702b5ba8570abaa17d373">loss::QuadraticLoss</a>.</p>
+<p>Implemented in <a class="el" href="classloss_1_1_loss_custom_cpp.html#a8db4924e9a9866c00adf4a8cfd3ec38a">loss::LossCustomCpp</a>, <a class="el" href="classloss_1_1_loss_custom.html#a91761ef42f85914dde2c3e6dd7fa1a0c">loss::LossCustom</a>, <a class="el" href="classloss_1_1_loss_binomial.html#a68dcf02e90d09c3658733a9319a85f56">loss::LossBinomial</a>, <a class="el" href="classloss_1_1_loss_absolute.html#a89e530450e42f20fc060ed9141fa8c04">loss::LossAbsolute</a>, and <a class="el" href="classloss_1_1_loss_quadratic.html#ad8b03123e260e2f034e507fff9695604">loss::LossQuadratic</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -375,7 +375,7 @@ Here is the caller graph for this function:</div>
 
 <p>Specific loss function. </p>
 
-<p>Implemented in <a class="el" href="classloss_1_1_custom_cpp_loss.html#a5611805b67b0542449beb898051ab943">loss::CustomCppLoss</a>, <a class="el" href="classloss_1_1_custom_loss.html#a2a96bc5e4b4894bbaa64745a3f7c0fd5">loss::CustomLoss</a>, <a class="el" href="classloss_1_1_binomial_loss.html#aa4570a731257ba43b1b4d6099c0a4515">loss::BinomialLoss</a>, <a class="el" href="classloss_1_1_absolute_loss.html#acfef6f0de3cfcccebd4bbfc04133cf1e">loss::AbsoluteLoss</a>, and <a class="el" href="classloss_1_1_quadratic_loss.html#ae34f68243ffe021e309ed73a68796e1e">loss::QuadraticLoss</a>.</p>
+<p>Implemented in <a class="el" href="classloss_1_1_loss_custom_cpp.html#abb0c51701c90ce115cd0a0440e5b28f8">loss::LossCustomCpp</a>, <a class="el" href="classloss_1_1_loss_custom.html#ad71351d35d7739651c487c2106571118">loss::LossCustom</a>, <a class="el" href="classloss_1_1_loss_binomial.html#a396a06f762b735f83af21bdd4ba8fe9c">loss::LossBinomial</a>, <a class="el" href="classloss_1_1_loss_absolute.html#af10b320d7253ef4f566530717441059e">loss::LossAbsolute</a>, and <a class="el" href="classloss_1_1_loss_quadratic.html#a7495a0d225ae5470840e8f377419d7cf">loss::LossQuadratic</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -418,7 +418,7 @@ Here is the caller graph for this function:</div>
 
 <p>Response function to map score to output space: </p>
 
-<p>Implemented in <a class="el" href="classloss_1_1_custom_cpp_loss.html#a8ef296a7db08423f68dd389824b5aa77">loss::CustomCppLoss</a>, <a class="el" href="classloss_1_1_custom_loss.html#a0db8657c96f53b08aedaddc2fdac973b">loss::CustomLoss</a>, <a class="el" href="classloss_1_1_binomial_loss.html#a6fb5f28518ac455cb192441660e7b997">loss::BinomialLoss</a>, <a class="el" href="classloss_1_1_absolute_loss.html#aa7e0ac902d905ae97f9e2d0337c6c058">loss::AbsoluteLoss</a>, and <a class="el" href="classloss_1_1_quadratic_loss.html#a0a7f1ed4a208326bed1ba5f1bb4d37e5">loss::QuadraticLoss</a>.</p>
+<p>Implemented in <a class="el" href="classloss_1_1_loss_custom_cpp.html#ace7a23f6b0da58d12f1dec29e26acf18">loss::LossCustomCpp</a>, <a class="el" href="classloss_1_1_loss_custom.html#a42d9a0131836a056551c1073474cc8b9">loss::LossCustom</a>, <a class="el" href="classloss_1_1_loss_binomial.html#a757fd8d478732ce94e8ba9497846bcf4">loss::LossBinomial</a>, <a class="el" href="classloss_1_1_loss_absolute.html#a490d0fdab3e1af9cddbca77b8170263a">loss::LossAbsolute</a>, and <a class="el" href="classloss_1_1_loss_quadratic.html#a2534e3ec615acd6d0c80c2dbcfb8c1e9">loss::LossQuadratic</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">

@@ -5,7 +5,7 @@ sourceCpp(file = "tutorials/custom_cpp_loss.cpp")
 true.value = rnorm(100)
 prediction = rnorm(100)
 
-custom.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+custom.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 
 
 all.equal(

@@ -157,21 +157,21 @@ cboost$prepareData(newdata)
   Available choices for the loss are:
 	 \itemize{
   \item
-    \code{QuadraticLoss} (Regression)
+    \code{LossQuadratic} (Regression)
 
   \item
-    \code{AbsoluteLoss} (Regression)
+    \code{LossAbsolute} (Regression)
 
   \item
-    \code{BinomialLoss} (Binary Classification)
+    \code{LossBinomial} (Binary Classification)
 
   \item
-    \code{CustomLoss} (Custom)
+    \code{LossCustom} (Custom)
 
   \item
-    \code{CustomCppLoss} (Custom)
+    \code{LossCustomCpp} (Custom)
   }
-  (For each loss also take a look at the help pages (e.g. \code{?BinomialLoss}) and the
+  (For each loss also take a look at the help pages (e.g. \code{?LossBinomial}) and the
   \code{C++} documentation for details about the underlying formulas)
 
   \strong{Logger}\cr
@@ -297,7 +297,7 @@ cboost$prepareData(newdata)
 }
 
 \examples{
-cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new())
 cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
   n.knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)

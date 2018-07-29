@@ -22,7 +22,7 @@ var searchData=
   ['getriskvector',['getRiskVector',['../classcboost_1_1_compboost.html#a028c381577a136f8601aaf8433cf606c',1,'cboost::Compboost']]],
   ['getselectedbaselearner',['getSelectedBaselearner',['../classcboost_1_1_compboost.html#ac66d4490e6539832d4d304a86db746dc',1,'cboost::Compboost']]],
   ['getstopperstatus',['getStopperStatus',['../classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792',1,'loggerlist::LoggerList']]],
-  ['gradfun',['gradFun',['../classloss_1_1_custom_cpp_loss.html#ad4e80f74715af8955786bf6f5766f24b',1,'loss::CustomCppLoss']]],
+  ['gradfun',['gradFun',['../classloss_1_1_loss_custom_cpp.html#af5ff497278e6a271c8b26d737c87a219',1,'loss::LossCustomCpp']]],
   ['gradfunptr',['gradFunPtr',['../namespaceloss.html#acae0785d794ff7cc1b1242bab23f81c6',1,'loss']]],
-  ['gradientfun',['gradientFun',['../classloss_1_1_custom_loss.html#af3f00f7f006f7466c79fff83d763c359',1,'loss::CustomLoss']]]
+  ['gradientfun',['gradientFun',['../classloss_1_1_loss_custom.html#a320a637329b5ae7d60c9493dc757c077',1,'loss::LossCustom']]]
 ];

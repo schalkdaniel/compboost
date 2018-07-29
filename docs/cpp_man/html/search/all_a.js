@@ -14,6 +14,11 @@ var searchData=
   ['loss',['Loss',['../classloss_1_1_loss.html',1,'loss::Loss'],['../namespaceloss.html',1,'loss']]],
   ['loss_2ecpp',['loss.cpp',['../loss_8cpp.html',1,'']]],
   ['loss_2eh',['loss.h',['../loss_8h.html',1,'']]],
-  ['lossfun',['lossFun',['../classloss_1_1_custom_loss.html#a90aa6d3240cd14bc3ede21af38b70c8a',1,'loss::CustomLoss::lossFun()'],['../classloss_1_1_custom_cpp_loss.html#a4745649d71fc6e428f68b2cbc9e343b7',1,'loss::CustomCppLoss::lossFun()']]],
-  ['lossfunptr',['lossFunPtr',['../namespaceloss.html#a6658cb84c8687d6dd0904c00801542f3',1,'loss']]]
+  ['lossabsolute',['LossAbsolute',['../classloss_1_1_loss_absolute.html',1,'loss::LossAbsolute'],['../classloss_1_1_loss_absolute.html#a7da079d5e12d8970854d10f787fa9602',1,'loss::LossAbsolute::LossAbsolute()'],['../classloss_1_1_loss_absolute.html#a5b4faa92b976121bcc5cb6938015ac36',1,'loss::LossAbsolute::LossAbsolute(const double &amp;)']]],
+  ['lossbinomial',['LossBinomial',['../classloss_1_1_loss_binomial.html',1,'loss::LossBinomial'],['../classloss_1_1_loss_binomial.html#ab1d025ad170fc10db1469cccaf8d877d',1,'loss::LossBinomial::LossBinomial()'],['../classloss_1_1_loss_binomial.html#a16c4400af5c790a56ac0e0fcb7d1c5c5',1,'loss::LossBinomial::LossBinomial(const double &amp;)']]],
+  ['losscustom',['LossCustom',['../classloss_1_1_loss_custom.html',1,'loss::LossCustom'],['../classloss_1_1_loss_custom.html#a66d5f9be1b6096eded07a3e667d368ab',1,'loss::LossCustom::LossCustom()']]],
+  ['losscustomcpp',['LossCustomCpp',['../classloss_1_1_loss_custom_cpp.html',1,'loss::LossCustomCpp'],['../classloss_1_1_loss_custom_cpp.html#a4393e1067c97d6cc1200c7a4659f1f13',1,'loss::LossCustomCpp::LossCustomCpp()']]],
+  ['lossfun',['lossFun',['../classloss_1_1_loss_custom.html#a5f527b03d50dc24934a9c5394f5eba54',1,'loss::LossCustom::lossFun()'],['../classloss_1_1_loss_custom_cpp.html#ad6f3e81f24f1ea5021d7bc7ab9a67d7a',1,'loss::LossCustomCpp::lossFun()']]],
+  ['lossfunptr',['lossFunPtr',['../namespaceloss.html#a6658cb84c8687d6dd0904c00801542f3',1,'loss']]],
+  ['lossquadratic',['LossQuadratic',['../classloss_1_1_loss_quadratic.html',1,'loss::LossQuadratic'],['../classloss_1_1_loss_quadratic.html#ae1bc457d09db2e808cf7f4f80f92730a',1,'loss::LossQuadratic::LossQuadratic()'],['../classloss_1_1_loss_quadratic.html#af3ac6ec45217231e7a0829c8501ccf1b',1,'loss::LossQuadratic::LossQuadratic(const double &amp;)']]]
 ];
