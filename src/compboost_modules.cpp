@@ -1369,11 +1369,11 @@ protected:
 //' stage of the fitting within the compboost object as another vector.
 //'
 //' @format \code{\link{S4}} object.
-//' @name IterationLogger
+//' @name LoggerIteration
 //'
 //' @section Usage:
 //' \preformatted{
-//' IterationLoggerWrapper$new(use_as_stopper, max_iterations)
+//' LoggerIterationWrapper$new(use_as_stopper, max_iterations)
 //' }
 //'
 //' @section Arguments:
@@ -1402,13 +1402,13 @@ protected:
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = IterationLogger$new(FALSE, 100)
+//' log.iters = LoggerIteration$new(FALSE, 100)
 //'
 //' # Summarize logger:
 //' log.iters$summarizeLogger()
 //'
-//' @export IterationLogger
-class IterationLoggerWrapper : public LoggerWrapper
+//' @export LoggerIteration
+class LoggerIterationWrapper : public LoggerWrapper
 {
 
 private:
@@ -1416,11 +1416,11 @@ private:
   bool use_as_stopper;
 
 public:
-  IterationLoggerWrapper (bool use_as_stopper, unsigned int max_iterations)
+  LoggerIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
     : max_iterations ( max_iterations ),
       use_as_stopper ( use_as_stopper )
   {
-    obj = new logger::IterationLogger (use_as_stopper, max_iterations);
+    obj = new logger::LoggerIteration (use_as_stopper, max_iterations);
     logger_id = " iterations";
   }
 
@@ -1439,11 +1439,11 @@ public:
 //' see the usecase or extending compboost vignette.
 //'
 //' @format \code{\link{S4}} object.
-//' @name InbagRiskLogger
+//' @name LoggerInbagRisk
 //'
 //' @section Usage:
 //' \preformatted{
-//' InbagRiskLogger$new(use_as_stopper, used_loss, eps_for_break)
+//' LoggerInbagRisk$new(use_as_stopper, used_loss, eps_for_break)
 //' }
 //'
 //' @section Arguments:
@@ -1511,13 +1511,13 @@ public:
 //' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
+//' log.inbag.risk = LoggerInbagRisk$new(FALSE, log.bin, 0.05)
 //'
 //' # Summarize logger:
 //' log.inbag.risk$summarizeLogger()
 //'
-//' @export InbagRiskLogger
-class InbagRiskLoggerWrapper : public LoggerWrapper
+//' @export LoggerInbagRisk
+class LoggerInbagRiskWrapper : public LoggerWrapper
 {
 
 private:
@@ -1525,11 +1525,11 @@ private:
   bool use_as_stopper;
 
 public:
-  InbagRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
+  LoggerInbagRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
-    obj = new logger::InbagRiskLogger (use_as_stopper, used_loss.getLoss(), eps_for_break);
+    obj = new logger::LoggerInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
     logger_id = "inbag.risk";
   }
 
@@ -1550,11 +1550,11 @@ public:
 //' see the usecase or extending compboost vignette.
 //'
 //' @format \code{\link{S4}} object.
-//' @name OobRiskLogger
+//' @name LoggerOobRisk
 //'
 //' @section Usage:
 //' \preformatted{
-//' OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
+//' LoggerOobRisk$new(use_as_stopper, used_loss, eps_for_break, oob_data,
 //'   oob_response)
 //' }
 //'
@@ -1648,13 +1648,13 @@ public:
 //' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+//' log.oob.risk = LoggerOobRisk$new(FALSE, log.bin, 0.05, oob.list, y.oob)
 //'
 //' # Summarize logger:
 //' log.oob.risk$summarizeLogger()
 //'
-//' @export OobRiskLogger
-class OobRiskLoggerWrapper : public LoggerWrapper
+//' @export LoggerOobRisk
+class LoggerOobRiskWrapper : public LoggerWrapper
 {
 
 private:
@@ -1662,7 +1662,7 @@ private:
   bool use_as_stopper;
 
 public:
-  OobRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
+  LoggerOobRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
     std::map<std::string, data::Data*> oob_data_map;
@@ -1686,7 +1686,7 @@ public:
 
     }
 
-    obj = new logger::OobRiskLogger (use_as_stopper, used_loss.getLoss(), eps_for_break,
+    obj = new logger::LoggerOobRisk (use_as_stopper, used_loss.getLoss(), eps_for_break,
       oob_data_map, oob_response);
     logger_id = "oob.risk";
   }
@@ -1713,11 +1713,11 @@ public:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name TimeLogger
+//' @name LoggerTime
 //'
 //' @section Usage:
 //' \preformatted{
-//' TimeLogger$new(use_as_stopper, max_time, time_unit)
+//' LoggerTime$new(use_as_stopper, max_time, time_unit)
 //' }
 //'
 //' @section Arguments:
@@ -1750,13 +1750,13 @@ public:
 //' }
 //' @examples
 //' # Define logger:
-//' log.time = TimeLogger$new(FALSE, 20, "minutes")
+//' log.time = LoggerTime$new(FALSE, 20, "minutes")
 //'
 //' # Summarize logger:
 //' log.time$summarizeLogger()
 //'
-//' @export TimeLogger
-class TimeLoggerWrapper : public LoggerWrapper
+//' @export LoggerTime
+class LoggerTimeWrapper : public LoggerWrapper
 {
 
 private:
@@ -1765,13 +1765,13 @@ private:
   std::string time_unit;
 
 public:
-  TimeLoggerWrapper (bool use_as_stopper, unsigned int max_time,
+  LoggerTimeWrapper (bool use_as_stopper, unsigned int max_time,
     std::string time_unit)
     : use_as_stopper ( use_as_stopper ),
       max_time ( max_time ),
       time_unit ( time_unit )
   {
-    obj = new logger::TimeLogger (use_as_stopper, max_time, time_unit);
+    obj = new logger::LoggerTime (use_as_stopper, max_time, time_unit);
     logger_id = "time." + time_unit;
   }
 
@@ -1827,8 +1827,8 @@ public:
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = IterationLogger$new(TRUE, 100)
-//' log.time = TimeLogger$new(FALSE, 20, "minutes")
+//' log.iters = LoggerIteration$new(TRUE, 100)
+//' log.time = LoggerTime$new(FALSE, 20, "minutes")
 //'
 //' # Create logger list:
 //' logger.list = LoggerList$new()
@@ -1912,28 +1912,28 @@ RCPP_MODULE(logger_module)
     .constructor ()
   ;
 
-  class_<IterationLoggerWrapper> ("IterationLogger")
+  class_<LoggerIterationWrapper> ("LoggerIteration")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int> ()
-    .method("summarizeLogger", &IterationLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerIterationWrapper::summarizeLogger, "Summarize logger")
   ;
 
-  class_<InbagRiskLoggerWrapper> ("InbagRiskLogger")
+  class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper&, double> ()
-    .method("summarizeLogger", &InbagRiskLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
-  class_<OobRiskLoggerWrapper> ("OobRiskLogger")
+  class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
-    .method("summarizeLogger", &OobRiskLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
-  class_<TimeLoggerWrapper> ("TimeLogger")
+  class_<LoggerTimeWrapper> ("LoggerTime")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int, std::string> ()
-    .method("summarizeLogger", &TimeLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerTimeWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerListWrapper> ("LoggerList")
@@ -2172,10 +2172,10 @@ RCPP_MODULE(optimizer_module)
 //'
 //' # Define logger. We want just the iterations as stopper but also track the
 //' # time, inbag risk and oob risk:
-//' log.iterations  = IterationLogger$new(TRUE, 500)
-//' log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-//' log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-//' log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+//' log.iterations  = LoggerIteration$new(TRUE, 500)
+//' log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+//' log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+//' log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
 //'
 //' # Define new logger list:
 //' logger.list = LoggerList$new()

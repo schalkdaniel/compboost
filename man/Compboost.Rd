@@ -82,7 +82,7 @@ cboost$prepareData(newdata)
 }
 \item{}{\code{...}\cr
   Further arguments passed to the constructor of the \code{S4 Logger} class specified in
-  \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger})
+  \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration})
   of the \code{S4} classes.
 }
 }
@@ -178,7 +178,7 @@ cboost$prepareData(newdata)
   Available choices for the logger are:
   \itemize{
   \item
-    \code{IterationLogger}: Log current iteration. Additional arguments:
+    \code{LoggerIteration}: Log current iteration. Additional arguments:
     \describe{
       \item{\code{max_iterations} [\code{integer(1)}]}{
         Maximal number of iterations.
@@ -186,7 +186,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{TimeLogger}: Log already ellapsed time. Additional arguments:
+    \code{LoggerTime}: Log already ellapsed time. Additional arguments:
     \describe{
       \item{\code{max_time} [\code{integer(1)}]}{
         Maximal time for the computation.
@@ -197,7 +197,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{InbagRiskLogger}:
+    \code{LoggerInbagRisk}:
     \describe{
       \item{\code{used_loss} [\code{S4 Loss}]}{
         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
@@ -210,7 +210,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{OobRiskLogger}:
+    \code{LoggerOobRisk}:
     \describe{
       \item{\code{used_loss} [\code{S4 Loss}]}{
         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the

@@ -109,7 +109,7 @@ cboost$getBaselearnerNames()
 This logger logs the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
 
 ```{r}
-cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", 
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", 
   max.time = 0, time.unit = "microseconds")
 ```
 
@@ -117,7 +117,7 @@ cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time"
 
 The out of bag risk logger does basically the same as the inbag risk logger but calculates the empirical risk using another data source. Therefore, the new data object have to be a list with data sources containing the evaluation data. This is automatically done by the `prepareData()` member of `Compboost`:
 ```{r}
-cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id ="oob",
+cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id ="oob",
   LossBinomial$new(), 0.01, cboost$prepareData(df.train[idx.eval, ]), 
   df.train[["Survived"]][idx.eval])
 ```

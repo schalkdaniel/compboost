@@ -1,3 +1,3 @@
-<map id="logger::TimeLogger" name="logger::TimeLogger">
+<map id="logger::LoggerTime" name="logger::LoggerTime">
 <area shape="rect" id="node2" href="$classlogger_1_1_logger.html" title="Abstract logger class with minimal requirements to all logger. " alt="" coords="5,5,172,185"/>
 </map>

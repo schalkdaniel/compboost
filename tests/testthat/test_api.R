@@ -142,15 +142,15 @@ test_that("multiple logger works", {
   })
 
   expect_silent(
-    cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", 
+    cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", 
       max.time = 0, time.unit = "microseconds")
   )
   expect_silent(
-    cboost$addLogger(logger = OobRiskLogger, use.as.stopper = TRUE, logger.id = "oob",
+    cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = TRUE, logger.id = "oob",
       LossQuadratic$new(), 0.01, cboost$prepareData(mtcars), mtcars[["mpg"]])
   )
   expect_silent(
-    cboost$addLogger(logger = InbagRiskLogger, use.as.stopper = TRUE, logger.id = "inbag",
+    cboost$addLogger(logger = LoggerInbagRisk, use.as.stopper = TRUE, logger.id = "inbag",
       LossQuadratic$new(), 0.01)
   )
 
@@ -318,7 +318,7 @@ test_that("training throws an error with pre-defined iteration logger", {
   
   expect_silent({
     cboost = Compboost$new(mtcars, "hp", loss = LossAbsolute$new())
-    cboost$addLogger(IterationLogger, use.as.stopper = TRUE, "iteration", max.iter = 1000)
+    cboost$addLogger(LoggerIteration, use.as.stopper = TRUE, "iteration", max.iter = 1000)
     cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
       intercept = FALSE)
   })

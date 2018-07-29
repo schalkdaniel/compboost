@@ -153,10 +153,10 @@ optimizer = OptimizerCoordinateDescent$new()
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations  = IterationLogger$new(TRUE, 500)
-log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+log.iterations  = LoggerIteration$new(TRUE, 500)
+log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()

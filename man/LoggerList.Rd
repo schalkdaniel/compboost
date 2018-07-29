@@ -46,8 +46,8 @@ LoggerList$new()
 
 \examples{
 # Define logger:
-log.iters = IterationLogger$new(TRUE, 100)
-log.time = TimeLogger$new(FALSE, 20, "minutes")
+log.iters = LoggerIteration$new(TRUE, 100)
+log.time = LoggerTime$new(FALSE, 20, "minutes")
 
 # Create logger list:
 logger.list = LoggerList$new()

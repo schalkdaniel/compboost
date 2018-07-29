@@ -792,11 +792,11 @@ NULL
 #' stage of the fitting within the compboost object as another vector.
 #'
 #' @format \code{\link{S4}} object.
-#' @name IterationLogger
+#' @name LoggerIteration
 #'
 #' @section Usage:
 #' \preformatted{
-#' IterationLoggerWrapper$new(use_as_stopper, max_iterations)
+#' LoggerIterationWrapper$new(use_as_stopper, max_iterations)
 #' }
 #'
 #' @section Arguments:
@@ -825,12 +825,12 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.iters = IterationLogger$new(FALSE, 100)
+#' log.iters = LoggerIteration$new(FALSE, 100)
 #'
 #' # Summarize logger:
 #' log.iters$summarizeLogger()
 #'
-#' @export IterationLogger
+#' @export LoggerIteration
 NULL
 
 #' Logger class to log the inbag risk
@@ -840,11 +840,11 @@ NULL
 #' see the usecase or extending compboost vignette.
 #'
 #' @format \code{\link{S4}} object.
-#' @name InbagRiskLogger
+#' @name LoggerInbagRisk
 #'
 #' @section Usage:
 #' \preformatted{
-#' InbagRiskLogger$new(use_as_stopper, used_loss, eps_for_break)
+#' LoggerInbagRisk$new(use_as_stopper, used_loss, eps_for_break)
 #' }
 #'
 #' @section Arguments:
@@ -912,12 +912,12 @@ NULL
 #' log.bin = LossBinomial$new()
 #'
 #' # Define logger:
-#' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
+#' log.inbag.risk = LoggerInbagRisk$new(FALSE, log.bin, 0.05)
 #'
 #' # Summarize logger:
 #' log.inbag.risk$summarizeLogger()
 #'
-#' @export InbagRiskLogger
+#' @export LoggerInbagRisk
 NULL
 
 #' Logger class to log the out of bag risk
@@ -927,11 +927,11 @@ NULL
 #' see the usecase or extending compboost vignette.
 #'
 #' @format \code{\link{S4}} object.
-#' @name OobRiskLogger
+#' @name LoggerOobRisk
 #'
 #' @section Usage:
 #' \preformatted{
-#' OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
+#' LoggerOobRisk$new(use_as_stopper, used_loss, eps_for_break, oob_data,
 #'   oob_response)
 #' }
 #'
@@ -1025,12 +1025,12 @@ NULL
 #' log.bin = LossBinomial$new()
 #'
 #' # Define logger:
-#' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+#' log.oob.risk = LoggerOobRisk$new(FALSE, log.bin, 0.05, oob.list, y.oob)
 #'
 #' # Summarize logger:
 #' log.oob.risk$summarizeLogger()
 #'
-#' @export OobRiskLogger
+#' @export LoggerOobRisk
 NULL
 
 #' Logger class to log the ellapsed time
@@ -1045,11 +1045,11 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name TimeLogger
+#' @name LoggerTime
 #'
 #' @section Usage:
 #' \preformatted{
-#' TimeLogger$new(use_as_stopper, max_time, time_unit)
+#' LoggerTime$new(use_as_stopper, max_time, time_unit)
 #' }
 #'
 #' @section Arguments:
@@ -1082,12 +1082,12 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.time = TimeLogger$new(FALSE, 20, "minutes")
+#' log.time = LoggerTime$new(FALSE, 20, "minutes")
 #'
 #' # Summarize logger:
 #' log.time$summarizeLogger()
 #'
-#' @export TimeLogger
+#' @export LoggerTime
 NULL
 
 #' Logger list class to collect all loggers
@@ -1127,8 +1127,8 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.iters = IterationLogger$new(TRUE, 100)
-#' log.time = TimeLogger$new(FALSE, 20, "minutes")
+#' log.iters = LoggerIteration$new(TRUE, 100)
+#' log.time = LoggerTime$new(FALSE, 20, "minutes")
 #'
 #' # Create logger list:
 #' logger.list = LoggerList$new()
@@ -1325,10 +1325,10 @@ NULL
 #'
 #' # Define logger. We want just the iterations as stopper but also track the
 #' # time, inbag risk and oob risk:
-#' log.iterations  = IterationLogger$new(TRUE, 500)
-#' log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-#' log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-#' log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+#' log.iterations  = LoggerIteration$new(TRUE, 500)
+#' log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+#' log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+#' log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
 #'
 #' # Define new logger list:
 #' logger.list = LoggerList$new()

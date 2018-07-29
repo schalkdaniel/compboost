@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['max_5fiterations',['max_iterations',['../classlogger_1_1_iteration_logger.html#a3fe389ce81d0790729b59b96414a3909',1,'logger::IterationLogger']]],
-  ['max_5ftime',['max_time',['../classlogger_1_1_time_logger.html#a48ea18ddd1f44f11ad52448cfde37e63',1,'logger::TimeLogger']]],
+  ['max_5fiterations',['max_iterations',['../classlogger_1_1_logger_iteration.html#a30cfbf3c8c363807826b754f19195c44',1,'logger::LoggerIteration']]],
+  ['max_5ftime',['max_time',['../classlogger_1_1_logger_time.html#a1aec07a58b6d91c7931e627fc25018ff',1,'logger::LoggerTime']]],
   ['model',['model',['../classblearner_1_1_baselearner_custom.html#a99cf99e3a150fdbf77d7e738682df1cf',1,'blearner::BaselearnerCustom']]],
   ['model_5fis_5ftrained',['model_is_trained',['../classcboost_1_1_compboost.html#af1da66c1def3edd484f5d30b36e64eeb',1,'cboost::Compboost']]],
   ['model_5fprediction',['model_prediction',['../classcboost_1_1_compboost.html#a7f7c7fe26c16c175e7d402aca781e8da',1,'cboost::Compboost']]],

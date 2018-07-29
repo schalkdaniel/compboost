@@ -26,7 +26,7 @@ cboost$addBaselearner(c("hp", "wt"), "spline", BaselearnerPSplineFactory, degree
 cboost$addBaselearner(c("hp", "wt"), "linear", BaselearnerPolynomialFactory, degree = 1, intercept = TRUE)
 cboost$addBaselearner("hp", "quadratic", BaselearnerPolynomialFactory, degree = 2, intercept = TRUE)
 
-cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
 
 cboost$bl.factory.list
 cboost$getBaselearnerNames()
@@ -164,12 +164,12 @@ cboost = Compboost$new(mtcars[idx.train,], "mpg_bin", loss = LossBinomial$new())
 cboost$addBaselearner("wt", "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
-cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
-cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "auc_oob",
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
+cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id = "auc_oob",
 	auc.loss, 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
-cboost$addLogger(logger = InbagRiskLogger, use.as.stopper = FALSE, logger.id = "auc_inbag",
+cboost$addLogger(logger = LoggerInbagRisk, use.as.stopper = FALSE, logger.id = "auc_inbag",
 	auc.loss, 0.01)
-cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "risk_oob",
+cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id = "risk_oob",
 	LossBinomial$new(), 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
 
 cboost$train(2000)
