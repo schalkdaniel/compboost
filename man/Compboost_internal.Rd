@@ -147,7 +147,7 @@ factory.list$registerFactory(spline.factory.wt)
 loss.bin = BinomialLoss$new()
 
 # Define optimizer:
-optimizer = CoordinateDescent$new()
+optimizer = OptimizerCoordinateDescent$new()
 
 ## Logger
 

@@ -1970,11 +1970,11 @@ protected:
 //' the base-learner with the smallest SSE.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CoordinateDescent
+//' @name OptimizerCoordinateDescent
 //'
 //' @section Usage:
 //' \preformatted{
-//' CoordinateDescent$new()
+//' OptimizerCoordinateDescent$new()
 //' }
 //'
 //' @section Details:
@@ -1986,13 +1986,13 @@ protected:
 //' @examples
 //'
 //' # Define optimizer:
-//' optimizer = CoordinateDescent$new()
+//' optimizer = OptimizerCoordinateDescent$new()
 //'
-//' @export CoordinateDescent
-class CoordinateDescent : public OptimizerWrapper
+//' @export OptimizerCoordinateDescent
+class OptimizerCoordinateDescent : public OptimizerWrapper
 {
 public:
-  CoordinateDescent () { obj = new optimizer::CoordinateDescent(); }
+  OptimizerCoordinateDescent () { obj = new optimizer::OptimizerCoordinateDescent(); }
 
   // Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
   // {
@@ -2019,7 +2019,7 @@ RCPP_MODULE(optimizer_module)
     .constructor ()
   ;
 
-  class_<CoordinateDescent> ("CoordinateDescent")
+  class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
   ;
@@ -2166,7 +2166,7 @@ RCPP_MODULE(optimizer_module)
 //' loss.bin = BinomialLoss$new()
 //'
 //' # Define optimizer:
-//' optimizer = CoordinateDescent$new()
+//' optimizer = OptimizerCoordinateDescent$new()
 //'
 //' ## Logger
 //'

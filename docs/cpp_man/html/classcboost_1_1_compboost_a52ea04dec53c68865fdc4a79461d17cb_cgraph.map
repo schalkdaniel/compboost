@@ -1,20 +1,12 @@
 <map id="cboost::Compboost::trainCompboost" name="cboost::Compboost::trainCompboost">
-<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#aa178f9d817a01240b6f39075f1f445f2" title="blearnertrack::Baselearner\lTrack::clearBaselearnerVector" alt="" coords="197,5,396,47"/>
-<area shape="rect" id="node3" href="$classloss_1_1_loss.html#a65fe7dcd9370e6a549b8d1cc95fc8798" title="Constant initialization of the empirical risk. " alt="" coords="201,71,393,98"/>
-<area shape="rect" id="node4" href="$classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="458,14,618,41"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="225,281,369,323"/>
-<area shape="rect" id="node6" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="457,65,619,107"/>
-<area shape="rect" id="node7" href="$classloggerlist_1_1_logger_list.html#a07c6748f551b89aa0b1eede48b120728" title="loggerlist::LoggerList\l::initializeLoggerPrinter" alt="" coords="461,131,615,172"/>
-<area shape="rect" id="node8" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="447,197,629,223"/>
-<area shape="rect" id="node9" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="465,248,611,289"/>
-<area shape="rect" id="node10" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="451,313,625,355"/>
-<area shape="rect" id="node15" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="465,379,611,420"/>
-<area shape="rect" id="node16" href="$classloggerlist_1_1_logger_list.html#a5fc042fd489ebd88c09c469763ee9faa" title="loggerlist::LoggerList\l::logCurrent" alt="" coords="467,444,609,485"/>
-<area shape="rect" id="node17" href="$classloggerlist_1_1_logger_list.html#ad11e128af600ad8e68df3c702ef11792" title="loggerlist::LoggerList\l::getStopperStatus" alt="" coords="467,509,609,551"/>
-<area shape="rect" id="node18" href="$classloggerlist_1_1_logger_list.html#a5ec429c3927009e3d87544a0f084e678" title="loggerlist::LoggerList\l::printLoggerStatus" alt="" coords="467,575,609,616"/>
-<area shape="rect" id="node19" href="$classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="444,640,632,681"/>
-<area shape="rect" id="node11" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="681,248,826,289"/>
-<area shape="rect" id="node13" href="$classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="680,313,827,355"/>
-<area shape="rect" id="node14" href="$classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="681,379,826,420"/>
-<area shape="rect" id="node12" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="875,255,1061,282"/>
+<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#aa178f9d817a01240b6f39075f1f445f2" title="blearnertrack::Baselearner\lTrack::clearBaselearnerVector" alt="" coords="196,5,393,47"/>
+<area shape="rect" id="node3" href="$classloss_1_1_loss.html#a65fe7dcd9370e6a549b8d1cc95fc8798" title="Constant initialization of the empirical risk. " alt="" coords="199,71,390,98"/>
+<area shape="rect" id="node4" href="$classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="455,93,614,119"/>
+<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b" title="cboost::Compboost::\ltrain" alt="" coords="223,232,366,273"/>
+<area shape="rect" id="node6" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="453,144,616,185"/>
+<area shape="rect" id="node7" href="$classloss_1_1_loss.html#a267a4de70747ade4b2d84ce35a448979" title="Gradient of loss functions for pseudo residuals. " alt="" coords="445,210,625,237"/>
+<area shape="rect" id="node8" href="$classoptimizer_1_1_optimizer.html#a134c7b34ed868231fbab53e9ebfa8fd8" title="optimizer::Optimizer\l::findBestBaselearner" alt="" coords="461,261,608,303"/>
+<area shape="rect" id="node9" href="$classblearnertrack_1_1_baselearner_track.html#abc5f42093449e665b5b0dfeee8570953" title="blearnertrack::Baselearner\lTrack::insertBaselearner" alt="" coords="447,327,622,368"/>
+<area shape="rect" id="node10" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="462,392,607,433"/>
+<area shape="rect" id="node11" href="$classblearnertrack_1_1_baselearner_track.html#a596429982bd5fb1c8ffabc5f93849235" title="blearnertrack::Baselearner\lTrack::getBaselearnerVector" alt="" coords="441,457,628,499"/>
 </map>

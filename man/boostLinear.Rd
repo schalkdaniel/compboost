@@ -4,7 +4,7 @@
 \alias{boostLinear}
 \title{Wrapper to boost linear models for each feature.}
 \usage{
-boostLinear(data, target, optimizer = CoordinateDescent$new(), loss,
+boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning.rate = 0.05, iterations = 100, trace = TRUE,
   intercept = TRUE, data.source = InMemoryData,
   data.target = InMemoryData)
@@ -19,7 +19,7 @@ data type of the target.}
 
 \item{optimizer}{[\code{S4 Optimizer}]\cr
 Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-exposed by Rcpp (for instance \code{CoordinateDescent$new()}).}
+exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).}
 
 \item{loss}{[\code{S4 Loss}]\cr
 Loss used to calculate the risk and pseudo residuals. This object must be an initialized

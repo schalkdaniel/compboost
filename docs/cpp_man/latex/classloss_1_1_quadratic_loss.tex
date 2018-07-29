@@ -30,17 +30,17 @@ Collaboration diagram for loss\+:\+:Quadratic\+Loss\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classloss_1_1_quadratic_loss_acf4a3be5ab3c3aa4d574748c8864bacd}{Quadratic\+Loss} ()
+\mbox{\hyperlink{classloss_1_1_quadratic_loss_acf4a3be5ab3c3aa4d574748c8864bacd}{Quadratic\+Loss}} ()
 \begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
-\hyperlink{classloss_1_1_quadratic_loss_a41fd44734dc6d4f4189e02c79bcf4095}{Quadratic\+Loss} (const double \&)
+\mbox{\hyperlink{classloss_1_1_quadratic_loss_a41fd44734dc6d4f4189e02c79bcf4095}{Quadratic\+Loss}} (const double \&)
 \begin{DoxyCompactList}\small\item\em Constructor to initialize custom offset. \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}{defined\+Loss} (const arma\+::vec \&, const arma\+::vec \&) const
+arma\+::vec \mbox{\hyperlink{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}{defined\+Loss}} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Specific loss function. \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classloss_1_1_quadratic_loss_adb4da1acbad702b5ba8570abaa17d373}{defined\+Gradient} (const arma\+::vec \&, const arma\+::vec \&) const
+arma\+::vec \mbox{\hyperlink{classloss_1_1_quadratic_loss_adb4da1acbad702b5ba8570abaa17d373}{defined\+Gradient}} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
-double \hyperlink{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}{constant\+Initializer} (const arma\+::vec \&) const
+double \mbox{\hyperlink{classloss_1_1_quadratic_loss_a43989f3fbecc27351513afe1136cdf38}{constant\+Initializer}} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}{response\+Transformation} (const arma\+::vec \&) const
+arma\+::vec \mbox{\hyperlink{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}{response\+Transformation}} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Definition of the response function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -50,7 +50,7 @@ Quadratic loss for regression tasks.
 
 This loss can be used for regression with $y \in \mathbb{R}$.
 
-{\bfseries \hyperlink{classloss_1_1_loss}{Loss} Function\+:} \[ L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2 \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \bar{y} \] 
+{\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \frac{1}{2}\left( y - f(x) \right)^2 \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \bar{y} \] 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_acf4a3be5ab3c3aa4d574748c8864bacd}\label{classloss_1_1_quadratic_loss_acf4a3be5ab3c3aa4d574748c8864bacd}} 
@@ -63,7 +63,7 @@ This loss can be used for regression with $y \in \mathbb{R}$.
 
 Default Constructor. 
 
-Default constructor of {\ttfamily \hyperlink{classloss_1_1_quadratic_loss}{Quadratic\+Loss}} \mbox{\Hypertarget{classloss_1_1_quadratic_loss_a41fd44734dc6d4f4189e02c79bcf4095}\label{classloss_1_1_quadratic_loss_a41fd44734dc6d4f4189e02c79bcf4095}} 
+Default constructor of {\ttfamily \mbox{\hyperlink{classloss_1_1_quadratic_loss}{Quadratic\+Loss}}} \mbox{\Hypertarget{classloss_1_1_quadratic_loss_a41fd44734dc6d4f4189e02c79bcf4095}\label{classloss_1_1_quadratic_loss_a41fd44734dc6d4f4189e02c79bcf4095}} 
 \index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}!Quadratic\+Loss@{Quadratic\+Loss}}
 \index{Quadratic\+Loss@{Quadratic\+Loss}!loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}}
 \subsubsection{\texorpdfstring{Quadratic\+Loss()}{QuadraticLoss()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
@@ -73,7 +73,7 @@ Default constructor of {\ttfamily \hyperlink{classloss_1_1_quadratic_loss}{Quadr
 
 Constructor to initialize custom offset. 
 
-Constructor to initialize custom offset of {\ttfamily \hyperlink{classloss_1_1_quadratic_loss}{Quadratic\+Loss}}
+Constructor to initialize custom offset of {\ttfamily \mbox{\hyperlink{classloss_1_1_quadratic_loss}{Quadratic\+Loss}}}
 
 
 \begin{DoxyParams}{Parameters}
@@ -105,7 +105,7 @@ Definition of the constant risk initialization (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_adb4da1acbad702b5ba8570abaa17d373}\label{classloss_1_1_quadratic_loss_adb4da1acbad702b5ba8570abaa17d373}} 
 \index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}!defined\+Gradient@{defined\+Gradient}}
@@ -131,7 +131,7 @@ Definition of the gradient of the loss function (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}\label{classloss_1_1_quadratic_loss_ae34f68243ffe021e309ed73a68796e1e}} 
 \index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}!defined\+Loss@{defined\+Loss}}
@@ -157,7 +157,7 @@ Definition of the loss function (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}\label{classloss_1_1_quadratic_loss_a0a7f1ed4a208326bed1ba5f1bb4d37e5}} 
 \index{loss\+::\+Quadratic\+Loss@{loss\+::\+Quadratic\+Loss}!response\+Transformation@{response\+Transformation}}
@@ -179,11 +179,11 @@ Definition of the response function.
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{loss_8h}{loss.\+h}\item 
-/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{loss_8cpp}{loss.\+cpp}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}

@@ -19,7 +19,7 @@ factory.list$registerFactory(cubic.factory)
 factory.list$registerFactory(pow5.factory)
 
 # Optimizer:
-greedy.optimizer = CoordinateDescent$new()
+greedy.optimizer = OptimizerCoordinateDescent$new()
 
 res.linear = greedy.optimizer$testOptimizer(y.linear, factory.list)
 res.cubic  = greedy.optimizer$testOptimizer(y.cubic, factory.list)

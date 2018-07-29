@@ -9,7 +9,7 @@ Initial release
   Compboost API is almost ready to use.
   
 - **14.06.2018** \
-  Update naming `GreedyOptimizer` -> `CoordinateDescent` and small typos.
+  Update naming `GreedyOptimizer` -> `OptimizerCoordinateDescent` and small typos.
 
 - **30.03.2018** \
   Compboost is now ready to do binary classification by using the 

@@ -30,17 +30,17 @@ Collaboration diagram for loss\+:\+:Absolute\+Loss\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classloss_1_1_absolute_loss_a4b1416147d0573079f9d652097c1ab81}{Absolute\+Loss} ()
+\mbox{\hyperlink{classloss_1_1_absolute_loss_a4b1416147d0573079f9d652097c1ab81}{Absolute\+Loss}} ()
 \begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
-\hyperlink{classloss_1_1_absolute_loss_a3e056fbde0b63527bb9aadb0a4a8547a}{Absolute\+Loss} (const double \&)
+\mbox{\hyperlink{classloss_1_1_absolute_loss_a3e056fbde0b63527bb9aadb0a4a8547a}{Absolute\+Loss}} (const double \&)
 \begin{DoxyCompactList}\small\item\em Constructor to initialize custom offset. \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classloss_1_1_absolute_loss_acfef6f0de3cfcccebd4bbfc04133cf1e}{defined\+Loss} (const arma\+::vec \&, const arma\+::vec \&) const
+arma\+::vec \mbox{\hyperlink{classloss_1_1_absolute_loss_acfef6f0de3cfcccebd4bbfc04133cf1e}{defined\+Loss}} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Specific loss function. \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classloss_1_1_absolute_loss_a1886fc8ca065c6f0a207b7a8a0f8444d}{defined\+Gradient} (const arma\+::vec \&, const arma\+::vec \&) const
+arma\+::vec \mbox{\hyperlink{classloss_1_1_absolute_loss_a1886fc8ca065c6f0a207b7a8a0f8444d}{defined\+Gradient}} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
-double \hyperlink{classloss_1_1_absolute_loss_aa2ac5fb1fdf3ce0f48decd77d375ef76}{constant\+Initializer} (const arma\+::vec \&) const
+double \mbox{\hyperlink{classloss_1_1_absolute_loss_aa2ac5fb1fdf3ce0f48decd77d375ef76}{constant\+Initializer}} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\item 
-arma\+::vec \hyperlink{classloss_1_1_absolute_loss_aa7e0ac902d905ae97f9e2d0337c6c058}{response\+Transformation} (const arma\+::vec \&) const
+arma\+::vec \mbox{\hyperlink{classloss_1_1_absolute_loss_aa7e0ac902d905ae97f9e2d0337c6c058}{response\+Transformation}} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Definition of the response function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
@@ -48,7 +48,7 @@ arma\+::vec \hyperlink{classloss_1_1_absolute_loss_aa7e0ac902d905ae97f9e2d0337c6
 \subsection{Detailed Description}
 Absolute loss for regression tasks. 
 
-{\bfseries \hyperlink{classloss_1_1_loss}{Loss} Function\+:} \[ L(y, f(x)) = \left| y - f(x) \right| \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right) \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \mathrm{median}(y) \] 
+{\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \left| y - f(x) \right| \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}\left( f(x) - y \right) \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \underset{c\in\mathbb{R}}{\mathrm{arg~min}}\ \frac{1}{n}\sum\limits_{i=1}^n L\left(y^{(i)}, c\right) = \mathrm{median}(y) \] 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classloss_1_1_absolute_loss_a4b1416147d0573079f9d652097c1ab81}\label{classloss_1_1_absolute_loss_a4b1416147d0573079f9d652097c1ab81}} 
@@ -61,7 +61,7 @@ Absolute loss for regression tasks.
 
 Default Constructor. 
 
-Default constructor of {\ttfamily \hyperlink{classloss_1_1_absolute_loss}{Absolute\+Loss}} \mbox{\Hypertarget{classloss_1_1_absolute_loss_a3e056fbde0b63527bb9aadb0a4a8547a}\label{classloss_1_1_absolute_loss_a3e056fbde0b63527bb9aadb0a4a8547a}} 
+Default constructor of {\ttfamily \mbox{\hyperlink{classloss_1_1_absolute_loss}{Absolute\+Loss}}} \mbox{\Hypertarget{classloss_1_1_absolute_loss_a3e056fbde0b63527bb9aadb0a4a8547a}\label{classloss_1_1_absolute_loss_a3e056fbde0b63527bb9aadb0a4a8547a}} 
 \index{loss\+::\+Absolute\+Loss@{loss\+::\+Absolute\+Loss}!Absolute\+Loss@{Absolute\+Loss}}
 \index{Absolute\+Loss@{Absolute\+Loss}!loss\+::\+Absolute\+Loss@{loss\+::\+Absolute\+Loss}}
 \subsubsection{\texorpdfstring{Absolute\+Loss()}{AbsoluteLoss()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
@@ -71,7 +71,7 @@ Default constructor of {\ttfamily \hyperlink{classloss_1_1_absolute_loss}{Absolu
 
 Constructor to initialize custom offset. 
 
-Constructor to initialize custom offset of {\ttfamily \hyperlink{classloss_1_1_absolute_loss}{Absolute\+Loss}}
+Constructor to initialize custom offset of {\ttfamily \mbox{\hyperlink{classloss_1_1_absolute_loss}{Absolute\+Loss}}}
 
 
 \begin{DoxyParams}{Parameters}
@@ -103,7 +103,7 @@ Definition of the constant risk initialization (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_absolute_loss_a1886fc8ca065c6f0a207b7a8a0f8444d}\label{classloss_1_1_absolute_loss_a1886fc8ca065c6f0a207b7a8a0f8444d}} 
 \index{loss\+::\+Absolute\+Loss@{loss\+::\+Absolute\+Loss}!defined\+Gradient@{defined\+Gradient}}
@@ -129,7 +129,7 @@ Definition of the gradient of the loss function (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_absolute_loss_acfef6f0de3cfcccebd4bbfc04133cf1e}\label{classloss_1_1_absolute_loss_acfef6f0de3cfcccebd4bbfc04133cf1e}} 
 \index{loss\+::\+Absolute\+Loss@{loss\+::\+Absolute\+Loss}!defined\+Loss@{defined\+Loss}}
@@ -155,7 +155,7 @@ Definition of the loss function (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}}.
 
 \mbox{\Hypertarget{classloss_1_1_absolute_loss_aa7e0ac902d905ae97f9e2d0337c6c058}\label{classloss_1_1_absolute_loss_aa7e0ac902d905ae97f9e2d0337c6c058}} 
 \index{loss\+::\+Absolute\+Loss@{loss\+::\+Absolute\+Loss}!response\+Transformation@{response\+Transformation}}
@@ -177,11 +177,11 @@ Definition of the response function.
 \end{DoxyReturn}
 
 
-Implements \hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}.
+Implements \mbox{\hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{loss_8h}{loss.\+h}\item 
-/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{loss_8cpp}{loss.\+cpp}\end{DoxyCompactItemize}
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}
