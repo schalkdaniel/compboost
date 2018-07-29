@@ -1,4 +1,6 @@
 
+<img src="docs/images/cboost_hexagon.png" style="float:right;width:100px;margin-left:15px;">
+
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
 compboost: Fast and Flexible Component-Wise Boosting Framework
@@ -122,7 +124,6 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 <p align="center">
 <img src="Readme_files/cboost-1.png" width="70%" />
 </p>
-
 License
 -------
 
