@@ -2,7 +2,6 @@
 <!--
 <img src="docs/images/cboost_hexagon.png" style="float:right;width:100px;margin-left:15px;">
 -->
-
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
 compboost: Fast and Flexible Component-Wise Boosting Framework
@@ -99,13 +98,13 @@ cboost$getBaselearnerNames()
 ## [1] "pressure_spline"           "age_spline"               
 ## [3] "pregnant.cat_yes_category" "pregnant.cat_no_category"
 
-selected.features = cboost$selected()
+selected.features = cboost$getSelectedBaselearner()
 table(selected.features)
 ## selected.features
 ##               age_spline pregnant.cat_no_category          pressure_spline 
 ##                      676                       52                      272
 
-params = cboost$coef()
+params = cboost$getEstimatedCoef()
 str(params)
 ## List of 4
 ##  $ age_spline              : num [1:24, 1] 1.0107 0.5065 0.2452 0.2291 -0.0589 ...
