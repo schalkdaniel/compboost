@@ -27,7 +27,7 @@
 #'
 #' cboost$selected()
 #' 
-#' cboost$coef()
+#' cboost$getEstimatedCoef()
 #' 
 #' cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
 #' 
@@ -276,7 +276,7 @@
 #' \item{\code{train}}{method to train the algorithm.}
 #' \item{\code{predict}}{method to predict on a trained object.}
 #' \item{\code{selected}}{method to get a character vector of selected base-learner.}
-#' \item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
+#' \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient for each selected base-learner.}
 #' \item{\code{plot}}{method to plot the \code{Compboost} object.}
 #' \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
 #' }
@@ -483,7 +483,7 @@ Compboost = R6::R6Class("Compboost",
       print(p)
       print(self$loss)
     },
-    coef = function () {
+    getEstimatedCoef = function () {
       if(!is.null(self$model)) {
         return(c(self$model$getEstimatedParameter(), offset = self$model$getOffset()))
       }
@@ -560,7 +560,7 @@ Compboost = R6::R6Class("Compboost",
           
         } else {
           df.plot = data.frame(
-            effect  = feat.map %*% self$coef()[[blearner.type]],
+            effect  = feat.map %*% self$getEstimatedCoef()[[blearner.type]],
             feature = plot.data
           )
           
