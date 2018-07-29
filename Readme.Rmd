@@ -8,9 +8,8 @@ knitr::opts_chunk$set(
   , fig.path = "Readme_files/"
 )
 ```
-<!--
-<img src="docs/images/cboost_hexagon.png" style="float:right;width:100px;margin-left:15px;">
--->
+
+<img align="right" src="docs/images/cboost_hexagon.png" width="100px">
 
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost)
 [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
@@ -58,7 +57,7 @@ data(PimaIndiansDiabetes, package = "mlbench")
 PimaIndiansDiabetes$pregnant.cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
 
 # Define Compboost object:
-cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossQuadratic$new())
+cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossBinomial$new())
 cboost
 
 # Add p-spline base-learner with default parameter:
