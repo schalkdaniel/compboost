@@ -15,7 +15,7 @@ test_that("train works", {
   expect_output(cboost$print())
 
   expect_equal(cboost$getCurrentIteration(), 0)
-  expect_equal(cboost$risk(), NULL)
+  expect_equal(cboost$getInbagRisk(), NULL)
   expect_equal(cboost$getSelectedBaselearner(), NULL)
   expect_equal(cboost$coef(), NULL)
 
@@ -54,17 +54,17 @@ test_that("train works", {
   expect_equal(cboost$bl.factory.list$getRegisteredFactoryNames(), sort(c("mpg_cat_A_linear", "mpg_cat_B_linear", "hp_spline")))
 
   expect_equal(cboost$getCurrentIteration(), 4000)
-  expect_length(cboost$risk(), 4001)
+  expect_length(cboost$getInbagRisk(), 4001)
   expect_length(cboost$getSelectedBaselearner(), 4000)
 
   expect_output(cboost$train(6000))
   expect_equal(cboost$getCurrentIteration(), 6000)
-  expect_length(cboost$risk(), 6001)
+  expect_length(cboost$getInbagRisk(), 6001)
 	expect_length(cboost$getSelectedBaselearner(), 6000)
 
   expect_equal(cboost$train(100), NULL)
   expect_equal(cboost$getCurrentIteration(), 100)
-  expect_length(cboost$risk(), 101)
+  expect_length(cboost$getInbagRisk(), 101)
   expect_length(cboost$getSelectedBaselearner(), 100)
 
   expect_true(all(unique(cboost$getSelectedBaselearner()) %in% c("hp_spline", "mpg_cat_A_linear", "mpg_cat_B_linear")))
@@ -156,7 +156,7 @@ test_that("multiple logger works", {
 
   expect_output(cboost$train(100))
 
-  expect_equal(cboost$risk()[-1], cboost$model$getLoggerData()$logger.data[, 3])
+  expect_equal(cboost$getInbagRisk()[-1], cboost$model$getLoggerData()$logger.data[, 3])
   expect_equal(cboost$model$getLoggerData()$logger.data[, 2], cboost$model$getLoggerData()$logger.data[, 3])
   expect_length(cboost$model$getLoggerData()$logger.names, 4)
 
@@ -307,7 +307,7 @@ test_that("training with absolute loss works", {
   })
 
   expect_length(cboost$getSelectedBaselearner(), 100)
-  expect_length(cboost$risk(), 101)
+  expect_length(cboost$getInbagRisk(), 101)
   expect_equal(cboost$coef()$offset, median(mtcars$hp))
   expect_equal(cboost$predict(), cboost$predict(response = TRUE))
   expect_equal(cboost$predict(mtcars), cboost$predict(mtcars, response = TRUE))
@@ -324,7 +324,7 @@ test_that("training throws an error with pre-defined iteration logger", {
   })
   
   expect_warning(cboost$train(200)) 
-  expect_length(cboost$risk(), 1001)
+  expect_length(cboost$getInbagRisk(), 1001)
 })
 
 test_that("training with binomial loss works", {
@@ -343,7 +343,7 @@ test_that("training with binomial loss works", {
   expect_output(cboost$print())
 
   expect_length(cboost$getSelectedBaselearner(), 100)
-  expect_length(cboost$risk(), 101)
+  expect_length(cboost$getInbagRisk(), 101)
   expect_equal(cboost$coef()$offset, 0.5 * log(sum(mtcars$hp.cat > 0)/ sum(mtcars$hp.cat < 0)))
   expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(response = TRUE))
   expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, response = TRUE))
