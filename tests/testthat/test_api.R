@@ -82,7 +82,7 @@ test_that("predict works", {
     	n.knots = 10, penalty = 2, differences = 2)
   })
 
-  expect_silent(cboost$train(200, trace = FALSE))
+  expect_output(cboost$train(200, trace = FALSE))
 
   expect_equal(cboost$predict(), cboost$predict(mtcars))
   expect_equal(as.matrix(cboost$predict()[1]), cboost$predict(mtcars[1,]))
@@ -108,7 +108,7 @@ test_that("plot works", {
 
 	expect_error(cboost$plot("hp_spline"))
 
-	expect_silent(cboost$train(2000, trace = FALSE))
+	expect_output(cboost$train(2000, trace = FALSE))
 
 	expect_error(cboost$plot())
 	expect_error(cboost$plot("mpg_cat_A_linear"))
@@ -183,14 +183,14 @@ test_that("custom base-learner works through api", {
     cboost$addBaselearner("hp", "custom", CustomBlearner, instantiate.fun =  instantiateData, 
       train.fun = trainFun, predict.fun = predictFun, param.fun = extractParameter) 
   })
-  expect_output({ cboost$train(100) })
+  expect_output(cboost$train(100))
 
   expect_silent({
     cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
     cboost1$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
-    cboost1$train(100, trace = FALSE)
   })
+  expect_output(cboost1$train(100, trace = FALSE))
 
   expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
@@ -207,14 +207,14 @@ test_that("custom cpp base-learner works through api", {
     cboost$addBaselearner("hp", "custom", CustomCppBlearner, instantiate.ptr =  dataFunSetter(), 
       train.ptr = trainFunSetter(), predict.ptr = predictFunSetter()) 
   })
-  expect_output({ cboost$train(100) })
+  expect_output(cboost$train(100))
 
   expect_silent({
     cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
     cboost1$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
-    cboost1$train(100, trace = FALSE)
   })
+  expect_output(cboost1$train(100, trace = FALSE))
 
   expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
@@ -239,7 +239,7 @@ test_that("custom loss works through api", {
     cboost$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
   })
-  expect_output({ cboost$train(100) })
+  expect_output(cboost$train(100))
 
   expect_silent({
     cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
@@ -249,8 +249,8 @@ test_that("custom loss works through api", {
       intercept = FALSE)    
     cboost1$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
-    cboost1$train(100, trace = FALSE)
   })
+  expect_output(cboost1$train(100, trace = FALSE))
 
   expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
@@ -276,7 +276,7 @@ test_that("custom cpp loss works through api", {
     cboost$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
   })
-  expect_output({ cboost$train(100) })
+  expect_output(cboost$train(100))
 
   expect_silent({
     cboost1 = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
@@ -286,8 +286,8 @@ test_that("custom cpp loss works through api", {
       intercept = FALSE)    
     cboost1$addBaselearner("qsec", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
-    cboost1$train(100, trace = FALSE)
   })
+  expect_output(cboost1$train(100, trace = FALSE))
 
   expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
@@ -303,8 +303,8 @@ test_that("training with absolute loss works", {
     cboost = Compboost$new(mtcars, "hp", loss = AbsoluteLoss$new())
     cboost$addBaselearner("wt", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
-    cboost$train(100, trace = FALSE)
   })
+  expect_output(cboost$train(100, trace = FALSE))
 
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
@@ -337,8 +337,8 @@ test_that("training with binomial loss works", {
     cboost = Compboost$new(mtcars, "hp.cat", loss = bin.loss)
     cboost$addBaselearner("hp", "linear", PolynomialBlearner, degree = 1,
       intercept = FALSE)
-    cboost$train(100, trace = FALSE)
   })
+  expect_output(cboost$train(100, trace = FALSE))
   
   expect_output(cboost$print())
 
@@ -392,8 +392,9 @@ test_that("custom poisson family does the same as mboost", {
       degree = 1, intercept = TRUE)
     cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
       degree = 3, n.knots = 10, penalty = 2, differences = 2)
-    cboost$train(100, trace = FALSE)
   })
+  expect_output(cboost$train(100, trace = FALSE))
+  
   mod = mboost(Sepal.Length ~ bols(Sepal.Width) + bbs(Petal.Length, differences = 2, lambda = 2, 
     degree = 3, knots = 10), data = iris, family = Poisson(), 
     control = boost_control(mstop = 100, nu = 0.05))
@@ -423,8 +424,9 @@ test_that("quadratic loss does the same as mboost", {
       degree = 1, intercept = TRUE)
     cboost$addBaselearner("Petal.Length", "spline", PSplineBlearner, 
       degree = 3, n.knots = 10, penalty = 2, differences = 2)
-    cboost$train(100, trace = FALSE)
   })
+  expect_output(cboost$train(100, trace = FALSE))
+  
   mod = mboost(Sepal.Width ~ bols(Sepal.Length) + bbs(Petal.Length, differences = 2, lambda = 2, 
     degree = 3, knots = 10), data = iris, control = boost_control(mstop = 100, nu = 0.05))
   

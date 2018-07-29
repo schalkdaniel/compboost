@@ -23,9 +23,9 @@
 // -----------
 //
 //   Daniel Schalk
-//   Institut für Statistik
+//   Department of Statistics
 //   Ludwig-Maximilians-Universität München
-//   Ludwigstraße 33
+//   Ludwigstrasse 33
 //   D-80539 München
 //
 //   https://www.compstat.statistik.uni-muenchen.de
@@ -161,8 +161,21 @@ void Compboost::trainCompboost (const bool& trace)
   // Calculate risk for initial model:
   risk.push_back(arma::mean(used_loss->definedLoss(response, prediction)));
 
+  // track time:
+  auto t1 = std::chrono::high_resolution_clock::now();
+  
   // Initial training:
   train(trace, prediction, used_logger["initial.training"]);
+  
+  // track time:
+  auto t2 = std::chrono::high_resolution_clock::now();
+  
+  // After training call printer for a status:
+  Rcpp::Rcout << "\nTrain " << std::to_string(actual_iteration) << " iterations in " 
+              << std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count() 
+              << " Seconds." << std::endl;
+  Rcpp::Rcout << "Final risk based on the train set: " << std::setprecision(2) 
+              << risk.back() << std::endl << std::endl;
   
   // Set flag if model is trained:
   model_is_trained = true;

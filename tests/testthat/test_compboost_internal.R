@@ -116,7 +116,7 @@ test_that("compboost does the same as mboost", {
       optimizer    = optimizer
     )
   })
-  expect_silent(cboost$train(trace = FALSE))
+  expect_output(cboost$train(trace = FALSE))
   suppressWarnings({
     library(mboost)
 
