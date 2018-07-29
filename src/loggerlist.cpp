@@ -19,17 +19,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//
 // Written by:
 // -----------
 //
 //   Daniel Schalk
-//   Institut für Statistik
-//   Ludwig-Maximilians-Universität München
-//   Ludwigstraße 33
+//   Department of Statistics
+//   Ludwig-Maximilians-University Munich
+//   Ludwigstrasse 33
 //   D-80539 München
 //
 //   https://www.compstat.statistik.uni-muenchen.de

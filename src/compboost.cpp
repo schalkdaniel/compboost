@@ -69,6 +69,8 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
   if (used_baselearner_list.getMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
+  
+  used_logger["initial.training"]
 
   arma::vec pred_temp = prediction;
   
