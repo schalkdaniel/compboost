@@ -17,6 +17,12 @@ knitr::opts_chunk$set(collapse = TRUE)
 library(compboost)
 
 options(width = 80)
+
+required.pcks = c("ggplot2")
+
+dependencies = all(
+  unlist(lapply(required.pcks, requireNamespace, quietly = TRUE))
+)
 ```
 
 
@@ -56,7 +62,7 @@ This split will be used while the training to calculate the out of bag risk.
 Due to the `R6` API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:
 ```{r}
 cboost = Compboost$new(data = df.train[idx.train, ], target = "Survived", 
-  loss = BinomialLoss$new())
+  loss = LossBinomial$new())
 ```
 
 Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.
@@ -70,16 +76,16 @@ Adding new base-learners is also done by giving a character to indicate the feat
 For instance, we can define a spline and a linear base-learner of the same feature:
 ```{r}
 # Spline base-learner of age:
-cboost$addBaselearner("Age", "spline", PSplineBlearner)
+cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 
 # Linear base-learner of age (degree = 1 with intercept is default):
-cboost$addBaselearner("Age", "linear", PolynomialBlearner)
+cboost$addBaselearner("Age", "linear", BaselearnerPolynomial)
 ```
 
 Additional arguments can be specified after naming the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the project page:
 ```{r}
 # Spline base-learner of fare:
-cboost$addBaselearner("Fare", "spline", PSplineBlearner, degree = 2,
+cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
   n.knots = 14, penalty = 10, differences = 2)
 ```
 
@@ -87,7 +93,7 @@ cboost$addBaselearner("Fare", "spline", PSplineBlearner, degree = 2,
 
 When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don't need an intercept here:
 ```{r}
-cboost$addBaselearner("Sex", "categorical", PolynomialBlearner, 
+cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, 
   intercept = FALSE)
 ```
 
@@ -103,7 +109,7 @@ cboost$getBaselearnerNames()
 This logger logs the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
 
 ```{r}
-cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", 
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", 
   max.time = 0, time.unit = "microseconds")
 ```
 
@@ -111,8 +117,8 @@ cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time"
 
 The out of bag risk logger does basically the same as the inbag risk logger but calculates the empirical risk using another data source. Therefore, the new data object have to be a list with data sources containing the evaluation data. This is automatically done by the `prepareData()` member of `Compboost`:
 ```{r}
-cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id ="oob",
-  BinomialLoss$new(), 0.01, cboost$prepareData(df.train[idx.eval, ]), 
+cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id ="oob",
+  LossBinomial$new(), 0.01, cboost$prepareData(df.train[idx.eval, ]), 
   df.train[["Survived"]][idx.eval])
 ```
 
@@ -128,18 +134,18 @@ cboost
 
 ## Accessing Elements
 
-Object of the `Compboost` class do have member functions such as `coef()`, `risk()` or `predict()` to access the results:
+Object of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `getInbagRisk()` or `predict()` to access the results:
 ```{r}
-str(cboost$coef())
+str(cboost$getEstimatedCoef())
 
-str(cboost$risk())
+str(cboost$getInbagRisk())
 
 str(cboost$predict())
 ```
 
-To obtain a vector of selected learner just call `selected()`
+To obtain a vector of selected learner just call `getSelectedBaselearner()`
 ```{r}
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 ```
 
 We can also predict on new data to get estimated probabilities. Therefore we have to use `response = TRUE`:
@@ -155,11 +161,11 @@ To set the whole model to another iteration one can easily call `train()` to ano
 ```{r}
 cboost$train(1500)
 
-str(cboost$coef())
+str(cboost$getEstimatedCoef())
 
-str(cboost$risk())
+str(cboost$getInbagRisk())
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 
 # Get confusion matrix:
 prob.newdata = cboost$predict(df.train[idx.eval, ], response = TRUE)
@@ -173,7 +179,7 @@ To visualize a base-learner it is important to exactly use a name from `getBasel
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
 ```
-```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(200, 500, 1000, 1500))
 
@@ -184,7 +190,7 @@ gridExtra::grid.arrange(gg1, gg2, ncol = 2)
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
 ```
-```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 gg1 = cboost$plot("Fare_spline")
 gg2 = cboost$plot("Fare_spline", iters = c(200, 500, 1000, 1500))
 

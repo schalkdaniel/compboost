@@ -13,7 +13,7 @@ with the most \code{S4} classes. This together defines the compboost API.
 \section{Usage}{
 
 \preformatted{
-cboost = Compboost$new(data, target, optimizer = CoordinateDescent$new(), loss,
+cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning.rate = 0.05)
 
 cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
@@ -27,11 +27,11 @@ cboost$getCurrentIteration()
 
 cboost$predict(newdata = NULL)
 
-cboost$risk()
+cboost$getInbagRisk()
 
-cboost$selected()
+cboost$getSelectedBaselearner()
 
-cboost$coef()
+cboost$getEstimatedCoef()
 
 cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
 
@@ -54,7 +54,7 @@ cboost$prepareData(newdata)
 }
 \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
-  Default is the \code{CoordinateDescent}.
+  Default is the \code{OptimizerCoordinateDescent}.
 }
 \item{\code{loss}}{[\code{S4 Loss}]\cr
   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
@@ -82,19 +82,19 @@ cboost$prepareData(newdata)
 }
 \item{}{\code{...}\cr
   Further arguments passed to the constructor of the \code{S4 Logger} class specified in
-  \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger})
+  \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration})
   of the \code{S4} classes.
 }
 }
 
 \strong{For cboost$addBaselearner()}:
 \describe{
-\item{\code{features}}{[\code{vector(mode = "character")}]\cr
-  Vector of column names which are used within the specified base-learner. Each column is defined as
-  new base-learner by using the learner given by \code{bl.factory}.
+\item{\code{features}}{[\code{character()}]\cr
+  Vector of column names which are used as input data matrix for a single base-learner. Note that not 
+  every base-learner supports the use of multiple features (e.g. the spline base-learner).
 }
 \item{\code{id}}{[\code{character(1)}]\cr
-  Id of the base-learners. This is necessry to define multiple learners with the same underlying data.
+  Id of the base-learners. This is necessry since it is possible to define multiple learners with the same underlying data.
 }
 \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
   Uninitialized base-learner factory represented as \code{S4 Factory} class. See the details
@@ -103,12 +103,12 @@ cboost$prepareData(newdata)
 \item{\code{data.source}}{[\code{S4 Data}]\cr
   Data source object. At the moment just in memory is supported.
 }
-\item{\code{bl.factory}}{[\code{S4 Data}]\cr
+\item{\code{data.target}}{[\code{S4 Data}]\cr
   Data target object. At the moment just in memory is supported.
 }
 \item{}{\code{...}\cr
   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-  \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory})
+  \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
   of the \code{S4} classes.
 }
 }
@@ -157,28 +157,28 @@ cboost$prepareData(newdata)
   Available choices for the loss are:
 	 \itemize{
   \item
-    \code{QuadraticLoss} (Regression)
+    \code{LossQuadratic} (Regression)
 
   \item
-    \code{AbsoluteLoss} (Regression)
+    \code{LossAbsolute} (Regression)
 
   \item
-    \code{BinomialLoss} (Binary Classification)
+    \code{LossBinomial} (Binary Classification)
 
   \item
-    \code{CustomLoss} (Custom)
+    \code{LossCustom} (Custom)
 
   \item
-    \code{CustomCppLoss} (Custom)
+    \code{LossCustomCpp} (Custom)
   }
-  (For each loss also take a look at the help pages (e.g. \code{?BinomialLoss}) and the
+  (For each loss also take a look at the help pages (e.g. \code{?LossBinomial}) and the
   \code{C++} documentation for details about the underlying formulas)
 
   \strong{Logger}\cr
   Available choices for the logger are:
   \itemize{
   \item
-    \code{IterationLogger}: Log current iteration. Additional arguments:
+    \code{LoggerIteration}: Log current iteration. Additional arguments:
     \describe{
       \item{\code{max_iterations} [\code{integer(1)}]}{
         Maximal number of iterations.
@@ -186,7 +186,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{TimeLogger}: Log already ellapsed time. Additional arguments:
+    \code{LoggerTime}: Log already ellapsed time. Additional arguments:
     \describe{
       \item{\code{max_time} [\code{integer(1)}]}{
         Maximal time for the computation.
@@ -197,7 +197,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{InbagRiskLogger}:
+    \code{LoggerInbagRisk}:
     \describe{
       \item{\code{used_loss} [\code{S4 Loss}]}{
         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
@@ -210,7 +210,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{OobRiskLogger}:
+    \code{LoggerOobRisk}:
     \describe{
       \item{\code{used_loss} [\code{S4 Loss}]}{
         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
@@ -289,19 +289,19 @@ cboost$prepareData(newdata)
 \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 \item{\code{train}}{method to train the algorithm.}
 \item{\code{predict}}{method to predict on a trained object.}
-\item{\code{selected}}{method to get a character vector of selected base-learner.}
-\item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
+\item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
+\item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient for each selected base-learner.}
 \item{\code{plot}}{method to plot the \code{Compboost} object.}
 \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
 }
 }
 
 \examples{
-cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3,
+cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new())
+cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
   n.knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 cboost$plot("hp_spline")
 }

@@ -245,7 +245,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb3-6" data-line-number="6"><span class="co"># Define data target:</span></a>
 <a class="sourceLine" id="cb3-7" data-line-number="7">data.target.fare =<span class="st"> </span>InMemoryData<span class="op">$</span><span class="kw">new</span>()</a>
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co"># Define spline factory:</span></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">spline.factory.fare =<span class="st"> </span>PSplineBlearner<span class="op">$</span><span class="kw">new</span>(<span class="dt">data_source =</span> data.source.fare, </a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">spline.factory.fare =<span class="st"> </span>BaselearnerPSpline<span class="op">$</span><span class="kw">new</span>(<span class="dt">data_source =</span> data.source.fare, </a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">  <span class="dt">data_target =</span> data.target.fare, <span class="dt">degree =</span> <span class="dv">3</span>, <span class="dt">n_knots =</span> <span class="dv">20</span>, <span class="dt">penalty =</span> <span class="dv">10</span>, </a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">  <span class="dt">differences =</span> <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb3-12" data-line-number="12"></a>
@@ -258,7 +258,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb3-19" data-line-number="19"><span class="co"># Define data target:</span></a>
 <a class="sourceLine" id="cb3-20" data-line-number="20">data.target.age =<span class="st"> </span>InMemoryData<span class="op">$</span><span class="kw">new</span>()</a>
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># Define spline factory:</span></a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">spline.factory.age =<span class="st"> </span>PSplineBlearner<span class="op">$</span><span class="kw">new</span>(<span class="dt">data_source =</span> data.source.age, </a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">spline.factory.age =<span class="st"> </span>BaselearnerPSpline<span class="op">$</span><span class="kw">new</span>(<span class="dt">data_source =</span> data.source.age, </a>
 <a class="sourceLine" id="cb3-23" data-line-number="23">  <span class="dt">data_target =</span> data.target.age, <span class="dt">degree =</span> <span class="dv">3</span>, <span class="dt">n_knots =</span> <span class="dv">20</span>, <span class="dt">penalty =</span> <span class="dv">10</span>, </a>
 <a class="sourceLine" id="cb3-24" data-line-number="24">  <span class="dt">differences =</span> <span class="dv">2</span>)</a></code></pre></div>
 <p>Remember the work-flow of the factory which takes the data source, transform the data and write it into the target. We can access the transformed data of the target by calling the member function <code>getData()</code>:</p>
@@ -335,7 +335,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb8-37" data-line-number="37">  </a>
 <a class="sourceLine" id="cb8-38" data-line-number="38">  <span class="co"># Define Factory object:</span></a>
 <a class="sourceLine" id="cb8-39" data-line-number="39">  data.sex.list[[<span class="st">&quot;factory&quot;</span>]][[data.name]] =<span class="st"> </span><span class="kw">list</span>()</a>
-<a class="sourceLine" id="cb8-40" data-line-number="40">  data.sex.list[[<span class="st">&quot;factory&quot;</span>]][[data.name]] =<span class="st"> </span>PolynomialBlearner<span class="op">$</span><span class="kw">new</span>(</a>
+<a class="sourceLine" id="cb8-40" data-line-number="40">  data.sex.list[[<span class="st">&quot;factory&quot;</span>]][[data.name]] =<span class="st"> </span>BaselearnerPolynomial<span class="op">$</span><span class="kw">new</span>(</a>
 <a class="sourceLine" id="cb8-41" data-line-number="41">    <span class="dt">data_source =</span> data.sex.list[[<span class="st">&quot;source&quot;</span>]][[data.name]],</a>
 <a class="sourceLine" id="cb8-42" data-line-number="42">    <span class="dt">data_target =</span> data.sex.list[[<span class="st">&quot;target&quot;</span>]][[data.name]],</a>
 <a class="sourceLine" id="cb8-43" data-line-number="43">    <span class="dt">degree      =</span> <span class="dv">1</span>,</a>
@@ -382,7 +382,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb8-84" data-line-number="84">  </a>
 <a class="sourceLine" id="cb8-85" data-line-number="85">  <span class="co"># Define Factory object:</span></a>
 <a class="sourceLine" id="cb8-86" data-line-number="86">  data.pclass.list[[<span class="st">&quot;factory&quot;</span>]][[data.name]] =<span class="st"> </span><span class="kw">list</span>()</a>
-<a class="sourceLine" id="cb8-87" data-line-number="87">  data.pclass.list[[<span class="st">&quot;factory&quot;</span>]][[data.name]] =<span class="st"> </span>PolynomialBlearner<span class="op">$</span><span class="kw">new</span>(</a>
+<a class="sourceLine" id="cb8-87" data-line-number="87">  data.pclass.list[[<span class="st">&quot;factory&quot;</span>]][[data.name]] =<span class="st"> </span>BaselearnerPolynomial<span class="op">$</span><span class="kw">new</span>(</a>
 <a class="sourceLine" id="cb8-88" data-line-number="88">    <span class="dt">data_source =</span> data.pclass.list[[<span class="st">&quot;source&quot;</span>]][[data.name]],</a>
 <a class="sourceLine" id="cb8-89" data-line-number="89">    <span class="dt">data_target =</span> data.pclass.list[[<span class="st">&quot;target&quot;</span>]][[data.name]],</a>
 <a class="sourceLine" id="cb8-90" data-line-number="90">    <span class="dt">degree      =</span> <span class="dv">1</span>,</a>
@@ -421,16 +421,16 @@ padding-right: 10px;
 <div id="loss-and-optimizer" class="section level2">
 <h2>Loss and Optimizer</h2>
 <p>Since we are interested in binary classification we can use the binomial loss. This loss is used while training and determines the pseudo residuals as well as the empirical risk which we want to minimize:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">loss.bin =<span class="st"> </span>BinomialLoss<span class="op">$</span><span class="kw">new</span>()</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">loss.bin =<span class="st"> </span>LossBinomial<span class="op">$</span><span class="kw">new</span>()</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">loss.bin</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">## BinomialLoss Loss:</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">## LossBinomial Loss:</span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">## </span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">##   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span></a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">## </span></a>
 <a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">## </span></a></code></pre></div>
 <p>Since we are in the boosting context the classical way of selecting the best base-learner within one iteration by using the greedy optimizer:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">used.optimizer =<span class="st"> </span>CoordinateDescent<span class="op">$</span><span class="kw">new</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">used.optimizer =<span class="st"> </span>OptimizerCoordinateDescent<span class="op">$</span><span class="kw">new</span>()</a></code></pre></div>
 </div>
 <div id="define-logger" class="section level2">
 <h2>Define Logger</h2>
@@ -438,19 +438,19 @@ padding-right: 10px;
 <div id="iterations-logger" class="section level3">
 <h3>Iterations logger</h3>
 <p>This logger just logs the current iteration and stops if <code>max_iterations</code> is reached. In our case we want to stop after 2500 iterations:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">log.iterations =<span class="st"> </span>IterationLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_iterations =</span> <span class="dv">2500</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">log.iterations =<span class="st"> </span>LoggerIteration<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_iterations =</span> <span class="dv">2500</span>)</a></code></pre></div>
 <p>Note that the arguments as <code>max_iterations</code> are just used if we define the logger also as stopper. Otherwise the arguments are ignored.</p>
 </div>
 <div id="time-logger" class="section level3">
 <h3>Time logger</h3>
 <p>This logger logs the elapsed time. The time unit can be one of <code>microseconds</code>, <code>seconds</code> or <code>minutes</code>. The logger stops if <code>max_time</code> is reached:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">log.time =<span class="st"> </span>TimeLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_topper =</span> <span class="ot">FALSE</span>, <span class="dt">max_time =</span> <span class="dv">120</span>, </a>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">log.time =<span class="st"> </span>LoggerTime<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_topper =</span> <span class="ot">FALSE</span>, <span class="dt">max_time =</span> <span class="dv">120</span>, </a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="dt">time_unit =</span> <span class="st">&quot;seconds&quot;</span>)</a></code></pre></div>
 </div>
 <div id="inbag-risk-logger" class="section level3">
 <h3>Inbag risk logger</h3>
 <p>This logger logs the inbag risk by calculating the empirical risk using the training data. Note that it is necessary to specify a loss which is used to calculate the empirical risk. In the most common situation we use the the same loss as used for training to display the progress of the fitting:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">log.inbag =<span class="st"> </span>InbagRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">log.inbag =<span class="st"> </span>LoggerInbagRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>)</a></code></pre></div>
 </div>
 <div id="out-of-bag-risk-logger" class="section level3">
@@ -471,7 +471,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb15-13" data-line-number="13">  oob.list =<span class="st"> </span><span class="kw">c</span>(oob.list, lst)</a>
 <a class="sourceLine" id="cb15-14" data-line-number="14">}</a></code></pre></div>
 <p>Finally we create the out of bag risk object by also specifying the corresponding <code>y</code> labels:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">log.oob =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">log.oob =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a></code></pre></div>
 </div>
 <div id="custom-auc-logger" class="section level3">
@@ -492,11 +492,11 @@ padding-right: 10px;
 <a class="sourceLine" id="cb17-13" data-line-number="13">constInitDummy =<span class="st"> </span><span class="cf">function</span> (truth, response) { <span class="kw">return</span> (<span class="ot">NA</span>) }</a>
 <a class="sourceLine" id="cb17-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb17-15" data-line-number="15"><span class="co"># Define loss:</span></a>
-<a class="sourceLine" id="cb17-16" data-line-number="16">auc.loss =<span class="st"> </span>CustomLoss<span class="op">$</span><span class="kw">new</span>(aucLoss, gradDummy, constInitDummy)</a></code></pre></div>
+<a class="sourceLine" id="cb17-16" data-line-number="16">auc.loss =<span class="st"> </span>LossCustom<span class="op">$</span><span class="kw">new</span>(aucLoss, gradDummy, constInitDummy)</a></code></pre></div>
 <p>Now we can create a new inbag and out of bag logger to log the AUC while fitting the model:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">log.inbag.auc =<span class="st"> </span>InbagRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">log.inbag.auc =<span class="st"> </span>LoggerInbagRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb18-2" data-line-number="2">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>)</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">log.oob.auc   =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">log.oob.auc   =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a></code></pre></div>
 <p>This procedure can be used for any other risk measure. For a detailed description on how to extending <code>compboost</code> with custom losses or base-learner see the <a href>extending compboost vignette</a>.</p>
 </div>
@@ -631,16 +631,16 @@ padding-right: 10px;
 <p>The drawback of using <code>setToIteration()</code> is, that the function doesn’t continuing logging. The logger data for the second training (from iteration 501 to 1000) is then just a vector of the iterations.</p>
 <p>Additionally, it is possible to continuing the training using the <code>continueTraining()</code> function. This function takes a boolean to indicate if the trace should be printed and another logger list to get more control about the retraining. For instance, we can continuing the training for 3 seconds and see how far we get. We also want to reuse the out of bag logger:</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># Define new time logger:</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">new.time.logger =<span class="st"> </span>TimeLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_time =</span> <span class="dv">3</span>,</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">new.time.logger =<span class="st"> </span>LoggerTime<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">TRUE</span>, <span class="dt">max_time =</span> <span class="dv">3</span>,</a>
 <a class="sourceLine" id="cb26-3" data-line-number="3">  <span class="dt">time_unit =</span> <span class="st">&quot;seconds&quot;</span>)</a>
 <a class="sourceLine" id="cb26-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb26-5" data-line-number="5"><span class="co"># Define new logger list and register logger:</span></a>
 <a class="sourceLine" id="cb26-6" data-line-number="6">new.logger.list =<span class="st"> </span>LoggerList<span class="op">$</span><span class="kw">new</span>()</a>
 <a class="sourceLine" id="cb26-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb26-8" data-line-number="8"><span class="co"># Define new oob logger to prevent old logger data from overwriting:</span></a>
-<a class="sourceLine" id="cb26-9" data-line-number="9">new.oob.log     =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
+<a class="sourceLine" id="cb26-9" data-line-number="9">new.oob.log     =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> loss.bin,</a>
 <a class="sourceLine" id="cb26-10" data-line-number="10">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a>
-<a class="sourceLine" id="cb26-11" data-line-number="11">new.oob.auc.log =<span class="st"> </span>OobRiskLogger<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
+<a class="sourceLine" id="cb26-11" data-line-number="11">new.oob.auc.log =<span class="st"> </span>LoggerOobRisk<span class="op">$</span><span class="kw">new</span>(<span class="dt">use_as_stopper =</span> <span class="ot">FALSE</span>, <span class="dt">used_loss =</span> auc.loss,</a>
 <a class="sourceLine" id="cb26-12" data-line-number="12">  <span class="dt">eps_for_break =</span> <span class="fl">0.05</span>, <span class="dt">oob_data =</span> oob.list, <span class="dt">oob_response =</span> response[idx.eval])</a>
 <a class="sourceLine" id="cb26-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb26-14" data-line-number="14">new.logger.list<span class="op">$</span><span class="kw">registerLogger</span>(<span class="st">&quot;time&quot;</span>, new.time.logger)</a>

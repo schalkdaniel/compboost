@@ -4,7 +4,7 @@
 \alias{boostLinear}
 \title{Wrapper to boost linear models for each feature.}
 \usage{
-boostLinear(data, target, optimizer = CoordinateDescent$new(), loss,
+boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning.rate = 0.05, iterations = 100, trace = TRUE,
   intercept = TRUE, data.source = InMemoryData,
   data.target = InMemoryData)
@@ -19,11 +19,11 @@ data type of the target.}
 
 \item{optimizer}{[\code{S4 Optimizer}]\cr
 Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-exposed by Rcpp (for instance \code{CoordinateDescent$new()}).}
+exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).}
 
 \item{loss}{[\code{S4 Loss}]\cr
 Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-\code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).}
+\code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).}
 
 \item{learning.rate}{[\code{numeric(1)}]\cr
 Learning rate which is used to shrink the parameter in each step.}
@@ -35,7 +35,7 @@ Number of iterations that are trained.}
 Logical to indicate whether the trace should be printed or not.}
 
 \item{intercept}{[\code{logical(1)}]\cr
-Internally used by \code{PolynomialBlearner}. This logical value indicates if
+Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
 \item{data.source}{[\code{S4 Data}]\cr
@@ -63,10 +63,10 @@ The returend object is an object of the \code{Compboost} class which then can be
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
-mod = boostLinear(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 mod$getBaselearnerNames()
-mod$coef()
-table(mod$selected())
+mod$getEstimatedCoef()
+table(mod$getSelectedBaselearner())
 mod$predict()
 mod$plot("Sepal.Width_linear")
 }

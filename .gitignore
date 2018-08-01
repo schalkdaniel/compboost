@@ -3,7 +3,6 @@
 .RData
 .Ruserdata
 *.Rproj
-
 *.o
 *.so
 *.dll
@@ -13,3 +12,5 @@ src-x64
 todos.Rmd
 inst/doc
 tutorials
+Readme.html
+cboost_hexagon.psd

@@ -19,11 +19,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//   Implementation of the "Compboost" class.
-//
 // Written by:
 // -----------
 //
@@ -343,7 +338,7 @@ void Compboost::setToIteration (const unsigned int& k)
   if (k > max_iteration) {
     // Define new iteration logger for missing iterations:
     unsigned int iteration_diff = k - max_iteration;  
-    logger::Logger* temp_logger = new logger::IterationLogger(true, iteration_diff);
+    logger::Logger* temp_logger = new logger::LoggerIteration(true, iteration_diff);
     loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
     
     // Register that logger:

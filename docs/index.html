@@ -129,7 +129,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
       The easiest way of training a component-wise boosting model is to use <code>boostLinear()</code> or <code>boostSplines()</code>. Those two functions takes each feature and wrap them into a linear or a spline base-learner. The parameter are then used for each base-learner. For instance, wrapping each feature by a spline base-learner we can easily use:
       <pre class="r"><code>library(compboost)
 
-cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new())
 cboost
 ## Component-Wise Gradient Boosting
 ## 
@@ -139,13 +139,13 @@ cboost
 ## Iterations: 100
 ## Offset: 3.758
 ## 
-## QuadraticLoss Loss:
+## LossQuadratic Loss:
 ## 
 ##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
 ## 
 ## </code></pre>
       If we adjust parameters like the number of knots (<code>n.knots</code>) or the penalty term (<code>penalty</code>), then they are applied on each base-learner:
-      <pre class="r"><code>cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new(),
+      <pre class="r"><code>cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new(),
   n.knots = 4, penalty = 4)</code></pre>
       The object returned by <code>boostLinear()</code> and <code>boostSplines()</code> is an <code>R6 Compboost</code> object. For details on how to use those objects see the section on how to access elements of a fitted model.
     </p>
@@ -154,7 +154,7 @@ cboost
       The idea is to explicitely define which learner you want to use on which feature. But first of all we need to define a <code>Compboost</code> object (for convenience we are using the <code>iris</code> dataset): 
       <pre class="r"><code>library(compboost)
 
-cboost = Compboost$new(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+cboost = Compboost$new(data = iris, target = "Petal.Length", loss = LossQuadratic$new())
 cboost
 ## 
 ## Componentwise Gradient Boosting
@@ -164,26 +164,26 @@ cboost
 ## Learning rate: 0.05
 ## Iterations: 0
 ## 
-## QuadraticLoss Loss:
+## LossQuadratic Loss:
 ## 
 ##   Loss function: L(y,x) = (y - f(x))^2
 ##</code></pre>
 
-      Note, that the <code>loss</code> is given as instantiated object. This object is an instantiated <code>S4</code> class since the objects are exposed by the <a class="text" href="http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf">Rcpp modules</a>. This also gives the possibility to define a loss with a custom offset. Therefore just call, for instance, <code>QuadraticLoss$new(offset = 10)</code>.
+      Note, that the <code>loss</code> is given as instantiated object. This object is an instantiated <code>S4</code> class since the objects are exposed by the <a class="text" href="http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf">Rcpp modules</a>. This also gives the possibility to define a loss with a custom offset. Therefore just call, for instance, <code>LossQuadratic$new(offset = 10)</code>.
     </p>
     <p>
-      Now we can add base-learner for the training. The base-learner are added by calling the <code>addBaselearner()</code> member function. This function gets an <strong>uninstantiated</strong> base-learner object (such as <code>PSplineBlearner</code> or <code>CustomCppBlearner</code>). Note that each base-learner needs an identifier which must be given by the user. This makes the selected learner unique and yields an intuitive naming:
-    <pre class="r"><code>cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = PSplineBlearner, degree = 3, 
+      Now we can add base-learner for the training. The base-learner are added by calling the <code>addBaselearner()</code> member function. This function gets an <strong>uninstantiated</strong> base-learner object (such as <code>BaselearnerPSpline</code> or <code>BaselearnerCustomCpp</code>). Note that each base-learner needs an identifier which must be given by the user. This makes the selected learner unique and yields an intuitive naming:
+    <pre class="r"><code>cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
   knots = 10, penalty = 2, differences = 2)
 
 cboost$addBaselearner(feature = c("Sepal.Length", "Sepal.Width"), id = "2dim_linear", 
-  bl.factory = PolynomialBlearner, degree = 1, intercept = TRUE)
+  bl.factory = BaselearnerPolynomial, degree = 1, intercept = TRUE)
 
 cboost$getBaselearnerNames()
 ## [1] "Petal.Width_spline"
 ## [2] "Sepal.Length_Sepal.Width_2dim_linear"</code></pre>
       Adding a categorical feature always registers each single group as feature for the base-learner using dummy encoding:
-      <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = PolynomialBlearner, 
+      <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = BaselearnerPolynomial, 
   degree = 1, intercept = FALSE)
 
 cboost$getBaselearnerNames()
@@ -213,14 +213,14 @@ cboost$getBaselearnerNames()
     </p>
     <h3>Access elements of a fitted model</h3>
     <p>
-      To get a vector of selected feature call <code>selected()</code>:      
-      <pre class="r"><code>cboost$selected()[1:10]
+      To get a vector of selected feature call <code>getSelectedBaselearner()</code>:      
+      <pre class="r"><code>cboost$getSelectedBaselearner()[1:10]
 ##  [1] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
 ##  [4] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
 ##  [7] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
 ## [10] "Petal.Width_spline"
 
-table(cboost$selected())
+table(cboost$getSelectedBaselearner())
 ## 
 ##                   Petal.Width_spline Sepal.Length_Sepal.Width_2dim_linear
 ##                                  520                                  105
@@ -253,8 +253,8 @@ cboost$plot("Petal.Width_spline", iters = c(5, 100, 500, 1000, 1500)) +
       To make prediction using a new dataset we can call the <code>predict()</code> member function:
       <pre class="r"><code>all.equal(cboost$predict(), cboost$predict(iris))
 ## TRUE</code></pre>   
-      Additional useful member functions are <code>risk()</code> or <code>coef()</code> to get the inbag risk and the estimated parameter: 
-      <pre class="r"><code>str(cboost$risk())
+      Additional useful member functions are <code>getInbagRisk()</code> or <code>coef()</code> to get the inbag risk and the estimated parameter: 
+      <pre class="r"><code>str(cboost$getInbagRisk())
 ##  num [1:1501] 1.55 1.4 1.27 1.16 1.05 ...
 
 str(cboost$coef())

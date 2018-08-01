@@ -47,18 +47,18 @@ test.data = oob.data
 ## Baselearner
 
 # Create new linear baselearner of hp and wt:
-linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1)
+linear.factory.hp = BaselearnerPolynomialFactory$new(data.source.hp, data.target.hp1, 1)
+linear.factory.wt = BaselearnerPolynomialFactory$new(data.source.wt, data.target.wt1, 1)
 
 # Create new quadratic baselearner of hp:
-quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+quadratic.factory.hp = BaselearnerPolynomialFactory$new(data.source.hp, data.target.hp2, 2)
 
 # Create spline factory for wt with:
 #   - degree: 2
 #   - 10 knots
 #   - penalty parameter: 2
 #   - differences: 2
-spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+spline.factory.wt = BaselearnerPSplineFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 
 
 # Create new factory list:
@@ -80,22 +80,22 @@ factory.list$getModelFrame()
 ## Loss
 
 # Use quadratic loss:
-loss.quadratic = QuadraticLoss$new()
+loss.quadratic = LossQuadratic$new()
 
 
 ## Optimizer
 
 # Use the greedy optimizer:
-optimizer = CoordinateDescent$new()
+optimizer = OptimizerCoordinateDescent$new()
 
 ## Logger
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations = IterationLogger$new(TRUE, 500)
-log.time       = TimeLogger$new(FALSE, 500, "microseconds")
-log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.05)
-log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.05, oob.data, y)
+log.iterations = LoggerIteration$new(TRUE, 500)
+log.time       = LoggerTime$new(FALSE, 500, "microseconds")
+log.inbag      = LoggerInbagRisk$new(FALSE, loss.quadratic, 0.05)
+log.oob        = LoggerOobRisk$new(FALSE, loss.quadratic, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()
@@ -132,8 +132,8 @@ cboost
 # Continue Training:
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations.continue = IterationLogger$new(TRUE, 200)
-log.time.continue       = TimeLogger$new(FALSE, 500, "microseconds")
+log.iterations.continue = LoggerIteration$new(TRUE, 200)
+log.time.continue       = LoggerTime$new(FALSE, 500, "microseconds")
 
 # Define new logger list:
 logger.list.continue = LoggerList$new()
@@ -211,7 +211,7 @@ microbenchmark::microbenchmark(
 # }
 # 
 # data.hp3 = IdentityData$new(X.hp, "hp")
-# custom.learner = CustomBlearner$new(data.hp3, instantiateData, trainFun, predictFun,
+# custom.learner = BaselearnerCustom$new(data.hp3, instantiateData, trainFun, predictFun,
 #   extractParameter)
 # 
 # # Train learner:
@@ -221,7 +221,7 @@ microbenchmark::microbenchmark(
 # coef(mod)
 # 
 # # Create fatorys is very similar:
-# custom.factory = CustomBlearnerFactory$new(data.hp3, instantiateData, trainFun,
+# custom.factory = BaselearnerCustomFactory$new(data.hp3, instantiateData, trainFun,
 #   predictFun, extractParameter)
 # 
 # # C++ Functions:
@@ -230,7 +230,7 @@ microbenchmark::microbenchmark(
 # file.edit("tutorials/custom_cpp_learner.cpp")
 # Rcpp::sourceCpp(file = "tutorials/custom_cpp_learner.cpp")
 # 
-# custom.cpp.learner = CustomCppBlearner$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
+# custom.cpp.learner = BaselearnerCustomCpp$new(X.hp, "hp", dataFunSetter(), trainFunSetter(),
 #   predictFunSetter())
 # 
 # # Train learner:
@@ -240,13 +240,13 @@ microbenchmark::microbenchmark(
 # coef(mod)
 # 
 # # Create fatorys is very similar:
-# custom.cpp.factory = CustomCppBlearnerFactory$new(data.hp3, dataFunSetter(),
+# custom.cpp.factory = BaselearnerCustomCppFactory$new(data.hp3, dataFunSetter(),
 #   trainFunSetter(), predictFunSetter())
 # 
 # # Small (unfair) Benchmark:
 # # -------------------------
 # 
-# linear.learner = PolynomialBlearner$new(X.hp, "hp", 1)
+# linear.learner = BaselearnerPolynomial$new(X.hp, "hp", 1)
 # 
 # microbenchmark::microbenchmark(
 #   "Linear Model in R"       = lm(mpg ~ hp, data = mtcars),

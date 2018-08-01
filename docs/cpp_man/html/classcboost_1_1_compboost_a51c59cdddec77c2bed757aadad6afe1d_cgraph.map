@@ -1,8 +1,8 @@
 <map id="cboost::Compboost::predict" name="cboost::Compboost::predict">
-<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="225,5,400,47"/>
-<area shape="rect" id="node3" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="231,71,394,112"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="220,136,405,177"/>
-<area shape="rect" id="node6" href="$classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="220,201,405,243"/>
-<area shape="rect" id="node7" href="$classloss_1_1_loss.html#a0a84b7df79b08e40b538aaa7e6ee75c4" title="Response function to map score to output space: " alt="" coords="197,267,428,294"/>
-<area shape="rect" id="node5" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="476,143,663,170"/>
+<area shape="rect" id="node2" href="$classblearnertrack_1_1_baselearner_track.html#a0ba8e3943b998b58375b892f40f12c73" title="blearnertrack::Baselearner\lTrack::getParameterMap" alt="" coords="223,5,397,47"/>
+<area shape="rect" id="node3" href="$classblearnerlist_1_1_baselearner_factory_list.html#aeb573190a689af611e2f80ca8ed65d95" title="blearnerlist::Baselearner\lFactoryList::getMap" alt="" coords="229,71,391,112"/>
+<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_factory.html#a40703963bb3fd273b835a99263d9b599" title="blearnerfactory::Baselearner\lFactory::getDataIdentifier" alt="" coords="218,136,402,177"/>
+<area shape="rect" id="node6" href="$classblearnerfactory_1_1_baselearner_factory.html#ac4a38c4815fb33b8d4785745117c5e57" title="blearnerfactory::Baselearner\lFactory::instantiateData" alt="" coords="218,201,402,243"/>
+<area shape="rect" id="node7" href="$classloss_1_1_loss.html#a0a84b7df79b08e40b538aaa7e6ee75c4" title="Response function to map score to output space: " alt="" coords="196,267,424,294"/>
+<area shape="rect" id="node5" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="472,143,655,170"/>
 </map>

@@ -3,8 +3,13 @@ output: github_document
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE)
+knitr::opts_chunk$set(
+  collapse = TRUE
+  , fig.path = "Readme_files/"
+)
 ```
+
+<img align="right" src="docs/images/cboost_hexagon.png" width="100px">
 
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost)
 [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
@@ -22,7 +27,7 @@ performance and full memory control. The main idea is to provide a modular
 class system which can be extended without editing the
 source code. Therefore, it is possible to use `R` functions as well as
 `C++` functions for custom base-learners, losses, logging mechanisms or 
-stopping criteria. 
+stopping criteria.
 
 For an introduction and overview about the functionality visit the [project page](https://schalkdaniel.github.io/compboost/).
 
@@ -38,9 +43,7 @@ devtools::install_github("schalkdaniel/compboost")
 
 This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 
-## Using the R6 API
-
-To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired:
+To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
 
 ```{r cboost, fig.show="hide", out.width="70%"}
 library(compboost)
@@ -54,18 +57,18 @@ data(PimaIndiansDiabetes, package = "mlbench")
 PimaIndiansDiabetes$pregnant.cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
 
 # Define Compboost object:
-cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = QuadraticLoss$new())
+cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossBinomial$new())
 cboost
 
 # Add p-spline base-learner with default parameter:
-cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = PSplineBlearner)
+cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = BaselearnerPSpline)
 
 # Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl.factory = PSplineBlearner, degree = 3, 
+cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
   knots = 10, penalty = 4, differences = 2)
 
 # Add categorical feature (as single linear base-learner):
-cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = PolynomialBlearner,
+cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = BaselearnerPolynomial,
 	degree = 1, intercept = FALSE)
 
 # Check all registered base-learner:
@@ -77,10 +80,10 @@ cboost
 
 cboost$getBaselearnerNames()
 
-selected.features = cboost$selected()
+selected.features = cboost$getSelectedBaselearner()
 table(selected.features)
 
-params = cboost$coef()
+params = cboost$getEstimatedCoef()
 str(params)
 
 cboost$train(3000)
@@ -90,24 +93,14 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
   ggplot2::scale_color_brewer(palette = "Spectral")
 ```
 <p align="center">
-  <img src="Readme_files/figure-gfm/cboost-1.png" width="70%" />
-</p>
+  <img src="Readme_files/cboost-1.png" width="70%" />
+</p>  
 
-## Using Wrapper Functions
-
-If you are interested in wrapping each feature, for instance, with a spline base-learner, then just call the wrapper function `boostSplines()`:
-
-```{r, fig.align="center", out.width="70%"}
-cboost = boostSplines(data = PimaIndiansDiabetes, target = "diabetes", 
-  loss = BinomialLoss$new(), trace = FALSE)
-cboost
-
-cboost$getBaselearnerNames()
-```
 
 ## License
 
-Â© 2018 [Daniel Schalk](https://danielschalk.com)
+
+© 2018 [Daniel Schalk](https://danielschalk.com)
 
 The contents of this repository are distributed under the MIT license. See below for details:
 

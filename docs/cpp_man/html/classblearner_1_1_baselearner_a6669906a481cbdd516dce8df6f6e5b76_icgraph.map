@@ -1,9 +1,10 @@
 <map id="blearner::Baselearner::setIdentifier" name="blearner::Baselearner::setIdentifier">
-<area shape="rect" id="node2" href="$classblearner_1_1_polynomial_blearner.html#abc12720faabbad27d60d2dbdb006802e" title="blearner::PolynomialBlearner\l::PolynomialBlearner" alt="" coords="202,5,390,47"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_p_spline_blearner.html#a58ec2c4bf9d0da690dd1b433c6755a87" title="Default constructor of PSplineBlearner class. " alt="" coords="211,71,381,112"/>
-<area shape="rect" id="node6" href="$classblearner_1_1_custom_blearner.html#a99b05f69e8d3cacfab556b6a5310f50a" title="blearner::CustomBlearner\l::CustomBlearner" alt="" coords="211,136,381,177"/>
-<area shape="rect" id="node8" href="$classblearner_1_1_custom_cpp_blearner.html#a053eccfff8223ab0358b7f00ed02d263" title="blearner::CustomCppBlearner\l::CustomCppBlearner" alt="" coords="199,201,393,243"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_polynomial_blearner.html#a4a93ace818c330e5d1f572108ba061c0" title="blearner::PolynomialBlearner\l::clone" alt="" coords="441,5,629,47"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_p_spline_blearner.html#a6fca532d2d20dfa284acc474ee1d7531" title="Clean copy of baselearner. " alt="" coords="451,71,620,112"/>
-<area shape="rect" id="node7" href="$classblearner_1_1_custom_blearner.html#a7ceeee2b7fffd11f376018bc1d3cfba1" title="blearner::CustomBlearner\l::clone" alt="" coords="450,136,621,177"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_baselearner_polynomial.html#aba0f1e5bf9566dc7bc674c9d30b44af6" title="blearner::BaselearnerPolynomial\l::BaselearnerPolynomial" alt="" coords="199,5,408,47"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_baselearner_p_spline.html#af891e692907a085213491c584305fbde" title="Default constructor of BaselearnerPSpline class. " alt="" coords="208,71,399,112"/>
+<area shape="rect" id="node6" href="$classblearner_1_1_baselearner_custom.html#ac812a6b0d79f75560caa91ec101ca6e3" title="blearner::BaselearnerCustom\l::BaselearnerCustom" alt="" coords="208,136,399,177"/>
+<area shape="rect" id="node8" href="$classblearner_1_1_baselearner_custom_cpp.html#a7714c44164d0f763a861217ff2d53480" title="blearner::BaselearnerCustom\lCpp::BaselearnerCustomCpp" alt="" coords="208,201,399,243"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_baselearner_polynomial.html#a4afd811448bd6d387b721cc48b84da26" title="blearner::BaselearnerPolynomial\l::clone" alt="" coords="456,5,665,47"/>
+<area shape="rect" id="node5" href="$classblearner_1_1_baselearner_p_spline.html#aea7d3c0ef6d77ffb8a2fb2000fae6399" title="Clean copy of baselearner. " alt="" coords="465,71,656,112"/>
+<area shape="rect" id="node7" href="$classblearner_1_1_baselearner_custom.html#a1442790658c7ad08832a94fbc60ff94a" title="blearner::BaselearnerCustom\l::clone" alt="" coords="465,136,656,177"/>
+<area shape="rect" id="node9" href="$classblearner_1_1_baselearner_custom_cpp.html#a8478407ac4d8ed118fd1381f65df150a" title="blearner::BaselearnerCustom\lCpp::clone" alt="" coords="465,201,656,243"/>
 </map>

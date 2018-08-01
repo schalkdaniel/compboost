@@ -19,10 +19,10 @@
 #'   data type of the target.
 #' @param optimizer [\code{S4 Optimizer}]\cr
 #'   Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-#'   exposed by Rcpp (for instance \code{CoordinateDescent$new()}).
+#'   exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).
 #' @param loss [\code{S4 Loss}]\cr
 #'   Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).
+#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).
 #' @param learning.rate [\code{numeric(1)}]\cr
 #'   Learning rate which is used to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
@@ -30,7 +30,7 @@
 #' @param trace [\code{logical(1)}]\cr
 #'   Logical to indicate whether the trace should be printed or not.
 #' @param intercept [\code{logical(1)}]\cr
-#'   Internally used by \code{PolynomialBlearner}. This logical value indicates if
+#'   Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 #'   each feature should get an intercept or not (default is \code{TRUE}).
 #' @param data.source [\code{S4 Data}]\cr
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
@@ -39,14 +39,14 @@
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
 #' @examples
-#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 #' mod$getBaselearnerNames()
-#' mod$coef()
-#' table(mod$selected())
+#' mod$getEstimatedCoef()
+#' table(mod$getSelectedBaselearner())
 #' mod$predict()
 #' mod$plot("Sepal.Width_linear")
 #' @export
-boostLinear = function(data, target, optimizer = CoordinateDescent$new(), loss, 
+boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
 	learning.rate = 0.05, iterations = 100, trace = TRUE, intercept = TRUE, 
 	data.source = InMemoryData, data.target = InMemoryData) 
 {
@@ -57,10 +57,10 @@ boostLinear = function(data, target, optimizer = CoordinateDescent$new(), loss,
 	# Issue: 
 	for(feat in features) {
 		if (is.numeric(data[[feat]])) {
-			model$addBaselearner(feat, "linear", PolynomialBlearner, data.source, data.target,
+			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data.source, data.target,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "category", PolynomialBlearner, data.source, data.target,
+			model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
 				degree = 1, intercept = FALSE)
 		}
 	}

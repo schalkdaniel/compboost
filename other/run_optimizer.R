@@ -6,9 +6,9 @@ y.cubic  = as.numeric(16 * X^3)
 y.pow5   = as.numeric(8 * X^5)
 
 # Create new linear baselearner of hp and wt:
-linear.factory = PolynomialBlearnerFactory$new(X, "X", 1)
-cubic.factory  = PolynomialBlearnerFactory$new(X, "X", 3)
-pow5.factory   = PolynomialBlearnerFactory$new(X, "X", 5)
+linear.factory = BaselearnerPolynomialFactory$new(X, "X", 1)
+cubic.factory  = BaselearnerPolynomialFactory$new(X, "X", 3)
+pow5.factory   = BaselearnerPolynomialFactory$new(X, "X", 5)
 
 # Create new factory list:
 factory.list = FactoryList$new()
@@ -19,7 +19,7 @@ factory.list$registerFactory(cubic.factory)
 factory.list$registerFactory(pow5.factory)
 
 # Optimizer:
-greedy.optimizer = CoordinateDescent$new()
+greedy.optimizer = OptimizerCoordinateDescent$new()
 
 res.linear = greedy.optimizer$testOptimizer(y.linear, factory.list)
 res.cubic  = greedy.optimizer$testOptimizer(y.cubic, factory.list)

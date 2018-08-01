@@ -102,10 +102,10 @@ protected:
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// PolynomialBlearnerFactory:
+// BaselearnerPolynomialFactory:
 // -----------------------------
 
-class PolynomialBlearnerFactory : public BaselearnerFactory
+class BaselearnerPolynomialFactory : public BaselearnerFactory
 {
 private:
   
@@ -114,7 +114,7 @@ private:
   
 public:
   
-  PolynomialBlearnerFactory (const std::string&, data::Data*, data::Data*, const unsigned int&,
+  BaselearnerPolynomialFactory (const std::string&, data::Data*, data::Data*, const unsigned int&,
     const bool&);
   
   blearner::Baselearner* createBaselearner (const std::string&);
@@ -125,16 +125,16 @@ public:
   arma::mat instantiateData (const arma::mat&) const;
 };
 
-// PSplineBlearnerFactory:
+// BaselearnerPSplineFactory:
 // -----------------------------
 
 /**
- * \class PSplineBlearnerFactory
+ * \class BaselearnerPSplineFactory
  * 
  * \brief Factory to create `PSplineBlearner` objects
  * 
  */
-class PSplineBlearnerFactory : public BaselearnerFactory
+class BaselearnerPSplineFactory : public BaselearnerFactory
 {
 private:
   
@@ -156,11 +156,11 @@ private:
 public:
 
   /// Default constructor of class `PSplineBleanrerFactory`
-  PSplineBlearnerFactory (const std::string&, data::Data*, data::Data*, 
+  BaselearnerPSplineFactory (const std::string&, data::Data*, data::Data*, 
     const unsigned int&, const unsigned int&, const double&, 
     const unsigned int&, const bool&);
   
-  /// Create new `PSplineBlearner` object
+  /// Create new `BaselearnerPSpline` object
   blearner::Baselearner* createBaselearner (const std::string&);
   
   /// Get data used for modelling
@@ -170,12 +170,12 @@ public:
   arma::mat instantiateData (const arma::mat&) const;
 };
 
-// CustomBlearnerFactory:
+// BaselearnerCustomFactory:
 // -----------------------------
 
 // This class stores the R functions:
 
-class CustomBlearnerFactory : public BaselearnerFactory
+class BaselearnerCustomFactory : public BaselearnerFactory
 {
 private:
   
@@ -186,7 +186,7 @@ private:
   
 public:
   
-  CustomBlearnerFactory (const std::string&, data::Data*, data::Data*,
+  BaselearnerCustomFactory (const std::string&, data::Data*, data::Data*,
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
   
   blearner::Baselearner* createBaselearner (const std::string&);
@@ -198,12 +198,12 @@ public:
   
 };
 
-// CustomCppBlearnerFactory:
+// BaselearnerCustomCppFactory:
 // -----------------------------
 
 typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
 
-class CustomCppBlearnerFactory : public BaselearnerFactory
+class BaselearnerCustomCppFactory : public BaselearnerFactory
 {
 private:
   
@@ -214,7 +214,7 @@ private:
   
 public:
   
-  CustomCppBlearnerFactory (const std::string&, data::Data*, data::Data*, 
+  BaselearnerCustomCppFactory (const std::string&, data::Data*, data::Data*, 
     SEXP, SEXP, SEXP);
   
   blearner::Baselearner* createBaselearner (const std::string&);

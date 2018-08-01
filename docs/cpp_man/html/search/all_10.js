@@ -1,11 +1,15 @@
 var searchData=
 [
-  ['r_5finit_5fcompboost',['R_init_compboost',['../_rcpp_exports_8cpp.html#abcff8d6cd305f1176fb3b371f6a74332',1,'RcppExports.cpp']]],
-  ['rcppexports_2ecpp',['RcppExports.cpp',['../_rcpp_exports_8cpp.html',1,'']]],
-  ['reachedstopcriteria',['reachedStopCriteria',['../classlogger_1_1_logger.html#aed91421c07062b91cee158ef2bda7ae8',1,'logger::Logger::reachedStopCriteria()'],['../classlogger_1_1_iteration_logger.html#a8b66f0d8d2ddb7f15ca14e2b9150ea80',1,'logger::IterationLogger::reachedStopCriteria()'],['../classlogger_1_1_inbag_risk_logger.html#a17a7416e4cc9db4da3b3eda5012ad7c7',1,'logger::InbagRiskLogger::reachedStopCriteria()'],['../classlogger_1_1_oob_risk_logger.html#a5c1c8358ffcb5f5463b43f068ea21aa4',1,'logger::OobRiskLogger::reachedStopCriteria()'],['../classlogger_1_1_time_logger.html#a380f7e56af17c8a35d729dad1a5e3baa',1,'logger::TimeLogger::reachedStopCriteria()']]],
-  ['registerbaselearnerfactory',['registerBaselearnerFactory',['../classblearnerlist_1_1_baselearner_factory_list.html#a6f5d8eb26f5f5ae4856d62eb9d649f4f',1,'blearnerlist::BaselearnerFactoryList']]],
-  ['registerlogger',['registerLogger',['../classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41',1,'loggerlist::LoggerList']]],
-  ['response',['response',['../classcboost_1_1_compboost.html#a01de924b977c9ba12a3f3be88e2586e4',1,'cboost::Compboost']]],
-  ['responsetransformation',['responseTransformation',['../classloss_1_1_loss.html#a0a84b7df79b08e40b538aaa7e6ee75c4',1,'loss::Loss::responseTransformation()'],['../classloss_1_1_quadratic_loss.html#a0a7f1ed4a208326bed1ba5f1bb4d37e5',1,'loss::QuadraticLoss::responseTransformation()'],['../classloss_1_1_absolute_loss.html#aa7e0ac902d905ae97f9e2d0337c6c058',1,'loss::AbsoluteLoss::responseTransformation()'],['../classloss_1_1_binomial_loss.html#a6fb5f28518ac455cb192441660e7b997',1,'loss::BinomialLoss::responseTransformation()'],['../classloss_1_1_custom_loss.html#a0db8657c96f53b08aedaddc2fdac973b',1,'loss::CustomLoss::responseTransformation()'],['../classloss_1_1_custom_cpp_loss.html#a8ef296a7db08423f68dd389824b5aa77',1,'loss::CustomCppLoss::responseTransformation()']]],
-  ['risk',['risk',['../classcboost_1_1_compboost.html#ab6ccd78f33c6843990bdc9e6c7f72518',1,'cboost::Compboost']]]
+  ['setbaselearnertype',['setBaselearnerType',['../classblearner_1_1_baselearner.html#a8d78e851bae5f5b93dc46eb13d2d1ee1',1,'blearner::Baselearner']]],
+  ['setdata',['setData',['../classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4',1,'blearner::Baselearner::setData()'],['../classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70',1,'data::Data::setData()'],['../classdata_1_1_in_memory_data.html#a0456d66f7930809211c75bcdd80a7bca',1,'data::InMemoryData::setData()']]],
+  ['setdataidentifier',['setDataIdentifier',['../classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc',1,'data::Data']]],
+  ['setdatatype',['setDataType',['../classdata_1_1_data.html#a349569c170c7e8b78bf4997b47e3f1a8',1,'data::Data']]],
+  ['setidentifier',['setIdentifier',['../classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76',1,'blearner::Baselearner']]],
+  ['settoiteration',['setToIteration',['../classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750',1,'blearnertrack::BaselearnerTrack::setToIteration()'],['../classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659',1,'cboost::Compboost::setToIteration()']]],
+  ['sparse_5fdata_5fmat',['sparse_data_mat',['../classdata_1_1_data.html#abc5c5380b4aa8120cdda74195b90955f',1,'data::Data']]],
+  ['splines_2ecpp',['splines.cpp',['../splines_8cpp.html',1,'']]],
+  ['splines_2eh',['splines.h',['../splines_8h.html',1,'']]],
+  ['stop_5fif_5fall_5fstopper_5ffulfilled',['stop_if_all_stopper_fulfilled',['../classcboost_1_1_compboost.html#a40c118dcaf96479cd6574138f9b2620f',1,'cboost::Compboost']]],
+  ['sum_5fof_5fstopper',['sum_of_stopper',['../classloggerlist_1_1_logger_list.html#a39c3b4cf8f01c0e29606a9b2537da347',1,'loggerlist::LoggerList']]],
+  ['summarizecompboost',['summarizeCompboost',['../classcboost_1_1_compboost.html#a7be8cb767054ece895d535c1f468233e',1,'cboost::Compboost']]]
 ];

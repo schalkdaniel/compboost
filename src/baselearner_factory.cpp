@@ -79,10 +79,10 @@ BaselearnerFactory::~BaselearnerFactory () {};
 // BaselearnerFactory implementations:
 // -------------------------------------------------------------------------- //
 
-// PolynomialBlearner:
+// BaselearnerPolynomial:
 // -----------------------
 
-PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearner_type0, 
+BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& blearner_type0, 
   data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
   const bool& intercept)
   : degree ( degree ),
@@ -111,13 +111,13 @@ PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearne
   // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
-blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::string& identifier)
+blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::PolynomialBlearner(data_target, identifier, degree, intercept);
+  blearner_obj = new blearner::BaselearnerPolynomial(data_target, identifier, degree, intercept);
   blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
@@ -146,7 +146,7 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
  * 
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
-arma::mat PolynomialBlearnerFactory::getData () const
+arma::mat BaselearnerPolynomialFactory::getData () const
 {
   if (data_target->getData().n_cols == 1) {
     arma::mat temp_data_mat = pow(data_target->getData(), 1/degree);
@@ -170,7 +170,7 @@ arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata) 
 
 
 
-// PSplineBlearner:
+// BaselearnerPSpline:
 // -----------------------
 
 /**
@@ -194,7 +194,7 @@ arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata) 
  *   penalty matrix.
  */
 
-PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type0, 
+BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearner_type0, 
   data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
   const unsigned int& n_knots, const double& penalty, const unsigned int& differences,
   const bool& use_sparse_matrices)
@@ -244,17 +244,17 @@ PSplineBlearnerFactory::PSplineBlearnerFactory (const std::string& blearner_type
 }
 
 /**
- * \brief Create new `PSplineBlearner` object
+ * \brief Create new `BaselearnerPSpline` object
  * 
  * \param identifier `std::string` identifier of that specific baselearner object
  */
-blearner::Baselearner* PSplineBlearnerFactory::createBaselearner (const std::string& identifier)
+blearner::Baselearner* BaselearnerPSplineFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::PSplineBlearner(data_target, identifier, degree,
+  blearner_obj = new blearner::BaselearnerPSpline(data_target, identifier, degree,
     n_knots, penalty, differences, use_sparse_matrices);
   blearner_obj->setBaselearnerType(blearner_type);
   
@@ -284,7 +284,7 @@ blearner::Baselearner* PSplineBlearnerFactory::createBaselearner (const std::str
  * 
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
-arma::mat PSplineBlearnerFactory::getData () const
+arma::mat BaselearnerPSplineFactory::getData () const
 {
   if (use_sparse_matrices) {
     // std::cout << "Use sparse matrices" << std::endl;
@@ -316,10 +316,10 @@ arma::mat PSplineBlearnerFactory::instantiateData (const arma::mat& newdata) con
   return createSplineBasis (newdata, degree, data_target->knots);
 }
 
-// CustomBlearner:
+// BaselearnerCustom:
 // -----------------------
 
-CustomBlearnerFactory::CustomBlearnerFactory (const std::string& blearner_type0, 
+BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_type0, 
   data::Data* data_source, data::Data* data_target, Rcpp::Function instantiateDataFun, 
   Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter)
   : instantiateDataFun ( instantiateDataFun ),
@@ -331,11 +331,11 @@ CustomBlearnerFactory::CustomBlearnerFactory (const std::string& blearner_type0,
   initializeDataObjects(data_source, data_target);
 }
 
-blearner::Baselearner *CustomBlearnerFactory::createBaselearner (const std::string &identifier)
+blearner::Baselearner *BaselearnerCustomFactory::createBaselearner (const std::string &identifier)
 {
   blearner::Baselearner *blearner_obj;
   
-  blearner_obj = new blearner::CustomBlearner(data_target, identifier, 
+  blearner_obj = new blearner::BaselearnerCustom(data_target, identifier, 
     instantiateDataFun, trainFun, predictFun, extractParameter);
   blearner_obj->setBaselearnerType(blearner_type);
   
@@ -362,7 +362,7 @@ blearner::Baselearner *CustomBlearnerFactory::createBaselearner (const std::stri
  * 
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
-arma::mat CustomBlearnerFactory::getData () const
+arma::mat BaselearnerCustomFactory::getData () const
 {
   return data_target->getData();
 }
@@ -375,10 +375,10 @@ arma::mat CustomBlearnerFactory::instantiateData (const arma::mat& newdata) cons
   return Rcpp::as<arma::mat>(out);
 }
 
-// CustomCppBlearner:
+// BaselearnerCustomCpp:
 // -----------------------
 
-CustomCppBlearnerFactory::CustomCppBlearnerFactory (const std::string& blearner_type0, 
+BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& blearner_type0, 
   data::Data* data_source, data::Data* data_target, SEXP instantiateDataFun, 
   SEXP trainFun, SEXP predictFun)
   : instantiateDataFun ( instantiateDataFun ),
@@ -389,11 +389,11 @@ CustomCppBlearnerFactory::CustomCppBlearnerFactory (const std::string& blearner_
   initializeDataObjects(data_source, data_target);
 }
 
-blearner::Baselearner* CustomCppBlearnerFactory::createBaselearner (const std::string& identifier)
+blearner::Baselearner* BaselearnerCustomCppFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
   
-  blearner_obj = new blearner::CustomCppBlearner(data_target, identifier, 
+  blearner_obj = new blearner::BaselearnerCustomCpp(data_target, identifier, 
     instantiateDataFun, trainFun, predictFun);
   blearner_obj->setBaselearnerType(blearner_type);
   
@@ -420,7 +420,7 @@ blearner::Baselearner* CustomCppBlearnerFactory::createBaselearner (const std::s
  * 
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
-arma::mat CustomCppBlearnerFactory::getData () const
+arma::mat BaselearnerCustomCppFactory::getData () const
 {
   return data_target->getData();
 }

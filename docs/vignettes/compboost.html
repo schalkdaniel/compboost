@@ -219,7 +219,7 @@ padding-right: 10px;
 <h2>Initializing Model</h2>
 <p>Due to the <code>R6</code> API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cboost =<span class="st"> </span>Compboost<span class="op">$</span><span class="kw">new</span>(<span class="dt">data =</span> df.train[idx.train, ], <span class="dt">target =</span> <span class="st">&quot;Survived&quot;</span>, </a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="dt">loss =</span> BinomialLoss<span class="op">$</span><span class="kw">new</span>())</a></code></pre></div>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="dt">loss =</span> LossBinomial<span class="op">$</span><span class="kw">new</span>())</a></code></pre></div>
 <p>Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.</p>
 </div>
 <div id="adding-base-learner" class="section level2">
@@ -229,19 +229,19 @@ padding-right: 10px;
 <h3>Numerical Features</h3>
 <p>For instance, we can define a spline and a linear base-learner of the same feature:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Spline base-learner of age:</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;spline&quot;</span>, PSplineBlearner)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;spline&quot;</span>, BaselearnerPSpline)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co"># Linear base-learner of age (degree = 1 with intercept is default):</span></a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;linear&quot;</span>, PolynomialBlearner)</a></code></pre></div>
+<a class="sourceLine" id="cb4-5" data-line-number="5">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Age&quot;</span>, <span class="st">&quot;linear&quot;</span>, BaselearnerPolynomial)</a></code></pre></div>
 <p>Additional arguments can be specified after naming the base-learner. For a complete list see the <a href="https://compboost.org/functionality.html">functionality</a> at the project page:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Spline base-learner of fare:</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Fare&quot;</span>, <span class="st">&quot;spline&quot;</span>, PSplineBlearner, <span class="dt">degree =</span> <span class="dv">2</span>,</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Fare&quot;</span>, <span class="st">&quot;spline&quot;</span>, BaselearnerPSpline, <span class="dt">degree =</span> <span class="dv">2</span>,</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">n.knots =</span> <span class="dv">14</span>, <span class="dt">penalty =</span> <span class="dv">10</span>, <span class="dt">differences =</span> <span class="dv">2</span>)</a></code></pre></div>
 </div>
 <div id="categorical-features" class="section level3">
 <h3>Categorical Features</h3>
 <p>When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don’t need an intercept here:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;categorical&quot;</span>, PolynomialBlearner, </a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;categorical&quot;</span>, BaselearnerPolynomial, </a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Finally, we can check what factories are registered:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">getBaselearnerNames</span>()</a>
@@ -254,14 +254,14 @@ padding-right: 10px;
 <div id="time-logger" class="section level3">
 <h3>Time logger</h3>
 <p>This logger logs the elapsed time. The time unit can be one of <code>microseconds</code>, <code>seconds</code> or <code>minutes</code>. The logger stops if <code>max_time</code> is reached. But we do not use that logger as stopper here:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> TimeLogger, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span> <span class="st">&quot;time&quot;</span>, </a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerTime, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span> <span class="st">&quot;time&quot;</span>, </a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="dt">max.time =</span> <span class="dv">0</span>, <span class="dt">time.unit =</span> <span class="st">&quot;microseconds&quot;</span>)</a></code></pre></div>
 </div>
 <div id="out-of-bag-risk-logger" class="section level3">
 <h3>Out of bag risk logger</h3>
 <p>The out of bag risk logger does basically the same as the inbag risk logger but calculates the empirical risk using another data source. Therefore, the new data object have to be a list with data sources containing the evaluation data. This is automatically done by the <code>prepareData()</code> member of <code>Compboost</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> OobRiskLogger, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span><span class="st">&quot;oob&quot;</span>,</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  BinomialLoss<span class="op">$</span><span class="kw">new</span>(), <span class="fl">0.01</span>, cboost<span class="op">$</span><span class="kw">prepareData</span>(df.train[idx.eval, ]), </a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerOobRisk, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span><span class="st">&quot;oob&quot;</span>,</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  LossBinomial<span class="op">$</span><span class="kw">new</span>(), <span class="fl">0.01</span>, cboost<span class="op">$</span><span class="kw">prepareData</span>(df.train[idx.eval, ]), </a>
 <a class="sourceLine" id="cb9-3" data-line-number="3">  df.train[[<span class="st">&quot;Survived&quot;</span>]][idx.eval])</a></code></pre></div>
 </div>
 </div>
@@ -279,7 +279,7 @@ padding-right: 10px;
 <a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">## Positive class: no</span></a>
 <a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">## Offset: 0.2529</span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">## BinomialLoss Loss:</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">## LossBinomial Loss:</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">## </span></a>
 <a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">##   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span></a>
 <a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">## </span></a>

@@ -9,7 +9,7 @@
 #' @name Compboost
 #' @section Usage:
 #' \preformatted{
-#' cboost = Compboost$new(data, target, optimizer = CoordinateDescent$new(), loss,
+#' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
 #'   learning.rate = 0.05)
 #'
 #' cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
@@ -23,11 +23,11 @@
 #'
 #' cboost$predict(newdata = NULL)
 #'
-#' cboost$risk()
+#' cboost$getInbagRisk()
 #'
-#' cboost$selected()
+#' cboost$getSelectedBaselearner()
 #' 
-#' cboost$coef()
+#' cboost$getEstimatedCoef()
 #' 
 #' cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
 #' 
@@ -47,7 +47,7 @@
 #' }
 #' \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
 #'   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
-#'   Default is the \code{CoordinateDescent}.
+#'   Default is the \code{OptimizerCoordinateDescent}.
 #' }
 #' \item{\code{loss}}{[\code{S4 Loss}]\cr
 #'   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
@@ -75,19 +75,19 @@
 #' }
 #' \item{}{\code{...}\cr
 #'   Further arguments passed to the constructor of the \code{S4 Logger} class specified in
-#'   \code{logger}. For possible arguments see details or the help pages (e.g. \code{?IterationLogger})
+#'   \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration})
 #'   of the \code{S4} classes.
 #' }
 #' }
 #'
 #' \strong{For cboost$addBaselearner()}:
 #' \describe{
-#' \item{\code{features}}{[\code{vector(mode = "character")}]\cr
-#'   Vector of column names which are used within the specified base-learner. Each column is defined as
-#'   new base-learner by using the learner given by \code{bl.factory}.
+#' \item{\code{features}}{[\code{character()}]\cr
+#'   Vector of column names which are used as input data matrix for a single base-learner. Note that not 
+#'   every base-learner supports the use of multiple features (e.g. the spline base-learner).
 #' }
 #' \item{\code{id}}{[\code{character(1)}]\cr
-#'   Id of the base-learners. This is necessry to define multiple learners with the same underlying data.
+#'   Id of the base-learners. This is necessry since it is possible to define multiple learners with the same underlying data.
 #' }
 #' \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
 #'   Uninitialized base-learner factory represented as \code{S4 Factory} class. See the details
@@ -96,12 +96,12 @@
 #' \item{\code{data.source}}{[\code{S4 Data}]\cr
 #'   Data source object. At the moment just in memory is supported.
 #' }
-#' \item{\code{bl.factory}}{[\code{S4 Data}]\cr
+#' \item{\code{data.target}}{[\code{S4 Data}]\cr
 #'   Data target object. At the moment just in memory is supported.
 #' }
 #' \item{}{\code{...}\cr
 #'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?PSplineBlearnerFactory})
+#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
 #'   of the \code{S4} classes.
 #' }
 #' }
@@ -147,28 +147,28 @@
 #'   Available choices for the loss are:
 #' 	 \itemize{
 #'   \item
-#'     \code{QuadraticLoss} (Regression)
+#'     \code{LossQuadratic} (Regression)
 #'
 #'   \item
-#'     \code{AbsoluteLoss} (Regression)
+#'     \code{LossAbsolute} (Regression)
 #'
 #'   \item
-#'     \code{BinomialLoss} (Binary Classification)
+#'     \code{LossBinomial} (Binary Classification)
 #'
 #'   \item
-#'     \code{CustomLoss} (Custom)
+#'     \code{LossCustom} (Custom)
 #'
 #'   \item
-#'     \code{CustomCppLoss} (Custom)
+#'     \code{LossCustomCpp} (Custom)
 #'   }
-#'   (For each loss also take a look at the help pages (e.g. \code{?BinomialLoss}) and the
+#'   (For each loss also take a look at the help pages (e.g. \code{?LossBinomial}) and the
 #'   \code{C++} documentation for details about the underlying formulas)
 #'
 #'   \strong{Logger}\cr
 #'   Available choices for the logger are:
 #'   \itemize{
 #'   \item
-#'     \code{IterationLogger}: Log current iteration. Additional arguments:
+#'     \code{LoggerIteration}: Log current iteration. Additional arguments:
 #'     \describe{
 #'       \item{\code{max_iterations} [\code{integer(1)}]}{
 #'         Maximal number of iterations.
@@ -176,7 +176,7 @@
 #'     }
 #'
 #'   \item
-#'     \code{TimeLogger}: Log already ellapsed time. Additional arguments:
+#'     \code{LoggerTime}: Log already ellapsed time. Additional arguments:
 #'     \describe{
 #'       \item{\code{max_time} [\code{integer(1)}]}{
 #'         Maximal time for the computation.
@@ -187,7 +187,7 @@
 #'     }
 #'
 #'   \item
-#'     \code{InbagRiskLogger}:
+#'     \code{LoggerInbagRisk}:
 #'     \describe{
 #'       \item{\code{used_loss} [\code{S4 Loss}]}{
 #'         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
@@ -200,7 +200,7 @@
 #'     }
 #'
 #'   \item
-#'     \code{OobRiskLogger}:
+#'     \code{LoggerOobRisk}:
 #'     \describe{
 #'       \item{\code{used_loss} [\code{S4 Loss}]}{
 #'         Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
@@ -275,19 +275,19 @@
 #' \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 #' \item{\code{train}}{method to train the algorithm.}
 #' \item{\code{predict}}{method to predict on a trained object.}
-#' \item{\code{selected}}{method to get a character vector of selected base-learner.}
-#' \item{\code{coef}}{method to get a list of estimated coefficient for each selected base-learner.}
+#' \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
+#' \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient for each selected base-learner.}
 #' \item{\code{plot}}{method to plot the \code{Compboost} object.}
 #' \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
 #' }
 #'
 #' @examples
-#' cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
-#' cboost$addBaselearner("hp", "spline", PSplineBlearner, degree = 3,
+#' cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new())
+#' cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
 #'   n.knots = 10, penalty = 2, differences = 2)
 #' cboost$train(1000)
 #' 
-#' table(cboost$selected())
+#' table(cboost$getSelectedBaselearner())
 #' cboost$plot("hp_spline")
 NULL
 
@@ -305,13 +305,16 @@ Compboost = R6::R6Class("Compboost",
     bl.factory.list = NULL,
     positive.category = NULL,
     stop.if.all.stoppers.fulfilled = FALSE,
-    initialize = function(data, target, optimizer = CoordinateDescent$new(), loss, learning.rate = 0.05) {
+    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning.rate = 0.05) {
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertCharacter(target)
       checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, len = 1)
       
       if (! target %in% names(data)) {
         stop ("The target ", target, " is not present within the data")
+      }
+      if (inherits(loss, "C++Class")) {
+        stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
       }
       
       self$id = deparse(substitute(data))
@@ -393,10 +396,10 @@ Compboost = R6::R6Class("Compboost",
         # hours or minutes.
         if (!is.null(iteration)) {
           # Add new logger in the case that there isn't already a custom defined one:
-          if ("Rcpp_IterationLogger" %in% vapply(private$l.list, class, character(1))) {
+          if ("Rcpp_LoggerIteration" %in% vapply(private$l.list, class, character(1))) {
             warning("Training iterations are ignored since custom iteration logger is already defined")
           } else {
-            self$addLogger(IterationLogger, TRUE, logger.id = "_iterations", iter.max = iteration)
+            self$addLogger(LoggerIteration, TRUE, logger.id = "_iterations", iter.max = iteration)
           }
         }
         # After calling `initializeModel` it isn't possible to add base-learner or logger.
@@ -450,14 +453,14 @@ Compboost = R6::R6Class("Compboost",
         return(self$model$predict(self$prepareData(newdata), response))
       }
     },
-    risk = function() {
+    getInbagRisk = function() {
       if(!is.null(self$model)) {
         # Return the risk + intercept, hence the current iteration + 1:
         return(self$model$getRiskVector()[seq_len(self$getCurrentIteration() + 1)])
       }
       return(NULL)
     },
-    selected = function() {
+    getSelectedBaselearner = function() {
       if(!is.null(self$model))
         return(self$model$getSelectedBaselearner())
       return(NULL)
@@ -480,7 +483,7 @@ Compboost = R6::R6Class("Compboost",
       print(p)
       print(self$loss)
     },
-    coef = function () {
+    getEstimatedCoef = function () {
       if(!is.null(self$model)) {
         return(c(self$model$getEstimatedParameter(), offset = self$model$getOffset()))
       }
@@ -488,98 +491,104 @@ Compboost = R6::R6Class("Compboost",
     },
     plot = function (blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000) {
       
-      if (is.null(self$model)) {
-        stop("Model needs to be trained first.")
-      }
-      checkmate::assertIntegerish(iters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
-      checkmate::assertCharacter(blearner.type, len = 1, null.ok = TRUE)
-      
-      if (is.null(blearner.type)) {
-        stop("Please specify a valid base-learner plus feature.")
-      }
-      if (! blearner.type %in% names(private$bl.list)) {
-        stop("Your requested feature plus learner is not available. Check 'getBaselearnerNames()' for available learners.")
-      }
-      if (length(private$bl.list[[blearner.type]]$feature) > 1) {
-        stop("Only univariate plotting is supported.")
-      }
-      # Check if selected base-learner includes the proposed one + check if iters is big enough:
-      iter.min = which(self$selected() == blearner.type)[1]
-      if (! blearner.type %in% unique(self$selected())) {
-        stop("Requested base-learner plus feature was not selected.")
-      } else {
-        if (any(iters < iter.min)) {
-          warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
+      if (requireNamespace("ggplot2", quietly = TRUE)) {
+        
+        if (is.null(self$model)) {
+          stop("Model needs to be trained first.")
         }
-      }
-      feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
-      
-      checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
-      checkmate::assertNumeric(from, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
-      checkmate::assertNumeric(to, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
-      
-      if (is.null(from)) { 				
-        from = min(self$data[[feat.name]])
-      }
-      if (is.null(to)) {
-        to = max(self$data[[feat.name]])
-      }
-      if (from >= to) {
-        warning("Argument from is smaller than to, hence the x interval is [to, from].")
-        temp = from
-        from = to
-        to = temp
-      }
-      
-      plot.data = as.matrix(seq(from = from, to = to, length.out = length.out))
-      feat.map  = private$bl.list[[blearner.type]]$factory$transformData(plot.data)
-      
-      # Create data.frame for plotting depending if iters is specified:
-      if (!is.null(iters[1])) {
-        preds = lapply(iters, function (x) {
-          if (x >= iter.min) {
-            return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
-          } else {
-            return(rep(0, length.out))
+        checkmate::assertIntegerish(iters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
+        checkmate::assertCharacter(blearner.type, len = 1, null.ok = TRUE)
+        
+        if (is.null(blearner.type)) {
+          stop("Please specify a valid base-learner plus feature.")
+        }
+        if (! blearner.type %in% names(private$bl.list)) {
+          stop("Your requested feature plus learner is not available. Check 'getBaselearnerNames()' for available learners.")
+        }
+        if (length(private$bl.list[[blearner.type]]$feature) > 1) {
+          stop("Only univariate plotting is supported.")
+        }
+        # Check if selected base-learner includes the proposed one + check if iters is big enough:
+        iter.min = which(self$getSelectedBaselearner() == blearner.type)[1]
+        if (! blearner.type %in% unique(self$getSelectedBaselearner())) {
+          stop("Requested base-learner plus feature was not selected.")
+        } else {
+          if (any(iters < iter.min)) {
+            warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
           }
-        })
-        names(preds) = iters
+        }
+        feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
         
-        df.plot = data.frame(
-          effect    = unlist(preds),
-          iteration = as.factor(rep(iters, each = length.out)),
-          feature   = plot.data
-        )
+        checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
+        checkmate::assertNumeric(from, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
+        checkmate::assertNumeric(to, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
         
-        gg = ggplot(df.plot, aes(feature, effect, color = iteration))
+        if (is.null(from)) { 				
+          from = min(self$data[[feat.name]])
+        }
+        if (is.null(to)) {
+          to = max(self$data[[feat.name]])
+        }
+        if (from >= to) {
+          warning("Argument from is smaller than to, hence the x interval is [to, from].")
+          temp = from
+          from = to
+          to = temp
+        }
         
+        plot.data = as.matrix(seq(from = from, to = to, length.out = length.out))
+        feat.map  = private$bl.list[[blearner.type]]$factory$transformData(plot.data)
+        
+        # Create data.frame for plotting depending if iters is specified:
+        if (!is.null(iters[1])) {
+          preds = lapply(iters, function (x) {
+            if (x >= iter.min) {
+              return(feat.map %*% self$model$getParameterAtIteration(x)[[blearner.type]])
+            } else {
+              return(rep(0, length.out))
+            }
+          })
+          names(preds) = iters
+          
+          df.plot = data.frame(
+            effect    = unlist(preds),
+            iteration = as.factor(rep(iters, each = length.out)),
+            feature   = plot.data
+          )
+          
+          gg = ggplot2::ggplot(df.plot, ggplot2::aes(feature, effect, color = iteration))
+          
+        } else {
+          df.plot = data.frame(
+            effect  = feat.map %*% self$getEstimatedCoef()[[blearner.type]],
+            feature = plot.data
+          )
+          
+          gg = ggplot2::ggplot(df.plot, ggplot2::aes(feature, effect))
+        }
+        
+        # If there are too much rows we need to take just a sample or completely remove rugs:
+        if (nrow(self$data) > 1000) {
+          idx.rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
+        } else {
+          idx.rugs = seq_len(nrow(self$data))
+        }
+        
+        gg = gg + 
+          ggplot2::geom_line() + 
+          ggplot2::geom_rug(data = self$data[idx.rugs,], ggplot2::aes_string(x = feat.name), inherit.aes = FALSE, 
+            alpha = 0.8) + 
+          ggplot2::xlab(feat.name) + 
+          ggplot2::xlim(from, to) +
+          ggplot2::ylab("Additive Contribution") + 
+          ggplot2::labs(title = paste0("Effect of ", blearner.type), 
+            subtitle = "Additive contribution of predictor")
+        
+        return(gg)
       } else {
-        df.plot = data.frame(
-          effect  = feat.map %*% self$coef()[[blearner.type]],
-          feature = plot.data
-        )
-        
-        gg = ggplot(df.plot, aes(feature, effect))
+        message("Please install ggplot2 to create plots.")
+        return(NULL)
       }
-      
-      # If there are too much rows we need to take just a sample or completely remove rugs:
-      if (nrow(self$data) > 1000) {
-        idx.rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
-      } else {
-        idx.rugs = seq_len(nrow(self$data))
-      }
-      
-      gg = gg + 
-        geom_line() + 
-        geom_rug(data = self$data[idx.rugs,], aes_string(x = feat.name), inherit.aes = FALSE, 
-          alpha = 0.8) + 
-        xlab(feat.name) + 
-        xlim(from, to) +
-        ylab("Additive Contribution") + 
-        labs(title = paste0("Effect of ", blearner.type), 
-          subtitle = "Additive contribution of predictor")
-      
-      return(gg)
     },
     getBaselearnerNames = function () {
       # return(lapply(private$bl.list, function (bl) bl[[1]]$target$getIdentifier()))

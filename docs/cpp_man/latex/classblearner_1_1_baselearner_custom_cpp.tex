@@ -1,0 +1,195 @@
+\hypertarget{classblearner_1_1_baselearner_custom_cpp}{}\section{blearner\+:\+:Baselearner\+Custom\+Cpp Class Reference}
+\label{classblearner_1_1_baselearner_custom_cpp}\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+
+
+{\ttfamily \#include $<$baselearner.\+h$>$}
+
+
+
+Inheritance diagram for blearner\+:\+:Baselearner\+Custom\+Cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=240pt]{classblearner_1_1_baselearner_custom_cpp__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for blearner\+:\+:Baselearner\+Custom\+Cpp\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=550pt]{classblearner_1_1_baselearner_custom_cpp__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_a7714c44164d0f763a861217ff2d53480}{Baselearner\+Custom\+Cpp}} (\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$, const std\+::string \&, S\+E\+XP, S\+E\+XP, S\+E\+XP)
+\item 
+\mbox{\hyperlink{classblearner_1_1_baselearner}{Baselearner}} $\ast$ \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_a8478407ac4d8ed118fd1381f65df150a}{clone}} ()
+\item 
+arma\+::mat \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_ae130d3b469eff32c8e0be12d925cf88f}{instantiate\+Data}} (const arma\+::mat \&)
+\item 
+void \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_a7437b1175498b928d3202b586527d2c4}{train}} (const arma\+::vec \&)
+\item 
+arma\+::mat \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_a88c17ed1e32255e482f34695e06e7d25}{predict}} ()
+\item 
+arma\+::mat \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_a55fb45a929fea01f79fa3dcad7698174}{predict}} (\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$)
+\item 
+\mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_a67aa938d71013c6e931d3edc563935bb}{$\sim$\+Baselearner\+Custom\+Cpp}} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceblearner_a10cec16134a934fb9defbdc2c2011f2a}{instantiate\+Data\+Fun\+Ptr}} \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_ab8d8e9a2bc502286ad1cd1ea5e646270}{instantiate\+Data\+Fun}}
+\item 
+\mbox{\hyperlink{namespaceblearner_a5e2b38edf05e32681bee136af9ae505d}{train\+Fun\+Ptr}} \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_ab04bffb15f84320d325821edb97ef9f5}{train\+Fun}}
+\item 
+\mbox{\hyperlink{namespaceblearner_a93d5b51440d434704d2bde9dee652f6e}{predict\+Fun\+Ptr}} \mbox{\hyperlink{classblearner_1_1_baselearner_custom_cpp_aa5f2ac8345bddaf143d47d7c88e993c5}{predict\+Fun}}
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_a7714c44164d0f763a861217ff2d53480}\label{classblearner_1_1_baselearner_custom_cpp_a7714c44164d0f763a861217ff2d53480}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!Baselearner\+Custom\+Cpp@{Baselearner\+Custom\+Cpp}}
+\index{Baselearner\+Custom\+Cpp@{Baselearner\+Custom\+Cpp}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{Baselearner\+Custom\+Cpp()}{BaselearnerCustomCpp()}}
+{\footnotesize\ttfamily blearner\+::\+Baselearner\+Custom\+Cpp\+::\+Baselearner\+Custom\+Cpp (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$}]{data,  }\item[{const std\+::string \&}]{identifier,  }\item[{S\+E\+XP}]{instantiate\+Data\+Fun0,  }\item[{S\+E\+XP}]{train\+Fun0,  }\item[{S\+E\+XP}]{predict\+Fun0 }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_a7714c44164d0f763a861217ff2d53480_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_a7714c44164d0f763a861217ff2d53480_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_a67aa938d71013c6e931d3edc563935bb}\label{classblearner_1_1_baselearner_custom_cpp_a67aa938d71013c6e931d3edc563935bb}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!````~Baselearner\+Custom\+Cpp@{$\sim$\+Baselearner\+Custom\+Cpp}}
+\index{````~Baselearner\+Custom\+Cpp@{$\sim$\+Baselearner\+Custom\+Cpp}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{$\sim$\+Baselearner\+Custom\+Cpp()}{~BaselearnerCustomCpp()}}
+{\footnotesize\ttfamily blearner\+::\+Baselearner\+Custom\+Cpp\+::$\sim$\+Baselearner\+Custom\+Cpp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_a8478407ac4d8ed118fd1381f65df150a}\label{classblearner_1_1_baselearner_custom_cpp_a8478407ac4d8ed118fd1381f65df150a}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!clone@{clone}}
+\index{clone@{clone}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classblearner_1_1_baselearner}{Baselearner}} $\ast$ blearner\+::\+Baselearner\+Custom\+Cpp\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearner_1_1_baselearner_a8e12c6739f085917a7d2da6570c51a21}{blearner\+::\+Baselearner}}.
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_a8478407ac4d8ed118fd1381f65df150a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_ae130d3b469eff32c8e0be12d925cf88f}\label{classblearner_1_1_baselearner_custom_cpp_ae130d3b469eff32c8e0be12d925cf88f}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!instantiate\+Data@{instantiate\+Data}}
+\index{instantiate\+Data@{instantiate\+Data}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{instantiate\+Data()}{instantiateData()}}
+{\footnotesize\ttfamily arma\+::mat blearner\+::\+Baselearner\+Custom\+Cpp\+::instantiate\+Data (\begin{DoxyParamCaption}\item[{const arma\+::mat \&}]{newdata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearner_1_1_baselearner_af01f1b8c4540927705ff79c3649489f7}{blearner\+::\+Baselearner}}.
+
+Here is the caller graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_ae130d3b469eff32c8e0be12d925cf88f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_a88c17ed1e32255e482f34695e06e7d25}\label{classblearner_1_1_baselearner_custom_cpp_a88c17ed1e32255e482f34695e06e7d25}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!predict@{predict}}
+\index{predict@{predict}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{predict()}{predict()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily arma\+::mat blearner\+::\+Baselearner\+Custom\+Cpp\+::predict (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearner_1_1_baselearner_ab37986047db43c84420fef2cef7fc20d}{blearner\+::\+Baselearner}}.
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_a88c17ed1e32255e482f34695e06e7d25_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_a55fb45a929fea01f79fa3dcad7698174}\label{classblearner_1_1_baselearner_custom_cpp_a55fb45a929fea01f79fa3dcad7698174}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!predict@{predict}}
+\index{predict@{predict}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{predict()}{predict()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily arma\+::mat blearner\+::\+Baselearner\+Custom\+Cpp\+::predict (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$}]{newdata }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearner_1_1_baselearner_ae2ef5e018783578e02b3b5a33fa94eae}{blearner\+::\+Baselearner}}.
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_a55fb45a929fea01f79fa3dcad7698174_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_a7437b1175498b928d3202b586527d2c4}\label{classblearner_1_1_baselearner_custom_cpp_a7437b1175498b928d3202b586527d2c4}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!train@{train}}
+\index{train@{train}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily void blearner\+::\+Baselearner\+Custom\+Cpp\+::train (\begin{DoxyParamCaption}\item[{const arma\+::vec \&}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{classblearner_1_1_baselearner_a40e03ad070b9a03aae706d9ee8094b80}{blearner\+::\+Baselearner}}.
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classblearner_1_1_baselearner_custom_cpp_a7437b1175498b928d3202b586527d2c4_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_ab8d8e9a2bc502286ad1cd1ea5e646270}\label{classblearner_1_1_baselearner_custom_cpp_ab8d8e9a2bc502286ad1cd1ea5e646270}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!instantiate\+Data\+Fun@{instantiate\+Data\+Fun}}
+\index{instantiate\+Data\+Fun@{instantiate\+Data\+Fun}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{instantiate\+Data\+Fun}{instantiateDataFun}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceblearner_a10cec16134a934fb9defbdc2c2011f2a}{instantiate\+Data\+Fun\+Ptr}} blearner\+::\+Baselearner\+Custom\+Cpp\+::instantiate\+Data\+Fun\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_aa5f2ac8345bddaf143d47d7c88e993c5}\label{classblearner_1_1_baselearner_custom_cpp_aa5f2ac8345bddaf143d47d7c88e993c5}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!predict\+Fun@{predict\+Fun}}
+\index{predict\+Fun@{predict\+Fun}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{predict\+Fun}{predictFun}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceblearner_a93d5b51440d434704d2bde9dee652f6e}{predict\+Fun\+Ptr}} blearner\+::\+Baselearner\+Custom\+Cpp\+::predict\+Fun\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classblearner_1_1_baselearner_custom_cpp_ab04bffb15f84320d325821edb97ef9f5}\label{classblearner_1_1_baselearner_custom_cpp_ab04bffb15f84320d325821edb97ef9f5}} 
+\index{blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}!train\+Fun@{train\+Fun}}
+\index{train\+Fun@{train\+Fun}!blearner\+::\+Baselearner\+Custom\+Cpp@{blearner\+::\+Baselearner\+Custom\+Cpp}}
+\subsubsection{\texorpdfstring{train\+Fun}{trainFun}}
+{\footnotesize\ttfamily \mbox{\hyperlink{namespaceblearner_a5e2b38edf05e32681bee136af9ae505d}{train\+Fun\+Ptr}} blearner\+::\+Baselearner\+Custom\+Cpp\+::train\+Fun\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{baselearner_8h}{baselearner.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{baselearner_8cpp}{baselearner.\+cpp}}\end{DoxyCompactItemize}

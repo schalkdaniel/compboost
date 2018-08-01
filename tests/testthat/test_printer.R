@@ -23,17 +23,17 @@ test_that("factory list printer works", {
 
 test_that("Loss printer works", {
 
-  expect_silent({ quadratic.loss = QuadraticLoss$new() })
-  expect_silent({ absolute.loss  = AbsoluteLoss$new() })
-  expect_silent({ binomial.loss = BinomialLoss$new() })
+  expect_silent({ quadratic.loss = LossQuadratic$new() })
+  expect_silent({ absolute.loss  = LossAbsolute$new() })
+  expect_silent({ binomial.loss = LossBinomial$new() })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })  
 
   myLossFun = function (true.value, prediction) NULL
   myGradientFun = function (true.value, prediction) NULL
   myConstantInitializerFun = function (true.value) NULL
 
-  expect_silent({ custom.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
-  expect_silent({ custom.loss = CustomLoss$new(myLossFun, myGradientFun, myConstantInitializerFun) })
+  expect_silent({ custom.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
+  expect_silent({ custom.loss = LossCustom$new(myLossFun, myGradientFun, myConstantInitializerFun) })
 
   expect_output({ test.quadratic.printer  = show(quadratic.loss) })
   expect_output({ test.absolute.printer   = show(absolute.loss) })
@@ -41,11 +41,11 @@ test_that("Loss printer works", {
   expect_output({ test.custom.cpp.printer = show(custom.cpp.loss) })
   expect_output({ test.binomialprinter    = show(binomial.loss) })
 
-  expect_equal(test.quadratic.printer, "QuadraticLossPrinter")
-  expect_equal(test.absolute.printer, "AbsoluteLossPrinter")
-  expect_equal(test.binomialprinter, "BinomialLossPrinter")
-  expect_equal(test.custom.cpp.printer, "CustomCppLossPrinter")
-  expect_equal(test.custom.printer, "CustomLossPrinter")
+  expect_equal(test.quadratic.printer, "LossQuadraticPrinter")
+  expect_equal(test.absolute.printer, "LossAbsolutePrinter")
+  expect_equal(test.binomialprinter, "LossBinomialPrinter")
+  expect_equal(test.custom.cpp.printer, "LossCustomCppPrinter")
+  expect_equal(test.custom.printer, "LossCustomPrinter")
 
 })
 
@@ -60,25 +60,25 @@ test_that("Baselearner factory printer works", {
   expect_silent({ data.source.sp = InMemoryData$new(X.hp.sp, "hp") })
   expect_silent({ data.target    = InMemoryData$new() })
   
-  expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source, data.target, 1, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 1, FALSE) })
   expect_output({ linear.factory.hp.printer = show(linear.factory.hp) })
-  expect_equal(linear.factory.hp.printer, "PolynomialBlearnerPrinter")
+  expect_equal(linear.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ quad.factory.hp = PolynomialBlearner$new(data.source, data.target, 2, FALSE) })
+  expect_silent({ quad.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 2, FALSE) })
   expect_output({ quad.factory.hp.printer = show(quad.factory.hp) })
-  expect_equal(quad.factory.hp.printer, "PolynomialBlearnerPrinter")
+  expect_equal(quad.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ cubic.factory.hp = PolynomialBlearner$new(data.source, data.target, 3, FALSE) })
+  expect_silent({ cubic.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 3, FALSE) })
   expect_output({ cubic.factory.hp.printer = show(cubic.factory.hp) })
-  expect_equal(cubic.factory.hp.printer, "PolynomialBlearnerPrinter")
+  expect_equal(cubic.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ poly.factory.hp = PolynomialBlearner$new(data.source, data.target, 4, FALSE) })
+  expect_silent({ poly.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 4, FALSE) })
   expect_output({ poly.factory.hp.printer = show(poly.factory.hp) })
-  expect_equal(poly.factory.hp.printer, "PolynomialBlearnerPrinter")
+  expect_equal(poly.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ spline.factory = PSplineBlearner$new(data.source.sp, data.target, 3, 5, 2.5, 2) })
+  expect_silent({ spline.factory = BaselearnerPSpline$new(data.source.sp, data.target, 3, 5, 2.5, 2) })
   expect_output({ spline.printer = show(spline.factory) })
-  expect_equal(spline.printer, "PSplineBlearnerPrinter")
+  expect_equal(spline.printer, "BaselearnerPSplinePrinter")
 
   instantiateData = function (X)
   {
@@ -95,32 +95,32 @@ test_that("Baselearner factory printer works", {
   }
 
   expect_silent({
-    custom.factory = CustomBlearner$new(data.source, data.target,
+    custom.factory = BaselearnerCustom$new(data.source, data.target,
       instantiateData, trainFun, predictFun, extractParameter)
   })
   expect_output({ custom.factory.printer = show(custom.factory) })
 
-  expect_equal(custom.factory.printer, "CustomBlearnerPrinter")
+  expect_equal(custom.factory.printer, "BaselearnerCustomPrinter")
   expect_output(Rcpp::sourceCpp(code = getCustomCppExample()))
   expect_silent({
-    custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
+    custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
       dataFunSetter(), trainFunSetter(), predictFunSetter())
   })
   expect_output({ custom.cpp.factory.printer = show(custom.cpp.factory) })
-  expect_equal(custom.cpp.factory.printer, "CustomCppBlearnerPrinter")
+  expect_equal(custom.cpp.factory.printer, "BaselearnerCustomCppPrinter")
 })
 
 test_that("Optimizer printer works", {
 
-  expect_silent({ greedy.optimizer = CoordinateDescent$new() })
+  expect_silent({ greedy.optimizer = OptimizerCoordinateDescent$new() })
   expect_output({ greedy.optimizer.printer = show(greedy.optimizer) })
-  expect_equal(greedy.optimizer.printer, "CoordinateDescentPrinter")
+  expect_equal(greedy.optimizer.printer, "OptimizerCoordinateDescentPrinter")
 
 })
 
 test_that("Logger(List) printer works", {
 
-  expect_silent({ loss.quadratic = QuadraticLoss$new() })
+  expect_silent({ loss.quadratic = LossQuadratic$new() })
 
   expect_silent({
     eval.oob.test = list(
@@ -131,10 +131,10 @@ test_that("Logger(List) printer works", {
 
   y = NA_real_
 
-  expect_silent({ log.iterations = IterationLogger$new(TRUE, 500) })
-  expect_silent({ log.time       = TimeLogger$new(FALSE, 500, "microseconds") })
-  expect_silent({ log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.05) })
-  expect_silent({ log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y) })
+  expect_silent({ log.iterations = LoggerIteration$new(TRUE, 500) })
+  expect_silent({ log.time       = LoggerTime$new(FALSE, 500, "microseconds") })
+  expect_silent({ log.inbag      = LoggerInbagRisk$new(FALSE, loss.quadratic, 0.05) })
+  expect_silent({ log.oob        = LoggerOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y) })
   expect_silent({ logger.list = LoggerList$new() })
   expect_output({ logger.list.printer = show(logger.list) })
 
@@ -152,10 +152,10 @@ test_that("Logger(List) printer works", {
 
   expect_output({ logger.list.printer    = show(logger.list) })
 
-  expect_equal(log.iterations.printer, "IterationLoggerPrinter")
-  expect_equal(log.time.printer, "TimeLoggerPrinter")
-  expect_equal(log.inbag, "InbagRiskLoggerPrinter")
-  expect_equal(log.oob, "OobRiskLoggerPrinter")
+  expect_equal(log.iterations.printer, "LoggerIterationPrinter")
+  expect_equal(log.time.printer, "LoggerTimePrinter")
+  expect_equal(log.inbag, "LoggerInbagRiskPrinter")
+  expect_equal(log.oob, "LoggerOobRiskPrinter")
 
   expect_equal(logger.list.printer, "LoggerListPrinter")
 })
@@ -182,24 +182,24 @@ test_that("Compboost printer works", {
   learning.rate = 0.05
   iter.max = 500
 
-  expect_silent({ linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, FALSE) })
-  expect_silent({ linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt, 1, FALSE) })
-  expect_silent({ quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, FALSE) })
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 1, FALSE) })
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, FALSE) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
 
   expect_silent(factory.list$registerFactory(linear.factory.hp))
   expect_silent(factory.list$registerFactory(linear.factory.wt))
   expect_silent(factory.list$registerFactory(quadratic.factory.hp))
 
-  expect_silent({ loss.quadratic = QuadraticLoss$new() })
-  expect_silent({ optimizer = CoordinateDescent$new() })
+  expect_silent({ loss.quadratic = LossQuadratic$new() })
+  expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
 
-  expect_silent({ log.iterations = IterationLogger$new(TRUE, iter.max) })
-  expect_silent({ log.time.ms    = TimeLogger$new(TRUE, 50000, "microseconds") })
-  expect_silent({ log.time.sec   = TimeLogger$new(TRUE, 2, "seconds") })
-  expect_silent({ log.time.min   = TimeLogger$new(TRUE, 1, "minutes") })
-  expect_silent({ log.inbag      = InbagRiskLogger$new(FALSE, loss.quadratic, 0.01) })
-  expect_silent({ log.oob        = OobRiskLogger$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
+  expect_silent({ log.iterations = LoggerIteration$new(TRUE, iter.max) })
+  expect_silent({ log.time.ms    = LoggerTime$new(TRUE, 50000, "microseconds") })
+  expect_silent({ log.time.sec   = LoggerTime$new(TRUE, 2, "seconds") })
+  expect_silent({ log.time.min   = LoggerTime$new(TRUE, 1, "minutes") })
+  expect_silent({ log.inbag      = LoggerInbagRisk$new(FALSE, loss.quadratic, 0.01) })
+  expect_silent({ log.oob        = LoggerOobRisk$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
 
   expect_silent({ logger.list = LoggerList$new() })
   expect_silent({ logger.list$registerLogger("iterations", log.iterations) })

@@ -19,10 +19,10 @@
 #'   data type of the target.
 #' @param optimizer [\code{S4 Optimizer}]\cr
 #'   Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-#'   exposed by Rcpp (for instance \code{CoordinateDescent$new()}).
+#'   exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).
 #' @param loss [\code{S4 Loss}]\cr
 #'   Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).
+#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).
 #' @param learning.rate [\code{numeric(1)}]\cr
 #'   Learning rate which is used to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
@@ -49,14 +49,14 @@
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
 #' @examples
-#' mod = boostSplines(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+#' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 #' mod$getBaselearnerNames()
-#' mod$coef()
-#' table(mod$selected())
+#' mod$getEstimatedCoef()
+#' table(mod$getSelectedBaselearner())
 #' mod$predict()
 #' mod$plot("Sepal.Width_spline")
 #' @export
-boostSplines = function(data, target, optimizer = CoordinateDescent$new(), loss, 
+boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
   learning.rate = 0.05, iterations = 100, trace = TRUE, degree = 3, n.knots = 20, 
   penalty = 2, differences = 2, data.source = InMemoryData, data.target = InMemoryData) 
 {
@@ -67,10 +67,10 @@ boostSplines = function(data, target, optimizer = CoordinateDescent$new(), loss,
   # Issue: 
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", PSplineBlearner, data.source, data.target,
+      model$addBaselearner(feat, "spline", BaselearnerPSpline, data.source, data.target,
         degree = degree, n.knots = n.knots, penalty = penalty, differences = differences)
     } else {
-      model$addBaselearner(feat, "category", PolynomialBlearner, data.source, data.target,
+      model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
         degree = 1, intercept = FALSE)
     }
   }

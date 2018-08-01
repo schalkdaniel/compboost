@@ -1,0 +1,6 @@
+<map id="optimizer::OptimizerCoordinateDescent::findBestBaselearner" name="optimizer::OptimizerCoordinateDescent::findBestBaselearner">
+<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="255,5,400,47"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_baselearner.html#a40e03ad070b9a03aae706d9ee8094b80" title="blearner::Baselearner\l::train" alt="" coords="255,71,400,112"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="255,136,400,177"/>
+<area shape="rect" id="node5" href="$classblearner_1_1_baselearner.html#a8e12c6739f085917a7d2da6570c51a21" title="blearner::Baselearner\l::clone" alt="" coords="255,201,400,243"/>
+</map>

@@ -16,6 +16,12 @@ vignette: >
 knitr::opts_chunk$set(collapse = TRUE)
 # devtools::load_all()
 library(compboost)
+
+required.pcks = c("ggplot2")
+
+dependencies = all(
+  unlist(lapply(required.pcks, requireNamespace, quietly = TRUE))
+)
 ```
 
 
@@ -103,7 +109,7 @@ data.source.fare = InMemoryData$new(as.matrix(df.train$Fare[idx.train]), "Fare")
 # Define data target:
 data.target.fare = InMemoryData$new()
 # Define spline factory:
-spline.factory.fare = PSplineBlearner$new(data_source = data.source.fare, 
+spline.factory.fare = BaselearnerPSpline$new(data_source = data.source.fare, 
   data_target = data.target.fare, degree = 3, n_knots = 20, penalty = 10, 
   differences = 2)
 
@@ -116,7 +122,7 @@ data.source.age = InMemoryData$new(as.matrix(df.train$Age[idx.train]), "Age")
 # Define data target:
 data.target.age = InMemoryData$new()
 # Define spline factory:
-spline.factory.age = PSplineBlearner$new(data_source = data.source.age, 
+spline.factory.age = BaselearnerPSpline$new(data_source = data.source.age, 
   data_target = data.target.age, degree = 3, n_knots = 20, penalty = 10, 
   differences = 2)
 ```
@@ -212,7 +218,7 @@ for (class in classes.sex) {
   
   # Define Factory object:
   data.sex.list[["factory"]][[data.name]] = list()
-  data.sex.list[["factory"]][[data.name]] = PolynomialBlearner$new(
+  data.sex.list[["factory"]][[data.name]] = BaselearnerPolynomial$new(
     data_source = data.sex.list[["source"]][[data.name]],
     data_target = data.sex.list[["target"]][[data.name]],
     degree      = 1,
@@ -259,7 +265,7 @@ for (class in classes.pclass) {
   
   # Define Factory object:
   data.pclass.list[["factory"]][[data.name]] = list()
-  data.pclass.list[["factory"]][[data.name]] = PolynomialBlearner$new(
+  data.pclass.list[["factory"]][[data.name]] = BaselearnerPolynomial$new(
     data_source = data.pclass.list[["source"]][[data.name]],
     data_target = data.pclass.list[["target"]][[data.name]],
     degree      = 1,
@@ -297,14 +303,14 @@ Since we are interested in binary classification we can use the binomial
 loss. This loss is used while training and determines the pseudo residuals as 
 well as the empirical risk which we want to minimize:
 ```{r}
-loss.bin = BinomialLoss$new()
+loss.bin = LossBinomial$new()
 loss.bin
 ```
 
 Since we are in the boosting context the classical way of selecting the best
 base-learner within one iteration by using the greedy optimizer:
 ```{r}
-used.optimizer = CoordinateDescent$new()
+used.optimizer = OptimizerCoordinateDescent$new()
 ```
 
 ## Define Logger
@@ -320,7 +326,7 @@ This logger just logs the current iteration and stops if `max_iterations` is
 reached. In our case we want to stop after 2500 iterations:
 
 ```{r}
-log.iterations = IterationLogger$new(use_as_stopper = TRUE, max_iterations = 2500)
+log.iterations = LoggerIteration$new(use_as_stopper = TRUE, max_iterations = 2500)
 ```
 
 Note that the arguments as `max_iterations` are just used if we define the
@@ -332,7 +338,7 @@ This logger logs the elapsed time. The time unit can be one of `microseconds`,
 `seconds` or `minutes`. The logger stops if `max_time` is reached:
 
 ```{r}
-log.time = TimeLogger$new(use_as_topper = FALSE, max_time = 120, 
+log.time = LoggerTime$new(use_as_topper = FALSE, max_time = 120, 
   time_unit = "seconds")
 ```
 
@@ -344,7 +350,7 @@ to calculate the empirical risk. In the most common situation we use the the
 same loss as used for training to display the progress of the fitting:
 
 ```{r}
-log.inbag = InbagRiskLogger$new(use_as_stopper = FALSE, used_loss = loss.bin,
+log.inbag = LoggerInbagRisk$new(use_as_stopper = FALSE, used_loss = loss.bin,
   eps_for_break = 0.05)
 ```
 
@@ -376,7 +382,7 @@ Finally we create the out of bag risk object by also specifying the
 corresponding `y` labels:
 
 ```{r}
-log.oob = OobRiskLogger$new(use_as_stopper = FALSE, used_loss = loss.bin,
+log.oob = LoggerOobRisk$new(use_as_stopper = FALSE, used_loss = loss.bin,
   eps_for_break = 0.05, oob_data = oob.list, oob_response = response[idx.eval])
 ```
 
@@ -402,15 +408,15 @@ gradDummy = function (trutz, response) { return (NA) }
 constInitDummy = function (truth, response) { return (NA) }
 
 # Define loss:
-auc.loss = CustomLoss$new(aucLoss, gradDummy, constInitDummy)
+auc.loss = LossCustom$new(aucLoss, gradDummy, constInitDummy)
 ```
 
 Now we can create a new inbag and out of bag logger to log the AUC while 
 fitting the model:
 ```{r}
-log.inbag.auc = InbagRiskLogger$new(use_as_stopper = FALSE, used_loss = auc.loss,
+log.inbag.auc = LoggerInbagRisk$new(use_as_stopper = FALSE, used_loss = auc.loss,
   eps_for_break = 0.05)
-log.oob.auc   = OobRiskLogger$new(use_as_stopper = FALSE, used_loss = auc.loss,
+log.oob.auc   = LoggerOobRisk$new(use_as_stopper = FALSE, used_loss = auc.loss,
   eps_for_break = 0.05, oob_data = oob.list, oob_response = response[idx.eval])
 ```
 
@@ -501,7 +507,7 @@ positive rate. Therefore it would be more informative to take a look at the AUC
 and the ROC curve. To compute the AUC and the ROC curve we can proceed as
 follows:
 
-```{r, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 library(ggplot2)
 
 # True labels as binary vector (0, 1):
@@ -545,16 +551,16 @@ retraining. For instance, we can continuing the training for 3 seconds and see
 how far we get. We also want to reuse the out of bag logger:
 ```{r}
 # Define new time logger:
-new.time.logger = TimeLogger$new(use_as_stopper = TRUE, max_time = 3,
+new.time.logger = LoggerTime$new(use_as_stopper = TRUE, max_time = 3,
   time_unit = "seconds")
 
 # Define new logger list and register logger:
 new.logger.list = LoggerList$new()
 
 # Define new oob logger to prevent old logger data from overwriting:
-new.oob.log     = OobRiskLogger$new(use_as_stopper = FALSE, used_loss = loss.bin,
+new.oob.log     = LoggerOobRisk$new(use_as_stopper = FALSE, used_loss = loss.bin,
   eps_for_break = 0.05, oob_data = oob.list, oob_response = response[idx.eval])
-new.oob.auc.log = OobRiskLogger$new(use_as_stopper = FALSE, used_loss = auc.loss,
+new.oob.auc.log = LoggerOobRisk$new(use_as_stopper = FALSE, used_loss = auc.loss,
   eps_for_break = 0.05, oob_data = oob.list, oob_response = response[idx.eval])
 
 new.logger.list$registerLogger("time", new.time.logger)
@@ -590,7 +596,7 @@ str(cboost.log)
 ```
 
 Next we create a data frame which we use for plotting:
-```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=12, fig.height=4, out.width="700px",out.height="233px"}
+```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=12, fig.height=4, out.width="700px",out.height="233px", eval=dependencies}
 auc.data = data.frame(
   iteration = rep(seq_len(nrow(cboost.log$logger.data)), 2),
   risk.type = rep(c("Inbag", "OOB"), each = nrow(cboost.log$logger.data)),
@@ -623,7 +629,7 @@ One of the key advantages of component-wise boosting is to have an interpretable
 model. For instance it is now possible to illustrate the effect of fare. 
 Therefore, we can use the `transformData()` function of the 
 `spline.factory.fare` object to create the spline basis for new observations:
-```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 params = cboost$getEstimatedParameter()
 params.fare = params$Fare_spline_degree_3
 
@@ -646,7 +652,7 @@ We recognize, that this curve results from taking the parameter after
 much and could tend to overfitting. Because of the out of bag behavior, we set 
 the iteration to 1200:
 
-```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+```{r, message=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px", eval=dependencies}
 cboost$setToIteration(k = 1200)
 
 params = cboost$getEstimatedParameter()

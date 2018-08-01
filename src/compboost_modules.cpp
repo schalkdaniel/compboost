@@ -226,17 +226,17 @@ protected:
 
 //' Baselearner factory to make polynomial regression
 //'
-//' \code{PolynomialBlearner} creates a polynomial base-learner factory
+//' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 //'  object which can be registered within a base-learner list and then used
 //'  for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name PolynomialBlearner
+//' @name BaselearnerPolynomial
 //'
 //' @section Usage:
 //' \preformatted{
-//' PolynomialBlearner$new(data_source, data_target, degree, intercept)
-//' PolynomialBlearner$new(data_source, data_target, blearner_type, degree, intercept)
+//' BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
+//' BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
 //' }
 //'
 //' @section Arguments:
@@ -288,9 +288,9 @@ protected:
 //' data.target2 = InMemoryData$new()
 //'
 //' # Create new linear base-learner factory:
-//' lin.factory = PolynomialBlearner$new(data.source, data.target1, 
+//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
 //'   degree = 2, intercept = FALSE)
-//' lin.factory.int = PolynomialBlearner$new(data.source, data.target2, 
+//' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
 //'   degree = 2, intercept = TRUE)
 //'
 //' # Get the transformed data:
@@ -304,8 +304,8 @@ protected:
 //' lin.factory$transformData(data.mat)
 //' lin.factory.int$transformData(data.mat)
 //'
-//' @export PolynomialBlearner
-class PolynomialBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerPolynomial
+class BaselearnerPolynomialFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   const unsigned int degree;
@@ -313,23 +313,23 @@ private:
 
 public:
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const unsigned int& degree, bool intercept)
     : degree ( degree ),
       intercept ( intercept )
   {
     std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
 
-    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type_temp, data_source.getDataObj(),
       data_target.getDataObj(), degree, intercept);
   }
 
-  PolynomialBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, const unsigned int& degree, bool intercept)
     : degree ( degree ),
       intercept ( intercept )
   {
-    obj = new blearnerfactory::PolynomialBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), degree, intercept);
   }
 
@@ -363,16 +363,16 @@ public:
 
 //' Base-learner factory to do non-parametric B or P-spline regression
 //'
-//' \code{PSplineBlearner} creates a spline base-learner factory
+//' \code{BaselearnerPSpline} creates a spline base-learner factory
 //'  object which can be registered within a base-learner list and then used
 //'  for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name PSplineBlearner
+//' @name BaselearnerPSpline
 //'
 //' @section Usage:
 //' \preformatted{
-//' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
+//' BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
 //'   differences)
 //' }
 //'
@@ -431,7 +431,7 @@ public:
 //' data.target = InMemoryData$new()
 //'
 //' # Create new linear base-learner:
-//' spline.factory = PSplineBlearner$new(data.source, data.target,
+//' spline.factory = BaselearnerPSpline$new(data.source, data.target,
 //'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
 //'
 //' # Get the transformed data:
@@ -443,32 +443,32 @@ public:
 //' # Transform data manually:
 //' spline.factory$transformData(data.mat)
 //'
-//' @export PSplineBlearner
-class PSplineBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerPSpline
+class BaselearnerPSplineFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   const unsigned int degree;
 
 public:
 
-  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const unsigned int& degree, const unsigned int& n_knots, const double& penalty,
     const unsigned int& differences)
     : degree ( degree )
   {
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
     
-    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type_temp, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type_temp, data_source.getDataObj(),
        data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);      
 
   }
 
-  PSplineBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, const unsigned int& degree, 
     const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
     : degree ( degree )
   {
-    obj = new blearnerfactory::PSplineBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);
 
   }
@@ -492,16 +492,16 @@ public:
 
 //' Create custom base-learner factory by using R functions.
 //'
-//' \code{CustomBlearner} creates a custom base-learner factory by
+//' \code{BaselearnerCustom} creates a custom base-learner factory by
 //'   setting custom \code{R} functions. This factory object can be registered
 //'   within a base-learner list and then used for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomBlearner
+//' @name BaselearnerCustom
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomBlearner$new(data_source, data_target, instantiateData, train,
+//' BaselearnerCustom$new(data_source, data_target, instantiateData, train,
 //'   predict, extractParameter)
 //' }
 //'
@@ -592,7 +592,7 @@ public:
 //' }
 //'
 //' # Create new custom linear base-learner factory:
-//' custom.lin.factory = CustomBlearner$new(data.source, data.target,
+//' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
 //'   instantiateDataFun, trainFun, predictFun, extractParameter)
 //'
 //' # Get the transformed data:
@@ -604,24 +604,24 @@ public:
 //' # Transform data manually:
 //' custom.lin.factory$transformData(data.mat)
 //'
-//' @export CustomBlearner
-class CustomBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerCustom
+class BaselearnerCustomFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomBlearnerFactory("custom", data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomFactory("custom", data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
-  CustomBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
     Rcpp::Function predictFun, Rcpp::Function extractParameter)
   {
-    obj = new blearnerfactory::CustomBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
   }
 
@@ -646,16 +646,16 @@ public:
 //' Create custom cpp base-learner factory by using cpp functions and external
 //' pointer.
 //'
-//' \code{CustomCppBlearner} creates a custom base-learner factory by
+//' \code{BaselearnerCustomCpp} creates a custom base-learner factory by
 //'   setting custom \code{C++} functions. This factory object can be registered
 //'   within a base-learner list and then used for training.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomCppBlearner
+//' @name BaselearnerCustomCpp
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomCppBlearner$new(data_source, data_target, instantiate_data_ptr,
+//' BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 //'   train_ptr, predict_ptr)
 //' }
 //'
@@ -710,7 +710,7 @@ public:
 //' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 //'
 //' # Create new linear base-learner:
-//' custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
+//' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
 //'   dataFunSetter(), trainFunSetter(), predictFunSetter())
 //'
 //' # Get the transformed data:
@@ -722,22 +722,22 @@ public:
 //' # Transform data manually:
 //' custom.cpp.factory$transformData(data.mat)
 //'
-//' @export CustomCppBlearner
-class CustomCppBlearnerFactoryWrapper : public BaselearnerFactoryWrapper
+//' @export BaselearnerCustomCpp
+class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
 {
 public:
 
-  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory("custom_cpp", data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomCppFactory("custom_cpp", data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
-  CustomCppBlearnerFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+  BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
   {
-    obj = new blearnerfactory::CustomCppBlearnerFactory(blearner_type, data_source.getDataObj(),
+    obj = new blearnerfactory::BaselearnerCustomCppFactory(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
   }
 
@@ -784,42 +784,42 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor ("Create BaselearnerFactory class")
   ;
 
-  class_<PolynomialBlearnerFactoryWrapper> ("PolynomialBlearner")
+  class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     // .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
     // .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int> ("", &fun1)
     .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> () // ("", &fun2)
     .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, bool> ()
-     .method("getData",          &PolynomialBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",     &PolynomialBlearnerFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
-     .method("summarizeFactory", &PolynomialBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+     .method("getData",          &BaselearnerPolynomialFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",     &BaselearnerPolynomialFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
+     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
-  class_<PSplineBlearnerFactoryWrapper> ("PSplineBlearner")
+  class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, unsigned int, double, unsigned int> ()
-    .method("getData",          &PSplineBlearnerFactoryWrapper::getData, "Get design matrix")
-    .method("transformData",    &PSplineBlearnerFactoryWrapper::transformData, "Compute spline basis for new data")
-    .method("summarizeFactory", &PSplineBlearnerFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("getData",          &BaselearnerPSplineFactoryWrapper::getData, "Get design matrix")
+    .method("transformData",    &BaselearnerPSplineFactoryWrapper::transformData, "Compute spline basis for new data")
+    .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
-  class_<CustomBlearnerFactoryWrapper> ("CustomBlearner")
+  class_<BaselearnerCustomFactoryWrapper> ("BaselearnerCustom")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-     .method("getData",          &CustomBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &CustomBlearnerFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &CustomBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+     .method("getData",          &BaselearnerCustomFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &BaselearnerCustomFactoryWrapper::transformData, "Transform data")
+     .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 
-  class_<CustomCppBlearnerFactoryWrapper> ("CustomCppBlearner")
+  class_<BaselearnerCustomCppFactoryWrapper> ("BaselearnerCustomCpp")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
-     .method("getData",          &CustomCppBlearnerFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &CustomCppBlearnerFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &CustomCppBlearnerFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+     .method("getData",          &BaselearnerCustomCppFactoryWrapper::getData, "Get the data which the factory uses")
+     .method("transformData",    &BaselearnerCustomCppFactoryWrapper::transformData, "Transform data")
+     .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Sumamrize Factory")
   ;
 }
 
@@ -875,8 +875,8 @@ RCPP_MODULE (baselearner_factory_module)
 //' data.target1 = InMemoryData$new()
 //' data.target2 = InMemoryData$new()
 //'
-//' lin.factory = PolynomialBlearner$new(data.source, data.target1, 1, TRUE)
-//' poly.factory = PolynomialBlearner$new(data.source, data.target2, 2, TRUE)
+//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
+//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
 //'
 //' # Create new base-learner list:
 //' my.bl.list = BlearnerFactoryList$new()
@@ -1005,12 +1005,12 @@ protected:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name QuadraticLoss
+//' @name LossQuadratic
 //'
 //' @section Usage:
 //' \preformatted{
-//' QuadraticLoss$new()
-//' QuadraticLoss$new(offset)
+//' LossQuadratic$new()
+//' LossQuadratic$new(offset)
 //' }
 //'
 //' @section Arguments:
@@ -1030,15 +1030,15 @@ protected:
 //' @examples
 //'
 //' # Create new loss object:
-//' quadratic.loss = QuadraticLoss$new()
+//' quadratic.loss = LossQuadratic$new()
 //' quadratic.loss
 //'
-//' @export QuadraticLoss
-class QuadraticLossWrapper : public LossWrapper
+//' @export LossQuadratic
+class LossQuadraticWrapper : public LossWrapper
 {
 public:
-  QuadraticLossWrapper () { obj = new loss::QuadraticLoss(); }
-  QuadraticLossWrapper (double custom_offset) { obj = new loss::QuadraticLoss(custom_offset); }
+  LossQuadraticWrapper () { obj = new loss::LossQuadratic(); }
+  LossQuadraticWrapper (double custom_offset) { obj = new loss::LossQuadratic(custom_offset); }
 };
 
 //' Absolute loss for regression tasks.
@@ -1060,12 +1060,12 @@ public:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name AbsoluteLoss
+//' @name LossAbsolute
 //'
 //' @section Usage:
 //' \preformatted{
-//' AbsoluteLoss$new()
-//' AbsoluteLoss$new(offset)
+//' LossAbsolute$new()
+//' LossAbsolute$new(offset)
 //' }
 //'
 //' @section Arguments:
@@ -1085,15 +1085,15 @@ public:
 //' @examples
 //'
 //' # Create new loss object:
-//' absolute.loss = AbsoluteLoss$new()
+//' absolute.loss = LossAbsolute$new()
 //' absolute.loss
 //'
-//' @export AbsoluteLoss
-class AbsoluteLossWrapper : public LossWrapper
+//' @export LossAbsolute
+class LossAbsoluteWrapper : public LossWrapper
 {
 public:
-  AbsoluteLossWrapper () { obj = new loss::AbsoluteLoss(); }
-  AbsoluteLossWrapper (double custom_offset) { obj = new loss::AbsoluteLoss(custom_offset); }
+  LossAbsoluteWrapper () { obj = new loss::LossAbsolute(); }
+  LossAbsoluteWrapper (double custom_offset) { obj = new loss::LossAbsolute(custom_offset); }
 };
 
 //' 0-1 Loss for binary classification derifed of the binomial distribution
@@ -1120,12 +1120,12 @@ public:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name BinomialLoss
+//' @name LossBinomial
 //'
 //' @section Usage:
 //' \preformatted{
-//' BinomialLoss$new()
-//' BinomialLoss$new(offset)
+//' LossBinomial$new()
+//' LossBinomial$new(offset)
 //' }
 //'
 //' @section Arguments:
@@ -1145,28 +1145,28 @@ public:
 //' @examples
 //' 
 //' # Create new loss object:
-//' bin.loss = BinomialLoss$new()
+//' bin.loss = LossBinomial$new()
 //' bin.loss
 //'
-//' @export BinomialLoss
-class BinomialLossWrapper : public LossWrapper
+//' @export LossBinomial
+class LossBinomialWrapper : public LossWrapper
 {
 public:
-  BinomialLossWrapper () { obj = new loss::BinomialLoss(); }
-  BinomialLossWrapper (double custom_offset) { obj = new loss::BinomialLoss(custom_offset); }
+  LossBinomialWrapper () { obj = new loss::LossBinomial(); }
+  LossBinomialWrapper (double custom_offset) { obj = new loss::LossBinomial(custom_offset); }
 };
 
-//' Create customloss by using R functions.
+//' Create LossCustom by using R functions.
 //'
-//' \code{CustomLoss} creates a custom loss by using
+//' \code{LossCustom} creates a custom loss by using
 //' \code{Rcpp::Function} to set \code{R} functions.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomLoss
+//' @name LossCustom
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomLoss$new(lossFun, gradientFun, initFun)
+//' LossCustom$new(lossFun, gradientFun, initFun)
 //' }
 //'
 //' @section Arguments:
@@ -1225,30 +1225,30 @@ public:
 //' }
 //'
 //' # Create new custom quadratic loss:
-//' my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
+//' my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
 //'
-//' @export CustomLoss
-class CustomLossWrapper : public LossWrapper
+//' @export LossCustom
+class LossCustomWrapper : public LossWrapper
 {
 public:
-  CustomLossWrapper (Rcpp::Function lossFun, Rcpp::Function gradientFun,
+  LossCustomWrapper (Rcpp::Function lossFun, Rcpp::Function gradientFun,
     Rcpp::Function initFun)
   {
-    obj = new loss::CustomLoss(lossFun, gradientFun, initFun);
+    obj = new loss::LossCustom(lossFun, gradientFun, initFun);
   }
 };
 
 //' Create custom cpp losses by using cpp functions and external pointer.
 //'
-//' \code{CustomCppLoss} creates a custom loss by using
+//' \code{LossCustomCpp} creates a custom loss by using
 //' \code{Rcpp::XPtr} to set \code{C++} functions.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CustomCppLoss
+//' @name LossCustomCpp
 //'
 //' @section Usage:
 //' \preformatted{
-//' CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
+//' LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 //' }
 //'
 //' @section Arguments:
@@ -1278,16 +1278,16 @@ public:
 //' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 //'
 //' # Create new custom quadratic loss:
-//' my.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+//' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 //'
 //'
-//' @export CustomCppLoss
-class CustomCppLossWrapper : public LossWrapper
+//' @export LossCustomCpp
+class LossCustomCppWrapper : public LossWrapper
 {
 public:
-  CustomCppLossWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
+  LossCustomCppWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
   {
-    obj = new loss::CustomCppLoss(loss_ptr, grad_ptr, const_init_ptr);
+    obj = new loss::LossCustomCpp(loss_ptr, grad_ptr, const_init_ptr);
   }
 };
 
@@ -1301,30 +1301,30 @@ RCPP_MODULE (loss_module)
     .constructor ()
   ;
 
-  class_<QuadraticLossWrapper> ("QuadraticLoss")
+  class_<LossQuadraticWrapper> ("LossQuadratic")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
   ;
 
-  class_<AbsoluteLossWrapper> ("AbsoluteLoss")
+  class_<LossAbsoluteWrapper> ("LossAbsolute")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
   ;
 
-  class_<BinomialLossWrapper> ("BinomialLoss")
+  class_<LossBinomialWrapper> ("LossBinomial")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
   ;
 
-  class_<CustomLossWrapper> ("CustomLoss")
+  class_<LossCustomWrapper> ("LossCustom")
     .derives<LossWrapper> ("Loss")
     .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
   ;
 
-  class_<CustomCppLossWrapper> ("CustomCppLoss")
+  class_<LossCustomCppWrapper> ("LossCustomCpp")
     .derives<LossWrapper> ("Loss")
     .constructor<SEXP, SEXP, SEXP> ()
   ;
@@ -1369,11 +1369,11 @@ protected:
 //' stage of the fitting within the compboost object as another vector.
 //'
 //' @format \code{\link{S4}} object.
-//' @name IterationLogger
+//' @name LoggerIteration
 //'
 //' @section Usage:
 //' \preformatted{
-//' IterationLoggerWrapper$new(use_as_stopper, max_iterations)
+//' LoggerIterationWrapper$new(use_as_stopper, max_iterations)
 //' }
 //'
 //' @section Arguments:
@@ -1402,13 +1402,13 @@ protected:
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = IterationLogger$new(FALSE, 100)
+//' log.iters = LoggerIteration$new(FALSE, 100)
 //'
 //' # Summarize logger:
 //' log.iters$summarizeLogger()
 //'
-//' @export IterationLogger
-class IterationLoggerWrapper : public LoggerWrapper
+//' @export LoggerIteration
+class LoggerIterationWrapper : public LoggerWrapper
 {
 
 private:
@@ -1416,11 +1416,11 @@ private:
   bool use_as_stopper;
 
 public:
-  IterationLoggerWrapper (bool use_as_stopper, unsigned int max_iterations)
+  LoggerIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
     : max_iterations ( max_iterations ),
       use_as_stopper ( use_as_stopper )
   {
-    obj = new logger::IterationLogger (use_as_stopper, max_iterations);
+    obj = new logger::LoggerIteration (use_as_stopper, max_iterations);
     logger_id = " iterations";
   }
 
@@ -1439,11 +1439,11 @@ public:
 //' see the usecase or extending compboost vignette.
 //'
 //' @format \code{\link{S4}} object.
-//' @name InbagRiskLogger
+//' @name LoggerInbagRisk
 //'
 //' @section Usage:
 //' \preformatted{
-//' InbagRiskLogger$new(use_as_stopper, used_loss, eps_for_break)
+//' LoggerInbagRisk$new(use_as_stopper, used_loss, eps_for_break)
 //' }
 //'
 //' @section Arguments:
@@ -1508,16 +1508,16 @@ public:
 //' }
 //' @examples
 //' # Used loss:
-//' log.bin = BinomialLoss$new()
+//' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
+//' log.inbag.risk = LoggerInbagRisk$new(FALSE, log.bin, 0.05)
 //'
 //' # Summarize logger:
 //' log.inbag.risk$summarizeLogger()
 //'
-//' @export InbagRiskLogger
-class InbagRiskLoggerWrapper : public LoggerWrapper
+//' @export LoggerInbagRisk
+class LoggerInbagRiskWrapper : public LoggerWrapper
 {
 
 private:
@@ -1525,11 +1525,11 @@ private:
   bool use_as_stopper;
 
 public:
-  InbagRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
+  LoggerInbagRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
-    obj = new logger::InbagRiskLogger (use_as_stopper, used_loss.getLoss(), eps_for_break);
+    obj = new logger::LoggerInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
     logger_id = "inbag.risk";
   }
 
@@ -1550,11 +1550,11 @@ public:
 //' see the usecase or extending compboost vignette.
 //'
 //' @format \code{\link{S4}} object.
-//' @name OobRiskLogger
+//' @name LoggerOobRisk
 //'
 //' @section Usage:
 //' \preformatted{
-//' OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
+//' LoggerOobRisk$new(use_as_stopper, used_loss, eps_for_break, oob_data,
 //'   oob_response)
 //' }
 //'
@@ -1645,16 +1645,16 @@ public:
 //' y.oob = rnorm(10)
 //'
 //' # Used loss:
-//' log.bin = BinomialLoss$new()
+//' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+//' log.oob.risk = LoggerOobRisk$new(FALSE, log.bin, 0.05, oob.list, y.oob)
 //'
 //' # Summarize logger:
 //' log.oob.risk$summarizeLogger()
 //'
-//' @export OobRiskLogger
-class OobRiskLoggerWrapper : public LoggerWrapper
+//' @export LoggerOobRisk
+class LoggerOobRiskWrapper : public LoggerWrapper
 {
 
 private:
@@ -1662,7 +1662,7 @@ private:
   bool use_as_stopper;
 
 public:
-  OobRiskLoggerWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
+  LoggerOobRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
     std::map<std::string, data::Data*> oob_data_map;
@@ -1686,7 +1686,7 @@ public:
 
     }
 
-    obj = new logger::OobRiskLogger (use_as_stopper, used_loss.getLoss(), eps_for_break,
+    obj = new logger::LoggerOobRisk (use_as_stopper, used_loss.getLoss(), eps_for_break,
       oob_data_map, oob_response);
     logger_id = "oob.risk";
   }
@@ -1713,11 +1713,11 @@ public:
 //' }
 //'
 //' @format \code{\link{S4}} object.
-//' @name TimeLogger
+//' @name LoggerTime
 //'
 //' @section Usage:
 //' \preformatted{
-//' TimeLogger$new(use_as_stopper, max_time, time_unit)
+//' LoggerTime$new(use_as_stopper, max_time, time_unit)
 //' }
 //'
 //' @section Arguments:
@@ -1750,13 +1750,13 @@ public:
 //' }
 //' @examples
 //' # Define logger:
-//' log.time = TimeLogger$new(FALSE, 20, "minutes")
+//' log.time = LoggerTime$new(FALSE, 20, "minutes")
 //'
 //' # Summarize logger:
 //' log.time$summarizeLogger()
 //'
-//' @export TimeLogger
-class TimeLoggerWrapper : public LoggerWrapper
+//' @export LoggerTime
+class LoggerTimeWrapper : public LoggerWrapper
 {
 
 private:
@@ -1765,13 +1765,13 @@ private:
   std::string time_unit;
 
 public:
-  TimeLoggerWrapper (bool use_as_stopper, unsigned int max_time,
+  LoggerTimeWrapper (bool use_as_stopper, unsigned int max_time,
     std::string time_unit)
     : use_as_stopper ( use_as_stopper ),
       max_time ( max_time ),
       time_unit ( time_unit )
   {
-    obj = new logger::TimeLogger (use_as_stopper, max_time, time_unit);
+    obj = new logger::LoggerTime (use_as_stopper, max_time, time_unit);
     logger_id = "time." + time_unit;
   }
 
@@ -1827,8 +1827,8 @@ public:
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = IterationLogger$new(TRUE, 100)
-//' log.time = TimeLogger$new(FALSE, 20, "minutes")
+//' log.iters = LoggerIteration$new(TRUE, 100)
+//' log.time = LoggerTime$new(FALSE, 20, "minutes")
 //'
 //' # Create logger list:
 //' logger.list = LoggerList$new()
@@ -1912,28 +1912,28 @@ RCPP_MODULE(logger_module)
     .constructor ()
   ;
 
-  class_<IterationLoggerWrapper> ("IterationLogger")
+  class_<LoggerIterationWrapper> ("LoggerIteration")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int> ()
-    .method("summarizeLogger", &IterationLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerIterationWrapper::summarizeLogger, "Summarize logger")
   ;
 
-  class_<InbagRiskLoggerWrapper> ("InbagRiskLogger")
+  class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper&, double> ()
-    .method("summarizeLogger", &InbagRiskLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
-  class_<OobRiskLoggerWrapper> ("OobRiskLogger")
+  class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
-    .method("summarizeLogger", &OobRiskLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
-  class_<TimeLoggerWrapper> ("TimeLogger")
+  class_<LoggerTimeWrapper> ("LoggerTime")
     .derives<LoggerWrapper> ("Logger")
     .constructor<bool, unsigned int, std::string> ()
-    .method("summarizeLogger", &TimeLoggerWrapper::summarizeLogger, "Summarize logger")
+    .method("summarizeLogger", &LoggerTimeWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerListWrapper> ("LoggerList")
@@ -1970,11 +1970,11 @@ protected:
 //' the base-learner with the smallest SSE.
 //'
 //' @format \code{\link{S4}} object.
-//' @name CoordinateDescent
+//' @name OptimizerCoordinateDescent
 //'
 //' @section Usage:
 //' \preformatted{
-//' CoordinateDescent$new()
+//' OptimizerCoordinateDescent$new()
 //' }
 //'
 //' @section Details:
@@ -1986,13 +1986,13 @@ protected:
 //' @examples
 //'
 //' # Define optimizer:
-//' optimizer = CoordinateDescent$new()
+//' optimizer = OptimizerCoordinateDescent$new()
 //'
-//' @export CoordinateDescent
-class CoordinateDescent : public OptimizerWrapper
+//' @export OptimizerCoordinateDescent
+class OptimizerCoordinateDescent : public OptimizerWrapper
 {
 public:
-  CoordinateDescent () { obj = new optimizer::CoordinateDescent(); }
+  OptimizerCoordinateDescent () { obj = new optimizer::OptimizerCoordinateDescent(); }
 
   // Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
   // {
@@ -2019,7 +2019,7 @@ RCPP_MODULE(optimizer_module)
     .constructor ()
   ;
 
-  class_<CoordinateDescent> ("CoordinateDescent")
+  class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
   ;
@@ -2148,10 +2148,10 @@ RCPP_MODULE(optimizer_module)
 //' test.data = oob.data
 //'
 //' # Factories:
-//' linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
-//' linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
-//' quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
-//' spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
+//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
+//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
+//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 //'
 //' # Create new factory list:
 //' factory.list = BlearnerFactoryList$new()
@@ -2163,19 +2163,19 @@ RCPP_MODULE(optimizer_module)
 //' factory.list$registerFactory(spline.factory.wt)
 //'
 //' # Define loss:
-//' loss.bin = BinomialLoss$new()
+//' loss.bin = LossBinomial$new()
 //'
 //' # Define optimizer:
-//' optimizer = CoordinateDescent$new()
+//' optimizer = OptimizerCoordinateDescent$new()
 //'
 //' ## Logger
 //'
 //' # Define logger. We want just the iterations as stopper but also track the
 //' # time, inbag risk and oob risk:
-//' log.iterations  = IterationLogger$new(TRUE, 500)
-//' log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-//' log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-//' log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+//' log.iterations  = LoggerIteration$new(TRUE, 500)
+//' log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+//' log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+//' log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
 //'
 //' # Define new logger list:
 //' logger.list = LoggerList$new()

@@ -2,9 +2,9 @@ context("LoggerList works")
 
 test_that("register and delete of logger entries works", {
   
-  expect_silent({ log.iterations = IterationLogger$new(TRUE, 20) })
-  expect_silent({ log.time       = TimeLogger$new(FALSE, 500, "microseconds") })
-  expect_error({ TimeLogger$new(FALSE, 300, "hours") })
+  expect_silent({ log.iterations = LoggerIteration$new(TRUE, 20) })
+  expect_silent({ log.time       = LoggerTime$new(FALSE, 500, "microseconds") })
+  expect_error({ LoggerTime$new(FALSE, 300, "hours") })
   
   expect_silent({ logger.list = LoggerList$new() })
   

@@ -1,4 +1,4 @@
-.handleRcpp_PolynomialBlearner = function (degree = 1, intercept = TRUE, ...) {
+.handleRcpp_BaselearnerPolynomial = function (degree = 1, intercept = TRUE, ...) {
 
 	nuisance = list(...)
 	if (length(nuisance) > 0) {
@@ -9,7 +9,7 @@
 	return (params)
 }
 
-.handleRcpp_PSplineBlearner = function (degree = 3, n.knots = 20, penalty = 2, differences = 2, ...) {
+.handleRcpp_BaselearnerPSpline = function (degree = 3, n.knots = 20, penalty = 2, differences = 2, ...) {
 
 	nuisance = list(...)
 	if (length(nuisance) > 0) {
@@ -20,7 +20,7 @@
 	return (params)
 }
 
-.handleRcpp_CustomBlearner = function (instantiate.fun, train.fun, predict.fun, param.fun, ...) {
+.handleRcpp_BaselearnerCustom = function (instantiate.fun, train.fun, predict.fun, param.fun, ...) {
 
 	nuisance = list(...)
 	if (length(nuisance) > 0) {
@@ -31,7 +31,7 @@
 	return (params)
 }
 
-.handleRcpp_CustomCppBlearner = function (instantiate.ptr, train.ptr, predict.ptr, ...) {
+.handleRcpp_BaselearnerCustomCpp = function (instantiate.ptr, train.ptr, predict.ptr, ...) {
 
 	nuisance = list(...)
 	if (length(nuisance) > 0) {
