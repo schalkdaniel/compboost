@@ -1,0 +1,54 @@
+### [bt]: This is batchtools v0.9.10
+### [bt]: Starting calculation of 1 jobs
+### [bt]: Setting working directory to '/home/daniel/github_repos/compboost/benchmark'
+### [bt]: Memory measurement disabled
+### [bt]: Starting job [batchtools job.id=272]
+### [bt]: Generating problem instance for problem 'my.data' ...
+### [bt]: Applying algorithm 'compboost' on problem 'my.data' for job 272 (seed = 3414) ...
+
+error: arma::memory::acquire(): out of memory
+
+ *** caught segfault ***
+address 0x5566c98af9d8, cause 'invalid permissions'
+
+Traceback:
+ 1: .External(class__newInstance, module, pointer, ...)
+ 2: new_CppObject_xp(fields$.module, fields$.pointer, ...)
+ 3: cpp_object_initializer(.self, .refClassDef, ...)
+ 4: .Object$initialize(...)
+ 5: initialize(value, ...)
+ 6: initialize(value, ...)
+ 7: methods::new(def, ...)
+ 8: (function (...) {    methods::new(def, ...)  ...
+ 9: do.call(bl.factory$new, par.set)
+10: private$addSingleNumericBl(data.columns, feature, id, id.fac,     bl.factory, data.source, data.target, ...)
+11: model$addBaselearner(feat, "spline", BaselearnerPSpline, data.source,     data.target, degree = degree, n.knots = n.knots, penalty = penalty,     differences = differences)
+12: boostSplines(data = instance$data, target = "y", loss = LossQuadratic$new(),     iterations = iters, penalty = 2)
+13: job$algorithm$fun(job = job, data = job$problem$data, instance = instance,     ...)
+14: (function (...) job$algorithm$fun(job = job, data = job$problem$data, instance = instance,     ...))(iters = 1500, learner = "spline")
+15: do.call(wrapper, job$algo.pars, envir = .GlobalEnv)
+16: with_preserve_seed({    set.seed(seed)    code  ...
+17: with_seed(job$seed, do.call(wrapper, job$algo.pars, envir = .GlobalEnv))
+18: execJob.Experiment(job)
+19: execJob(job)
+20: doTryCatch(return(expr), name, parentenv, handler)
+21: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+22: tryCatchList(expr, classes, parentenv, handlers)
+23: tryCatch(expr, error = function(e) {    call <- conditionCall(e)    if (!is.null(call)) {  ...
+24: try(execJob(job))
+25: doJobCollection.JobCollection(jc, output = jc$log.file)
+26: doJobCollection(jc, output = jc$log.file)
+27: eval(expr, env)
+28: doTryCatch(return(expr), name, parentenv, handler)
+29: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+30: tryCatchList(expr, classes, parentenv, handlers)
+31: tryCatch(expr, error = function(e) {    call <- conditionCall(e)    if (!is.null(call)) {  ...
+32: try(eval(expr, env), silent = TRUE)
+33: sendMaster(try(eval(expr, env), silent = TRUE))
+34: parallel::mcparallel(doJobCollection(jc, output = jc$log.file),     mc.set.seed = FALSE)
+35: p$spawn(jc)
+36: reg$cluster.functions$submitJob(reg = reg, jc = jc)
+37: submitJobs()
+An irrecoverable exception occurred. R is aborting now ...
+Warning in new_CppObject_xp(fields$.module, fields$.pointer, ...) :
+  system call failed: Cannot allocate memory

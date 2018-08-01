@@ -81,7 +81,7 @@ public:
   std::string getDataIdentifier () const;
   std::string getBaselearnerType () const;
   
-  virtual arma::mat instantiateData (const arma::mat&) = 0;
+  virtual arma::mat instantiateData (const arma::mat&) const = 0;
   virtual arma::mat getData() const = 0;
   
   void initializeDataObjects (data::Data*, data::Data*);
@@ -119,10 +119,10 @@ public:
   
   blearner::Baselearner* createBaselearner (const std::string&);
   
-  /// Get data used for modelling
+  /// Get data used for modeling
   arma::mat getData() const;
   
-  arma::mat instantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&) const;
 };
 
 // PSplineBlearnerFactory:
@@ -131,7 +131,7 @@ public:
 /**
  * \class PSplineBlearnerFactory
  * 
- * \brief Factory to creaet `PSplineBlearner` objects
+ * \brief Factory to create `PSplineBlearner` objects
  * 
  */
 class PSplineBlearnerFactory : public BaselearnerFactory
@@ -167,7 +167,7 @@ public:
   arma::mat getData() const;
 
   /// Instantiate the design matrix
-  arma::mat instantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&) const;
 };
 
 // CustomBlearnerFactory:
@@ -194,7 +194,7 @@ public:
   /// Get data used for modelling
   arma::mat getData() const;
   
-  arma::mat instantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&) const;
   
 };
 
@@ -222,7 +222,7 @@ public:
   /// Get data used for modelling
   arma::mat getData() const;
 
-  arma::mat instantiateData (const arma::mat&);
+  arma::mat instantiateData (const arma::mat&) const;
   
 };
 

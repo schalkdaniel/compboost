@@ -96,9 +96,17 @@ PolynomialBlearnerFactory::PolynomialBlearnerFactory (const std::string& blearne
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
   
-  // Get the data of the source, transform it and write it into the target:
-  data_target->setData(instantiateData(data_source->getData()));
-  data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
+  // Prepare computation of intercept and slope of an ordinary linear regression:
+  if (data_source->getData().n_cols == 1) {
+    // Store mean of x in XtX_inv to avoid multiple computations:
+    data_target->XtX_inv = arma::mean(arma::pow(data_source->getData(), degree));
+    // Store centered x values for faster computation:
+    data_target->setData(arma::pow(data_source->getData(), degree));
+  } else {
+    // Get the data of the source, transform it and write it into the target:
+    data_target->setData(instantiateData(data_source->getData()));
+    data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
+  }
   
   // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
@@ -140,12 +148,17 @@ blearner::Baselearner* PolynomialBlearnerFactory::createBaselearner (const std::
  */
 arma::mat PolynomialBlearnerFactory::getData () const
 {
-  return data_target->getData();
+  if (data_target->getData().n_cols == 1) {
+    arma::mat temp_data_mat = pow(data_target->getData(), 1/degree);
+    return instantiateData(temp_data_mat);
+  } else {
+    return data_target->getData();
+  }  
 }
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata)
+arma::mat PolynomialBlearnerFactory::instantiateData (const arma::mat& newdata) const
 {
   arma::mat temp = arma::pow(newdata, degree);
   if (intercept) {
@@ -296,7 +309,7 @@ arma::mat PSplineBlearnerFactory::getData () const
  * 
  * \returns `arma::mat` of transformed data
  */
-arma::mat PSplineBlearnerFactory::instantiateData (const arma::mat& newdata)
+arma::mat PSplineBlearnerFactory::instantiateData (const arma::mat& newdata) const
 {
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
@@ -356,7 +369,7 @@ arma::mat CustomBlearnerFactory::getData () const
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat CustomBlearnerFactory::instantiateData (const arma::mat& newdata)
+arma::mat CustomBlearnerFactory::instantiateData (const arma::mat& newdata) const
 {
   Rcpp::NumericMatrix out = instantiateDataFun(newdata);
   return Rcpp::as<arma::mat>(out);
@@ -414,7 +427,7 @@ arma::mat CustomCppBlearnerFactory::getData () const
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat CustomCppBlearnerFactory::instantiateData (const arma::mat& newdata)
+arma::mat CustomCppBlearnerFactory::instantiateData (const arma::mat& newdata) const
 {
   Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun);
   instantiateDataFunPtr instantiateDataFun0 = *myTempInstantiation;

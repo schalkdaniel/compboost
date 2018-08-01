@@ -1,0 +1,11 @@
+### [bt]: This is batchtools v0.9.10
+### [bt]: Starting calculation of 1 jobs
+### [bt]: Setting working directory to '/home/daniel/github_repos/compboost/benchmark'
+### [bt]: Memory measurement disabled
+### [bt]: Starting job [batchtools job.id=288]
+### [bt]: Generating problem instance for problem 'my.data' ...
+### [bt]: Applying algorithm 'mboost' on problem 'my.data' for job 288 (seed = 3430) ...
+Error in eval(predvars, data, env) : object 'target' not found
+
+### [bt]: Job terminated with an exception [batchtools job.id=288]
+### [bt]: Calculation finished!

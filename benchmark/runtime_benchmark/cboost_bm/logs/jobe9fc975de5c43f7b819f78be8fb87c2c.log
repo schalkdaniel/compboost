@@ -1,0 +1,12 @@
+### [bt]: This is batchtools v0.9.10
+### [bt]: Starting calculation of 1 jobs
+### [bt]: Setting working directory to '/home/daniel/github_repos/compboost/benchmark'
+### [bt]: Memory measurement disabled
+### [bt]: Starting job [batchtools job.id=372]
+### [bt]: Generating problem instance for problem 'my.data' ...
+### [bt]: Applying algorithm 'mboost' on problem 'my.data' for job 372 (seed = 3514) ...
+Error in boost_control(mstop = iters, nu = learning.rate) : 
+  object 'learning.rate' not found
+
+### [bt]: Job terminated with an exception [batchtools job.id=372]
+### [bt]: Calculation finished!
