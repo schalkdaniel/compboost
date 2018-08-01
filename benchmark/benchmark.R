@@ -12,16 +12,26 @@ library(mboost)
 
 # Function to get formula for mboost:
 # -------------------------------------------------
-getMboostFormula = function (data, target, learner) {
+getMboostFormula = function (data, target, learner = "spline") {
   data.names = setdiff(names(data), target)
-
-  myformula = paste0(
-    target, " ~ ",
-    paste(
-      paste0("bbs(", data.names, ", knots = 20, degree = 3, differences = 2, lambda = 2)"),
-      collapse = " + "
-      )
-    )  
+  if (learner == "spline") {
+    myformula = paste0(
+      target, " ~ ",
+      paste(
+        paste0("bbs(", data.names, ", knots = 20, degree = 3, differences = 2, lambda = 2)"),
+        collapse = " + "
+        )
+      )  
+  } 
+  if (learner == "linear") {
+    myformula = paste0(
+      target, " ~ ",
+      paste(
+        paste0("bols(", data.names, ")"),
+        collapse = " + "
+        )
+      )  
+  }
   return (as.formula(myformula))
 }
 
@@ -52,45 +62,49 @@ set.seed(314159)
 
 # Fix dataset:
 mydata = simulateData(
-  nrows = 2000,
-  ncol = 20,
+  nrows = 20000,
+  ncol = 200,
   seed = round(pi * 1000)
   )
 
 # Fix parameters:
-iters = 200
+iters = 1500
 learning.rate = 0.05
 penalty = 4
 
-# Compare spline learner:
-# -------------------------------------------------
+check = FALSE
 
-cboost.mod.spline = boostSplines(data = mydata, target = "target", 
-  loss = LossQuadratic$new(), iterations = iters, penalty = 2)
-mboost.mod.spline = gamboost(getMboostFormula(mydata, "target"), data = mydata, 
-  control = boost_control(mstop = iters, nu = learning.rate, trace = TRUE))
+if (check) {
+  # Compare spline learner:
+  # -------------------------------------------------
 
-# Are the results the same:
-all.equal(cboost.mod.spline$predict(), predict(mboost.mod.spline))
+  cboost.mod.spline = boostSplines(data = mydata, target = "target", 
+    loss = LossQuadratic$new(), iterations = iters, penalty = 2)
+  mboost.mod.spline = gamboost(getMboostFormula(mydata, "target"), data = mydata, 
+    control = boost_control(mstop = iters, nu = learning.rate, trace = TRUE))
 
-# Compare linear learner:
-# -------------------------------------------------
+  # Are the results the same:
+  all.equal(cboost.mod.spline$predict(), predict(mboost.mod.spline))
 
-cboost.mod.linear = boostLinear(data = mydata, target = "target", 
-  loss = LossQuadratic$new(), iterations = iters)
-mboost.mod.linear = glmboost(target ~ ., data = mydata, 
-  control = boost_control(mstop = iters, nu = learning.rate, trace = TRUE))
+  # Compare linear learner:
+  # -------------------------------------------------
 
-# Are the results the same:
-all.equal(cboost.mod.linear$predict(), predict(mboost.mod.linear), check.attributes = FALSE)
+  cboost.mod.linear = boostLinear(data = mydata, target = "target", 
+    loss = LossQuadratic$new(), iterations = iters)
+  mboost.mod.linear = glmboost(target ~ ., data = mydata, 
+    control = boost_control(mstop = iters, nu = learning.rate, trace = TRUE))
 
+  # Are the results the same:
+  all.equal(cboost.mod.linear$predict(), predict(mboost.mod.linear), check.attributes = FALSE)
+}
 # Small benchmark:
 # -------------------------------------------------
 
 microbenchmark::microbenchmark(
-  "compboost.spline" = boostSplines(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, penalty = 2, trace = FALSE),
-  "mboost.spline" = gamboost(getMboostFormula(mydata, "target"), data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
+  # "compboost.spline" = boostSplines(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, penalty = 2, trace = FALSE),
+  # "mboost.spline" = gamboost(getMboostFormula(mydata, "target"), data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
   "compboost.linear" = boostLinear(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, trace = FALSE),
   "mboost.linear" = glmboost(target ~ ., data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
+  # "mboost.linear.plain" = mboost(getMboostFormula(mydata, "target", "linear"), data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
   times = 2L
-)
+  )

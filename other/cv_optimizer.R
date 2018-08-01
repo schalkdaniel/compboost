@@ -112,5 +112,8 @@ Rcpp::cppFunction(code = code, depends = "RcppArmadillo", rebuild = TRUE)
 X = cbind(rnorm(10))
 y = rnorm(10)
 
-test(y, X, TRUE)
+test(y, X, FALSE)
 lm(y ~ X)
+
+test(y, X, TRUE)
+lm(y ~ 0 + X)
