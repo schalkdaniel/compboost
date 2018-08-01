@@ -10,7 +10,7 @@ my.setting = list(
   replications = 5L,
   cores = parallel::detectCores() - 1,
   overwrite = FALSE,
-  packages = c("pryr", "mvtnorm", "mboost", "compboost"),
+  packages = c("mvtnorm", "mboost", "compboost"),
 
   # iters which are tested:
   bm.iters = c(100, 500, 1000, 2000, 5000, 10000, 15000),
