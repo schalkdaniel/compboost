@@ -2,9 +2,9 @@
 ### [bt]: Starting calculation of 1 jobs
 ### [bt]: Setting working directory to '/home/daniel/github_repos/compboost/benchmark'
 ### [bt]: Memory measurement disabled
-### [bt]: Starting job [batchtools job.id=26]
+### [bt]: Starting job [batchtools job.id=29]
 ### [bt]: Generating problem instance for problem 'my.data' ...
-### [bt]: Applying algorithm 'compboost' on problem 'my.data' for job 26 (seed = 3168) ...
+### [bt]: Applying algorithm 'compboost' on problem 'my.data' for job 29 (seed = 3171) ...
 
       Iteration |
 -----------------
@@ -10011,5 +10011,5 @@
 
 
 
-### [bt]: Job terminated successfully [batchtools job.id=26]
+### [bt]: Job terminated successfully [batchtools job.id=29]
 ### [bt]: Calculation finished!
