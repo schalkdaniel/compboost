@@ -1,6 +1,6 @@
 <map id="logger::Logger" name="logger::Logger">
-<area shape="rect" id="node2" href="$classlogger_1_1_inbag_risk_logger.html" title="Logger class to log the inbag risk. " alt="" coords="5,255,172,450"/>
-<area shape="rect" id="node3" href="$classlogger_1_1_iteration_logger.html" title="Logger class to log the current iteration. " alt="" coords="196,263,363,443"/>
-<area shape="rect" id="node4" href="$classlogger_1_1_oob_risk_logger.html" title="Logger class to log the out of bag risk. " alt="" coords="387,233,553,472"/>
-<area shape="rect" id="node5" href="$classlogger_1_1_time_logger.html" title="Logger class to log the ellapsed time. " alt="" coords="577,248,744,457"/>
+<area shape="rect" id="node2" href="$classlogger_1_1_logger_inbag_risk.html" title="Logger class to log the inbag risk. " alt="" coords="5,255,172,450"/>
+<area shape="rect" id="node3" href="$classlogger_1_1_logger_iteration.html" title="Logger class to log the current iteration. " alt="" coords="196,263,363,443"/>
+<area shape="rect" id="node4" href="$classlogger_1_1_logger_oob_risk.html" title="Logger class to log the out of bag risk. " alt="" coords="387,233,553,472"/>
+<area shape="rect" id="node5" href="$classlogger_1_1_logger_time.html" title="Logger class to log the ellapsed time. " alt="" coords="577,248,744,457"/>
 </map>

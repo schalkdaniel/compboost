@@ -1,0 +1,312 @@
+\hypertarget{classlogger_1_1_logger_oob_risk}{}\section{logger\+:\+:Logger\+Oob\+Risk Class Reference}
+\label{classlogger_1_1_logger_oob_risk}\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+
+
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the out of bag risk.  
+
+
+
+
+{\ttfamily \#include $<$logger.\+h$>$}
+
+
+
+Inheritance diagram for logger\+:\+:Logger\+Oob\+Risk\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=205pt]{classlogger_1_1_logger_oob_risk__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for logger\+:\+:Logger\+Oob\+Risk\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classlogger_1_1_logger_oob_risk__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a2ade553132c86f485d0057b2808ab028}{Logger\+Oob\+Risk}} (const bool \&, \mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}} $\ast$, const double \&, std\+::map$<$ std\+::string, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$$>$, const arma\+::vec \&)
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a}{log\+Step}} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$, const double \&, const double \&)
+\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_oob_risk}{Logger\+Oob\+Risk}}} \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a15c6792b0e1d2acbdd907f697f2884f3}{reached\+Stop\+Criteria}} () const
+\begin{DoxyCompactList}\small\item\em Stop criteria is fulfilled if the relative improvement falls below {\ttfamily eps\+\_\+for\+\_\+break} \end{DoxyCompactList}\item 
+arma\+::vec \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a1529f62cf58ad8bc5922a7d39ed3515e}{get\+Logged\+Data}} () const
+\begin{DoxyCompactList}\small\item\em Return the data stored within the logger. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a8330dd8fd748c8ea1e0027f1b2c7ea50}{clear\+Logger\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Clear the logger data. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_ac8b1b8a148878c38b1206fb00e0263f4}{initialize\+Logger\+Printer}} () const
+\begin{DoxyCompactList}\small\item\em Print the head of the trace which is printed to the console. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a446e3e0c3766c8cda1add83c09d2e968}{print\+Logger\+Status}} () const
+\begin{DoxyCompactList}\small\item\em Print status of current iteration into the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}} $\ast$ \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_af889f26216d86721dcab4fb0823ac525}{used\+\_\+loss}}
+\begin{DoxyCompactList}\small\item\em Used loss. {\bfseries Note} that you can specify a different loss than the loss used for training. \end{DoxyCompactList}\item 
+std\+::vector$<$ double $>$ \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_abdc2e187dc393056b2986882dbb5b03f}{tracked\+\_\+oob\+\_\+risk}}
+\begin{DoxyCompactList}\small\item\em Vector of O\+OB risk for every iteration. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_ac4c642d6e83bfa16cc5c6026a1238f58}{eps\+\_\+for\+\_\+break}}
+\begin{DoxyCompactList}\small\item\em Stopping criteria, stop if $(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}$. \end{DoxyCompactList}\item 
+arma\+::vec \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a73c43ce74fa5cee78c00b1179bf84c58}{oob\+\_\+prediction}}
+\begin{DoxyCompactList}\small\item\em O\+OB prediction which is internally done in every iteration. \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$ $>$ \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_aad747d3aff49f9df9604cdd82bdb914b}{oob\+\_\+data}}
+\begin{DoxyCompactList}\small\item\em The O\+OB data provided by the user. \end{DoxyCompactList}\item 
+arma\+::vec \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a55a0c205b53d67467bf020547355c0a6}{oob\+\_\+response}}
+\begin{DoxyCompactList}\small\item\em The response variable which corresponds to the given O\+OB data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Detailed Description}
+\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the out of bag risk. 
+
+This class loggs the out of bag risk for a specific loss function and a map of new data. It is possible to define more than one inbag risk logger (e.\+g. for 2 different loss functions). For details about logging and stopping see the description of the {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a}{log\+Step()}}} function. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a2ade553132c86f485d0057b2808ab028}\label{classlogger_1_1_logger_oob_risk_a2ade553132c86f485d0057b2808ab028}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!Logger\+Oob\+Risk@{Logger\+Oob\+Risk}}
+\index{Logger\+Oob\+Risk@{Logger\+Oob\+Risk}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{Logger\+Oob\+Risk()}{LoggerOobRisk()}}
+{\footnotesize\ttfamily logger\+::\+Logger\+Oob\+Risk\+::\+Logger\+Oob\+Risk (\begin{DoxyParamCaption}\item[{const bool \&}]{is\+\_\+a\+\_\+stopper0,  }\item[{\mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}} $\ast$}]{used\+\_\+loss,  }\item[{const double \&}]{eps\+\_\+for\+\_\+break,  }\item[{std\+::map$<$ std\+::string, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}} $\ast$$>$}]{oob\+\_\+data,  }\item[{const arma\+::vec \&}]{oob\+\_\+response }\end{DoxyParamCaption})}
+
+
+
+Default constructor. 
+
+Default constructor of {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_oob_risk}{Logger\+Oob\+Risk}}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em is\+\_\+a\+\_\+stopper0} & {\ttfamily bool} to set if the logger should be used as stopper \\
+\hline
+{\em used\+\_\+loss} & {\ttfamily Loss$\ast$} which is used to calculate the empirical risk (this can differ from the loss used while trining the model) \\
+\hline
+{\em eps\+\_\+for\+\_\+break} & {\ttfamily double} sets value of the stopping criteria \\
+\hline
+{\em oob\+\_\+data} & {\ttfamily std\+::map$<$std\+::string, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}}$\ast$$>$} the new data \\
+\hline
+{\em oob\+\_\+response} & {\ttfamily arma\+::vec} response of the new data \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a8330dd8fd748c8ea1e0027f1b2c7ea50}\label{classlogger_1_1_logger_oob_risk_a8330dd8fd748c8ea1e0027f1b2c7ea50}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!clear\+Logger\+Data@{clear\+Logger\+Data}}
+\index{clear\+Logger\+Data@{clear\+Logger\+Data}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{clear\+Logger\+Data()}{clearLoggerData()}}
+{\footnotesize\ttfamily void logger\+::\+Logger\+Oob\+Risk\+::clear\+Logger\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Clear the logger data. 
+
+This is an important thing which is called every time in front of retraining the model. If we don\textquotesingle{}t clear the data, the new iterations are just pasted at the end of the existing vectors which couses some troubles. 
+
+Implements \mbox{\hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}}.
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a1529f62cf58ad8bc5922a7d39ed3515e}\label{classlogger_1_1_logger_oob_risk_a1529f62cf58ad8bc5922a7d39ed3515e}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!get\+Logged\+Data@{get\+Logged\+Data}}
+\index{get\+Logged\+Data@{get\+Logged\+Data}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{get\+Logged\+Data()}{getLoggedData()}}
+{\footnotesize\ttfamily arma\+::vec logger\+::\+Logger\+Oob\+Risk\+::get\+Logged\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Return the data stored within the logger. 
+
+Return the data stored within the O\+OB risk logger.
+
+This function returns the logged O\+OB risk.
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily arma\+::vec} of elapsed out of bag risk 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}}.
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_ac8b1b8a148878c38b1206fb00e0263f4}\label{classlogger_1_1_logger_oob_risk_ac8b1b8a148878c38b1206fb00e0263f4}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!initialize\+Logger\+Printer@{initialize\+Logger\+Printer}}
+\index{initialize\+Logger\+Printer@{initialize\+Logger\+Printer}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{initialize\+Logger\+Printer()}{initializeLoggerPrinter()}}
+{\footnotesize\ttfamily std\+::string logger\+::\+Logger\+Oob\+Risk\+::initialize\+Logger\+Printer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print the head of the trace which is printed to the console. 
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily std\+::string} which is used to initialize the header of the trace 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}{logger\+::\+Logger}}.
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a}\label{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!log\+Step@{log\+Step}}
+\index{log\+Step@{log\+Step}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{log\+Step()}{logStep()}}
+{\footnotesize\ttfamily void logger\+::\+Logger\+Oob\+Risk\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_oob_risk}{Logger\+Oob\+Risk}}} 
+
+This logger computes the risk for a given new dataset $\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}$ and stores it into a vector. The O\+OB risk $\mathcal{R}_\mathrm{oob}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} L(y, \hat{f}^{[m]}(x)) \]
+
+{\bfseries Note\+:}
+\begin{DoxyItemize}
+\item If $m=0$ than $\hat{f}$ is just the offset.
+\item The implementation to calculate $\mathcal{R}_\mathrm{oob}^{[m]}$ is done in two steps\+:
+\begin{DoxyEnumerate}
+\item Calculate vector {\ttfamily risk\+\_\+temp} of losses for every observation for given response $y^{(i)}$ and prediction $\hat{f}^{[m]}(x^{(i)})$.
+\item Average over {\ttfamily risk\+\_\+temp}.
+\end{DoxyEnumerate}
+
+This procedure ensures, that it is possible to e.\+g. use the A\+UC or any arbitrary performance measure for risk logging. This gives just one value for {\ttfamily risk\+\_\+temp} and therefore the average equals the loss function. If this is just a value (like for the A\+UC) then the value is returned.
+\end{DoxyItemize}
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+\_\+iteration} & {\ttfamily unsigned int} of current iteration \\
+\hline
+{\em response} & {\ttfamily arma\+::vec} of the given response used for training \\
+\hline
+{\em prediction} & {\ttfamily arma\+::vec} actual prediction of the boosting model at iteration {\ttfamily current\+\_\+iteration} \\
+\hline
+{\em used\+\_\+blearner} & {\ttfamily Baselearner$\ast$} pointer to the selected baselearner in iteration {\ttfamily current\+\_\+iteration} \\
+\hline
+{\em offset} & {\ttfamily double} of the overall offset of the training \\
+\hline
+{\em learning\+\_\+rate} & {\ttfamily double} lerning rate of the {\ttfamily current\+\_\+iteration} \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a446e3e0c3766c8cda1add83c09d2e968}\label{classlogger_1_1_logger_oob_risk_a446e3e0c3766c8cda1add83c09d2e968}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!print\+Logger\+Status@{print\+Logger\+Status}}
+\index{print\+Logger\+Status@{print\+Logger\+Status}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{print\+Logger\+Status()}{printLoggerStatus()}}
+{\footnotesize\ttfamily std\+::string logger\+::\+Logger\+Oob\+Risk\+::print\+Logger\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Print status of current iteration into the console. 
+
+The string which is created in this functions must have exactly the same length as the string from {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_ac8b1b8a148878c38b1206fb00e0263f4}{initialize\+Logger\+Printer()}}}. Those strings are printed line by line.
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily std\+::string} which includes the log of the current iteration 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}}.
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a15c6792b0e1d2acbdd907f697f2884f3}\label{classlogger_1_1_logger_oob_risk_a15c6792b0e1d2acbdd907f697f2884f3}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!reached\+Stop\+Criteria@{reached\+Stop\+Criteria}}
+\index{reached\+Stop\+Criteria@{reached\+Stop\+Criteria}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{reached\+Stop\+Criteria()}{reachedStopCriteria()}}
+{\footnotesize\ttfamily bool logger\+::\+Logger\+Oob\+Risk\+::reached\+Stop\+Criteria (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Stop criteria is fulfilled if the relative improvement falls below {\ttfamily eps\+\_\+for\+\_\+break} 
+
+The stopping criteria is fulfilled, if the relative improvement at the current iteration $m$ $\varepsilon^{[m]}$ falls under a fixed boundary $\varepsilon$. Where the relative improvement is defined by \[ \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{oob}^{[m-1]} - \mathcal{R}_\mathrm{oob}^{[m]}}{\mathcal{R}_\mathrm{oob}^{[m-1]}}. \]
+
+The logger stops the algorithm if $\varepsilon^{[m]} \leq \varepsilon$
+
+\begin{DoxyReturn}{Returns}
+{\ttfamily bool} which tells if the stopping criteria is reached or not (if the logger isn\textquotesingle{}t a stopper then this is always false) 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_ac4c642d6e83bfa16cc5c6026a1238f58}\label{classlogger_1_1_logger_oob_risk_ac4c642d6e83bfa16cc5c6026a1238f58}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!eps\+\_\+for\+\_\+break@{eps\+\_\+for\+\_\+break}}
+\index{eps\+\_\+for\+\_\+break@{eps\+\_\+for\+\_\+break}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{eps\+\_\+for\+\_\+break}{eps\_for\_break}}
+{\footnotesize\ttfamily double logger\+::\+Logger\+Oob\+Risk\+::eps\+\_\+for\+\_\+break\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Stopping criteria, stop if $(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}$. 
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_aad747d3aff49f9df9604cdd82bdb914b}\label{classlogger_1_1_logger_oob_risk_aad747d3aff49f9df9604cdd82bdb914b}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!oob\+\_\+data@{oob\+\_\+data}}
+\index{oob\+\_\+data@{oob\+\_\+data}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{oob\+\_\+data}{oob\_data}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, \mbox{\hyperlink{classdata_1_1_data}{data\+::\+Data}}$\ast$$>$ logger\+::\+Logger\+Oob\+Risk\+::oob\+\_\+data\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The O\+OB data provided by the user. 
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a73c43ce74fa5cee78c00b1179bf84c58}\label{classlogger_1_1_logger_oob_risk_a73c43ce74fa5cee78c00b1179bf84c58}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!oob\+\_\+prediction@{oob\+\_\+prediction}}
+\index{oob\+\_\+prediction@{oob\+\_\+prediction}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{oob\+\_\+prediction}{oob\_prediction}}
+{\footnotesize\ttfamily arma\+::vec logger\+::\+Logger\+Oob\+Risk\+::oob\+\_\+prediction\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+O\+OB prediction which is internally done in every iteration. 
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_a55a0c205b53d67467bf020547355c0a6}\label{classlogger_1_1_logger_oob_risk_a55a0c205b53d67467bf020547355c0a6}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!oob\+\_\+response@{oob\+\_\+response}}
+\index{oob\+\_\+response@{oob\+\_\+response}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{oob\+\_\+response}{oob\_response}}
+{\footnotesize\ttfamily arma\+::vec logger\+::\+Logger\+Oob\+Risk\+::oob\+\_\+response\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The response variable which corresponds to the given O\+OB data. 
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_abdc2e187dc393056b2986882dbb5b03f}\label{classlogger_1_1_logger_oob_risk_abdc2e187dc393056b2986882dbb5b03f}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!tracked\+\_\+oob\+\_\+risk@{tracked\+\_\+oob\+\_\+risk}}
+\index{tracked\+\_\+oob\+\_\+risk@{tracked\+\_\+oob\+\_\+risk}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{tracked\+\_\+oob\+\_\+risk}{tracked\_oob\_risk}}
+{\footnotesize\ttfamily std\+::vector$<$double$>$ logger\+::\+Logger\+Oob\+Risk\+::tracked\+\_\+oob\+\_\+risk\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Vector of O\+OB risk for every iteration. 
+
+\mbox{\Hypertarget{classlogger_1_1_logger_oob_risk_af889f26216d86721dcab4fb0823ac525}\label{classlogger_1_1_logger_oob_risk_af889f26216d86721dcab4fb0823ac525}} 
+\index{logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}!used\+\_\+loss@{used\+\_\+loss}}
+\index{used\+\_\+loss@{used\+\_\+loss}!logger\+::\+Logger\+Oob\+Risk@{logger\+::\+Logger\+Oob\+Risk}}
+\subsubsection{\texorpdfstring{used\+\_\+loss}{used\_loss}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}}$\ast$ logger\+::\+Logger\+Oob\+Risk\+::used\+\_\+loss\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Used loss. {\bfseries Note} that you can specify a different loss than the loss used for training. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
+C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}

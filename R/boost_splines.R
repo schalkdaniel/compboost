@@ -22,7 +22,7 @@
 #'   exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).
 #' @param loss [\code{S4 Loss}]\cr
 #'   Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).
+#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).
 #' @param learning.rate [\code{numeric(1)}]\cr
 #'   Learning rate which is used to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
@@ -51,7 +51,7 @@
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
 #' @examples
-#' mod = boostSplines(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+#' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
@@ -69,10 +69,10 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   # Issue: 
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", PSplineBlearner, data.source, data.target,
+      model$addBaselearner(feat, "spline", BaselearnerPSpline, data.source, data.target,
         degree = degree, n.knots = n.knots, penalty = penalty, differences = differences)
     } else {
-      model$addBaselearner(feat, "category", PolynomialBlearner, data.source, data.target,
+      model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
         degree = 1, intercept = FALSE)
     }
   }

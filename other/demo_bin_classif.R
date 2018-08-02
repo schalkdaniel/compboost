@@ -29,7 +29,7 @@ gradDummy = function (trutz, response) { return (NA) }
 constInitDummy = function (truth, response) { return (NA) }
 
 # Define loss:
-auc.loss = CustomLoss$new(aucLoss, gradDummy, constInitDummy)
+auc.loss = LossCustom$new(aucLoss, gradDummy, constInitDummy)
 
 # Test loss:
 response = rnorm(10)
@@ -78,18 +78,18 @@ test.data = oob.data
 ## Baselearner
 
 # Create new linear baselearner of hp and wt:
-linear.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp1, 1)
-linear.factory.wt = PolynomialBlearnerFactory$new(data.source.wt, data.target.wt1, 1)
+linear.factory.hp = BaselearnerPolynomialFactory$new(data.source.hp, data.target.hp1, 1)
+linear.factory.wt = BaselearnerPolynomialFactory$new(data.source.wt, data.target.wt1, 1)
 
 # Create new quadratic baselearner of hp:
-quadratic.factory.hp = PolynomialBlearnerFactory$new(data.source.hp, data.target.hp2, 2)
+quadratic.factory.hp = BaselearnerPolynomialFactory$new(data.source.hp, data.target.hp2, 2)
 
 # Create spline factory for wt with:
 #   - degree: 2
 #   - 10 knots
 #   - penalty parameter: 2
 #   - differences: 2
-spline.factory.wt = PSplineBlearnerFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+spline.factory.wt = BaselearnerPSplineFactory$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 
 
 # Create new factory list:
@@ -111,7 +111,7 @@ factory.list$getModelFrame()
 ## Loss
 
 # Use quadratic loss:
-loss.bin = BinomialLoss$new()
+loss.bin = LossBinomial$new()
 
 
 ## Optimizer
@@ -123,12 +123,12 @@ optimizer = OptimizerCoordinateDescent$new()
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations  = IterationLogger$new(TRUE, 500)
-log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
-log.auc.inbag   = InbagRiskLogger$new(FALSE, auc.loss, 0.05)
-log.auc.oob     = OobRiskLogger$new(FALSE, auc.loss, 0.05, oob.data, y)
+log.iterations  = LoggerIteration$new(TRUE, 500)
+log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
+log.auc.inbag   = LoggerInbagRisk$new(FALSE, auc.loss, 0.05)
+log.auc.oob     = LoggerOobRisk$new(FALSE, auc.loss, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()

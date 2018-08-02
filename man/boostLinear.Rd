@@ -22,7 +22,7 @@ exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).}
 
 \item{loss}{[\code{S4 Loss}]\cr
 Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-\code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).}
+\code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).}
 
 \item{learning.rate}{[\code{numeric(1)}]\cr
 Learning rate which is used to shrink the parameter in each step.}
@@ -36,7 +36,7 @@ Integer indicating how often a trace should be printed. Specifying \code{trace =
 -1 which means that we set \code{trace} at a value that 40 iterations are printed.}
 
 \item{intercept}{[\code{logical(1)}]\cr
-Internally used by \code{PolynomialBlearner}. This logical value indicates if
+Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
 \item{data.source}{[\code{S4 Data}]\cr
@@ -64,7 +64,7 @@ The returend object is an object of the \code{Compboost} class which then can be
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
-mod = boostLinear(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())

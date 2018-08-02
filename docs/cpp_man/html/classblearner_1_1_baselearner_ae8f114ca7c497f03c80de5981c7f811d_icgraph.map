@@ -1,6 +1,6 @@
 <map id="blearner::Baselearner::copyMembers" name="blearner::Baselearner::copyMembers">
-<area shape="rect" id="node2" href="$classblearner_1_1_polynomial_blearner.html#a4a93ace818c330e5d1f572108ba061c0" title="blearner::PolynomialBlearner\l::clone" alt="" coords="201,5,389,47"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_p_spline_blearner.html#a6fca532d2d20dfa284acc474ee1d7531" title="Clean copy of baselearner. " alt="" coords="210,71,379,112"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_custom_blearner.html#a7ceeee2b7fffd11f376018bc1d3cfba1" title="blearner::CustomBlearner\l::clone" alt="" coords="210,136,379,177"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_custom_cpp_blearner.html#a8b76705131d397974cd208fdcfd70496" title="blearner::CustomCppBlearner\l::clone" alt="" coords="199,201,391,243"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_baselearner_polynomial.html#a4afd811448bd6d387b721cc48b84da26" title="blearner::BaselearnerPolynomial\l::clone" alt="" coords="199,5,408,47"/>
+<area shape="rect" id="node3" href="$classblearner_1_1_baselearner_p_spline.html#aea7d3c0ef6d77ffb8a2fb2000fae6399" title="Clean copy of baselearner. " alt="" coords="208,71,399,112"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_baselearner_custom.html#a1442790658c7ad08832a94fbc60ff94a" title="blearner::BaselearnerCustom\l::clone" alt="" coords="208,136,399,177"/>
+<area shape="rect" id="node5" href="$classblearner_1_1_baselearner_custom_cpp.html#a8478407ac4d8ed118fd1381f65df150a" title="blearner::BaselearnerCustom\lCpp::clone" alt="" coords="208,201,399,243"/>
 </map>

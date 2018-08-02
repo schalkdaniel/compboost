@@ -111,14 +111,14 @@ protected:
 // Baselearner implementations:
 // -------------------------------------------------------------------------- //
 
-// PolynomialBlearner:
+// BaselearnerPolynomial:
 // -----------------------
 
 
 // This baselearner trains a linear model without intercept and covariable
 // x^degree:
 
-class PolynomialBlearner : public Baselearner
+class BaselearnerPolynomial : public Baselearner
 {
 private:
   
@@ -128,7 +128,7 @@ private:
 public:
   
   // (data pointer, data identifier, baselearner identifier, degree) 
-  PolynomialBlearner (data::Data*, const std::string&, const unsigned int&, const bool&);
+  BaselearnerPolynomial (data::Data*, const std::string&, const unsigned int&, const bool&);
   
   Baselearner* clone ();
   
@@ -139,15 +139,15 @@ public:
   arma::mat predict ();
   arma::mat predict (data::Data*);
 
-  ~PolynomialBlearner ();
+  ~BaselearnerPolynomial ();
   
 };
 
-// PSplineBlearner:
+// BaselearnerPSpline:
 // -----------------------
 
 /**
- * \class PSplineBlearner
+ * \class BaselearnerPSpline
  * 
  * \brief P-Spline Baselearner
  * 
@@ -164,7 +164,7 @@ public:
  * 
  */
 
-class PSplineBlearner : public Baselearner
+class BaselearnerPSpline : public Baselearner
 {
 private:
 
@@ -184,8 +184,8 @@ private:
   const bool use_sparse_matrices;
 
 public:
-  /// Default constructor of `PSplineBlearner` class
-  PSplineBlearner (data::Data*, const std::string&, const unsigned int&,
+  /// Default constructor of `BaselearnerPSpline` class
+  BaselearnerPSpline (data::Data*, const std::string&, const unsigned int&,
     const unsigned int&, const double&, const unsigned int&, const bool&);
   
   /// Clean copy of baselearner
@@ -205,17 +205,17 @@ public:
   
   
   /// Destructor
-  ~PSplineBlearner ();
+  ~BaselearnerPSpline ();
 
 };
 
-// CustomBlearner:
+// BaselearnerCustom:
 // -----------------------
 
 // This class can be used to define custom baselearner in R and expose thi
 // to the c++ class:
 
-class CustomBlearner : public Baselearner
+class BaselearnerCustom : public Baselearner
 {
 private:
   
@@ -232,7 +232,7 @@ public:
   // (data pointer, data identifier, baselearner identifier, R function for
   // data instantiation, R function for training, R function for prediction,
   // R function to extract parameter):
-  CustomBlearner (data::Data*, const std::string&, Rcpp::Function, 
+  BaselearnerCustom (data::Data*, const std::string&, Rcpp::Function, 
     Rcpp::Function, Rcpp::Function, Rcpp::Function);
   
   // Copy constructor:
@@ -245,11 +245,11 @@ public:
   arma::mat predict ();
   arma::mat predict (data::Data*);
   
-  ~CustomBlearner ();
+  ~BaselearnerCustom ();
   
 };
 
-// CustomBlearner:
+// BaselearnerCustom:
 // -----------------------
 
 // This is a  bit tricky. The key is that we store the cpp functions as 
@@ -264,7 +264,7 @@ typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
 typedef arma::mat (*trainFunPtr) (const arma::vec& y, const arma::mat& X);
 typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& parameter);
 
-class CustomCppBlearner : public Baselearner
+class BaselearnerCustomCpp : public Baselearner
 {
 private:
   
@@ -278,7 +278,7 @@ public:
   // (data pointer, data identifier, baselearner identifier, R function for
   // data instantiation, R function for training, R function for prediction,
   // R function to extract parameter):
-  CustomCppBlearner (data::Data*, const std::string&, SEXP, SEXP, SEXP);
+  BaselearnerCustomCpp (data::Data*, const std::string&, SEXP, SEXP, SEXP);
   
   // Copy constructor:
   Baselearner* clone ();
@@ -290,7 +290,7 @@ public:
   arma::mat predict ();
   arma::mat predict (data::Data*);
   
-  ~CustomCppBlearner ();
+  ~BaselearnerCustomCpp ();
   
 };
 

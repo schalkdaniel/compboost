@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['eps_5ffor_5fbreak',['eps_for_break',['../classlogger_1_1_inbag_risk_logger.html#a1890b49b8ffe85e1bc65b4f8ab7999fe',1,'logger::InbagRiskLogger::eps_for_break()'],['../classlogger_1_1_oob_risk_logger.html#a6dccaf686895c4a3f9eb88a8f74e65fa',1,'logger::OobRiskLogger::eps_for_break()']]],
-  ['extractparameter',['extractParameter',['../classblearner_1_1_custom_blearner.html#a95a77720324a16190f84612ea0c0e812',1,'blearner::CustomBlearner::extractParameter()'],['../classblearnerfactory_1_1_custom_blearner_factory.html#a4db9694f117bf43facdb7522d8cd0de1',1,'blearnerfactory::CustomBlearnerFactory::extractParameter()']]]
+  ['eps_5ffor_5fbreak',['eps_for_break',['../classlogger_1_1_logger_inbag_risk.html#a2990493d573d8e57605e4d96e0c0d8bb',1,'logger::LoggerInbagRisk::eps_for_break()'],['../classlogger_1_1_logger_oob_risk.html#ac4c642d6e83bfa16cc5c6026a1238f58',1,'logger::LoggerOobRisk::eps_for_break()']]],
+  ['extractparameter',['extractParameter',['../classblearner_1_1_baselearner_custom.html#a4b88f7464f9c686a35d40f438119ea40',1,'blearner::BaselearnerCustom::extractParameter()'],['../classblearnerfactory_1_1_baselearner_custom_factory.html#aa436eeac2ea759be578959cfcb892666',1,'blearnerfactory::BaselearnerCustomFactory::extractParameter()']]]
 ];

@@ -17,6 +17,6 @@ mboost.formula = paste0("y ~ ", paste(paste0("bbs(", names(mydf)[-1], ", knots =
 
 microbenchmark::microbenchmark(
 	mod.mboost = gamboost(as.formula(mboost.formula), data = mydf, control = boost_control(mstop = iterations, nu = 0.05, trace = TRUE)),
-	mod.cboost = boostSplines(data = mydf, target = "y", n.knots = knots, loss = QuadraticLoss$new(), iterations = iterations),
+	mod.cboost = boostSplines(data = mydf, target = "y", n.knots = knots, loss = LossQuadratic$new(), iterations = iterations),
 	times = 2L
 )

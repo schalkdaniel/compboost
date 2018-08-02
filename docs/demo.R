@@ -4,10 +4,10 @@ library(compboost)
 # Quickstart with wrapper functions
 # --------------------------------------------
 
-cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new())
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new())
 cboost
 
-cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss$new(),
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new(),
   n.knots = 4, penalty = 4)
 
 
@@ -16,17 +16,17 @@ cboost = boostSplines(data = iris, target = "Petal.Length", loss = QuadraticLoss
 
 # Define Compboost object:
 cboost = Compboost$new(data = iris, target = "Petal.Length", 
-  loss = QuadraticLoss$new())
+  loss = LossQuadratic$new())
 cboost
 
 # Add base-learner:
-cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = PSplineBlearner, 
+cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = BaselearnerPSpline, 
   degree = 3, n.knots = 10, penalty = 2, differences = 2)
 
 cboost$addBaselearner(feature = c("Sepal.Length", "Sepal.Width"), id = "2dim_linear", 
-  bl.factory = PolynomialBlearner, degree = 1, intercept = TRUE)
+  bl.factory = BaselearnerPolynomial, degree = 1, intercept = TRUE)
 
-cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = PolynomialBlearner, 
+cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = BaselearnerPolynomial, 
   degree = 1, intercept = FALSE)
 
 # Print registered base-learner:

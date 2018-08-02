@@ -89,40 +89,40 @@ ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
 # Factories:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_PolynomialBlearner")
-ignore.me = setMethod("show", "Rcpp_PolynomialBlearner", function (object) {
+setClass("Rcpp_BaselearnerPolynomial")
+ignore.me = setMethod("show", "Rcpp_BaselearnerPolynomial", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("PolynomialBlearnerPrinter")
+  return ("BaselearnerPolynomialPrinter")
 })
 
-setClass("Rcpp_PSplineBlearner")
-ignore.me = setMethod("show", "Rcpp_PSplineBlearner", function (object) {
+setClass("Rcpp_BaselearnerPSpline")
+ignore.me = setMethod("show", "Rcpp_BaselearnerPSpline", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("PSplineBlearnerPrinter")
+  return ("BaselearnerPSplinePrinter")
 })
 
-setClass("Rcpp_CustomBlearner")
-ignore.me = setMethod("show", "Rcpp_CustomBlearner", function (object) {
+setClass("Rcpp_BaselearnerCustom")
+ignore.me = setMethod("show", "Rcpp_BaselearnerCustom", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("CustomBlearnerPrinter")
+  return ("BaselearnerCustomPrinter")
 })
 
-setClass("Rcpp_CustomCppBlearner")
-ignore.me = setMethod("show", "Rcpp_CustomCppBlearner", function (object) {
+setClass("Rcpp_BaselearnerCustomCpp")
+ignore.me = setMethod("show", "Rcpp_BaselearnerCustomCpp", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
 
-  return ("CustomCppBlearnerPrinter")
+  return ("BaselearnerCustomCppPrinter")
 })
 
 # ---------------------------------------------------------------------------- #
@@ -144,70 +144,70 @@ ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
 # Loss:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_QuadraticLoss")
-ignore.me = setMethod("show", "Rcpp_QuadraticLoss", function (object) {
-  glueLoss("QuadraticLoss", "0.5 * (y - f(x))^2")
+setClass("Rcpp_LossQuadratic")
+ignore.me = setMethod("show", "Rcpp_LossQuadratic", function (object) {
+  glueLoss("LossQuadratic", "0.5 * (y - f(x))^2")
 })
 
-setClass("Rcpp_AbsoluteLoss")
-ignore.me = setMethod("show", "Rcpp_AbsoluteLoss", function (object) {
-  glueLoss("AbsoluteLoss", "|y - f(x)|")
+setClass("Rcpp_LossAbsolute")
+ignore.me = setMethod("show", "Rcpp_LossAbsolute", function (object) {
+  glueLoss("LossAbsolute", "|y - f(x)|")
 })
 
-setClass("Rcpp_BinomialLoss")
-ignore.me = setMethod("show", "Rcpp_BinomialLoss", function (object) {
-  # glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
-  glueLoss("BinomialLoss", "log(1 + exp(-2yf(x))")
+setClass("Rcpp_LossBinomial")
+ignore.me = setMethod("show", "Rcpp_LossBinomial", function (object) {
+  # glueLoss("LossBinomial", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
+  glueLoss("LossBinomial", "log(1 + exp(-2yf(x))")
 })
 
-setClass("Rcpp_CustomLoss")
-ignore.me = setMethod("show", "Rcpp_CustomLoss", function (object) {
-  glueLoss("CustomLoss")
+setClass("Rcpp_LossCustom")
+ignore.me = setMethod("show", "Rcpp_LossCustom", function (object) {
+  glueLoss("LossCustom")
 })
 
-setClass("Rcpp_CustomCppLoss")
-ignore.me = setMethod("show", "Rcpp_CustomCppLoss", function (object) {
-  glueLoss("CustomCppLoss")
+setClass("Rcpp_LossCustomCpp")
+ignore.me = setMethod("show", "Rcpp_LossCustomCpp", function (object) {
+  glueLoss("LossCustomCpp")
 })
 
 # ---------------------------------------------------------------------------- #
 # Logger:
 # ---------------------------------------------------------------------------- #
 
-setClass("Rcpp_IterationLogger")
-ignore.me = setMethod("show", "Rcpp_IterationLogger", function (object) {
+setClass("Rcpp_LoggerIteration")
+ignore.me = setMethod("show", "Rcpp_LoggerIteration", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("IterationLoggerPrinter")
+  return ("LoggerIterationPrinter")
 })
 
-setClass("Rcpp_InbagRiskLogger")
-ignore.me = setMethod("show", "Rcpp_InbagRiskLogger", function (object) {
+setClass("Rcpp_LoggerInbagRisk")
+ignore.me = setMethod("show", "Rcpp_LoggerInbagRisk", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("InbagRiskLoggerPrinter")
+  return ("LoggerInbagRiskPrinter")
 })
 
-setClass("Rcpp_OobRiskLogger")
-ignore.me = setMethod("show", "Rcpp_OobRiskLogger", function (object) {
+setClass("Rcpp_LoggerOobRisk")
+ignore.me = setMethod("show", "Rcpp_LoggerOobRisk", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("OobRiskLoggerPrinter")
+  return ("LoggerOobRiskPrinter")
 })
 
-setClass("Rcpp_TimeLogger")
-ignore.me = setMethod("show", "Rcpp_TimeLogger", function (object) {
+setClass("Rcpp_LoggerTime")
+ignore.me = setMethod("show", "Rcpp_LoggerTime", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
 
-  return ("TimeLoggerPrinter")
+  return ("LoggerTimePrinter")
 })
 
 # ---------------------------------------------------------------------------- #

@@ -81,7 +81,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         <th>Arguments</th>
       </tr>
       <tr>
-        <td><code>PolynomialBlearner</code></td>
+        <td><code>BaselearnerPolynomial</code></td>
         <td>
           Fit polynomial base-learner. Note that this base-learner takes just the power of the selected feature. Hence, there is no linear part if one selects, for instance, <code>degree = 2</code>.
         </td>
@@ -91,7 +91,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>PSplineBlearner</code></td>
+        <td><code>BaselearnerPSpline</code></td>
         <td>Fit (penalized) spline regression base-learners.</td>
         <td>
           <dt><b>degree</b></dt> <dd>Polynomial degree of bases (default: 3)</dd>
@@ -101,7 +101,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>CustomBlearner</code></td>
+        <td><code>BaselearnerCustom</code></td>
         <td>Define a custom base-learner by using <code>R</code> functions.</td>
         <td>
           <dt><b>instantiate.fun</b></dt> <dd>Feature transformation, e.g., create spline bases in the case of a spline learner</dd> 
@@ -111,7 +111,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>CustomCppBlearner</code></td>
+        <td><code>BaselearnerCustomCpp</code></td>
         <td>Define a custom base-learner by using <code>C++</code> functions.</td>
         <td>
           <dt><b>instantiate.ptr</b></dt> <dd>External pointer containing the reference to the <code>C++</code> feature transformation</dd>
@@ -130,7 +130,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         <th>Arguments</th>
       </tr>
       <tr>
-        <td><code>QuadraticLoss</code></td>
+        <td><code>LossQuadratic</code></td>
         <td>
           Using quadratic differences between prediction and response. This loss corresponds to the gaussian distribution and yields ordinary residuals as pseudo residuals.
         </td>
@@ -139,7 +139,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>AbsoluteLoss</code></td>
+        <td><code>LossAbsolute</code></td>
         <td>
           Using absolute differences between prediction and response. This loss corresponds to the laplace distribution and yields the sign as pseudo residuals.
         </td>
@@ -148,7 +148,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>BinomialLoss</code></td>
+        <td><code>LossBinomial</code></td>
         <td>
           This loss can be used for binary classification and corresponds to the binomial distribution with logit link. Note that the labels are coded as -1 and 1 which yields slightly differences to other algorithms.
         </td>
@@ -157,7 +157,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>
       <tr>
-        <td><code>CustomLoss</code></td>
+        <td><code>LossCustom</code></td>
         <td>Define a custom loss by using <code>C++</code> functions.</td>
         <td>
           <dt><b>loss</b></dt> <dd><code>R</code> function which calculates the loss between true values and a prediction</dd>
@@ -166,12 +166,67 @@ src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-
         </td>
       </tr>      
       <tr>
-        <td><code>CustomCppLoss</code></td>
+        <td><code>LossCustomCpp</code></td>
         <td>Define a custom loss by using <code>C++</code> functions.</td>
         <td>
           <dt><b>loss.ptr</b></dt> <dd><code>C++</code> pointer to a function which calculates the loss between true values and a prediction</dd>
           <dt><b>gradient.ptr</b></dt> <dd><code>C++</code> pointer to a function to calculate the gradient of the loss function with ture values and prediction as input</dd>
           <dt><b>constant.initializer.ptr</b></dt> <dd><code>C++</code> pointer to a function to compute the constant loss optimal initialization (using a custom offset suppress this function and returns just the offset)</dd>
+        </td>
+      </tr>
+    </table>
+
+    <h2>Logger</h2>
+
+    <table>
+      <tr>
+        <th>Logger</th>
+        <th>Description</th>
+        <th>Arguments</th>
+      </tr>
+      <tr>
+        <td><code>LoggerIteration</code></td>
+        <td>
+          The basic logger which loggs the actual iteration. This one is defined automatically by calling, e.g., <code>train(1000)</code>, as stopper with a maximal number of iteration as passed through <code>train()</code>.
+        </td>
+        <td>
+          <dt><b>use.as.stopper</b></dt> <dd>Boolean to indicate whether this logger should also be used as stopper.</dd>
+          <dt><b>max.iterations</b></dt> <dd>Integer value specifying the maximal numbers of iterations if the logger is used as stopper, otherwise this argument does not have any effect.</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>LoggerInbagRisk</code></td>
+        <td>
+          This logger takes a <code>Loss</code> object and calculates the risk using the train dataset.
+        </td>
+        <td>
+          <dt><b>use.as.stopper</b></dt> <dd>Boolean to indicate whether this logger should also be used as stopper.</dd>
+          <dt><b>used.loss</b></dt> <dd><code>Loss</code> object which is used to calculate the risk. Note that this could also be a custom loss and therefore be used to track performance measures.</dd>
+          <dt><b>eps.for.break</b></dt> <dd>Numeric value indicating the relative improvement which is used to stop the algorithm if the true improvement falls under <code>eps.for.break</code>.</dd>
+        </td>
+      </tr>      
+      <tr>
+        <td><code>LoggerOobRisk</code></td>
+        <td>
+          This logger takes a <code>Loss</code> object and calculates the risk using a custom out of bag dataset.
+        </td>
+        <td>
+          <dt><b>use.as.stopper</b></dt> <dd>Boolean to indicate whether this logger should also be used as stopper.</dd>
+          <dt><b>used.loss</b></dt> <dd><code>Loss</code> object which is used to calculate the risk. Note that this could also be a custom loss and therefore be used to track performance measures.</dd>
+          <dt><b>eps.for.break</b></dt> <dd>Numeric value indicating the relative improvement which is used to stop the algorithm if the true improvement falls under <code>eps.for.break</code>.</dd>
+          <dt><b>oob.data</b></dt> <dd>List of <code>Data</code> objects which corresponds to the same data objects used in <code>addBaselearner()</code>. Note that each <code>Compboost</code> object has a member function <code>prepareData()</code> which automatically converts a <code>data.frame</code> to a list required by the logger.</dd>
+          <dt><b>oob.response</b></dt> <dd>Vector of the response values corresonding to <code>oob.data</code>.</dd>
+        </td>
+      </tr>
+      <tr>
+        <td><code>LoggerTime</code></td>
+        <td>
+          This logger can be used to measure the ellapsed time at each iteration.
+        </td>
+        <td>
+          <dt><b>use.as.stopper</b></dt> <dd>Boolean to indicate whether this logger should also be used as stopper.</dd>
+          <dt><b>max.time</b></dt> <dd>Integer value that indicates how much time the algorithm has for the training.</dd>
+          <dt><b>time.unit</b></dt> <dd>Character to specify the time unit. Possible choices are minutes, seconds or microseconds.</dd>
         </td>
       </tr>
     </table>

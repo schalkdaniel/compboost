@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['time_5funit',['time_unit',['../classlogger_1_1_time_logger.html#ab5a6998dea294708d1d393b2b2f240bb',1,'logger::TimeLogger']]],
-  ['timelogger',['TimeLogger',['../classlogger_1_1_time_logger.html',1,'logger::TimeLogger'],['../classlogger_1_1_time_logger.html#aa67d4d58b4894de7d158786961722751',1,'logger::TimeLogger::TimeLogger()']]],
-  ['tracked_5finbag_5frisk',['tracked_inbag_risk',['../classlogger_1_1_inbag_risk_logger.html#aed427deee828fd480e5fa9536360b16b',1,'logger::InbagRiskLogger']]],
-  ['tracked_5foob_5frisk',['tracked_oob_risk',['../classlogger_1_1_oob_risk_logger.html#a00a9435107588888c891c88aead67159',1,'logger::OobRiskLogger']]],
-  ['train',['train',['../classblearner_1_1_baselearner.html#a40e03ad070b9a03aae706d9ee8094b80',1,'blearner::Baselearner::train()'],['../classblearner_1_1_polynomial_blearner.html#acf24025a73293a2569450dd4659e0997',1,'blearner::PolynomialBlearner::train()'],['../classblearner_1_1_p_spline_blearner.html#aa5c18ceb8396ffce556588486d574be8',1,'blearner::PSplineBlearner::train()'],['../classblearner_1_1_custom_blearner.html#a4726c5b861b67817f7b3eb61d8f6c0d7',1,'blearner::CustomBlearner::train()'],['../classblearner_1_1_custom_cpp_blearner.html#aa71b777d7092a3d9b47a9bed125eb0f9',1,'blearner::CustomCppBlearner::train()'],['../classcboost_1_1_compboost.html#aa898572eb2c83e0b95c12788a859333b',1,'cboost::Compboost::train()']]],
-  ['traincompboost',['trainCompboost',['../classcboost_1_1_compboost.html#a52ea04dec53c68865fdc4a79461d17cb',1,'cboost::Compboost']]],
-  ['trainfun',['trainFun',['../classblearner_1_1_custom_blearner.html#a59f400a2816f5d0a3488a9a9179c1e05',1,'blearner::CustomBlearner::trainFun()'],['../classblearner_1_1_custom_cpp_blearner.html#ac4dd33045cf6c5d0272414325933da9c',1,'blearner::CustomCppBlearner::trainFun()'],['../classblearnerfactory_1_1_custom_blearner_factory.html#ac342da04b06c4e707811e4b312ce6c61',1,'blearnerfactory::CustomBlearnerFactory::trainFun()'],['../classblearnerfactory_1_1_custom_cpp_blearner_factory.html#aad89a4d126b8b3e5ac0b6bca98074193',1,'blearnerfactory::CustomCppBlearnerFactory::trainFun()']]],
-  ['trainfunptr',['trainFunPtr',['../namespaceblearner.html#a5e2b38edf05e32681bee136af9ae505d',1,'blearner']]]
+  ['use_5fcustom_5foffset',['use_custom_offset',['../classloss_1_1_loss.html#a5fabbbb104e6f430498630130ac8a131',1,'loss::Loss']]],
+  ['use_5fsparse_5fmatrices',['use_sparse_matrices',['../classblearner_1_1_baselearner_p_spline.html#abc38580ee231aa0173fdea22bb9b2283',1,'blearner::BaselearnerPSpline::use_sparse_matrices()'],['../classblearnerfactory_1_1_baselearner_p_spline_factory.html#ac0e83c55bc1d631663f639fea394e253',1,'blearnerfactory::BaselearnerPSplineFactory::use_sparse_matrices()']]],
+  ['used_5fbaselearner_5flist',['used_baselearner_list',['../classcboost_1_1_compboost.html#ac4c690473dc39e10e84ae9d9219b1fa1',1,'cboost::Compboost']]],
+  ['used_5flogger',['used_logger',['../classcboost_1_1_compboost.html#a05590928bf741eecb135f32da339ceaa',1,'cboost::Compboost']]],
+  ['used_5floss',['used_loss',['../classcboost_1_1_compboost.html#a9c776faf5e9b9e99b5241f2a650d5242',1,'cboost::Compboost::used_loss()'],['../classlogger_1_1_logger_inbag_risk.html#abd70a6ddb6701bab59cd3ac01468938b',1,'logger::LoggerInbagRisk::used_loss()'],['../classlogger_1_1_logger_oob_risk.html#af889f26216d86721dcab4fb0823ac525',1,'logger::LoggerOobRisk::used_loss()']]],
+  ['used_5foptimizer',['used_optimizer',['../classcboost_1_1_compboost.html#a6c0311a05cf6128b4c76fabbc432b807',1,'cboost::Compboost']]]
 ];

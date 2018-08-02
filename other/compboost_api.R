@@ -9,24 +9,24 @@ devtools::load_all()
 # Create categorical feature:
 mtcars$mpg_cat = ifelse(mtcars$mpg > 15, "A", "B")
 
-cboost = Compboost$new(mtcars, "mpg", loss = QuadraticLoss$new())
+cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new())
 
 # Should throw an error:
 cboost$train(10)
 
-cboost$addBaselearner("wt", "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner("wt", "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
-cboost$addBaselearner("mpg_cat", "linear", PolynomialBlearnerFactory, degree = 1, intercept = FALSE)
+cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomialFactory, degree = 1, intercept = FALSE)
 
 # Error should apprear:
-cboost$addBaselearner(c("hp", "wt"), "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner(c("hp", "wt"), "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
-cboost$addBaselearner(c("hp", "wt"), "linear", PolynomialBlearnerFactory, degree = 1, intercept = TRUE)
-cboost$addBaselearner("hp", "quadratic", PolynomialBlearnerFactory, degree = 2, intercept = TRUE)
+cboost$addBaselearner(c("hp", "wt"), "linear", BaselearnerPolynomialFactory, degree = 1, intercept = TRUE)
+cboost$addBaselearner("hp", "quadratic", BaselearnerPolynomialFactory, degree = 2, intercept = TRUE)
 
-cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
 
 cboost$bl.factory.list
 cboost$getBaselearnerNames()
@@ -125,8 +125,8 @@ data.target1 = InMemoryData$new()
 data.target2 = InMemoryData$new()
 
 
-lin.factory = PolynomialBlearnerFactory$new(data.source, data.target1, degree = 2, intercept = TRUE)
-lin.factory.intercept = PolynomialBlearnerFactory$new(data.source, data.target2, "quadratic", degree = 2, intercept = TRUE)
+lin.factory = BaselearnerPolynomialFactory$new(data.source, data.target1, degree = 2, intercept = TRUE)
+lin.factory.intercept = BaselearnerPolynomialFactory$new(data.source, data.target2, "quadratic", degree = 2, intercept = TRUE)
 # Get the transformed data:
 lin.factory
 lin.factory.intercept
@@ -152,25 +152,25 @@ gradDummy = function (trutz, response) { return (NA) }
 constInitDummy = function (truth, response) { return (NA) }
 
 # Define loss:
-auc.loss = CustomLoss$new(aucLoss, gradDummy, constInitDummy)
+auc.loss = LossCustom$new(aucLoss, gradDummy, constInitDummy)
 
 
 mtcars$mpg_bin = ifelse(mtcars$mpg > 15, -1, 1)
 idx.train = sample(seq_len(nrow(mtcars)), nrow(mtcars) * 0.6)
 idx.test = setdiff(seq_len(nrow(mtcars)), idx.train)
 
-cboost = Compboost$new(mtcars[idx.train,], "mpg_bin", loss = BinomialLoss$new())
+cboost = Compboost$new(mtcars[idx.train,], "mpg_bin", loss = LossBinomial$new())
 
-cboost$addBaselearner("wt", "spline", PSplineBlearnerFactory, degree = 3, 
+cboost$addBaselearner("wt", "spline", BaselearnerPSplineFactory, degree = 3, 
 	knots = 10, penalty = 2, differences = 2)
 
-cboost$addLogger(logger = TimeLogger, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
-cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "auc_oob",
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", max.time = 0, time.unit = "microseconds")
+cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id = "auc_oob",
 	auc.loss, 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
-cboost$addLogger(logger = InbagRiskLogger, use.as.stopper = FALSE, logger.id = "auc_inbag",
+cboost$addLogger(logger = LoggerInbagRisk, use.as.stopper = FALSE, logger.id = "auc_inbag",
 	auc.loss, 0.01)
-cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id = "risk_oob",
-	BinomialLoss$new(), 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
+cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id = "risk_oob",
+	LossBinomial$new(), 0.01, cboost$prepareData(mtcars[idx.test, ]), mtcars[idx.test, "mpg_bin"])
 
 cboost$train(2000)
 

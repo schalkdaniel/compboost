@@ -22,7 +22,7 @@
 #'   exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).
 #' @param loss [\code{S4 Loss}]\cr
 #'   Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{QuadraticLoss$new()}).
+#'   \code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).
 #' @param learning.rate [\code{numeric(1)}]\cr
 #'   Learning rate which is used to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
@@ -32,7 +32,7 @@
 #'   10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
 #'   -1 which means that we set \code{trace} at a value that 40 iterations are printed.
 #' @param intercept [\code{logical(1)}]\cr
-#'   Internally used by \code{PolynomialBlearner}. This logical value indicates if
+#'   Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 #'   each feature should get an intercept or not (default is \code{TRUE}).
 #' @param data.source [\code{S4 Data}]\cr
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
@@ -41,7 +41,7 @@
 #'   Unitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
 #' @examples
-#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = QuadraticLoss$new())
+#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
@@ -59,10 +59,10 @@ boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(
 	# Issue: 
 	for(feat in features) {
 		if (is.numeric(data[[feat]])) {
-			model$addBaselearner(feat, "linear", PolynomialBlearner, data.source, data.target,
+			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data.source, data.target,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "category", PolynomialBlearner, data.source, data.target,
+			model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
 				degree = 1, intercept = FALSE)
 		}
 	}

@@ -1,10 +1,17 @@
 var searchData=
 [
-  ['setbaselearnertype',['setBaselearnerType',['../classblearner_1_1_baselearner.html#a8d78e851bae5f5b93dc46eb13d2d1ee1',1,'blearner::Baselearner']]],
-  ['setdata',['setData',['../classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4',1,'blearner::Baselearner::setData()'],['../classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70',1,'data::Data::setData()'],['../classdata_1_1_in_memory_data.html#a0456d66f7930809211c75bcdd80a7bca',1,'data::InMemoryData::setData()']]],
-  ['setdataidentifier',['setDataIdentifier',['../classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc',1,'data::Data']]],
-  ['setdatatype',['setDataType',['../classdata_1_1_data.html#a349569c170c7e8b78bf4997b47e3f1a8',1,'data::Data']]],
-  ['setidentifier',['setIdentifier',['../classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76',1,'blearner::Baselearner']]],
-  ['settoiteration',['setToIteration',['../classblearnertrack_1_1_baselearner_track.html#a06f0ac986a158eecddce64e6c7af0750',1,'blearnertrack::BaselearnerTrack::setToIteration()'],['../classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659',1,'cboost::Compboost::setToIteration()']]],
-  ['summarizecompboost',['summarizeCompboost',['../classcboost_1_1_compboost.html#a7be8cb767054ece895d535c1f468233e',1,'cboost::Compboost']]]
+  ['_7ebaselearner',['~Baselearner',['../classblearner_1_1_baselearner.html#a1ada1c47d71e60bec80ab033ffa40813',1,'blearner::Baselearner']]],
+  ['_7ebaselearnercustom',['~BaselearnerCustom',['../classblearner_1_1_baselearner_custom.html#a5238f894da2b3e746b3a9e647b4ba6e2',1,'blearner::BaselearnerCustom']]],
+  ['_7ebaselearnercustomcpp',['~BaselearnerCustomCpp',['../classblearner_1_1_baselearner_custom_cpp.html#a67aa938d71013c6e931d3edc563935bb',1,'blearner::BaselearnerCustomCpp']]],
+  ['_7ebaselearnerfactory',['~BaselearnerFactory',['../classblearnerfactory_1_1_baselearner_factory.html#adc9d1d3c8fc774c9d856117632c8aadb',1,'blearnerfactory::BaselearnerFactory']]],
+  ['_7ebaselearnerpolynomial',['~BaselearnerPolynomial',['../classblearner_1_1_baselearner_polynomial.html#abb799eceb2808fcca4c8041e2ae7abe4',1,'blearner::BaselearnerPolynomial']]],
+  ['_7ebaselearnerpspline',['~BaselearnerPSpline',['../classblearner_1_1_baselearner_p_spline.html#a52c77efff22f6da5fd058eb36da24141',1,'blearner::BaselearnerPSpline']]],
+  ['_7ebaselearnertrack',['~BaselearnerTrack',['../classblearnertrack_1_1_baselearner_track.html#a93e9a1268d46808b9d6fe768fa11e22a',1,'blearnertrack::BaselearnerTrack']]],
+  ['_7ecompboost',['~Compboost',['../classcboost_1_1_compboost.html#a3e23314cc3a1d31fc5df61e0a16c51e4',1,'cboost::Compboost']]],
+  ['_7edata',['~Data',['../classdata_1_1_data.html#a737d2c889ffb7c08d60b5af5846b586b',1,'data::Data']]],
+  ['_7einmemorydata',['~InMemoryData',['../classdata_1_1_in_memory_data.html#a675c78a5c7537ca16b8ce86b3ea1f7b3',1,'data::InMemoryData']]],
+  ['_7elogger',['~Logger',['../classlogger_1_1_logger.html#aa85a309d218f9f006600cbaf2a348f52',1,'logger::Logger']]],
+  ['_7eloggerlist',['~LoggerList',['../classloggerlist_1_1_logger_list.html#ad63990acf805bf149c3b006790f446c6',1,'loggerlist::LoggerList']]],
+  ['_7eloss',['~Loss',['../classloss_1_1_loss.html#a868a7908fd97590b6c4fc69f4eb3c570',1,'loss::Loss']]],
+  ['_7eoptimizer',['~Optimizer',['../classoptimizer_1_1_optimizer.html#a7618771af9e91ff8367a02c5ff49a376',1,'optimizer::Optimizer']]]
 ];

@@ -73,17 +73,17 @@ NULL
 
 #' Baselearner factory to make polynomial regression
 #'
-#' \code{PolynomialBlearner} creates a polynomial base-learner factory
+#' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 #'  object which can be registered within a base-learner list and then used
 #'  for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name PolynomialBlearner
+#' @name BaselearnerPolynomial
 #'
 #' @section Usage:
 #' \preformatted{
-#' PolynomialBlearner$new(data_source, data_target, degree, intercept)
-#' PolynomialBlearner$new(data_source, data_target, blearner_type, degree, intercept)
+#' BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
+#' BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
 #' }
 #'
 #' @section Arguments:
@@ -135,9 +135,9 @@ NULL
 #' data.target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin.factory = PolynomialBlearner$new(data.source, data.target1, 
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
 #'   degree = 2, intercept = FALSE)
-#' lin.factory.int = PolynomialBlearner$new(data.source, data.target2, 
+#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
 #'   degree = 2, intercept = TRUE)
 #'
 #' # Get the transformed data:
@@ -151,21 +151,21 @@ NULL
 #' lin.factory$transformData(data.mat)
 #' lin.factory.int$transformData(data.mat)
 #'
-#' @export PolynomialBlearner
+#' @export BaselearnerPolynomial
 NULL
 
 #' Base-learner factory to do non-parametric B or P-spline regression
 #'
-#' \code{PSplineBlearner} creates a spline base-learner factory
+#' \code{BaselearnerPSpline} creates a spline base-learner factory
 #'  object which can be registered within a base-learner list and then used
 #'  for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name PSplineBlearner
+#' @name BaselearnerPSpline
 #'
 #' @section Usage:
 #' \preformatted{
-#' PSplineBlearner$new(data_source, data_target, degree, n_knots, penalty,
+#' BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
 #'   differences)
 #' }
 #'
@@ -224,7 +224,7 @@ NULL
 #' data.target = InMemoryData$new()
 #'
 #' # Create new linear base-learner:
-#' spline.factory = PSplineBlearner$new(data.source, data.target,
+#' spline.factory = BaselearnerPSpline$new(data.source, data.target,
 #'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
 #'
 #' # Get the transformed data:
@@ -236,21 +236,21 @@ NULL
 #' # Transform data manually:
 #' spline.factory$transformData(data.mat)
 #'
-#' @export PSplineBlearner
+#' @export BaselearnerPSpline
 NULL
 
 #' Create custom base-learner factory by using R functions.
 #'
-#' \code{CustomBlearner} creates a custom base-learner factory by
+#' \code{BaselearnerCustom} creates a custom base-learner factory by
 #'   setting custom \code{R} functions. This factory object can be registered
 #'   within a base-learner list and then used for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomBlearner
+#' @name BaselearnerCustom
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomBlearner$new(data_source, data_target, instantiateData, train,
+#' BaselearnerCustom$new(data_source, data_target, instantiateData, train,
 #'   predict, extractParameter)
 #' }
 #'
@@ -341,7 +341,7 @@ NULL
 #' }
 #'
 #' # Create new custom linear base-learner factory:
-#' custom.lin.factory = CustomBlearner$new(data.source, data.target,
+#' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
 #'   instantiateDataFun, trainFun, predictFun, extractParameter)
 #'
 #' # Get the transformed data:
@@ -353,22 +353,22 @@ NULL
 #' # Transform data manually:
 #' custom.lin.factory$transformData(data.mat)
 #'
-#' @export CustomBlearner
+#' @export BaselearnerCustom
 NULL
 
 #' Create custom cpp base-learner factory by using cpp functions and external
 #' pointer.
 #'
-#' \code{CustomCppBlearner} creates a custom base-learner factory by
+#' \code{BaselearnerCustomCpp} creates a custom base-learner factory by
 #'   setting custom \code{C++} functions. This factory object can be registered
 #'   within a base-learner list and then used for training.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomCppBlearner
+#' @name BaselearnerCustomCpp
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomCppBlearner$new(data_source, data_target, instantiate_data_ptr,
+#' BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 #'   train_ptr, predict_ptr)
 #' }
 #'
@@ -423,7 +423,7 @@ NULL
 #' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 #'
 #' # Create new linear base-learner:
-#' custom.cpp.factory = CustomCppBlearner$new(data.source, data.target,
+#' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
 #'   dataFunSetter(), trainFunSetter(), predictFunSetter())
 #'
 #' # Get the transformed data:
@@ -435,7 +435,7 @@ NULL
 #' # Transform data manually:
 #' custom.cpp.factory$transformData(data.mat)
 #'
-#' @export CustomCppBlearner
+#' @export BaselearnerCustomCpp
 NULL
 
 #' Base-learner factory list to define the set of base-learners
@@ -484,8 +484,8 @@ NULL
 #' data.target1 = InMemoryData$new()
 #' data.target2 = InMemoryData$new()
 #'
-#' lin.factory = PolynomialBlearner$new(data.source, data.target1, 1, TRUE)
-#' poly.factory = PolynomialBlearner$new(data.source, data.target2, 2, TRUE)
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
+#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
 #'
 #' # Create new base-learner list:
 #' my.bl.list = BlearnerFactoryList$new()
@@ -528,12 +528,12 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name QuadraticLoss
+#' @name LossQuadratic
 #'
 #' @section Usage:
 #' \preformatted{
-#' QuadraticLoss$new()
-#' QuadraticLoss$new(offset)
+#' LossQuadratic$new()
+#' LossQuadratic$new(offset)
 #' }
 #'
 #' @section Arguments:
@@ -553,10 +553,10 @@ NULL
 #' @examples
 #'
 #' # Create new loss object:
-#' quadratic.loss = QuadraticLoss$new()
+#' quadratic.loss = LossQuadratic$new()
 #' quadratic.loss
 #'
-#' @export QuadraticLoss
+#' @export LossQuadratic
 NULL
 
 #' Absolute loss for regression tasks.
@@ -578,12 +578,12 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name AbsoluteLoss
+#' @name LossAbsolute
 #'
 #' @section Usage:
 #' \preformatted{
-#' AbsoluteLoss$new()
-#' AbsoluteLoss$new(offset)
+#' LossAbsolute$new()
+#' LossAbsolute$new(offset)
 #' }
 #'
 #' @section Arguments:
@@ -603,10 +603,10 @@ NULL
 #' @examples
 #'
 #' # Create new loss object:
-#' absolute.loss = AbsoluteLoss$new()
+#' absolute.loss = LossAbsolute$new()
 #' absolute.loss
 #'
-#' @export AbsoluteLoss
+#' @export LossAbsolute
 NULL
 
 #' 0-1 Loss for binary classification derifed of the binomial distribution
@@ -633,12 +633,12 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name BinomialLoss
+#' @name LossBinomial
 #'
 #' @section Usage:
 #' \preformatted{
-#' BinomialLoss$new()
-#' BinomialLoss$new(offset)
+#' LossBinomial$new()
+#' LossBinomial$new(offset)
 #' }
 #'
 #' @section Arguments:
@@ -658,23 +658,23 @@ NULL
 #' @examples
 #' 
 #' # Create new loss object:
-#' bin.loss = BinomialLoss$new()
+#' bin.loss = LossBinomial$new()
 #' bin.loss
 #'
-#' @export BinomialLoss
+#' @export LossBinomial
 NULL
 
-#' Create customloss by using R functions.
+#' Create LossCustom by using R functions.
 #'
-#' \code{CustomLoss} creates a custom loss by using
+#' \code{LossCustom} creates a custom loss by using
 #' \code{Rcpp::Function} to set \code{R} functions.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomLoss
+#' @name LossCustom
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomLoss$new(lossFun, gradientFun, initFun)
+#' LossCustom$new(lossFun, gradientFun, initFun)
 #' }
 #'
 #' @section Arguments:
@@ -733,22 +733,22 @@ NULL
 #' }
 #'
 #' # Create new custom quadratic loss:
-#' my.loss = CustomLoss$new(myLoss, myGradient, myConstInit)
+#' my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
 #'
-#' @export CustomLoss
+#' @export LossCustom
 NULL
 
 #' Create custom cpp losses by using cpp functions and external pointer.
 #'
-#' \code{CustomCppLoss} creates a custom loss by using
+#' \code{LossCustomCpp} creates a custom loss by using
 #' \code{Rcpp::XPtr} to set \code{C++} functions.
 #'
 #' @format \code{\link{S4}} object.
-#' @name CustomCppLoss
+#' @name LossCustomCpp
 #'
 #' @section Usage:
 #' \preformatted{
-#' CustomCppLoss$new(loss_ptr, grad_ptr, const_init_ptr)
+#' LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 #' }
 #'
 #' @section Arguments:
@@ -778,10 +778,10 @@ NULL
 #' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 #'
 #' # Create new custom quadratic loss:
-#' my.cpp.loss = CustomCppLoss$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+#' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 #'
 #'
-#' @export CustomCppLoss
+#' @export LossCustomCpp
 NULL
 
 #' Logger class to log the current iteration
@@ -792,11 +792,11 @@ NULL
 #' stage of the fitting within the compboost object as another vector.
 #'
 #' @format \code{\link{S4}} object.
-#' @name IterationLogger
+#' @name LoggerIteration
 #'
 #' @section Usage:
 #' \preformatted{
-#' IterationLoggerWrapper$new(use_as_stopper, max_iterations)
+#' LoggerIterationWrapper$new(use_as_stopper, max_iterations)
 #' }
 #'
 #' @section Arguments:
@@ -825,12 +825,12 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.iters = IterationLogger$new(FALSE, 100)
+#' log.iters = LoggerIteration$new(FALSE, 100)
 #'
 #' # Summarize logger:
 #' log.iters$summarizeLogger()
 #'
-#' @export IterationLogger
+#' @export LoggerIteration
 NULL
 
 #' Logger class to log the inbag risk
@@ -840,11 +840,11 @@ NULL
 #' see the usecase or extending compboost vignette.
 #'
 #' @format \code{\link{S4}} object.
-#' @name InbagRiskLogger
+#' @name LoggerInbagRisk
 #'
 #' @section Usage:
 #' \preformatted{
-#' InbagRiskLogger$new(use_as_stopper, used_loss, eps_for_break)
+#' LoggerInbagRisk$new(use_as_stopper, used_loss, eps_for_break)
 #' }
 #'
 #' @section Arguments:
@@ -909,15 +909,15 @@ NULL
 #' }
 #' @examples
 #' # Used loss:
-#' log.bin = BinomialLoss$new()
+#' log.bin = LossBinomial$new()
 #'
 #' # Define logger:
-#' log.inbag.risk = InbagRiskLogger$new(FALSE, log.bin, 0.05)
+#' log.inbag.risk = LoggerInbagRisk$new(FALSE, log.bin, 0.05)
 #'
 #' # Summarize logger:
 #' log.inbag.risk$summarizeLogger()
 #'
-#' @export InbagRiskLogger
+#' @export LoggerInbagRisk
 NULL
 
 #' Logger class to log the out of bag risk
@@ -927,11 +927,11 @@ NULL
 #' see the usecase or extending compboost vignette.
 #'
 #' @format \code{\link{S4}} object.
-#' @name OobRiskLogger
+#' @name LoggerOobRisk
 #'
 #' @section Usage:
 #' \preformatted{
-#' OobRiskLogger$new(use_as_stopper, used_loss, eps_for_break, oob_data,
+#' LoggerOobRisk$new(use_as_stopper, used_loss, eps_for_break, oob_data,
 #'   oob_response)
 #' }
 #'
@@ -1022,15 +1022,15 @@ NULL
 #' y.oob = rnorm(10)
 #'
 #' # Used loss:
-#' log.bin = BinomialLoss$new()
+#' log.bin = LossBinomial$new()
 #'
 #' # Define logger:
-#' log.oob.risk = OobRiskLogger$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+#' log.oob.risk = LoggerOobRisk$new(FALSE, log.bin, 0.05, oob.list, y.oob)
 #'
 #' # Summarize logger:
 #' log.oob.risk$summarizeLogger()
 #'
-#' @export OobRiskLogger
+#' @export LoggerOobRisk
 NULL
 
 #' Logger class to log the ellapsed time
@@ -1045,11 +1045,11 @@ NULL
 #' }
 #'
 #' @format \code{\link{S4}} object.
-#' @name TimeLogger
+#' @name LoggerTime
 #'
 #' @section Usage:
 #' \preformatted{
-#' TimeLogger$new(use_as_stopper, max_time, time_unit)
+#' LoggerTime$new(use_as_stopper, max_time, time_unit)
 #' }
 #'
 #' @section Arguments:
@@ -1082,12 +1082,12 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.time = TimeLogger$new(FALSE, 20, "minutes")
+#' log.time = LoggerTime$new(FALSE, 20, "minutes")
 #'
 #' # Summarize logger:
 #' log.time$summarizeLogger()
 #'
-#' @export TimeLogger
+#' @export LoggerTime
 NULL
 
 #' Logger list class to collect all loggers
@@ -1127,8 +1127,8 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.iters = IterationLogger$new(TRUE, 100)
-#' log.time = TimeLogger$new(FALSE, 20, "minutes")
+#' log.iters = LoggerIteration$new(TRUE, 100)
+#' log.time = LoggerTime$new(FALSE, 20, "minutes")
 #'
 #' # Create logger list:
 #' logger.list = LoggerList$new()
@@ -1301,10 +1301,10 @@ NULL
 #' test.data = oob.data
 #'
 #' # Factories:
-#' linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
-#' linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
-#' quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
-#' spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
+#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
+#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
+#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 #'
 #' # Create new factory list:
 #' factory.list = BlearnerFactoryList$new()
@@ -1316,7 +1316,7 @@ NULL
 #' factory.list$registerFactory(spline.factory.wt)
 #'
 #' # Define loss:
-#' loss.bin = BinomialLoss$new()
+#' loss.bin = LossBinomial$new()
 #'
 #' # Define optimizer:
 #' optimizer = OptimizerCoordinateDescent$new()
@@ -1325,10 +1325,10 @@ NULL
 #'
 #' # Define logger. We want just the iterations as stopper but also track the
 #' # time, inbag risk and oob risk:
-#' log.iterations  = IterationLogger$new(TRUE, 500)
-#' log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-#' log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-#' log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+#' log.iterations  = LoggerIteration$new(TRUE, 500)
+#' log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+#' log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+#' log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
 #'
 #' # Define new logger list:
 #' logger.list = LoggerList$new()

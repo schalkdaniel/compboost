@@ -347,7 +347,7 @@ void Compboost::setToIteration (const unsigned int& k)
   if (k > max_iteration) {
     // Define new iteration logger for missing iterations:
     unsigned int iteration_diff = k - max_iteration;  
-    logger::Logger* temp_logger = new logger::IterationLogger(true, iteration_diff);
+    logger::Logger* temp_logger = new logger::LoggerIteration(true, iteration_diff);
     loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
     
     // Register that logger:

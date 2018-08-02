@@ -123,7 +123,7 @@ protected:
 // -------------------------------------------------------------------------- //
 
 /**
- * \class IterationLogger
+ * \class LoggerIteration
  * 
  * \brief Logger class to log the current iteration
  * 
@@ -134,7 +134,7 @@ protected:
  * 
  */
 
-class IterationLogger : public Logger 
+class LoggerIteration : public Logger 
 {
 private:
   
@@ -147,10 +147,10 @@ private:
   
 public:
   
-  /// Default constructor of class `IterationLogger`
-  IterationLogger (const bool&, const unsigned int&);
+  /// Default constructor of class `LoggerIteration`
+  LoggerIteration (const bool&, const unsigned int&);
   
-  /// Log current step of compboost iteration of class `IterationLogger`
+  /// Log current step of compboost iteration of class `LoggerIteration`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
@@ -171,7 +171,7 @@ public:
 // -----------------------
 
 /**
- * \class InbagRiskLogger
+ * \class LoggerInbagRisk
  * 
  * \brief Logger class to log the inbag risk
  * 
@@ -182,7 +182,7 @@ public:
  * 
  */
 
-class InbagRiskLogger : public Logger
+class LoggerInbagRisk : public Logger
 {
 private:
   
@@ -199,9 +199,9 @@ private:
 public:
   
   /// Default constructor
-  InbagRiskLogger (const bool&, loss::Loss*, const double&);
+  LoggerInbagRisk (const bool&, loss::Loss*, const double&);
   
-  /// Log current step of compboost iteration for class `InbagRiskLogger`
+  /// Log current step of compboost iteration for class `LoggerInbagRisk`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
@@ -223,7 +223,7 @@ public:
 // -----------------------
 
 /**
- * \class OobRiskLogger
+ * \class LoggerOobRisk
  * 
  * \brief Logger class to log the out of bag risk
  * 
@@ -234,7 +234,7 @@ public:
  * 
  */
 
-class OobRiskLogger : public Logger
+class LoggerOobRisk : public Logger
 {
 private:
   
@@ -260,10 +260,10 @@ private:
 public:
   
   /// Default constructor
-  OobRiskLogger (const bool&, loss::Loss*, const double&, 
+  LoggerOobRisk (const bool&, loss::Loss*, const double&, 
     std::map<std::string, data::Data*>, const arma::vec&);
   
-  /// Log current step of compboost iteration for class `OobRiskLogger`
+  /// Log current step of compboost iteration for class `LoggerOobRisk`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   
@@ -281,11 +281,11 @@ public:
   
 };
 
-// TimeLogger:
+// LoggerTime:
 // -----------------------
 
 /**
- * \class TimeLogger
+ * \class LoggerTime
  * 
  * \brief Logger class to log the ellapsed time
  * 
@@ -298,7 +298,7 @@ public:
  *    
  */
 
-class TimeLogger : public Logger
+class LoggerTime : public Logger
 {
 private:
   
@@ -317,10 +317,10 @@ private:
   
 public:
   
-  /// Default constructor of class `TimeLogger`
-  TimeLogger (const bool&, const unsigned int&, const std::string&);
+  /// Default constructor of class `LoggerTime`
+  LoggerTime (const bool&, const unsigned int&, const std::string&);
   
-  /// Log current step of compboost iteration for class `TimeLogger`
+  /// Log current step of compboost iteration for class `LoggerTime`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
   

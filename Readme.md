@@ -1,7 +1,6 @@
 
-<!--
-<img src="docs/images/cboost_hexagon.png" style="float:right;width:100px;margin-left:15px;">
--->
+<img align="right" src="docs/images/cboost_hexagon.png" width="100px">
+
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
 compboost: Fast and Flexible Component-Wise Boosting Framework
@@ -42,7 +41,7 @@ data(PimaIndiansDiabetes, package = "mlbench")
 PimaIndiansDiabetes$pregnant.cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
 
 # Define Compboost object:
-cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = QuadraticLoss$new())
+cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossBinomial$new())
 cboost
 ## Component-Wise Gradient Boosting
 ## 
@@ -52,23 +51,23 @@ cboost
 ## Iterations: 0
 ## Positive class: neg
 ## 
-## QuadraticLoss Loss:
+## LossBinomial Loss:
 ## 
-##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
+##   Loss function: L(y,x) = log(1 + exp(-2yf(x))
 ## 
 ## 
 
 # Add p-spline base-learner with default parameter:
-cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = PSplineBlearner)
+cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = BaselearnerPSpline)
 
 # Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl.factory = PSplineBlearner, degree = 3, 
+cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
   knots = 10, penalty = 4, differences = 2)
-## Warning in .handleRcpp_PSplineBlearner(degree = 3, knots = 10, penalty =
+## Warning in .handleRcpp_BaselearnerPSpline(degree = 3, knots = 10, penalty =
 ## 4, : Following arguments are ignored by the spline base-learner: knots
 
 # Add categorical feature (as single linear base-learner):
-cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = PolynomialBlearner,
+cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = BaselearnerPolynomial,
     degree = 1, intercept = FALSE)
 
 # Check all registered base-learner:
@@ -86,11 +85,11 @@ cboost
 ## Learning rate: 0.05
 ## Iterations: 1000
 ## Positive class: neg
-## Offset: 0.3021
+## Offset: 0.3118
 ## 
-## QuadraticLoss Loss:
+## LossBinomial Loss:
 ## 
-##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
+##   Loss function: L(y,x) = log(1 + exp(-2yf(x))
 ## 
 ## 
 
@@ -102,15 +101,15 @@ selected.features = cboost$getSelectedBaselearner()
 table(selected.features)
 ## selected.features
 ##               age_spline pregnant.cat_no_category          pressure_spline 
-##                      676                       52                      272
+##                      556                      130                      314
 
 params = cboost$getEstimatedCoef()
 str(params)
 ## List of 4
-##  $ age_spline              : num [1:24, 1] 1.0107 0.5065 0.2452 0.2291 -0.0589 ...
-##  $ pregnant.cat_no_category: num [1, 1] -0.159
-##  $ pressure_spline         : num [1:24, 1] -0.4856 -0.2185 0.0367 0.2206 0.2616 ...
-##  $ offset                  : num 0.302
+##  $ age_spline              : num [1:24, 1] 3.1673 1.7275 0.763 0.7498 0.0604 ...
+##  $ pregnant.cat_no_category: num [1, 1] -0.285
+##  $ pressure_spline         : num [1:24, 1] -0.726 -0.4311 -0.1458 0.0818 0.1939 ...
+##  $ offset                  : num 0.312
 
 cboost$train(3000)
 ## 

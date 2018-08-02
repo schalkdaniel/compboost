@@ -129,10 +129,10 @@ oob.data = list(data.source.hp, data.source.wt)
 test.data = oob.data
 
 # Factories:
-linear.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp1, 1, TRUE)
-linear.factory.wt = PolynomialBlearner$new(data.source.wt, data.target.wt1, 1, TRUE)
-quadratic.factory.hp = PolynomialBlearner$new(data.source.hp, data.target.hp2, 2, TRUE)
-spline.factory.wt = PSplineBlearner$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
+linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
+quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
+spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
 
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()
@@ -144,7 +144,7 @@ factory.list$registerFactory(quadratic.factory.hp)
 factory.list$registerFactory(spline.factory.wt)
 
 # Define loss:
-loss.bin = BinomialLoss$new()
+loss.bin = LossBinomial$new()
 
 # Define optimizer:
 optimizer = OptimizerCoordinateDescent$new()
@@ -153,10 +153,10 @@ optimizer = OptimizerCoordinateDescent$new()
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations  = IterationLogger$new(TRUE, 500)
-log.time        = TimeLogger$new(FALSE, 500, "microseconds")
-log.inbag       = InbagRiskLogger$new(FALSE, loss.bin, 0.05)
-log.oob         = OobRiskLogger$new(FALSE, loss.bin, 0.05, oob.data, y)
+log.iterations  = LoggerIteration$new(TRUE, 500)
+log.time        = LoggerTime$new(FALSE, 500, "microseconds")
+log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
+log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()
