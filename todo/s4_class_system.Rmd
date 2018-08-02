@@ -465,7 +465,7 @@ cboost = Compboost_internal$new(
 )
 
 # Train the model (we want to print the trace):
-cboost$train(trace = FALSE)
+cboost$train(trace = -1)
 ```
 
 ### Accessing Elements
@@ -568,7 +568,7 @@ new.logger.list$registerLogger("oob.binomial", new.oob.log)
 new.logger.list$registerLogger("oob.auc", new.oob.auc.log)
 
 # Continue training:
-cboost$continueTraining(trace = FALSE, logger_list = new.logger.list)
+cboost$continueTraining(trace = 0, logger_list = new.logger.list)
 cboost
 ```
 

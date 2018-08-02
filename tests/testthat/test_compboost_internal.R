@@ -59,7 +59,7 @@ test_that("Compboost loggs correctly", {
       optimizer    = optimizer
     )
   })
-  expect_output({ cboost$train(trace = TRUE) })
+  expect_output({ cboost$train(trace = 1) })
   expect_silent({ logger.data = cboost$getLoggerData() })
   expect_equal(logger.list$getNumberOfRegisteredLogger(), 6)
   expect_equal(dim(logger.data$logger.data), c(iter.max, logger.list$getNumberOfRegisteredLogger()))
@@ -116,7 +116,7 @@ test_that("compboost does the same as mboost", {
       optimizer    = optimizer
     )
   })
-  expect_silent(cboost$train(trace = FALSE))
+  expect_output(cboost$train(trace = 100))
   suppressWarnings({
     library(mboost)
 

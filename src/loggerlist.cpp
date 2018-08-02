@@ -19,17 +19,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Compboost. If not, see <http://www.gnu.org/licenses/>.
 //
-// This file contains:
-// -------------------
-//
-//
 // Written by:
 // -----------
 //
 //   Daniel Schalk
-//   Institut für Statistik
-//   Ludwig-Maximilians-Universität München
-//   Ludwigstraße 33
+//   Department of Statistics
+//   Ludwig-Maximilians-University Munich
+//   Ludwigstrasse 33
 //   D-80539 München
 //
 //   https://www.compstat.statistik.uni-muenchen.de
@@ -133,26 +129,21 @@ void LoggerList::logCurrent (const unsigned int& current_iteration, const arma::
       offset, learning_rate);
   }
 }
-
-// Initialize logger printer:
-void LoggerList::initializeLoggerPrinter () const
-{
-  std::string printer;
-  for (auto& it : log_list) {
-    printer += it.second->initializeLoggerPrinter() + " |";
-  }
-  Rcpp::Rcout << printer << std::endl;
-  Rcpp::Rcout << std::string(printer.size(), '-') << std::endl;
-}
-
 // Print logger:
-void LoggerList::printLoggerStatus () const
+void LoggerList::printLoggerStatus (const double& current_risk) const
 {
-  std::string printer;
+  std::stringstream printer;
+  // std::string printer;
+  bool print_risk = true;
   for (auto& it : log_list) {
-    printer += it.second->printLoggerStatus() + " |";
+    printer << it.second->printLoggerStatus() << ": ";
+    // Print risk at second position, iterations should be first one.
+    if (print_risk) {
+      printer << "risk = " << std::setprecision(2) << current_risk;
+      print_risk = false;
+    }
   }
-  Rcpp::Rcout << printer << std::endl;
+  Rcpp::Rcout << printer.str() << std::endl;
 }
 
 // Clear logger data:
