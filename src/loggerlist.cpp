@@ -142,13 +142,20 @@ void LoggerList::initializeLoggerPrinter () const
 }
 
 // Print logger:
-void LoggerList::printLoggerStatus () const
+void LoggerList::printLoggerStatus (const double& current_risk) const
 {
-  std::string printer;
+  std::stringstream printer;
+  // std::string printer;
+  bool print_risk = true;
   for (auto& it : log_list) {
-    printer += it.second->printLoggerStatus() + " |";
+    printer << it.second->printLoggerStatus() << ": ";
+    // Print risk at second position, iterations should be first one.
+    if (print_risk) {
+      printer << "risk = " << std::setprecision(2) << current_risk;
+      print_risk = false;
+    }
   }
-  Rcpp::Rcout << printer << std::endl;
+  Rcpp::Rcout << printer.str() << std::endl;
 }
 
 // Clear logger data:

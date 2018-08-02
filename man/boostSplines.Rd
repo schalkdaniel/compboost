@@ -5,7 +5,7 @@
 \title{Wrapper to boost p spline models for each feature.}
 \usage{
 boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-  learning.rate = 0.05, iterations = 100, trace = TRUE, degree = 3,
+  learning.rate = 0.05, iterations = 100, trace = -1, degree = 3,
   n.knots = 20, penalty = 2, differences = 2,
   data.source = InMemoryData, data.target = InMemoryData)
 }
@@ -31,8 +31,10 @@ Learning rate which is used to shrink the parameter in each step.}
 \item{iterations}{[\code{integer(1)}]\cr
 Number of iterations that are trained.}
 
-\item{trace}{[\code{logical(1)}]\cr
-Logical to indicate whether the trace should be printed or not.}
+\item{trace}{[\code{integer(1)}]\cr
+Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
+10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+-1 which means that we set \code{trace} at a value that 40 iterations are printed.}
 
 \item{degree}{[\code{integer(1)}]\cr
 Polynomial degree of the splines used for modelling. Note that the number of parameter

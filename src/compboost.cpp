@@ -24,7 +24,7 @@
 //
 //   Daniel Schalk
 //   Department of Statistics
-//   Ludwig-Maximilians-Universität München
+//   Ludwig-Maximilians-University Munich
 //   Ludwigstrasse 33
 //   D-80539 München
 //
@@ -63,22 +63,20 @@ Compboost::Compboost (const arma::vec& response, const double& learning_rate,
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
+void Compboost::train (const unsigned int& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
 {
 
   if (used_baselearner_list.getMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
   
-  used_logger["initial.training"]
-
   arma::vec pred_temp = prediction;
   
   // Initialize trace:
-  if (trace) {
-    Rcpp::Rcout << std::endl;
-    logger->initializeLoggerPrinter(); 
-  }
+  // if (trace) {
+  //   Rcpp::Rcout << std::endl;
+  //   logger->initializeLoggerPrinter(); 
+  // }
   
   // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
@@ -121,8 +119,10 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
     stop_the_algorithm = ! logger->getStopperStatus(stop_if_all_stopper_fulfilled);
     
     // Print trace:
-    if (trace) {
-      logger->printLoggerStatus(); 
+    if (trace > 0) {
+      if ((k == 1) || ((k % trace) == 0)) {
+        logger->printLoggerStatus(risk.back()); 
+      }
     }
     
     // Increment k:
@@ -142,7 +142,7 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
   actual_iteration = blearner_track.getBaselearnerVector().size();
 }
 
-void Compboost::trainCompboost (const bool& trace)
+void Compboost::trainCompboost (const unsigned int& trace)
 {
   // Make sure, that the selected baselearner and logger data is empty:
   blearner_track.clearBaselearnerVector();
@@ -183,7 +183,7 @@ void Compboost::trainCompboost (const bool& trace)
   model_is_trained = true;
 }
 
-void Compboost::continueTraining (loggerlist::LoggerList* logger, const bool& trace)
+void Compboost::continueTraining (loggerlist::LoggerList* logger, const unsigned int& trace)
 {
   if (! model_is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");

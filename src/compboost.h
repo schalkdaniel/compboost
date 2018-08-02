@@ -23,8 +23,8 @@
 // -----------
 //
 //   Daniel Schalk
-//   Institut für Statistik
-//   Ludwig-Maximilians-Universität München
+//   Department of Statistics
+//   Ludwig-Maximilians-University Munich
 //   Ludwigstrasse 33
 //   D-80539 München
 //
@@ -119,13 +119,13 @@ public:
     loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
   
   // Basic train function used by trainCompbost and continueTraining:
-  void train (const bool&, const arma::vec&, loggerlist::LoggerList*);
+  void train (const unsigned int&, const arma::vec&, loggerlist::LoggerList*);
   
   // Initial training:
-  void trainCompboost (const bool&);
+  void trainCompboost (const unsigned int&);
   
   // Retraining after initial training:
-  void continueTraining (loggerlist::LoggerList*, const bool&);
+  void continueTraining (loggerlist::LoggerList*, const unsigned int&);
   
   arma::vec getPrediction (const bool&) const;
   

@@ -120,8 +120,10 @@ cboost$prepareData(newdata)
   training and an iteration logger is already specified. For further uses the algorithm automatically
   continues training if \code{iteration} is set to an value larger than the already trained iterations.
 }
-\item{\code{trace}}{[\code{logical(1)}]\cr
-  Logical indicating whether the trace during the fitting process should be printed or not.
+\item{\code{trace}}{[\code{integer(1)}]\cr
+  Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
+  10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+  -1 which means that we set \code{trace} at a value that 40 iterations are printed.
 }
 }
 

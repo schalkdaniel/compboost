@@ -27,8 +27,10 @@
 #'   Learning rate which is used to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
 #'   Number of iterations that are trained.
-#' @param trace [\code{logical(1)}]\cr
-#'   Logical to indicate whether the trace should be printed or not.
+#' @param trace [\code{integer(1)}]\cr
+#'   Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
+#'   10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+#'   -1 which means that we set \code{trace} at a value that 40 iterations are printed.
 #' @param intercept [\code{logical(1)}]\cr
 #'   Internally used by \code{PolynomialBlearner}. This logical value indicates if
 #'   each feature should get an intercept or not (default is \code{TRUE}).
@@ -47,7 +49,7 @@
 #' mod$plot("Sepal.Width_linear")
 #' @export
 boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
-	learning.rate = 0.05, iterations = 100, trace = TRUE, intercept = TRUE, 
+	learning.rate = 0.05, iterations = 100, trace = -1, intercept = TRUE, 
 	data.source = InMemoryData, data.target = InMemoryData) 
 {
 	model = Compboost$new(data = data, target = target, loss = loss, learning.rate = learning.rate)

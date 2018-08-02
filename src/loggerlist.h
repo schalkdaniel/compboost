@@ -92,7 +92,7 @@ public:
   void initializeLoggerPrinter () const;
   
   // Print the logger status:
-  void printLoggerStatus () const;
+  void printLoggerStatus (const double&) const;
   
   // Clear the logger data (should be used in front of every compboost training):
   void clearLoggerData ();

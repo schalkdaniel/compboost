@@ -191,7 +191,7 @@ std::string IterationLogger::initializeLoggerPrinter () const
 std::string IterationLogger::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(15) << std::to_string(iterations.back()) + "/" + std::to_string(max_iterations);
+  ss << std::setw(6) << std::to_string(iterations.back()) + "/" + std::to_string(max_iterations);
   
   return ss.str();
 }

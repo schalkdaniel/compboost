@@ -64,9 +64,9 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 \section{Methods}{
 
 \describe{
-\item{\code{train(trace)}}{Initial training of the model. The boolean
+\item{\code{train(trace)}}{Initial training of the model. The integer
   argument \code{trace} indicates if the logger progress should be printed
-  or not.}
+  or not and if so trace indicates which ierations should be printed.}
 \item{\code{continueTraining(trace, logger_list)}}{Contine the training
   by using an additional \code{logger_list}. The retraining is stopped if
   the first logger says that the algorithm should be stopped.}
@@ -182,7 +182,7 @@ cboost = Compboost_internal$new(
 )
 
 # Train the model (we want to print the trace):
-cboost$train(trace = TRUE)
+cboost$train(trace = 50)
 cboost
 
 # Get estimated parameter:
