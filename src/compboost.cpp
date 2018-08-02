@@ -167,7 +167,7 @@ void Compboost::trainCompboost (const unsigned int& trace)
   auto t2 = std::chrono::high_resolution_clock::now();
   
   // After training call printer for a status:
-  Rcpp::Rcout << "\nTrain " << std::to_string(actual_iteration) << " iterations in " 
+  Rcpp::Rcout << "Train " << std::to_string(actual_iteration) << " iterations in " 
               << std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count() 
               << " Seconds." << std::endl;
   Rcpp::Rcout << "Final risk based on the train set: " << std::setprecision(2) 

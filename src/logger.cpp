@@ -178,8 +178,9 @@ void LoggerIteration::clearLoggerData ()
 
 std::string LoggerIteration::printLoggerStatus () const
 {
+  std::string max_iters = std::to_string(max_iterations);
   std::stringstream ss;
-  ss << std::setw(6) << std::to_string(iterations.back()) + "/" + std::to_string(max_iterations);
+  ss << std::setw(2 * max_iters.size() + 1) << std::to_string(iterations.back()) + "/" + max_iters;
   
   return ss.str();
 }
