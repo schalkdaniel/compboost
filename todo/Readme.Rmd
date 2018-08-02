@@ -1,0 +1,1 @@
+- Vignette `s4_class_system` crashes travis, fix this when there is time.

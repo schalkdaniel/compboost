@@ -77,3 +77,43 @@ microbenchmark::microbenchmark(
 	"C++" = getSplits(x, folds),
 	"R"   = getSplitsR(x, folds)
 )
+
+
+
+
+
+code = "
+arma::mat test (arma::vec y, arma::mat X, bool use_intercept) {
+
+	if (! use_intercept) {
+	  double x_mean = arma::as_scalar(arma::mean(X));
+  	double y_mean = arma::as_scalar(arma::mean(y));
+  
+  	double slope = arma::as_scalar(arma::sum((X - x_mean) % (y - y_mean)) / arma::sum(arma::pow(X - x_mean, 2)));
+  	double intercept = y_mean - slope * x_mean;
+  
+  	arma::mat out(2,1);
+  
+	  out(0,0) = intercept;
+	  out(1,0) = slope;
+
+	  return out;
+	} else {
+		arma::mat out = arma::sum(X % y) / arma::sum(arma::pow(X, 2));
+		return out;
+	}
+}
+"
+
+
+
+Rcpp::cppFunction(code = code, depends = "RcppArmadillo", rebuild = TRUE)
+
+X = cbind(rnorm(10))
+y = rnorm(10)
+
+test(y, X, FALSE)
+lm(y ~ X)
+
+test(y, X, TRUE)
+lm(y ~ 0 + X)

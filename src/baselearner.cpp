@@ -161,14 +161,43 @@ arma::mat BaselearnerPolynomial::instantiateData (const arma::mat& newdata)
 // Train the learner:
 void BaselearnerPolynomial::train (const arma::vec& response)
 {
-  // parameter = arma::solve(data_ptr->getData(), response);
-  parameter = data_ptr->XtX_inv * data_ptr->getData().t() * response;
+  if (data_ptr->getData().n_cols == 1) {
+    double y_mean = 0;
+    if (intercept) {
+      y_mean = arma::as_scalar(arma::mean(response));
+    } 
+
+    double slope = arma::as_scalar(arma::sum((data_ptr->getData() - data_ptr->XtX_inv(0,0)) % (response - y_mean)) / arma::as_scalar(data_ptr->XtX_inv(0,1)));
+    double intercept = y_mean - slope * data_ptr->XtX_inv(0,0);
+      
+    if (intercept) {
+      arma::mat out(2,1);
+        
+      out(0,0) = intercept;
+      out(1,0) = slope;
+
+      parameter = out;
+    } else {
+      parameter = slope;
+    }
+  } else {
+    // parameter = arma::solve(data_ptr->getData(), response);
+    parameter = data_ptr->XtX_inv * data_ptr->getData().t() * response;
+  }
 }
 
 // Predict the learner:
 arma::mat BaselearnerPolynomial::predict ()
 {
-  return data_ptr->getData() * parameter;
+  if (data_ptr->getData().n_cols == 1) {
+    if (intercept) {
+      return parameter(0) + data_ptr->getData() * parameter(1);
+    } else {
+      return data_ptr->getData() * parameter;
+    }
+  } else {
+    return data_ptr->getData() * parameter;
+  }
 }
 arma::mat BaselearnerPolynomial::predict (data::Data* newdata)
 {

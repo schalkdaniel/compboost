@@ -96,9 +96,25 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& b
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
   
-  // Get the data of the source, transform it and write it into the target:
-  data_target->setData(instantiateData(data_source->getData()));
-  data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
+  // Prepare computation of intercept and slope of an ordinary linear regression:
+  if (data_source->getData().n_cols == 1) {
+    // Store centered x values for faster computation:
+    data_target->setData(arma::pow(data_source->getData(), degree));
+
+    // Hack to store some properties which are reused over and over again:
+    arma::mat temp_mat(1, 2, arma::fill::zeros);
+
+    if (intercept) {
+      temp_mat(0,0) = arma::as_scalar(arma::mean(data_target->getData()));
+    }
+    temp_mat(0,1) = arma::as_scalar(arma::sum(arma::pow(data_target->getData() - temp_mat(0,0), 2)));
+    data_target->XtX_inv = temp_mat;
+
+  } else {
+    // Get the data of the source, transform it and write it into the target:
+    data_target->setData(instantiateData(data_source->getData()));
+    data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
+  }
   
   // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
@@ -140,12 +156,23 @@ blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const st
  */
 arma::mat BaselearnerPolynomialFactory::getData () const
 {
-  return data_target->getData();
+  // In the case of p = 1 we have to treat the getData() function differently
+  // due to the saved and already transformed data without intercept. This
+  // is annoying but improves performance of the fitting process.
+  if (data_target->getData().n_cols == 1) {
+    if (intercept) {
+      return instantiateData(arma::pow(data_target->getData(), 1/degree));
+    } else {
+      return data_target->getData();
+    }
+  } else {
+    return data_target->getData();
+  }  
 }
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdata)
+arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdata) const
 {
   arma::mat temp = arma::pow(newdata, degree);
   if (intercept) {
@@ -296,7 +323,7 @@ arma::mat BaselearnerPSplineFactory::getData () const
  * 
  * \returns `arma::mat` of transformed data
  */
-arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata)
+arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) const
 {
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
@@ -356,7 +383,7 @@ arma::mat BaselearnerCustomFactory::getData () const
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata)
+arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) const
 {
   Rcpp::NumericMatrix out = instantiateDataFun(newdata);
   return Rcpp::as<arma::mat>(out);
@@ -414,7 +441,7 @@ arma::mat BaselearnerCustomCppFactory::getData () const
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata)
+arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata) const
 {
   Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun);
   instantiateDataFunPtr instantiateDataFun0 = *myTempInstantiation;
