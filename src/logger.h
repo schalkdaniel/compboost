@@ -103,9 +103,6 @@ public:
   /// Clear the logger data
   virtual void clearLoggerData () = 0;
   
-  /// Print the head of the trace which is printed to the console
-  virtual std::string initializeLoggerPrinter () const = 0;
-  
   /// Print status of current iteration into the console 
   virtual std::string printLoggerStatus () const = 0;
   
@@ -165,10 +162,7 @@ public:
   
   /// Clear the logger data
   void clearLoggerData ();
-  
-  /// Print the head of the trace which is printed to the console
-  std::string initializeLoggerPrinter () const;
-  
+    
   /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
 };
@@ -219,9 +213,6 @@ public:
   
   /// Clear the logger data
   void clearLoggerData ();
-  
-  /// Print the head of the trace which is printed to the console
-  std::string initializeLoggerPrinter () const;
   
   /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
@@ -285,9 +276,6 @@ public:
   /// Clear the logger data
   void clearLoggerData ();
   
-  /// Print the head of the trace which is printed to the console
-  std::string initializeLoggerPrinter () const;
-  
   /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
   
@@ -344,10 +332,7 @@ public:
   
   /// Clear the logger data
   void clearLoggerData();
-  
-  /// Print the head of the trace which is printed to the console
-  std::string initializeLoggerPrinter () const;
-  
+    
   /// Print status of current iteration into the console 
   std::string printLoggerStatus () const;
   

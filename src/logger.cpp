@@ -167,18 +167,6 @@ void IterationLogger::clearLoggerData ()
 }
 
 /**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string IterationLogger::initializeLoggerPrinter () const
-{
-  // 15 characters:
-  return "      Iteration";
-}
-
-/**
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -331,20 +319,6 @@ arma::vec InbagRiskLogger::getLoggedData () const
 void InbagRiskLogger::clearLoggerData ()
 {
   tracked_inbag_risk.clear();
-}
-
-/**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string InbagRiskLogger::initializeLoggerPrinter () const
-{  
-  std::stringstream ss;
-  ss << std::setw(17) << "Inbag Risk";
-  
-  return ss.str();
 }
 
 /**
@@ -526,20 +500,6 @@ void OobRiskLogger::clearLoggerData ()
 }
 
 /**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string OobRiskLogger::initializeLoggerPrinter () const
-{  
-  std::stringstream ss;
-  ss << std::setw(17) << "Out of Bag Risk";
-  
-  return ss.str();
-}
-
-/**
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -689,20 +649,6 @@ arma::vec TimeLogger::getLoggedData () const
 void TimeLogger::clearLoggerData ()
 {
   current_time.clear();
-}
-
-/**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string TimeLogger::initializeLoggerPrinter () const
-{
-  std::stringstream ss;
-  ss << std::setw(17) << time_unit;
-  
-  return ss.str();
 }
 
 /**

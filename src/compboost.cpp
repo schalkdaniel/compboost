@@ -72,12 +72,6 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
   
   arma::vec pred_temp = prediction;
   
-  // Initialize trace:
-  // if (trace) {
-  //   Rcpp::Rcout << std::endl;
-  //   logger->initializeLoggerPrinter(); 
-  // }
-  
   // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
   unsigned int k = 1;

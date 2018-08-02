@@ -129,18 +129,6 @@ void LoggerList::logCurrent (const unsigned int& current_iteration, const arma::
       offset, learning_rate);
   }
 }
-
-// Initialize logger printer:
-void LoggerList::initializeLoggerPrinter () const
-{
-  std::string printer;
-  for (auto& it : log_list) {
-    printer += it.second->initializeLoggerPrinter() + " |";
-  }
-  Rcpp::Rcout << printer << std::endl;
-  Rcpp::Rcout << std::string(printer.size(), '-') << std::endl;
-}
-
 // Print logger:
 void LoggerList::printLoggerStatus (const double& current_risk) const
 {
