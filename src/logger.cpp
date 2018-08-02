@@ -167,21 +167,6 @@ void LoggerIteration::clearLoggerData ()
 }
 
 /**
-<<<<<<< HEAD
-=======
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerIteration::initializeLoggerPrinter () const
-{
-  // 15 characters:
-  return "      Iteration";
-}
-
-/**
->>>>>>> master
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -337,23 +322,6 @@ void LoggerInbagRisk::clearLoggerData ()
 }
 
 /**
-<<<<<<< HEAD
-=======
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerInbagRisk::initializeLoggerPrinter () const
-{  
-  std::stringstream ss;
-  ss << std::setw(17) << "Inbag Risk";
-  
-  return ss.str();
-}
-
-/**
->>>>>>> master
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -532,23 +500,6 @@ void LoggerOobRisk::clearLoggerData ()
 }
 
 /**
-<<<<<<< HEAD
-=======
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerOobRisk::initializeLoggerPrinter () const
-{  
-  std::stringstream ss;
-  ss << std::setw(17) << "Out of Bag Risk";
-  
-  return ss.str();
-}
-
-/**
->>>>>>> master
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -701,23 +652,6 @@ void LoggerTime::clearLoggerData ()
 }
 
 /**
-<<<<<<< HEAD
-=======
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerTime::initializeLoggerPrinter () const
-{
-  std::stringstream ss;
-  ss << std::setw(17) << time_unit;
-  
-  return ss.str();
-}
-
-/**
->>>>>>> master
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
