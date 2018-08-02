@@ -128,7 +128,7 @@ cboost$addLogger(logger = OobRiskLogger, use.as.stopper = FALSE, logger.id ="oob
 After defining all object we can train the model:
 
 ```{r}
-cboost$train(1000, trace = FALSE)
+cboost$train(1000, trace = 50)
 cboost
 ```
 
