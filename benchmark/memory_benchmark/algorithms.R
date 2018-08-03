@@ -101,7 +101,7 @@ benchmarkMboost = function (job, data, instance, iters, learner) {
 
     time = proc.time()
     memory.before = memorySnap()
-    mod.mboost = mbosot(getMboostFormula(instance$data, "y", "spline"), data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = mboost(getMboostFormula(instance$data, "y", "spline"), data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     memory.after = memorySnap()
     time = proc.time() - time
 
@@ -110,7 +110,7 @@ benchmarkMboost = function (job, data, instance, iters, learner) {
 
     time = proc.time()
     memory.before = memorySnap()
-    mod.mboost = mbosot(getMboostFormula(instance$data, "y", "linear"), data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = mboost(getMboostFormula(instance$data, "y", "linear"), data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     memory.after = memorySnap()
     time = proc.time() - time
 
@@ -159,7 +159,7 @@ benchmarkMboostFast = function (job, data, instance, iters, learner) {
 
     time = proc.time()
     memory.before = memorySnap()
-    mod.mboost = gamboost(getMboostFormula(instance$data, "y"), data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = gamboost(getMboostFormula(instance$data, "y", "spline"), data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     memory.after = memorySnap()
     time = proc.time() - time
 
@@ -168,13 +168,13 @@ benchmarkMboostFast = function (job, data, instance, iters, learner) {
 
     time = proc.time()
     memory.before = memorySnap()
-    mod.mboost = glmboost(target ~ ., data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = glmboost(target ~ ., data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     memory.after = memorySnap()
     time = proc.time() - time
 
   }
 
   return (list(time = time, data.dim = dim(instance$data), learner = learner,
-    iters = iters, algo = "mboost", memory.before = memory.before, 
+    iters = iters, algo = ifelse(learner == "spline", "gamboost", "glmboost"), memory.before = memory.before, 
     memory.after = memory.after))
 }

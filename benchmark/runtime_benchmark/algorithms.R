@@ -59,7 +59,6 @@ benchmarkMboost = function (job, data, instance, iters, learner) {
         )  
     }
     if (learner == "linear") {
-      # Ensure the same parameter as compboost:
       myformula = paste0(
         target, " ~ ",
         paste(
@@ -68,21 +67,20 @@ benchmarkMboost = function (job, data, instance, iters, learner) {
           )
         )  
     }
-
     return (as.formula(myformula))
   }
 
   if (learner == "spline") {
 
     time = proc.time()
-    mod.mboost = mbosot(getMboostFormula(instance$data, "y", "spline"), data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = mboost(getMboostFormula(instance$data, "y", "spline"), data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     time = proc.time() - time
 
   }
   if (learner == "linear") {
 
     time = proc.time()
-    mod.mboost = mbosot(getMboostFormula(instance$data, "y", "linear"), data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = mboost(getMboostFormula(instance$data, "y", "linear"), data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     time = proc.time() - time
 
   }
@@ -118,18 +116,18 @@ benchmarkMboostFast = function (job, data, instance, iters, learner) {
   if (learner == "spline") {
 
     time = proc.time()
-    mod.mboost = gamboost(getMboostFormula(instance$data, "y"), data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = gamboost(getMboostFormula(instance$data, "y", "spline"), data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     time = proc.time() - time
 
   }
   if (learner == "linear") {
 
     time = proc.time()
-    mod.mboost = glmboost(target ~ ., data = instance$data, control = boost_control(mstop = iters, nu = learning.rate))
+    mod.mboost = glmboost(target ~ ., data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     time = proc.time() - time
 
   }
 
   return (list(time = time, data.dim = dim(instance$data), learner = learner,
-    iters = iters, algo = "mboost"))
+    iters = iters, algo = ifelse(learner == "spline", "gamboost", "glmboost")))
 }

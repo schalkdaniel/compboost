@@ -14,15 +14,15 @@ source("runtime_benchmark/algorithms.R")
 # ---------------------------------------------------
 
 if (my.setting$overwrite) {
-  unlink("runtime_benchmark/cboost_bm", recursive = TRUE)
+  unlink("runtime_benchmark/cboost_bm_runtime", recursive = TRUE)
   # create registry:
   regis = makeExperimentRegistry(
-    file.dir = "runtime_benchmark/cboost_bm",
+    file.dir = "runtime_benchmark/cboost_bm_runtime",
     packages = my.setting$packages,
     seed     = round(1000 * pi)
   )
 } else {
-  regis = loadRegistry("runtime_benchmark/cboost_bm")
+  regis = loadRegistry("runtime_benchmark/cboost_bm_runtime")
 }
 
 # Initialize multicore setting depending on OS:
@@ -140,4 +140,3 @@ addExperiments(
   # Number of replications:
   repls = my.setting$replications
 )
-

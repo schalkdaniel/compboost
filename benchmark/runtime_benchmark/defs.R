@@ -8,7 +8,7 @@ library(compboost)
 
 my.setting = list(
   replications = 5L,
-  cores = parallel::detectCores() - 1,
+  cores = 4,
   overwrite = FALSE,
   packages = c("mvtnorm", "mboost", "compboost"),
 

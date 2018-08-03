@@ -1,0 +1,230 @@
+---
+output: github_document
+---
+
+```{r, include=FALSE, warnings=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(ggtech)
+library(grid)
+library(gridExtra)
+library(gtable)
+library(batchtools)
+
+knitr::opts_chunk$set(collapse = TRUE)
+options(scipen = 10000)
+
+## Setup:
+## ================================================
+
+spec = Sys.info()["sysname"]
+if (spec == "Linux") {
+	pc.info = strsplit(system(command = "lsb_release -a | grep Description:*", intern = TRUE), split = "\\t")[[1]][2]
+	
+	processor = strsplit(system(command = "lshw -short | grep processor:*", intern = TRUE), split = "processor")[[1]][2]
+	processor = substr(processor, start = 7, stop = nchar(processor))
+
+	memory = strsplit(system(command = "lshw -short | grep memory:*", intern = TRUE), split = "memory")[[1]][2]
+	memory = substr(memory, start = 10, stop = nchar(memory))
+}
+
+## Function for Plotting the Results:
+## ================================================
+
+plotRuntimeBenchmark = function (data, header, xlab) {
+
+	layout.mat = matrix(
+    data = c(
+      1, 1, 2, 2,
+      1, 1, 2, 2,
+      1, 1, 2, 2,
+      3, 3, 4, 4
+    ), nrow = 4, byrow = TRUE
+  )
+
+	# Plot linear learner:
+  gg.linear = data %>%
+    filter(learner == "linear") %>%
+    ggplot(aes(x = reorder(x.value, x.value), y = Time, fill = Algorithm,
+      ymin = Time.min, ymax = Time.max)) +
+    geom_col(position = "dodge", width = 0.7) +
+    geom_errorbar(width = 0.2, position = position_dodge(0.7), colour = rgb(1, 0.3, 0.2)) +
+    scale_fill_tech(theme = "twitter") +
+    ggtitle("Linear Base-Learner") +
+    ylab("Elapsed Time\nin Minutes") +
+    theme(
+      panel.background = element_blank(),
+      text             = element_text(family = "Palatino Linotype"),
+      legend.position  = "none",
+      panel.grid.major = element_line(color = rgb(0.7, 0.7, 0.7, 0.4),
+        size = 0.1, linetype = "dashed")
+    )
+  
+  gg.linear.rel = data %>%
+    filter(learner == "linear" & Algorithm == "compboost") %>%
+    ggplot(aes(x = reorder(x.value, x.value), y = rel.factor.mboost)) +
+    geom_col(position = "dodge", width = 0.1, fill = "#55acee") +
+    scale_fill_tech(theme = "twitter") +
+    ggtitle("") +
+    ylab("Relative\nRuntime") +
+    theme(
+      panel.background = element_blank(),
+      text             = element_text(family = "Palatino Linotype"),
+      legend.position  = "none",
+      panel.grid.major = element_line(color = rgb(0.7, 0.7, 0.7, 0.4),
+        size = 0.1, linetype = "dashed")
+    )
+  
+  # Plot spline learner:
+  gg.spline = data %>%
+    filter(learner == "spline") %>%
+    ggplot(aes(x = reorder(x.value, x.value), y = Time, fill = Algorithm,
+      ymin = Time.min, ymax = Time.max)) +
+    geom_col(position = "dodge", width = 0.7) +
+    geom_errorbar(width = 0.2, position = position_dodge(0.7), colour = rgb(1, 0.3, 0.2)) +
+    scale_fill_tech(theme = "twitter") +
+    ggtitle("P-Spline Base-Learner") +
+    theme(
+      panel.background = element_blank(),
+      text             = element_text(family = "Palatino Linotype"),
+      legend.title     = element_blank(),
+      panel.grid.major = element_line(color = rgb(0.7, 0.7, 0.7, 0.4),
+        size = 0.1, linetype = "dashed")
+    )
+  
+  
+  gg.spline.rel = data %>%
+    filter(learner == "spline" & Algorithm == "compboost") %>%
+    ggplot(aes(x = reorder(x.value, x.value), y = rel.factor.mboost)) +
+    geom_col(position = "dodge", width = 0.1, fill = "#55acee") +
+    scale_fill_tech(theme = "twitter") +
+    ggtitle("") +
+    ylab("") +
+    theme(
+      panel.background = element_blank(),
+      text             = element_text(family = "Palatino Linotype"),
+      legend.position  = "none",
+      panel.grid.major = element_line(color = rgb(0.7, 0.7, 0.7, 0.4),
+        size = 0.1, linetype = "dashed")
+    )
+  
+  # Extracxt the legend from gg.iters.spline:
+  legend = gtable_filter(ggplotGrob(gg.spline), "guide-box")
+  
+  # Make custom title:
+  gtitle = textGrob(label = header,
+    vjust = 0.5, gp = gpar(fontfamily = "Palatino Linotype", fontface = "bold", cex = 1.5))
+  
+  # Arrange and draw the plot
+  y.label = textGrob("", rot = 90, vjust = 0.5,
+    gp = gpar(fontfamily = "Palatino Linotype"))
+  
+  x.label = textGrob(xlab, vjust = -0.5,
+    gp = gpar(fontfamily = "Palatino Linotype"))
+
+  return (
+    grid.arrange(y.label,
+      arrangeGrob(
+        gg.linear + theme(legend.position="none") + xlab("") + ylim(0, 100),
+        gg.spline + theme(legend.position="none") + ylab("") + xlab("") + ylim(0, 100),
+        gg.linear.rel + xlab("") + ylim(0, 11),
+        gg.spline.rel + xlab("") + ylim(0, 11),
+        layout_matrix = layout.mat,
+        top = gtitle,
+        bottom = x.label
+      ), legend,
+      widths = unit.c(unit(2, "lines"), unit(1, "npc") - unit(2, "lines") - legend$width,
+        legend$width), nrow=1)
+    )
+}
+
+```
+
+## Benchmarking compboost vs. mboost
+
+```{r, echo=FALSE, results="asis"}
+out.string = paste0("This benchmark was made on a `", spec, "` machine")
+if (spec == "Linux"){
+	out.string = paste0(out.string, "with a `", processor, " ", memory, "`")
+}
+out.string = paste0(out.string, " using the `R` package `batchtools`.")
+
+cat(out.string)
+```
+
+### Runtime Benchmark
+
+First of all, we need to load the registry which contains the results of the benchmark:
+
+```{r}
+loadRegistry("runtime_benchmark/cboost_bm_runtime")
+```
+
+
+
+```{r, echo=FALSE}
+# Transfrom the results to a data.table to extract the informations:
+res.list = unwrap(reduceResultsDataTable(ids = findDone()))
+
+# Time in Minutes:
+res.list$time = sapply(res.list$time, function(x) as.numeric(x)[3]) / 60
+res.list$nrows = sapply(res.list$data.dim, function(x) as.numeric(x)[1])
+res.list$ncols = sapply(res.list$data.dim, function(x) as.numeric(x)[2])
+
+# table(getJobTable(findDone())[["algorithm"]])
+# table(getJobTable(findErrors())[["algorithm"]])
+```
+
+
+
+```{r}
+# First 210 ids corresponds to increasing the number of iterations.
+job.iters = 210
+
+# Transform Data:
+res.list %>%
+  filter(job.id <= job.iters) %>%
+  group_by(learner, iters, algo) %>%
+  summarize(x.value = iters[1], Time = median(time), Algorithm = algo[1],
+    Time.min = min(time), Time.max = max(time)) %>%
+  mutate(rel.factor.mboost = Time[algo == "mboost"] / Time[algo == "compboost"]) %>%
+  	# rel.factor.mboost.fast = Time[algo %in% c("gamboost", "glmboost")] / Time[algo == "compboost"]) %>%
+  plotRuntimeBenchmark(header = "Benchmark for Increasing Number of Iterations", xlab = "Number of Iterations")
+```
+
+```{r}
+# Transform Data:
+dt.learner = res.list %>%
+  filter((job.id > 140 & job.id <= 210) | (job.id > 280 & job.id <= 350)) %>%
+  group_by(learner, algo, ncols) %>%
+  summarize(x.value = ncols[1] - 1, Time = median(time), Algorithm = algo[1],
+    Time.min = min(time), Time.max = max(time))
+
+if (! 4000 %in% dt.learner$x.value[dt.learner$algo == "mboost"]) {
+  dt.learner = dt.learner %>%
+    as.data.frame() %>%
+    add_row(learner = c("linear", "spline"), algo = "mboost", ncols = 4001,
+      x.value = 4000, Time = NA, Algorithm = "mboost", Time.min = NA, Time.max = NA)
+}
+
+dt.learner = dt.learner %>%
+  arrange(learner, x.value) %>%
+  as.data.table() %>%
+  mutate(rel.factor = rep(Time[algo == "mboost"], each = 2) / Time) %>%
+  plotRuntimeBenchmark(header = "Benchmark for Increasing Number of Base-Learner", xlab = "Number of Base-Learner")
+```
+
+```{r}
+# Transform Data:
+res.list %>%
+  filter((job.id > 210 & job.id <= 280) | (job.id >350)) %>%
+  group_by(learner, nrows, algo) %>%
+  summarize(x.value = nrows[1], Time = median(time), Algorithm = algo[1],
+    Time.min = min(time), Time.max = max(time)) %>%
+  mutate(rel.factor = Time[algo == "mboost"] / Time[algo == "compboost"]) %>%
+  plotRuntimeBenchmark(header = "Benchmark for Increasing Number of Rows", xlab = "Number of Rows")
+```
+
+### Memory Benchmark
+
