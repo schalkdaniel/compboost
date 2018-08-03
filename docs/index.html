@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -194,22 +194,20 @@ cboost$getBaselearnerNames()
 ## [5] "Species_virginica_categorical"</code></pre>
     </p>
     <p>
-      After defining the base-learners we can start the training by calling the <code>train()</code> member function:
-      <pre class="r"><code>cboost$train(1000)
+      After defining the base-learners we can start the training by calling the <code>train()</code> member function. If train is set, then every, in this case, 200th iteration of the trace is printed:
+      <pre class="r"><code>cboost$train(1000, trace = 200)
+##    1/1000: risk = 1.4
+##  200/1000: risk = 0.032
+##  400/1000: risk = 0.03
+##  600/1000: risk = 0.03
+##  800/1000: risk = 0.029
+## 1000/1000: risk = 0.029
 ## 
-##       Iteration |
-## -----------------
-##          1/1000 |
-##          2/1000 |
-##          3/1000 |
-##          4/1000 |
-##          5/1000 |
-##          6/1000 |
-##          7/1000 |
-##          8/1000 |
-##          9/1000 |
-##         10/1000 |
-##               ...</code></pre> 
+## 
+## Train 1000 iterations in 0 Seconds.
+## Final risk based on the train set: 0.029
+## 
+## </code></pre> 
     </p>
     <h3>Access elements of a fitted model</h3>
     <p>
@@ -223,9 +221,9 @@ cboost$getBaselearnerNames()
 table(cboost$getSelectedBaselearner())
 ## 
 ##                   Petal.Width_spline Sepal.Length_Sepal.Width_2dim_linear
-##                                  520                                  105
+##                                  485                                   96
 ##       Species_versicolor_categorical        Species_virginica_categorical
-##                                  158                                  217</code></pre> 
+##                                  196                                  223</code></pre> 
       To continue training or set the algorithm to another iteration one can again call <code>train()</code> with a new number of iterations. This automatically updates the estimated parameter:
       <pre class="r"><code>cboost$train(1500)
 ## 
@@ -254,15 +252,12 @@ cboost$plot("Petal.Width_spline", iters = c(5, 100, 500, 1000, 1500)) +
       <pre class="r"><code>all.equal(cboost$predict(), cboost$predict(iris))
 ## TRUE</code></pre>   
       Additional useful member functions are <code>getInbagRisk()</code> or <code>coef()</code> to get the inbag risk and the estimated parameter: 
-      <pre class="r"><code>str(cboost$getInbagRisk())
-##  num [1:1501] 1.55 1.4 1.27 1.16 1.05 ...
-
-str(cboost$coef())
+      <pre class="r"><code>str(cboost$getEstimatedCoef())
 ## List of 5
-##  $ Petal.Width_spline                  : num [1:14, 1] -1.638 -1.681 -1.736 -1.656 -0.917 ...
-##  $ Sepal.Length_Sepal.Width_2dim_linear: num [1:3, 1] -2.784 0.604 -0.245
-##  $ Species_versicolor_categorical      : num [1, 1] -0.161
-##  $ Species_virginica_categorical       : num [1, 1] 0.258
+##  $ Petal.Width_spline                  : num [1:24, 1] -1.7 -1.68 -1.71 -1.77 -1.61 ...
+##  $ Sepal.Length_Sepal.Width_2dim_linear: num [1:3, 1] -2.714 0.595 -0.251
+##  $ Species_versicolor_categorical      : num [1, 1] -0.19
+##  $ Species_virginica_categorical       : num [1, 1] 0.247
 ##  $ offset                              : num 3.76  </code></pre>     
     </p>
     <p>
