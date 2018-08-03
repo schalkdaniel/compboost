@@ -15,16 +15,15 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with Compboost. If not, see <http://www.gnu.org/licenses/>.
+// MIT License for more details. You should have received a copy of 
+// the MIT License along with compboost. 
 //
 // Written by:
 // -----------
 //
 //   Daniel Schalk
 //   Institut für Statistik
-//   Ludwig-Maximilians-Universität München
+//   Ludwig-Maximilians-University Munich
 //   Ludwigstrasse 33
 //   D-80539 München
 //
