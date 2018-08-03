@@ -113,8 +113,10 @@
 #'   training and an iteration logger is already specified. For further uses the algorithm automatically
 #'   continues training if \code{iteration} is set to an value larger than the already trained iterations.
 #' }
-#' \item{\code{trace}}{[\code{logical(1)}]\cr
-#'   Logical indicating whether the trace during the fitting process should be printed or not.
+#' \item{\code{trace}}{[\code{integer(1)}]\cr
+#'   Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
+#'   10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+#'   -1 which means that we set \code{trace} at a value that 40 iterations are printed.
 #' }
 #' }
 #'
@@ -379,14 +381,19 @@ Compboost = R6::R6Class("Compboost",
         private$addSingleNumericBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
       }
     },
-    train = function(iteration = 100, trace = TRUE) {
+    train = function(iteration = 100, trace = -1) {
       
       if (self$bl.factory.list$getNumberOfRegisteredFactories() == 0) {
         stop("Could not train without any registered base-learner.")
       }
       
       checkmate::assertIntegerish(iteration, lower = 1, len = 1, null.ok = TRUE)
-      checkmate::assertFlag(trace)
+      # checkmate::assertFlag(trace)
+      checkmate::assertIntegerish(trace, lower = -1, upper = iteration, len = 1, null.ok = FALSE)
+      
+      if (trace == -1) {
+        trace = round(iteration / 40)
+      }
       
       # Check if it is neccessary to add a initial iteration logger. This is not the case
       # when the user already has add one by calling `addLogger`:

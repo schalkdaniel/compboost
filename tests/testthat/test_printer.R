@@ -220,7 +220,7 @@ test_that("Compboost printer works", {
       optimizer    = optimizer
     )
   })
-  expect_output(cboost$train(trace = TRUE))
+  expect_output(cboost$train(trace = 0))
   expect_output({ cboost.printer = show(cboost) })
   expect_equal(cboost.printer, "CompboostInternalPrinter")
 

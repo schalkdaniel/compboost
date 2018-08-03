@@ -23,9 +23,9 @@
 // -----------
 //
 //   Daniel Schalk
-//   Institut für Statistik
-//   Ludwig-Maximilians-Universität München
-//   Ludwigstraße 33
+//   Department of Statistics
+//   Ludwig-Maximilians-University Munich
+//   Ludwigstrasse 33
 //   D-80539 München
 //
 //   https://www.compstat.statistik.uni-muenchen.de
@@ -63,20 +63,14 @@ Compboost::Compboost (const arma::vec& response, const double& learning_rate,
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
+void Compboost::train (const unsigned int& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
 {
 
   if (used_baselearner_list.getMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
-
-  arma::vec pred_temp = prediction;
   
-  // Initialize trace:
-  if (trace) {
-    Rcpp::Rcout << std::endl;
-    logger->initializeLoggerPrinter(); 
-  }
+  arma::vec pred_temp = prediction;
   
   // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
@@ -119,8 +113,10 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
     stop_the_algorithm = ! logger->getStopperStatus(stop_if_all_stopper_fulfilled);
     
     // Print trace:
-    if (trace) {
-      logger->printLoggerStatus(); 
+    if (trace > 0) {
+      if ((k == 1) || ((k % trace) == 0)) {
+        logger->printLoggerStatus(risk.back()); 
+      }
     }
     
     // Increment k:
@@ -140,7 +136,7 @@ void Compboost::train (const bool& trace, const arma::vec& prediction, loggerlis
   actual_iteration = blearner_track.getBaselearnerVector().size();
 }
 
-void Compboost::trainCompboost (const bool& trace)
+void Compboost::trainCompboost (const unsigned int& trace)
 {
   // Make sure, that the selected baselearner and logger data is empty:
   blearner_track.clearBaselearnerVector();
@@ -161,14 +157,27 @@ void Compboost::trainCompboost (const bool& trace)
   // Calculate risk for initial model:
   risk.push_back(arma::mean(used_loss->definedLoss(response, prediction)));
 
+  // track time:
+  auto t1 = std::chrono::high_resolution_clock::now();
+  
   // Initial training:
   train(trace, prediction, used_logger["initial.training"]);
+  
+  // track time:
+  auto t2 = std::chrono::high_resolution_clock::now();
+  
+  // After training call printer for a status:
+  Rcpp::Rcout << "Train " << std::to_string(actual_iteration) << " iterations in " 
+              << std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count() 
+              << " Seconds." << std::endl;
+  Rcpp::Rcout << "Final risk based on the train set: " << std::setprecision(2) 
+              << risk.back() << std::endl << std::endl;
   
   // Set flag if model is trained:
   model_is_trained = true;
 }
 
-void Compboost::continueTraining (loggerlist::LoggerList* logger, const bool& trace)
+void Compboost::continueTraining (loggerlist::LoggerList* logger, const unsigned int& trace)
 {
   if (! model_is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");

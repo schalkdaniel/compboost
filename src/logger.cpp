@@ -167,18 +167,6 @@ void LoggerIteration::clearLoggerData ()
 }
 
 /**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerIteration::initializeLoggerPrinter () const
-{
-  // 15 characters:
-  return "      Iteration";
-}
-
-/**
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -190,8 +178,9 @@ std::string LoggerIteration::initializeLoggerPrinter () const
 
 std::string LoggerIteration::printLoggerStatus () const
 {
+  std::string max_iters = std::to_string(max_iterations);
   std::stringstream ss;
-  ss << std::setw(15) << std::to_string(iterations.back()) + "/" + std::to_string(max_iterations);
+  ss << std::setw(2 * max_iters.size() + 1) << std::to_string(iterations.back()) + "/" + max_iters;
   
   return ss.str();
 }
@@ -331,20 +320,6 @@ arma::vec LoggerInbagRisk::getLoggedData () const
 void LoggerInbagRisk::clearLoggerData ()
 {
   tracked_inbag_risk.clear();
-}
-
-/**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerInbagRisk::initializeLoggerPrinter () const
-{  
-  std::stringstream ss;
-  ss << std::setw(17) << "Inbag Risk";
-  
-  return ss.str();
 }
 
 /**
@@ -526,20 +501,6 @@ void LoggerOobRisk::clearLoggerData ()
 }
 
 /**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerOobRisk::initializeLoggerPrinter () const
-{  
-  std::stringstream ss;
-  ss << std::setw(17) << "Out of Bag Risk";
-  
-  return ss.str();
-}
-
-/**
  * \brief Print status of current iteration into the console 
  * 
  * The string which is created in this functions must have exactly the same
@@ -689,20 +650,6 @@ arma::vec LoggerTime::getLoggedData () const
 void LoggerTime::clearLoggerData ()
 {
   current_time.clear();
-}
-
-/**
- * \brief Print the head of the trace which is printed to the console
- * 
- * \returns `std::string` which is used to initialize the header of the trace
- */
-
-std::string LoggerTime::initializeLoggerPrinter () const
-{
-  std::stringstream ss;
-  ss << std::setw(17) << time_unit;
-  
-  return ss.str();
 }
 
 /**

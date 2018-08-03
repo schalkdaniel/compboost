@@ -87,12 +87,9 @@ public:
   // This is given to the instantiated logger:
   void logCurrent (const unsigned int&, const arma::vec&, const arma::vec&, 
     blearner::Baselearner*, const double&, const double&);
-  
-  // Initialize logger printer:
-  void initializeLoggerPrinter () const;
-  
+   
   // Print the logger status:
-  void printLoggerStatus () const;
+  void printLoggerStatus (const double&) const;
   
   // Clear the logger data (should be used in front of every compboost training):
   void clearLoggerData ();

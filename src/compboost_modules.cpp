@@ -2085,9 +2085,9 @@ RCPP_MODULE(optimizer_module)
 //'
 //' @section Methods:
 //' \describe{
-//' \item{\code{train(trace)}}{Initial training of the model. The boolean
+//' \item{\code{train(trace)}}{Initial training of the model. The integer
 //'   argument \code{trace} indicates if the logger progress should be printed
-//'   or not.}
+//'   or not and if so trace indicates which ierations should be printed.}
 //' \item{\code{continueTraining(trace, logger_list)}}{Contine the training
 //'   by using an additional \code{logger_list}. The retraining is stopped if
 //'   the first logger says that the algorithm should be stopped.}
@@ -2201,7 +2201,7 @@ RCPP_MODULE(optimizer_module)
 //' )
 //'
 //' # Train the model (we want to print the trace):
-//' cboost$train(trace = TRUE)
+//' cboost$train(trace = 50)
 //' cboost
 //'
 //' # Get estimated parameter:
@@ -2241,13 +2241,13 @@ public:
   }
 
   // Member functions
-  void train (bool trace)
+  void train (unsigned int trace)
   {
     obj->trainCompboost(trace);
     is_trained = true;
   }
 
-  void continueTraining (bool trace, LoggerListWrapper& logger_list)
+  void continueTraining (unsigned int trace, LoggerListWrapper& logger_list)
   {
     obj->continueTraining(logger_list.getLoggerList(), trace);
   }

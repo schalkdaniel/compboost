@@ -5,9 +5,8 @@
 \title{Wrapper to boost linear models for each feature.}
 \usage{
 boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-  learning.rate = 0.05, iterations = 100, trace = TRUE,
-  intercept = TRUE, data.source = InMemoryData,
-  data.target = InMemoryData)
+  learning.rate = 0.05, iterations = 100, trace = -1, intercept = TRUE,
+  data.source = InMemoryData, data.target = InMemoryData)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
@@ -31,8 +30,10 @@ Learning rate which is used to shrink the parameter in each step.}
 \item{iterations}{[\code{integer(1)}]\cr
 Number of iterations that are trained.}
 
-\item{trace}{[\code{logical(1)}]\cr
-Logical to indicate whether the trace should be printed or not.}
+\item{trace}{[\code{integer(1)}]\cr
+Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
+10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+-1 which means that we set \code{trace} at a value that 40 iterations are printed.}
 
 \item{intercept}{[\code{logical(1)}]\cr
 Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
