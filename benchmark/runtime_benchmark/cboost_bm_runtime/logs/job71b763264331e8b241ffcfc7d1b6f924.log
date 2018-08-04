@@ -5,3 +5,6 @@
 ### [bt]: Starting job [batchtools job.id=159]
 ### [bt]: Generating problem instance for problem 'my.data' ...
 ### [bt]: Applying algorithm 'mboost.fast' on problem 'my.data' for job 159 (seed = 3301) ...
+
+### [bt]: Job terminated successfully [batchtools job.id=159]
+### [bt]: Calculation finished!
