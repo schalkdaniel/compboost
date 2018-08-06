@@ -123,7 +123,7 @@ benchmarkMboostFast = function (job, data, instance, iters, learner) {
   if (learner == "linear") {
 
     time = proc.time()
-    mod.mboost = glmboost(target ~ ., data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
+    mod.mboost = glmboost(y ~ ., data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     time = proc.time() - time
 
   }

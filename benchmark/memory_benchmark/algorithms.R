@@ -168,7 +168,7 @@ benchmarkMboostFast = function (job, data, instance, iters, learner) {
 
     time = proc.time()
     memory.before = memorySnap()
-    mod.mboost = glmboost(target ~ ., data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
+    mod.mboost = glmboost(y ~ ., data = instance$data, control = boost_control(mstop = iters, nu = 0.05))
     memory.after = memorySnap()
     time = proc.time() - time
 
