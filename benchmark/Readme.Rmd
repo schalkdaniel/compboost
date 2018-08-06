@@ -158,7 +158,7 @@ cat(out.string)
 First of all, we need to load the registry which contains the results of the benchmark:
 
 ```{r}
-loadRegistry("runtime_benchmark/cboost_bm_runtime")
+loadRegistry("benchmark/runtime/benchmark_files")
 ```
 
 
