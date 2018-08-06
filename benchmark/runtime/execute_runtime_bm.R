@@ -15,14 +15,16 @@ bm.dir = "benchmark/runtime/benchmark_files"
 # Create frame for Benchmark:
 # ---------------------------------------------------
 
-if (my.setting$overwrite) {
-  unlink(bm.dir, recursive = TRUE)
-  # create registry:
-  regis = makeExperimentRegistry(
-    file.dir = bm.dir,
-    packages = my.setting$packages,
-    seed     = round(1000 * pi)
-  )
+if (my.setting$overwrite || (! dir.exists(bm.dir))) {
+  if (dir.exists(bm.dir)) { 
+    unlink(bm.dir, recursive = TRUE) 
+  } else {
+    regis = makeExperimentRegistry(
+      file.dir = bm.dir,
+      packages = my.setting$packages,
+      seed     = round(1000 * pi)
+    )
+  }
 } else {
   regis = loadRegistry(bm.dir)
 }
@@ -142,3 +144,5 @@ addExperiments(
   # Number of replications:
   repls = my.setting$replications
 )
+
+# submitJobs(findNotDone())
