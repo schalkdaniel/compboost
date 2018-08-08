@@ -32,7 +32,8 @@ loadRegistry("benchmark/runtime/benchmark_files")
 After preprocessing the raw data are stored into a `data.frame` where each row represents a job with instances like the elapsed time and the dimension of the simulated data:
 
 ```{r}
-readd(raw.runtime.benchmark.data)[sample(seq_len(nrow(readd(raw.runtime.benchmark.data))), 15), ] %>%
+runtime.bm = readd(raw.runtime.benchmark.data)
+runtime.bm[sample(seq_len(nrow(runtime.bm)), 10), ] %>%
   knitr::kable()
 ```
 

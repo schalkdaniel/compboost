@@ -27,7 +27,7 @@ benchmark.plan = drake_plan(
 	# --------------------------------------------------------
 	my.system = {
 		spec = Sys.info()["sysname"]
-		out.string = paste0("This benchmark was executed on a `", spec, "` machine")
+		out.string = paste0("This benchmark was executed on a `", spec, "` machine ")
 
     if (spec == "Linux") {
     	pc.info = strsplit(system(command = "lsb_release -a | grep Description:*", intern = TRUE), split = "\\t")[[1]][2]
@@ -38,9 +38,9 @@ benchmark.plan = drake_plan(
     	memory = strsplit(system(command = "lshw -short | grep memory:*", intern = TRUE), split = "memory")[[1]][2]
     	memory = substr(memory, start = 10, stop = nchar(memory))
 
-    	out.string = paste0(out.string, "with a `", processor, " ", memory, "`")
+    	out.string = paste0(out.string, "with a `", processor, " ", memory, "` ")
     }
-    out.string = paste0(out.string, " using the `R` package `batchtools`.")
+    out.string = paste0(out.string, "using the `R` package `batchtools`.")
     out.string
 	},
 
