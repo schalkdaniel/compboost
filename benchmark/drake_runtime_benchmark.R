@@ -75,6 +75,8 @@ benchmark.plan = drake_plan(
     	dt.bm.runtime
     }
 	},
+	# Preprocessing of raw data:
+	# --------------------------------------------------------
 	runtime.data.iterations = raw.runtime.benchmark.data %>%
     filter(job.id <= 210) %>%
     group_by(learner, iters, algo) %>%
