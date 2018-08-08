@@ -1,7 +1,7 @@
 
 <img align="right" src="docs/images/cboost_hexagon.png" width="100px">
 
-[![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
+[![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&svg=true)](https://ci.appveyor.com/project/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 
 compboost: Fast and Flexible Component-Wise Boosting Framework
 --------------------------------------------------------------
@@ -128,7 +128,7 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 License
 -------
 
-© 2018 [Daniel Schalk](https://danielschalk.com)
+ï¿½ 2018 [Daniel Schalk](https://danielschalk.com)
 
 The contents of this repository are distributed under the MIT license. See below for details:
 

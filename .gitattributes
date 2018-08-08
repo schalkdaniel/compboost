@@ -3,3 +3,8 @@
 *.js linguist-vendored=true
 *.md linguist-vendored=true
 *.Rmd linguist-vendored=true
+
+* text=auto
+data/* binary
+src/* text=lf
+R/* text=lf
