@@ -30,3 +30,4 @@ Readme.*
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 todos
+^appveyor\.yml$
