@@ -128,7 +128,7 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 License
 -------
 
-� 2018 [Daniel Schalk](https://danielschalk.com)
+© 2018 [Daniel Schalk](https://danielschalk.com)
 
 The contents of this repository are distributed under the MIT license. See below for details:
 
