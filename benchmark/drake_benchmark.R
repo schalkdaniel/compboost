@@ -44,8 +44,6 @@ benchmark.plan = drake_plan(
     out.string
 	},
 
-	# 
-
 	# Raw data from the runtime benchmark:
 	# --------------------------------------------------------
 	raw.runtime.benchmark.data = {
@@ -58,10 +56,10 @@ benchmark.plan = drake_plan(
     dt.bm.runtime$ncols = sapply(dt.bm.runtime$data.dim, function(x) as.numeric(x)[2])
     dt.bm.runtime$data.dim = NULL
     
-    if (nrow(getJobPars(ids = findNotDone())) > 0) {
+    if (nrow(getJobPars(ids = findNotDone(reg = runtime.registry))) > 0) {
       # Bind non finished jobs with a time of 0:
       dt.bm.runtime %>% bind_rows(
-        unwrap(getJobPars(ids = findNotDone())) %>%
+        unwrap(getJobPars(ids = findNotDone(reg = runtime.registry))) %>%
           mutate(algo = ifelse(algorithm == "mboost", "mboost", 
           	ifelse(algorithm == "compboost", "compboost",
           		ifelse((algorithm == "mboost.fast") & (learner == "linear"), "glmboost", "gamboost")
@@ -75,7 +73,7 @@ benchmark.plan = drake_plan(
     	dt.bm.runtime
     }
 	},
-	# Preprocessing of raw data:
+	# Preprocessing of raw runtime data:
 	# --------------------------------------------------------
 	runtime.data.iterations = raw.runtime.benchmark.data %>%
     filter(job.id <= 210) %>%
@@ -117,11 +115,50 @@ benchmark.plan = drake_plan(
     plotRuntimeBenchmark(header = "", xlab = "Number of Observations"),
 
 
-	# Raw data from the memory benchmark:
-	# --------------------------------------------------------
-	# raw.memory.benchmark.data = {
+  # Raw data from the runtime benchmark:
+  # --------------------------------------------------------
+  # Measurements are in KiB, it is more convenient to use a list here:
+  # raw.memory.benchmark.data = {
+  #   memory.registry = loadRegistry("memory/benchmark_files")
+  #   list.bm.memory = reduceResultsList(ids = findDone(), reg = memory.registry)
+  #   list.bm.memory = lapply(list.bm.memory, function (ll) {
 
-	# },
+  #     # Allocated memory in MB:
+  #     ll$memory.diff = (ll$memory.after[["used"]] - ll$memory.before[["used"]]) / 1024
+      
+  #     ll$memory.after = NULL
+  #     ll$memory.before = NULL
+
+  #     # Elapsed time in minutes:
+  #     ll$ellapsed.time = ll$time[["elapsed"]] / 60
+  #     ll$time = NULL
+
+  #     ll$nrows = ll$data.dim[1]
+  #     ll$ncols = ll$data.dim[2]
+  #     ll$data.dim = NULL
+
+  #     return (ll)
+  #   })
+  #   dt.bm.memory = dplyr::bind_rows(list.bm.memory) %>%
+  #     mutate(job.id = findDone(reg = memory.registry)[["job.id"]])
+    
+  #   if (nrow(getJobPars(ids = findNotDone(reg = memory.registry))) > 0) {
+  #     # Bind non finished jobs with a memory diff of 0:
+  #     dt.bm.memory %>% bind_rows(
+  #       unwrap(getJobPars(ids = findNotDone(), reg = memory.registry)) %>%
+  #         mutate(algo = ifelse(algorithm == "mboost", "mboost", 
+  #           ifelse(algorithm == "compboost", "compboost",
+  #             ifelse((algorithm == "mboost.fast") & (learner == "linear"), "glmboost", "gamboost")
+  #           )),
+  #           memory.diff = 0, ellapsed.time = 0, p = p + 1) %>%
+  #         select(-problem) %>%
+  #         rename(nrows = n, ncols = p, learner = algorithm)
+  #       ) %>%
+  #       arrange(job.id)
+  #   } else {
+  #     dt.bm.memory
+  #   }
+  # },
 
 	# Plots of the results of the memory benchmark:
 	# --------------------------------------------------------

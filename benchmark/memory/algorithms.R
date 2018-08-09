@@ -44,9 +44,16 @@ benchmarkCompboost = function (job, data, instance, iters, learner) {
 
   }
 
-  return (list(time = time, data.dim = dim(instance$data), learner = learner,
+  out = list(time = time, data.dim = dim(instance$data), learner = learner,
     iters = iters, algo = "compboost", memory.before = memory.before, 
-    memory.after = memory.after))
+    memory.after = memory.after)
+
+  rm(list = setdiff(ls(), "out"))
+  gc()
+
+  Sys.sleep(10)
+
+  return (out)
 }
 
 # mboost:
@@ -116,9 +123,16 @@ benchmarkMboost = function (job, data, instance, iters, learner) {
 
   }
 
-  return (list(time = time, data.dim = dim(instance$data), learner = learner,
+  out = list(time = time, data.dim = dim(instance$data), learner = learner,
     iters = iters, algo = "mboost", memory.before = memory.before, 
-    memory.after = memory.after))
+    memory.after = memory.after)
+
+  rm(list = setdiff(ls(), "out"))
+  gc()
+
+  Sys.sleep(10)
+
+  return (out)
 }
 
 # mboost fast:
@@ -174,7 +188,14 @@ benchmarkMboostFast = function (job, data, instance, iters, learner) {
 
   }
 
-  return (list(time = time, data.dim = dim(instance$data), learner = learner,
+  out = list(time = time, data.dim = dim(instance$data), learner = learner,
     iters = iters, algo = ifelse(learner == "spline", "gamboost", "glmboost"), memory.before = memory.before, 
-    memory.after = memory.after))
+    memory.after = memory.after)
+
+  rm(list = setdiff(ls(), "out"))
+  gc()
+
+  Sys.sleep(10)
+
+  return (out)
 }

@@ -120,7 +120,7 @@ addExperiments(
     my.data = data.frame(
       n = c(rep(2000, length(my.setting$p)), my.setting$n),
       p = c(my.setting$p, rep(1000, length(my.setting$n)))
-    )fdsa
+    )
   ),
 
   # Fix number of iterations:
@@ -140,7 +140,7 @@ addExperiments(
       learner = c("spline", "linear"),
       stringsAsFactors = FALSE
     )
-  ),cd 
+  ),
   # Number of replications:
   repls = my.setting$replications
 )

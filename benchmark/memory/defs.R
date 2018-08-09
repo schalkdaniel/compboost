@@ -7,7 +7,7 @@ library(compboost)
 # ---------------------------------------------------
 
 my.setting = list(
-  replications = 5L,
+  replications = 1L,
   cores = 1,
   overwrite = FALSE,
   packages = c("mvtnorm", "mboost", "compboost")

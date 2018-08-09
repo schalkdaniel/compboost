@@ -7,31 +7,30 @@
 # Setup:
 # ---------------------------------------------------
 
-source("runtime_benchmark/defs.R")
-source("runtime_benchmark/algorithms.R")
+source("benchmark/memory/defs.R")
+source("benchmark/memory/algorithms.R")
+
+bm.dir = "benchmark/memory/benchmark_files"
 
 # Create frame for Benchmark:
 # ---------------------------------------------------
 
-if (my.setting$overwrite) {
-  unlink("runtime_benchmark/cboost_bm_memory", recursive = TRUE)
-  # create registry:
-  regis = makeExperimentRegistry(
-    file.dir = "runtime_benchmark/cboost_bm_memory",
-    packages = my.setting$packages,
-    seed     = round(1000 * pi)
-  )
+if (my.setting$overwrite || (! dir.exists(bm.dir))) {
+  if (dir.exists(bm.dir)) { 
+    unlink(bm.dir, recursive = TRUE) 
+  } else {
+    regis = makeExperimentRegistry(
+      file.dir = bm.dir,
+      packages = my.setting$packages,
+      seed     = round(1000 * pi)
+    )
+  }
 } else {
-  regis = loadRegistry("runtime_benchmark/cboost_bm_memory")
+  regis = loadRegistry(bm.dir)
 }
 
-# Initialize multicore setting depending on OS:
-if (Sys.info()["sysname"] == "Windows") {
-  regis$cluster.functions = makeClusterFunctionsSocket(ncpus = my.setting$cores)
-}
-if (Sys.info()["sysname"] == "Linux") {
-  regis$cluster.functions = makeClusterFunctionsMulticore(ncpus = my.setting$cores)
-}
+# Run in interactive mode:
+regis$cluster.functions = makeClusterFunctionsInteractive()
 
 # Define data and algorithm for benchmark:
 # ---------------------------------------------------
@@ -80,31 +79,31 @@ addExperiments(
 
   # Test different data sizes:
   prob.design = list(
-    my.data = data.frame(
-      n = c(10000, 10000, 50000, 50000, 200000, 200000),
-      p = c(100, 2000, 100, 2000, 100, 2000)
+    my.data = expand.grid(
+      n = c(500, 5000, 50000),
+      p = c(100, 2000)
     )
   ),
 
   # Fix number of iterations:
   algo.designs = list(
     compboost = data.frame(
-      iters   = 1500,
+      iters   = c(1000, 10000),
       learner = c("spline", "linear"),
       stringsAsFactors = FALSE
     ),
     mboost = data.frame(
-      iters   = 1500,
+      iters   = c(1000, 10000),
       learner = c("spline", "linear"),
       stringsAsFactors = FALSE
     ),
     mboost.fast = data.frame(
-      iters   = 1500,
+      iters   = c(1000, 10000),
       learner = c("spline", "linear"),
       stringsAsFactors = FALSE
     )
   ),
   # Number of replications:
-  repls = my.setting$replications
+  repls = 1
 )
 

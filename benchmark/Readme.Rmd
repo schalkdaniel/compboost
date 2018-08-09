@@ -7,7 +7,7 @@ knitr::opts_chunk$set(
 	collapse = TRUE,
 	echo = FALSE,
 	fig.align = "center",
-	fig.width = 9,
+	fig.width = 12,
 	fig.height = 6,
 	out.width = "100%"
 )
@@ -19,11 +19,11 @@ knitr::opts_chunk$set(
 cat(readd(my.system))
 ```
 
-This document was automatically created using `drake`. To recreate this document just source `drake_runtime_benchmark.R`. 
+This document was automatically created using `drake`. To recreate this document just source `drake_benchmark.R`. 
 
 ## Runtime Benchmark
 
-To access the raw results of the runtime benchmark you need to load the registry:
+To access the raw results you need to load the registry:
 
 ```{r, eval=FALSE}
 loadRegistry("benchmark/runtime/benchmark_files")
@@ -34,24 +34,46 @@ After preprocessing the raw data are stored into a `data.frame` where each row r
 ```{r}
 runtime.bm = readd(raw.runtime.benchmark.data)
 runtime.bm[sample(seq_len(nrow(runtime.bm)), 10), ] %>%
-  knitr::kable()
+  knitr::kable(row.names = FALSE)
 ```
 
-The preprocessing can be reproduced by taking a look at how `raw.runtime.benchmark.data` was created within the `drake_runtime_benchmark.R` script. This also applies for the following graphics.
+The preprocessing is defined in the `drake_runtime_benchmark.R` script where `raw.runtime.benchmark.data` is created. This also applies for the following graphics.
+
+```{r, eval=any(runtime.bm$time == 0), echo=FALSE, results="asis"}
+cat("For any of the following bars with a height of zero it was not possible to execute the algorithm with the corresponding specification.")
+```
 
 ### Increasing Number of Iterations
+
+While increasing the number of iterations we fixed the number of observations at 2000, and the number of feature at 1000. Under this configuration we achieve a 15 times faster fitting process with `compboost` compared to `mboost` in boosting linear base-learner. Nevertheless, `glmboost` is faster due to the internal structure of `glmboost` with that all base-learners can fitted in one matrix multiplication. But, this approach is not suitable with `compboost` since it does not fit into the object-oriented system we provide. This is due to the flexibility in specifying ordinary base-learner combination and not making the whole fitting process conditionally on the used base-learners. Nevertheless, using spline base-learner, `compboost` is about five times faster than `mboost` and `glmboost` (which is just a wrapper of the original `mboost` algorithm).
 
 ```{r}
 grid.draw(readd(runtime.plot.iterations))
 ```
 
+Note that the relative factor highly depends on the number of observations. This behavior is described above.
+
 ### Increasing Number of Base-Learner
+
+For increasing the number of base-learners we get a equal behavior as for increasing the number of iterations.
+```{r, eval=any(runtime.bm$time == 0), echo=FALSE, results="asis"}
+cat("Nevertheless, with `mboost` it was not able to conduct the boosting on 4000 features while `compboost` it was.")
+```
+For this experiments we fix the number of observations at 2000 and the number of iterations at 1500.
 
 ```{r}
 grid.draw(readd(runtime.plot.ncols))
 ```
 
 ### Increasing Number of Observations
+
+This may have the biggest effect on computation time since increasing the number of observations affects the allocated memory as well as the size of the internal matrix multiplications. 
+
+<!--
+- C++ meta-code is much faster then R and matrix multiplication does not have such a huge weight for small n
+- With larger n, the meta-code becomes less weight and the matrix multiplications are dominating the runtime
+- In some point the relative runtime has a minimum, but for larger matrix multiplications it should increase again
+-->
 
 ```{r}
 grid.draw(readd(runtime.plot.nrows))

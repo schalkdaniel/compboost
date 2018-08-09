@@ -44,6 +44,11 @@ plotRuntimeBenchmark = function (data, header, xlab) {
 
   plotAbsoluteTime = function (data, sel.learner) 
   {
+    if (sel.learner == "linear") {
+      gg.ll = "Linear"
+    } else {
+      gg.ll = "Spline"
+    }
     data %>%
       filter(learner == sel.learner) %>%
       ggplot(aes(x = reorder(x.value, x.value), y = Time, fill = Algorithm,
@@ -51,7 +56,7 @@ plotRuntimeBenchmark = function (data, header, xlab) {
       geom_col(position = "dodge", width = 0.7) +
       geom_errorbar(width = 0.2, position = position_dodge(0.7), colour = rgb(1, 0.3, 0.2)) +
       scale_fill_manual(values = mycolors) +
-      ggtitle("Linear Base-Learner") +
+      ggtitle(paste0(gg.ll, " Base-Learner")) +
       ylab("Elapsed Time\nin Minutes") +
       theme(
         panel.background = element_blank(),
@@ -84,7 +89,7 @@ plotRuntimeBenchmark = function (data, header, xlab) {
       1, 1, 2, 2,
       1, 1, 2, 2,
       3, 3, 4, 4
-    ), nrow = 4, byrow = TRUE
+    ), ncol = 4, byrow = TRUE
   )
 
   # Get colors from twitter colors:
@@ -92,7 +97,8 @@ plotRuntimeBenchmark = function (data, header, xlab) {
 
   # Get dummy barplot to extract the full legend:
   gg.legend = data %>%
-    ggplot(aes(Algorithm, fill = Algorithm)) + geom_bar() + scale_fill_manual(values = mycolors)
+    ggplot(aes(Algorithm, fill = Algorithm)) + geom_bar() + scale_fill_manual(values = mycolors, guide = guide_legend(nrow = 1)) +
+      theme(legend.title = element_blank(), legend.text = element_text(margin = margin(r = 24, l = 4, unit = "pt"))) 
 
 	# Plot linear learner:
   gg.linear = data %>% plotAbsoluteTime("linear")
@@ -113,16 +119,21 @@ plotRuntimeBenchmark = function (data, header, xlab) {
   x.label = textGrob(xlab, vjust = -0.5)
 
   
-  grid.arrange(y.label,
+  arrangeGrob(y.label,
     arrangeGrob(
-      gg.linear + theme(legend.position="none") + xlab("") + ylim(0, ylim.upper * 1.1),
-      gg.spline + theme(legend.position="none") + ylab("") + xlab("") + ylim(0, ylim.upper * 1.1),
-      gg.linear.rel + xlab(""),
-      gg.spline.rel + xlab(""),
-      layout_matrix = layout.mat,
-      top = gtitle,
-      bottom = x.label
-    ), legend,
-    widths = unit.c(unit(2, "lines"), unit(1, "npc") - unit(2, "lines") - legend$width,
-      legend$width), nrow=1)
+      arrangeGrob(
+        gg.linear + theme(legend.position="none") + xlab(""), # + ylim(0, ylim.upper * 1.1),
+        gg.spline + theme(legend.position="none") + xlab("") + ylab(""), # + ylim(0, ylim.upper * 1.1),
+        gg.linear.rel + xlab(""),
+        gg.spline.rel + xlab("") + ylab(""),
+        layout_matrix = layout.mat,
+        top = gtitle,
+        bottom = x.label
+      ),
+      legend,
+      layout_matrix = matrix(data = c(rep(1, 25), rep(2, 5)), ncol = 5, byrow = TRUE) 
+    ),
+    widths = unit.c(unit(2, "lines"), unit(1, "npc") - unit(2, "lines"),
+      unit(0, "lines"))
+  )
 }
