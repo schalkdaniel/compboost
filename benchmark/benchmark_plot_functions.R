@@ -29,13 +29,16 @@
 #' @param xlab [\code{character(1)}]\cr
 #'   Label of the x axis passed as string.
 #' @example  
+#' time = runif(42, 5, 100)
 #' mydf = data.frame(
-#'   learner = ,
-#'   x.value = ,
-#'   Time    = ,
-#'   Algorithm = ,
-#'   Time.min  = ,
-#'   Time.max  = 
+#'   learner = rep(c("linear", "spline"), each = 21L),
+#'   x.value = as.factor(rep(c(100, 500, 1000, 2000, 5000, 10000, 15000), each = 3L)),
+#'   Time    = time,
+#'   Algorithm = c(rep(c("compboost", "glmboost", "mboost"), times = 7L), rep(c("compboost", "gamboost", "mboost"), times = 7L)),
+#'   Time.min  = time * 0.9,
+#'   Time.max  = time * 1.1,
+#'   rel.factor = runif(42, 0, 10), 
+#'   stringsAsFactors = TRUE
 #' )
 #' plotRuntimeBenchmark(mydf, "My Benchmark Graphic", "This is just a test")
 plotRuntimeBenchmark = function (data, header, xlab) 
@@ -144,7 +147,7 @@ plotRuntimeBenchmark = function (data, header, xlab)
   x.label = textGrob(xlab, vjust = -0.5)
 
   return (
-    arrangeGrob(y.label,
+    grid.arrange(y.label,
       arrangeGrob(
         arrangeGrob(
           gg.linear + theme(legend.position="none") + xlab(""), # + ylim(0, ylim.upper * 1.1),

@@ -47,8 +47,8 @@ benchmark.plan = drake_plan(
 	# Raw data from the runtime benchmark:
 	# --------------------------------------------------------
 	raw.runtime.benchmark.data = {
-		runtime.registry = suppressMessages({
-      loadRegistry("runtime/benchmark_files")
+		suppressMessages({
+      runtime.registry = loadRegistry("runtime/benchmark_files")
       dt.bm.runtime = unwrap(reduceResultsDataTable(ids = findDone(), reg = runtime.registry))
   
       # Time in Minutes:
@@ -115,8 +115,8 @@ benchmark.plan = drake_plan(
   # --------------------------------------------------------
   # Measurements are in KiB, it is more convenient to use a list here:
   raw.memory.benchmark.data = {
-    memory.registry = suppressMessages({
-      loadRegistry("memory/benchmark_files")
+    suppressMessages({
+      memory.registry = loadRegistry("memory/benchmark_files")
       list.bm.memory = reduceResultsList(ids = findDone(), reg = memory.registry)
       list.bm.memory = lapply(list.bm.memory, function (ll) {
 
