@@ -10,7 +10,26 @@ document just source `drake_benchmark.R`.
 
 ## Runtime Benchmark
 
+As already mentioned, the benchmark was conducted using `batchtools`. In
+case of benchmarking the runtime, we executed each algorithm for each
+configuration five times. The height of the bars of the following plots
+corresponds to the median of these five evaluations. The drawn error-bar
+illustrates the maximal and minimal measured runtime.
+
+Since we are interested in tracking the performance while varying three
+different parameter we vary one and fix the others at a specific value.
+The three interesting parameters are the number of iterations, number of
+observations, and number of features. To run the benchmark on your own
+machine it is sufficient to execute the `execute_runtime_benchmark.R`
+script and submit the jobs by calling `submitJobs()`. For the benchmark
+we have just used one due to a very high memory allocation of some jobs
+crashes the system on multiple processes.
+
 To access the raw results you need to load the registry:
+
+``` r
+loadRegistry("benchmark/runtime/benchmark_files")
+```
 
 After preprocessing the raw data are stored into a `data.frame` where
 each row represents a job with instances like the elapsed time and the
@@ -30,7 +49,7 @@ dimension of the simulated data:
 |    225 |  0.0733 | spline  |  1500 | compboost |  2000 |    51 |
 
 The preprocessing is defined in the `drake_runtime_benchmark.R` script
-where `raw.runtime.benchmark.data` is created. This also applies for the
+where `raw.runtime.benchmark.data` is created. This also applies to the
 following graphics.
 
 For any of the following bars with a height of zero it was not possible
@@ -43,8 +62,8 @@ observations at 2000, and the number of feature at 1000. Under this
 configuration we achieve a 15 times faster fitting process with
 `compboost` compared to `mboost` in boosting linear base-learner.
 Nevertheless, `glmboost` is faster due to the internal structure of
-`glmboost` with that all base-learners can fitted in one matrix
-multiplication. But, this approach is not suitable with `compboost`
+`glmboost`, which is due to that all base-learners can be fitted in one
+matrix multiplication. But this approach is not suitable for `compboost`
 since it does not fit into the object-oriented system we provide. This
 is due to the flexibility in specifying ordinary base-learner
 combination and not making the whole fitting process conditionally on

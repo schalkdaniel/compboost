@@ -29,9 +29,6 @@ if (my.setting$overwrite || (! dir.exists(bm.dir))) {
   regis = loadRegistry(bm.dir)
 }
 
-# Run in interactive mode:
-regis$cluster.functions = makeClusterFunctionsInteractive()
-
 # Define data and algorithm for benchmark:
 # ---------------------------------------------------
 
@@ -107,3 +104,4 @@ addExperiments(
   repls = 1
 )
 
+submitJobs(findNotDone())

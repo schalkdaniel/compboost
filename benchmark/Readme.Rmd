@@ -8,7 +8,7 @@ knitr::opts_chunk$set(
 	echo = FALSE,
 	fig.align = "center",
 	fig.width = 12,
-	fig.height = 6,
+	fig.height = 8,
 	out.width = "100%"
 )
 ```
@@ -23,29 +23,33 @@ This document was automatically created using `drake`. To recreate this document
 
 ## Runtime Benchmark
 
+As already mentioned, the benchmark was conducted using `batchtools`. In case of benchmarking the runtime, we executed each algorithm for each configuration five times. The height of the bars of the following plots corresponds to the median of these five evaluations. The drawn error-bar illustrates the maximal and minimal measured runtime. 
+
+Since we are interested in tracking the performance while varying three different parameter we vary one and fix the others at a specific value. The three interesting parameters are the number of iterations, number of observations, and number of features. To run the benchmark on your own machine it is sufficient to execute the `execute_runtime_benchmark.R` script and submit the jobs by calling `submitJobs()`. For the benchmark we have just used one due to a very high memory allocation of some jobs crashes the system on multiple processes.
+
 To access the raw results you need to load the registry:
 
-```{r, eval=FALSE}
+```{r, echo=TRUE, eval=FALSE}
 loadRegistry("benchmark/runtime/benchmark_files")
 ```
 
 After preprocessing the raw data are stored into a `data.frame` where each row represents a job with instances like the elapsed time and the dimension of the simulated data:
 
 ```{r}
-runtime.bm = readd(raw.runtime.benchmark.data)
-runtime.bm[sample(seq_len(nrow(runtime.bm)), 10), ] %>%
+loadd(raw.runtime.benchmark.data)
+raw.runtime.benchmark.data[sample(seq_len(nrow(raw.runtime.benchmark.data)), 10), ] %>%
   knitr::kable(row.names = FALSE)
 ```
 
-The preprocessing is defined in the `drake_runtime_benchmark.R` script where `raw.runtime.benchmark.data` is created. This also applies for the following graphics.
+The preprocessing is defined in the `drake_runtime_benchmark.R` script where `raw.runtime.benchmark.data` is created. This also applies to the following graphics.
 
-```{r, eval=any(runtime.bm$time == 0), echo=FALSE, results="asis"}
+```{r, eval=any(raw.runtime.benchmark.data$time == 0), echo=FALSE, results="asis"}
 cat("For any of the following bars with a height of zero it was not possible to execute the algorithm with the corresponding specification.")
 ```
 
 ### Increasing Number of Iterations
 
-While increasing the number of iterations we fixed the number of observations at 2000, and the number of feature at 1000. Under this configuration we achieve a 15 times faster fitting process with `compboost` compared to `mboost` in boosting linear base-learner. Nevertheless, `glmboost` is faster due to the internal structure of `glmboost` with that all base-learners can fitted in one matrix multiplication. But, this approach is not suitable with `compboost` since it does not fit into the object-oriented system we provide. This is due to the flexibility in specifying ordinary base-learner combination and not making the whole fitting process conditionally on the used base-learners. Nevertheless, using spline base-learner, `compboost` is about five times faster than `mboost` and `glmboost` (which is just a wrapper of the original `mboost` algorithm).
+While increasing the number of iterations we fixed the number of observations at 2000, and the number of feature at 1000. Under this configuration we achieve a 15 times faster fitting process with `compboost` compared to `mboost` in boosting linear base-learner. Nevertheless, `glmboost` is faster due to the internal structure of `glmboost`, which is due to that all base-learners can be fitted in one matrix multiplication. But this approach is not suitable for `compboost` since it does not fit into the object-oriented system we provide. This is due to the flexibility in specifying ordinary base-learner combination and not making the whole fitting process conditionally on the used base-learners. Nevertheless, using spline base-learner, `compboost` is about five times faster than `mboost` and `glmboost` (which is just a wrapper of the original `mboost` algorithm).
 
 ```{r}
 grid.draw(readd(runtime.plot.iterations))
@@ -56,7 +60,7 @@ Note that the relative factor highly depends on the number of observations. This
 ### Increasing Number of Base-Learner
 
 For increasing the number of base-learners we get a equal behavior as for increasing the number of iterations.
-```{r, eval=any(runtime.bm$time == 0), echo=FALSE, results="asis"}
+```{r, eval=any(raw.runtime.benchmark.data$time == 0), echo=FALSE, results="asis"}
 cat("Nevertheless, with `mboost` it was not able to conduct the boosting on 4000 features while `compboost` it was.")
 ```
 For this experiments we fix the number of observations at 2000 and the number of iterations at 1500.
