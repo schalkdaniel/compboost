@@ -102,6 +102,6 @@ size of the internal matrix multiplications.
 
 <img src="Readme_files/figure-gfm/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
 
-<!--
-### Memory Benchmark
--->
+## Memory Benchmark
+
+<img src="Readme_files/figure-gfm/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />

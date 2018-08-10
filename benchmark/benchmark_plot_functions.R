@@ -45,8 +45,8 @@ plotRuntimeBenchmark = function (data, header, xlab)
 {
   # Define colors:
   colors.twitter = list(
-    main = c(compboost = "#55ACEE", mboost = "#292f33", gamboost = "#8899a6", glmboost = "#8c4183"),
-    errorbar = "#cf2315"
+    main = c(compboost = "#55ACEE", mboost = "#292f33", gamboost = "#cec9bf", glmboost = "#8899a6"),
+    errorbar = "#8f5957"
   )
   colors.kandinsky = list(
     main = c(compboost = "#ce675e", mboost = "#98c4cf", gamboost = "#c7ad3c", glmboost = "#8bb09e"),
@@ -155,6 +155,114 @@ plotRuntimeBenchmark = function (data, header, xlab)
           gg.linear.rel + xlab(""),
           gg.spline.rel + xlab("") + ylab(""),
           layout_matrix = layout.mat,
+          top = gtitle,
+          bottom = x.label
+        ),
+        legend,
+        layout_matrix = matrix(data = c(rep(1, 25), rep(2, 5)), ncol = 5, byrow = TRUE) 
+      ),
+      widths = unit.c(unit(2, "lines"), unit(1, "npc") - unit(2, "lines"),
+        unit(0, "lines"))
+    )
+  )
+}
+
+
+
+
+plotMemResults = function (data, mytitle, myxlab)
+{
+  # Define colors:
+  colors.twitter = list(
+    main = c(compboost = "#55ACEE", mboost = "#292f33", gamboost = "#cec9bf", glmboost = "#8899a6"),
+    errorbar = "#8f5957"
+  )
+  colors.kandinsky = list(
+    main = c(compboost = "#ce675e", mboost = "#98c4cf", gamboost = "#c7ad3c", glmboost = "#8bb09e"),
+    errorbar = "#1a1a1c"
+  )
+
+  # mycolors = colors.kandinsky
+  mycolors = colors.twitter
+
+  gg.good = data %>%
+    filter(learner == "linear") %>%
+    ggplot(aes(x = second / 60, y = (used.memory - min(used.memory)) / 1024, color = algo)) +
+      geom_line(size = 1.5) +
+      ggtitle("Linear Base-Learner") +
+      ylab("Used Megabytes") +
+      scale_color_manual(values = mycolors[["main"]]) +
+      theme(
+        panel.background = element_rect(fill = "transparent"),
+        plot.background = element_rect(fill = "transparent"),
+        legend.background = element_rect(fill = "transparent", size=0, colour = NA),
+        legend.box.background = element_rect(fill = "transparent", colour = "transparent"),
+        panel.grid.minor = element_blank(), # get rid of minor grid
+        text             = element_text(),
+        legend.title     = element_blank(),
+        legend.key       = element_rect(fill = "transparent"),
+        panel.grid.major = element_line(color = rgb(0.7, 0.7, 0.7, 0.4),
+          size = 0.1, linetype = "dashed")
+      )
+
+  gg.bad = data %>%
+    filter(learner == "spline") %>%
+    ggplot(aes(x = second / 60, y = (used.memory - min(used.memory)) / 1024, color = algo)) +
+      geom_line(size = 1.5) +
+      ggtitle("Linear Base-Learner") +
+      ylab("Used Megabytes") +
+      scale_color_manual(values = mycolors[["main"]]) +
+      theme(
+        panel.background = element_rect(fill = "transparent"),
+        plot.background = element_rect(fill = "transparent"),
+        legend.background = element_rect(fill = "transparent", size=0, colour = NA),
+        legend.box.background = element_rect(fill = "transparent", colour = "transparent"),
+        panel.grid.minor = element_blank(), # get rid of minor grid
+        text             = element_text(),
+        legend.title     = element_blank(),
+        legend.key       = element_rect(fill = "transparent"),
+        panel.grid.major = element_line(color = rgb(0.7, 0.7, 0.7, 0.4),
+          size = 0.1, linetype = "dashed")
+      )
+
+  # Get dummy barplot to extract the full legend:
+  gg.legend = data %>%
+    ggplot(aes(algo, fill = algo)) + geom_bar() + scale_fill_manual(values = mycolors[["main"]], guide = guide_legend(nrow = 1)) +
+      theme(legend.title = element_blank(), legend.text = element_text(margin = margin(r = 24, l = 4, unit = "pt"))) 
+
+  # Extracxt the legend from gg.iters.spline:
+  legend = gtable_filter(ggplotGrob(gg.legend), "guide-box")
+
+  # Make custom title:
+  gtitle = textGrob(label = mytitle,
+    vjust = 0.5, gp = gpar(fontface = "bold", cex = 1.5))
+
+  # Arrange and draw the plot
+  y.label = textGrob("", rot = 90, vjust = 0.5,
+    gp = gpar())
+
+  x.label = textGrob(myxlab, vjust = -0.5,
+    gp = gpar())
+
+  grid.arrange(y.label,
+    arrangeGrob(
+      gg.good + theme(legend.position="none") + xlab(""),
+      gg.bad + theme(legend.position="none") + ylab("") + xlab(""),
+      ncol = 2,
+      top = gtitle,
+      bottom = x.label
+    ), legend,
+    widths = unit.c(unit(2, "lines"), unit(1, "npc") - unit(2, "lines") - legend$width,
+      legend$width),
+    nrow = 1)
+
+  return (
+    grid.arrange(y.label,
+      arrangeGrob(
+        arrangeGrob(
+          gg.good + theme(legend.position="none") + xlab(""),
+          gg.bad + theme(legend.position="none") + ylab("") + xlab(""),
+          ncol = 2,
           top = gtitle,
           bottom = x.label
         ),

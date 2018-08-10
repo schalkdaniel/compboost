@@ -115,51 +115,50 @@ benchmark.plan = drake_plan(
   # --------------------------------------------------------
   # Measurements are in KiB, it is more convenient to use a list here:
   raw.memory.benchmark.data = {
-    suppressMessages({
-      memory.registry = loadRegistry("memory/benchmark_files")
-      list.bm.memory = reduceResultsList(ids = findDone(), reg = memory.registry)
-      list.bm.memory = lapply(list.bm.memory, function (ll) {
 
-        # Allocated memory in MB:
-        ll$memory.diff = (ll$memory.after[["used"]] - ll$memory.before[["used"]]) / 1024
-      
-        ll$memory.after = NULL
-        ll$memory.before = NULL
+    files = c("cboost_linear.rds", "cboost_spline.rds", "glmboost.rds", "gamboost.rds", "mboost_linear.rds", "mboost_spline.rds")
 
-        # Elapsed time in minutes:
-        ll$ellapsed.time = ll$time[["elapsed"]] / 60
-        ll$time = NULL
-
-        ll$nrows = ll$data.dim[1]
-        ll$ncols = ll$data.dim[2]
-        ll$data.dim = NULL
-
-        return (ll)
-      })
-      dt.bm.memory = dplyr::bind_rows(list.bm.memory) %>%
-        mutate(job.id = findDone(reg = memory.registry)[["job.id"]])
-    
-      if (nrow(getJobPars(ids = findNotDone(reg = memory.registry))) > 0) {
-        # Bind non finished jobs with a memory diff of 0:
-        dt.bm.memory %>% bind_rows(
-          unwrap(getJobPars(ids = findNotDone(), reg = memory.registry)) %>%
-            mutate(algo = ifelse(algorithm == "mboost", "mboost", 
-              ifelse(algorithm == "compboost", "compboost",
-                ifelse((algorithm == "mboost.fast") & (learner == "linear"), "glmboost", "gamboost")
-              )),
-              memory.diff = 0, ellapsed.time = 0, p = p + 1) %>%
-            select(-problem) %>%
-            rename(nrows = n, ncols = p, learner = algorithm)
-          ) %>%
-          arrange(job.id)
-      } else {
-        dt.bm.memory
+    list.df = list()
+    for (file in files) {
+      full.file = paste0("memory/benchmark_files/", file)
+      if (file.exists(full.file)) {
+        nm = load(full.file)
+        list.df[[file]] = get(nm)
+        if (file == "cboost_linear.rds") {
+          algo = "compboost"
+          learner = "linear"
+        }        
+        if (file == "cboost_spline.rds") {
+          algo = "compboost"
+          learner = "spline"
+        }
+        if (file == "glmboost.rds") {
+          algo = "glmboost"
+          learner = "linear"
+        }
+        if (file == "gamboost.rds") {
+          algo = "gamboost"
+          learner = "spline"
+        }
+        if (file == "mboost_linear.rds") {
+          algo = "mboost"
+          learner = "linear"
+        }
+        if (file == "mboost_spline.rds") {
+          algo = "mboost"
+          learner = "spline"
+        }
+        list.df[[file]]$algo = algo
+        list.df[[file]]$learner = learner
       }
-    )}
+    }
+    dplyr::bind_rows(list.df)
   },
 
-	# Plots of the results of the memory benchmark:
+	# Plot of the results of the memory benchmark:
 	# --------------------------------------------------------
+
+  memory.plot = raw.memory.benchmark.data %>% plotMemResults(mytitle = "", xlab = "Elapsed Minutes"),
 
 	# Create report as Readme for GitHub:
 	# --------------------------------------------------------

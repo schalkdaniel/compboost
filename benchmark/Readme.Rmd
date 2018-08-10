@@ -83,6 +83,9 @@ This may have the biggest effect on computation time since increasing the number
 grid.draw(readd(runtime.plot.nrows))
 ```
 
-<!--
-### Memory Benchmark
--->
+
+## Memory Benchmark
+
+```{r}
+grid.draw(readd(memory.plot))
+```
