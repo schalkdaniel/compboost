@@ -209,7 +209,7 @@ plotMemResults = function (data, mytitle, myxlab)
     filter(learner == "spline") %>%
     ggplot(aes(x = second / 60, y = (used.memory - min(used.memory)) / 1024, color = algo)) +
       geom_line(size = 1.5) +
-      ggtitle("Linear Base-Learner") +
+      ggtitle("Spline Base-Learner") +
       ylab("Used Megabytes") +
       scale_color_manual(values = mycolors[["main"]]) +
       theme(

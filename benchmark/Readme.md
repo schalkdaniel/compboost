@@ -94,14 +94,26 @@ This may have the biggest effect on computation time since increasing
 the number of observations affects the allocated memory as well as the
 size of the internal matrix multiplications.
 
-<!--
-- C++ meta-code is much faster then R and matrix multiplication does not have such a huge weight for small n
-- With larger n, the meta-code becomes less weight and the matrix multiplications are dominating the runtime
-- In some point the relative runtime has a minimum, but for larger matrix multiplications it should increase again
--->
+For a smaller number of observations, `compboost` definitely outperforms
+`mboost`. The relative runtime behavior decreases with increasing the
+number of observations. This is due to the size of the matrix
+multiplications which gets more weight then the whole boiler code, like
+initializing base-learner, which is very fast with `compboost`. For that
+reason and the reason that matrix multiplication is also not that slow
+in `R`, `mboost` comes closer to the performance of
+`compboost`.
 
 <img src="Readme_files/figure-gfm/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
 
 ## Memory Benchmark
+
+For the memory benchmark every second was measured how much RAM was
+used. This curve is then plotted for each algorithm.
+
+In the case of the spline base-learner, `compboost` and `mboost` uses
+sparse matrices, which significantly reduces computing time and memory
+requirements. In general, `compboost` is efficient here too. A small
+exception is `glmboost`, which can also save memory due to its special
+structure.
 
 <img src="Readme_files/figure-gfm/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />

@@ -8,7 +8,7 @@
 # idea about the performance.
 
 library(mboost)
-# library(compboost)
+library(compboost)
 
 # Function to get formula for mboost:
 # -------------------------------------------------
@@ -62,13 +62,13 @@ set.seed(314159)
 
 # Fix dataset:
 mydata = simulateData(
-  nrows = 20000,
-  ncol = 200,
+  nrows = 500000,
+  ncol = 100,
   seed = round(pi * 1000)
   )
 
 # Fix parameters:
-iters = 1500
+iters = 500
 learning.rate = 0.05
 penalty = 4
 
@@ -101,10 +101,10 @@ if (check) {
 # -------------------------------------------------
 
 microbenchmark::microbenchmark(
-  # "compboost.spline" = boostSplines(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, penalty = 2, trace = FALSE),
-  # "mboost.spline" = gamboost(getMboostFormula(mydata, "target"), data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
-  "compboost.linear" = boostLinear(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, trace = FALSE),
-  "mboost.linear" = glmboost(target ~ ., data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
+  "compboost.spline" = boostSplines(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, penalty = 2, trace = FALSE),
+  "mboost.spline" = gamboost(getMboostFormula(mydata, "target"), data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
+  # "compboost.linear" = boostLinear(data = mydata, target = "target", loss = LossQuadratic$new(), iterations = iters, trace = FALSE),
+  # "mboost.linear" = glmboost(target ~ ., data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
   # "mboost.linear.plain" = mboost(getMboostFormula(mydata, "target", "linear"), data = mydata, control = boost_control(mstop = iters, nu = learning.rate)),
-  times = 2L
+  times = 1L
   )

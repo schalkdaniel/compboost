@@ -158,7 +158,7 @@ benchmark.plan = drake_plan(
 	# Plot of the results of the memory benchmark:
 	# --------------------------------------------------------
 
-  memory.plot = raw.memory.benchmark.data %>% plotMemResults(mytitle = "", xlab = "Elapsed Minutes"),
+  memory.plot = raw.memory.benchmark.data %>% plotMemResults(mytitle = "", myxlab = "Elapsed Minutes"),
 
 	# Create report as Readme for GitHub:
 	# --------------------------------------------------------

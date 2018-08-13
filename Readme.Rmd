@@ -96,6 +96,10 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 </p>  
 
 
+## Benchmark
+
+To get an idea of the performance of compboost, we have conduct a small benchmark in which compboost is compared with mboost. For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+
 ## License
 
 
