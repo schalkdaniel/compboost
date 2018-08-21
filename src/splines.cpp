@@ -14,7 +14,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// the MIT License along with compboost.
 //
 // Written by:
 // -----------
