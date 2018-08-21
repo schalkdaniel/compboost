@@ -1,0 +1,10 @@
+### [bt]: This is batchtools v0.9.10.9000
+### [bt]: Starting calculation of 1 jobs
+### [bt]: Setting working directory to '/home/daniel/github_repos/compboost'
+### [bt]: Memory measurement disabled
+### [bt]: Starting job [batchtools job.id=430]
+### [bt]: Generating problem instance for problem 'my.data' ...
+### [bt]: Applying algorithm 'mboost' on problem 'my.data' for job 430 (seed = 3572) ...
+
+### [bt]: Job terminated successfully [batchtools job.id=430]
+### [bt]: Calculation finished!

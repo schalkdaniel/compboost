@@ -14,8 +14,6 @@ inst/doc
 tutorials
 Readme.html
 cboost_hexagon.psd
-benchmark/runtime/benchmark_files
-benchmark/memory/benchmark_files
 benchmark/.drake
 benchmark/Readme.html
 benchmark/benchmark.R

@@ -1,0 +1,11 @@
+### [bt]: This is batchtools v0.9.10.9000
+### [bt]: Starting calculation of 1 jobs
+### [bt]: Setting working directory to '/home/daniel/github_repos/compboost'
+### [bt]: Memory measurement disabled
+### [bt]: Starting job [batchtools job.id=401]
+### [bt]: Generating problem instance for problem 'my.data' ...
+### [bt]: Applying algorithm 'mboost' on problem 'my.data' for job 401 (seed = 3543) ...
+Error : C stack usage  7970836 is too close to the limit
+
+### [bt]: Job terminated with an exception [batchtools job.id=401]
+### [bt]: Calculation finished!

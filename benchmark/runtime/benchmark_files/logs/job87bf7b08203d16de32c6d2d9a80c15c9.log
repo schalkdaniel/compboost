@@ -1,0 +1,12 @@
+### [bt]: This is batchtools v0.9.10.9000
+### [bt]: Starting calculation of 1 jobs
+### [bt]: Setting working directory to '/home/daniel/github_repos/compboost'
+### [bt]: Memory measurement disabled
+### [bt]: Starting job [batchtools job.id=482]
+### [bt]: Generating problem instance for problem 'my.data' ...
+### [bt]: Applying algorithm 'mboost' on problem 'my.data' for job 482 (seed = 3624) ...
+Error in X %*% coef : 
+  Cholmod error 'out of memory' at file ../Core/cholmod_memory.c, line 147
+
+### [bt]: Job terminated with an exception [batchtools job.id=482]
+### [bt]: Calculation finished!
