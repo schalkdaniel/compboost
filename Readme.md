@@ -1,3 +1,4 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
 <img align="right" src="docs/images/cboost_hexagon.png" width="100px">
 
