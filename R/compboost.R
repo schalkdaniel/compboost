@@ -71,7 +71,7 @@
 #'   \code{FALSE}.
 #' }
 #' \item{\code{logger.id}}{[\code{character(1)}]\cr
-#'   Id of the new logger. This is neccessary to e.g. register multiple risk logger.
+#'   Id of the new logger. This is necessary to e.g. register multiple risk logger.
 #' }
 #' \item{}{\code{...}\cr
 #'   Further arguments passed to the constructor of the \code{S4 Logger} class specified in
@@ -178,7 +178,7 @@
 #'     }
 #'
 #'   \item
-#'     \code{LoggerTime}: Log already ellapsed time. Additional arguments:
+#'     \code{LoggerTime}: Log already elapsed time. Additional arguments:
 #'     \describe{
 #'       \item{\code{max_time} [\code{integer(1)}]}{
 #'         Maximal time for the computation.
@@ -603,7 +603,7 @@ Compboost = R6::R6Class("Compboost",
     }
   ),
   private = list(
-    # Lists of single logger and base-learner factories. Neccessary to prevent the factories from the
+    # Lists of single logger and base-learner factories. Necessary to prevent the factories from the
     # arbage collector which deallocates all the data from the heap and couses R to crash.
     l.list = list(),
     bl.list = list(),

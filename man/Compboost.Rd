@@ -78,7 +78,7 @@ cboost$prepareData(newdata)
   \code{FALSE}.
 }
 \item{\code{logger.id}}{[\code{character(1)}]\cr
-  Id of the new logger. This is neccessary to e.g. register multiple risk logger.
+  Id of the new logger. This is necessary to e.g. register multiple risk logger.
 }
 \item{}{\code{...}\cr
   Further arguments passed to the constructor of the \code{S4 Logger} class specified in
@@ -188,7 +188,7 @@ cboost$prepareData(newdata)
     }
 
   \item
-    \code{LoggerTime}: Log already ellapsed time. Additional arguments:
+    \code{LoggerTime}: Log already elapsed time. Additional arguments:
     \describe{
       \item{\code{max_time} [\code{integer(1)}]}{
         Maximal time for the computation.
