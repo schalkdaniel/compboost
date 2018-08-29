@@ -176,7 +176,7 @@ public:
 
 
 
-RCPP_EXPOSED_CLASS(DataWrapper);
+RCPP_EXPOSED_CLASS(DataWrapper)
 RCPP_MODULE (data_module)
 {
   using namespace Rcpp;
@@ -770,7 +770,7 @@ public:
 // }
 
 // Expose abstract BaselearnerWrapper class and define modules:
-RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper);
+RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper)
 RCPP_MODULE (baselearner_factory_module)
 {
   using namespace Rcpp;
@@ -949,7 +949,7 @@ public:
 };
 
 // Expose abstract BaselearnerWrapper class and define modules:
-RCPP_EXPOSED_CLASS(BlearnerFactoryListWrapper);
+RCPP_EXPOSED_CLASS(BlearnerFactoryListWrapper)
 RCPP_MODULE (baselearner_list_module)
 {
   using  namespace Rcpp;
@@ -1287,7 +1287,7 @@ public:
 };
 
 // Expose abstract BaselearnerWrapper class and define modules:
-RCPP_EXPOSED_CLASS(LossWrapper);
+RCPP_EXPOSED_CLASS(LossWrapper)
 RCPP_MODULE (loss_module)
 {
   using namespace Rcpp;
@@ -1896,8 +1896,8 @@ public:
 };
 
 // Expose abstract BaselearnerWrapper class and define modules:
-RCPP_EXPOSED_CLASS(LoggerWrapper);
-RCPP_EXPOSED_CLASS(LoggerListWrapper);
+RCPP_EXPOSED_CLASS(LoggerWrapper)
+RCPP_EXPOSED_CLASS(LoggerListWrapper)
 
 RCPP_MODULE(logger_module)
 {
@@ -2005,7 +2005,7 @@ public:
   // }
 };
 
-RCPP_EXPOSED_CLASS(OptimizerWrapper);
+RCPP_EXPOSED_CLASS(OptimizerWrapper)
 RCPP_MODULE(optimizer_module)
 {
   using namespace Rcpp;
@@ -2388,7 +2388,7 @@ private:
 };
 
 
-RCPP_EXPOSED_CLASS(CompboostWrapper);
+RCPP_EXPOSED_CLASS(CompboostWrapper)
 RCPP_MODULE (compboost_module)
 {
   using namespace Rcpp;

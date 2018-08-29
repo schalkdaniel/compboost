@@ -82,7 +82,7 @@ LoggerIteration::LoggerIteration (const bool& is_a_stopper0,
   : max_iterations ( max_iterations ) 
 {
   is_a_stopper = is_a_stopper0;
-};
+}
 
 /**
  * \brief Log current step of compboost iteration of class `LoggerIteration`

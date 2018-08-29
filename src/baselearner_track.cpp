@@ -39,9 +39,9 @@ namespace blearnertrack
 {
 
 // Just an empty constructor:
-BaselearnerTrack::BaselearnerTrack () {};
+BaselearnerTrack::BaselearnerTrack () {}
 
-BaselearnerTrack::BaselearnerTrack (double learning_rate) : learning_rate ( learning_rate ) {};
+BaselearnerTrack::BaselearnerTrack (double learning_rate) : learning_rate ( learning_rate ) {}
 
 // Insert a baselearner to the vector. We also want to add up the parameter
 // in there to get an estimator in the end:

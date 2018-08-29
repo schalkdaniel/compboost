@@ -69,7 +69,7 @@ void BaselearnerFactory::initializeDataObjects (data::Data* data_source0,
   data_target->setData(instantiateData(data_source->getData()));
 }
 
-BaselearnerFactory::~BaselearnerFactory () {};
+BaselearnerFactory::~BaselearnerFactory () {}
 
 // -------------------------------------------------------------------------- //
 // BaselearnerFactory implementations:

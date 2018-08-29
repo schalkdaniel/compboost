@@ -29,5 +29,6 @@ paper
 Readme.*
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
-todos
+todo
 ^appveyor\.yml$
+cran-comments.md

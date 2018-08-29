@@ -4,9 +4,10 @@
 \alias{boostLinear}
 \title{Wrapper to boost linear models for each feature.}
 \usage{
-boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-  learning.rate = 0.05, iterations = 100, trace = -1, intercept = TRUE,
-  data.source = InMemoryData, data.target = InMemoryData)
+boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(),
+  loss, learning.rate = 0.05, iterations = 100, trace = -1,
+  intercept = TRUE, data.source = InMemoryData,
+  data.target = InMemoryData)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr

@@ -4,9 +4,9 @@
 \alias{boostSplines}
 \title{Wrapper to boost p spline models for each feature.}
 \usage{
-boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-  learning.rate = 0.05, iterations = 100, trace = -1, degree = 3,
-  n.knots = 20, penalty = 2, differences = 2,
+boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(),
+  loss, learning.rate = 0.05, iterations = 100, trace = -1,
+  degree = 3, n.knots = 20, penalty = 2, differences = 2,
   data.source = InMemoryData, data.target = InMemoryData)
 }
 \arguments{

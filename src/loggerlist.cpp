@@ -40,7 +40,7 @@
 namespace loggerlist 
 {
 
-LoggerList::LoggerList () { };
+LoggerList::LoggerList () {}
 
 void LoggerList::registerLogger (const std::string& logger_id, logger::Logger *which_logger)
 {
