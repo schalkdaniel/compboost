@@ -12,7 +12,7 @@ src-x64
 todos.Rmd
 inst/doc
 tutorials
-Readme.html
+README.html
 cboost_hexagon.psd
 benchmark/.drake
 benchmark/Readme.html
