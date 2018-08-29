@@ -17,3 +17,4 @@ cboost_hexagon.psd
 benchmark/.drake
 benchmark/Readme.html
 benchmark/benchmark.R
+/revdep/.cache.rds

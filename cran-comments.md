@@ -1,6 +1,6 @@
 ## Test environments
 * local ubuntu 18.04, R 3.5.1
-* ubuntu 12.04 (on travis-ci), R 3.1.2
+* ubuntu 14.04 (on travis-ci), R 3.5.0
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -30,3 +30,6 @@ There was 1 NOTE:
 
 
 ## Downstream dependencies
+I have also run R CMD check on downstream dependencies of compboost using `devtools::revdep_check()`
+(https://github.com/schalkdaniel/compboost/revdep). 
+All packages that I could install passed.

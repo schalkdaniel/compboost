@@ -32,3 +32,4 @@ CONTRIBUTING.md
 todo
 ^appveyor\.yml$
 cran-comments.md
+^revdep$
