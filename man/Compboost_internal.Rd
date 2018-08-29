@@ -21,13 +21,13 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 
 \describe{
 \item{\code{response} [\code{numeric}]}{
-  Vector of the true values which should be modelled.
+  Vector of the true values which should be modeled.
 }
 \item{\code{learning_rate} [\code{numeric(1)}]}{
   The learning rate which is used to shrink the parameter in each iteration.
 }
 \item{\code{stop_if_all_stopper_fulfilled} [\code{logical(1)}]}{
-  Boolean to indicate which stopping stategy is used. If \code{TRUE} then
+  Boolean to indicate which stopping strategy is used. If \code{TRUE} then
   the algorithm stops if all registered logger stopper are fulfilled.
 }
 \item{\code{factory_list} [\code{BlearnerFactoryList} object]}{
@@ -35,7 +35,7 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
   in each iteration by using the
 }
 \item{\code{loss} [\code{Loss} object]}{
-  The loss which should be used to calculate the pseudo resudals in each
+  The loss which should be used to calculate the pseudo residuals in each
   iteration.
 }
 \item{\code{logger_list} [\code{LoggerList} object]}{
@@ -66,8 +66,8 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 \describe{
 \item{\code{train(trace)}}{Initial training of the model. The integer
   argument \code{trace} indicates if the logger progress should be printed
-  or not and if so trace indicates which ierations should be printed.}
-\item{\code{continueTraining(trace, logger_list)}}{Contine the training
+  or not and if so trace indicates which iterations should be printed.}
+\item{\code{continueTraining(trace, logger_list)}}{Continue the training
   by using an additional \code{logger_list}. The retraining is stopped if
   the first logger says that the algorithm should be stopped.}
 \item{\code{getPrediction()}}{Get the inbag prediction which is done during
@@ -85,11 +85,11 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
   includes the parameter at iteration \code{i}. There are as many rows
   as done iterations.}
 \item{\code{isTrained()}}{This function returns just a boolean value which
-  indicates if the inital training was already done.}
-\item{\code{predict(newdata)}}{Prediction on newdata organized within a
+  indicates if the initial training was already done.}
+\item{\code{predict(newdata)}}{Prediction on new data organized within a
   list of source data objects. It is important that the names of the source
   data objects matches those one that were used to define the factories.}
-\item{\code{predictAtIteration(newdata, k)}}{Prediction on newdata by using
+\item{\code{predictAtIteration(newdata, k)}}{Prediction on new data by using
   another iteration \code{k}.}
 \item{\code{setToIteration(k)}}{Set the whole model to another iteration
   \code{k}. After calling this function all other elements such as the
@@ -104,7 +104,7 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 df = mtcars
 df$mpg.cat = ifelse(df$mpg > 20, 1, -1)
 
-# # Create new variable to check the polynomial baselearner with degree 2:
+# # Create new variable to check the polynomial base-learner with degree 2:
 # df$hp2 = df[["hp"]]^2
 
 # Data for the baselearner are matrices:
@@ -137,7 +137,7 @@ spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 1
 # Create new factory list:
 factory.list = BlearnerFactoryList$new()
 
-# Register factorys:
+# Register factories:
 factory.list$registerFactory(linear.factory.hp)
 factory.list$registerFactory(linear.factory.wt)
 factory.list$registerFactory(quadratic.factory.hp)

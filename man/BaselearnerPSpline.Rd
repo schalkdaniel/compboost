@@ -30,7 +30,7 @@ BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
   Degree of the spline functions to interpolate the knots.
 }
 \item{\code{n_knots} [\code{integer(1)}]}{
-  Number of \strong{inner knots}. To prefent weird behaviour on the edges
+  Number of \strong{inner knots}. To prevent weird behavior on the edges
   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 }
 \item{\code{penalty} [\code{numeric(1)}]}{
@@ -64,7 +64,7 @@ BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modelling.}
+  for modeling.}
 \item{\code{transformData(X)}}{Transform a data matrix as defined within the
   factory. The argument has to be a matrix with one column.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}

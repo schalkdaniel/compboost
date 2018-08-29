@@ -33,11 +33,11 @@ Number of iterations that are trained.}
 
 \item{trace}{[\code{integer(1)}]\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
-10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
 -1 which means that we set \code{trace} at a value that 40 iterations are printed.}
 
 \item{degree}{[\code{integer(1)}]\cr
-Polynomial degree of the splines used for modelling. Note that the number of parameter
+Polynomial degree of the splines used for modeling. Note that the number of parameter
 increases with the degrees.}
 
 \item{n.knots}{[\code{integer(1)}]\cr
@@ -50,15 +50,15 @@ The higher penalty, the higher the smoothness.}
 
 \item{differences}{[\code{integer(1)}]\cr
 Number of differences that are used for penalization. The higher this value is, the
-more function values of neighbour knots are forced to be more similar which results
-in a smoother courve.}
+more function values of neighbor knots are forced to be more similar which results
+in a smoother curve.}
 
 \item{data.source}{[\code{S4 Data}]\cr
-Unitialized \code{S4 Data} object which is used to store the data. At the moment
+Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
 \item{data.target}{[\code{S4 Data}]\cr
-Unitialized \code{S4 Data} object which is used to store the data. At the moment
+Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 }
 \value{
@@ -74,7 +74,7 @@ initializing the model \code{boostSpline} also fits as many iterations as given
 by the user through \code{iters}.
 }
 \details{
-The returend object is an object of the \code{Compboost} class which then can be 
+The returned object is an object of the \code{Compboost} class which then can be 
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{

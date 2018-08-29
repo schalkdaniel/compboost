@@ -8,8 +8,8 @@ getCustomCppExample(example = "blearner", silent = FALSE)
 }
 \arguments{
 \item{example}{[\code{character(1)}] \cr
-Character value indicating if an example for the baselearner or for the
-loss should be returned. The values for esample has to be one of 
+Character value indicating if an example for the base-learner or for the
+loss should be returned. The values, for example, has to be one of 
 \code{blearner} or \code{loss}.}
 
 \item{silent}{[\code{logical(1)}] \cr

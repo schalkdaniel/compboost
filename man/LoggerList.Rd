@@ -5,8 +5,8 @@
 \title{Logger list class to collect all loggers}
 \format{\code{\link{S4}} object.}
 \description{
-This class is ment to define all logger which should be used to track the
-progress of the aglorithm.
+This class is meant to define all logger which should be used to track the
+progress of the algorithm.
 }
 \section{Usage}{
 

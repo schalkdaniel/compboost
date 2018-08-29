@@ -5,9 +5,9 @@
 \title{Logger class to log the out of bag risk}
 \format{\code{\link{S4}} object.}
 \description{
-This class loggs the out of bag risk for a specific loss function. It is
+This class logs the out of bag risk for a specific loss function. It is
 also possible to use custom losses to log performance measures. For details
-see the usecase or extending compboost vignette.
+see the use case or extending compboost vignette.
 }
 \section{Usage}{
 

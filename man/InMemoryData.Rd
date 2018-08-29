@@ -7,7 +7,7 @@
 \description{
 \code{InMemoryData} creates an data object which can be used as source or
 target object within the base-learner factories of \code{compboost}. The
-convention to initialise target data is to call the constructor without
+convention to initialize target data is to call the constructor without
 any arguments.
 }
 \section{Usage}{

@@ -58,7 +58,7 @@ BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modelling.}
+  for modeling.}
 \item{\code{transformData(X)}}{Transform a data matrix as defined within the
   factory. The argument has to be a matrix with one column.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}

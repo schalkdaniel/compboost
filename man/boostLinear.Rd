@@ -33,7 +33,7 @@ Number of iterations that are trained.}
 
 \item{trace}{[\code{integer(1)}]\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
-10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
 -1 which means that we set \code{trace} at a value that 40 iterations are printed.}
 
 \item{intercept}{[\code{logical(1)}]\cr
@@ -41,11 +41,11 @@ Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
 \item{data.source}{[\code{S4 Data}]\cr
-Unitialized \code{S4 Data} object which is used to store the data. At the moment
+Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
 \item{data.target}{[\code{S4 Data}]\cr
-Unitialized \code{S4 Data} object which is used to store the data. At the moment
+Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 }
 \value{
@@ -61,7 +61,7 @@ initializing the model \code{boostLinear} also fits as many iterations as given
 by the user through \code{iters}.
 }
 \details{
-The returend object is an object of the \code{Compboost} class which then can be 
+The returned object is an object of the \code{Compboost} class which then can be 
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{

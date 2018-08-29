@@ -2,10 +2,10 @@
 % Please edit documentation in R/RcppExports.R
 \name{LoggerTime}
 \alias{LoggerTime}
-\title{Logger class to log the ellapsed time}
+\title{Logger class to log the elapsed time}
 \format{\code{\link{S4}} object.}
 \description{
-This class just loggs the ellapsed time. This sould be very handy if one
+This class just logs the elapsed time. This should be very handy if one
 wants to run the algorithm for just 2 hours and see how far he comes within
 that time. There are three time units available for logging:
 \itemize{
@@ -28,7 +28,7 @@ LoggerTime$new(use_as_stopper, max_time, time_unit)
   Boolean to indicate if the logger should also be used as stopper.
 }
 \item{\code{max_time} [\code{integer(1)}]}{
-  If the logger is used as stopper this argument cotains the maximal time
+  If the logger is used as stopper this argument contains the maximal time
   which are available to train the model.
 }
 \item{\code{time_unit} [\code{character(1)}]}{

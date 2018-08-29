@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerPolynomial}
 \alias{BaselearnerPolynomial}
-\title{Baselearner factory to make polynomial regression}
+\title{Base-learner factory to make polynomial regression}
 \format{\code{\link{S4}} object.}
 \description{
 \code{BaselearnerPolynomial} creates a polynomial base-learner factory
@@ -57,7 +57,7 @@ BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, inter
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modelling.}
+  for modeling.}
 \item{\code{transformData(X)}}{Transform a data matrix as defined within the
   factory. The argument has to be a matrix with one column.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
