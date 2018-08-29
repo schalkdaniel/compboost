@@ -21,36 +21,35 @@ Inheritance diagram for logger\+:\+:Logger\+:
 \end{figure}
 
 
-Collaboration diagram for logger\+:\+:Logger\+:\nopagebreak
+Collaboration diagram for logger\+:\+:Logger\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=205pt]{classlogger_1_1_logger__coll__graph}
+\includegraphics[width=202pt]{classlogger_1_1_logger__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-virtual void \mbox{\hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{log\+Step}} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$, const double \&, const double \&)=0
+virtual void \hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{log\+Step} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$, const double \&, const double \&)=0
 \begin{DoxyCompactList}\small\item\em Log current step of compboost iteration dependent on the child class. \end{DoxyCompactList}\item 
-virtual bool \mbox{\hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{reached\+Stop\+Criteria}} () const =0
+virtual bool \hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{reached\+Stop\+Criteria} () const =0
 \begin{DoxyCompactList}\small\item\em Class dependent check if the stopping criteria is fulfilled. \end{DoxyCompactList}\item 
-virtual arma\+::vec \mbox{\hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{get\+Logged\+Data}} () const =0
+virtual arma\+::vec \hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{get\+Logged\+Data} () const =0
 \begin{DoxyCompactList}\small\item\em Return the data stored within the logger. \end{DoxyCompactList}\item 
-virtual void \mbox{\hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{clear\+Logger\+Data}} ()=0
+virtual void \hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{clear\+Logger\+Data} ()=0
 \begin{DoxyCompactList}\small\item\em Clear the logger data. \end{DoxyCompactList}\item 
-virtual std\+::string \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}{initialize\+Logger\+Printer}} () const =0
-\begin{DoxyCompactList}\small\item\em Print the head of the trace which is printed to the console. \end{DoxyCompactList}\item 
-virtual std\+::string \mbox{\hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{print\+Logger\+Status}} () const =0
+virtual std\+::string \hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{print\+Logger\+Status} () const =0
 \begin{DoxyCompactList}\small\item\em Print status of current iteration into the console. \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classlogger_1_1_logger_ae39cfa15ba833840ae52889c09cac994}{get\+If\+Logger\+Is\+Stopper}} () const
+bool \hyperlink{classlogger_1_1_logger_ae39cfa15ba833840ae52889c09cac994}{get\+If\+Logger\+Is\+Stopper} () const
 \begin{DoxyCompactList}\small\item\em Just a getter if the logger is also used as stopper. \end{DoxyCompactList}\item 
-virtual \mbox{\hyperlink{classlogger_1_1_logger_aa85a309d218f9f006600cbaf2a348f52}{$\sim$\+Logger}} ()
+virtual \hyperlink{classlogger_1_1_logger_aa85a309d218f9f006600cbaf2a348f52}{$\sim$\+Logger} ()
 \end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
-bool \mbox{\hyperlink{classlogger_1_1_logger_a57ca2ab531e0a7ac74f4ecd4b74a938f}{is\+\_\+a\+\_\+stopper}}
+bool \hyperlink{classlogger_1_1_logger_a57ca2ab531e0a7ac74f4ecd4b74a938f}{is\+\_\+a\+\_\+stopper}
 \begin{DoxyCompactList}\small\item\em Tag if the logger is used as stopper. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
@@ -83,7 +82,7 @@ Clear the logger data.
 
 
 
-Implemented in \mbox{\hyperlink{classlogger_1_1_logger_time_a0bcce74556cf50de86b8d7333d82e919}{logger\+::\+Logger\+Time}}, \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a8330dd8fd748c8ea1e0027f1b2c7ea50}{logger\+::\+Logger\+Oob\+Risk}}, \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_ad5428486e370ae88e3bcb3a6c18d0f44}{logger\+::\+Logger\+Inbag\+Risk}}, and \mbox{\hyperlink{classlogger_1_1_logger_iteration_ac7c2aace3ba5f22d8f42ec078fe62602}{logger\+::\+Logger\+Iteration}}.
+Implemented in \hyperlink{classlogger_1_1_logger_time_a0bcce74556cf50de86b8d7333d82e919}{logger\+::\+Logger\+Time}, \hyperlink{classlogger_1_1_logger_oob_risk_a8330dd8fd748c8ea1e0027f1b2c7ea50}{logger\+::\+Logger\+Oob\+Risk}, \hyperlink{classlogger_1_1_logger_inbag_risk_ad5428486e370ae88e3bcb3a6c18d0f44}{logger\+::\+Logger\+Inbag\+Risk}, and \hyperlink{classlogger_1_1_logger_iteration_ac7c2aace3ba5f22d8f42ec078fe62602}{logger\+::\+Logger\+Iteration}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_ae39cfa15ba833840ae52889c09cac994}\label{classlogger_1_1_logger_ae39cfa15ba833840ae52889c09cac994}} 
 \index{logger\+::\+Logger@{logger\+::\+Logger}!get\+If\+Logger\+Is\+Stopper@{get\+If\+Logger\+Is\+Stopper}}
@@ -100,7 +99,8 @@ Getter if the logger is used as stopper.
 \begin{DoxyReturn}{Returns}
 {\ttfamily bool} which says {\ttfamily true} if it is a logger, otherwise {\ttfamily false} 
 \end{DoxyReturn}
-Here is the caller graph for this function\+:\nopagebreak
+Here is the caller graph for this function\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -119,27 +119,13 @@ Return the data stored within the logger.
 
 
 
-Implemented in \mbox{\hyperlink{classlogger_1_1_logger_time_a8723a078c86c1470208dccadffed5c1b}{logger\+::\+Logger\+Time}}, \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a1529f62cf58ad8bc5922a7d39ed3515e}{logger\+::\+Logger\+Oob\+Risk}}, \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_abde2b1db608804ca90ce92cd0e5dde12}{logger\+::\+Logger\+Inbag\+Risk}}, and \mbox{\hyperlink{classlogger_1_1_logger_iteration_a2d0404feb799850420874612a435f3da}{logger\+::\+Logger\+Iteration}}.
-
-\mbox{\Hypertarget{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}\label{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}} 
-\index{logger\+::\+Logger@{logger\+::\+Logger}!initialize\+Logger\+Printer@{initialize\+Logger\+Printer}}
-\index{initialize\+Logger\+Printer@{initialize\+Logger\+Printer}!logger\+::\+Logger@{logger\+::\+Logger}}
-\subsubsection{\texorpdfstring{initialize\+Logger\+Printer()}{initializeLoggerPrinter()}}
-{\footnotesize\ttfamily virtual std\+::string logger\+::\+Logger\+::initialize\+Logger\+Printer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
-
-
-
-Print the head of the trace which is printed to the console. 
-
-
-
-Implemented in \mbox{\hyperlink{classlogger_1_1_logger_time_a3b3c55f2ff14363a93f9ac0a2e23e1df}{logger\+::\+Logger\+Time}}, \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_ac8b1b8a148878c38b1206fb00e0263f4}{logger\+::\+Logger\+Oob\+Risk}}, \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a17caab25f28cc05d9170c8ac2d910487}{logger\+::\+Logger\+Inbag\+Risk}}, and \mbox{\hyperlink{classlogger_1_1_logger_iteration_a051c69a2577e023160ec8ccd080dd59f}{logger\+::\+Logger\+Iteration}}.
+Implemented in \hyperlink{classlogger_1_1_logger_time_a8723a078c86c1470208dccadffed5c1b}{logger\+::\+Logger\+Time}, \hyperlink{classlogger_1_1_logger_oob_risk_a1529f62cf58ad8bc5922a7d39ed3515e}{logger\+::\+Logger\+Oob\+Risk}, \hyperlink{classlogger_1_1_logger_inbag_risk_abde2b1db608804ca90ce92cd0e5dde12}{logger\+::\+Logger\+Inbag\+Risk}, and \hyperlink{classlogger_1_1_logger_iteration_a2d0404feb799850420874612a435f3da}{logger\+::\+Logger\+Iteration}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}\label{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}} 
 \index{logger\+::\+Logger@{logger\+::\+Logger}!log\+Step@{log\+Step}}
 \index{log\+Step@{log\+Step}!logger\+::\+Logger@{logger\+::\+Logger}}
 \subsubsection{\texorpdfstring{log\+Step()}{logStep()}}
-{\footnotesize\ttfamily virtual void logger\+::\+Logger\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{,  }\item[{const arma\+::vec \&}]{,  }\item[{const arma\+::vec \&}]{,  }\item[{\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$}]{,  }\item[{const double \&}]{,  }\item[{const double \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+{\footnotesize\ttfamily virtual void logger\+::\+Logger\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{,  }\item[{const arma\+::vec \&}]{,  }\item[{const arma\+::vec \&}]{,  }\item[{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$}]{,  }\item[{const double \&}]{,  }\item[{const double \&}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
 
 
 
@@ -147,7 +133,7 @@ Log current step of compboost iteration dependent on the child class.
 
 
 
-Implemented in \mbox{\hyperlink{classlogger_1_1_logger_time_aec35d7d3c780043ff2b7c9f71712abbc}{logger\+::\+Logger\+Time}}, \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a}{logger\+::\+Logger\+Oob\+Risk}}, \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}{logger\+::\+Logger\+Inbag\+Risk}}, and \mbox{\hyperlink{classlogger_1_1_logger_iteration_a155e7fd8c8130211f54804c5ff3a054b}{logger\+::\+Logger\+Iteration}}.
+Implemented in \hyperlink{classlogger_1_1_logger_time_aec35d7d3c780043ff2b7c9f71712abbc}{logger\+::\+Logger\+Time}, \hyperlink{classlogger_1_1_logger_oob_risk_a4b0ea670a7970bca31037efab99cc06a}{logger\+::\+Logger\+Oob\+Risk}, \hyperlink{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}{logger\+::\+Logger\+Inbag\+Risk}, and \hyperlink{classlogger_1_1_logger_iteration_a155e7fd8c8130211f54804c5ff3a054b}{logger\+::\+Logger\+Iteration}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}\label{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}} 
 \index{logger\+::\+Logger@{logger\+::\+Logger}!print\+Logger\+Status@{print\+Logger\+Status}}
@@ -161,7 +147,7 @@ Print status of current iteration into the console.
 
 
 
-Implemented in \mbox{\hyperlink{classlogger_1_1_logger_time_a22bef2a992b88689d7748c4017e17d19}{logger\+::\+Logger\+Time}}, \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a446e3e0c3766c8cda1add83c09d2e968}{logger\+::\+Logger\+Oob\+Risk}}, \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a3b7e827e941f2cb4b9def7296a5db38f}{logger\+::\+Logger\+Inbag\+Risk}}, and \mbox{\hyperlink{classlogger_1_1_logger_iteration_ac6283092f495a6e8c5ab357ae84cb911}{logger\+::\+Logger\+Iteration}}.
+Implemented in \hyperlink{classlogger_1_1_logger_time_a22bef2a992b88689d7748c4017e17d19}{logger\+::\+Logger\+Time}, \hyperlink{classlogger_1_1_logger_oob_risk_a446e3e0c3766c8cda1add83c09d2e968}{logger\+::\+Logger\+Oob\+Risk}, \hyperlink{classlogger_1_1_logger_inbag_risk_a3b7e827e941f2cb4b9def7296a5db38f}{logger\+::\+Logger\+Inbag\+Risk}, and \hyperlink{classlogger_1_1_logger_iteration_ac6283092f495a6e8c5ab357ae84cb911}{logger\+::\+Logger\+Iteration}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}\label{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}} 
 \index{logger\+::\+Logger@{logger\+::\+Logger}!reached\+Stop\+Criteria@{reached\+Stop\+Criteria}}
@@ -175,7 +161,7 @@ Class dependent check if the stopping criteria is fulfilled.
 
 
 
-Implemented in \mbox{\hyperlink{classlogger_1_1_logger_time_a727f16a2deed4d64293844615f18df08}{logger\+::\+Logger\+Time}}, \mbox{\hyperlink{classlogger_1_1_logger_oob_risk_a15c6792b0e1d2acbdd907f697f2884f3}{logger\+::\+Logger\+Oob\+Risk}}, \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a48453cfb5a3bbe3b1a73bbcb2d40f49e}{logger\+::\+Logger\+Inbag\+Risk}}, and \mbox{\hyperlink{classlogger_1_1_logger_iteration_af4cd1f0b87dcff8a88439f2ca6b07f1f}{logger\+::\+Logger\+Iteration}}.
+Implemented in \hyperlink{classlogger_1_1_logger_time_a727f16a2deed4d64293844615f18df08}{logger\+::\+Logger\+Time}, \hyperlink{classlogger_1_1_logger_oob_risk_a15c6792b0e1d2acbdd907f697f2884f3}{logger\+::\+Logger\+Oob\+Risk}, \hyperlink{classlogger_1_1_logger_inbag_risk_a48453cfb5a3bbe3b1a73bbcb2d40f49e}{logger\+::\+Logger\+Inbag\+Risk}, and \hyperlink{classlogger_1_1_logger_iteration_af4cd1f0b87dcff8a88439f2ca6b07f1f}{logger\+::\+Logger\+Iteration}.
 
 
 
@@ -194,5 +180,5 @@ Tag if the logger is used as stopper.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8h}{logger.\+h}\item 
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8cpp}{logger.\+cpp}\end{DoxyCompactItemize}

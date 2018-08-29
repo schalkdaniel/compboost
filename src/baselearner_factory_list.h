@@ -61,9 +61,9 @@ public:
   BaselearnerFactoryList ();
   
   // Functions to register a baselearner factory and print all registered
-  // factorys:
+  // factories:
   void registerBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
-  void printRegisteredFactorys () const;
+  void printRegisteredFactories () const;
   
   // Get the actual map:
   blearner_factory_map getMap () const;

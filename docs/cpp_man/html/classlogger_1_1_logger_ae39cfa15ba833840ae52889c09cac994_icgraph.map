@@ -1,5 +1,5 @@
 <map id="logger::Logger::getIfLoggerIsStopper" name="logger::Logger::getIfLoggerIsStopper">
-<area shape="rect" id="node2" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="228,5,371,47"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="419,5,561,47"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a191aa22dbfcc3d2e878ef75c0b196d07" title="cboost::Compboost::\lcontinueTraining" alt="" coords="609,5,752,47"/>
+<area shape="rect" id="node2" href="$classloggerlist_1_1_logger_list.html#a883c2526c3e56e572df670f64b966d41" title="loggerlist::LoggerList\l::registerLogger" alt="" coords="231,5,373,47"/>
+<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="421,5,565,47"/>
+<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a0e72bc9f0d36d4a9f141978e445f2cdc" title="cboost::Compboost::\lcontinueTraining" alt="" coords="613,5,757,47"/>
 </map>

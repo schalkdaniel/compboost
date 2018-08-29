@@ -2,7 +2,7 @@
 \label{classloss_1_1_loss_binomial}\index{loss\+::\+Loss\+Binomial@{loss\+::\+Loss\+Binomial}}
 
 
-0-\/1 \mbox{\hyperlink{classloss_1_1_loss}{Loss}} for binary classification derifed of the binomial distribution  
+0-\/1 \hyperlink{classloss_1_1_loss}{Loss} for binary classification derifed of the binomial distribution  
 
 
 
@@ -30,27 +30,27 @@ Collaboration diagram for loss\+:\+:Loss\+Binomial\+:\nopagebreak
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classloss_1_1_loss_binomial_ab1d025ad170fc10db1469cccaf8d877d}{Loss\+Binomial}} ()
+\hyperlink{classloss_1_1_loss_binomial_ab1d025ad170fc10db1469cccaf8d877d}{Loss\+Binomial} ()
 \begin{DoxyCompactList}\small\item\em Default Constructor. \end{DoxyCompactList}\item 
-\mbox{\hyperlink{classloss_1_1_loss_binomial_a16c4400af5c790a56ac0e0fcb7d1c5c5}{Loss\+Binomial}} (const double \&)
+\hyperlink{classloss_1_1_loss_binomial_a16c4400af5c790a56ac0e0fcb7d1c5c5}{Loss\+Binomial} (const double \&)
 \begin{DoxyCompactList}\small\item\em Constructor to initialize custom offset. \end{DoxyCompactList}\item 
-arma\+::vec \mbox{\hyperlink{classloss_1_1_loss_binomial_a396a06f762b735f83af21bdd4ba8fe9c}{defined\+Loss}} (const arma\+::vec \&, const arma\+::vec \&) const
+arma\+::vec \hyperlink{classloss_1_1_loss_binomial_a396a06f762b735f83af21bdd4ba8fe9c}{defined\+Loss} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Specific loss function. \end{DoxyCompactList}\item 
-arma\+::vec \mbox{\hyperlink{classloss_1_1_loss_binomial_a68dcf02e90d09c3658733a9319a85f56}{defined\+Gradient}} (const arma\+::vec \&, const arma\+::vec \&) const
+arma\+::vec \hyperlink{classloss_1_1_loss_binomial_a68dcf02e90d09c3658733a9319a85f56}{defined\+Gradient} (const arma\+::vec \&, const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Gradient of loss functions for pseudo residuals. \end{DoxyCompactList}\item 
-double \mbox{\hyperlink{classloss_1_1_loss_binomial_a21c384401aa0ef9b2db379e6822c3570}{constant\+Initializer}} (const arma\+::vec \&) const
+double \hyperlink{classloss_1_1_loss_binomial_a21c384401aa0ef9b2db379e6822c3570}{constant\+Initializer} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Constant initialization of the empirical risk. \end{DoxyCompactList}\item 
-arma\+::vec \mbox{\hyperlink{classloss_1_1_loss_binomial_a757fd8d478732ce94e8ba9497846bcf4}{response\+Transformation}} (const arma\+::vec \&) const
+arma\+::vec \hyperlink{classloss_1_1_loss_binomial_a757fd8d478732ce94e8ba9497846bcf4}{response\+Transformation} (const arma\+::vec \&) const
 \begin{DoxyCompactList}\small\item\em Definition of the response function. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
-0-\/1 \mbox{\hyperlink{classloss_1_1_loss}{Loss}} for binary classification derifed of the binomial distribution 
+0-\/1 \hyperlink{classloss_1_1_loss}{Loss} for binary classification derifed of the binomial distribution 
 
 This loss can be used for binary classification. The coding we have chosen here acts on \[ y \in \{-1, 1\}. \]
 
-{\bfseries \mbox{\hyperlink{classloss_1_1_loss}{Loss}} Function\+:} \[ L(y, f(x)) = \log\left\{1 + \exp\left(-2yf(x)\right)\right\} \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)} \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right) \] with \[ p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i > 0\}} \] 
+{\bfseries \hyperlink{classloss_1_1_loss}{Loss} Function\+:} \[ L(y, f(x)) = \log\left\{1 + \exp\left(-2yf(x)\right)\right\} \] {\bfseries Gradient\+:} \[ \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)} \] {\bfseries Initialization\+:} \[ \hat{f}^{[0]}(x) = \frac{1}{2}\log\left(\frac{p}{1 - p}\right) \] with \[ p = \frac{1}{n}\sum\limits_{i=1}^n\mathbb{1}_{\{y_i > 0\}} \] 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classloss_1_1_loss_binomial_ab1d025ad170fc10db1469cccaf8d877d}\label{classloss_1_1_loss_binomial_ab1d025ad170fc10db1469cccaf8d877d}} 
@@ -63,7 +63,7 @@ This loss can be used for binary classification. The coding we have chosen here 
 
 Default Constructor. 
 
-Default constructor of {\ttfamily \mbox{\hyperlink{classloss_1_1_loss_binomial}{Loss\+Binomial}}} \mbox{\Hypertarget{classloss_1_1_loss_binomial_a16c4400af5c790a56ac0e0fcb7d1c5c5}\label{classloss_1_1_loss_binomial_a16c4400af5c790a56ac0e0fcb7d1c5c5}} 
+Default constructor of {\ttfamily \hyperlink{classloss_1_1_loss_binomial}{Loss\+Binomial}} \mbox{\Hypertarget{classloss_1_1_loss_binomial_a16c4400af5c790a56ac0e0fcb7d1c5c5}\label{classloss_1_1_loss_binomial_a16c4400af5c790a56ac0e0fcb7d1c5c5}} 
 \index{loss\+::\+Loss\+Binomial@{loss\+::\+Loss\+Binomial}!Loss\+Binomial@{Loss\+Binomial}}
 \index{Loss\+Binomial@{Loss\+Binomial}!loss\+::\+Loss\+Binomial@{loss\+::\+Loss\+Binomial}}
 \subsubsection{\texorpdfstring{Loss\+Binomial()}{LossBinomial()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
@@ -73,7 +73,7 @@ Default constructor of {\ttfamily \mbox{\hyperlink{classloss_1_1_loss_binomial}{
 
 Constructor to initialize custom offset. 
 
-Constructor to initialize custom offset of {\ttfamily \mbox{\hyperlink{classloss_1_1_loss_absolute}{Loss\+Absolute}}}
+Constructor to initialize custom offset of {\ttfamily \hyperlink{classloss_1_1_loss_absolute}{Loss\+Absolute}}
 
 
 \begin{DoxyParams}{Parameters}
@@ -105,7 +105,7 @@ Definition of the constant risk initialization (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}}.
+Implements \hyperlink{classloss_1_1_loss_a65fe7dcd9370e6a549b8d1cc95fc8798}{loss\+::\+Loss}.
 
 \mbox{\Hypertarget{classloss_1_1_loss_binomial_a68dcf02e90d09c3658733a9319a85f56}\label{classloss_1_1_loss_binomial_a68dcf02e90d09c3658733a9319a85f56}} 
 \index{loss\+::\+Loss\+Binomial@{loss\+::\+Loss\+Binomial}!defined\+Gradient@{defined\+Gradient}}
@@ -131,7 +131,7 @@ Definition of the gradient of the loss function (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}}.
+Implements \hyperlink{classloss_1_1_loss_a267a4de70747ade4b2d84ce35a448979}{loss\+::\+Loss}.
 
 \mbox{\Hypertarget{classloss_1_1_loss_binomial_a396a06f762b735f83af21bdd4ba8fe9c}\label{classloss_1_1_loss_binomial_a396a06f762b735f83af21bdd4ba8fe9c}} 
 \index{loss\+::\+Loss\+Binomial@{loss\+::\+Loss\+Binomial}!defined\+Loss@{defined\+Loss}}
@@ -157,7 +157,7 @@ Definition of the loss function (see description of the class)
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}}.
+Implements \hyperlink{classloss_1_1_loss_ae9f94dd9b8311397583ba3a9cb485e94}{loss\+::\+Loss}.
 
 \mbox{\Hypertarget{classloss_1_1_loss_binomial_a757fd8d478732ce94e8ba9497846bcf4}\label{classloss_1_1_loss_binomial_a757fd8d478732ce94e8ba9497846bcf4}} 
 \index{loss\+::\+Loss\+Binomial@{loss\+::\+Loss\+Binomial}!response\+Transformation@{response\+Transformation}}
@@ -179,11 +179,11 @@ Definition of the response function.
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}}.
+Implements \hyperlink{classloss_1_1_loss_a0a84b7df79b08e40b538aaa7e6ee75c4}{loss\+::\+Loss}.
 
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8h}{loss.\+h}}\item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{loss_8cpp}{loss.\+cpp}}\end{DoxyCompactItemize}
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{loss_8h}{loss.\+h}\item 
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{loss_8cpp}{loss.\+cpp}\end{DoxyCompactItemize}

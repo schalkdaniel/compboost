@@ -1,6 +1,6 @@
 Package: compboost
 Type: Package
-Title: C++ Implementation of Componentwise Boosting
+Title: C++ Implementation of Component-Wise Boosting
 Version: 0.1.0
 Authors@R: c(
   person(given = "Daniel", family = "Schalk", email = "daniel.schalk@stat.uni-muenchen.de", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0950-1947")),
@@ -9,8 +9,8 @@ Authors@R: c(
 Maintainer: Daniel Schalk <daniel.schalk@stat.uni-muenchen.de>
 Description: A C++ implementation of component-wise boosting. The idea is to
   patch all components that are implemented as class together. This
-  gives the user maximal flexiblity. In addition, the main classes can be
-  extended with custom functions using R or C++. Using cutom R functions will
+  gives the user maximal flexibility. In addition, the main classes can be
+  extended with custom functions using R or C++. Using custom R functions will
   slow down the whole algorithm. Nevertheless, it is possible to do some
   prototyping within R for custom base-learner and implement then in C++
   without recompiling the whole package.

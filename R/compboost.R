@@ -2,7 +2,7 @@
 #'
 #' \code{Compboost} wraps the \code{S4} class system exposed by \code{Rcpp} to make defining
 #' objects, adding objects, the training and taking predictions, and plotting much easier.
-#' As alredy mentioned, the \code{Compboost} class is just a wrapper and hence compatible
+#' As already mentioned, the \code{Compboost} class is just a wrapper and hence compatible
 #' with the most \code{S4} classes. This together defines the compboost API.
 #'
 #' @format \code{\link{R6Class}} object.
@@ -43,7 +43,7 @@
 #'   Data used for training.
 #' }
 #' \item{\code{target}}{[\code{character(1)}]\cr
-#'   Character naming the target. It is necessery that target is available as column in data.
+#'   Character naming the target. It is necessary that target is available as column in data.
 #' }
 #' \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
 #'   Optimizer used for the fitting process given as initialized \code{S4 Optimizer} class.
@@ -87,7 +87,7 @@
 #'   every base-learner supports the use of multiple features (e.g. the spline base-learner).
 #' }
 #' \item{\code{id}}{[\code{character(1)}]\cr
-#'   Id of the base-learners. This is necessry since it is possible to define multiple learners with the same underlying data.
+#'   Id of the base-learners. This is necessary since it is possible to define multiple learners with the same underlying data.
 #' }
 #' \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
 #'   Uninitialized base-learner factory represented as \code{S4 Factory} class. See the details
@@ -115,7 +115,7 @@
 #' }
 #' \item{\code{trace}}{[\code{integer(1)}]\cr
 #'   Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
-#'   10th iteration is printet. If no trace should be printed set \code{trace = 0}. Default is
+#'   10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
 #'   -1 which means that we set \code{trace} at a value that 40 iterations are printed.
 #' }
 #' }
@@ -229,7 +229,7 @@
 #'
 #'   \item
 #'     We are aware of that the style guide here is not consistent with the \code{R6} arguments. Nevertheless, using
-#'     \code{_} as word seperator is due to the used arguments within \code{C++}.
+#'     \code{_} as word separator is due to the used arguments within \code{C++}.
 #'   }
 #'
 #' @section Fields:
@@ -265,7 +265,7 @@
 #'   Character containing the name of the positive class in the case of classification.
 #' }
 #' \item{\code{stop.if.all.stoppers.fulfilled} [\code{logical(1)}]}{
-#'   Logical indicating whether all stopper should be used symultaniously or if it is sufficient
+#'   Logical indicating whether all stopper should be used simultaneously or if it is sufficient
 #'   that the first stopper which is fulfilled breaks the algorithm.
 #' }
 #' }
@@ -280,7 +280,7 @@
 #' \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
 #' \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient for each selected base-learner.}
 #' \item{\code{plot}}{method to plot the \code{Compboost} object.}
-#' \item{\code{getBaselearnerNames}}{method to get names of registered fatories.}
+#' \item{\code{getBaselearnerNames}}{method to get names of registered factories.}
 #' }
 #'
 #' @examples
@@ -395,7 +395,7 @@ Compboost = R6::R6Class("Compboost",
         trace = round(iteration / 40)
       }
       
-      # Check if it is neccessary to add a initial iteration logger. This is not the case
+      # Check if it is necessary to add a initial iteration logger. This is not the case
       # when the user already has add one by calling `addLogger`:
       if (is.null(self$model)) {
         # If iteration is NULL, then there is no new iteration logger defined. This could be

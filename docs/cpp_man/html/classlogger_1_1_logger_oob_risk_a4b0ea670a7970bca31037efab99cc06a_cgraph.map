@@ -1,6 +1,6 @@
 <map id="logger::LoggerOobRisk::logStep" name="logger::LoggerOobRisk::logStep">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="215,5,360,47"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="215,71,360,112"/>
-<area shape="rect" id="node5" href="$classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="208,137,367,163"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="415,13,597,39"/>
+<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="215,5,361,47"/>
+<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#ab37986047db43c84420fef2cef7fc20d" title="blearner::Baselearner\l::predict" alt="" coords="215,71,361,112"/>
+<area shape="rect" id="node5" href="$classloss_1_1_loss.html#ae9f94dd9b8311397583ba3a9cb485e94" title="Specific loss function. " alt="" coords="208,137,368,163"/>
+<area shape="rect" id="node3" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="416,13,603,39"/>
 </map>

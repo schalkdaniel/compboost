@@ -1,0 +1,4 @@
+<map id="blearnerfactory::BaselearnerPSplineFactory::instantiateData" name="blearnerfactory::BaselearnerPSplineFactory::instantiateData">
+<area shape="rect" id="node2" href="$splines_8cpp.html#abd6cd4b9729094d96d4cebdc1a1b23e9" title="Transformation from a vector of input points to matrix of basis. " alt="" coords="260,13,387,39"/>
+<area shape="rect" id="node3" href="$splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="435,13,508,39"/>
+</map>

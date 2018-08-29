@@ -1,12 +1,12 @@
 <map id="blearnerfactory::BaselearnerPSplineFactory::BaselearnerPSplineFactory" name="blearnerfactory::BaselearnerPSplineFactory::BaselearnerPSplineFactory">
-<area shape="rect" id="node2" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="323,5,457,32"/>
+<area shape="rect" id="node2" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="321,5,459,32"/>
 <area shape="rect" id="node3" href="$splines_8cpp.html#ab51b53f392c4013697c072d010b250e4" title="Create knots for a specific number, degree and values. " alt="" coords="344,56,436,83"/>
 <area shape="rect" id="node4" href="$splines_8cpp.html#ab7f1f66c6e47e61810120b41dae2956d" title="Calculating penalty matrix. " alt="" coords="347,107,433,133"/>
-<area shape="rect" id="node5" href="$classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc" title="data::Data::setDataIdentifier" alt="" coords="299,157,481,184"/>
-<area shape="rect" id="node6" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="299,208,481,235"/>
+<area shape="rect" id="node5" href="$classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc" title="data::Data::setDataIdentifier" alt="" coords="297,157,483,184"/>
+<area shape="rect" id="node6" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="297,208,483,235"/>
 <area shape="rect" id="node7" href="$splines_8cpp.html#a64dae2ccfc491af73b3af552f642bc51" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="541,273,709,300"/>
-<area shape="rect" id="node9" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="323,309,457,336"/>
-<area shape="rect" id="node10" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html#a8e9f7977906b310d21dda5cceb15c0d8" title="Instantiate the design matrix. " alt="" coords="287,361,493,402"/>
-<area shape="rect" id="node8" href="$splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="757,307,829,333"/>
+<area shape="rect" id="node9" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="321,309,459,336"/>
+<area shape="rect" id="node10" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html#aeefb27ef79b2a95b2943a22d0e6368e2" title="Instantiate the design matrix. " alt="" coords="287,361,493,402"/>
+<area shape="rect" id="node8" href="$splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="757,313,831,340"/>
 <area shape="rect" id="node11" href="$splines_8cpp.html#abd6cd4b9729094d96d4cebdc1a1b23e9" title="Transformation from a vector of input points to matrix of basis. " alt="" coords="562,339,689,365"/>
 </map>

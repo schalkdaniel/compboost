@@ -2,7 +2,7 @@
 \label{classlogger_1_1_logger_time}\index{logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}}
 
 
-\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the ellapsed time.  
+\hyperlink{classlogger_1_1_logger}{Logger} class to log the ellapsed time.  
 
 
 
@@ -16,7 +16,7 @@ Inheritance diagram for logger\+:\+:Logger\+Time\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=205pt]{classlogger_1_1_logger_time__inherit__graph}
+\includegraphics[width=202pt]{classlogger_1_1_logger_time__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -26,42 +26,40 @@ Collaboration diagram for logger\+:\+:Logger\+Time\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=205pt]{classlogger_1_1_logger_time__coll__graph}
+\includegraphics[width=202pt]{classlogger_1_1_logger_time__coll__graph}
 \end{center}
 \end{figure}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classlogger_1_1_logger_time_a9dd340473ea5d705bc1a5bcdc948c0b3}{Logger\+Time}} (const bool \&, const unsigned int \&, const std\+::string \&)
-\begin{DoxyCompactList}\small\item\em Default constructor of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_time}{Logger\+Time}}} \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlogger_1_1_logger_time_aec35d7d3c780043ff2b7c9f71712abbc}{log\+Step}} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$, const double \&, const double \&)
-\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_time}{Logger\+Time}}} \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classlogger_1_1_logger_time_a727f16a2deed4d64293844615f18df08}{reached\+Stop\+Criteria}} () const
+\hyperlink{classlogger_1_1_logger_time_a9dd340473ea5d705bc1a5bcdc948c0b3}{Logger\+Time} (const bool \&, const unsigned int \&, const std\+::string \&)
+\begin{DoxyCompactList}\small\item\em Default constructor of class {\ttfamily \hyperlink{classlogger_1_1_logger_time}{Logger\+Time}} \end{DoxyCompactList}\item 
+void \hyperlink{classlogger_1_1_logger_time_aec35d7d3c780043ff2b7c9f71712abbc}{log\+Step} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$, const double \&, const double \&)
+\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration for class {\ttfamily \hyperlink{classlogger_1_1_logger_time}{Logger\+Time}} \end{DoxyCompactList}\item 
+bool \hyperlink{classlogger_1_1_logger_time_a727f16a2deed4d64293844615f18df08}{reached\+Stop\+Criteria} () const
 \begin{DoxyCompactList}\small\item\em Stop criteria is fulfilled if the passed time exceeds {\ttfamily max\+\_\+time} \end{DoxyCompactList}\item 
-arma\+::vec \mbox{\hyperlink{classlogger_1_1_logger_time_a8723a078c86c1470208dccadffed5c1b}{get\+Logged\+Data}} () const
+arma\+::vec \hyperlink{classlogger_1_1_logger_time_a8723a078c86c1470208dccadffed5c1b}{get\+Logged\+Data} () const
 \begin{DoxyCompactList}\small\item\em Return the data stored within the logger. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlogger_1_1_logger_time_a0bcce74556cf50de86b8d7333d82e919}{clear\+Logger\+Data}} ()
+void \hyperlink{classlogger_1_1_logger_time_a0bcce74556cf50de86b8d7333d82e919}{clear\+Logger\+Data} ()
 \begin{DoxyCompactList}\small\item\em Clear the logger data. \end{DoxyCompactList}\item 
-std\+::string \mbox{\hyperlink{classlogger_1_1_logger_time_a3b3c55f2ff14363a93f9ac0a2e23e1df}{initialize\+Logger\+Printer}} () const
-\begin{DoxyCompactList}\small\item\em Print the head of the trace which is printed to the console. \end{DoxyCompactList}\item 
-std\+::string \mbox{\hyperlink{classlogger_1_1_logger_time_a22bef2a992b88689d7748c4017e17d19}{print\+Logger\+Status}} () const
+std\+::string \hyperlink{classlogger_1_1_logger_time_a22bef2a992b88689d7748c4017e17d19}{print\+Logger\+Status} () const
 \begin{DoxyCompactList}\small\item\em Print status of current iteration into the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-std\+::chrono\+::steady\+\_\+clock\+::time\+\_\+point \mbox{\hyperlink{classlogger_1_1_logger_time_ace1b159544a0120633c506d36e0d22e0}{init\+\_\+time}}
+std\+::chrono\+::steady\+\_\+clock\+::time\+\_\+point \hyperlink{classlogger_1_1_logger_time_ace1b159544a0120633c506d36e0d22e0}{init\+\_\+time}
 \begin{DoxyCompactList}\small\item\em Initial time, important to get the actual elapsed time. \end{DoxyCompactList}\item 
-std\+::vector$<$ unsigned int $>$ \mbox{\hyperlink{classlogger_1_1_logger_time_a9c26fbdef41cacef1e7f630839f3a4d2}{current\+\_\+time}}
+std\+::vector$<$ unsigned int $>$ \hyperlink{classlogger_1_1_logger_time_a9c26fbdef41cacef1e7f630839f3a4d2}{current\+\_\+time}
 \begin{DoxyCompactList}\small\item\em Vector of elapsed time at each iteration. \end{DoxyCompactList}\item 
-unsigned int \mbox{\hyperlink{classlogger_1_1_logger_time_a1aec07a58b6d91c7931e627fc25018ff}{max\+\_\+time}}
+unsigned int \hyperlink{classlogger_1_1_logger_time_a1aec07a58b6d91c7931e627fc25018ff}{max\+\_\+time}
 \begin{DoxyCompactList}\small\item\em Stopping criteria, stop if $\mathrm{current_time} > \mathrm{max_time}$. \end{DoxyCompactList}\item 
-std\+::string \mbox{\hyperlink{classlogger_1_1_logger_time_a98bc56e547f8f32a3db03907347335da}{time\+\_\+unit}}
+std\+::string \hyperlink{classlogger_1_1_logger_time_a98bc56e547f8f32a3db03907347335da}{time\+\_\+unit}
 \begin{DoxyCompactList}\small\item\em The unit for time measuring, allowed are {\ttfamily minutes}, {\ttfamily seconds} and {\ttfamily microseconds} \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
-\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the ellapsed time. 
+\hyperlink{classlogger_1_1_logger}{Logger} class to log the ellapsed time. 
 
 This class just loggs the ellapsed time. This sould be very handy if one wants to run the algorithm for just 2 hours and see how far he comes within that time. There are three time units available for logging\+:
 \begin{DoxyItemize}
@@ -79,7 +77,7 @@ This class just loggs the ellapsed time. This sould be very handy if one wants t
 
 
 
-Default constructor of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_time}{Logger\+Time}}} 
+Default constructor of class {\ttfamily \hyperlink{classlogger_1_1_logger_time}{Logger\+Time}} 
 
 
 \begin{DoxyParams}{Parameters}
@@ -105,7 +103,7 @@ Clear the logger data.
 
 This is an important thing which is called every time in front of retraining the model. If we don\textquotesingle{}t clear the data, the new iterations are just pasted at the end of the existing vectors which couses some troubles. 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_time_a8723a078c86c1470208dccadffed5c1b}\label{classlogger_1_1_logger_time_a8723a078c86c1470208dccadffed5c1b}} 
 \index{logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}!get\+Logged\+Data@{get\+Logged\+Data}}
@@ -126,34 +124,17 @@ This function returns the logged elapsed time. An issue here is, that the later 
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}}.
-
-\mbox{\Hypertarget{classlogger_1_1_logger_time_a3b3c55f2ff14363a93f9ac0a2e23e1df}\label{classlogger_1_1_logger_time_a3b3c55f2ff14363a93f9ac0a2e23e1df}} 
-\index{logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}!initialize\+Logger\+Printer@{initialize\+Logger\+Printer}}
-\index{initialize\+Logger\+Printer@{initialize\+Logger\+Printer}!logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}}
-\subsubsection{\texorpdfstring{initialize\+Logger\+Printer()}{initializeLoggerPrinter()}}
-{\footnotesize\ttfamily std\+::string logger\+::\+Logger\+Time\+::initialize\+Logger\+Printer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
-
-
-
-Print the head of the trace which is printed to the console. 
-
-\begin{DoxyReturn}{Returns}
-{\ttfamily std\+::string} which is used to initialize the header of the trace 
-\end{DoxyReturn}
-
-
-Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_time_aec35d7d3c780043ff2b7c9f71712abbc}\label{classlogger_1_1_logger_time_aec35d7d3c780043ff2b7c9f71712abbc}} 
 \index{logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}!log\+Step@{log\+Step}}
 \index{log\+Step@{log\+Step}!logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}}
 \subsubsection{\texorpdfstring{log\+Step()}{logStep()}}
-{\footnotesize\ttfamily void logger\+::\+Logger\+Time\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily void logger\+::\+Logger\+Time\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
 
-Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_time}{Logger\+Time}}} 
+Log current step of compboost iteration for class {\ttfamily \hyperlink{classlogger_1_1_logger_time}{Logger\+Time}} 
 
 This functions loggs dependent on {\ttfamily time\+\_\+unit} the elapsed time at the current iteration.
 
@@ -174,7 +155,7 @@ This functions loggs dependent on {\ttfamily time\+\_\+unit} the elapsed time at
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_time_a22bef2a992b88689d7748c4017e17d19}\label{classlogger_1_1_logger_time_a22bef2a992b88689d7748c4017e17d19}} 
 \index{logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}!print\+Logger\+Status@{print\+Logger\+Status}}
@@ -186,14 +167,14 @@ Implements \mbox{\hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266
 
 Print status of current iteration into the console. 
 
-The string which is created in this functions must have exactly the same length as the string from {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_time_a3b3c55f2ff14363a93f9ac0a2e23e1df}{initialize\+Logger\+Printer()}}}. Those strings are printed line by line.
+The string which is created in this functions must have exactly the same length as the string from {\ttfamily initialize\+Logger\+Printer()}. Those strings are printed line by line.
 
 \begin{DoxyReturn}{Returns}
 {\ttfamily std\+::string} which includes the log of the current iteration 
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_time_a727f16a2deed4d64293844615f18df08}\label{classlogger_1_1_logger_time_a727f16a2deed4d64293844615f18df08}} 
 \index{logger\+::\+Logger\+Time@{logger\+::\+Logger\+Time}!reached\+Stop\+Criteria@{reached\+Stop\+Criteria}}
@@ -212,7 +193,7 @@ The stop criteria here is quite simple. For the current iteration $m$ it is trig
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}.
 
 
 
@@ -261,5 +242,5 @@ The unit for time measuring, allowed are {\ttfamily minutes}, {\ttfamily seconds
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8h}{logger.\+h}\item 
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8cpp}{logger.\+cpp}\end{DoxyCompactItemize}

@@ -55,8 +55,8 @@ void BaselearnerFactoryList::registerBaselearnerFactory (const std::string& fact
   }
 }
 
-// Print all registered factorys:
-void BaselearnerFactoryList::printRegisteredFactorys () const
+// Print all registered factories:
+void BaselearnerFactoryList::printRegisteredFactories () const
 {
   // Check if any factory is registered:
   if (my_factory_map.size() >= 1) {
@@ -65,7 +65,7 @@ void BaselearnerFactoryList::printRegisteredFactorys () const
     Rcpp::Rcout << "No registered base-learner.";
   }
   
-  // Iterate over all registered factorys and print the factory identifier:
+  // Iterate over all registered factories and print the factory identifier:
   for (auto& it : my_factory_map) {
     Rcpp::Rcout << "\t- " << it.first << std::endl;
   }
@@ -77,7 +77,7 @@ blearner_factory_map BaselearnerFactoryList::getMap () const
   return my_factory_map;
 }
 
-// Remove all registered factorys:
+// Remove all registered factories:
 void BaselearnerFactoryList::clearMap ()
 {
   // Just delete the pointer, so we have a new empty map. The factories which

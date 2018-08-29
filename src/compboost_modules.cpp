@@ -64,7 +64,7 @@ protected:
 //'
 //' \code{InMemoryData} creates an data object which can be used as source or
 //' target object within the base-learner factories of \code{compboost}. The
-//' convention to initialise target data is to call the constructor without
+//' convention to initialize target data is to call the constructor without
 //' any arguments.
 //'
 //' @format \code{\link{S4}} object.
@@ -203,7 +203,7 @@ RCPP_MODULE (data_module)
 // -------------------------------------------------------------------------- //
 
 // Abstract class. This one is given to the factory list. The factory list then
-// handles all factorys equally. It does not differ between a polynomial or
+// handles all factories equally. It does not differ between a polynomial or
 // custom factory:
 class BaselearnerFactoryWrapper
 {
@@ -219,7 +219,7 @@ protected:
 };
 
 
-//' Baselearner factory to make polynomial regression
+//' Base-learner factory to make polynomial regression
 //'
 //' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 //'  object which can be registered within a base-learner list and then used
@@ -268,7 +268,7 @@ protected:
 //' @section Methods:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
+//'   for modeling.}
 //' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
 //'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
@@ -383,7 +383,7 @@ public:
 //'   Degree of the spline functions to interpolate the knots.
 //' }
 //' \item{\code{n_knots} [\code{integer(1)}]}{
-//'   Number of \strong{inner knots}. To prefent weird behaviour on the edges
+//'   Number of \strong{inner knots}. To prevent weird behavior on the edges
 //'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 //' }
 //' \item{\code{penalty} [\code{numeric(1)}]}{
@@ -411,7 +411,7 @@ public:
 //' @section Methods:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
+//'   for modeling.}
 //' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
 //'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
@@ -521,7 +521,7 @@ public:
 //'   For details see the \code{Details}.
 //' }
 //' \item{\code{extractParameter} [\code{function}]}{
-//'   \code{R} function to extract the parameter of the object returend by
+//'   \code{R} function to extract the parameter of the object returned by
 //'   \code{train}. For details see the \code{Details}.
 //' }
 //' }
@@ -558,7 +558,7 @@ public:
 //' @section Methods:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
+//'   for modeling.}
 //' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
 //'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
@@ -687,7 +687,7 @@ public:
 //' @section Methods:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
-//'   for modelling.}
+//'   for modeling.}
 //' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
 //'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
@@ -899,8 +899,6 @@ private:
 
   blearnerlist::BaselearnerFactoryList obj;
 
-  unsigned int number_of_registered_factorys;
-
 public:
 
   void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
@@ -911,7 +909,7 @@ public:
 
   void printRegisteredFactories ()
   {
-    obj.printRegisteredFactorys();
+    obj.printRegisteredFactories();
   }
 
   void clearRegisteredFactories ()
@@ -957,10 +955,10 @@ RCPP_MODULE (baselearner_list_module)
   class_<BlearnerFactoryListWrapper> ("BlearnerFactoryList")
     .constructor ()
     .method("registerFactory", &BlearnerFactoryListWrapper::registerFactory, "Register new factory")
-    .method("printRegisteredFactories", &BlearnerFactoryListWrapper::printRegisteredFactories, "Print all registered factorys")
+    .method("printRegisteredFactories", &BlearnerFactoryListWrapper::printRegisteredFactories, "Print all registered factories")
     .method("clearRegisteredFactories", &BlearnerFactoryListWrapper::clearRegisteredFactories, "Clear factory map")
-    .method("getModelFrame", &BlearnerFactoryListWrapper::getModelFrame, "Get the data used for modelling")
-    .method("getNumberOfRegisteredFactories", &BlearnerFactoryListWrapper::getNumberOfRegisteredFactories, "Get number of registered factorys. Main purpose is for testing.")
+    .method("getModelFrame", &BlearnerFactoryListWrapper::getModelFrame, "Get the data used for modeling")
+    .method("getNumberOfRegisteredFactories", &BlearnerFactoryListWrapper::getNumberOfRegisteredFactories, "Get number of registered factories. Main purpose is for testing.")
     .method("getRegisteredFactoryNames", &BlearnerFactoryListWrapper::getRegisteredFactoryNames, "Get names of registered factories")
   ;
 }
@@ -1091,7 +1089,7 @@ public:
   LossAbsoluteWrapper (double custom_offset) { obj = new loss::LossAbsolute(custom_offset); }
 };
 
-//' 0-1 Loss for binary classification derifed of the binomial distribution
+//' 0-1 Loss for binary classification derived of the binomial distribution
 //'
 //' This loss can be used for binary classification. The coding we have chosen
 //' here acts on
@@ -1429,9 +1427,9 @@ public:
 
 //' Logger class to log the inbag risk
 //'
-//' This class loggs the inbag risk for a specific loss function. It is also
+//' This class logs the inbag risk for a specific loss function. It is also
 //' possible to use custom losses to log performance measures. For details
-//' see the usecase or extending compboost vignette.
+//' see the use case or extending compboost vignette.
 //'
 //' @format \code{\link{S4}} object.
 //' @name LoggerInbagRisk
@@ -1540,9 +1538,9 @@ public:
 
 //' Logger class to log the out of bag risk
 //'
-//' This class loggs the out of bag risk for a specific loss function. It is
+//' This class logs the out of bag risk for a specific loss function. It is
 //' also possible to use custom losses to log performance measures. For details
-//' see the usecase or extending compboost vignette.
+//' see the use case or extending compboost vignette.
 //'
 //' @format \code{\link{S4}} object.
 //' @name LoggerOobRisk
@@ -1696,9 +1694,9 @@ public:
   }
 };
 
-//' Logger class to log the ellapsed time
+//' Logger class to log the elapsed time
 //'
-//' This class just loggs the ellapsed time. This sould be very handy if one
+//' This class just logs the elapsed time. This should be very handy if one
 //' wants to run the algorithm for just 2 hours and see how far he comes within
 //' that time. There are three time units available for logging:
 //' \itemize{
@@ -1721,7 +1719,7 @@ public:
 //'   Boolean to indicate if the logger should also be used as stopper.
 //' }
 //' \item{\code{max_time} [\code{integer(1)}]}{
-//'   If the logger is used as stopper this argument cotains the maximal time
+//'   If the logger is used as stopper this argument contains the maximal time
 //'   which are available to train the model.
 //' }
 //' \item{\code{time_unit} [\code{character(1)}]}{
@@ -1787,8 +1785,8 @@ public:
 
 //' Logger list class to collect all loggers
 //'
-//' This class is ment to define all logger which should be used to track the
-//' progress of the aglorithm.
+//' This class is meant to define all logger which should be used to track the
+//' progress of the algorithm.
 //'
 //' @format \code{\link{S4}} object.
 //' @name LoggerList
@@ -2043,13 +2041,13 @@ RCPP_MODULE(optimizer_module)
 //' @section Arguments:
 //' \describe{
 //' \item{\code{response} [\code{numeric}]}{
-//'   Vector of the true values which should be modelled.
+//'   Vector of the true values which should be modeled.
 //' }
 //' \item{\code{learning_rate} [\code{numeric(1)}]}{
 //'   The learning rate which is used to shrink the parameter in each iteration.
 //' }
 //' \item{\code{stop_if_all_stopper_fulfilled} [\code{logical(1)}]}{
-//'   Boolean to indicate which stopping stategy is used. If \code{TRUE} then
+//'   Boolean to indicate which stopping strategy is used. If \code{TRUE} then
 //'   the algorithm stops if all registered logger stopper are fulfilled.
 //' }
 //' \item{\code{factory_list} [\code{BlearnerFactoryList} object]}{
@@ -2057,7 +2055,7 @@ RCPP_MODULE(optimizer_module)
 //'   in each iteration by using the
 //' }
 //' \item{\code{loss} [\code{Loss} object]}{
-//'   The loss which should be used to calculate the pseudo resudals in each
+//'   The loss which should be used to calculate the pseudo residuals in each
 //'   iteration.
 //' }
 //' \item{\code{logger_list} [\code{LoggerList} object]}{
@@ -2082,8 +2080,8 @@ RCPP_MODULE(optimizer_module)
 //' \describe{
 //' \item{\code{train(trace)}}{Initial training of the model. The integer
 //'   argument \code{trace} indicates if the logger progress should be printed
-//'   or not and if so trace indicates which ierations should be printed.}
-//' \item{\code{continueTraining(trace, logger_list)}}{Contine the training
+//'   or not and if so trace indicates which iterations should be printed.}
+//' \item{\code{continueTraining(trace, logger_list)}}{Continue the training
 //'   by using an additional \code{logger_list}. The retraining is stopped if
 //'   the first logger says that the algorithm should be stopped.}
 //' \item{\code{getPrediction()}}{Get the inbag prediction which is done during
@@ -2101,11 +2099,11 @@ RCPP_MODULE(optimizer_module)
 //'   includes the parameter at iteration \code{i}. There are as many rows
 //'   as done iterations.}
 //' \item{\code{isTrained()}}{This function returns just a boolean value which
-//'   indicates if the inital training was already done.}
-//' \item{\code{predict(newdata)}}{Prediction on newdata organized within a
+//'   indicates if the initial training was already done.}
+//' \item{\code{predict(newdata)}}{Prediction on new data organized within a
 //'   list of source data objects. It is important that the names of the source
 //'   data objects matches those one that were used to define the factories.}
-//' \item{\code{predictAtIteration(newdata, k)}}{Prediction on newdata by using
+//' \item{\code{predictAtIteration(newdata, k)}}{Prediction on new data by using
 //'   another iteration \code{k}.}
 //' \item{\code{setToIteration(k)}}{Set the whole model to another iteration
 //'   \code{k}. After calling this function all other elements such as the
@@ -2118,7 +2116,7 @@ RCPP_MODULE(optimizer_module)
 //' df = mtcars
 //' df$mpg.cat = ifelse(df$mpg > 20, 1, -1)
 //'
-//' # # Create new variable to check the polynomial baselearner with degree 2:
+//' # # Create new variable to check the polynomial base-learner with degree 2:
 //' # df$hp2 = df[["hp"]]^2
 //'
 //' # Data for the baselearner are matrices:
@@ -2151,7 +2149,7 @@ RCPP_MODULE(optimizer_module)
 //' # Create new factory list:
 //' factory.list = BlearnerFactoryList$new()
 //'
-//' # Register factorys:
+//' # Register factories:
 //' factory.list$registerFactory(linear.factory.hp)
 //' factory.list$registerFactory(linear.factory.wt)
 //' factory.list$registerFactory(quadratic.factory.hp)

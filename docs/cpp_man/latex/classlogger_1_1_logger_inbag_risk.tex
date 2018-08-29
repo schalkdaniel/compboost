@@ -2,7 +2,7 @@
 \label{classlogger_1_1_logger_inbag_risk}\index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}}
 
 
-\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the inbag risk.  
+\hyperlink{classlogger_1_1_logger}{Logger} class to log the inbag risk.  
 
 
 
@@ -16,7 +16,7 @@ Inheritance diagram for logger\+:\+:Logger\+Inbag\+Risk\+:
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=205pt]{classlogger_1_1_logger_inbag_risk__inherit__graph}
+\includegraphics[width=202pt]{classlogger_1_1_logger_inbag_risk__inherit__graph}
 \end{center}
 \end{figure}
 
@@ -32,49 +32,47 @@ Collaboration diagram for logger\+:\+:Logger\+Inbag\+Risk\+:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_ad6aa28d3140dc547f051a3ccd0cde43d}{Logger\+Inbag\+Risk}} (const bool \&, \mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}} $\ast$, const double \&)
+\hyperlink{classlogger_1_1_logger_inbag_risk_ad6aa28d3140dc547f051a3ccd0cde43d}{Logger\+Inbag\+Risk} (const bool \&, \hyperlink{classloss_1_1_loss}{loss\+::\+Loss} $\ast$, const double \&)
 \begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}{log\+Step}} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$, const double \&, const double \&)
-\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk}{Logger\+Inbag\+Risk}}} \end{DoxyCompactList}\item 
-bool \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a48453cfb5a3bbe3b1a73bbcb2d40f49e}{reached\+Stop\+Criteria}} () const
+void \hyperlink{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}{log\+Step} (const unsigned int \&, const arma\+::vec \&, const arma\+::vec \&, \hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$, const double \&, const double \&)
+\begin{DoxyCompactList}\small\item\em Log current step of compboost iteration for class {\ttfamily \hyperlink{classlogger_1_1_logger_inbag_risk}{Logger\+Inbag\+Risk}} \end{DoxyCompactList}\item 
+bool \hyperlink{classlogger_1_1_logger_inbag_risk_a48453cfb5a3bbe3b1a73bbcb2d40f49e}{reached\+Stop\+Criteria} () const
 \begin{DoxyCompactList}\small\item\em Stop criteria is fulfilled if the relative improvement falls below {\ttfamily eps\+\_\+for\+\_\+break} \end{DoxyCompactList}\item 
-arma\+::vec \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_abde2b1db608804ca90ce92cd0e5dde12}{get\+Logged\+Data}} () const
+arma\+::vec \hyperlink{classlogger_1_1_logger_inbag_risk_abde2b1db608804ca90ce92cd0e5dde12}{get\+Logged\+Data} () const
 \begin{DoxyCompactList}\small\item\em Return the data stored within the logger. \end{DoxyCompactList}\item 
-void \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_ad5428486e370ae88e3bcb3a6c18d0f44}{clear\+Logger\+Data}} ()
+void \hyperlink{classlogger_1_1_logger_inbag_risk_ad5428486e370ae88e3bcb3a6c18d0f44}{clear\+Logger\+Data} ()
 \begin{DoxyCompactList}\small\item\em Clear the logger data. \end{DoxyCompactList}\item 
-std\+::string \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a17caab25f28cc05d9170c8ac2d910487}{initialize\+Logger\+Printer}} () const
-\begin{DoxyCompactList}\small\item\em Print the head of the trace which is printed to the console. \end{DoxyCompactList}\item 
-std\+::string \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a3b7e827e941f2cb4b9def7296a5db38f}{print\+Logger\+Status}} () const
+std\+::string \hyperlink{classlogger_1_1_logger_inbag_risk_a3b7e827e941f2cb4b9def7296a5db38f}{print\+Logger\+Status} () const
 \begin{DoxyCompactList}\small\item\em Print status of current iteration into the console. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}} $\ast$ \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_abd70a6ddb6701bab59cd3ac01468938b}{used\+\_\+loss}}
+\hyperlink{classloss_1_1_loss}{loss\+::\+Loss} $\ast$ \hyperlink{classlogger_1_1_logger_inbag_risk_abd70a6ddb6701bab59cd3ac01468938b}{used\+\_\+loss}
 \begin{DoxyCompactList}\small\item\em Used loss. {\bfseries Note} that you can specify a different loss than the loss used for training. \end{DoxyCompactList}\item 
-std\+::vector$<$ double $>$ \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a823c1a3de2cc47d8fca047297d374590}{tracked\+\_\+inbag\+\_\+risk}}
+std\+::vector$<$ double $>$ \hyperlink{classlogger_1_1_logger_inbag_risk_a823c1a3de2cc47d8fca047297d374590}{tracked\+\_\+inbag\+\_\+risk}
 \begin{DoxyCompactList}\small\item\em Vector of inbag risk for every iteration. \end{DoxyCompactList}\item 
-double \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a2990493d573d8e57605e4d96e0c0d8bb}{eps\+\_\+for\+\_\+break}}
+double \hyperlink{classlogger_1_1_logger_inbag_risk_a2990493d573d8e57605e4d96e0c0d8bb}{eps\+\_\+for\+\_\+break}
 \begin{DoxyCompactList}\small\item\em Stopping criteria, stop if $(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}$. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}
-\mbox{\hyperlink{classlogger_1_1_logger}{Logger}} class to log the inbag risk. 
+\hyperlink{classlogger_1_1_logger}{Logger} class to log the inbag risk. 
 
-This class loggs the inbag risk for a specific loss function. It is possible to define more than one inbag risk logger (e.\+g. for 2 different loss functions). For details about logging and stopping see the description of the {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}{log\+Step()}}} function. 
+This class loggs the inbag risk for a specific loss function. It is possible to define more than one inbag risk logger (e.\+g. for 2 different loss functions). For details about logging and stopping see the description of the {\ttfamily \hyperlink{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}{log\+Step()}} function. 
 
 \subsection{Constructor \& Destructor Documentation}
 \mbox{\Hypertarget{classlogger_1_1_logger_inbag_risk_ad6aa28d3140dc547f051a3ccd0cde43d}\label{classlogger_1_1_logger_inbag_risk_ad6aa28d3140dc547f051a3ccd0cde43d}} 
 \index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}!Logger\+Inbag\+Risk@{Logger\+Inbag\+Risk}}
 \index{Logger\+Inbag\+Risk@{Logger\+Inbag\+Risk}!logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}}
 \subsubsection{\texorpdfstring{Logger\+Inbag\+Risk()}{LoggerInbagRisk()}}
-{\footnotesize\ttfamily logger\+::\+Logger\+Inbag\+Risk\+::\+Logger\+Inbag\+Risk (\begin{DoxyParamCaption}\item[{const bool \&}]{is\+\_\+a\+\_\+stopper0,  }\item[{\mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}} $\ast$}]{used\+\_\+loss,  }\item[{const double \&}]{eps\+\_\+for\+\_\+break }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily logger\+::\+Logger\+Inbag\+Risk\+::\+Logger\+Inbag\+Risk (\begin{DoxyParamCaption}\item[{const bool \&}]{is\+\_\+a\+\_\+stopper0,  }\item[{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss} $\ast$}]{used\+\_\+loss,  }\item[{const double \&}]{eps\+\_\+for\+\_\+break }\end{DoxyParamCaption})}
 
 
 
 Default constructor. 
 
-Default constructor of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk}{Logger\+Inbag\+Risk}}}
+Default constructor of class {\ttfamily \hyperlink{classlogger_1_1_logger_inbag_risk}{Logger\+Inbag\+Risk}}
 
 
 \begin{DoxyParams}{Parameters}
@@ -82,7 +80,7 @@ Default constructor of class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_
 \hline
 {\em used\+\_\+loss} & {\ttfamily Loss$\ast$} used loss to calculate the empirical risk (this can differ from the one used while training the model) \\
 \hline
-{\em eps\+\_\+for\+\_\+break} & {\ttfamily double} sets value of the stopping criteria\`{} \\
+{\em eps\+\_\+for\+\_\+break} & {\ttfamily double} sets value of the stopping criteria` \\
 \hline
 \end{DoxyParams}
 
@@ -100,7 +98,7 @@ Clear the logger data.
 
 This is an important thing which is called every time in front of retraining the model. If we don\textquotesingle{}t clear the data, the new iterations are just pasted at the end of the existing vectors which couses some troubles. 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_a8c68db2430fa84b67528bfa6ae45a516}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_inbag_risk_abde2b1db608804ca90ce92cd0e5dde12}\label{classlogger_1_1_logger_inbag_risk_abde2b1db608804ca90ce92cd0e5dde12}} 
 \index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}!get\+Logged\+Data@{get\+Logged\+Data}}
@@ -121,34 +119,17 @@ This function returns the logged O\+OB risk.
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}}.
-
-\mbox{\Hypertarget{classlogger_1_1_logger_inbag_risk_a17caab25f28cc05d9170c8ac2d910487}\label{classlogger_1_1_logger_inbag_risk_a17caab25f28cc05d9170c8ac2d910487}} 
-\index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}!initialize\+Logger\+Printer@{initialize\+Logger\+Printer}}
-\index{initialize\+Logger\+Printer@{initialize\+Logger\+Printer}!logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}}
-\subsubsection{\texorpdfstring{initialize\+Logger\+Printer()}{initializeLoggerPrinter()}}
-{\footnotesize\ttfamily std\+::string logger\+::\+Logger\+Inbag\+Risk\+::initialize\+Logger\+Printer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [virtual]}}
-
-
-
-Print the head of the trace which is printed to the console. 
-
-\begin{DoxyReturn}{Returns}
-{\ttfamily std\+::string} which is used to initialize the header of the trace 
-\end{DoxyReturn}
-
-
-Implements \mbox{\hyperlink{classlogger_1_1_logger_a825f96e8564ac4013ff09ef842c0aeec}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_aa4fc254c532172db3404b7c0bcd17092}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}\label{classlogger_1_1_logger_inbag_risk_aa7cb90600de663c51feaaf8a0715a0f9}} 
 \index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}!log\+Step@{log\+Step}}
 \index{log\+Step@{log\+Step}!logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}}
 \subsubsection{\texorpdfstring{log\+Step()}{logStep()}}
-{\footnotesize\ttfamily void logger\+::\+Logger\+Inbag\+Risk\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\mbox{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner}} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily void logger\+::\+Logger\+Inbag\+Risk\+::log\+Step (\begin{DoxyParamCaption}\item[{const unsigned int \&}]{current\+\_\+iteration,  }\item[{const arma\+::vec \&}]{response,  }\item[{const arma\+::vec \&}]{prediction,  }\item[{\hyperlink{classblearner_1_1_baselearner}{blearner\+::\+Baselearner} $\ast$}]{used\+\_\+blearner,  }\item[{const double \&}]{offset,  }\item[{const double \&}]{learning\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
 
 
-Log current step of compboost iteration for class {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk}{Logger\+Inbag\+Risk}}} 
+Log current step of compboost iteration for class {\ttfamily \hyperlink{classlogger_1_1_logger_inbag_risk}{Logger\+Inbag\+Risk}} 
 
 This logger computes the risk for the given training data $\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}$ and stores it into a vector. The empirical risk $\mathcal{R}$ for iteration $m$ is calculated by\+: \[ \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}^{[m]}(x)) \]
 
@@ -181,7 +162,7 @@ This procedure ensures, that it is possible to e.\+g. use the A\+UC or any arbit
 \end{DoxyParams}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_a91d987a86698e455b6fd3468f266d3fe}{logger\+::\+Logger}.
 
 Here is the call graph for this function\+:
 \nopagebreak
@@ -201,14 +182,14 @@ Here is the call graph for this function\+:
 
 Print status of current iteration into the console. 
 
-The string which is created in this functions must have exactly the same length as the string from {\ttfamily \mbox{\hyperlink{classlogger_1_1_logger_inbag_risk_a17caab25f28cc05d9170c8ac2d910487}{initialize\+Logger\+Printer()}}}. Those strings are printed line by line.
+The string which is created in this functions must have exactly the same length as the string from {\ttfamily initialize\+Logger\+Printer()}. Those strings are printed line by line.
 
 \begin{DoxyReturn}{Returns}
 {\ttfamily std\+::string} which includes the log of the current iteration 
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_abad818a7e8053ca84cb267e883b5e377}{logger\+::\+Logger}.
 
 \mbox{\Hypertarget{classlogger_1_1_logger_inbag_risk_a48453cfb5a3bbe3b1a73bbcb2d40f49e}\label{classlogger_1_1_logger_inbag_risk_a48453cfb5a3bbe3b1a73bbcb2d40f49e}} 
 \index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}!reached\+Stop\+Criteria@{reached\+Stop\+Criteria}}
@@ -229,7 +210,7 @@ The logger stops the algorithm if $\varepsilon^{[m]} \leq \varepsilon$.
 \end{DoxyReturn}
 
 
-Implements \mbox{\hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}}.
+Implements \hyperlink{classlogger_1_1_logger_aed91421c07062b91cee158ef2bda7ae8}{logger\+::\+Logger}.
 
 
 
@@ -258,7 +239,7 @@ Vector of inbag risk for every iteration.
 \index{logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}!used\+\_\+loss@{used\+\_\+loss}}
 \index{used\+\_\+loss@{used\+\_\+loss}!logger\+::\+Logger\+Inbag\+Risk@{logger\+::\+Logger\+Inbag\+Risk}}
 \subsubsection{\texorpdfstring{used\+\_\+loss}{used\_loss}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classloss_1_1_loss}{loss\+::\+Loss}}$\ast$ logger\+::\+Logger\+Inbag\+Risk\+::used\+\_\+loss\hspace{0.3cm}{\ttfamily [private]}}
+{\footnotesize\ttfamily \hyperlink{classloss_1_1_loss}{loss\+::\+Loss}$\ast$ logger\+::\+Logger\+Inbag\+Risk\+::used\+\_\+loss\hspace{0.3cm}{\ttfamily [private]}}
 
 
 
@@ -268,5 +249,5 @@ Used loss. {\bfseries Note} that you can specify a different loss than the loss 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8h}{logger.\+h}}\item 
-C\+:/\+Users/schal/\+One\+Drive/github\+\_\+repos/compboost/src/\mbox{\hyperlink{logger_8cpp}{logger.\+cpp}}\end{DoxyCompactItemize}
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8h}{logger.\+h}\item 
+/home/daniel/github\+\_\+repos/compboost/src/\hyperlink{logger_8cpp}{logger.\+cpp}\end{DoxyCompactItemize}
