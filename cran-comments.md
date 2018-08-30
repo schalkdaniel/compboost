@@ -1,9 +1,9 @@
 ## Test environments
 * local ubuntu 18.04, R 3.5.1
 * ubuntu 14.04 (on travis-ci), R 3.5.0
-* local Windows 10, R 3.4.2
+* local Windows 10, R 3.5.1
 * Windows Server 2012 (on Appveyor), R 3.5.1
-* win-builder (devel and release)
+* win-builder
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
