@@ -8,7 +8,7 @@
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
-There was 1 NOTE:
+There was 3 NOTES:
 
 * checking package dependencies ... NOTE
   Package in Depends/Imports which should probably only be in LinkingTo: 'RcppArmadillo'
