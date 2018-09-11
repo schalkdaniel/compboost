@@ -17,6 +17,7 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.0
 Imports:
+  Rcpp (>= 0.11.2),
   methods,
   glue,
   R6,
@@ -25,7 +26,6 @@ LinkingTo:
   Rcpp,
   RcppArmadillo
 Suggests:
-  Rcpp (>= 0.11.2),
   RcppArmadillo (>= 0.8.500.0.0),
   ggplot2,
   testthat,
