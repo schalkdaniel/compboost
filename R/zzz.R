@@ -2,5 +2,4 @@
 NULL
 
 #' @import Rcpp
-#' @import RcppArmadillo
 NULL
