@@ -63,9 +63,7 @@ cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = Baselear
 
 # Add another p-spline learner with custom parameters:
 cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
-  knots = 10, penalty = 4, differences = 2)
-#> Warning in .handleRcpp_BaselearnerPSpline(degree = 3, knots = 10, penalty =
-#> 4, : Following arguments are ignored by the spline base-learner: knots
+  n.knots = 10, penalty = 4, differences = 2)
 
 # Add categorical feature (as single linear base-learner):
 cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = BaselearnerPolynomial,
@@ -112,14 +110,14 @@ selected.features = cboost$getSelectedBaselearner()
 table(selected.features)
 #> selected.features
 #>               age_spline pregnant.cat_no_category          pressure_spline 
-#>                      556                      130                      314
+#>                      434                      150                      416
 
 params = cboost$getEstimatedCoef()
 str(params)
 #> List of 4
-#>  $ age_spline              : num [1:24, 1] 3.1673 1.7275 0.763 0.7498 0.0604 ...
-#>  $ pregnant.cat_no_category: num [1, 1] -0.285
-#>  $ pressure_spline         : num [1:24, 1] -0.726 -0.4311 -0.1458 0.0818 0.1939 ...
+#>  $ age_spline              : num [1:14, 1] 2.99 1.501 0.588 -0.535 -0.119 ...
+#>  $ pregnant.cat_no_category: num [1, 1] -0.299
+#>  $ pressure_spline         : num [1:24, 1] -0.8087 -0.4274 -0.0602 0.2226 0.3368 ...
 #>  $ offset                  : num 0.312
 
 cboost$train(3000)

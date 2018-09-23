@@ -67,7 +67,7 @@ cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = Baselear
 
 # Add another p-spline learner with custom parameters:
 cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
-  knots = 10, penalty = 4, differences = 2)
+  n.knots = 10, penalty = 4, differences = 2)
 
 # Add categorical feature (as single linear base-learner):
 cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = BaselearnerPolynomial,
