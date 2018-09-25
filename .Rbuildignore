@@ -36,3 +36,4 @@ cran-comments.md
 ^README\.Rmd$
 ^README-.*\.png$
 ^LICENSE\.md$
+^cran-comments\.md$
