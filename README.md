@@ -10,6 +10,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboos
 [![Coverage
 Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license)
+[![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
 ## compboost: Fast and Flexible Component-Wise Boosting Framework
 
