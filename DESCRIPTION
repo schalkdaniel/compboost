@@ -26,7 +26,7 @@ LinkingTo:
   Rcpp,
   RcppArmadillo
 Suggests:
-  RcppArmadillo (>= 0.8.500.0.0),
+  RcppArmadillo (>= 0.9.100.5.0),
   ggplot2,
   testthat,
   rpart,

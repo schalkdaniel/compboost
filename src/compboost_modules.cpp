@@ -693,6 +693,7 @@ public:
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
+//' \donttest{
 //' # Sample data:
 //' data.mat = cbind(1, 1:10)
 //' y = 2 + 3 * 1:10
@@ -716,7 +717,7 @@ public:
 //'
 //' # Transform data manually:
 //' custom.cpp.factory$transformData(data.mat)
-//'
+//' }
 //' @export BaselearnerCustomCpp
 class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
 {
@@ -1266,14 +1267,13 @@ public:
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
 //'
 //' @examples
-//'
+//' \donttest{
 //' # Load loss functions:
 //' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 //'
 //' # Create new custom quadratic loss:
 //' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
-//'
-//'
+//' }
 //' @export LossCustomCpp
 class LossCustomCppWrapper : public LossWrapper
 {

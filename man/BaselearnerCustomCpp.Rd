@@ -66,6 +66,7 @@ BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 }
 
 \examples{
+\donttest{
 # Sample data:
 data.mat = cbind(1, 1:10)
 y = 2 + 3 * 1:10
@@ -89,5 +90,5 @@ custom.cpp.factory$summarizeFactory()
 
 # Transform data manually:
 custom.cpp.factory$transformData(data.mat)
-
+}
 }
