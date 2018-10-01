@@ -12,9 +12,8 @@ Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branc
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license)
 [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
-[Documentation](https://compboost.org) |
-[Contributors](CONTRIBUTORS.md) |
-[Release Notes](NEWS.md)
+[Documentation](https://compboost.org) | [Contributors](CONTRIBUTORS.md)
+| [Release Notes](NEWS.md)
 
 ## compboost: Fast and Flexible Component-Wise Boosting Framework
 
@@ -43,6 +42,9 @@ devtools::install_github("schalkdaniel/compboost")
 ```
 
 ## Examples
+
+Run example on
+[![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
 
 This examples are rendered using <code>compboost 0.1.0</code>.
 
