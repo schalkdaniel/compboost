@@ -12,6 +12,10 @@ Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branc
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license)
 [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
+[Documentation](https://compboost.org) |
+[Contributors](CONTRIBUTORS.md) |
+[Release Notes](NEWS.md)
+
 ## compboost: Fast and Flexible Component-Wise Boosting Framework
 
 Component-wise boosting applies the boosting framework to statistical
