@@ -1,4 +1,5 @@
 install.packages("ggplot2")
 install.packages("ggthemes")
 install.packages("mlbench")
+install.packages("remotes")
 remotes::isntall_github("schalkdaniel/compboost")
