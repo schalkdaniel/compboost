@@ -47,6 +47,8 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Examples
 
+Run example on [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
+
 This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 
 To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
