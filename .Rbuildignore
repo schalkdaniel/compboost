@@ -21,6 +21,7 @@ testinfo.RData
 ^makeR$
 .github
 tutorials
+binder
 other
 docs
 Readme_files
@@ -37,3 +38,4 @@ cran-comments.md
 ^README-.*\.png$
 ^LICENSE\.md$
 ^cran-comments\.md$
+^CONTRIBUTORS\.md$
