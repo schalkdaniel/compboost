@@ -167,3 +167,16 @@ benchmark in which compboost is compared with mboost. For this purpose,
 the runtime behavior and memory consumption of the two packages were
 compared. The results of the benchmark can be read
 [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+
+## Testing
+
+You can test the package locally using docker and the [`compboost-test`
+repository](https://hub.docker.com/r/schalkdaniel/compboost-test/):
+
+  - Latest `R` release:
+    
+        docker run schalkdaniel/compboost-test
+
+  - Latest `R` devel build:
+    
+        docker run schalkdaniel/compboost-test:devel
