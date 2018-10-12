@@ -168,6 +168,14 @@ the runtime behavior and memory consumption of the two packages were
 compared. The results of the benchmark can be read
 [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
 
+## Citing
+
+To cite `compboost` in publications, please use:
+
+> Schalk et al., (2018). compboost: Modular Framework for Component-Wise
+> Boosting. Journal of Open Source Software, 3(30), 967,
+> <https://doi.org/10.21105/joss.00967>
+
 ## Testing
 
 You can test the package locally using docker and the [`compboost-test`

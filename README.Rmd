@@ -109,6 +109,12 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 
 To get an idea of the performance of compboost, we have conduct a small benchmark in which compboost is compared with mboost. For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
 
+## Citing
+
+To cite `compboost` in publications, please use:
+
+> Schalk et al., (2018). compboost: Modular Framework for Component-Wise Boosting. Journal of Open Source Software, 3(30), 967, https://doi.org/10.21105/joss.00967
+
 ## Testing
 
 You can test the package locally using docker and the [`compboost-test` repository](https://hub.docker.com/r/schalkdaniel/compboost-test/):

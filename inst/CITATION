@@ -1,0 +1,14 @@
+citHeader("To cite compboost in publications, please use:")
+
+bibentry(bibtype = "article",
+  author = "Daniel Schalk, Janek Thomas, Bernd Bischl",
+  title = "compboost: Modular Framework for Component-Wise Boosting",
+  doi = "10.21105/joss.00967",
+  url = "https://doi.org/10.21105/joss.00967",
+  year = "2018",
+  publisher = "Journal of Open Source Software",
+  volume = "3",
+  number = "30",
+  pages = "967",
+  journal = "JOSS"
+)
