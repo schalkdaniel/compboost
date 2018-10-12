@@ -45,9 +45,7 @@ For an introduction and overview about the functionality visit the [project page
 devtools::install_github("schalkdaniel/compboost")
 ```
 
-## Examples
-
-Run example on [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
+## Examples [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
 
 This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 

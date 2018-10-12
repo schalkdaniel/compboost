@@ -31,7 +31,8 @@ functions for custom base-learners, losses, logging mechanisms or
 stopping criteria.
 
 For an introduction and overview about the functionality visit the
-[project page](https://schalkdaniel.github.io/compboost/).
+[project
+page](https://schalkdaniel.github.io/compboost/).
 
 ## Installation
 
@@ -41,10 +42,7 @@ For an introduction and overview about the functionality visit the
 devtools::install_github("schalkdaniel/compboost")
 ```
 
-## Examples
-
-Run example on
-[![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
+## Examples [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
 
 This examples are rendered using <code>compboost 0.1.0</code>.
 
