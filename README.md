@@ -174,6 +174,18 @@ To cite `compboost` in publications, please use:
 > Boosting. Journal of Open Source Software, 3(30), 967,
 > <https://doi.org/10.21105/joss.00967>
 
+    @article{schalk2018compboost,
+      author = {Daniel Schalk, Janek Thomas, Bernd Bischl},
+      title = {compboost: Modular Framework for Component-Wise Boosting},
+      URL = {https://doi.org/10.21105/joss.00967},
+      year = {2018},
+      publisher = {Journal of Open Source Software},
+      volume = {3},
+      number = {30},
+      pages = {967},
+      journal = {JOSS}
+    }
+
 ## Testing
 
 You can test the package locally using docker and the [`compboost-test`
