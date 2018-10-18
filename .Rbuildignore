@@ -30,6 +30,7 @@ paper
 Readme.*
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
+CONTRIBUTORS.md
 todo
 ^appveyor\.yml$
 cran-comments.md
@@ -38,4 +39,3 @@ cran-comments.md
 ^README-.*\.png$
 ^LICENSE\.md$
 ^cran-comments\.md$
-^CONTRIBUTORS\.md$
