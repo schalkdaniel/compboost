@@ -76,8 +76,28 @@ bool stringInNames (std::string str, std::vector<std::string> names)
  * \param matching_list `Rcpp::List` New list to replace default values.
  * \returns `Rcpp::List` of updated default values. 
  */
-Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list)
+Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list, bool type_check = TRUE)
 {
+  // First of all, we want to check if the matching list contain anything. If not, we just
+  // return the default setting:
+  if (matching_list.size() == 0) {
+    return internal_list;
+  }
+
+  // Next, check if the matching list has names. If not, stop instantly.
+  // Otherwise this could cause segfoults:
+  if (! matching_list.hasAttribute("names")) {
+    // This is necessary to prevent the program from segfolds... whyever???
+    // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
+    try {
+      Rcpp::stop("Be sure to specify names within your argument list.");
+    } catch ( std::exception &ex ) {
+      forward_exception_to_r( ex );
+    } catch (...) { 
+      ::Rf_error( "c++ exception (unknown reason)" ); 
+    }
+  }
+
   std::vector<std::string> internal_list_names = internal_list.names();
   std::vector<std::string> matching_list_names = matching_list.names();
   std::vector<std::string> unused_args;
@@ -88,19 +108,31 @@ Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list)
   for (unsigned int i = 0; i < matching_list_names.size(); i++) {
     if (stringInNames(matching_list_names[i], internal_list_names)) {
 
-      // Check element type:
-      arg_type_internal = TYPEOF(internal_list[matching_list_names[i]]);
-      arg_type_match    = TYPEOF(matching_list[matching_list_names[i]]);
+      if (type_check) {
+        // Check element type:
+        arg_type_internal = TYPEOF(internal_list[matching_list_names[i]]);
+        arg_type_match    = TYPEOF(matching_list[matching_list_names[i]]);
 
-      // Int as 13 and double as 14 are both ok, so set both to 13 (int) if they are 14 (double). The
-      // as conversion of Rcpp handles to set them correctly later:
-      if (arg_type_internal == 14) { arg_type_internal -= 1; }
-      if (arg_type_match == 14) { arg_type_match -= 1; }
+        // Int as 13 and double as 14 are both ok, so set both to 13 (int) if they are 14 (double). The
+        // as conversion of Rcpp handles to set them correctly later:
+        if (arg_type_internal == 14) { arg_type_internal -= 1; }
+        if (arg_type_match == 14) { arg_type_match -= 1; }
 
-      if (arg_type_internal == arg_type_match) {
-        internal_list[matching_list_names[i]] = matching_list[matching_list_names[i]];
+        if (arg_type_internal == arg_type_match) {
+          internal_list[matching_list_names[i]] = matching_list[matching_list_names[i]];
+        } else {
+          // This is necessary to prevent the program from segfolds... whyever???
+          // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
+          try {
+            Rcpp::stop("Argument types for \"" + matching_list_names[i] + "\" does not match. Maybe you should take a look at the documentation.");
+          } catch ( std::exception &ex ) {
+            forward_exception_to_r( ex );
+          } catch (...) { 
+            ::Rf_error( "c++ exception (unknown reason)" ); 
+          }
+        }
       } else {
-        Rcpp::stop("Argument types for \"" + matching_list_names[i] + "\" does not match. Maybe you should take a look at the documentation.");
+        internal_list[matching_list_names[i]] = matching_list[matching_list_names[i]];
       }
     } else {
       unused_args.push_back(matching_list_names[i]);
@@ -111,7 +143,7 @@ Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list)
     message << "Unused arguments ";
 
     for (unsigned int i = 0; i < unused_args.size(); i++) {
-      message << unused_args[i];
+      message << "\"" + unused_args[i] + "\"";
       if (i < unused_args.size() - 1) {
         message << ", ";
       }

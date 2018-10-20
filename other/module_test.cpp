@@ -3,12 +3,24 @@
 #include <string>
 
 // [[Rcpp::export]]
-void summaryArgumentList (Rcpp::List list) 
+SEXP summaryArgumentList (Rcpp::List list) 
 {
-	std::vector<std::string> list_names = list.names();
-	for (unsigned int i = 0; i < list.size(); i++) {
-		Rcpp::Rcout << list_names[i] << "\t:\t" << Rcpp::toString(list[list_names[i]]) << std::endl;
+
+	if (list.hasAttribute("names")) {
+		Rcpp::Rcout << "Yes! Names are there!" << std::endl;
+	} else {
+		Rcpp::Rcout << "No names :(" << std::endl;
 	}
+
+	return list.names();
+
+	// std::vector<std::string> list_names = list.names();
+
+	// Rcpp::Rcout << list_names.size() << std::endl;
+
+	// for (unsigned int i = 0; i < list.size(); i++) {
+	// 	Rcpp::Rcout << list_names[i] << "\t:\t" << Rcpp::toString(list[list_names[i]]) << std::endl;
+	// }
 }
 
 void thisIsSomething (int param_a, std::string param_b)

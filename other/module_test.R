@@ -2,12 +2,14 @@ library(Rcpp)
 
 sourceCpp("other/module_test.cpp")
 
+list_test = list(a = 2, b = 3, c = 4, param_a = 4.9, param_b = "hey")
+list_test = list(1, bla = 2)
+
+summaryArgumentList(list_test)
+
 test = Test$new()
 test$getList()
 test$doSomethingWithList()
-
-list_test = list(a = 2, b = 3, c = 4, param_a = 4L, param_b = "hi", boolean = TRUE, vec = 1:10, mat = matrix(1:16, 4, 4), charmat = LETTERS, df = iris)
-getListTypes(list_test)
 
 test = Test$new(list_test)
 test$doSomethingWithList()

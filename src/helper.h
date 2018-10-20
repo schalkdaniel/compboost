@@ -1,7 +1,3 @@
-#include <Rcpp.h>
-#include <sstream>
-#include <string>
-
 // ========================================================================== //
 //                                 ___.                          __           //
 //        ____  ____   _____ ______\_ |__   ____   ____  _______/  |_         //
@@ -45,6 +41,6 @@
 #include <string>
 
 bool stringInNames (std::string, std::vector<std::string>);
-Rcpp::List argHandler (Rcpp::List, Rcpp::List);
+Rcpp::List argHandler (Rcpp::List, Rcpp::List, bool);
 
 # endif // HELPER_H_

@@ -626,10 +626,11 @@ Compboost = R6::R6Class("Compboost",
       private$bl.list[[id]]$target = data.target$new()
       
       # Call handler for default arguments and argument handling:
-      handler.name = paste0(".handle", bl.factory@.Data)
-      par.set = c(source = private$bl.list[[id]]$source, target = private$bl.list[[id]]$target, id = id.fac, do.call(handler.name, list(...)))
-      private$bl.list[[id]]$factory = do.call(bl.factory$new, par.set)
-      # private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, ...)
+      # handler.name = paste0(".handle", bl.factory@.Data)
+      # par.set = c(source = private$bl.list[[id]]$source, target = private$bl.list[[id]]$target, id = id.fac, do.call(handler.name, list(...)))
+      # private$bl.list[[id]]$factory = do.call(bl.factory$new, par.set)
+
+      private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, list(...))
       
       self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
       private$bl.list[[id]]$source = NULL
