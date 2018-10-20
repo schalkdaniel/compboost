@@ -41,6 +41,7 @@
 #include "baselearner_factory_list.h"
 #include "loss.h"
 #include "data.h"
+#include "helper.h"
 
 // -------------------------------------------------------------------------- //
 //                                   DATA                                     //
