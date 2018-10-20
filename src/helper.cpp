@@ -33,10 +33,7 @@
 //
 // =========================================================================== #
 
-#include <Rcpp.h>
-#include <sstream>
-#include <string>
-
+#include "helper.h"
 /**
  * \brief Check if a string occurs within a string vector
  * 

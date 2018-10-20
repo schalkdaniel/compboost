@@ -3,17 +3,11 @@
 #include <string>
 
 // [[Rcpp::export]]
-void getListTypes (Rcpp::List list_in) 
+void summaryArgumentList (Rcpp::List list) 
 {
-	std::vector<std::string> list_names = list_in.names();
-	for (unsigned int i = 0; i < list_in.size(); i++) {
-		Rcpp::Rcout << list_names[i] << ": " << TYPEOF(list_in[i]) << std::endl;
-	}
-	
-	Rcpp::List list_new = Rcpp::List::create(Rcpp::Named("param_a") = 2, Rcpp::Named("param_b") = "bla");
-  std::vector<std::string> list_names_new = list_new.names();
-	for (unsigned int i = 0; i < list_new.size(); i++) {
-		Rcpp::Rcout << list_names_new[i] << ": " << TYPEOF(list_new[i]) << std::endl;
+	std::vector<std::string> list_names = list.names();
+	for (unsigned int i = 0; i < list.size(); i++) {
+		Rcpp::Rcout << list_names[i] << "\t:\t" << Rcpp::toString(list[list_names[i]]) << std::endl;
 	}
 }
 
