@@ -487,8 +487,10 @@ NULL
 #' data.target1 = InMemoryData$new()
 #' data.target2 = InMemoryData$new()
 #'
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, list(degree = 1, intercept = TRUE))
-#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, list(degree = 2, intercept = TRUE))
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#'   list(degree = 1, intercept = TRUE))
+#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 
+#'   list(degree = 2, intercept = TRUE))
 #'
 #' # Create new base-learner list:
 #' my.bl.list = BlearnerFactoryList$new()
@@ -1310,7 +1312,7 @@ NULL
 #' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
 #'   list(degree = 2, intercept = TRUE))
 #' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
-#'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2)
+#'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
 #'
 #' # Create new factory list:
 #' factory.list = BlearnerFactoryList$new()
