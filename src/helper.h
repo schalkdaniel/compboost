@@ -33,15 +33,14 @@
 //
 // =========================================================================== #
 
-#ifndef SPLINE_H_
-#define SPLINE_H_
+#ifndef HELPER_H_
+#define HELPER_H_
 
-#include <RcppArmadillo.h>
+#include <Rcpp.h>
+#include <sstream>
+#include <string>
 
-arma::mat penaltyMat (const unsigned int&, const unsigned int&);
-unsigned int findSpan (const double&, const arma::vec&);
-arma::vec createKnots (const arma::vec&, const unsigned int&,const unsigned int&);
-arma::mat createSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
-arma::sp_mat createSparseSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
+bool stringInNames (std::string, std::vector<std::string>);
+Rcpp::List argHandler (Rcpp::List, Rcpp::List, bool);
 
-# endif // SPLINE_H_
+# endif // HELPER_H_

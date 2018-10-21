@@ -41,6 +41,7 @@
 #include "baselearner_factory_list.h"
 #include "loss.h"
 #include "data.h"
+#include "helper.h"
 
 // -------------------------------------------------------------------------- //
 //                                   DATA                                     //
@@ -230,8 +231,8 @@ protected:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
-//' BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
+//' BaselearnerPolynomial$new(data_source, data_target, list(degree, intercept))
+//' BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, intercept))
 //' }
 //'
 //' @section Arguments:
@@ -284,9 +285,9 @@ protected:
 //'
 //' # Create new linear base-learner factory:
 //' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
-//'   degree = 2, intercept = FALSE)
+//'   list(degree = 2, intercept = FALSE))
 //' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
-//'   degree = 2, intercept = TRUE)
+//'   list(degree = 2, intercept = TRUE))
 //'
 //' # Get the transformed data:
 //' lin.factory$getData()
@@ -303,29 +304,35 @@ protected:
 class BaselearnerPolynomialFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
-  const unsigned int degree;
-  bool intercept;
+  Rcpp::List internal_arg_list = Rcpp::List::create(
+    Rcpp::Named("degree") = 1, 
+    Rcpp::Named("intercept") = true
+  );
 
 public:
 
   BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const unsigned int& degree, bool intercept)
-    : degree ( degree ),
-      intercept ( intercept )
+    Rcpp::List arg_list)
   {
+    // Match defaults with custom arguments:
+    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+
+    // We need to converse the SEXP from the element to an integer:
+    int degree = internal_arg_list["degree"]; 
+
     std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
 
     obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type_temp, data_source.getDataObj(),
-      data_target.getDataObj(), degree, intercept);
+      data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
   }
 
   BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const std::string& blearner_type, const unsigned int& degree, bool intercept)
-    : degree ( degree ),
-      intercept ( intercept )
+    const std::string& blearner_type, Rcpp::List arg_list)
   {
+    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+
     obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), degree, intercept);
+      data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -339,6 +346,9 @@ public:
 
   void summarizeFactory ()
   {
+    // We need to converse the SEXP from the element to an integer:
+    int degree = internal_arg_list["degree"]; 
+    
     if (degree == 1) {
       Rcpp::Rcout << "Linear base-learner factory:" << std::endl;
     }
@@ -367,8 +377,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
-//'   differences)
+//' BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
+//'   differences))
 //' }
 //'
 //' @section Arguments:
@@ -382,7 +392,7 @@ public:
 //' \item{\code{degree} [\code{integer(1)}]}{
 //'   Degree of the spline functions to interpolate the knots.
 //' }
-//' \item{\code{n_knots} [\code{integer(1)}]}{
+//' \item{\code{n.knots} [\code{integer(1)}]}{
 //'   Number of \strong{inner knots}. To prevent weird behavior on the edges
 //'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 //' }
@@ -427,7 +437,7 @@ public:
 //'
 //' # Create new linear base-learner:
 //' spline.factory = BaselearnerPSpline$new(data.source, data.target,
-//'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
+//'   list(degree = 3, n.knots = 4, penalty = 2, differences = 2))
 //'
 //' # Get the transformed data:
 //' spline.factory$getData()
@@ -442,30 +452,39 @@ public:
 class BaselearnerPSplineFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
-  const unsigned int degree;
+  Rcpp::List internal_arg_list = Rcpp::List::create(
+    Rcpp::Named("degree") = 3, 
+    Rcpp::Named("n.knots") = 20,
+    Rcpp::Named("penalty") = 2,
+    Rcpp::Named("differences") = 2
+  );
 
 public:
 
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const unsigned int& degree, const unsigned int& n_knots, const double& penalty,
-    const unsigned int& differences)
-    : degree ( degree )
+    Rcpp::List arg_list)
   {
+    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+
+    // We need to converse the SEXP from the element to an integer:
+    int degree = internal_arg_list["degree"]; 
+
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
     
     obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type_temp, data_source.getDataObj(),
-       data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);      
+       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n.knots"], 
+       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);      
 
   }
 
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const std::string& blearner_type, const unsigned int& degree, 
-    const unsigned int& n_knots, const double& penalty, const unsigned int& differences)
-    : degree ( degree )
+    const std::string& blearner_type, Rcpp::List arg_list)
   {
-    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), degree, n_knots, penalty, differences, TRUE);
+    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
 
+    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n.knots"], 
+      internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -479,6 +498,9 @@ public:
 
   void summarizeFactory ()
   {
+    // We need to converse the SEXP from the element to an integer:
+    int degree = internal_arg_list["degree"]; 
+
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
     Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
@@ -496,8 +518,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerCustom$new(data_source, data_target, instantiateData, train,
-//'   predict, extractParameter)
+//' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
+//'   train.fun, predict.fun, param.fun))
 //' }
 //'
 //' @section Arguments:
@@ -508,19 +530,19 @@ public:
 //' \item{\code{data_target} [\code{Data} Object]}{
 //'   Data object which gets the transformed source data.
 //' }
-//' \item{\code{instantiateData} [\code{function}]}{
+//' \item{\code{instantiate.fun} [\code{function}]}{
 //'   \code{R} function to transform the source data. For details see the
 //'   \code{Details}.
 //' }
-//' \item{\code{train} [\code{function}]}{
+//' \item{\code{train.fun} [\code{function}]}{
 //'   \code{R} function to train the base-learner on the target data. For
 //'   details see the \code{Details}.
 //' }
-//' \item{\code{predict} [\code{function}]}{
+//' \item{\code{predict.fun} [\code{function}]}{
 //'   \code{R} function to predict on the object returned by \code{train}.
 //'   For details see the \code{Details}.
 //' }
-//' \item{\code{extractParameter} [\code{function}]}{
+//' \item{\code{param.fun} [\code{function}]}{
 //'   \code{R} function to extract the parameter of the object returned by
 //'   \code{train}. For details see the \code{Details}.
 //' }
@@ -588,7 +610,8 @@ public:
 //'
 //' # Create new custom linear base-learner factory:
 //' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-//'   instantiateDataFun, trainFun, predictFun, extractParameter)
+//'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
+//'     predict.fun = predictFun, param.fun = extractParameter))
 //'
 //' # Get the transformed data:
 //' custom.lin.factory$getData()
@@ -602,22 +625,36 @@ public:
 //' @export BaselearnerCustom
 class BaselearnerCustomFactoryWrapper : public BaselearnerFactoryWrapper
 {
+private:
+  Rcpp::List internal_arg_list = Rcpp::List::create(
+    Rcpp::Named("instantiate.fun") = 0, 
+    Rcpp::Named("train.fun") = 0,
+    Rcpp::Named("predict.fun") = 0,
+    Rcpp::Named("param.fun") = 0
+  );
+
 public:
 
   BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
-    Rcpp::Function predictFun, Rcpp::Function extractParameter)
+    Rcpp::List arg_list)
   {
+    // Don't check argument types since we don't have a Function placeholder for the default list:
+    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+
     obj = new blearnerfactory::BaselearnerCustomFactory("custom", data_source.getDataObj(),
-      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
+      data_target.getDataObj(), internal_arg_list["instantiate.fun"], internal_arg_list["train.fun"], 
+      internal_arg_list["predict.fun"], internal_arg_list["param.fun"]);
   }
 
   BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const std::string& blearner_type, Rcpp::Function instantiateDataFun, Rcpp::Function trainFun,
-    Rcpp::Function predictFun, Rcpp::Function extractParameter)
+    const std::string& blearner_type, Rcpp::List arg_list)
   {
+    // Don't check argument types since we don't have a Function placeholder for the default list:
+    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+
     obj = new blearnerfactory::BaselearnerCustomFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun, extractParameter);
+      data_target.getDataObj(), internal_arg_list["instantiate.fun"], internal_arg_list["train.fun"], 
+      internal_arg_list["predict.fun"], internal_arg_list["param.fun"]);
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -650,8 +687,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
-//'   train_ptr, predict_ptr)
+//' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
+//'   train.ptr, predict.ptr))
 //' }
 //'
 //' @section Arguments:
@@ -662,13 +699,13 @@ public:
 //' \item{\code{data_target} [\code{Data} Object]}{
 //'   Data object which gets the transformed source data.
 //' }
-//' \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
+//' \item{\code{instantiate.ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} instantiate data function.
 //' }
-//' \item{\code{train_ptr} [\code{externalptr}]}{
+//' \item{\code{train.ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} train function.
 //' }
-//' \item{\code{predict_ptr} [\code{externalptr}]}{
+//' \item{\code{predict.ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} predict function.
 //' }
 //' }
@@ -707,7 +744,8 @@ public:
 //'
 //' # Create new linear base-learner:
 //' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-//'   dataFunSetter(), trainFunSetter(), predictFunSetter())
+//'   list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
+//'     predict.ptr = predictFunSetter()))
 //'
 //' # Get the transformed data:
 //' custom.cpp.factory$getData()
@@ -721,20 +759,35 @@ public:
 //' @export BaselearnerCustomCpp
 class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
 {
+private:
+  Rcpp::List internal_arg_list = Rcpp::List::create(
+    Rcpp::Named("instantiate.ptr") = 0, 
+    Rcpp::Named("train.ptr") = 0,
+    Rcpp::Named("predict.ptr") = 0
+  );
+
 public:
 
   BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
+    Rcpp::List arg_list)
   {
+    // Don't check argument types since we don't have a Function placeholder for the default list:
+    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+
     obj = new blearnerfactory::BaselearnerCustomCppFactory("custom_cpp", data_source.getDataObj(),
-      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
+      data_target.getDataObj(), internal_arg_list["instantiate.ptr"], internal_arg_list["train.ptr"], 
+      internal_arg_list["predict.ptr"]);
   }
 
   BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const std::string& blearner_type, SEXP instantiateDataFun, SEXP trainFun, SEXP predictFun)
+    const std::string& blearner_type, Rcpp::List arg_list)
   {
+    // Don't check argument types since we don't have a Function placeholder for the default list:
+    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+
     obj = new blearnerfactory::BaselearnerCustomCppFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), instantiateDataFun, trainFun, predictFun);
+      data_target.getDataObj(), internal_arg_list["instantiate.ptr"], internal_arg_list["train.ptr"], 
+      internal_arg_list["predict.ptr"]);
   }
 
   arma::mat getData () { return obj->getData(); }
@@ -755,21 +808,6 @@ public:
   }
 };
 
-
-// // Boiler code to check for constructors with same argument length and decide
-// // on input parameter type which one to take. See:
-// //   http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2011-May/002300.html
-// bool fun1( SEXP* args, int nargs){
-//      if (nargs != 4) { return false; }
-//      if ((TYPEOF(args[3]) == INTSXP) | (TYPEOF(args[3]) == REALSXP)) { return true; }
-//      return false;
-// }
-// bool fun2( SEXP* args, int nargs){
-//      if (nargs != 4) { return false; }
-//      if (TYPEOF(args[3]) == LGLSXP) { return true; }
-//      return false;
-// }
-
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper)
 RCPP_MODULE (baselearner_factory_module)
@@ -782,10 +820,8 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
-    // .constructor<DataWrapper&, DataWrapper&, unsigned int> ()
-    // .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int> ("", &fun1)
-    .constructor<DataWrapper&, DataWrapper&, unsigned int, bool> () // ("", &fun2)
-    .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, bool> ()
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
      .method("getData",          &BaselearnerPolynomialFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",     &BaselearnerPolynomialFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
      .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -793,8 +829,8 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, unsigned int, unsigned int, double, unsigned int> ()
-    .constructor<DataWrapper&, DataWrapper&, std::string, unsigned int, unsigned int, double, unsigned int> ()
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
     .method("getData",          &BaselearnerPSplineFactoryWrapper::getData, "Get design matrix")
     .method("transformData",    &BaselearnerPSplineFactoryWrapper::transformData, "Compute spline basis for new data")
     .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
@@ -802,8 +838,8 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerCustomFactoryWrapper> ("BaselearnerCustom")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
-    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
      .method("getData",          &BaselearnerCustomFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &BaselearnerCustomFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -811,8 +847,8 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerCustomCppFactoryWrapper> ("BaselearnerCustomCpp")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
-    .constructor<DataWrapper&, DataWrapper&, SEXP, SEXP, SEXP> ()
-    .constructor<DataWrapper&, DataWrapper&, std::string, SEXP, SEXP, SEXP> ()
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
      .method("getData",          &BaselearnerCustomCppFactoryWrapper::getData, "Get the data which the factory uses")
      .method("transformData",    &BaselearnerCustomCppFactoryWrapper::transformData, "Transform data")
      .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Sumamrize Factory")
@@ -871,8 +907,10 @@ RCPP_MODULE (baselearner_factory_module)
 //' data.target1 = InMemoryData$new()
 //' data.target2 = InMemoryData$new()
 //'
-//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
-//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
+//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+//'   list(degree = 1, intercept = TRUE))
+//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 
+//'   list(degree = 2, intercept = TRUE))
 //'
 //' # Create new base-learner list:
 //' my.bl.list = BlearnerFactoryList$new()
@@ -2141,10 +2179,14 @@ RCPP_MODULE(optimizer_module)
 //' test.data = oob.data
 //'
 //' # Factories:
-//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
-//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
-//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
-//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+//'   list(degree = 1, intercept = TRUE))
+//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+//'   list(degree = 1, intercept = TRUE))
+//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+//'   list(degree = 2, intercept = TRUE))
+//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
+//'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
 //'
 //' # Create new factory list:
 //' factory.list = BlearnerFactoryList$new()

@@ -60,23 +60,28 @@ test_that("Baselearner factory printer works", {
   expect_silent({ data.source.sp = InMemoryData$new(X.hp.sp, "hp") })
   expect_silent({ data.target    = InMemoryData$new() })
   
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 1, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+    list(degree = 1, intercept = FALSE)) })
   expect_output({ linear.factory.hp.printer = show(linear.factory.hp) })
   expect_equal(linear.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ quad.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 2, FALSE) })
+  expect_silent({ quad.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+    list(degree = 2, intercept = FALSE)) })
   expect_output({ quad.factory.hp.printer = show(quad.factory.hp) })
   expect_equal(quad.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ cubic.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 3, FALSE) })
+  expect_silent({ cubic.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+    list(degree = 3, intercept = FALSE)) })
   expect_output({ cubic.factory.hp.printer = show(cubic.factory.hp) })
   expect_equal(cubic.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ poly.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 4, FALSE) })
+  expect_silent({ poly.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+    list(degree = 4, intercept = FALSE)) })
   expect_output({ poly.factory.hp.printer = show(poly.factory.hp) })
   expect_equal(poly.factory.hp.printer, "BaselearnerPolynomialPrinter")
   
-  expect_silent({ spline.factory = BaselearnerPSpline$new(data.source.sp, data.target, 3, 5, 2.5, 2) })
+  expect_silent({ spline.factory = BaselearnerPSpline$new(data.source.sp, data.target, 
+    list(degree = 3, n.knots = 5, penalty = 2.5, differences = 2)) })
   expect_output({ spline.printer = show(spline.factory) })
   expect_equal(spline.printer, "BaselearnerPSplinePrinter")
 
@@ -96,7 +101,8 @@ test_that("Baselearner factory printer works", {
 
   expect_silent({
     custom.factory = BaselearnerCustom$new(data.source, data.target,
-      instantiateData, trainFun, predictFun, extractParameter)
+      list(instantiate.fun = instantiateData, train.fun = trainFun, 
+        predict.fun = predictFun, param.fun = extractParameter))
   })
   expect_output({ custom.factory.printer = show(custom.factory) })
 
@@ -104,7 +110,8 @@ test_that("Baselearner factory printer works", {
   expect_output(Rcpp::sourceCpp(code = getCustomCppExample()))
   expect_silent({
     custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-      dataFunSetter(), trainFunSetter(), predictFunSetter())
+      list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
+        predict.ptr = predictFunSetter()))
   })
   expect_output({ custom.cpp.factory.printer = show(custom.cpp.factory) })
   expect_equal(custom.cpp.factory.printer, "BaselearnerCustomCppPrinter")
@@ -182,9 +189,12 @@ test_that("Compboost printer works", {
   learning.rate = 0.05
   iter.max = 500
 
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, FALSE) })
-  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 1, FALSE) })
-  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+    list(degree = 1, intercept = FALSE)) })
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 
+    list(degree = 1, intercept = FALSE)) })
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+    list(degree = 2, intercept = FALSE)) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
 
   expect_silent(factory.list$registerFactory(linear.factory.hp))

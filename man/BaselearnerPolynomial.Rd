@@ -12,8 +12,8 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
-BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
+BaselearnerPolynomial$new(data_source, data_target, list(degree, intercept))
+BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, intercept))
 }
 }
 
@@ -75,9 +75,9 @@ data.target2 = InMemoryData$new()
 
 # Create new linear base-learner factory:
 lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
-  degree = 2, intercept = FALSE)
+  list(degree = 2, intercept = FALSE))
 lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
-  degree = 2, intercept = TRUE)
+  list(degree = 2, intercept = TRUE))
 
 # Get the transformed data:
 lin.factory$getData()

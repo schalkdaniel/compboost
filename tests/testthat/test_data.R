@@ -13,7 +13,8 @@ test_that("data objects works correctly", {
   expect_equal(data.target$getData(), as.matrix(0))
   expect_equal(data.target$getIdentifier(), "")
   
-  expect_silent({ lin.factory = BaselearnerPolynomial$new(data.source, data.target, 3, FALSE) })
+  expect_silent({ lin.factory = BaselearnerPolynomial$new(data.source, data.target, 
+    list(degree = 3, intercept = FALSE)) })
   
   expect_equal(data.target$getData(), X^3)
   expect_equal(data.target$getIdentifier(), "x")

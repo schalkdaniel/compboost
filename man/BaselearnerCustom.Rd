@@ -12,8 +12,8 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustom$new(data_source, data_target, instantiateData, train,
-  predict, extractParameter)
+BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
+  train.fun, predict.fun, param.fun))
 }
 }
 
@@ -26,19 +26,19 @@ BaselearnerCustom$new(data_source, data_target, instantiateData, train,
 \item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
-\item{\code{instantiateData} [\code{function}]}{
+\item{\code{instantiate.fun} [\code{function}]}{
   \code{R} function to transform the source data. For details see the
   \code{Details}.
 }
-\item{\code{train} [\code{function}]}{
+\item{\code{train.fun} [\code{function}]}{
   \code{R} function to train the base-learner on the target data. For
   details see the \code{Details}.
 }
-\item{\code{predict} [\code{function}]}{
+\item{\code{predict.fun} [\code{function}]}{
   \code{R} function to predict on the object returned by \code{train}.
   For details see the \code{Details}.
 }
-\item{\code{extractParameter} [\code{function}]}{
+\item{\code{param.fun} [\code{function}]}{
   \code{R} function to extract the parameter of the object returned by
   \code{train}. For details see the \code{Details}.
 }
@@ -114,7 +114,8 @@ extractParameter = function (model) {
 
 # Create new custom linear base-learner factory:
 custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-  instantiateDataFun, trainFun, predictFun, extractParameter)
+  list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
+    predict.fun = predictFun, param.fun = extractParameter))
 
 # Get the transformed data:
 custom.lin.factory$getData()

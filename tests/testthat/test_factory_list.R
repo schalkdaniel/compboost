@@ -16,10 +16,14 @@ test_that("factory list works", {
   expect_silent({ data.target2 = InMemoryData$new() })
   expect_silent({ data.target3 = InMemoryData$new() })
   expect_silent({ data.target4 = InMemoryData$new() })
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target1, 1, FALSE) })
-  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target2, 1, FALSE) })
-  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target3, 2, FALSE) })
-  expect_silent({ pow5.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target4, 5, FALSE) })
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target1, 
+    list(degree = 1, intercept = FALSE)) })
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target2, 
+    list(degree = 1, intercept = FALSE)) })
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target3, 
+    list(degree = 2, intercept = FALSE)) })
+  expect_silent({ pow5.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target4, 
+    list(degree = 5, intercept = FALSE)) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
   expect_silent(factory.list$registerFactory(linear.factory.hp))
   expect_silent(factory.list$registerFactory(linear.factory.wt))
