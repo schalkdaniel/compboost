@@ -13,8 +13,8 @@ pointer.}
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
-  train_ptr, predict_ptr)
+BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
+  train.ptr, predict.ptr))
 }
 }
 
@@ -27,13 +27,13 @@ BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
 \item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
-\item{\code{instantiate_data_ptr} [\code{externalptr}]}{
+\item{\code{instantiate.ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} instantiate data function.
 }
-\item{\code{train_ptr} [\code{externalptr}]}{
+\item{\code{train.ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} train function.
 }
-\item{\code{predict_ptr} [\code{externalptr}]}{
+\item{\code{predict.ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} predict function.
 }
 }
@@ -80,7 +80,8 @@ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 
 # Create new linear base-learner:
 custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-  dataFunSetter(), trainFunSetter(), predictFunSetter())
+  list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
+    predict.ptr = predictFunSetter()))
 
 # Get the transformed data:
 custom.cpp.factory$getData()

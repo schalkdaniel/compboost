@@ -231,8 +231,8 @@ protected:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerPolynomial$new(data_source, data_target, degree, intercept)
-//' BaselearnerPolynomial$new(data_source, data_target, blearner_type, degree, intercept)
+//' BaselearnerPolynomial$new(data_source, data_target, list(degree, intercept))
+//' BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, intercept))
 //' }
 //'
 //' @section Arguments:
@@ -285,9 +285,9 @@ protected:
 //'
 //' # Create new linear base-learner factory:
 //' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
-//'   degree = 2, intercept = FALSE)
+//'   list(degree = 2, intercept = FALSE))
 //' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
-//'   degree = 2, intercept = TRUE)
+//'   list(degree = 2, intercept = TRUE))
 //'
 //' # Get the transformed data:
 //' lin.factory$getData()
@@ -377,8 +377,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerPSpline$new(data_source, data_target, degree, n_knots, penalty,
-//'   differences)
+//' BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
+//'   differences))
 //' }
 //'
 //' @section Arguments:
@@ -392,7 +392,7 @@ public:
 //' \item{\code{degree} [\code{integer(1)}]}{
 //'   Degree of the spline functions to interpolate the knots.
 //' }
-//' \item{\code{n_knots} [\code{integer(1)}]}{
+//' \item{\code{n.knots} [\code{integer(1)}]}{
 //'   Number of \strong{inner knots}. To prevent weird behavior on the edges
 //'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 //' }
@@ -437,7 +437,7 @@ public:
 //'
 //' # Create new linear base-learner:
 //' spline.factory = BaselearnerPSpline$new(data.source, data.target,
-//'   degree = 3, n_knots = 4, penalty = 2, differences = 2)
+//'   list(degree = 3, n.knots = 4, penalty = 2, differences = 2))
 //'
 //' # Get the transformed data:
 //' spline.factory$getData()
@@ -518,8 +518,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerCustom$new(data_source, data_target, instantiateData, train,
-//'   predict, extractParameter)
+//' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
+//'   train.fun, predict.fun, param.fun))
 //' }
 //'
 //' @section Arguments:
@@ -530,19 +530,19 @@ public:
 //' \item{\code{data_target} [\code{Data} Object]}{
 //'   Data object which gets the transformed source data.
 //' }
-//' \item{\code{instantiateData} [\code{function}]}{
+//' \item{\code{instantiate.fun} [\code{function}]}{
 //'   \code{R} function to transform the source data. For details see the
 //'   \code{Details}.
 //' }
-//' \item{\code{train} [\code{function}]}{
+//' \item{\code{train.fun} [\code{function}]}{
 //'   \code{R} function to train the base-learner on the target data. For
 //'   details see the \code{Details}.
 //' }
-//' \item{\code{predict} [\code{function}]}{
+//' \item{\code{predict.fun} [\code{function}]}{
 //'   \code{R} function to predict on the object returned by \code{train}.
 //'   For details see the \code{Details}.
 //' }
-//' \item{\code{extractParameter} [\code{function}]}{
+//' \item{\code{param.fun} [\code{function}]}{
 //'   \code{R} function to extract the parameter of the object returned by
 //'   \code{train}. For details see the \code{Details}.
 //' }
@@ -610,7 +610,8 @@ public:
 //'
 //' # Create new custom linear base-learner factory:
 //' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-//'   instantiateDataFun, trainFun, predictFun, extractParameter)
+//'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
+//'     predict.fun = predictFun, param.fun = extractParameter))
 //'
 //' # Get the transformed data:
 //' custom.lin.factory$getData()
@@ -686,8 +687,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerCustomCpp$new(data_source, data_target, instantiate_data_ptr,
-//'   train_ptr, predict_ptr)
+//' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
+//'   train.ptr, predict.ptr))
 //' }
 //'
 //' @section Arguments:
@@ -698,13 +699,13 @@ public:
 //' \item{\code{data_target} [\code{Data} Object]}{
 //'   Data object which gets the transformed source data.
 //' }
-//' \item{\code{instantiate_data_ptr} [\code{externalptr}]}{
+//' \item{\code{instantiate.ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} instantiate data function.
 //' }
-//' \item{\code{train_ptr} [\code{externalptr}]}{
+//' \item{\code{train.ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} train function.
 //' }
-//' \item{\code{predict_ptr} [\code{externalptr}]}{
+//' \item{\code{predict.ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} predict function.
 //' }
 //' }
@@ -743,7 +744,8 @@ public:
 //'
 //' # Create new linear base-learner:
 //' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-//'   dataFunSetter(), trainFunSetter(), predictFunSetter())
+//'   list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
+//'     predict.ptr = predictFunSetter()))
 //'
 //' # Get the transformed data:
 //' custom.cpp.factory$getData()
@@ -905,8 +907,8 @@ RCPP_MODULE (baselearner_factory_module)
 //' data.target1 = InMemoryData$new()
 //' data.target2 = InMemoryData$new()
 //'
-//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 1, TRUE)
-//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 2, TRUE)
+//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, list(degree = 1, intercept = TRUE))
+//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, list(degree = 2, intercept = TRUE))
 //'
 //' # Create new base-learner list:
 //' my.bl.list = BlearnerFactoryList$new()
@@ -2175,10 +2177,14 @@ RCPP_MODULE(optimizer_module)
 //' test.data = oob.data
 //'
 //' # Factories:
-//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 1, TRUE)
-//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 1, TRUE)
-//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 2, TRUE)
-//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 3, 10, 2, 2)
+//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+//'   list(degree = 1, intercept = TRUE))
+//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+//'   list(degree = 1, intercept = TRUE))
+//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+//'   list(degree = 2, intercept = TRUE))
+//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
+//'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2)
 //'
 //' # Create new factory list:
 //' factory.list = BlearnerFactoryList$new()
