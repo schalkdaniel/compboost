@@ -7,10 +7,11 @@ Authors@R: c(
   person(given = "Janek", family = "Thomas", email = "janek.thomas@stat.uni-muenchen.de", role = "aut", comment = c(ORCID = "0000-0003-4511-6245")),
   person(given = "Bernd", family = "Bischl", email = "bernd_bischl@gmx.net", role = "aut", comment = c(ORCID = "0000-0001-6002-6980")))
 Maintainer: Daniel Schalk <daniel.schalk@stat.uni-muenchen.de>
-Description: C++ implementation of component-wise boosting implementation of component-wise 
-  boosting written in C++ to obtain high runtime performance and full memory control. The main 
-  idea is to provide a modular class system which can be extended without editing the source code. 
-  Therefore, it is possible to use R functions as well as C++ functions for custom base-learners, 
+Description: C++ implementation of component-wise boosting to 
+  obtain high runtime performance and full memory control. The main 
+  idea is to provide a modular class system which can be extended 
+  without editing the source code. Therefore, it is possible to use R 
+  functions as well as C++ functions for custom base-learners, 
   losses, logging mechanisms or stopping criteria.
 License: MIT + file LICENSE
 Encoding: UTF-8
