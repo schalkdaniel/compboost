@@ -45,8 +45,7 @@
 #include "baselearner.h"
 #include "baselearner_factory_list.h"
 #include "loss.h"
-
-#include <boost/math/tools/toms748_solve.hpp>
+#include "line_search.h"
 
 namespace optimizer {
 
@@ -63,6 +62,7 @@ class Optimizer
     
     // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
     virtual void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&) = 0;
+    virtual std::vector<double> getStepSize () const = 0;
     virtual double getStepSize (const unsigned int&) const = 0;
 
     virtual ~Optimizer ();
@@ -78,9 +78,8 @@ class Optimizer
 // Optimizer implementations:
 // -------------------------------------------------------------------------- //
 
-// Greedy:
-// -----------------------
-
+// Coordinate Descent:
+// -------------------------------------------
 class OptimizerCoordinateDescent : public Optimizer
 {
   public:
@@ -96,8 +95,12 @@ class OptimizerCoordinateDescent : public Optimizer
     double getStepSize (const unsigned int&) const;
 };
 
+// Coordinate Descent with line search:
+// -------------------------------------------
 class OptimizerCoordinateDescentLineSearch : public Optimizer
 {
+  public:
+
     // No special initialization necessary:
     OptimizerCoordinateDescentLineSearch ();
 
@@ -107,7 +110,7 @@ class OptimizerCoordinateDescentLineSearch : public Optimizer
     void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
     std::vector<double> getStepSize () const;
     double getStepSize (const unsigned int&) const;  
-}
+};
 
 
 } // namespace optimizer

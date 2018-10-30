@@ -53,7 +53,10 @@ Optimizer::~Optimizer () {
 // OptimizerCoordinateDescent:
 // ---------------------------------------------------
 
-OptimizerCoordinateDescent::OptimizerCoordinateDescent () {}
+OptimizerCoordinateDescent::OptimizerCoordinateDescent () {
+  // Initialize step size vector as scalar:
+  step_sizes.assign(1, 1.0);
+}
 
 blearner::Baselearner* OptimizerCoordinateDescent::findBestBaselearner (const std::string& iteration_id, 
   const arma::vec& pseudo_residuals, const blearner_factory_map& my_blearner_factory_map) const
@@ -100,15 +103,14 @@ blearner::Baselearner* OptimizerCoordinateDescent::findBestBaselearner (const st
   return blearner_best;
 }
 
-void OptimizerCoordinateDescent::calculateStepSize (loss::Loss* used_loss, const arma::vec& target, const arma::vec& model_prediction, 
-  const arma::vec& base_learner_prediction) 
+void OptimizerCoordinateDescent::calculateStepSize (loss::Loss* used_loss, const arma::vec& target, 
+  const arma::vec& model_prediction, const arma::vec& baselearner_prediction) 
 { 
   // This function does literally nothing!
 }
 
 std::vector<double> OptimizerCoordinateDescent::getStepSize () const 
 {
-  step_sizes.assign(1,1);
   return step_sizes;
 }
 
@@ -166,18 +168,18 @@ blearner::Baselearner* OptimizerCoordinateDescentLineSearch::findBestBaselearner
   return blearner_best;
 }
 
-void OptimizerCoordinateDescent::calculateStepSize (loss::Loss* used_loss, const arma::vec& target, const arma::vec& model_prediction, 
-  const arma::vec& base_learner_prediction) 
+void OptimizerCoordinateDescentLineSearch::calculateStepSize (loss::Loss* used_loss, const arma::vec& target, 
+  const arma::vec& model_prediction, const arma::vec& baselearner_prediction) 
 { 
-  // This function does literally nothing!
+  step_sizes.push_back(linesearch::findOptimalStepSize(used_loss, target, model_prediction, baselearner_prediction)); 
 }
 
-std::vector<double> OptimizerCoordinateDescent::getStepSize () const 
+std::vector<double> OptimizerCoordinateDescentLineSearch::getStepSize () const 
 {
   return step_sizes;
 }
 
-double OptimizerCoordinateDescent::getStepSize (const unsigned int& actual_iteration) const
+double OptimizerCoordinateDescentLineSearch::getStepSize (const unsigned int& actual_iteration) const
 {
   // Subtract 1 since the actual iteration starts counting with 1 and the step sizes with 0: 
   return step_sizes[actual_iteration - 1];

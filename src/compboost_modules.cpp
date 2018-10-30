@@ -1994,7 +1994,7 @@ protected:
   optimizer::Optimizer* obj;
 };
 
-//' Greedy Optimizer
+//' Coordinate Descent
 //'
 //' This class defines a new object for the greedy optimizer. The optimizer
 //' just calculates for each base-learner the sum of squared errors and returns
@@ -2024,22 +2024,42 @@ class OptimizerCoordinateDescent : public OptimizerWrapper
 {
 public:
   OptimizerCoordinateDescent () { obj = new optimizer::OptimizerCoordinateDescent(); }
-
-  // Rcpp::List testOptimizer (arma::vec& response, BlearnerFactoryListWrapper factory_list)
-  // {
-  //   std::string temp_str = "test run";
-  //   blearner::Baselearner* blearner_test = obj->findBestBaselearner(temp_str, response, factory_list.getFactoryList()->getMap());
-
-  //   Rcpp::List out = Rcpp::List::create(
-  //     Rcpp::Named("selected.learner") = blearner_test->getIdentifier(),
-  //     Rcpp::Named("parameter")        = blearner_test->getParameter()
-  //   );
-
-  //   delete blearner_test;
-
-  //   return out;
-  // }
 };
+
+//' Coordinate Descent with line search
+//'
+//' This class defines a new object for the greedy optimizer. The optimizer
+//' just calculates for each base-learner the sum of squared errors and returns
+//' the base-learner with the smallest SSE. In addition, this optimizer computes
+//' a line search to find the optimal step size in each iteration.
+//'
+//' @format \code{\link{S4}} object.
+//' @name OptimizerCoordinateDescentLineSearch
+//'
+//' @section Usage:
+//' \preformatted{
+//' OptimizerCoordinateDescentLineSearch$new()
+//' }
+//'
+//' @section Details:
+//'
+//'   This class is a wrapper around the pure \code{C++} implementation. To see
+//'   the functionality of the \code{C++} class visit
+//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
+//'
+//' @examples
+//'
+//' # Define optimizer:
+//' optimizer = OptimizerCoordinateDescentLineSearch$new()
+//'
+//' @export OptimizerCoordinateDescentLineSearch
+class OptimizerCoordinateDescentLineSearch : public OptimizerWrapper
+{
+public:
+  OptimizerCoordinateDescentLineSearch () { obj = new optimizer::OptimizerCoordinateDescentLineSearch(); }
+  std::vector<double> getStepSize() { return obj->getStepSize(); }
+};
+
 
 RCPP_EXPOSED_CLASS(OptimizerWrapper)
 RCPP_MODULE(optimizer_module)
@@ -2053,6 +2073,12 @@ RCPP_MODULE(optimizer_module)
   class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
+  ;  
+
+  class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")
+    .derives<OptimizerWrapper> ("Optimizer")
+    .constructor ()
+    .method("getStepSize", &OptimizerCoordinateDescentLineSearch::getStepSize, "Get vector of step sizes")
   ;
 }
 
