@@ -72,68 +72,62 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
   }
   
   arma::vec pred_temp = prediction;
+  arma::vec blearner_pred_temp;
   
-  // Declare variables to stop the algorithm:
   bool stop_the_algorithm = false;
   unsigned int k = 1;
   
-  // Main Algorithm. While the stop criteria isn't fullfilled, run the 
+  // Main Algorithm. While the stop criteria isn't fulfilled, run the 
   // algorithm:
   while (! stop_the_algorithm) {
     
     // Define pseudo residuals as negative gradient:
     pseudo_residuals = -used_loss->definedGradient(response, pred_temp);
-    // Rcpp::Rcout << "\n<<Compboost>> Define pseudo residuals as negative gradient" << std::endl;
     
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
     blearner::Baselearner* selected_blearner = used_optimizer->findBestBaselearner(temp_string, pseudo_residuals, used_baselearner_list.getMap());
-    // Rcpp::Rcout << "<<Compboost>> Cast integer k to string for baselearner identifier" << std::endl;
     
-    // Insert new baselearner to vector of selected baselearner:    
-    blearner_track.insertBaselearner(selected_blearner);
-    // Rcpp::Rcout << "<<Compboost>> Insert new baselearner to vector of selected baselearner" << std::endl;
+    // Insert new baselearner to vector of selected baselearner. The parameter are estimated here, hence
+    // the contribution to the old parameter is the estimated parameter times the learning rate times
+    // the step size. Therefore we have to pass the step size which changes in each iteration:    
+    blearner_track.insertBaselearner(selected_blearner, used_optimizer->getStepSize(actual_iteration));
+
+    // Prediction is needed more often, use a temp vector to avoid multiple computations:
+    blearner_pred_temp = selected_blearner->predict();
+
+    used_optimizer->calculateStepSize(used_loss, response, pred_temp, blearner_pred_temp);
     
     // Update model (prediction) and shrink by learning rate:
-    pred_temp += learning_rate * selected_blearner->predict();
-    // Rcpp::Rcout << "<<Compboost>> Update model (prediction) and shrink by learning rate" << std::endl;
+    pred_temp += learning_rate * used_optimizer->getStepSize(actual_iteration) * blearner_pred_temp;
     
-    // Log the current step:
-    
-    // The last term has to be the prediction or anything like that. This is
-    // important to track the risk (inbag or oob)!!!!
-    
+    // Log the current step:    
+    //   The last term has to be the prediction or anything like that. This is
+    //   important to track the risk (inbag or oob)!!!!    
     logger->logCurrent(k, response, pred_temp, selected_blearner, 
       initialization, learning_rate);
-    // Rcpp::Rcout << "<<Compboost>> Log the current step" << std::endl;
     
     // Calculate and log risk:
     risk.push_back(arma::mean(used_loss->definedLoss(response, pred_temp)));
 
-    // Get status of the algorithm (is stopping criteria reached):
+    // Get status of the algorithm (is the stopping criteria reached?). The negation here
+    // seems a bit weird, but it makes the while loop easier to read:
     stop_the_algorithm = ! logger->getStopperStatus(stop_if_all_stopper_fulfilled);
     
-    // Print trace:
     if (trace > 0) {
       if ((k == 1) || ((k % trace) == 0)) {
         logger->printLoggerStatus(risk.back()); 
       }
-    }
-    
-    // Increment k:
+    }    
     k += 1;
   }
-  
-  // Just for console appearance
+
   if (trace) {
     Rcpp::Rcout << std::endl;
     Rcpp::Rcout << std::endl; 
   }
-  
-  // Set model prediction:
-  model_prediction = pred_temp;
-  
-  // Set actual state to the latest iteration:
+
+  model_prediction = pred_temp;  
   actual_iteration = blearner_track.getBaselearnerVector().size();
 }
 

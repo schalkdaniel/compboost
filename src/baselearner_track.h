@@ -62,7 +62,7 @@ class BaselearnerTrack
     BaselearnerTrack (double);
     
     // Insert a baselearner into vector and update parameter:
-    void insertBaselearner (blearner::Baselearner*);
+    void insertBaselearner (blearner::Baselearner*, const double& step_size);
     
     // Return the vector of baselearner:
     std::vector<blearner::Baselearner*> getBaselearnerVector () const;
