@@ -49,4 +49,4 @@ double findOptimalStepSize (loss::Loss*, const arma::vec&, const arma::vec&, con
 
 } // namespace linesearch
 
-# endif // LINE_SEARCH_H_
+#endif // LINE_SEARCH_H_

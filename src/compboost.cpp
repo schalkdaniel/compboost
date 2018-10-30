@@ -80,6 +80,8 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
   // Main Algorithm. While the stop criteria isn't fulfilled, run the 
   // algorithm:
   while (! stop_the_algorithm) {
+
+    actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
     
     // Define pseudo residuals as negative gradient:
     pseudo_residuals = -used_loss->definedGradient(response, pred_temp);
@@ -87,17 +89,17 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
     blearner::Baselearner* selected_blearner = used_optimizer->findBestBaselearner(temp_string, pseudo_residuals, used_baselearner_list.getMap());
-    
-    // Insert new baselearner to vector of selected baselearner. The parameter are estimated here, hence
-    // the contribution to the old parameter is the estimated parameter times the learning rate times
-    // the step size. Therefore we have to pass the step size which changes in each iteration:    
-    blearner_track.insertBaselearner(selected_blearner, used_optimizer->getStepSize(actual_iteration));
 
     // Prediction is needed more often, use a temp vector to avoid multiple computations:
     blearner_pred_temp = selected_blearner->predict();
 
     used_optimizer->calculateStepSize(used_loss, response, pred_temp, blearner_pred_temp);
     
+    // Insert new baselearner to vector of selected baselearner. The parameter are estimated here, hence
+    // the contribution to the old parameter is the estimated parameter times the learning rate times
+    // the step size. Therefore we have to pass the step size which changes in each iteration:    
+    blearner_track.insertBaselearner(selected_blearner, used_optimizer->getStepSize(actual_iteration));
+
     // Update model (prediction) and shrink by learning rate:
     pred_temp += learning_rate * used_optimizer->getStepSize(actual_iteration) * blearner_pred_temp;
     
@@ -128,7 +130,6 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
   }
 
   model_prediction = pred_temp;  
-  actual_iteration = blearner_track.getBaselearnerVector().size();
 }
 
 void Compboost::trainCompboost (const unsigned int& trace)

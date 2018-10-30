@@ -88,7 +88,8 @@ double findOptimalStepSize (loss::Loss* used_loss, const arma::vec& target, cons
   // Conduct the root finding:
   std::pair<double, double> r = boost::math::tools::brent_find_minima(std::bind(calculateRisk, std::placeholders::_1, used_loss, target, model_prediction, baselearner_prediction), lower_bound, upper_bound, bits, max_iter);
 
-  return (r.first + r.second) / 2;
+  // return (r.first + r.second) / 2;
+  return r.first;
 }
 
 } // namespace linesearch
