@@ -45,7 +45,7 @@ namespace linesearch {
 
 double calculateRisk (const double&, loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
 double findOptimalStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&, 
-  const double& = 0., const double& = 1e15);
+  const double& = 0., const double& = 100);
 
 } // namespace linesearch
 

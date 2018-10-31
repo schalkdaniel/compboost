@@ -168,15 +168,12 @@ blearner::Baselearner* OptimizerCoordinateDescentLineSearch::findBestBaselearner
   // Remove pointer of the temporary base-learner.
   blearner_temp = NULL;
   
-  Rcpp::Rcout << "Find best base-learner" << std::endl;
-
   return blearner_best;
 }
 
 void OptimizerCoordinateDescentLineSearch::calculateStepSize (loss::Loss* used_loss, const arma::vec& target, 
   const arma::vec& model_prediction, const arma::vec& baselearner_prediction) 
 { 
-  Rcpp::Rcout << "Search for best step size" << std::endl;
   step_sizes.push_back(linesearch::findOptimalStepSize(used_loss, target, model_prediction, baselearner_prediction)); 
 }
 

@@ -259,7 +259,7 @@ LossBinomial::LossBinomial (const double& custom_offset0)
 
 arma::vec LossBinomial::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
 {
-  return arma::log(1 + arma::exp(- true_value % prediction));
+  return arma::log(1 + arma::exp(-2 * true_value % prediction));
 }
 
 /**
@@ -273,7 +273,7 @@ arma::vec LossBinomial::definedLoss (const arma::vec& true_value, const arma::ve
 
 arma::vec LossBinomial::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
 {
-  return - true_value / (1 + arma::exp(true_value % prediction));
+  return -2 * true_value / (1 + arma::exp(true_value % prediction));
 }
 
 /**
