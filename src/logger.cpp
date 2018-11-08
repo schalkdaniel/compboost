@@ -43,6 +43,16 @@ namespace logger
 // -------------------------------------------------------------------------- //
 
 /**
+ * \brief Getter of logger identifier
+ * 
+ * \returns `std::string` of logger id
+ */
+std::string Logger::getLoggerId () const
+{
+  return logger_id;
+}
+
+/**
  * \brief Getter if the logger is used as stopper
  * 
  * \returns `bool` which says `true` if it is a logger, otherwise `false`
@@ -77,11 +87,12 @@ Logger::~Logger () { }
  * 
  */
 
-LoggerIteration::LoggerIteration (const bool& is_a_stopper0, 
+LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_a_stopper0, 
   const unsigned int& max_iterations) 
   : max_iterations ( max_iterations ) 
 {
   is_a_stopper = is_a_stopper0;
+  logger_id = logger_id0;
 }
 
 /**
@@ -197,12 +208,13 @@ std::string LoggerIteration::printLoggerStatus () const
  * \param eps_for_break `double` sets value of the stopping criteria`
  */
 
-LoggerInbagRisk::LoggerInbagRisk (const bool& is_a_stopper0, loss::Loss* used_loss, 
+LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss, 
   const double& eps_for_break)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break )
 {
   is_a_stopper = is_a_stopper0;
+  logger_id = logger_id0;
 }
 
 /**
@@ -331,7 +343,7 @@ void LoggerInbagRisk::clearLoggerData ()
 std::string LoggerInbagRisk::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(17) << std::fixed << std::setprecision(2) << tracked_inbag_risk.back();
+  ss << logger_id << " = " << std::setprecision(2) << tracked_inbag_risk.back();
   
   return ss.str();
 }
@@ -355,7 +367,7 @@ std::string LoggerInbagRisk::printLoggerStatus () const
  * \param oob_response `arma::vec` response of the new data
  */
 
-LoggerOobRisk::LoggerOobRisk (const bool& is_a_stopper0, loss::Loss* used_loss, 
+LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss, 
   const double& eps_for_break, std::map<std::string, data::Data*> oob_data, 
   const arma::vec& oob_response)
   : used_loss ( used_loss ),
@@ -367,6 +379,7 @@ LoggerOobRisk::LoggerOobRisk (const bool& is_a_stopper0, loss::Loss* used_loss,
   
   arma::vec temp (oob_response.size());
   oob_prediction = temp;
+  logger_id = logger_id0;
 }
 
 /**
@@ -426,8 +439,8 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, const arma::
   
   // Calculate empirical risk. Calculateion of the temporary vector ensures
   // that stuff like auc logging is possible:
-  arma::mat loss_vec_temp = used_loss->definedLoss(oob_response, oob_prediction);
-  double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
+  arma::vec loss_vec_temp = used_loss->definedLoss(oob_response, oob_prediction);
+  double temp_risk = arma::mean(loss_vec_temp);
   
   // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);
@@ -509,7 +522,7 @@ void LoggerOobRisk::clearLoggerData ()
 std::string LoggerOobRisk::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(17) << std::fixed << std::setprecision(2) << tracked_oob_risk.back();
+  ss << logger_id << " = " << std::setprecision(2) << tracked_oob_risk.back();
   
   return ss.str();
 }
@@ -531,7 +544,7 @@ std::string LoggerOobRisk::printLoggerStatus () const
  *   `minutes`, `seconds` and `microseconds`
  */
 
-LoggerTime::LoggerTime (const bool& is_a_stopper0, const unsigned int& max_time, 
+LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0, const unsigned int& max_time, 
   const std::string& time_unit)
   : max_time ( max_time ),
     time_unit ( time_unit )
@@ -552,6 +565,7 @@ LoggerTime::LoggerTime (const bool& is_a_stopper0, const unsigned int& max_time,
     ::Rf_error( "c++ exception (unknown reason)" ); 
   }
   is_a_stopper = is_a_stopper0;
+  logger_id = logger_id0;
 }
 
 /**
@@ -661,7 +675,7 @@ void LoggerTime::clearLoggerData ()
 std::string LoggerTime::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(17) << std::fixed << std::setprecision(2) << current_time.back();
+  ss << logger_id << " = " << std::setprecision(2) << current_time.back();
   
   return ss.str();
 }

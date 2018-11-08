@@ -59,7 +59,7 @@ public:
   // LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
   
   // String for logger and the logger itselfe:
-  void registerLogger (const std::string&, logger::Logger*);
+  void registerLogger (logger::Logger*);
   void printRegisteredLogger () const;
   
   logger_map getMap () const;

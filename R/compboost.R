@@ -350,7 +350,7 @@ Compboost = R6::R6Class("Compboost",
       
     },
     addLogger = function(logger, use.as.stopper = FALSE, logger.id, ...) {
-      private$l.list[[logger.id]] = logger$new(use.as.stopper = use.as.stopper, ...)
+      private$l.list[[logger.id]] = logger$new(logger.id, use.as.stopper = use.as.stopper, ...)
     },
     getCurrentIteration = function() {
       if (!is.null(self$model) && self$model$isTrained()) {
@@ -612,9 +612,10 @@ Compboost = R6::R6Class("Compboost",
     initializeModel = function() {
       
       private$logger.list = LoggerList$new()
-      for (n in names(private$l.list)) {
-        private$logger.list$registerLogger(n, private$l.list[[n]])
-      }
+      lapply(private$l.list, function (logger) { private$logger.list$registerLogger(logger) })
+      # for (i in seq_along(private$l.list)) {
+      #   private$logger.list$registerLogger(private$l.list[[i]])
+      # }
       self$model = Compboost_internal$new(self$response, self$learning.rate,
         self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
     },

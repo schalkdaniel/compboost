@@ -1447,12 +1447,12 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
+  LoggerIterationWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_iterations)
     : max_iterations ( max_iterations ),
       use_as_stopper ( use_as_stopper )
   {
-    obj = new logger::LoggerIteration (use_as_stopper, max_iterations);
-    logger_id = " iterations";
+    logger_id = logger_id0;
+    obj = new logger::LoggerIteration (logger_id, use_as_stopper, max_iterations);
   }
 
   void summarizeLogger ()
@@ -1556,12 +1556,12 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerInbagRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
+  LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
-    obj = new logger::LoggerInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
-    logger_id = "inbag.risk";
+    logger_id = logger_id0;
+    obj = new logger::LoggerInbagRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
   }
 
   void summarizeLogger ()
@@ -1693,7 +1693,7 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerOobRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
+  LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
     std::map<std::string, data::Data*> oob_data_map;
@@ -1717,9 +1717,9 @@ public:
 
     }
 
-    obj = new logger::LoggerOobRisk (use_as_stopper, used_loss.getLoss(), eps_for_break,
+    logger_id = logger_id0;
+    obj = new logger::LoggerOobRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
       oob_data_map, oob_response);
-    logger_id = "oob.risk";
   }
 
   void summarizeLogger ()
@@ -1796,14 +1796,15 @@ private:
   std::string time_unit;
 
 public:
-  LoggerTimeWrapper (bool use_as_stopper, unsigned int max_time,
+  LoggerTimeWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_time,
     std::string time_unit)
     : use_as_stopper ( use_as_stopper ),
       max_time ( max_time ),
       time_unit ( time_unit )
   {
-    obj = new logger::LoggerTime (use_as_stopper, max_time, time_unit);
-    logger_id = "time." + time_unit;
+    // logger_id = logger_id0 + "." + time_unit;
+    logger_id = logger_id0;
+    obj = new logger::LoggerTime (logger_id, use_as_stopper, max_time, time_unit);
   }
 
   void summarizeLogger ()
@@ -1899,9 +1900,9 @@ public:
     return obj;
   }
 
-  void registerLogger (const std::string& logger_id, LoggerWrapper& logger_wrapper)
+  void registerLogger (LoggerWrapper& logger_wrapper)
   {
-    obj->registerLogger(logger_id, logger_wrapper.getLogger());
+    obj->registerLogger(logger_wrapper.getLogger());
   }
 
   void printRegisteredLogger ()
@@ -1945,25 +1946,25 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerIterationWrapper> ("LoggerIteration")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, unsigned int> ()
+    .constructor<std::string, bool, unsigned int> ()
     .method("summarizeLogger", &LoggerIterationWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, LossWrapper&, double> ()
+    .constructor<std::string, bool, LossWrapper&, double> ()
     .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
+    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerTimeWrapper> ("LoggerTime")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, unsigned int, std::string> ()
+    .constructor<std::string, bool, unsigned int, std::string> ()
     .method("summarizeLogger", &LoggerTimeWrapper::summarizeLogger, "Summarize logger")
   ;
 

@@ -42,9 +42,9 @@ namespace loggerlist
 
 LoggerList::LoggerList () {}
 
-void LoggerList::registerLogger (const std::string& logger_id, logger::Logger *which_logger)
+void LoggerList::registerLogger (logger::Logger* which_logger)
 {
-  log_list.insert(std::pair<std::string, logger::Logger *>(logger_id, which_logger));
+  log_list.insert(std::pair<std::string, logger::Logger*>(which_logger->getLoggerId(), which_logger));
   if (which_logger->getIfLoggerIsStopper()) {
     sum_of_stopper += 1;
   }
@@ -137,10 +137,10 @@ void LoggerList::printLoggerStatus (const double& current_risk) const
   // std::string printer;
   bool print_risk = true;
   for (auto& it : log_list) {
-    printer << it.second->printLoggerStatus() << ": ";
+    printer << it.second->printLoggerStatus() << "   ";
     // Print risk at second position, iterations should be first one.
     if (print_risk) {
-      printer << "risk = " << std::setprecision(2) << current_risk;
+      printer << "risk = " << std::setprecision(2) << current_risk << "  ";
       print_risk = false;
     }
   }

@@ -106,6 +106,9 @@ public:
   
   /// Print status of current iteration into the console 
   virtual std::string printLoggerStatus () const = 0;
+
+  /// Get logger identifier:
+  std::string getLoggerId () const;
   
   /// Just a getter if the logger is also used as stopper
   bool getIfLoggerIsStopper () const;
@@ -114,6 +117,8 @@ public:
     ~Logger ();
   
 protected:
+
+  std::string logger_id;
   
   /// Tag if the logger is used as stopper
   bool is_a_stopper;
@@ -149,7 +154,7 @@ private:
 public:
   
   /// Default constructor of class `LoggerIteration`
-  LoggerIteration (const bool&, const unsigned int&);
+  LoggerIteration (const std::string&, const bool&, const unsigned int&);
   
   /// Log current step of compboost iteration of class `LoggerIteration`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
@@ -200,7 +205,7 @@ private:
 public:
   
   /// Default constructor
-  LoggerInbagRisk (const bool&, loss::Loss*, const double&);
+  LoggerInbagRisk (const std::string&, const bool&, loss::Loss*, const double&);
   
   /// Log current step of compboost iteration for class `LoggerInbagRisk`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
@@ -253,6 +258,9 @@ private:
   
   /// The OOB data provided by the user
   std::map<std::string, data::Data*> oob_data;
+
+  /// Transformed oob data for predicting on the oob set:
+  std::map<std::string, arma::mat> oob_data_transformed;
   
   /// The response variable which corresponds to the given OOB data
   arma::vec oob_response;
@@ -261,7 +269,7 @@ private:
 public:
   
   /// Default constructor
-  LoggerOobRisk (const bool&, loss::Loss*, const double&, 
+  LoggerOobRisk (const std::string&, const bool&, loss::Loss*, const double&, 
     std::map<std::string, data::Data*>, const arma::vec&);
   
   /// Log current step of compboost iteration for class `LoggerOobRisk`
@@ -319,7 +327,7 @@ private:
 public:
   
   /// Default constructor of class `LoggerTime`
-  LoggerTime (const bool&, const unsigned int&, const std::string&);
+  LoggerTime (const std::string&, const bool&, const unsigned int&, const std::string&);
   
   /// Log current step of compboost iteration for class `LoggerTime`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
