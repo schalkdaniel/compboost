@@ -106,8 +106,7 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
     // Log the current step:    
     //   The last term has to be the prediction or anything like that. This is
     //   important to track the risk (inbag or oob)!!!!    
-    logger->logCurrent(k, response, pred_temp, selected_blearner, 
-      initialization, learning_rate);
+    logger->logCurrent(k, response, pred_temp, selected_blearner, initialization, learning_rate, used_optimizer->getStepSize(actual_iteration));
     
     // Calculate and log risk:
     risk.push_back(arma::mean(used_loss->definedLoss(response, pred_temp)));

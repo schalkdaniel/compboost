@@ -102,7 +102,7 @@ LoggerIteration::LoggerIteration (const bool& is_a_stopper0,
 
 void LoggerIteration::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate)
+  const double& learning_rate, const double& step_size)
 {
   iterations.push_back(current_iteration);
 }
@@ -243,7 +243,7 @@ LoggerInbagRisk::LoggerInbagRisk (const bool& is_a_stopper0, loss::Loss* used_lo
 
 void LoggerInbagRisk::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate)
+  const double& learning_rate, const double& step_size)
 {
   // Calculate empirical risk. Calculateion of the temporary vector ensures
   // // that stuff like auc logging is possible:
@@ -408,26 +408,36 @@ LoggerOobRisk::LoggerOobRisk (const bool& is_a_stopper0, loss::Loss* used_loss,
 
 void LoggerOobRisk::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate)
+  const double& learning_rate, const double& step_size)
 {
   if (current_iteration == 1) {
     oob_prediction.fill(offset);
   }
+
+  std::string blearner_id = used_blearner->getDataIdentifier();
+  arma::mat mat_temp;
+
+  // Check if transformed oob dataset already exists in map. If not, insert the transformed matrix:
+  if (oob_data_transformed.find(blearner_id) == oob_data_transformed.end()) {
+
+    mat_temp = used_blearner->instantiateData(oob_data.find(blearner_id)->second->getData());
+    oob_data_transformed.insert(std::pair<std::string, arma::mat>(blearner_id, mat_temp));
+  } 
   
-  // Get data of corresponding selected baselearner. E.g. iteration 100 linear 
-  // baselearner of feature x_7, then get the data of feature x_7:
-  data::Data* oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
-  
-  // Predict this data using the selected baselearner:
-  arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);
+  /////// Get data of corresponding selected baselearner. E.g. iteration 100 linear 
+  /////// baselearner of feature x_7, then get the data of feature x_7:
+  /////// data::Data* oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
+  /////
+  /////// Predict this data using the selected baselearner:
+  /////// arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);
   
   // Cumulate prediction and shrink by learning rate:
-  oob_prediction += learning_rate * temp_oob_prediction;
+  oob_prediction += learning_rate * step_size * oob_data_transformed.find(blearner_id)->second * used_blearner->getParameter();
   
   // Calculate empirical risk. Calculateion of the temporary vector ensures
   // that stuff like auc logging is possible:
-  arma::mat loss_vec_temp = used_loss->definedLoss(oob_response, oob_prediction);
-  double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
+  arma::vec loss_vec_temp = used_loss->definedLoss(oob_response, oob_prediction);
+  double temp_risk = arma::mean(loss_vec_temp);
   
   // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);
@@ -573,7 +583,7 @@ LoggerTime::LoggerTime (const bool& is_a_stopper0, const unsigned int& max_time,
 
 void LoggerTime::logStep (const unsigned int& current_iteration, const arma::vec& response, 
   const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate)
+  const double& learning_rate, const double& step_size)
 {
   if (current_time.size() == 0) {
     init_time = std::chrono::steady_clock::now();

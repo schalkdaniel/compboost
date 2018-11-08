@@ -1727,7 +1727,7 @@ public:
   {
     Rcpp::Rcout << "Out of bag risk logger:" << std::endl;
     if (use_as_stopper) {
-      Rcpp::Rcout << "\t- Epsylon used to stop algorithm: " << eps_for_break << std::endl;
+      Rcpp::Rcout << "\t- Epsilon used to stop algorithm: " << eps_for_break << std::endl;
     }
     Rcpp::Rcout << "\t- Use logger as stopper: " << use_as_stopper;
   }

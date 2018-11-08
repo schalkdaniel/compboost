@@ -83,7 +83,7 @@ public:
   // Log the current step (structure <iteration, actual time, actual risk>).
   // This is given to the instantiated logger:
   void logCurrent (const unsigned int&, const arma::vec&, const arma::vec&, 
-    blearner::Baselearner*, const double&, const double&);
+    blearner::Baselearner*, const double&, const double&, const double&);
    
   // Print the logger status:
   void printLoggerStatus (const double&) const;
