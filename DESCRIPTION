@@ -25,7 +25,8 @@ Imports:
   checkmate
 LinkingTo:
   Rcpp,
-  RcppArmadillo
+  RcppArmadillo,
+  BH
 Suggests:
   RcppArmadillo (>= 0.9.100.5.0),
   ggplot2,

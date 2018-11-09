@@ -62,7 +62,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   learning.rate = 0.05, iterations = 100, trace = -1, degree = 3, n.knots = 20, 
   penalty = 2, differences = 2, data.source = InMemoryData, data.target = InMemoryData) 
 {
-  model = Compboost$new(data = data, target = target, loss = loss, learning.rate = learning.rate)
+  model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss, learning.rate = learning.rate)
   features = setdiff(colnames(data), target)
 
   # This loop could be replaced with foreach???

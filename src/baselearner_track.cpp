@@ -45,7 +45,7 @@ BaselearnerTrack::BaselearnerTrack (double learning_rate) : learning_rate ( lear
 
 // Insert a baselearner to the vector. We also want to add up the parameter
 // in there to get an estimator in the end:
-void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner)
+void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner, const double& step_size)
 {
   // Insert new baselearner:
   blearner_vector.push_back(blearner);
@@ -58,7 +58,7 @@ void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner)
   std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(insert_id);
   
   // Prune parameter by multiplying it with the learning rate:
-  arma::mat parameter_temp = learning_rate * blearner->getParameter();
+  arma::mat parameter_temp = learning_rate * step_size * blearner->getParameter();
   
   // Check if this is the first parameter entry:
   if (it == my_parameter_map.end()) {

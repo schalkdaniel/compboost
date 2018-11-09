@@ -44,6 +44,8 @@
 
 #include "baselearner.h"
 #include "baselearner_factory_list.h"
+#include "loss.h"
+#include "line_search.h"
 
 namespace optimizer {
 
@@ -58,11 +60,17 @@ class Optimizer
     virtual blearner::Baselearner* findBestBaselearner (const std::string&, 
       const arma::vec&, const blearner_factory_map&) const = 0;
     
+    // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
+    virtual void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&) = 0;
+    virtual std::vector<double> getStepSize () const = 0;
+    virtual double getStepSize (const unsigned int&) const = 0;
+
     virtual ~Optimizer ();
 
   protected:
     
     blearner_factory_map my_blearner_factory_map;
+    std::vector<double> step_sizes;
 
 };
 
@@ -70,9 +78,8 @@ class Optimizer
 // Optimizer implementations:
 // -------------------------------------------------------------------------- //
 
-// Greedy:
-// -----------------------
-
+// Coordinate Descent:
+// -------------------------------------------
 class OptimizerCoordinateDescent : public Optimizer
 {
   public:
@@ -82,6 +89,27 @@ class OptimizerCoordinateDescent : public Optimizer
 
     blearner::Baselearner* findBestBaselearner (const std::string&, 
       const arma::vec&, const blearner_factory_map&) const;
+
+    void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
+    std::vector<double> getStepSize () const;
+    double getStepSize (const unsigned int&) const;
+};
+
+// Coordinate Descent with line search:
+// -------------------------------------------
+class OptimizerCoordinateDescentLineSearch : public Optimizer
+{
+  public:
+
+    // No special initialization necessary:
+    OptimizerCoordinateDescentLineSearch ();
+
+    blearner::Baselearner* findBestBaselearner (const std::string&, 
+      const arma::vec&, const blearner_factory_map&) const;
+
+    void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
+    std::vector<double> getStepSize () const;
+    double getStepSize (const unsigned int&) const;  
 };
 
 

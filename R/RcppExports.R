@@ -1159,7 +1159,7 @@ NULL
 #' @export LoggerList
 NULL
 
-#' Greedy Optimizer
+#' Coordinate Descent
 #'
 #' This class defines a new object for the greedy optimizer. The optimizer
 #' just calculates for each base-learner the sum of squared errors and returns
@@ -1185,6 +1185,35 @@ NULL
 #' optimizer = OptimizerCoordinateDescent$new()
 #'
 #' @export OptimizerCoordinateDescent
+NULL
+
+#' Coordinate Descent with line search
+#'
+#' This class defines a new object which is used to conduct Coordinate Descent with line search. 
+#' The optimizer just calculates for each base-learner the sum of squared error and returns
+#' the base-learner with the smallest SSE. In addition, this optimizer computes
+#' a line search to find the optimal step size in each iteration.
+#'
+#' @format \code{\link{S4}} object.
+#' @name OptimizerCoordinateDescentLineSearch
+#'
+#' @section Usage:
+#' \preformatted{
+#' OptimizerCoordinateDescentLineSearch$new()
+#' }
+#'
+#' @section Details:
+#'
+#'   This class is a wrapper around the pure \code{C++} implementation. To see
+#'   the functionality of the \code{C++} class visit
+#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
+#'
+#' @examples
+#'
+#' # Define optimizer:
+#' optimizer = OptimizerCoordinateDescentLineSearch$new()
+#'
+#' @export OptimizerCoordinateDescentLineSearch
 NULL
 
 #' Main Compboost Class

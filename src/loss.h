@@ -226,7 +226,7 @@ public:
  * \f]
  * **Gradient:**
  * \f[
- *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{y}{1 + \exp\left(2yf\right)}
+ *   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = - \frac{2y}{1 + \exp\left(2yf\right)}
  * \f]
  * **Initialization:**
  * \f[

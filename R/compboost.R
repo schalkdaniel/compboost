@@ -1,9 +1,9 @@
 #' Compboost API
 #'
 #' \code{Compboost} wraps the \code{S4} class system exposed by \code{Rcpp} to make defining
-#' objects, adding objects, the training and taking predictions, and plotting much easier.
-#' As already mentioned, the \code{Compboost} class is just a wrapper and hence compatible
-#' with the most \code{S4} classes. This together defines the compboost API.
+#' objects, adding objects, the training, calculating predictions, and plotting much easier.
+#' As already mentioned, the \code{Compboost R6} class is just a wrapper and compatible
+#' with the most \code{S4} classes.
 #'
 #' @format \code{\link{R6Class}} object.
 #' @name Compboost
@@ -17,7 +17,7 @@
 #' cbboost$addBaselearner(features, id, bl.factory, data.source = InMemoryData,
 #'   data.target = InMemoryData, ...)
 #'
-#' cbboost$train(iteration = 100, trace = TRUE)
+#' cbboost$train(iteration = 100, trace = -1)
 #'
 #' cboost$getCurrentIteration()
 #'
@@ -51,7 +51,7 @@
 #' }
 #' \item{\code{loss}}{[\code{S4 Loss}]\cr
 #'   Loss as initialized \code{S4 Loss} which is used to calculate pseudo residuals and the
-#'   empirical risk. Note that the loss needs match the data type of the target variable.
+#'   empirical risk. Note that the loss have to match the data type of the target variable.
 #'   See the details for possible choices.
 #' }
 #' \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
@@ -84,13 +84,13 @@
 #' \describe{
 #' \item{\code{features}}{[\code{character()}]\cr
 #'   Vector of column names which are used as input data matrix for a single base-learner. Note that not 
-#'   every base-learner supports the use of multiple features (e.g. the spline base-learner).
+#'   every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
 #' }
 #' \item{\code{id}}{[\code{character(1)}]\cr
 #'   Id of the base-learners. This is necessary since it is possible to define multiple learners with the same underlying data.
 #' }
 #' \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
-#'   Uninitialized base-learner factory represented as \code{S4 Factory} class. See the details
+#'   Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
 #'   for possible choices.
 #' }
 #' \item{\code{data.source}}{[\code{S4 Data}]\cr
@@ -116,14 +116,14 @@
 #' \item{\code{trace}}{[\code{integer(1)}]\cr
 #'   Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 #'   10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
-#'   -1 which means that we set \code{trace} at a value that 40 iterations are printed.
+#'   -1 which means that we set \code{trace} at a value that 40 iterations in total are printed.
 #' }
 #' }
 #'
 #' \strong{For cboost$predict()}:
 #' \describe{
 #' \item{\code{newdata}}{[\code{data.frame()}]\cr
-#' 	 Data to predict on. If \code{NULL} predictions on the training data are returned.
+#' 	 Data to predict on. If newdata equals \code{NULL} predictions on the training data are returned.
 #' }
 #' }
 #' \strong{For cboost$plot()}:
@@ -163,7 +163,7 @@
 #'   \item
 #'     \code{LossCustomCpp} (Custom)
 #'   }
-#'   (For each loss also take a look at the help pages (e.g. \code{?LossBinomial}) and the
+#'   (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}) and the
 #'   \code{C++} documentation for details about the underlying formulas)
 #'
 #'   \strong{Logger}\cr

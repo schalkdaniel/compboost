@@ -93,7 +93,7 @@ public:
   
   /// Log current step of compboost iteration dependent on the child class
   virtual void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
-    blearner::Baselearner*, const double&, const double&) = 0;
+    blearner::Baselearner*, const double&, const double&, const double&) = 0;
   
   /// Class dependent check if the stopping criteria is fulfilled
   virtual bool reachedStopCriteria () const = 0;
@@ -153,7 +153,7 @@ public:
   
   /// Log current step of compboost iteration of class `LoggerIteration`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
-    blearner::Baselearner*, const double&, const double&);
+    blearner::Baselearner*, const double&, const double&, const double&);
   
   /// Stop criteria is fulfilled if the current iteration exceed `max_iteration`
   bool reachedStopCriteria () const;
@@ -204,7 +204,7 @@ public:
   
   /// Log current step of compboost iteration for class `LoggerInbagRisk`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
-    blearner::Baselearner*, const double&, const double&);
+    blearner::Baselearner*, const double&, const double&, const double&);
   
   /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria () const;
@@ -253,6 +253,9 @@ private:
   
   /// The OOB data provided by the user
   std::map<std::string, data::Data*> oob_data;
+
+  /// Transformed oob data for predicting on the oob set:
+  std::map<std::string, arma::mat> oob_data_transformed;
   
   /// The response variable which corresponds to the given OOB data
   arma::vec oob_response;
@@ -266,7 +269,7 @@ public:
   
   /// Log current step of compboost iteration for class `LoggerOobRisk`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
-    blearner::Baselearner*, const double&, const double&);
+    blearner::Baselearner*, const double&, const double&, const double&);
   
   /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria () const;
@@ -323,7 +326,7 @@ public:
   
   /// Log current step of compboost iteration for class `LoggerTime`
   void logStep (const unsigned int&, const arma::vec&, const arma::vec&, 
-    blearner::Baselearner*, const double&, const double&);
+    blearner::Baselearner*, const double&, const double&, const double&);
   
   /// Stop criteria is fulfilled if the passed time exceeds `max_time`
   bool reachedStopCriteria () const;

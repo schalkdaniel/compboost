@@ -123,6 +123,10 @@ test_that("Optimizer printer works", {
   expect_output({ greedy.optimizer.printer = show(greedy.optimizer) })
   expect_equal(greedy.optimizer.printer, "OptimizerCoordinateDescentPrinter")
 
+  expect_silent({ greedy.optimizer.ls = OptimizerCoordinateDescentLineSearch$new() })
+  expect_output({ greedy.optimizer.printer.ls = show(greedy.optimizer.ls) })
+  expect_equal(greedy.optimizer.printer.ls, "OptimizerCoordinateDescentLineSearchPrinter")
+
 })
 
 test_that("Logger(List) printer works", {
