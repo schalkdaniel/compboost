@@ -142,19 +142,19 @@ test_that("Logger(List) printer works", {
 
   y = NA_real_
 
-  expect_silent({ log.iterations = LoggerIteration$new(TRUE, 500) })
-  expect_silent({ log.time       = LoggerTime$new(FALSE, 500, "microseconds") })
-  expect_silent({ log.inbag      = LoggerInbagRisk$new(FALSE, loss.quadratic, 0.05) })
-  expect_silent({ log.oob        = LoggerOobRisk$new(FALSE, loss.quadratic, 0.05, eval.oob.test, y) })
+  expect_silent({ log.iterations = LoggerIteration$new("iterations", TRUE, 500) })
+  expect_silent({ log.time       = LoggerTime$new("time", FALSE, 500, "microseconds") })
+  expect_silent({ log.inbag      = LoggerInbagRisk$new("inbag.risk", FALSE, loss.quadratic, 0.05) })
+  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.05, eval.oob.test, y) })
   expect_silent({ logger.list = LoggerList$new() })
   expect_output({ logger.list.printer = show(logger.list) })
 
   expect_equal(logger.list.printer, "LoggerListPrinter")
 
-  expect_silent(logger.list$registerLogger("iterations", log.iterations))
-  expect_silent(logger.list$registerLogger("time", log.time))
-  expect_silent(logger.list$registerLogger("inbag.risk", log.inbag))
-  expect_silent(logger.list$registerLogger("oob.risk", log.oob))
+  expect_silent(logger.list$registerLogger(log.iterations))
+  expect_silent(logger.list$registerLogger(log.time))
+  expect_silent(logger.list$registerLogger(log.inbag))
+  expect_silent(logger.list$registerLogger(log.oob))
 
   expect_output({ log.iterations.printer = show(log.iterations) })
   expect_output({ log.time.printer       = show(log.time) })
@@ -208,20 +208,20 @@ test_that("Compboost printer works", {
   expect_silent({ loss.quadratic = LossQuadratic$new() })
   expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
 
-  expect_silent({ log.iterations = LoggerIteration$new(TRUE, iter.max) })
-  expect_silent({ log.time.ms    = LoggerTime$new(TRUE, 50000, "microseconds") })
-  expect_silent({ log.time.sec   = LoggerTime$new(TRUE, 2, "seconds") })
-  expect_silent({ log.time.min   = LoggerTime$new(TRUE, 1, "minutes") })
-  expect_silent({ log.inbag      = LoggerInbagRisk$new(FALSE, loss.quadratic, 0.01) })
-  expect_silent({ log.oob        = LoggerOobRisk$new(FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
+  expect_silent({ log.iterations = LoggerIteration$new("iterations", TRUE, iter.max) })
+  expect_silent({ log.time.ms    = LoggerTime$new("time.ms", TRUE, 50000, "microseconds") })
+  expect_silent({ log.time.sec   = LoggerTime$new("time.sec", TRUE, 2, "seconds") })
+  expect_silent({ log.time.min   = LoggerTime$new("time.min", TRUE, 1, "minutes") })
+  expect_silent({ log.inbag      = LoggerInbagRisk$new("inbag.risk", FALSE, loss.quadratic, 0.01) })
+  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
 
   expect_silent({ logger.list = LoggerList$new() })
-  expect_silent({ logger.list$registerLogger("iterations", log.iterations) })
-  expect_silent({ logger.list$registerLogger("time.ms", log.time.ms) })
-  expect_silent({ logger.list$registerLogger("time.sec", log.time.sec) })
-  expect_silent({ logger.list$registerLogger("time.min", log.time.min) })
-  expect_silent({ logger.list$registerLogger("inbag.risk", log.inbag) })
-  expect_silent({ logger.list$registerLogger("oob.risk", log.oob) })
+  expect_silent({ logger.list$registerLogger(log.iterations) })
+  expect_silent({ logger.list$registerLogger(log.time.ms) })
+  expect_silent({ logger.list$registerLogger(log.time.sec) })
+  expect_silent({ logger.list$registerLogger(log.time.min) })
+  expect_silent({ logger.list$registerLogger(log.inbag) })
+  expect_silent({ logger.list$registerLogger(log.oob) })
 
   expect_silent({
     cboost = Compboost_internal$new(

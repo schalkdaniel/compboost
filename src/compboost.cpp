@@ -342,12 +342,12 @@ void Compboost::setToIteration (const unsigned int& k)
   if (k > max_iteration) {
     // Define new iteration logger for missing iterations:
     unsigned int iteration_diff = k - max_iteration;  
-    logger::Logger* temp_logger = new logger::LoggerIteration(true, iteration_diff);
+    logger::Logger* temp_logger = new logger::LoggerIteration("_iteration", true, iteration_diff);
     loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
     
     // Register that logger:
     std::string logger_id = "setToIteration.retraining" + std::to_string(used_logger.size());
-    temp_loggerlist->registerLogger(logger_id, temp_logger);
+    temp_loggerlist->registerLogger(temp_logger);
     
     Rcpp::Rcout << "\nYou have already trained " << std::to_string(max_iteration) << " iterations.\n" 
                 <<"Train " << std::to_string(iteration_diff) << " additional iterations."

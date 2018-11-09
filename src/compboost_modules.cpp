@@ -1395,21 +1395,19 @@ protected:
 
 //' Logger class to log the current iteration
 //'
-//' This class seems to be useless, but it gives more control about the algorithm
-//' and doesn't violate the idea of object programming here. Additionally, it is
-//' quite convenient to have this class instead of tracking the iteration at any
-//' stage of the fitting within the compboost object as another vector.
-//'
 //' @format \code{\link{S4}} object.
 //' @name LoggerIteration
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerIterationWrapper$new(use_as_stopper, max_iterations)
+//' LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 //' }
 //'
 //' @section Arguments:
 //' \describe{
+//' \item{\code{logger_id} [\code{character(1)}]}{
+//'   Unique identifier of the logger.
+//' }
 //' \item{\code{use_as_stopper} [\code{logical(1)}]}{
 //'   Boolean to indicate if the logger should also be used as stopper.
 //' }
@@ -1434,7 +1432,7 @@ protected:
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = LoggerIteration$new(FALSE, 100)
+//' log.iters = LoggerIteration$new("iterations", FALSE, 100)
 //'
 //' # Summarize logger:
 //' log.iters$summarizeLogger()
@@ -1448,12 +1446,12 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerIterationWrapper (bool use_as_stopper, unsigned int max_iterations)
+  LoggerIterationWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_iterations)
     : max_iterations ( max_iterations ),
       use_as_stopper ( use_as_stopper )
   {
-    obj = new logger::LoggerIteration (use_as_stopper, max_iterations);
-    logger_id = " iterations";
+    logger_id = logger_id0;
+    obj = new logger::LoggerIteration (logger_id, use_as_stopper, max_iterations);
   }
 
   void summarizeLogger ()
@@ -1475,11 +1473,14 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerInbagRisk$new(use_as_stopper, used_loss, eps_for_break)
+//' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break)
 //' }
 //'
 //' @section Arguments:
 //' \describe{
+//' \item{\code{logger_id} [\code{character(1)}]}{
+//'   Unique identifier of the logger.
+//' }
 //' \item{\code{use_as_stopper} [\code{logical(1)}]}{
 //'   Boolean to indicate if the logger should also be used as stopper.
 //' }
@@ -1543,7 +1544,7 @@ public:
 //' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.inbag.risk = LoggerInbagRisk$new(FALSE, log.bin, 0.05)
+//' log.inbag.risk = LoggerInbagRisk$new("inbag", FALSE, log.bin, 0.05)
 //'
 //' # Summarize logger:
 //' log.inbag.risk$summarizeLogger()
@@ -1557,12 +1558,12 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerInbagRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
+  LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
-    obj = new logger::LoggerInbagRisk (use_as_stopper, used_loss.getLoss(), eps_for_break);
-    logger_id = "inbag.risk";
+    logger_id = logger_id0;
+    obj = new logger::LoggerInbagRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
   }
 
   void summarizeLogger ()
@@ -1586,12 +1587,15 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerOobRisk$new(use_as_stopper, used_loss, eps_for_break, oob_data,
-//'   oob_response)
+//' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+//'   oob_data, oob_response)
 //' }
 //'
 //' @section Arguments:
 //' \describe{
+//' \item{\code{logger_id} [\code{character(1)}]}{
+//'   Unique identifier of the logger.
+//' }
 //' \item{\code{use_as_stopper} [\code{logical(1)}]}{
 //'   Boolean to indicate if the logger should also be used as stopper.
 //' }
@@ -1680,7 +1684,7 @@ public:
 //' log.bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.oob.risk = LoggerOobRisk$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+//' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
 //'
 //' # Summarize logger:
 //' log.oob.risk$summarizeLogger()
@@ -1694,7 +1698,7 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerOobRiskWrapper (bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
+  LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, arma::vec oob_response)
   {
     std::map<std::string, data::Data*> oob_data_map;
@@ -1718,9 +1722,9 @@ public:
 
     }
 
-    obj = new logger::LoggerOobRisk (use_as_stopper, used_loss.getLoss(), eps_for_break,
+    logger_id = logger_id0;
+    obj = new logger::LoggerOobRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
       oob_data_map, oob_response);
-    logger_id = "oob.risk";
   }
 
   void summarizeLogger ()
@@ -1749,11 +1753,14 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerTime$new(use_as_stopper, max_time, time_unit)
+//' LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 //' }
 //'
 //' @section Arguments:
 //' \describe{
+//' \item{\code{logger_id} [\code{character(1)}]}{
+//'   Unique identifier of the logger.
+//' }
 //' \item{\code{use_as_stopper} [\code{logical(1)}]}{
 //'   Boolean to indicate if the logger should also be used as stopper.
 //' }
@@ -1782,7 +1789,7 @@ public:
 //' }
 //' @examples
 //' # Define logger:
-//' log.time = LoggerTime$new(FALSE, 20, "minutes")
+//' log.time = LoggerTime$new("time.minutes", FALSE, 20, "minutes")
 //'
 //' # Summarize logger:
 //' log.time$summarizeLogger()
@@ -1797,14 +1804,15 @@ private:
   std::string time_unit;
 
 public:
-  LoggerTimeWrapper (bool use_as_stopper, unsigned int max_time,
+  LoggerTimeWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_time,
     std::string time_unit)
     : use_as_stopper ( use_as_stopper ),
       max_time ( max_time ),
       time_unit ( time_unit )
   {
-    obj = new logger::LoggerTime (use_as_stopper, max_time, time_unit);
-    logger_id = "time." + time_unit;
+    // logger_id = logger_id0 + "." + time_unit;
+    logger_id = logger_id0;
+    obj = new logger::LoggerTime (logger_id, use_as_stopper, max_time, time_unit);
   }
 
   void summarizeLogger ()
@@ -1854,28 +1862,22 @@ public:
 //' \item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
 //'   logger as integer.}
 //' \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
-//' \item{\code{registerLogger(logger.id, logger)}}{Includes a new \code{logger}
+//' \item{\code{registerLogger(logger)}}{Includes a new \code{logger}
 //'   into the logger list with the \code{logger.id} as key.}
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = LoggerIteration$new(TRUE, 100)
-//' log.time = LoggerTime$new(FALSE, 20, "minutes")
+//' log.iters = LoggerIteration$new("iteration", TRUE, 100)
+//' log.time = LoggerTime$new("time", FALSE, 20, "minutes")
 //'
 //' # Create logger list:
 //' logger.list = LoggerList$new()
 //'
 //' # Register new loggeR:
-//' logger.list$registerLogger("iteration", log.iters)
-//' logger.list$registerLogger("time", log.time)
+//' logger.list$registerLogger(log.iters)
+//' logger.list$registerLogger(log.time)
 //'
 //' # Print registered logger:
-//' logger.list$printRegisteredLogger()
-//'
-//' # Important: The keys has to be unique:
-//' logger.list$registerLogger("iteration", log.iters)
-//'
-//' # Still just two logger:
 //' logger.list$printRegisteredLogger()
 //'
 //' # Remove all logger:
@@ -1900,9 +1902,9 @@ public:
     return obj;
   }
 
-  void registerLogger (const std::string& logger_id, LoggerWrapper& logger_wrapper)
+  void registerLogger (LoggerWrapper& logger_wrapper)
   {
-    obj->registerLogger(logger_id, logger_wrapper.getLogger());
+    obj->registerLogger(logger_wrapper.getLogger());
   }
 
   void printRegisteredLogger ()
@@ -1946,25 +1948,25 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerIterationWrapper> ("LoggerIteration")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, unsigned int> ()
+    .constructor<std::string, bool, unsigned int> ()
     .method("summarizeLogger", &LoggerIterationWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, LossWrapper&, double> ()
+    .constructor<std::string, bool, LossWrapper&, double> ()
     .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
+    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
   class_<LoggerTimeWrapper> ("LoggerTime")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<bool, unsigned int, std::string> ()
+    .constructor<std::string, bool, unsigned int, std::string> ()
     .method("summarizeLogger", &LoggerTimeWrapper::summarizeLogger, "Summarize logger")
   ;
 

@@ -43,6 +43,16 @@ namespace logger
 // -------------------------------------------------------------------------- //
 
 /**
+ * \brief Getter of logger identifier
+ * 
+ * \returns `std::string` of logger id
+ */
+std::string Logger::getLoggerId () const
+{
+  return logger_id;
+}
+
+/**
  * \brief Getter if the logger is used as stopper
  * 
  * \returns `bool` which says `true` if it is a logger, otherwise `false`
@@ -72,16 +82,18 @@ Logger::~Logger () { }
  * Sets the private member `max_iteration` and the tag if the logger should be
  * used as stopper.
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper `bool` specify if the logger should be used as stopper
  * \param max_iterations `unsigned int` sets value of the stopping criteria
  * 
  */
 
-LoggerIteration::LoggerIteration (const bool& is_a_stopper0, 
+LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_a_stopper0, 
   const unsigned int& max_iterations) 
   : max_iterations ( max_iterations ) 
 {
   is_a_stopper = is_a_stopper0;
+  logger_id = logger_id0;
 }
 
 /**
@@ -191,18 +203,20 @@ std::string LoggerIteration::printLoggerStatus () const
 /**
  * \brief Default constructor of class `LoggerInbagRisk`
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` specify if the logger should be used as stopper
  * \param used_loss `Loss*` used loss to calculate the empirical risk (this 
  *   can differ from the one used while training the model)
  * \param eps_for_break `double` sets value of the stopping criteria`
  */
 
-LoggerInbagRisk::LoggerInbagRisk (const bool& is_a_stopper0, loss::Loss* used_loss, 
+LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss, 
   const double& eps_for_break)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break )
 {
   is_a_stopper = is_a_stopper0;
+  logger_id = logger_id0;
 }
 
 /**
@@ -331,7 +345,7 @@ void LoggerInbagRisk::clearLoggerData ()
 std::string LoggerInbagRisk::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(17) << std::fixed << std::setprecision(2) << tracked_inbag_risk.back();
+  ss << logger_id << " = " << std::setprecision(2) << tracked_inbag_risk.back();
   
   return ss.str();
 }
@@ -347,6 +361,7 @@ std::string LoggerInbagRisk::printLoggerStatus () const
 /**
  * \brief Default constructor of `LoggerOobRisk`
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` to set if the logger should be used as stopper
  * \param used_loss `Loss*` which is used to calculate the empirical risk (this 
  *   can differ from the loss used while trining the model)
@@ -355,7 +370,7 @@ std::string LoggerInbagRisk::printLoggerStatus () const
  * \param oob_response `arma::vec` response of the new data
  */
 
-LoggerOobRisk::LoggerOobRisk (const bool& is_a_stopper0, loss::Loss* used_loss, 
+LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss, 
   const double& eps_for_break, std::map<std::string, data::Data*> oob_data, 
   const arma::vec& oob_response)
   : used_loss ( used_loss ),
@@ -367,6 +382,7 @@ LoggerOobRisk::LoggerOobRisk (const bool& is_a_stopper0, loss::Loss* used_loss,
   
   arma::vec temp (oob_response.size());
   oob_prediction = temp;
+  logger_id = logger_id0;
 }
 
 /**
@@ -519,7 +535,7 @@ void LoggerOobRisk::clearLoggerData ()
 std::string LoggerOobRisk::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(17) << std::fixed << std::setprecision(2) << tracked_oob_risk.back();
+  ss << logger_id << " = " << std::setprecision(2) << tracked_oob_risk.back();
   
   return ss.str();
 }
@@ -534,6 +550,7 @@ std::string LoggerOobRisk::printLoggerStatus () const
 /**
  * \brief Default constructor of class `LoggerTime`
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` which specifies if the logger is used as stopper
  * \param max_time `unsigned int` maximal time for training (just used if logger 
  *   is a stopper)
@@ -541,7 +558,7 @@ std::string LoggerOobRisk::printLoggerStatus () const
  *   `minutes`, `seconds` and `microseconds`
  */
 
-LoggerTime::LoggerTime (const bool& is_a_stopper0, const unsigned int& max_time, 
+LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0, const unsigned int& max_time, 
   const std::string& time_unit)
   : max_time ( max_time ),
     time_unit ( time_unit )
@@ -562,6 +579,7 @@ LoggerTime::LoggerTime (const bool& is_a_stopper0, const unsigned int& max_time,
     ::Rf_error( "c++ exception (unknown reason)" ); 
   }
   is_a_stopper = is_a_stopper0;
+  logger_id = logger_id0;
 }
 
 /**
@@ -671,7 +689,7 @@ void LoggerTime::clearLoggerData ()
 std::string LoggerTime::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << std::setw(17) << std::fixed << std::setprecision(2) << current_time.back();
+  ss << logger_id << " = " << std::setprecision(2) << current_time.back();
   
   return ss.str();
 }
