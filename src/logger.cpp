@@ -82,6 +82,7 @@ Logger::~Logger () { }
  * Sets the private member `max_iteration` and the tag if the logger should be
  * used as stopper.
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper `bool` specify if the logger should be used as stopper
  * \param max_iterations `unsigned int` sets value of the stopping criteria
  * 
@@ -202,6 +203,7 @@ std::string LoggerIteration::printLoggerStatus () const
 /**
  * \brief Default constructor of class `LoggerInbagRisk`
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` specify if the logger should be used as stopper
  * \param used_loss `Loss*` used loss to calculate the empirical risk (this 
  *   can differ from the one used while training the model)
@@ -359,6 +361,7 @@ std::string LoggerInbagRisk::printLoggerStatus () const
 /**
  * \brief Default constructor of `LoggerOobRisk`
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` to set if the logger should be used as stopper
  * \param used_loss `Loss*` which is used to calculate the empirical risk (this 
  *   can differ from the loss used while trining the model)
@@ -537,6 +540,7 @@ std::string LoggerOobRisk::printLoggerStatus () const
 /**
  * \brief Default constructor of class `LoggerTime`
  * 
+ * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` which specifies if the logger is used as stopper
  * \param max_time `unsigned int` maximal time for training (just used if logger 
  *   is a stopper)

@@ -106,11 +106,11 @@ test_that("compboost does the same as mboost", {
   expect_silent(factory.list$registerFactory(quadratic.factory.hp))
   expect_silent({ loss.quadratic = LossQuadratic$new() })
   expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
-  expect_silent({ log.iterations = LoggerIteration$new(TRUE, iter.max) })
-  expect_silent({ log.time       = LoggerTime$new(FALSE, 500, "microseconds") })
+  expect_silent({ log.iterations = LoggerIteration$new(" iterations", TRUE, iter.max) })
+  expect_silent({ log.time       = LoggerTime$new("time.ms", FALSE, 500, "microseconds") })
   expect_silent({ logger.list = LoggerList$new() })
-  expect_silent({ logger.list$registerLogger(" iterations", log.iterations) })
-  expect_silent({ logger.list$registerLogger("time.ms", log.time) })
+  expect_silent({ logger.list$registerLogger(log.iterations) })
+  expect_silent({ logger.list$registerLogger(log.time) })
   expect_silent({
     cboost = Compboost_internal$new(
       response      = y,
