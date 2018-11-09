@@ -5,21 +5,21 @@
 \title{Logger class to log the current iteration}
 \format{\code{\link{S4}} object.}
 \description{
-This class seems to be useless, but it gives more control about the algorithm
-and doesn't violate the idea of object programming here. Additionally, it is
-quite convenient to have this class instead of tracking the iteration at any
-stage of the fitting within the compboost object as another vector.
+Logger class to log the current iteration
 }
 \section{Usage}{
 
 \preformatted{
-LoggerIterationWrapper$new(use_as_stopper, max_iterations)
+LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 }
 }
 
 \section{Arguments}{
 
 \describe{
+\item{\code{logger_id} [\code{character(1)}]}{
+  Unique identifier of the logger.
+}
 \item{\code{use_as_stopper} [\code{logical(1)}]}{
   Boolean to indicate if the logger should also be used as stopper.
 }
@@ -52,7 +52,7 @@ LoggerIterationWrapper$new(use_as_stopper, max_iterations)
 
 \examples{
 # Define logger:
-log.iters = LoggerIteration$new(FALSE, 100)
+log.iters = LoggerIteration$new("iterations", FALSE, 100)
 
 # Summarize logger:
 log.iters$summarizeLogger()

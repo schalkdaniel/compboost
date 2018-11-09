@@ -259,8 +259,10 @@ private:
   /// The OOB data provided by the user
   std::map<std::string, data::Data*> oob_data;
 
-  /// Transformed oob data for predicting on the oob set:
-  std::map<std::string, arma::mat> oob_data_transformed;
+  /* This is part of the memory saving version (see logger.cpp)
+   * /// Transformed oob data for predicting on the oob set:
+   * std::map<std::string, arma::mat> oob_data_transformed;
+   */
   
   /// The response variable which corresponds to the given OOB data
   arma::vec oob_response;

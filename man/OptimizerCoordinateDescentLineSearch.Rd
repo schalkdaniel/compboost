@@ -5,8 +5,8 @@
 \title{Coordinate Descent with line search}
 \format{\code{\link{S4}} object.}
 \description{
-This class defines a new object for the greedy optimizer. The optimizer
-just calculates for each base-learner the sum of squared errors and returns
+This class defines a new object which is used to conduct Coordinate Descent with line search. 
+The optimizer just calculates for each base-learner the sum of squared error and returns
 the base-learner with the smallest SSE. In addition, this optimizer computes
 a line search to find the optimal step size in each iteration.
 }

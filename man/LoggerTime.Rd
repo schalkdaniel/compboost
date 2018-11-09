@@ -17,13 +17,16 @@ that time. There are three time units available for logging:
 \section{Usage}{
 
 \preformatted{
-LoggerTime$new(use_as_stopper, max_time, time_unit)
+LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 }
 }
 
 \section{Arguments}{
 
 \describe{
+\item{\code{logger_id} [\code{character(1)}]}{
+  Unique identifier of the logger.
+}
 \item{\code{use_as_stopper} [\code{logical(1)}]}{
   Boolean to indicate if the logger should also be used as stopper.
 }
@@ -60,7 +63,7 @@ LoggerTime$new(use_as_stopper, max_time, time_unit)
 
 \examples{
 # Define logger:
-log.time = LoggerTime$new(FALSE, 20, "minutes")
+log.time = LoggerTime$new("time.minutes", FALSE, 20, "minutes")
 
 # Summarize logger:
 log.time$summarizeLogger()

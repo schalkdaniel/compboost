@@ -39,30 +39,24 @@ LoggerList$new()
 \item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
   logger as integer.}
 \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
-\item{\code{registerLogger(logger.id, logger)}}{Includes a new \code{logger}
+\item{\code{registerLogger(logger)}}{Includes a new \code{logger}
   into the logger list with the \code{logger.id} as key.}
 }
 }
 
 \examples{
 # Define logger:
-log.iters = LoggerIteration$new(TRUE, 100)
-log.time = LoggerTime$new(FALSE, 20, "minutes")
+log.iters = LoggerIteration$new("iteration", TRUE, 100)
+log.time = LoggerTime$new("time", FALSE, 20, "minutes")
 
 # Create logger list:
 logger.list = LoggerList$new()
 
 # Register new loggeR:
-logger.list$registerLogger("iteration", log.iters)
-logger.list$registerLogger("time", log.time)
+logger.list$registerLogger(log.iters)
+logger.list$registerLogger(log.time)
 
 # Print registered logger:
-logger.list$printRegisteredLogger()
-
-# Important: The keys has to be unique:
-logger.list$registerLogger("iteration", log.iters)
-
-# Still just two logger:
 logger.list$printRegisteredLogger()
 
 # Remove all logger:

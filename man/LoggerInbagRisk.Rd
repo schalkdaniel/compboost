@@ -12,13 +12,16 @@ see the use case or extending compboost vignette.
 \section{Usage}{
 
 \preformatted{
-LoggerInbagRisk$new(use_as_stopper, used_loss, eps_for_break)
+LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break)
 }
 }
 
 \section{Arguments}{
 
 \describe{
+\item{\code{logger_id} [\code{character(1)}]}{
+  Unique identifier of the logger.
+}
 \item{\code{use_as_stopper} [\code{logical(1)}]}{
   Boolean to indicate if the logger should also be used as stopper.
 }
@@ -90,7 +93,7 @@ iteration \eqn{m} is calculated by:
 log.bin = LossBinomial$new()
 
 # Define logger:
-log.inbag.risk = LoggerInbagRisk$new(FALSE, log.bin, 0.05)
+log.inbag.risk = LoggerInbagRisk$new("inbag", FALSE, log.bin, 0.05)
 
 # Summarize logger:
 log.inbag.risk$summarizeLogger()

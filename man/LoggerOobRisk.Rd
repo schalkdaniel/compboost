@@ -12,14 +12,17 @@ see the use case or extending compboost vignette.
 \section{Usage}{
 
 \preformatted{
-LoggerOobRisk$new(use_as_stopper, used_loss, eps_for_break, oob_data,
-  oob_response)
+LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+  oob_data, oob_response)
 }
 }
 
 \section{Arguments}{
 
 \describe{
+\item{\code{logger_id} [\code{character(1)}]}{
+  Unique identifier of the logger.
+}
 \item{\code{use_as_stopper} [\code{logical(1)}]}{
   Boolean to indicate if the logger should also be used as stopper.
 }
@@ -116,7 +119,7 @@ y.oob = rnorm(10)
 log.bin = LossBinomial$new()
 
 # Define logger:
-log.oob.risk = LoggerOobRisk$new(FALSE, log.bin, 0.05, oob.list, y.oob)
+log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
 
 # Summarize logger:
 log.oob.risk$summarizeLogger()
