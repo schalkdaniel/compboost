@@ -243,12 +243,40 @@ class LossBinomial : public Loss
 {
 public:
   
-  /// Default Constructor
+  /// Default constructor
   LossBinomial ();
   
   /// Constructor to initialize custom offset
   LossBinomial (const double&);
   
+  /// Specific loss function
+  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  
+  /// Gradient of loss functions for pseudo residuals
+  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  
+  /// Constant initialization of the empirical risk
+  double constantInitializer (const arma::vec&) const;
+
+  /// Definition of the response function
+  arma::vec responseTransformation (const arma::vec&) const;
+};
+
+
+// Functional data loss:
+// -----------------------
+
+/**
+ * \class FDALoss
+ * 
+ * \brief 
+ *
+ */
+class FDALoss : public Loss
+{
+  /// Default constructor:
+  FDALoss (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
+
   /// Specific loss function
   arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
   
