@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 // Doxygen index page:
@@ -78,6 +63,7 @@
 #include "optimizer.h"
 #include "loss.h"
 #include "loggerlist.h"
+#include "response"
 
 namespace cboost {
 
@@ -88,22 +74,17 @@ class Compboost
   
 private:
   
-  arma::vec response;
-  arma::vec pseudo_residuals;
-  arma::vec model_prediction;
-
   std::vector<double> risk;
   
   // Expand learning_rate to vector:
   double learning_rate;
-  double initialization;
   
   bool stop_if_all_stopper_fulfilled;
   bool model_is_trained = false;
   
   unsigned int actual_iteration;
-  
-  // Pieces to run the algorithm:
+
+  std::shared_ptr<response::Response> sh_ptr_response;
   blearnertrack::BaselearnerTrack blearner_track;
   optimizer::Optimizer* used_optimizer;
   loss::Loss* used_loss;
@@ -116,11 +97,11 @@ public:
   
   Compboost ();
   
-  Compboost (const arma::vec&, const double&, const bool&, optimizer::Optimizer*, loss::Loss*, 
+  Compboost (std::shared_ptr<response::Response>, const double&, const bool&, optimizer::Optimizer*, loss::Loss*, 
     loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
   
   // Basic train function used by trainCompbost and continueTraining:
-  void train (const unsigned int&, const arma::vec&, loggerlist::LoggerList*);
+  void train (const unsigned int&, loggerlist::LoggerList*);
   
   // Initial training:
   void trainCompboost (const unsigned int&);

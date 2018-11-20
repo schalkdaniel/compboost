@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include "compboost.h"
@@ -45,10 +30,9 @@ namespace cboost {
 
 Compboost::Compboost () {}
 
-Compboost::Compboost (const arma::vec& response, const double& learning_rate, 
-  const bool& stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, 
-  loss::Loss* used_loss, loggerlist::LoggerList* used_logger0,
-  blearnerlist::BaselearnerFactoryList used_baselearner_list)
+Compboost::Compboost (std::shared_ptr<response::Response> response, const double& learning_rate, 
+  const bool& stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, loss::Loss* used_loss, 
+  loggerlist::LoggerList* used_logger0, blearnerlist::BaselearnerFactoryList used_baselearner_list)
   : response ( response ), 
     learning_rate ( learning_rate ),
     stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
@@ -64,15 +48,14 @@ Compboost::Compboost (const arma::vec& response, const double& learning_rate,
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::train (const unsigned int& trace, const arma::vec& prediction, loggerlist::LoggerList* logger)
+void Compboost::train (const unsigned int& trace, loggerlist::LoggerList* logger_list)
 {
 
   if (used_baselearner_list.getMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
   
-  arma::vec pred_temp = prediction;
-  arma::vec blearner_pred_temp;
+  arma::mat blearner_pred_temp;
   
   bool stop_the_algorithm = false;
   unsigned int k = 1;
@@ -83,41 +66,39 @@ void Compboost::train (const unsigned int& trace, const arma::vec& prediction, l
 
     actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
     
-    // Define pseudo residuals as negative gradient:
-    pseudo_residuals = -used_loss->definedGradient(response, pred_temp);
+    sh_ptr_response->updatePseudoResiduals();
     
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
-    blearner::Baselearner* selected_blearner = used_optimizer->findBestBaselearner(temp_string, pseudo_residuals, used_baselearner_list.getMap());
+    blearner::Baselearner* selected_blearner = used_optimizer->findBestBaselearner(temp_string, sh_ptr_response, used_baselearner_list.getMap());
 
     // Prediction is needed more often, use a temp vector to avoid multiple computations:
     blearner_pred_temp = selected_blearner->predict();
 
-    used_optimizer->calculateStepSize(used_loss, response, pred_temp, blearner_pred_temp);
+    used_optimizer->calculateStepSize(used_loss, sh_ptr_response, blearner_pred_temp);
     
     // Insert new baselearner to vector of selected baselearner. The parameter are estimated here, hence
     // the contribution to the old parameter is the estimated parameter times the learning rate times
     // the step size. Therefore we have to pass the step size which changes in each iteration:    
     blearner_track.insertBaselearner(selected_blearner, used_optimizer->getStepSize(actual_iteration));
 
-    // Update model (prediction) and shrink by learning rate:
-    pred_temp += learning_rate * used_optimizer->getStepSize(actual_iteration) * blearner_pred_temp;
+    sh_ptr_response->updatePrediction(learning_rate, used_optimizer->getStepSize(actual_iteration), blearner_pred_temp);
     
     // Log the current step:    
     //   The last term has to be the prediction or anything like that. This is
     //   important to track the risk (inbag or oob)!!!!    
-    logger->logCurrent(k, response, pred_temp, selected_blearner, initialization, learning_rate, used_optimizer->getStepSize(actual_iteration));
+    logger_list->logCurrent(k, sh_ptr_response, learning_rate, used_optimizer->getStepSize(actual_iteration));
     
     // Calculate and log risk:
-    risk.push_back(arma::mean(used_loss->definedLoss(response, pred_temp)));
+    risk.push_back(sh_ptr_response->getEmpiricalRisk());
 
     // Get status of the algorithm (is the stopping criteria reached?). The negation here
     // seems a bit weird, but it makes the while loop easier to read:
-    stop_the_algorithm = ! logger->getStopperStatus(stop_if_all_stopper_fulfilled);
+    stop_the_algorithm = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
     
     if (trace > 0) {
       if ((k == 1) || ((k % trace) == 0)) {
-        logger->printLoggerStatus(risk.back()); 
+        logger_list->printLoggerStatus(risk.back()); 
       }
     }    
     k += 1;

@@ -58,10 +58,10 @@ class Optimizer
   public:
     
     virtual blearner::Baselearner* findBestBaselearner (const std::string&, 
-      const arma::vec&, const blearner_factory_map&) const = 0;
+      std::shared_ptr<response::Response>, const blearner_factory_map&) const = 0;
     
     // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
-    virtual void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&) = 0;
+    virtual void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&) = 0;
     virtual std::vector<double> getStepSize () const = 0;
     virtual double getStepSize (const unsigned int&) const = 0;
 
@@ -87,10 +87,10 @@ class OptimizerCoordinateDescent : public Optimizer
     // No special initialization necessary:
     OptimizerCoordinateDescent ();
 
-    blearner::Baselearner* findBestBaselearner (const std::string&, 
-      const arma::vec&, const blearner_factory_map&) const;
+    blearner::Baselearner* findBestBaselearner (const std::string&, std::shared_ptr<response::Response>, 
+      const blearner_factory_map&) const;
 
-    void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
+    void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
     double getStepSize (const unsigned int&) const;
 };
@@ -105,9 +105,9 @@ class OptimizerCoordinateDescentLineSearch : public Optimizer
     OptimizerCoordinateDescentLineSearch ();
 
     blearner::Baselearner* findBestBaselearner (const std::string&, 
-      const arma::vec&, const blearner_factory_map&) const;
+      std::shared_ptr<response::Response>, const blearner_factory_map&) const;
 
-    void calculateStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
+    void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
     double getStepSize (const unsigned int&) const;  
 };

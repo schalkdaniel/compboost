@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include "loss.h"
@@ -77,13 +62,13 @@ LossQuadratic::LossQuadratic (const double& custom_offset0)
 /**
  * \brief Definition of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the loss function
+ * \returns `arma::mat` vector of elementwise application of the loss function
  */
 
-arma::vec LossQuadratic::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossQuadratic::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss of child class Quadratic!" << std::endl;
@@ -93,13 +78,13 @@ arma::vec LossQuadratic::definedLoss (const arma::vec& true_value, const arma::v
 /**
  * \brief Definition of the gradient of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the gradient
+ * \returns `arma::mat` vector of elementwise application of the gradient
  */
 
-arma::vec LossQuadratic::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossQuadratic::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient of child class Quadratic!" << std::endl;
@@ -109,25 +94,25 @@ arma::vec LossQuadratic::definedGradient (const arma::vec& true_value, const arm
 /**
  * \brief Definition of the constant risk initialization (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
+ * \param true_value `arma::mat` True value of the response
  * 
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-double LossQuadratic::constantInitializer (const arma::vec& true_value) const
+double LossQuadratic::constantInitializer (const arma::mat& true_value) const
 {
   if (use_custom_offset) { return custom_offset; }
-  return arma::mean(true_value);
+  return arma::accu(true_value) / true_value.size();
 }
 
 /**
  * \brief Definition of the response function
  * 
- * \param score `arma::vec` The score trained during the fitting process
+ * \param score `arma::mat` The score trained during the fitting process
  * 
- * \returns `arma::vec` The transforemd score.
+ * \returns `arma::mat` The transforemd score.
  */
-arma::vec LossQuadratic::responseTransformation (const arma::vec& score) const 
+arma::mat LossQuadratic::responseTransformation (const arma::mat& score) const 
 {
   return score;
 }
@@ -160,13 +145,13 @@ LossAbsolute::LossAbsolute (const double& custom_offset0)
 /**
  * \brief Definition of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the loss function
+ * \returns `arma::mat` vector of elementwise application of the loss function
  */
 
-arma::vec LossAbsolute::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossAbsolute::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss of child class Absolute!" << std::endl;
@@ -176,13 +161,13 @@ arma::vec LossAbsolute::definedLoss (const arma::vec& true_value, const arma::ve
 /**
  * \brief Definition of the gradient of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the gradient
+ * \returns `arma::mat` vector of elementwise application of the gradient
  */
 
-arma::vec LossAbsolute::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossAbsolute::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient of child class Absolute!" << std::endl;
@@ -192,25 +177,26 @@ arma::vec LossAbsolute::definedGradient (const arma::vec& true_value, const arma
 /**
  * \brief Definition of the constant risk initialization (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
+ * \param true_value `arma::mat` True value of the response
  * 
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-double LossAbsolute::constantInitializer (const arma::vec& true_value) const
+double LossAbsolute::constantInitializer (const arma::mat& true_value) const
 {
   if (use_custom_offset) { return custom_offset; }
-  return arma::median(true_value);
+  arma::vec temp = true_value;
+  return arma::median(temp);
 }
 
 /**
  * \brief Definition of the response function
  * 
- * \param score `arma::vec` The score trained during the fitting process
+ * \param score `arma::mat` The score trained during the fitting process
  * 
- * \returns `arma::vec` The transforemd score.
+ * \returns `arma::mat` The transforemd score.
  */
-arma::vec LossAbsolute::responseTransformation (const arma::vec& score) const 
+arma::mat LossAbsolute::responseTransformation (const arma::mat& score) const 
 {
   return score;
 }
@@ -251,13 +237,13 @@ LossBinomial::LossBinomial (const double& custom_offset0)
 /**
 * \brief Definition of the loss function (see description of the class)
 * 
-* \param true_value `arma::vec` True value of the response
-* \param prediction `arma::vec` Prediction of the true value
+* \param true_value `arma::mat` True value of the response
+* \param prediction `arma::mat` Prediction of the true value
 * 
-* \returns `arma::vec` vector of elementwise application of the loss function
+* \returns `arma::mat` vector of elementwise application of the loss function
 */
 
-arma::vec LossBinomial::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossBinomial::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
 {
   return arma::log(1 + arma::exp(-2 * true_value % prediction));
 }
@@ -265,13 +251,13 @@ arma::vec LossBinomial::definedLoss (const arma::vec& true_value, const arma::ve
 /**
 * \brief Definition of the gradient of the loss function (see description of the class)
 * 
-* \param true_value `arma::vec` True value of the response
-* \param prediction `arma::vec` Prediction of the true value
+* \param true_value `arma::mat` True value of the response
+* \param prediction `arma::mat` Prediction of the true value
 * 
-* \returns `arma::vec` vector of elementwise application of the gradient
+* \returns `arma::mat` vector of elementwise application of the gradient
 */
 
-arma::vec LossBinomial::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossBinomial::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
   return -2 * true_value / (1 + arma::exp(true_value % prediction));
 }
@@ -279,14 +265,14 @@ arma::vec LossBinomial::definedGradient (const arma::vec& true_value, const arma
 /**
 * \brief Definition of the constant risk initialization (see description of the class)
 * 
-* \param true_value `arma::vec` True value of the response
+* \param true_value `arma::mat` True value of the response
 * 
 * \returns `double` constant which minimizes the empirical risk for the given true value
 */
 
-double LossBinomial::constantInitializer (const arma::vec& true_value) const
+double LossBinomial::constantInitializer (const arma::mat& true_value) const
 {
-  arma::vec unique_values = arma::unique(true_value);
+  arma::mat unique_values = arma::unique(true_value);
   // This is necessary to prevent the program from segfolds... whyever???
   // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
   try {
@@ -311,11 +297,11 @@ double LossBinomial::constantInitializer (const arma::vec& true_value) const
 /**
  * \brief Definition of the response function
  * 
- * \param score `arma::vec` The score trained during the fitting process
+ * \param score `arma::mat` The score trained during the fitting process
  * 
- * \returns `arma::vec` The transforemd score.
+ * \returns `arma::mat` The transforemd score.
  */
-arma::vec LossBinomial::responseTransformation (const arma::vec& score) const 
+arma::mat LossBinomial::responseTransformation (const arma::mat& score) const 
 {
   return 1 / (1 + arma::exp(-score));
 }
@@ -348,13 +334,13 @@ LossCustom::LossCustom (Rcpp::Function lossFun, Rcpp::Function gradientFun, Rcpp
 /**
  * \brief Definition of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the loss function
+ * \returns `arma::mat` vector of elementwise application of the loss function
  */
 
-arma::vec LossCustom::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossCustom::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate loss for a custom loss!" << std::endl;
@@ -365,13 +351,13 @@ arma::vec LossCustom::definedLoss (const arma::vec& true_value, const arma::vec&
 /**
  * \brief Definition of the gradient of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the gradient
+ * \returns `arma::mat` vector of elementwise application of the gradient
  */
 
-arma::vec LossCustom::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossCustom::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
   // for debugging:
   // Rcpp::Rcout << "Calculate gradient for a custom loss!" << std::endl;
@@ -382,12 +368,12 @@ arma::vec LossCustom::definedGradient (const arma::vec& true_value, const arma::
 /**
  * \brief Definition of the constant risk initialization (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
+ * \param true_value `arma::mat` True value of the response
  * 
  * \returns `double` constant which minimizes the empirical risk for the given true value
  */
 
-double LossCustom::constantInitializer (const arma::vec& true_value) const
+double LossCustom::constantInitializer (const arma::mat& true_value) const
 {
   // for debugging:
   // Rcpp::Rcout << "Initialize custom loss!" << std::endl;
@@ -400,11 +386,11 @@ double LossCustom::constantInitializer (const arma::vec& true_value) const
 /**
  * \brief Definition of the response function
  * 
- * \param score `arma::vec` The score trained during the fitting process
+ * \param score `arma::mat` The score trained during the fitting process
  * 
- * \returns `arma::vec` The transforemd score.
+ * \returns `arma::mat` The transforemd score.
  */
-arma::vec LossCustom::responseTransformation (const arma::vec& score) const 
+arma::mat LossCustom::responseTransformation (const arma::mat& score) const 
 {
   return score;
 }
@@ -441,13 +427,13 @@ LossCustomCpp::LossCustomCpp (SEXP lossFun0, SEXP gradFun0, SEXP constInitFun0)
 /**
  * \brief Definition of the loss function (see description of the class)
  * 
- * \param true_value `arma::vec` True value of the response
- * \param prediction `arma::vec` Prediction of the true value
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
  * 
- * \returns `arma::vec` vector of elementwise application of the loss function
+ * \returns `arma::mat` vector of elementwise application of the loss function
  */
 
-arma::vec LossCustomCpp::definedLoss (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossCustomCpp::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
 {
   return lossFun(true_value, prediction);
 }
@@ -455,13 +441,13 @@ arma::vec LossCustomCpp::definedLoss (const arma::vec& true_value, const arma::v
 /**
 * \brief Definition of the gradient of the loss function (see description of the class)
 * 
-* \param true_value `arma::vec` True value of the response
-* \param prediction `arma::vec` Prediction of the true value
+* \param true_value `arma::mat` True value of the response
+* \param prediction `arma::mat` Prediction of the true value
 * 
-* \returns `arma::vec` vector of elementwise application of the gradient
+* \returns `arma::mat` vector of elementwise application of the gradient
 */
 
-arma::vec LossCustomCpp::definedGradient (const arma::vec& true_value, const arma::vec& prediction) const
+arma::mat LossCustomCpp::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
   return gradFun(true_value, prediction);
 }
@@ -469,12 +455,12 @@ arma::vec LossCustomCpp::definedGradient (const arma::vec& true_value, const arm
 /**
 * \brief Definition of the constant risk initialization (see description of the class)
 * 
-* \param true_value `arma::vec` True value of the response
+* \param true_value `arma::mat` True value of the response
 * 
 * \returns `double` constant which minimizes the empirical risk for the given true value
 */
 
-double LossCustomCpp::constantInitializer (const arma::vec& true_value) const
+double LossCustomCpp::constantInitializer (const arma::mat& true_value) const
 {
   return constInitFun(true_value);
 }
@@ -482,11 +468,11 @@ double LossCustomCpp::constantInitializer (const arma::vec& true_value) const
 /**
  * \brief Definition of the response function
  * 
- * \param score `arma::vec` The score trained during the fitting process
+ * \param score `arma::mat` The score trained during the fitting process
  * 
- * \returns `arma::vec` The transforemd score.
+ * \returns `arma::mat` The transforemd score.
  */
-arma::vec LossCustomCpp::responseTransformation (const arma::vec& score) const 
+arma::mat LossCustomCpp::responseTransformation (const arma::mat& score) const 
 {
   return score;
 }

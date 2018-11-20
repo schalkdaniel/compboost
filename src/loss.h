@@ -16,22 +16,7 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
-// =========================================================================== #
+// ========================================================================== //
 
 /** 
  *  @file    loss.h
@@ -41,16 +26,7 @@
  *
  *  @section DESCRIPTION
  *  
- *  This file contains the different loss implementations. The structure is:
- *   
- *  ``` 
- *  class SpecificLoss: public Loss
- *  {
- *    arma::vec definedLoss      { IMPLEMENTATION };
- *    arma::vec definedGradient  { IMPLEMENTATION };
- *    double constantInitializer { IMPLEMENTATION };
- *  }
- *  ```
+ *  This file contains the different loss implementations.
  *
  */
 
@@ -83,16 +59,16 @@ class Loss
 public:
   
   /// Specific loss function
-  virtual arma::vec definedLoss (const arma::vec&, const arma::vec&) const = 0;
+  virtual arma::mat definedLoss (const arma::mat&, const arma::mat&) const = 0;
  
   /// Gradient of loss functions for pseudo residuals
-  virtual arma::vec definedGradient (const arma::vec&, const arma::vec&) const = 0;
+  virtual arma::mat definedGradient (const arma::mat&, const arma::mat&) const = 0;
   
   /// Constant initialization of the empirical risk
-  virtual double constantInitializer (const arma::vec&) const = 0;
+  virtual double constantInitializer (const arma::mat&) const = 0;
 
   /// Response function to map score to output space:
-  virtual arma::vec responseTransformation (const arma::vec&) const = 0;
+  virtual arma::mat responseTransformation (const arma::mat&) const = 0;
   
   virtual ~Loss ();
   
@@ -103,9 +79,6 @@ protected:
   
   /// Tag if a custom offset is used
   bool use_custom_offset = false;
-  
-  /// Weights:
-  arma::vec weights;
 };
 
 // -------------------------------------------------------------------------- //
@@ -148,16 +121,16 @@ public:
   LossQuadratic (const double&);
   
   /// Specific loss function
-  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
   
   /// Gradient of loss functions for pseudo residuals
-  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::vec&) const;
+  double constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
-  arma::vec responseTransformation (const arma::vec&) const;
+  arma::mat responseTransformation (const arma::mat&) const;
 };
 
 // LossAbsolute loss:
@@ -194,16 +167,16 @@ public:
   LossAbsolute (const double&);
   
   /// Specific loss function
-  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
   
   /// Gradient of loss functions for pseudo residuals
-  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::vec&) const;
+  double constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
-  arma::vec responseTransformation (const arma::vec&) const;
+  arma::mat responseTransformation (const arma::mat&) const;
 };
 
 // Binomial loss:
@@ -250,16 +223,16 @@ public:
   LossBinomial (const double&);
   
   /// Specific loss function
-  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
   
   /// Gradient of loss functions for pseudo residuals
-  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::vec&) const;
+  double constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
-  arma::vec responseTransformation (const arma::vec&) const;
+  arma::mat responseTransformation (const arma::mat&) const;
 };
 
 // Custom loss:
@@ -275,10 +248,10 @@ public:
  * a special constructor which defines the three needed functions.
  *
  * **Note** that there is one conversion step. There is no predefined conversion
- * from `Rcpp::Function` (which acts as SEXP) to a `arma::vec`. But it is 
+ * from `Rcpp::Function` (which acts as SEXP) to a `arma::mat`. But it is 
  * possible by using `Rcpp::NumericVector`. Therefore the custom functions 
  * returns a `Rcpp::NumericVector` which then is able to be converted to a
- * `arma::vec`.
+ * `arma::mat`.
  * 
  * **Also Note:** This class doesn't have a constructor to initialize a
  * custom offset. Because this is not necessary here since the user can
@@ -304,16 +277,16 @@ public:
   LossCustom (Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
   /// Specific loss function
-  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
   
   /// Gradient of loss functions for pseudo residuals
-  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::vec&) const;
+  double constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
-  arma::vec responseTransformation (const arma::vec&) const;
+  arma::mat responseTransformation (const arma::mat&) const;
 };
 
 // Custom loss:
@@ -335,9 +308,9 @@ public:
 * 
 */
 
-typedef arma::vec (*lossFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
-typedef arma::vec (*gradFunPtr) (const arma::vec& true_value, const arma::vec& prediction);
-typedef double (*constInitFunPtr) (const arma::vec& true_value);
+typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
+typedef arma::mat (*gradFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
+typedef double (*constInitFunPtr) (const arma::mat& true_value);
 
 class LossCustomCpp : public Loss
 {
@@ -359,16 +332,16 @@ public:
   LossCustomCpp (SEXP, SEXP, SEXP);
   
   /// Specific loss function
-  arma::vec definedLoss (const arma::vec&, const arma::vec&) const;
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
   
   /// Gradient of loss functions for pseudo residuals
-  arma::vec definedGradient (const arma::vec&, const arma::vec&) const;
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::vec&) const;
+  double constantInitializer (const arma::mat&) const;
   
   /// Definition of the response function
-  arma::vec responseTransformation (const arma::vec&) const;
+  arma::mat responseTransformation (const arma::mat&) const;
   
 };
 

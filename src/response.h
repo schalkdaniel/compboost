@@ -16,12 +16,13 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef RESPONSE_H_
 #define RESPONSE_H_
 
 #include "RcppArmadillo.h"
+#include "loss.h"
 
 namespace response 
 {
@@ -33,20 +34,38 @@ namespace response
 class Response
 {
 protected:
-  
+  // Response and weights as matrix
+  arma::mat response;
+  arma::mat weights;
+  arma::mat pseudo_residuals;
+  arma::mat prediction;
+
   std::string task_id;
   unsigned int actual_iteration = 0;
+  loss::Loss* used_loss;
+  double initialization;
   
 public:
   
   Response ();
   
   std::string getTaskIdentifier () const = 0;
+  void setActualIteration (const unsigned int&);
+  double getInitialization ();
   
-  virtual arma::mat getResponse () const = 0; 
+  arma::mat getResponse () const; 
   virtual arma::mat getWeights () const = 0;
-  virtual arma::mat getPseudoResiduals () const = 0;
-  virtual arma::mat getPrediction () const = 0;
+
+  arma::mat getPseudoResiduals () const;
+  virtual void updatePseudoResiduals () = 0; 
+
+  arma::mat getPrediction () const;
+  virtual void updatePrediction (const double&, const double&, const arma::mat&) = 0;
+  virtual arma::mat getPrediction (bool) const = 0;
+  
+  virtual arma::mat responseTransformation (const arma::mat&) const = 0;
+
+  double getEmpiricalRisk ();
     
   virtual ~Response () { };
 };
@@ -58,36 +77,33 @@ public:
 
 class ResponseRegr : public Response
 {
-private:
-
-  // Response and weights as matrix
-  arma::mat response;
-  arma::mat weights;
-  arma::mat pseudo_residuals;
-  arma::mat response;
 
 public:
 
   ResponseRegr ();
 
-  arma::mat getResponse () const;
   arma::mat getWeights () const;
-  arma::mat getPseudoResiduals () const;
-  arma::mat getPrediction () const;
+
+  void updatePseudoResiduals (); 
+
+  void updatePrediction (const double&, const double&, const arma::mat&);
+  arma::mat responseTransformation (const arma::mat&) const;
+  arma::mat getPrediction (const bool&) const;
+
 
 };
 
-class ResponseBinaryClassif : public Response
-{
-public:
+// class ResponseBinaryClassif : public Response
+// {
+// public:
     
-};
+// };
 
-class ResponseFDA : public Response
-{
-public:
+// class ResponseFDA : public Response
+// {
+// public:
     
-};
+// };
 
 
 } // namespace response
