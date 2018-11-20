@@ -24,5 +24,8 @@
 #include <RcppArmadillo.h>
 
 arma::mat rowWiseKronecker (const arma::mat&, const arma::mat&);
+arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb);
+arma::mat centerEffects (const arma::mat& X1, const arma::mat& X2);
+
 
 # endif // SPLINE_H_

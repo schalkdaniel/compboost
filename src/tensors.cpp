@@ -43,6 +43,9 @@
  * \returns `arma::mat` returns rowwise kronecker product of two matrices
  */
 
+
+// [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::export]]
 arma::mat rowWiseKronecker (const arma::mat& A, const arma::mat& B)
 {
   // Variables
@@ -57,22 +60,23 @@ arma::mat rowWiseKronecker (const arma::mat& A, const arma::mat& B)
   return out;
 }
 
-
+// [[Rcpp::export]]
 arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
 {
   // Variables
   arma::mat out;
-  arma::rowvec vecPa = arma::rowvec(Pa.n_rows, arma::fill::ones);
-  arma::rowvec vecPb = arma::rowvec(Pb.n_rows, arma::fill::ones);
+  // Create Diagonal matrices
+  arma::mat eyePa = arma::diagmat( arma::vec(Pa.n_cols, arma::fill::ones) );
+  arma::mat eyePb = arma::diagmat( arma::vec(Pb.n_cols, arma::fill::ones) );
   
   
-  // sum of rowwise Kroneckers
-  out = arma::kron(Pa,vecPa) + arma::kron(vecPb, Pb);
+  // sum of Kroneckers with diagonal marices
+  out = arma::kron(Pa,eyePa) + arma::kron(eyePb, Pb);
   
   return out;
 }
 
-
+// [[Rcpp::export]]
 arma::mat centerEffects (const arma::mat& X1, const arma::mat& X2)
 {
   // Variables
@@ -97,31 +101,6 @@ arma::mat centerEffects (const arma::mat& X1, const arma::mat& X2)
   
   return out;
 }
-
-
-// #include<iostream>
-// 
-// int main() {
-// arma::mat UnityMatrix = arma::mat(2,2, arma::fill::eye);
-// arma::mat OneMatrix = arma::mat(3,3, arma::fill::ones);
-// 
-// arma::mat test = rowWiseKronecker(UnityMatrix,OneMatrix);
-// 
-// 
-// int i;
-// int j;
-// 
-// std::ofstream output("inputmatriks.txt");
-// for (i=0;i<2;i++)
-// {
-//   for (j=0;j<3;j++)
-//   {
-//     Rcpp::Rcout << test(i,j) << " "; // behaves like cout - cout is also a stream
-//   }
-//   Rcpp::Rcout << "\n";
-// }
-// return 0;
-// }
 
 
 
