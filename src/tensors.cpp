@@ -52,10 +52,9 @@ arma::mat rowWiseKronecker (const arma::mat& A, const arma::mat& B)
   arma::mat out;
   arma::rowvec vecA = arma::rowvec(A.n_rows, arma::fill::ones);
   arma::rowvec vecB = arma::rowvec(B.n_rows, arma::fill::ones);
-  
-  
-  // rowWiseKronecker
-  out = arma::kron(A,vecA) * arma::kron(vecB, B);
+    
+  // Multiply both kronecker products element-wise 
+  out = arma::kron(A,vecA) % arma::kron(vecB, B);
   
   return out;
 }
