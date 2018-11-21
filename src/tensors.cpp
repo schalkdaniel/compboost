@@ -76,30 +76,42 @@ arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
 }
 
 // [[Rcpp::export]]
-arma::mat centerEffects (const arma::mat& X1, const arma::mat& X2)
+std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const arma::mat& P1, const arma::mat& X2)
 {
-  // Variables
-  arma::mat out;
-  arma::mat QR;
-  arma::mat R;
-  arma::mat X;
-  arma::mat Z;
+
+  // Cross Product X1 and X2
+  arma::mat cross = X1.t() * X2 ;
   
-  // QR decomp of cross Product X1 and X2
-  QR = arma::cross(X1,X2);
-  arma::qr(QR,R,X);
+  // QR decomp 
+  // We require and orthogonal matrix Q
+  arma::mat R;
+  arma::mat Q;
+  arma::qr(Q,R,cross);
+  
+  // get rank of R and add 1
   int rankR = arma::rank(R);
   
-  // construct Z
-  // FIXME
-  // Z = Q[,R+1:ncol(Q)]
-  Z = arma::kron(X1,Z);
+  // construct Z from rows 0 to last row and column R+1 to last column
+  arma::mat Z = Q( arma::span(0, Q.n_rows-1), arma::span(rankR, Q.n_cols-1) );
   
-  // Construct Penalty Matrxie
-  out = arma::kron( arma::kron(Z.t(), X1) , Z); 
+  // Construct the rotated X1
+  arma::mat X1_out = X1 * Z; 
   
+  // Construct the rotated Penalty Matrix
+  arma::mat P1_out = Z.t() * P1 * Z;
+  
+  // Construct out
+  std::map<std::string, arma::mat> out;
+  out["X1"] = X1_out;
+  out["P1"] = P1_out;
+
   return out;
+  
+  /// return X1_out;
 }
+
+// 
+
 
 
 
