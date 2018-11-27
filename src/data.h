@@ -80,10 +80,6 @@ public:
   /// Vector of knots (directly accessible)
   arma::vec knots;
   
-  /// Upper and lower boundary for values, values which are out of range
-  /// have a basis of zeros (directly accessible)
-  arma::vec knot_boundaries;
-  
   /// This is way to speed up the algorithm (nicked from the mboost guys)
   /// Generally we calculate \f$X^T X\f$ once and reuse this in every iteration.
   arma::mat XtX_inv;

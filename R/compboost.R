@@ -600,6 +600,17 @@ Compboost = R6::R6Class("Compboost",
     getBaselearnerNames = function () {
       # return(lapply(private$bl.list, function (bl) bl[[1]]$target$getIdentifier()))
       return(names(private$bl.list))
+    },
+    getLoggerData = function () {
+      if (! is.null(self$model)) {
+        out_list = self$model$getLoggerData()
+        out_mat = out_list[[2]]
+        colnames(out_mat) = out_list[[1]] 
+        
+        return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()),]))
+      } else {
+        warning("Train the model to get logger data.")
+      }
     }
   ),
   private = list(
