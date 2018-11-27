@@ -321,9 +321,17 @@ arma::mat BaselearnerPSplineFactory::getData () const
  */
 arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) const
 {
+  arma::vec knots = data_target->knots;
+
+  // check if the new data matrix contains value which are out of range:
+  double range_min = knots[degree];                   // minimal value from original data
+  double range_max = knots[n_knots + degree + 1];     // maximal value from original data
+
+  arma::mat temp = filterKnotRange(newdata, range_min, range_max, data_target->getDataIdentifier());
+
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
-  return createSplineBasis (newdata, degree, data_target->knots);
+  return createSplineBasis (temp, degree, data_target->knots);
 }
 
 // BaselearnerCustom:
