@@ -134,9 +134,11 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
   double knot_range = (inner_knot_max - inner_knot_min) / (n_knots + 1);
   
   // Inner knots:
-  for (unsigned int i = 0; i <= n_knots + 1; i++) {
+  for (unsigned int i = 0; i < n_knots + 1; i++) {
     knots[degree + i] = inner_knot_min + i * knot_range;
   }
+  knots[degree + n_knots + 1] = inner_knot_max;
+
   // Lower and upper 'boundary knots'
   for (unsigned int i = 0; i < degree; i++) {
     // Lower:
