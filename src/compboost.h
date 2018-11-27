@@ -54,8 +54,6 @@
  * 
  */
 
-
-
 #ifndef COMPBOOST_H_
 #define COMPBOOST_H_
 
@@ -91,7 +89,7 @@ private:
   blearnerlist::BaselearnerFactoryList used_baselearner_list;
   
   // Vector of loggerlists, needed if one want to continue training:
-  std::map<std::string, loggerlist::LoggerList*> used_logger;
+  std::map<std::string, loggerlist::LoggerList*> logger_map;
   
 public:
   

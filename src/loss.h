@@ -65,7 +65,7 @@ public:
   virtual arma::mat definedGradient (const arma::mat&, const arma::mat&) const = 0;
   
   /// Constant initialization of the empirical risk
-  virtual double constantInitializer (const arma::mat&) const = 0;
+  virtual arma::mat constantInitializer (const arma::mat&) const = 0;
 
   /// Response function to map score to output space:
   virtual arma::mat responseTransformation (const arma::mat&) const = 0;
@@ -75,7 +75,7 @@ public:
 protected:
   
   /// Custom offset:
-  double custom_offset;
+  arma::mat custom_offset;
   
   /// Tag if a custom offset is used
   bool use_custom_offset = false;
@@ -127,7 +127,7 @@ public:
   arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
   arma::mat responseTransformation (const arma::mat&) const;
@@ -173,7 +173,7 @@ public:
   arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
   arma::mat responseTransformation (const arma::mat&) const;
@@ -229,7 +229,7 @@ public:
   arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
   arma::mat responseTransformation (const arma::mat&) const;
@@ -283,7 +283,7 @@ public:
   arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
   
   /// Constant initialization of the empirical risk
-  double constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer (const arma::mat&) const;
 
   /// Definition of the response function
   arma::mat responseTransformation (const arma::mat&) const;

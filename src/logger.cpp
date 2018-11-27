@@ -112,9 +112,8 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
  * 
  */
 
-void LoggerIteration::logStep (const unsigned int& current_iteration, const arma::vec& response, 
-  const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate, const double& step_size)
+void LoggerIteration::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   iterations.push_back(current_iteration);
 }
@@ -255,16 +254,15 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
  * 
  */
 
-void LoggerInbagRisk::logStep (const unsigned int& current_iteration, const arma::vec& response, 
-  const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate, const double& step_size)
+void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   // Calculate empirical risk. Calculateion of the temporary vector ensures
   // // that stuff like auc logging is possible:
   // arma::vec loss_vec_temp = used_loss->definedLoss(response, prediction);
   // double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
 
-  double temp_risk = arma::mean(used_loss->definedLoss(response, prediction));
+  double temp_risk = sh_ptr_response->getEmpiricalRisk(used_loss);
   
   tracked_inbag_risk.push_back(temp_risk);
 }
@@ -422,9 +420,8 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
  * 
  */
 
-void LoggerOobRisk::logStep (const unsigned int& current_iteration, const arma::vec& response, 
-  const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate, const double& step_size)
+void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_iteration == 1) {
     oob_prediction.fill(offset);
@@ -436,7 +433,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, const arma::
   data::Data* oob_blearner_data = oob_data.find(blearner_id)->second;
   
   // Predict this data using the selected baselearner:
-  arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);
+  arma::mat temp_oob_prediction = used_blearner->predict(oob_blearner_data);
 
   oob_prediction += learning_rate * step_size * temp_oob_prediction;
 
@@ -466,8 +463,8 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, const arma::
 
   // Calculate empirical risk. Calculation of the temporary vector ensures
   // that stuff like auc logging is possible:
-  arma::vec loss_vec_temp = used_loss->definedLoss(oob_response, oob_prediction);
-  double temp_risk = arma::mean(loss_vec_temp);
+  arma::mat loss_temp = used_loss->definedLoss(oob_response, oob_prediction);
+  double temp_risk = arma::accu(loss_temp) / loss_temp.size();
   
   // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);
@@ -613,9 +610,8 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
  * 
  */
 
-void LoggerTime::logStep (const unsigned int& current_iteration, const arma::vec& response, 
-  const arma::vec& prediction, blearner::Baselearner* used_blearner, const double& offset, 
-  const double& learning_rate, const double& step_size)
+void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_time.size() == 0) {
     init_time = std::chrono::steady_clock::now();

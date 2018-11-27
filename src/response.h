@@ -42,8 +42,9 @@ protected:
 
   std::string task_id;
   unsigned int actual_iteration = 0;
-  loss::Loss* used_loss;
-  double initialization;
+  // loss::Loss* used_loss;
+  // double initialization;
+  bool is_initialized = false;
   
 public:
   
@@ -51,21 +52,25 @@ public:
   
   std::string getTaskIdentifier () const = 0;
   void setActualIteration (const unsigned int&);
-  double getInitialization ();
+
+  double getInitialization () const;
   
   arma::mat getResponse () const; 
   virtual arma::mat getWeights () const = 0;
 
   arma::mat getPseudoResiduals () const;
-  virtual void updatePseudoResiduals () = 0; 
+  virtual void updatePseudoResiduals (loss::Loss*) = 0; 
 
+  virtual void initializePrediction (loss::Loss*) = 0;
+  virtual arma::mat initializeOOBPrediction (const arma::mat&, const arma::mat&, loss::Loss*) const = 0;
   arma::mat getPrediction () const;
   virtual void updatePrediction (const double&, const double&, const arma::mat&) = 0;
   virtual arma::mat getPrediction (bool) const = 0;
   
   virtual arma::mat responseTransformation (const arma::mat&) const = 0;
 
-  double getEmpiricalRisk ();
+  // double getEmpiricalRisk ();
+  double getEmpiricalRisk (loss::Loss*);
     
   virtual ~Response () { };
 };
@@ -84,10 +89,12 @@ public:
 
   arma::mat getWeights () const;
 
-  void updatePseudoResiduals (); 
+  void updatePseudoResiduals (loss::Loss*); 
 
   void updatePrediction (const double&, const double&, const arma::mat&);
   arma::mat responseTransformation (const arma::mat&) const;
+  void initializePrediction (loss::Loss*);
+  arma::mat initializeOOBPrediction (const arma::mat&, const arma::mat&, loss::Loss*) const;
   arma::mat getPrediction (const bool&) const;
 
 

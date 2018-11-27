@@ -39,7 +39,7 @@ void Response::setActualIteration(const unsigned int& actual_iter)
   actual_iteration = actual_iter;
 }
 
-double Response::getInitialization ()
+double Response::getInitialization () const
 {
   return initialization;
 }
@@ -48,7 +48,12 @@ arma::mat Response::getResponse () const { return response; }
 arma::mat Response::getWeights () const { return weights; }
 arma::mat Response::getPrediction () const { return prediction; }
 
-double Response::getEmpiricalRisk ()
+// double Response::getEmpiricalRisk ()
+// {
+//   return arma::accu(used_loss->definedLoss(response, prediction)) / response.size();
+// }
+
+double Response::getEmpiricalRisk (loss::Loss* used_loss)
 {
   return arma::accu(used_loss->definedLoss(response, prediction)) / response.size();
 }
@@ -62,17 +67,17 @@ ResponseRegr::ResponseRegr (const arma::mat& response, loss::Loss* used_loss0) :
   task_id = "regression";
   used_loss = used_loss0;
 
-  initialization = used_loss->constantInitializer(response);
+  // initialization = used_loss->constantInitializer(response);
 
   arma::mat temp(response.n_rows, response.n_cols, arma::fill::zeros);
   
   prediction = temp;
-  prediction.fill(initialization);
+  // prediction.fill(initialization);
   
   pseudo_residuals = temp;
 }
 
-arma::mat ResponseRegr::getPseudoResiduals () const { return pseudo_residuals; }
+arma::mat ResponseRegr::getPseudoResiduals (loss::Loss* used_loss) const { return pseudo_residuals; }
 void updatePseudoResiduals ()
 {
   pseudo_residuals = -used_loss->definedGradient(response, prediction);
@@ -85,6 +90,18 @@ void ResponseRegr::updatePrediction (const double& learning_rate, const double& 
 
 arma::mat ResponseRegr::responseTransformation (const arma::mat& prediction) const {}
 
+void ResponseRegr::initializePrediction (loss::Loss* used_loss) 
+{
+  if (! is_initialized) {
+    prediction.fill(used_loss->constantInitializer(response));
+  } else {
+    Rcpp::stop("Prediction is already initialized.");
+  }
+}
+arma::mat ResponseRegr::initializeOOBPrediction (const arma::mat& oob_response, loss::Loss* used_loss) const 
+{
+  
+}
 arma::mat ResponseRegr::getPrediction (const bool& as_response) const
 {
   return getPrediction();
