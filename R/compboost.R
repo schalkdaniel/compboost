@@ -34,6 +34,12 @@
 #' cboost$getBaselearnerNames()
 #' 
 #' cboost$prepareData(newdata)
+#' 
+#' cboost$getLoggerData()
+#' 
+#' cboost$calculateFeatureImportance(num.feats = 15L)
+#' 
+#' cboost$plotFeatureImportance(num.feats = 15L)
 #'
 #' }
 #' @section Arguments:
@@ -603,11 +609,54 @@ Compboost = R6::R6Class("Compboost",
     },
     getLoggerData = function () {
       if (! is.null(self$model)) {
-        out_list = self$model$getLoggerData()
-        out_mat = out_list[[2]]
-        colnames(out_mat) = out_list[[1]] 
+        out.list = self$model$getLoggerData()
+        out.mat = out.list[[2]]
+        colnames(out.mat) = out.list[[1]] 
         
-        return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()),]))
+        return(as.data.frame(out.mat[seq_len(self$getCurrentIteration()),]))
+      } else {
+        warning("Train the model to get logger data.")
+      }
+    },
+    calculateFeatureImportance = function (num.feats = NULL) {
+      if (! is.null(self$model)) {
+
+        max.feats = length(unique(self$getSelectedBaselearner()))
+        checkmate::assert_integerish(x = num.feats, lower = 1, upper = max.feats, any.missing = FALSE, len = 1L, null.ok = TRUE)
+        
+        if (is.null(num.feats)) {
+          num.feats = max.feats
+          if (num.feats > 15L) { num.feats = 15L }
+        }
+
+        inbag.risk.differences = abs(diff(self$getInbagRisk()))
+        selected.learner = self$getSelectedBaselearner()
+
+        blearner.sums = aggregate(inbag.risk.differences, by = list(selected.learner), FUN = sum)
+        colnames(blearner.sums) = c("baselearner", "relative.risk.reduction")
+        blearner.sums[["relative.risk.reduction"]] = blearner.sums[["relative.risk.reduction"]] / sum(blearner.sums[["relative.risk.reduction"]])
+
+        return(blearner.sums[order(blearner.sums[["relative.risk.reduction"]], decreasing = TRUE)[seq_len(num.feats)], ])
+      } else {
+        warning("Train the model to get logger data.")
+      }
+    },
+    plotFeatureImportance = function (num.feats = NULL) {
+
+      if (! is.null(self$model)) {
+        if (requireNamespace("ggplot2", quietly = TRUE)) {
+
+        data.vip = self$calculateFeatureImportance(num.feats)
+
+        gg = ggplot2::ggplot(data.vip, ggplot2::aes(x = reorder(baselearner, relative.risk.reduction), y = relative.risk.reduction)) + 
+          ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
+
+        return (gg)
+
+        } else {
+          message("Please install ggplot2 to create plots.")
+          return(NULL)
+        }
       } else {
         warning("Train the model to get logger data.")
       }

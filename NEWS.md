@@ -1,3 +1,8 @@
+- **28.11.2018** \
+  It is now possible to directly access the logger data and to calculate feature importance.
+
+- **27.11.2018** \
+  Fix bug in the spline base-learner for out of range values.
 
 - **09.11.2018** \
   Adding a new optimizer `OptimizerCoordinateDescentLineSearch` which conducts line search after each iteration.
