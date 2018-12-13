@@ -680,7 +680,7 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$model)) {
         if (requireNamespace("ggplot2", quietly = TRUE)) {
           inbag.trace = self$getInbagRisk()
-          oob.data = cboost$getLoggerData() 
+          oob.data = self$getLoggerData() 
           if ("oob_risk" %in% names(oob.data)) {  
             oob.trace = oob.data[["oob_risk"]]
             
