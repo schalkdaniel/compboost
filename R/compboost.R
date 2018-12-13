@@ -303,7 +303,10 @@ NULL
 Compboost = R6::R6Class("Compboost",
   public = list(
     data = NULL,
+    data.oob = NULL,
+    oob.fraction = NULL,
     response = NULL,
+    response.oob = NULL,
     target = NULL,
     id = NULL,
     optimizer = NULL,
@@ -313,11 +316,12 @@ Compboost = R6::R6Class("Compboost",
     bl.factory.list = NULL,
     positive.category = NULL,
     stop.if.all.stoppers.fulfilled = FALSE,
-    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning.rate = 0.05) {
+    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning.rate = 0.05, oob.fraction = NULL) {
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertCharacter(target)
-      checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, len = 1)
-      
+      checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
+      checkmate::assertNumeric(oob.fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
+
       if (! target %in% names(data)) {
         stop ("The target ", target, " is not present within the data")
       }
@@ -342,14 +346,24 @@ Compboost = R6::R6Class("Compboost",
         # Transform to vector with -1 and 1:
         response = as.integer(response) * (1 - as.integer(response)) + 1
       }
-      
+
+      if (! is.null(oob.fraction)) {
+        private$oob.idx = sample(x = seq_len(nrow(data)), size = floor(oob.fraction * nrow(data)), replace = FALSE)
+      }
+      private$train.idx = setdiff(seq_len(nrow(data)), private$oob.idx)
+
+      self$oob.fraction = oob.fraction
       self$target = target
-      self$response = response
-      self$data = data[, !colnames(data) %in% target, drop = FALSE]
+      self$response = response[private$train.idx]
+      self$data = data[private$train.idx, !colnames(data) %in% target, drop = FALSE]
       self$optimizer = optimizer
       self$loss = loss
       self$learning.rate = learning.rate
-      
+      if (! is.null(self$oob.fraction)) { 
+        self$data.oob = data[private$oob.idx, !colnames(data) %in% target, drop = FALSE]
+        self$response.oob = response[private$oob.idx]
+      }
+
       # Initialize new base-learner factory list. All factories which are defined in
       # `addBaselearners` are registered here:
       self$bl.factory.list = BlearnerFactoryList$new()
@@ -407,7 +421,7 @@ Compboost = R6::R6Class("Compboost",
         # If iteration is NULL, then there is no new iteration logger defined. This could be
         # used, for example, to train the algorithm an break it after a defined number of
         # hours or minutes.
-        if (!is.null(iteration)) {
+        if (! is.null(iteration)) {
           # Add new logger in the case that there isn't already a custom defined one:
           if ("Rcpp_LoggerIteration" %in% vapply(private$l.list, class, character(1))) {
             warning("Training iterations are ignored since custom iteration logger is already defined")
@@ -415,6 +429,7 @@ Compboost = R6::R6Class("Compboost",
             self$addLogger(LoggerIteration, TRUE, logger.id = "_iterations", iter.max = iteration)
           }
         }
+        if (! is.null(self$oob.fraction)) private$addOobLogger()
         # After calling `initializeModel` it isn't possible to add base-learner or logger.
         private$initializeModel()
       }
@@ -660,6 +675,37 @@ Compboost = R6::R6Class("Compboost",
       } else {
         warning("Train the model to get logger data.")
       }
+    },
+    plotInbagVsOobRisk = function () {
+      if (! is.null(self$model)) {
+        if (requireNamespace("ggplot2", quietly = TRUE)) {
+          inbag.trace = self$getInbagRisk()
+          oob.data = self$getLoggerData() 
+          if ("oob_risk" %in% names(oob.data)) {  
+            oob.trace = oob.data[["oob_risk"]]
+            
+            risk.data = data.frame(
+              risk = c(inbag.trace, oob.trace),
+              type = rep(c("inbag", "oob"), times = c(length(inbag.trace), length(oob.trace))),
+              iter = c(seq_along(inbag.trace), seq_along(oob.trace))
+            )
+
+            gg = ggplot2::ggplot(risk.data, ggplot2::aes(x = iter, y = risk, color = type)) + 
+              ggplot2::geom_line(size = 1.1) + 
+              ggplot2::xlab("Iteration") + 
+              ggplot2::ylab("Risk")# + labs(color = "")
+
+            return(gg)
+          } else {
+            stop("Model was not trained with an out of bag risk logger called 'oob_risk'.")
+          }
+        } else {
+          message("Please install ggplot2 to create plots.")
+          return(NULL)
+        }
+      } else {
+        warning("Train the model to get logger data.")
+      }
     }
   ),
   private = list(
@@ -668,6 +714,8 @@ Compboost = R6::R6Class("Compboost",
     l.list = list(),
     bl.list = list(),
     logger.list = list(),
+    oob.idx = NULL,
+    train.idx = NULL,
     
     initializeModel = function() {
       
@@ -678,6 +726,14 @@ Compboost = R6::R6Class("Compboost",
       # }
       self$model = Compboost_internal$new(self$response, self$learning.rate,
         self$stop.if.all.stoppers.fulfilled, self$bl.factory.list, self$loss, private$logger.list, self$optimizer)
+    },
+    addOobLogger = function () {
+
+      if (! is.null(self$oob.fraction)) {
+        self$addLogger(logger = LoggerOobRisk, logger.id = "oob_risk",
+          used.loss = self$loss, eps.for.break = 0, oob.data = self$prepareData(self$data.oob), 
+          oob.response = self$response.oob)
+      }
     },
     addSingleNumericBl = function(data.columns, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
       

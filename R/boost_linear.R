@@ -40,6 +40,8 @@
 #' @param data.target [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
+#' @param oob.fraction [\code{numeric(1)}]\cr
+#'   Fraction of how much data we want to use to track the out of bag risk.
 #' @examples
 #' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 #' mod$getBaselearnerNames()
@@ -50,9 +52,10 @@
 #' @export
 boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
 	learning.rate = 0.05, iterations = 100, trace = -1, intercept = TRUE, 
-	data.source = InMemoryData, data.target = InMemoryData) 
+	data.source = InMemoryData, data.target = InMemoryData, oob.fraction = NULL) 
 {
-	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss, learning.rate = learning.rate)
+	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss, 
+		learning.rate = learning.rate, oob.fraction = oob.fraction)
 	features = setdiff(colnames(data), target)
 
 	# This loop could be replaced with foreach???

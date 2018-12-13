@@ -7,7 +7,7 @@
 boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(),
   loss, learning.rate = 0.05, iterations = 100, trace = -1,
   intercept = TRUE, data.source = InMemoryData,
-  data.target = InMemoryData)
+  data.target = InMemoryData, oob.fraction = NULL)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
@@ -47,6 +47,9 @@ just in memory training is supported.}
 \item{data.target}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
+
+\item{oob.fraction}{[\code{numeric(1)}]\cr
+Fraction of how much data we want to use to track the out of bag risk.}
 }
 \value{
 Usually a model of class \code{Compboost}. This model is an \code{R6} object
