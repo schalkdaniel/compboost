@@ -36,12 +36,14 @@ test_that("Internal oob is the same as the logger", {
     used.loss = LossQuadratic$new(), eps.for.break = 0,
     oob.data = oob_data, oob.response = oob_response)
   
-  cboost$train(6000)
-  
+  nuisance = capture.output(suppressWarnings({
+    cboost$train(6000)
+  }))
   set.seed(31415)
-  cboost1 = boostSplines(data = df, target = target_var, loss = LossQuadratic$new(), learning.rate = 0.005, 
-    iterations = 6000L, degree = 3, n.knots = 10, oob.fraction = 0.25)
-
+  nuisance = capture.output(suppressWarnings({
+    cboost1 = boostSplines(data = df, target = target_var, loss = LossQuadratic$new(), learning.rate = 0.005, 
+      iterations = 6000L, degree = 3, n.knots = 10, oob.fraction = 0.25)
+  }))
   expect_equal(rownames(df)[idx_train], rownames(cboost1$data))
   expect_equal(rownames(df)[idx_test], rownames(cboost1$data.oob))
   expect_equal(cboost$getLoggerData(), cboost1$getLoggerData())
