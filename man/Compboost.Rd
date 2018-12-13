@@ -39,6 +39,12 @@ cboost$getBaselearnerNames()
 
 cboost$prepareData(newdata)
 
+cboost$getLoggerData()
+
+cboost$calculateFeatureImportance(num.feats = 15L)
+
+cboost$plotFeatureImportance(num.feats = 15L)
+
 }
 }
 
