@@ -10,7 +10,7 @@
 #' @section Usage:
 #' \preformatted{
 #' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-#'   learning.rate = 0.05)
+#'   learning.rate = 0.05, oob.fraction)
 #'
 #' cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
 #'
@@ -40,6 +40,8 @@
 #' cboost$calculateFeatureImportance(num.feats = 15L)
 #' 
 #' cboost$plotFeatureImportance(num.feats = 15L)
+#' 
+#' cboost$plotInbagVsOobRisk()
 #'
 #' }
 #' @section Arguments:
@@ -63,6 +65,9 @@
 #' \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
 #'   Learning rate used to shrink estimated parameter in each iteration. The learning rate
 #'   remains constant during the training and has to be between 0 and 1.
+#' }
+#' \item{\code{oob.fraction}}{[\code{numeric(1)}]\cr
+#'   Fraction of how much data we want to use to track the out of bag risk.
 #' }
 #' }
 #'
@@ -287,6 +292,11 @@
 #' \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient for each selected base-learner.}
 #' \item{\code{plot}}{method to plot the \code{Compboost} object.}
 #' \item{\code{getBaselearnerNames}}{method to get names of registered factories.}
+#' \item{\code{prepareData}}{method to prepare data to track the out of bag risk for an arbitrary loss/performance function.}
+#' \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
+#' \item{\code{calculateFeatureImportance}}{method to calculate feature importance.}
+#' \item{\code{plotFeatureImportance}}{method to plot the feature importance calculated by \code{calulateFeatureImportance}.}
+#' \item{\code{plotInbagVsOobRisk}}{method to plot the inbag vs the out of bag behavior. This is just applicable if a logger with name \code{oob_logger} was registered. This is automatically done if the \code{oob.fraction} is set.}
 #' }
 #'
 #' @examples
