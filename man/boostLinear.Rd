@@ -67,7 +67,8 @@ The returned object is an object of the \code{Compboost} class. This object can 
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
-mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob.fraction = 0.3)
+mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
+  oob.fraction = 0.3)
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())

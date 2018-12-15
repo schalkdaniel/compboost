@@ -42,7 +42,8 @@
 #' @param oob.fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data are used to track the out of bag risk.
 #' @examples
-#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob.fraction = 0.3)
+#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
+#'   oob.fraction = 0.3)
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
