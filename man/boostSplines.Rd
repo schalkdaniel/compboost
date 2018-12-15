@@ -2,7 +2,7 @@
 % Please edit documentation in R/boost_splines.R
 \name{boostSplines}
 \alias{boostSplines}
-\title{Wrapper to boost p spline models for each feature.}
+\title{Wrapper to boost general additive models for each feature.}
 \usage{
 boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(),
   loss, learning.rate = 0.05, iterations = 100, trace = -1,
@@ -12,22 +12,22 @@ boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(),
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
-A data frame containing the data on which the model should be built.}
+A data frame containing the data.}
 
 \item{target}{[\code{character(1)}]\cr
-Character indicating the target variable. Note that the loss must match the 
+Character value containing the target variable. Note that the loss must match the 
 data type of the target.}
 
 \item{optimizer}{[\code{S4 Optimizer}]\cr
-Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).}
+An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
+to select features at each iteration.}
 
 \item{loss}{[\code{S4 Loss}]\cr
-Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-\code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).}
+Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
+residuals (e.g. \code{LossQuadratic$new()}).}
 
 \item{learning.rate}{[\code{numeric(1)}]\cr
-Learning rate which is used to shrink the parameter in each step.}
+Learning rate to shrink the parameter in each step.}
 
 \item{iterations}{[\code{integer(1)}]\cr
 Number of iterations that are trained.}
@@ -35,24 +35,21 @@ Number of iterations that are trained.}
 \item{trace}{[\code{integer(1)}]\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
--1 which means that we set \code{trace} at a value that 40 iterations are printed.}
+-1 which means that in total 40 iterations are printed.}
 
 \item{degree}{[\code{integer(1)}]\cr
-Polynomial degree of the splines used for modeling. Note that the number of parameter
-increases with the degrees.}
+Polynomial degree of the splines.}
 
 \item{n.knots}{[\code{integer(1)}]\cr
-Number of equidistant "inner knots". The real number of used knots also depends on
+Number of equidistant "inner knots". The actual number of used knots does also depend on
 the polynomial degree.}
 
 \item{penalty}{[\code{numeric(1)}]\cr
-Penalty term for p-splines. If penalty equals 0, then ordinary b-splines are fitted.
-The higher penalty, the higher the smoothness.}
+Penalty term for p-splines. If the penalty equals 0, then ordinary b-splines are fitted.
+The higher the penalty, the higher the smoothness.}
 
 \item{differences}{[\code{integer(1)}]\cr
-Number of differences that are used for penalization. The higher this value is, the
-more function values of neighbor knots are forced to be more similar which results
-in a smoother curve.}
+Number of differences that are used for penalization. The higher the difference, the higher the smoothness.}
 
 \item{data.source}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
@@ -66,26 +63,26 @@ just in memory training is supported.}
 Fraction of how much data we want to use to track the out of bag risk.}
 }
 \value{
-Usually a model of class \code{Compboost}. This model is an \code{R6} object
+A model of the \code{Compboost} class. This model is an \code{R6} object
   which can be used for retraining, predicting, plotting, and anything described in 
   \code{?Compboost}.
 }
 \description{
-This wrapper function automatically initializes the model by adding all numerical
-features of a dataset within a spline base-learner. Categorical features are
-dummy encoded and inserted using linear base-learners without intercept. After 
-initializing the model \code{boostSpline} also fits as many iterations as given 
-by the user through \code{iters}.
+This wrapper function automatically initialize the model by adding all numerical
+features as spline base-learner. Categorical features are dummy encoded and inserted 
+using another linear base-learners without intercept. The function \code{boostSplines} 
+does also train the model.
 }
 \details{
-The returned object is an object of the \code{Compboost} class which then can be 
+The returned object is an object of the \code{Compboost} class. This object can be 
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
-mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
+mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob.fraction = 0.3)
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())
 mod$predict()
 mod$plot("Sepal.Width_spline")
+mod$plotInbagVsOobRisk()
 }

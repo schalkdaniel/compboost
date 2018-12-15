@@ -1,52 +1,16 @@
-# ============================================================================ #
-#                                  ___.                          __            #
-#         ____  ____   _____ ______\_ |__   ____   ____  _______/  |_          #
-#       _/ ___\/  _ \ /     \\____ \| __ \ /  _ \ /  _ \/  ___/\   __\         #
-#       \  \__(  <_> )  Y Y  \  |_> > \_\ (  <_> |  <_> )___ \  |  |           #
-#        \___  >____/|__|_|  /   __/|___  /\____/ \____/____  > |__|           #
-#            \/            \/|__|       \/                  \/                 #
-#                                                                              #
-# ============================================================================ #
-#
-# Compboost is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# Compboost is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License
-# along with Compboost. If not, see <http:#www.gnu.org/licenses/>.
-#
-# Written by:
-# -----------
-#
-#   Daniel Schalk
-#   Institut für Statistik
-#   Ludwig-Maximilians-Universität München
-#   Ludwigstraße 33
-#   D-80539 München
-#
-#   https:#www.compstat.statistik.uni-muenchen.de
-#
-# =========================================================================== #
-
-#' @title Get example C++ script to define a custom cpp logger
+#' @title Get C++ example script to define a custom cpp logger
 #'
 #' @description This function can be used to print the trace of the parameters
 #'   of a trained compboost object.
 #'
 #' @param example [\code{character(1)}] \cr
 #'   Character value indicating if an example for the base-learner or for the
-#'   loss should be returned. The values, for example, has to be one of 
-#'   \code{blearner} or \code{loss}.
+#'   loss should be returned. The values has to be one of \code{blearner} or \code{loss}.
 #' @param silent [\code{logical(1)}] \cr
-#'   Logical value indicating if the example code should be printed to the
-#'   screen. 
+#'   Logical value indicating if the example code should be printed to the screen or not. 
 #' @return 
-#'   This function returns a string which can be compiled using
-#'   \code{Rcpp::sourceCpp(code = getCustomCppExample)} to define a new 
+#'   This function returns a character vector that can be compiled using
+#'   \code{Rcpp::sourceCpp(code = getCustomCppExample())} to define a new 
 #'   custom cpp logger.
 #'   
 #' @export

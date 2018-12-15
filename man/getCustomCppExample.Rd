@@ -2,23 +2,21 @@
 % Please edit documentation in R/get_custom_cpp_example.R
 \name{getCustomCppExample}
 \alias{getCustomCppExample}
-\title{Get example C++ script to define a custom cpp logger}
+\title{Get C++ example script to define a custom cpp logger}
 \usage{
 getCustomCppExample(example = "blearner", silent = FALSE)
 }
 \arguments{
 \item{example}{[\code{character(1)}] \cr
 Character value indicating if an example for the base-learner or for the
-loss should be returned. The values, for example, has to be one of 
-\code{blearner} or \code{loss}.}
+loss should be returned. The values has to be one of \code{blearner} or \code{loss}.}
 
 \item{silent}{[\code{logical(1)}] \cr
-Logical value indicating if the example code should be printed to the
-screen.}
+Logical value indicating if the example code should be printed to the screen or not.}
 }
 \value{
-This function returns a string which can be compiled using
-  \code{Rcpp::sourceCpp(code = getCustomCppExample)} to define a new 
+This function returns a character vector that can be compiled using
+  \code{Rcpp::sourceCpp(code = getCustomCppExample())} to define a new 
   custom cpp logger.
 }
 \description{

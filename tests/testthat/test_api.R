@@ -324,7 +324,7 @@ test_that("training throws an error with pre-defined iteration logger", {
       intercept = FALSE)
   })
   
-  expect_warning(cboost$train(200)) 
+  expect_output(expect_warning(cboost$train(200))) 
   expect_length(cboost$getInbagRisk(), 1001)
 })
 
@@ -492,7 +492,9 @@ test_that("default values are used by handler", {
 test_that("out of range values are set correctly", {
   
   data(cars)
-  mod = boostSplines(data = cars, loss = LossQuadratic$new(), target = "speed", optimizer = OptimizerCoordinateDescent$new())   
+  nuisance = capture.output({ 
+    mod = boostSplines(data = cars, loss = LossQuadratic$new(), target = "speed", optimizer = OptimizerCoordinateDescent$new())
+  })
 
   expect_silent(mod$predict(data.frame(dist = c(2, 4, 100, 120))))
   expect_warning(mod$predict(data.frame(dist = 200)))
