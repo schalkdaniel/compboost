@@ -168,6 +168,16 @@ To cite `compboost` in publications, please use:
 Testing
 -------
 
+### On your local machine
+
+In order to test the pacakge functionality you can use devtools to test the pacakge on your local machine:
+
+``` r
+devtools::test()
+```
+
+### Using docker
+
 You can test the package locally using docker and the [`compboost-test` repository](https://hub.docker.com/r/schalkdaniel/compboost-test/):
 
 -   Latest `R` release:
