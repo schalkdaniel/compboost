@@ -21,7 +21,7 @@ Installation
 #### CRAN version:
 
 ``` r
-instlal.packages("compboost")
+install.packages("compboost")
 ```
 
 #### Developer version:
