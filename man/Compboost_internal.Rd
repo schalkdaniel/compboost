@@ -129,13 +129,13 @@ oob.data = list(data.source.hp, data.source.wt)
 test.data = oob.data
 
 # Factories:
-linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
   list(degree = 1, intercept = TRUE))
-linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1,
   list(degree = 1, intercept = TRUE))
-quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
   list(degree = 2, intercept = TRUE))
-spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
+spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2,
   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
 
 # Create new factory list:

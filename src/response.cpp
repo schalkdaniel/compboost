@@ -13,14 +13,14 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // ========================================================================== //
 
 #include "response.h"
 
-namespace response 
+namespace response
 {
 
 // -------------------------------------------------------------------------- //
@@ -29,82 +29,210 @@ namespace response
 
 Response::Response () {}
 
-std::string Response::getTaskIdentifier () const
-{
-  return task_id;
-}
 
-void Response::setActualIteration(const unsigned int& actual_iter)
+void Response::setActualIteration (const unsigned int& actual_iter) { actual_iteration = actual_iter; }
+void Response::setActualPredictionScores (const arma::mat& new_prediction_scores, const unsigned int& actual_iter)
 {
+  prediction_scores = new_prediction_scores;
   actual_iteration = actual_iter;
 }
 
-double Response::getInitialization () const
-{
-  return initialization;
-}
-
+std::string Response::getTargetName () const { return target_name; }
+std::string Response::getTaskIdentifier () const { return task_id; }
 arma::mat Response::getResponse () const { return response; }
 arma::mat Response::getWeights () const { return weights; }
-arma::mat Response::getPrediction () const { return prediction; }
+arma::mat Response::getInitialization () const { return initialization; }
+arma::mat Response::getPseudoResiduals () const { return pseudo_residuals; }
+arma::mat Response::getPredictionScores () const { return prediction_scores; }
 
-// double Response::getEmpiricalRisk ()
-// {
-//   return arma::accu(used_loss->definedLoss(response, prediction)) / response.size();
-// }
 
-double Response::getEmpiricalRisk (loss::Loss* used_loss)
+void Response::checkLossCompatibility (loss::Loss* used_loss) const
 {
-  return arma::accu(used_loss->definedLoss(response, prediction)) / response.size();
+  if ((task_id != used_loss->getTaskId()) && (used_loss->getTaskId() != "custom")) {
+    std::string error_msg = "Loss task '" + used_loss->getTaskId() + "' is not compatible with the response class task '" + task_id + "'.";
+    Rcpp::stop(error_msg);
+  }
+}
+
+
+void Response::updatePseudoResiduals (loss::Loss* used_loss)
+{
+  checkLossCompatibility(used_loss);
+
+  pseudo_residuals = used_loss->calculatePseudoResiduals(response, prediction_scores);
+}
+void Response::updatePrediction (const double& learning_rate, const double& step_size, const arma::mat& update)
+{
+  prediction_scores += learning_rate * step_size * update;
+}
+
+
+void Response::constantInitialization (loss::Loss* used_loss)
+{
+  checkLossCompatibility(used_loss);
+
+  if (! is_initialization_initialized) {
+    initialization = used_loss->constantInitializer(response);
+  } else {
+    Rcpp::stop("Constant initialization is already initialized.");
+  }
+}
+
+
+double Response::calculateEmpiricalRisk (loss::Loss* used_loss) const
+{
+  checkLossCompatibility(used_loss);
+  return used_loss->calculateEmpiricalRisk(response, getPredictionTransform());
+}
+
+arma::mat Response::getPredictionTransform () const
+{
+  return getPredictionTransform(prediction_scores);
+}
+
+arma::mat Response::getPredictionResponse () const
+{
+  return getPredictionResponse(prediction_scores);
 }
 
 // -------------------------------------------------------------------------- //
 // Response implementations:
 // -------------------------------------------------------------------------- //
 
-ResponseRegr::ResponseRegr (const arma::mat& response, loss::Loss* used_loss0) : response ( response )
+// Regression
+
+ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0)
 {
-  task_id = "regression";
-  used_loss = used_loss0;
-
-  // initialization = used_loss->constantInitializer(response);
-
-  arma::mat temp(response.n_rows, response.n_cols, arma::fill::zeros);
-  
-  prediction = temp;
-  // prediction.fill(initialization);
-  
-  pseudo_residuals = temp;
+  target_name = target_name0;
+  response = response0;
+  task_id = "regression"; // set parent
+  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+  prediction_scores = temp_mat; // set parent
+  pseudo_residuals = temp_mat;  // set parent
 }
 
-arma::mat ResponseRegr::getPseudoResiduals (loss::Loss* used_loss) const { return pseudo_residuals; }
-void updatePseudoResiduals ()
+ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
 {
-  pseudo_residuals = -used_loss->definedGradient(response, prediction);
+  helper::checkMatrixDim(response0, weights0);
+  target_name = target_name0;
+  response = response0;
+  weights = weights0;
+  task_id = "regression"; // set parent
+  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+  prediction_scores = temp_mat; // set parent
+  pseudo_residuals = temp_mat;  // set parent
 }
 
-void ResponseRegr::updatePrediction (const double& learning_rate, const double& step_size, const arma::mat& update) 
+arma::mat ResponseRegr::calculateInitialPrediction (loss::Loss* used_loss, const arma::mat& response) const
 {
-  prediction += learning_rate * step_size * update;
+  checkLossCompatibility(used_loss);
+  arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  if (! is_initialization_initialized) {
+     Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  }
+  // Use just first element to correctly use .fill:
+  init.fill(initialization[0]);
+  return init;
 }
 
-arma::mat ResponseRegr::responseTransformation (const arma::mat& prediction) const {}
-
-void ResponseRegr::initializePrediction (loss::Loss* used_loss) 
+void ResponseRegr::initializePrediction (loss::Loss* used_loss)
 {
-  if (! is_initialized) {
-    prediction.fill(used_loss->constantInitializer(response));
+  checkLossCompatibility(used_loss);
+
+  if (! is_model_initialized) {
+    if (! is_initialization_initialized) {
+      constantInitialization(used_loss);
+    }
+    prediction_scores = calculateInitialPrediction(used_loss, response);
+    is_model_initialized = true;
   } else {
     Rcpp::stop("Prediction is already initialized.");
   }
 }
-arma::mat ResponseRegr::initializeOOBPrediction (const arma::mat& oob_response, loss::Loss* used_loss) const 
+
+arma::mat ResponseRegr::getPredictionTransform (const arma::mat& pred_scores) const
 {
-  
+  // No transformation is done in regression
+  return pred_scores;
 }
-arma::mat ResponseRegr::getPrediction (const bool& as_response) const
+
+arma::mat ResponseRegr::getPredictionResponse (const arma::mat& pred_scores) const
 {
-  return getPrediction();
+  return pred_scores;
+}
+
+
+// Binary Classification
+
+ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0)
+{
+  helper::checkForBinaryClassif(response0, -1, 1);
+  target_name = target_name0;
+  response = response0;
+  task_id = "binary_classif"; // set parent
+  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+  prediction_scores = temp_mat; // set parent
+  pseudo_residuals = temp_mat;  // set parent
+}
+
+ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+{
+  helper::checkForBinaryClassif(response0, -1, 1);
+  helper::checkMatrixDim(response0, weights0);
+  target_name = target_name0;
+  response = response0;
+  weights = weights0;
+  task_id = "binary_classif"; // set parent
+  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+  prediction_scores = temp_mat; // set parent
+  pseudo_residuals = temp_mat;  // set parent
+}
+
+arma::mat ResponseBinaryClassif::calculateInitialPrediction (loss::Loss* used_loss, const arma::mat& response) const
+{
+  checkLossCompatibility(used_loss);
+  arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  if (! is_initialization_initialized) {
+     Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  }
+  // Use just first element to correctly use .fill:
+  init.fill(initialization[0]);
+  return init;
+}
+
+void ResponseBinaryClassif::initializePrediction (loss::Loss* used_loss)
+{
+  checkLossCompatibility(used_loss);
+
+  if (! is_model_initialized) {
+    if (! is_initialization_initialized) {
+      constantInitialization(used_loss);
+    }
+    prediction_scores = calculateInitialPrediction(used_loss, response);
+    is_model_initialized = true;
+  } else {
+    Rcpp::stop("Prediction is already initialized.");
+  }
+}
+
+arma::mat ResponseBinaryClassif::getPredictionTransform (const arma::mat& pred_scores) const
+{
+  return helper::sigmoid(pred_scores);
+}
+
+arma::mat ResponseBinaryClassif::getPredictionResponse (const arma::mat& pred_scores) const
+{
+  return helper::transformToBinaryResponse(getPredictionTransform(pred_scores), threshold, 1, -1);
+}
+
+void ResponseBinaryClassif::setThreshold (const double& new_thresh)
+{
+  if (threshold < 0 || threshold > 1) {
+    Rcpp::stop("Threshold must be element of [0,1]");
+  }
+  threshold = new_thresh;
 }
 
 } // namespace response

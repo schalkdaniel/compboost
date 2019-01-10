@@ -13,8 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // Written by:
 // -----------
@@ -58,58 +58,54 @@ OptimizerCoordinateDescent::OptimizerCoordinateDescent () {
   step_sizes.assign(1, 1.0);
 }
 
-blearner::Baselearner* OptimizerCoordinateDescent::findBestBaselearner (const std::string& iteration_id, 
+blearner::Baselearner* OptimizerCoordinateDescent::findBestBaselearner (const std::string& iteration_id,
   std::shared_ptr<response::Response> sh_ptr_response, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
   double ssq_best = std::numeric_limits<double>::infinity();
-  
+
   blearner::Baselearner* blearner_temp;
   blearner::Baselearner* blearner_best;
-  
+
   for (auto& it : my_blearner_factory_map) {
 
     // Paste string identifier for new base-learner:
     std::string id = "(" + iteration_id + ") " + it.second->getBaselearnerType();
-    
-    // Create new base-learner out of the actual factory (just the 
+
+    // Create new base-learner out of the actual factory (just the
     // pointer is overwritten):
     blearner_temp = it.second->createBaselearner(id);
-    
-    // Train that base learner on the pseudo residuals:
     blearner_temp->train(sh_ptr_response->getPseudoResiduals());
-    
-    // Calculate SSE:
-    ssq_temp = arma::accu(arma::pow(sh_ptr_response->getPseudoResiduals() - blearner_temp->predict(), 2));
-    
+    ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
+
     // Check if SSE of new temporary base-learner is smaller then SSE of the best
-    // base-learner. If so, assign the temporary base-learner with the best 
+    // base-learner. If so, assign the temporary base-learner with the best
     // base-learner (This is always triggered within the first iteration since
     // ssq_best is declared as infinity):
     if (ssq_temp < ssq_best) {
-      ssq_best = ssq_temp;   
+      ssq_best = ssq_temp;
       // Deep copy since the temporary base-learner is deleted every time which
       // will also deletes the data for the best base-learner if we don't copy
       // the whole data of the object:
       blearner_best = blearner_temp->clone();
     }
-    
+
     // Completely remove the temporary base-learner. This one isn't needed anymore:
     delete blearner_temp;
   }
   // Remove pointer of the temporary base-learner.
   blearner_temp = NULL;
-  
+
   return blearner_best;
 }
 
-void OptimizerCoordinateDescent::calculateStepSize (loss::Loss* used_loss, std::shared_ptr<response::Response> sh_ptr_response, 
-  const arma::vec& baselearner_prediction) 
-{ 
+void OptimizerCoordinateDescent::calculateStepSize (loss::Loss* used_loss, std::shared_ptr<response::Response> sh_ptr_response,
+  const arma::vec& baselearner_prediction)
+{
   // This function does literally nothing!
 }
 
-std::vector<double> OptimizerCoordinateDescent::getStepSize () const 
+std::vector<double> OptimizerCoordinateDescent::getStepSize () const
 {
   return step_sizes;
 }
@@ -126,58 +122,54 @@ double OptimizerCoordinateDescent::getStepSize (const unsigned int& actual_itera
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch () { }
 
 
-blearner::Baselearner* OptimizerCoordinateDescentLineSearch::findBestBaselearner (const std::string& iteration_id, 
+blearner::Baselearner* OptimizerCoordinateDescentLineSearch::findBestBaselearner (const std::string& iteration_id,
   std::shared_ptr<response::Response> sh_ptr_response, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
   double ssq_best = std::numeric_limits<double>::infinity();
-  
+
   blearner::Baselearner* blearner_temp;
   blearner::Baselearner* blearner_best;
-  
+
   for (auto& it : my_blearner_factory_map) {
 
     // Paste string identifier for new base-learner:
     std::string id = "(" + iteration_id + ") " + it.second->getBaselearnerType();
-    
-    // Create new base-learner out of the actual factory (just the 
+
+    // Create new base-learner out of the actual factory (just the
     // pointer is overwritten):
     blearner_temp = it.second->createBaselearner(id);
-    
-    // Train that base learner on the pseudo residuals:
     blearner_temp->train(sh_ptr_response->getPseudoResiduals());
-    
-    // Calculate SSE:
-    ssq_temp = arma::accu(arma::pow(sh_ptr_response->getPseudoResiduals() - blearner_temp->predict(), 2));
-    
+    ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
+
     // Check if SSE of new temporary base-learner is smaller then SSE of the best
-    // base-learner. If so, assign the temporary base-learner with the best 
+    // base-learner. If so, assign the temporary base-learner with the best
     // base-learner (This is always triggered within the first iteration since
     // ssq_best is declared as infinity):
     if (ssq_temp < ssq_best) {
-      ssq_best = ssq_temp;   
+      ssq_best = ssq_temp;
       // Deep copy since the temporary base-learner is deleted every time which
       // will also deletes the data for the best base-learner if we don't copy
       // the whole data of the object:
       blearner_best = blearner_temp->clone();
     }
-    
+
     // Completely remove the temporary base-learner. This one isn't needed anymore:
     delete blearner_temp;
   }
   // Remove pointer of the temporary base-learner.
   blearner_temp = NULL;
-  
+
   return blearner_best;
 }
 
-void OptimizerCoordinateDescentLineSearch::calculateStepSize (loss::Loss* used_loss, std::shared_ptr<response::Response> sh_ptr_response, 
-  const arma::vec& baselearner_prediction) 
-{ 
-  step_sizes.push_back(linesearch::findOptimalStepSize(used_loss, sh_ptr_response->getResponse, sh_ptr_response->getPrediction(), baselearner_prediction)); 
+void OptimizerCoordinateDescentLineSearch::calculateStepSize (loss::Loss* used_loss, std::shared_ptr<response::Response> sh_ptr_response,
+  const arma::vec& baselearner_prediction)
+{
+  step_sizes.push_back(linesearch::findOptimalStepSize(used_loss, sh_ptr_response->getResponse(), sh_ptr_response->getPredictionScores(), baselearner_prediction));
 }
 
-std::vector<double> OptimizerCoordinateDescentLineSearch::getStepSize () const 
+std::vector<double> OptimizerCoordinateDescentLineSearch::getStepSize () const
 {
   return step_sizes;
 }
@@ -187,7 +179,7 @@ double OptimizerCoordinateDescentLineSearch::getStepSize (const unsigned int& ac
   if (step_sizes.size() < actual_iteration) {
     Rcpp::stop("You cannot select a step size which is not trained!");
   }
-  // Subtract 1 since the actual iteration starts counting with 1 and the step sizes with 0: 
+  // Subtract 1 since the actual iteration starts counting with 1 and the step sizes with 0:
   return step_sizes[actual_iteration - 1];
 }
 

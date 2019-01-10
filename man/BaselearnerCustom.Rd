@@ -12,7 +12,7 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
+BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
   train.fun, predict.fun, param.fun))
 }
 }
@@ -114,7 +114,7 @@ extractParameter = function (model) {
 
 # Create new custom linear base-learner factory:
 custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-  list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
+  list(instantiate.fun = instantiateDataFun, train.fun = trainFun,
     predict.fun = predictFun, param.fun = extractParameter))
 
 # Get the transformed data:

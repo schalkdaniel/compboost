@@ -71,6 +71,12 @@
 #' @export InMemoryData
 NULL
 
+#' @export ResponseRegr
+NULL
+
+#' @export ResponseBinaryClassif
+NULL
+
 #' Base-learner factory to make polynomial regression
 #'
 #' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
@@ -135,9 +141,9 @@ NULL
 #' data.target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1,
 #'   list(degree = 2, intercept = FALSE))
-#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
+#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Get the transformed data:
@@ -250,7 +256,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
+#' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
 #'   train.fun, predict.fun, param.fun))
 #' }
 #'
@@ -342,7 +348,7 @@ NULL
 #'
 #' # Create new custom linear base-learner factory:
 #' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-#'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
+#'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun,
 #'     predict.fun = predictFun, param.fun = extractParameter))
 #'
 #' # Get the transformed data:
@@ -487,9 +493,9 @@ NULL
 #' data.target1 = InMemoryData$new()
 #' data.target2 = InMemoryData$new()
 #'
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1,
 #'   list(degree = 1, intercept = TRUE))
-#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 
+#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Create new base-learner list:
@@ -661,7 +667,7 @@ NULL
 #'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 #'
 #' @examples
-#' 
+#'
 #' # Create new loss object:
 #' bin.loss = LossBinomial$new()
 #' bin.loss
@@ -936,7 +942,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
 #'   oob_data, oob_response)
 #' }
 #'
@@ -1190,7 +1196,7 @@ NULL
 
 #' Coordinate Descent with line search
 #'
-#' This class defines a new object which is used to conduct Coordinate Descent with line search. 
+#' This class defines a new object which is used to conduct Coordinate Descent with line search.
 #' The optimizer just calculates for each base-learner the sum of squared error and returns
 #' the base-learner with the smallest SSE. In addition, this optimizer computes
 #' a line search to find the optimal step size in each iteration.
@@ -1335,13 +1341,13 @@ NULL
 #' test.data = oob.data
 #'
 #' # Factories:
-#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
 #'   list(degree = 1, intercept = TRUE))
-#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1,
 #'   list(degree = 1, intercept = TRUE))
-#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
 #'   list(degree = 2, intercept = TRUE))
-#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
+#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2,
 #'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
 #'
 #' # Create new factory list:

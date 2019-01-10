@@ -13,23 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
-//
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // =========================================================================== #
 
@@ -44,7 +29,7 @@ namespace logger
 
 /**
  * \brief Getter of logger identifier
- * 
+ *
  * \returns `std::string` of logger id
  */
 std::string Logger::getLoggerId () const
@@ -54,7 +39,7 @@ std::string Logger::getLoggerId () const
 
 /**
  * \brief Getter if the logger is used as stopper
- * 
+ *
  * \returns `bool` which says `true` if it is a logger, otherwise `false`
  */
 bool Logger::getIfLoggerIsStopper () const
@@ -78,19 +63,19 @@ Logger::~Logger () { }
 
 /**
  * \brief Default constructor of class `LoggerIteration`
- * 
+ *
  * Sets the private member `max_iteration` and the tag if the logger should be
  * used as stopper.
- * 
+ *
  * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper `bool` specify if the logger should be used as stopper
  * \param max_iterations `unsigned int` sets value of the stopping criteria
- * 
+ *
  */
 
-LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_a_stopper0, 
-  const unsigned int& max_iterations) 
-  : max_iterations ( max_iterations ) 
+LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_a_stopper0,
+  const unsigned int& max_iterations)
+  : max_iterations ( max_iterations )
 {
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
@@ -98,21 +83,21 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
 
 /**
  * \brief Log current step of compboost iteration of class `LoggerIteration`
- * 
- * This function loggs the current iteration. 
- * 
- * \param current_iteration `unsigned int` of current iteration 
+ *
+ * This function loggs the current iteration.
+ *
+ * \param current_iteration `unsigned int` of current iteration
  * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at 
+ * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in 
+ * \param used_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
- * 
+ *
  */
 
-void LoggerIteration::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+void LoggerIteration::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
   blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   iterations.push_back(current_iteration);
@@ -120,17 +105,17 @@ void LoggerIteration::logStep (const unsigned int& current_iteration, std::share
 
 /**
  * \brief Stop criteria is fulfilled if the current iteration exceed `max_iteration`
- * 
- * 
- * 
- * \returns `bool` which tells if the stopping criteria is reached or not 
+ *
+ *
+ *
+ * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
 
 bool LoggerIteration::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
-  
+
   if (is_a_stopper) {
     if (max_iterations <= iterations.back()) {
       stop_criteria_is_reached = true;
@@ -141,13 +126,13 @@ bool LoggerIteration::reachedStopCriteria () const
 
 /**
  * \brief Return the data stored within the iteration logger
- * 
+ *
  * This function returns the logged integer. An issue here is, that the later
  * transformation of all logged data to an `arma::mat` requires `arma::vec` as
- * return value. Therefore the std integer vector is transforemd to an 
- * `arma::vec`. We know that this isn't very memory friendly, but the 
+ * return value. Therefore the std integer vector is transforemd to an
+ * `arma::vec`. We know that this isn't very memory friendly, but the
  * `arma::mat` we use later can just have one type.
- * 
+ *
  * \return `arma::vec` of iterations.
  */
 
@@ -155,17 +140,17 @@ arma::vec LoggerIteration::getLoggedData () const
 {
   // Cast integer vector to double:
   std::vector<double> iterations_double (iterations.begin(), iterations.end());
-  
+
   arma::vec out (iterations_double);
   return out;
 }
 
 /**
  * \brief Clear the logger data
- * 
- * This is an important thing which is called every time in front of retraining 
+ *
+ * This is an important thing which is called every time in front of retraining
  * the model. If we don't clear the data, the new iterations are just pasted at
- * the end of the existing vectors which couses some troubles. 
+ * the end of the existing vectors which couses some troubles.
  */
 
 void LoggerIteration::clearLoggerData ()
@@ -174,12 +159,12 @@ void LoggerIteration::clearLoggerData ()
 }
 
 /**
- * \brief Print status of current iteration into the console 
- * 
+ * \brief Print status of current iteration into the console
+ *
  * The string which is created in this functions must have exactly the same
  * length as the string from `initializeLoggerPrinter()`. Those strings are
  * printed line by line.
- * 
+ *
  * \returns `std::string` which includes the log of the current iteration
  */
 
@@ -188,7 +173,7 @@ std::string LoggerIteration::printLoggerStatus () const
   std::string max_iters = std::to_string(max_iterations);
   std::stringstream ss;
   ss << std::setw(2 * max_iters.size() + 1) << std::to_string(iterations.back()) + "/" + max_iters;
-  
+
   return ss.str();
 }
 
@@ -201,15 +186,15 @@ std::string LoggerIteration::printLoggerStatus () const
 
 /**
  * \brief Default constructor of class `LoggerInbagRisk`
- * 
+ *
  * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` specify if the logger should be used as stopper
- * \param used_loss `Loss*` used loss to calculate the empirical risk (this 
+ * \param used_loss `Loss*` used loss to calculate the empirical risk (this
  *   can differ from the one used while training the model)
  * \param eps_for_break `double` sets value of the stopping criteria`
  */
 
-LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss, 
+LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss,
   const double& eps_for_break)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break )
@@ -220,41 +205,41 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
 
 /**
  * \brief Log current step of compboost iteration for class `LoggerInbagRisk`
- * 
+ *
  * This logger computes the risk for the given training data
  * \f$\mathcal{D}_\mathrm{train} = \{(x_i,\ y_i)\ |\ i \in \{1, \dots, n\}\}\f$
- * and stores it into a vector. The empirical risk \f$\mathcal{R}\f$ for 
+ * and stores it into a vector. The empirical risk \f$\mathcal{R}\f$ for
  * iteration \f$m\f$ is calculated by:
  * \f[
  *   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{train}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{train}} L(y, \hat{f}^{[m]}(x))
  * \f]
- * 
- * **Note:** 
+ *
+ * **Note:**
  *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
  *   - The implementation to calculate \f$\mathcal{R}_\mathrm{emp}^{[m]}\f$ is
- *     done in two steps: 
- *        1. Calculate vector `risk_temp` of losses for every observation for 
+ *     done in two steps:
+ *        1. Calculate vector `risk_temp` of losses for every observation for
  *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
  *        2. Average over `risk_temp`.
- *         
+ *
  *    This procedure ensures, that it is possible to e.g. use the AUC or any
- *    arbitrary performance measure for risk logging. This gives just one 
- *    value for `risk_temp` and therefore the average equals the loss 
- *    function. If this is just a value (like for the AUC) then the value is 
+ *    arbitrary performance measure for risk logging. This gives just one
+ *    value for `risk_temp` and therefore the average equals the loss
+ *    function. If this is just a value (like for the AUC) then the value is
  *    returned.
- * 
- * \param current_iteration `unsigned int` of current iteration 
+ *
+ * \param current_iteration `unsigned int` of current iteration
  * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at 
+ * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in 
+ * \param used_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
- * 
+ *
  */
 
-void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
   blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   // Calculate empirical risk. Calculateion of the temporary vector ensures
@@ -262,31 +247,31 @@ void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::share
   // arma::vec loss_vec_temp = used_loss->definedLoss(response, prediction);
   // double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
 
-  double temp_risk = sh_ptr_response->getEmpiricalRisk(used_loss);
-  
+  double temp_risk = sh_ptr_response->calculateEmpiricalRisk(used_loss);
+
   tracked_inbag_risk.push_back(temp_risk);
 }
 
 /**
  * \brief Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
- * 
- * The stopping criteria is fulfilled, if the relative improvement at the 
- * current iteration \f$m\f$ \f$\varepsilon^{[m]}\f$ falls under a fixed boundary 
+ *
+ * The stopping criteria is fulfilled, if the relative improvement at the
+ * current iteration \f$m\f$ \f$\varepsilon^{[m]}\f$ falls under a fixed boundary
  * \f$\varepsilon\f$. Where the relative improvement is defined by
  * \f[
  *   \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{emp}^{[m-1]} - \mathcal{R}_\mathrm{emp}^{[m]}}{\mathcal{R}_\mathrm{emp}^{[m-1]}}.
  * \f]
- * 
+ *
  * The logger stops the algorithm if \f$\varepsilon^{[m]} \leq \varepsilon\f$.
- * 
- * \returns `bool` which tells if the stopping criteria is reached or not 
+ *
+ * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
 
 bool LoggerInbagRisk::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
-  
+
   if (is_a_stopper) {
     if (tracked_inbag_risk.size() > 1) {
       // We need to subtract -2 and -1 since c++ start counting by 0 while size
@@ -294,7 +279,7 @@ bool LoggerInbagRisk::reachedStopCriteria () const
       // size returns 1 but we want to access 0:
       double inbag_eps = tracked_inbag_risk[tracked_inbag_risk.size() - 2] - tracked_inbag_risk[tracked_inbag_risk.size() - 1];
       inbag_eps = inbag_eps / tracked_inbag_risk[tracked_inbag_risk.size() - 2];
-      
+
       if (inbag_eps <= eps_for_break) {
         stop_criteria_is_reached = true;
       }
@@ -305,9 +290,9 @@ bool LoggerInbagRisk::reachedStopCriteria () const
 
 /**
  * \brief Return the data stored within the OOB risk logger
- * 
+ *
  * This function returns the logged OOB risk.
- * 
+ *
  * \return `arma::vec` of elapsed time
  */
 
@@ -319,10 +304,10 @@ arma::vec LoggerInbagRisk::getLoggedData () const
 
 /**
  * \brief Clear the logger data
- * 
- * This is an important thing which is called every time in front of retraining 
+ *
+ * This is an important thing which is called every time in front of retraining
  * the model. If we don't clear the data, the new iterations are just pasted at
- * the end of the existing vectors which couses some troubles. 
+ * the end of the existing vectors which couses some troubles.
  */
 
 void LoggerInbagRisk::clearLoggerData ()
@@ -331,12 +316,12 @@ void LoggerInbagRisk::clearLoggerData ()
 }
 
 /**
- * \brief Print status of current iteration into the console 
- * 
+ * \brief Print status of current iteration into the console
+ *
  * The string which is created in this functions must have exactly the same
  * length as the string from `initializeLoggerPrinter()`. Those strings are
  * printed line by line.
- * 
+ *
  * \returns `std::string` which includes the log of the current iteration
  */
 
@@ -344,7 +329,7 @@ std::string LoggerInbagRisk::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << logger_id << " = " << std::setprecision(2) << tracked_inbag_risk.back();
-  
+
   return ss.str();
 }
 
@@ -358,18 +343,18 @@ std::string LoggerInbagRisk::printLoggerStatus () const
 
 /**
  * \brief Default constructor of `LoggerOobRisk`
- * 
+ *
  * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` to set if the logger should be used as stopper
- * \param used_loss `Loss*` which is used to calculate the empirical risk (this 
+ * \param used_loss `Loss*` which is used to calculate the empirical risk (this
  *   can differ from the loss used while trining the model)
  * \param eps_for_break `double` sets value of the stopping criteria
  * \param oob_data `std::map<std::string, data::Data*>` the new data
  * \param oob_response `arma::vec` response of the new data
  */
 
-LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss, 
-  const double& eps_for_break, std::map<std::string, data::Data*> oob_data, 
+LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss,
+  const double& eps_for_break, std::map<std::string, data::Data*> oob_data,
   const arma::vec& oob_response)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break ),
@@ -377,61 +362,61 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
     oob_response ( oob_response )
 {
   is_a_stopper = is_a_stopper0;
-  
-  arma::vec temp (oob_response.size());
+
+  arma::mat temp (oob_response.n_rows, oob_response.n_cols);
   oob_prediction = temp;
   logger_id = logger_id0;
 }
 
 /**
  * \brief Log current step of compboost iteration for class `LoggerOobRisk`
- * 
- * This logger computes the risk for a given new dataset 
+ *
+ * This logger computes the risk for a given new dataset
  * \f$\mathcal{D}_\mathrm{oob} = \{(x_i,\ y_i)\ |\ i \in I_\mathrm{oob}\}\f$
- * and stores it into a vector. The OOB risk \f$\mathcal{R}_\mathrm{oob}\f$ for 
+ * and stores it into a vector. The OOB risk \f$\mathcal{R}_\mathrm{oob}\f$ for
  * iteration \f$m\f$ is calculated by:
  * \f[
- *   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}} 
+ *   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}}
  *   L(y, \hat{f}^{[m]}(x))
  * \f]
- * 
- * **Note:** 
+ *
+ * **Note:**
  *   - If \f$m=0\f$ than \f$\hat{f}\f$ is just the offset.
  *   - The implementation to calculate \f$\mathcal{R}_\mathrm{oob}^{[m]}\f$ is
- *     done in two steps: 
- *        1. Calculate vector `risk_temp` of losses for every observation for 
+ *     done in two steps:
+ *        1. Calculate vector `risk_temp` of losses for every observation for
  *           given response \f$y^{(i)}\f$ and prediction \f$\hat{f}^{[m]}(x^{(i)})\f$.
  *        2. Average over `risk_temp`.
- *         
+ *
  *    This procedure ensures, that it is possible to e.g. use the AUC or any
- *    arbitrary performance measure for risk logging. This gives just one 
- *    value for `risk_temp` and therefore the average equals the loss 
- *    function. If this is just a value (like for the AUC) then the value is 
+ *    arbitrary performance measure for risk logging. This gives just one
+ *    value for `risk_temp` and therefore the average equals the loss
+ *    function. If this is just a value (like for the AUC) then the value is
  *    returned.
- * 
- * \param current_iteration `unsigned int` of current iteration 
+ *
+ * \param current_iteration `unsigned int` of current iteration
  * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at 
+ * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in 
+ * \param used_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
- * 
+ *
  */
 
-void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
   blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_iteration == 1) {
-    oob_prediction.fill(offset);
+    oob_prediction = sh_ptr_response->calculateInitialPrediction(used_loss, oob_prediction);
   }
   std::string blearner_id = used_blearner->getDataIdentifier();
 
-  // Get data of corresponding selected baselearner. E.g. iteration 100 linear 
+  // Get data of corresponding selected baselearner. E.g. iteration 100 linear
   // baselearner of feature x_7, then get the data of feature x_7:
   data::Data* oob_blearner_data = oob_data.find(blearner_id)->second;
-  
+
   // Predict this data using the selected baselearner:
   arma::mat temp_oob_prediction = used_blearner->predict(oob_blearner_data);
 
@@ -448,9 +433,9 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
    *
    *   mat_temp = used_blearner->instantiateData(oob_data.find(blearner_id)->second->getData());
    *   oob_data_transformed.insert(std::pair<std::string, arma::mat>(blearner_id, mat_temp));
-   * } 
+   * }
    *
-   * /////// Get data of corresponding selected baselearner. E.g. iteration 100 linear 
+   * /////// Get data of corresponding selected baselearner. E.g. iteration 100 linear
    * /////// baselearner of feature x_7, then get the data of feature x_7:
    * /////// data::Data* oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
    * /////
@@ -463,34 +448,35 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
 
   // Calculate empirical risk. Calculation of the temporary vector ensures
   // that stuff like auc logging is possible:
-  arma::mat loss_temp = used_loss->definedLoss(oob_response, oob_prediction);
-  double temp_risk = arma::accu(loss_temp) / loss_temp.size();
-  
+  // arma::mat loss_temp = used_loss->definedLoss(oob_response, oob_prediction);
+  // double temp_risk = arma::accu(loss_temp) / loss_temp.size();
+  double temp_risk = used_loss->calculateEmpiricalRisk(oob_response, oob_prediction);
+
   // Track empirical risk:
   tracked_oob_risk.push_back(temp_risk);
 }
 
 /**
- * \brief Stop criteria is fulfilled if the relative improvement falls below 
+ * \brief Stop criteria is fulfilled if the relative improvement falls below
  *   `eps_for_break`
- * 
- * The stopping criteria is fulfilled, if the relative improvement at the 
- * current iteration \f$m\f$ \f$\varepsilon^{[m]}\f$ falls under a fixed boundary 
+ *
+ * The stopping criteria is fulfilled, if the relative improvement at the
+ * current iteration \f$m\f$ \f$\varepsilon^{[m]}\f$ falls under a fixed boundary
  * \f$\varepsilon\f$. Where the relative improvement is defined by
  * \f[
  *   \varepsilon^{[m]} = \frac{\mathcal{R}_\mathrm{oob}^{[m-1]} - \mathcal{R}_\mathrm{oob}^{[m]}}{\mathcal{R}_\mathrm{oob}^{[m-1]}}.
  * \f]
- * 
+ *
  * The logger stops the algorithm if \f$\varepsilon^{[m]} \leq \varepsilon\f$
- * 
- * \returns `bool` which tells if the stopping criteria is reached or not 
+ *
+ * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
 
 bool LoggerOobRisk::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
-  
+
   if (is_a_stopper) {
     if (tracked_oob_risk.size() > 1) {
       // We need to subtract -2 and -1 since c++ start counting by 0 while size
@@ -498,7 +484,7 @@ bool LoggerOobRisk::reachedStopCriteria () const
       // size returns 1 but we want to access 0:
       double oob_eps = tracked_oob_risk[tracked_oob_risk.size() - 2] - tracked_oob_risk[tracked_oob_risk.size() - 1];
       oob_eps = oob_eps / tracked_oob_risk[tracked_oob_risk.size() - 2];
-      
+
       if (oob_eps <= eps_for_break) {
         stop_criteria_is_reached = true;
       }
@@ -509,9 +495,9 @@ bool LoggerOobRisk::reachedStopCriteria () const
 
 /**
  * \brief Return the data stored within the OOB risk logger
- * 
+ *
  * This function returns the logged OOB risk.
- * 
+ *
  * \return `arma::vec` of elapsed out of bag risk
  */
 
@@ -523,10 +509,10 @@ arma::vec LoggerOobRisk::getLoggedData () const
 
 /**
  * \brief Clear the logger data
- * 
- * This is an important thing which is called every time in front of retraining 
+ *
+ * This is an important thing which is called every time in front of retraining
  * the model. If we don't clear the data, the new iterations are just pasted at
- * the end of the existing vectors which couses some troubles. 
+ * the end of the existing vectors which couses some troubles.
  */
 void LoggerOobRisk::clearLoggerData ()
 {
@@ -534,12 +520,12 @@ void LoggerOobRisk::clearLoggerData ()
 }
 
 /**
- * \brief Print status of current iteration into the console 
- * 
+ * \brief Print status of current iteration into the console
+ *
  * The string which is created in this functions must have exactly the same
  * length as the string from `initializeLoggerPrinter()`. Those strings are
  * printed line by line.
- * 
+ *
  * \returns `std::string` which includes the log of the current iteration
  */
 
@@ -547,7 +533,7 @@ std::string LoggerOobRisk::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << logger_id << " = " << std::setprecision(2) << tracked_oob_risk.back();
-  
+
   return ss.str();
 }
 
@@ -560,16 +546,16 @@ std::string LoggerOobRisk::printLoggerStatus () const
 
 /**
  * \brief Default constructor of class `LoggerTime`
- * 
+ *
  * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` which specifies if the logger is used as stopper
- * \param max_time `unsigned int` maximal time for training (just used if logger 
+ * \param max_time `unsigned int` maximal time for training (just used if logger
  *   is a stopper)
- * \param time_unit `std::string` of the unit used for measuring, allowed are 
+ * \param time_unit `std::string` of the unit used for measuring, allowed are
  *   `minutes`, `seconds` and `microseconds`
  */
 
-LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0, const unsigned int& max_time, 
+LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0, const unsigned int& max_time,
   const std::string& time_unit)
   : max_time ( max_time ),
     time_unit ( time_unit )
@@ -586,8 +572,8 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
     }
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
-  } catch (...) { 
-    ::Rf_error( "c++ exception (unknown reason)" ); 
+  } catch (...) {
+    ::Rf_error( "c++ exception (unknown reason)" );
   }
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
@@ -595,22 +581,22 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
 
 /**
  * \brief Log current step of compboost iteration for class `LoggerTime`
- * 
+ *
  * This functions loggs dependent on `time_unit` the elapsed time at the
  * current iteration.
- * 
- * \param current_iteration `unsigned int` of current iteration 
+ *
+ * \param current_iteration `unsigned int` of current iteration
  * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at 
+ * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in 
+ * \param used_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
- * 
+ *
  */
 
-void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
   blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_time.size() == 0) {
@@ -618,10 +604,10 @@ void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr
   }
   if (time_unit == "minutes") {
     current_time.push_back(std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - init_time).count());
-  } 
+  }
   if (time_unit == "seconds") {
     current_time.push_back(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count());
-  } 
+  }
   if (time_unit == "microseconds") {
     current_time.push_back(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - init_time).count());
   }
@@ -629,21 +615,21 @@ void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr
 
 /**
  * \brief Stop criteria is fulfilled if the passed time exceeds `max_time`
- * 
- * The stop criteria here is quite simple. For the current iteration \f$m\f$ it 
- * is triggered if 
+ *
+ * The stop criteria here is quite simple. For the current iteration \f$m\f$ it
+ * is triggered if
  * \f[
  *   \mathrm{current_time}_m > \mathrm{max_time}
  * \f]
- * 
- * \returns `bool` which tells if the stopping criteria is reached or not 
+ *
+ * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
 
 bool LoggerTime::reachedStopCriteria () const
 {
   bool stop_criteria_is_reached = false;
-  
+
   if (is_a_stopper) {
     if (current_time.back() >= max_time) {
       stop_criteria_is_reached = true;
@@ -654,13 +640,13 @@ bool LoggerTime::reachedStopCriteria () const
 
 /**
  * \brief Return the data stored within the time logger
- * 
- * This function returns the logged elapsed time. An issue here is, that the 
- * later transformation of all logged data to an `arma::mat` requires 
- * `arma::vec` as return value. Therefore the std integer vector is transforemd 
- * to an `arma::vec`. We know that this isn't very memory friendly, but the 
+ *
+ * This function returns the logged elapsed time. An issue here is, that the
+ * later transformation of all logged data to an `arma::mat` requires
+ * `arma::vec` as return value. Therefore the std integer vector is transforemd
+ * to an `arma::vec`. We know that this isn't very memory friendly, but the
  * `arma::mat` we use later can just have one type.
- * 
+ *
  * \return `arma::vec` of elapsed time
  */
 
@@ -668,17 +654,17 @@ arma::vec LoggerTime::getLoggedData () const
 {
   // Cast integer vector to double:
   std::vector<double> seconds_double (current_time.begin(), current_time.end());
-  
+
   arma::vec out (seconds_double);
   return out;
 }
 
 /**
  * \brief Clear the logger data
- * 
- * This is an important thing which is called every time in front of retraining 
+ *
+ * This is an important thing which is called every time in front of retraining
  * the model. If we don't clear the data, the new iterations are just pasted at
- * the end of the existing vectors which couses some troubles. 
+ * the end of the existing vectors which couses some troubles.
  */
 
 void LoggerTime::clearLoggerData ()
@@ -687,12 +673,12 @@ void LoggerTime::clearLoggerData ()
 }
 
 /**
- * \brief Print status of current iteration into the console 
- * 
+ * \brief Print status of current iteration into the console
+ *
  * The string which is created in this functions must have exactly the same
  * length as the string from `initializeLoggerPrinter()`. Those strings are
  * printed line by line.
- * 
+ *
  * \returns `std::string` which includes the log of the current iteration
  */
 
@@ -700,7 +686,7 @@ std::string LoggerTime::printLoggerStatus () const
 {
   std::stringstream ss;
   ss << logger_id << " = " << std::setprecision(2) << current_time.back();
-  
+
   return ss.str();
 }
 

@@ -8,6 +8,7 @@ using namespace Rcpp;
 
 
 RcppExport SEXP _rcpp_module_boot_data_module();
+RcppExport SEXP _rcpp_module_boot_response_module();
 RcppExport SEXP _rcpp_module_boot_baselearner_factory_module();
 RcppExport SEXP _rcpp_module_boot_baselearner_list_module();
 RcppExport SEXP _rcpp_module_boot_loss_module();
@@ -17,6 +18,7 @@ RcppExport SEXP _rcpp_module_boot_compboost_module();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rcpp_module_boot_data_module", (DL_FUNC) &_rcpp_module_boot_data_module, 0},
+    {"_rcpp_module_boot_response_module", (DL_FUNC) &_rcpp_module_boot_response_module, 0},
     {"_rcpp_module_boot_baselearner_factory_module", (DL_FUNC) &_rcpp_module_boot_baselearner_factory_module, 0},
     {"_rcpp_module_boot_baselearner_list_module", (DL_FUNC) &_rcpp_module_boot_baselearner_list_module, 0},
     {"_rcpp_module_boot_loss_module", (DL_FUNC) &_rcpp_module_boot_loss_module, 0},

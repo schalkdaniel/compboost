@@ -13,8 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // Written by:
 // -----------
@@ -37,6 +37,7 @@
 #define OPTIMIZER_H_
 
 #include <iostream>
+#include <memory>
 #include <map>
 #include <limits>
 
@@ -46,6 +47,7 @@
 #include "baselearner_factory_list.h"
 #include "loss.h"
 #include "line_search.h"
+#include "helper.h"
 
 namespace optimizer {
 
@@ -56,10 +58,10 @@ namespace optimizer {
 class Optimizer
 {
   public:
-    
-    virtual blearner::Baselearner* findBestBaselearner (const std::string&, 
+
+    virtual blearner::Baselearner* findBestBaselearner (const std::string&,
       std::shared_ptr<response::Response>, const blearner_factory_map&) const = 0;
-    
+
     // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
     virtual void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&) = 0;
     virtual std::vector<double> getStepSize () const = 0;
@@ -68,7 +70,7 @@ class Optimizer
     virtual ~Optimizer ();
 
   protected:
-    
+
     blearner_factory_map my_blearner_factory_map;
     std::vector<double> step_sizes;
 
@@ -83,11 +85,11 @@ class Optimizer
 class OptimizerCoordinateDescent : public Optimizer
 {
   public:
-    
+
     // No special initialization necessary:
     OptimizerCoordinateDescent ();
 
-    blearner::Baselearner* findBestBaselearner (const std::string&, std::shared_ptr<response::Response>, 
+    blearner::Baselearner* findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
       const blearner_factory_map&) const;
 
     void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&);
@@ -104,12 +106,12 @@ class OptimizerCoordinateDescentLineSearch : public Optimizer
     // No special initialization necessary:
     OptimizerCoordinateDescentLineSearch ();
 
-    blearner::Baselearner* findBestBaselearner (const std::string&, 
+    blearner::Baselearner* findBestBaselearner (const std::string&,
       std::shared_ptr<response::Response>, const blearner_factory_map&) const;
 
     void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
-    double getStepSize (const unsigned int&) const;  
+    double getStepSize (const unsigned int&) const;
 };
 
 

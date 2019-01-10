@@ -12,7 +12,7 @@ see the use case or extending compboost vignette.
 \section{Usage}{
 
 \preformatted{
-LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
   oob_data, oob_response)
 }
 }
