@@ -38,6 +38,8 @@
 #include <iostream>
 #include <cmath>
 
+#include "helper.h"
+
 namespace loss
 {
 
@@ -62,16 +64,21 @@ public:
 
   /// Specific loss function
   virtual arma::mat definedLoss (const arma::mat&, const arma::mat&) const = 0;
+  arma::mat weightedLoss (const arma::mat&, const arma::mat&, const arma::mat&) const;
 
   /// Gradient of loss functions for pseudo residuals
   virtual arma::mat definedGradient (const arma::mat&, const arma::mat&) const = 0;
+  arma::mat weightedGradient (const arma::mat&, const arma::mat&, const arma::mat&) const;
 
   /// Constant initialization of the empirical risk
   virtual arma::mat constantInitializer (const arma::mat&) const = 0;
+  virtual arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const = 0;
 
   double calculateEmpiricalRisk (const arma::mat&, const arma::mat&) const;
+  double calculateWeightedEmpiricalRisk (const arma::mat&, const arma::mat&, const arma::mat&) const;
 
   arma::mat calculatePseudoResiduals (const arma::mat&, const arma::mat&) const;
+  arma::mat calculateWeightedPseudoResiduals (const arma::mat&, const arma::mat&, const arma::mat&) const;
 
   virtual ~Loss ();
 
@@ -133,6 +140,7 @@ public:
 
   /// Constant initialization of the empirical risk
   arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
 // LossAbsolute loss:
@@ -176,6 +184,7 @@ public:
 
   /// Constant initialization of the empirical risk
   arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
 // Binomial loss:
@@ -229,6 +238,7 @@ public:
 
   /// Constant initialization of the empirical risk
   arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
 // Custom loss:
@@ -280,6 +290,7 @@ public:
 
   /// Constant initialization of the empirical risk
   arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
 // Custom loss:
@@ -332,7 +343,7 @@ public:
 
   /// Constant initialization of the empirical risk
   arma::mat constantInitializer (const arma::mat&) const;
-
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
 } // namespace loss

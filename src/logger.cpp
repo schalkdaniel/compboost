@@ -409,7 +409,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
   blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_iteration == 1) {
-    oob_prediction = sh_ptr_response->calculateInitialPrediction(used_loss, oob_prediction);
+    oob_prediction = sh_ptr_response->calculateInitialPrediction(oob_prediction);
   }
   std::string blearner_id = used_blearner->getDataIdentifier();
 

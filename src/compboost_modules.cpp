@@ -187,159 +187,6 @@ RCPP_MODULE (data_module)
 
 
 // -------------------------------------------------------------------------- //
-//                             RESPONSE CLASSES                               //
-// -------------------------------------------------------------------------- //
-
-
-class ResponseWrapper
-{
-public:
-  ResponseWrapper () {}
-
-  std::shared_ptr<response::Response> getResponseObj () { return sh_ptr_response; }
-
-protected:
-  std::shared_ptr<response::Response> sh_ptr_response;
-};
-
-//' @export ResponseRegr
-class ResponseRegrWrapper : public ResponseWrapper
-{
-public:
-  ResponseRegrWrapper (std::string target_name, arma::mat response)
-  {
-    sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response);
-  }
-  ResponseRegrWrapper (std::string target_name, arma::mat response, arma::mat weights)
-  {
-    sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
-  }
-
-  std::string getTargetName () const
-  {
-    return sh_ptr_response->getTargetName();
-  }
-
-  arma::mat getResponse () const
-  {
-    return sh_ptr_response->getResponse();
-  }
-
-  arma::mat getWeights () const
-  {
-    return sh_ptr_response->getWeights();
-  }
-
-  arma::mat getPrediction () const
-  {
-    return sh_ptr_response->getPredictionScores();
-  }
-
-  arma::mat getPredictionTransform () const
-  {
-    return sh_ptr_response->getPredictionTransform();
-  }
-
-  arma::mat getPredictionResponse () const
-  {
-    return sh_ptr_response->getPredictionResponse();
-  }
-};
-
-//' @export ResponseBinaryClassif
-class ResponseBinaryClassifWrapper : public ResponseWrapper
-{
-public:
-  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response)
-  {
-    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
-  }
-  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response, arma::mat weights)
-  {
-    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
-  }
-
-  std::string getTargetName () const
-  {
-    return sh_ptr_response->getTargetName();
-  }
-
-  arma::mat getResponse () const
-  {
-    return sh_ptr_response->getResponse();
-  }
-
-  arma::mat getWeights () const
-  {
-    return sh_ptr_response->getWeights();
-  }
-
-  arma::mat getPrediction () const
-  {
-    return sh_ptr_response->getPredictionScores();
-  }
-
-  arma::mat getPredictionTransform () const
-  {
-    return sh_ptr_response->getPredictionTransform();
-  }
-
-  arma::mat getPredictionResponse () const
-  {
-    return sh_ptr_response->getPredictionResponse();
-  }
-
-  // double getThreshold () const
-  // {
-  //   return sh_ptr_response->getThreshold();
-  // }
-  // void setThreshold (double thresh)
-  // {
-  //   sh_ptr_response->setThreshold(thresh);
-  // }
-};
-
-RCPP_EXPOSED_CLASS(ResponseWrapper)
-RCPP_MODULE (response_module)
-{
-  using namespace Rcpp;
-
-  class_<ResponseWrapper> ("Response")
-    .constructor ("Create Response class")
-  ;
-
-  class_<ResponseRegrWrapper> ("ResponseRegr")
-    .derives<ResponseWrapper> ("Response")
-
-    .constructor<std::string, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat> ()
-
-    .method("getTargetName",          &ResponseRegrWrapper::getTargetName, "Get the name of the target variable")
-    .method("getResponse",            &ResponseRegrWrapper::getResponse, "Get the original response")
-    .method("getWeights",            &ResponseRegrWrapper::getWeights, "Get the weights")
-    .method("getPrediction",          &ResponseRegrWrapper::getPrediction, "Get prediction scores")
-    .method("getPredictionTransform", &ResponseRegrWrapper::getPredictionTransform, "Get transformed prediction scores")
-    .method("getPredictionResponse",  &ResponseRegrWrapper::getPredictionResponse, "Get transformed prediction as response")
-  ;
-
-  class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
-    .derives<ResponseWrapper> ("Response")
-
-    .constructor<std::string, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat> ()
-
-    .method("getTargetName",          &ResponseBinaryClassifWrapper::getTargetName, "Get the name of the target variable")
-    .method("getResponse",            &ResponseBinaryClassifWrapper::getResponse, "Get the original response")
-    .method("getWeights",            &ResponseBinaryClassifWrapper::getWeights, "Get the weights")
-    .method("getPrediction",          &ResponseBinaryClassifWrapper::getPrediction, "Get prediction scores")
-    .method("getPredictionTransform", &ResponseBinaryClassifWrapper::getPredictionTransform, "Get transformed prediction scores")
-    .method("getPredictionResponse",  &ResponseBinaryClassifWrapper::getPredictionResponse, "Get transformed prediction as response")
-  ;
-}
-
-
-
-// -------------------------------------------------------------------------- //
 //                         BASELEARNER FACTORIES                              //
 // -------------------------------------------------------------------------- //
 
@@ -1500,6 +1347,176 @@ RCPP_MODULE (loss_module)
     .constructor<SEXP, SEXP, SEXP> ()
   ;
 }
+
+
+// -------------------------------------------------------------------------- //
+//                             RESPONSE CLASSES                               //
+// -------------------------------------------------------------------------- //
+
+
+class ResponseWrapper
+{
+public:
+  ResponseWrapper () {}
+
+  std::shared_ptr<response::Response> getResponseObj () { return sh_ptr_response; }
+
+protected:
+  std::shared_ptr<response::Response> sh_ptr_response;
+};
+
+//' @export ResponseRegr
+class ResponseRegrWrapper : public ResponseWrapper
+{
+public:
+  ResponseRegrWrapper (std::string target_name, arma::mat response)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response);
+  }
+  ResponseRegrWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
+  }
+
+  std::string getTargetName () const
+  {
+    return sh_ptr_response->getTargetName();
+  }
+
+  arma::mat getResponse () const
+  {
+    return sh_ptr_response->getResponse();
+  }
+
+  arma::mat getWeights () const
+  {
+    return sh_ptr_response->getWeights();
+  }
+
+  arma::mat getPrediction () const
+  {
+    return sh_ptr_response->getPredictionScores();
+  }
+
+  arma::mat getPredictionTransform () const
+  {
+    return sh_ptr_response->getPredictionTransform();
+  }
+
+  arma::mat getPredictionResponse () const
+  {
+    return sh_ptr_response->getPredictionResponse();
+  }
+
+  double calculateEmpiricalRisk (LossWrapper& loss) const
+  {
+    return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss());
+  }
+};
+
+//' @export ResponseBinaryClassif
+class ResponseBinaryClassifWrapper : public ResponseWrapper
+{
+public:
+  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
+  }
+  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
+  }
+
+  std::string getTargetName () const
+  {
+    return sh_ptr_response->getTargetName();
+  }
+
+  arma::mat getResponse () const
+  {
+    return sh_ptr_response->getResponse();
+  }
+
+  arma::mat getWeights () const
+  {
+    return sh_ptr_response->getWeights();
+  }
+
+  arma::mat getPrediction () const
+  {
+    return sh_ptr_response->getPredictionScores();
+  }
+
+  arma::mat getPredictionTransform () const
+  {
+    return sh_ptr_response->getPredictionTransform();
+  }
+
+  arma::mat getPredictionResponse () const
+  {
+    return sh_ptr_response->getPredictionResponse();
+  }
+
+  double calculateEmpiricalRisk (LossWrapper& loss) const
+  {
+    return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss());
+  }
+
+  double getThreshold () const
+  {
+  // B* pB = static_cast<B*>(x);
+  // pB->myNewMethod();
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->threshold;
+  }
+  void setThreshold (double thresh)
+  {
+    std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->setThreshold(thresh);
+  }
+};
+
+RCPP_EXPOSED_CLASS(ResponseWrapper)
+RCPP_MODULE (response_module)
+{
+  using namespace Rcpp;
+
+  class_<ResponseWrapper> ("Response")
+    .constructor ("Create Response class")
+  ;
+
+  class_<ResponseRegrWrapper> ("ResponseRegr")
+    .derives<ResponseWrapper> ("Response")
+
+    .constructor<std::string, arma::mat> ()
+    .constructor<std::string, arma::mat, arma::mat> ()
+
+    .method("getTargetName",          &ResponseRegrWrapper::getTargetName, "Get the name of the target variable")
+    .method("getResponse",            &ResponseRegrWrapper::getResponse, "Get the original response")
+    .method("getWeights",             &ResponseRegrWrapper::getWeights, "Get the weights")
+    .method("getPrediction",          &ResponseRegrWrapper::getPrediction, "Get prediction scores")
+    .method("getPredictionTransform", &ResponseRegrWrapper::getPredictionTransform, "Get transformed prediction scores")
+    .method("getPredictionResponse",  &ResponseRegrWrapper::getPredictionResponse, "Get transformed prediction as response")
+    .method("calculateEmpiricalRisk", &ResponseRegrWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
+  ;
+
+  class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
+    .derives<ResponseWrapper> ("Response")
+
+    .constructor<std::string, arma::mat> ()
+    .constructor<std::string, arma::mat, arma::mat> ()
+
+    .method("getTargetName",          &ResponseBinaryClassifWrapper::getTargetName, "Get the name of the target variable")
+    .method("getResponse",            &ResponseBinaryClassifWrapper::getResponse, "Get the original response")
+    .method("getWeights",             &ResponseBinaryClassifWrapper::getWeights, "Get the weights")
+    .method("getPrediction",          &ResponseBinaryClassifWrapper::getPrediction, "Get prediction scores")
+    .method("getPredictionTransform", &ResponseBinaryClassifWrapper::getPredictionTransform, "Get transformed prediction scores")
+    .method("getPredictionResponse",  &ResponseBinaryClassifWrapper::getPredictionResponse, "Get transformed prediction as response")
+    .method("calculateEmpiricalRisk", &ResponseBinaryClassifWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
+    .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
+    .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
+  ;
+}
+
+
 
 // -------------------------------------------------------------------------- //
 //                                  LOGGER                                    //

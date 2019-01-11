@@ -63,14 +63,16 @@ public:
   arma::mat getPseudoResiduals () const;
   arma::mat getPredictionScores () const;
 
+  bool use_weights = false;
+
   void checkLossCompatibility (loss::Loss*) const;
 
   void updatePseudoResiduals (loss::Loss*);
   void updatePrediction (const double&, const double&, const arma::mat&);
 
   void constantInitialization (loss::Loss*);
-  virtual arma::mat calculateInitialPrediction (loss::Loss*, const arma::mat&) const = 0;
-  virtual void initializePrediction (loss::Loss*) = 0;
+  virtual arma::mat calculateInitialPrediction (const arma::mat&) const = 0;
+  virtual void initializePrediction () = 0;
   arma::mat getPredictionTransform () const;
   virtual arma::mat getPredictionTransform (const arma::mat&) const = 0;
   arma::mat getPredictionResponse () const;
@@ -93,8 +95,8 @@ public:
   ResponseRegr (const std::string&, const arma::mat&);
   ResponseRegr (const std::string&, const arma::mat&, const arma::mat&);
 
-  arma::mat calculateInitialPrediction (loss::Loss*, const arma::mat&) const;
-  void initializePrediction (loss::Loss*);
+  arma::mat calculateInitialPrediction (const arma::mat&) const;
+  void initializePrediction ();
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
 };
@@ -107,8 +109,8 @@ public:
   ResponseBinaryClassif (const std::string&, const arma::mat&);
   ResponseBinaryClassif (const std::string&, const arma::mat&, const arma::mat&);
 
-  arma::mat calculateInitialPrediction (loss::Loss*, const arma::mat&) const;
-  void initializePrediction (loss::Loss*);
+  arma::mat calculateInitialPrediction (const arma::mat&) const;
+  void initializePrediction ();
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
 

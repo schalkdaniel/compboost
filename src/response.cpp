@@ -58,8 +58,11 @@ void Response::checkLossCompatibility (loss::Loss* used_loss) const
 void Response::updatePseudoResiduals (loss::Loss* used_loss)
 {
   checkLossCompatibility(used_loss);
-
-  pseudo_residuals = used_loss->calculatePseudoResiduals(response, prediction_scores);
+  if (use_weights) {
+    pseudo_residuals = used_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
+  } else {
+    pseudo_residuals = used_loss->calculatePseudoResiduals(response, prediction_scores);
+  }
 }
 void Response::updatePrediction (const double& learning_rate, const double& step_size, const arma::mat& update)
 {
@@ -72,7 +75,12 @@ void Response::constantInitialization (loss::Loss* used_loss)
   checkLossCompatibility(used_loss);
 
   if (! is_initialization_initialized) {
-    initialization = used_loss->constantInitializer(response);
+    if (use_weights) {
+      initialization = used_loss->weightedConstantInitializer(response, weights);
+    } else {
+      initialization = used_loss->constantInitializer(response);
+    }
+    is_initialization_initialized = true;
   } else {
     Rcpp::stop("Constant initialization is already initialized.");
   }
@@ -82,7 +90,11 @@ void Response::constantInitialization (loss::Loss* used_loss)
 double Response::calculateEmpiricalRisk (loss::Loss* used_loss) const
 {
   checkLossCompatibility(used_loss);
-  return used_loss->calculateEmpiricalRisk(response, getPredictionTransform());
+  if (use_weights) {
+    return used_loss->calculateWeightedEmpiricalRisk(response, getPredictionTransform(), weights);
+  } else {
+    return used_loss->calculateEmpiricalRisk(response, getPredictionTransform());
+  }
 }
 
 arma::mat Response::getPredictionTransform () const
@@ -117,15 +129,15 @@ ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& re
   target_name = target_name0;
   response = response0;
   weights = weights0;
+  use_weights = true;
   task_id = "regression"; // set parent
   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
   prediction_scores = temp_mat; // set parent
   pseudo_residuals = temp_mat;  // set parent
 }
 
-arma::mat ResponseRegr::calculateInitialPrediction (loss::Loss* used_loss, const arma::mat& response) const
+arma::mat ResponseRegr::calculateInitialPrediction (const arma::mat& response) const
 {
-  checkLossCompatibility(used_loss);
   arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
 
   if (! is_initialization_initialized) {
@@ -136,18 +148,17 @@ arma::mat ResponseRegr::calculateInitialPrediction (loss::Loss* used_loss, const
   return init;
 }
 
-void ResponseRegr::initializePrediction (loss::Loss* used_loss)
+void ResponseRegr::initializePrediction ()
 {
-  checkLossCompatibility(used_loss);
-
-  if (! is_model_initialized) {
-    if (! is_initialization_initialized) {
-      constantInitialization(used_loss);
+  if (is_initialization_initialized) {
+    if (! is_model_initialized) {
+      prediction_scores = calculateInitialPrediction(response);
+      is_model_initialized = true;
+    } else {
+      Rcpp::stop("Prediction is already initialized.");
     }
-    prediction_scores = calculateInitialPrediction(used_loss, response);
-    is_model_initialized = true;
   } else {
-    Rcpp::stop("Prediction is already initialized.");
+    Rcpp::stop("Initialize constant initialization first by calling 'constantInitialization()'.");
   }
 }
 
@@ -183,15 +194,15 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, c
   target_name = target_name0;
   response = response0;
   weights = weights0;
+  use_weights = true;
   task_id = "binary_classif"; // set parent
   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
   prediction_scores = temp_mat; // set parent
   pseudo_residuals = temp_mat;  // set parent
 }
 
-arma::mat ResponseBinaryClassif::calculateInitialPrediction (loss::Loss* used_loss, const arma::mat& response) const
+arma::mat ResponseBinaryClassif::calculateInitialPrediction (const arma::mat& response) const
 {
-  checkLossCompatibility(used_loss);
   arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
 
   if (! is_initialization_initialized) {
@@ -202,18 +213,17 @@ arma::mat ResponseBinaryClassif::calculateInitialPrediction (loss::Loss* used_lo
   return init;
 }
 
-void ResponseBinaryClassif::initializePrediction (loss::Loss* used_loss)
+void ResponseBinaryClassif::initializePrediction ()
 {
-  checkLossCompatibility(used_loss);
-
-  if (! is_model_initialized) {
-    if (! is_initialization_initialized) {
-      constantInitialization(used_loss);
+  if (is_initialization_initialized) {
+    if (! is_model_initialized) {
+      prediction_scores = calculateInitialPrediction(response);
+      is_model_initialized = true;
+    } else {
+      Rcpp::stop("Prediction is already initialized.");
     }
-    prediction_scores = calculateInitialPrediction(used_loss, response);
-    is_model_initialized = true;
   } else {
-    Rcpp::stop("Prediction is already initialized.");
+    Rcpp::stop("Initialize constant initialization first by calling 'constantInitialization()'.");
   }
 }
 
@@ -229,7 +239,7 @@ arma::mat ResponseBinaryClassif::getPredictionResponse (const arma::mat& pred_sc
 
 void ResponseBinaryClassif::setThreshold (const double& new_thresh)
 {
-  if (threshold < 0 || threshold > 1) {
+  if ((new_thresh < 0) || (new_thresh > 1)) {
     Rcpp::stop("Threshold must be element of [0,1]");
   }
   threshold = new_thresh;

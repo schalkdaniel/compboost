@@ -41,6 +41,7 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
     used_baselearner_list ( used_baselearner_list )
 {
   sh_ptr_response->constantInitialization(used_loss);
+  sh_ptr_response->initializePrediction();
   blearner_track = blearnertrack::BaselearnerTrack(learning_rate);
   logger_map["initial.training"] = logger_map0;
 }
@@ -212,7 +213,7 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::getParameterMatrix () 
 arma::vec Compboost::predict () const
 {
   std::map<std::string, arma::mat> parameter_map  = blearner_track.getParameterMap();
-  arma::mat pred = sh_ptr_response->calculateInitialPrediction(used_loss, sh_ptr_response->getResponse());
+  arma::mat pred = sh_ptr_response->calculateInitialPrediction(sh_ptr_response->getResponse());
 
   // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
@@ -235,7 +236,9 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
   std::map<std::string, arma::mat> parameter_map = blearner_track.getParameterMap();
 
   arma::mat pred(data_map.begin()->second->getData().n_rows, sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
-  pred = sh_ptr_response->calculateInitialPrediction(used_loss, pred);
+  pred = sh_ptr_response->calculateInitialPrediction(pred);
+
+  Rcpp::Rcout << "pred[0]: " << pred[0] << std::endl;
 
   // Idea is simply to calculate the vector matrix product of parameter and
   // newdata. The problem here is that the newdata comes as raw data and has
@@ -255,8 +258,11 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
     // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
     if (it_newdata != data_map.end()) {
       arma::mat data_trafo = sel_factory_obj->instantiateData(it_newdata->second->getData());
+      arma::mat update = data_trafo * it.second;
+      Rcpp::Rcout << "update[0]: " << update[0] << std::endl;
       pred += data_trafo * it.second;
     }
+    Rcpp::Rcout << "pred[0]: " << pred[0] << std::endl;
   }
   if (as_response) {
     pred = sh_ptr_response->getPredictionResponse(pred);

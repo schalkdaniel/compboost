@@ -71,12 +71,6 @@
 #' @export InMemoryData
 NULL
 
-#' @export ResponseRegr
-NULL
-
-#' @export ResponseBinaryClassif
-NULL
-
 #' Base-learner factory to make polynomial regression
 #'
 #' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
@@ -792,6 +786,12 @@ NULL
 #' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 #' }
 #' @export LossCustomCpp
+NULL
+
+#' @export ResponseRegr
+NULL
+
+#' @export ResponseBinaryClassif
 NULL
 
 #' Logger class to log the current iteration

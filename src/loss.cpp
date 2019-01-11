@@ -31,14 +31,31 @@ std::string Loss::getTaskId () const
   return task_id;
 }
 
+arma::mat Loss::weightedLoss (const arma::mat& true_value, const arma::mat& prediction, const arma::mat& weights) const
+{
+  return weights % definedLoss(true_value, prediction);
+}
+arma::mat Loss::weightedGradient (const arma::mat& true_value, const arma::mat& prediction, const arma::mat& weights) const
+{
+  return weights % definedGradient(true_value, prediction);
+}
+
 double Loss::calculateEmpiricalRisk (const arma::mat& true_value, const arma::mat& prediction) const
 {
   return arma::accu(definedLoss(true_value, prediction)) / true_value.size();
+}
+double Loss::calculateWeightedEmpiricalRisk (const arma::mat& true_value, const arma::mat& prediction, const arma::mat& weights) const
+{
+  return arma::accu(weightedLoss(true_value, prediction, weights)) / true_value.size();
 }
 
 arma::mat Loss::calculatePseudoResiduals (const arma::mat& true_value, const arma::mat& prediction) const
 {
   return -definedGradient(true_value, prediction);
+}
+arma::mat Loss::calculateWeightedPseudoResiduals (const arma::mat& true_value, const arma::mat& prediction, const arma::mat& weights) const
+{
+  return -weightedGradient(true_value, prediction, weights);
 }
 
 Loss::~Loss () {
@@ -120,6 +137,13 @@ arma::mat LossQuadratic::constantInitializer (const arma::mat& true_value) const
   out.fill(arma::accu(true_value) / true_value.size());
   return out;
 }
+arma::mat LossQuadratic::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  if (use_custom_offset) { return custom_offset; }
+  arma::mat out(1, 1);
+  out.fill(arma::accu(weights % true_value) / true_value.size());
+  return out;
+}
 
 
 // Absolute loss:
@@ -193,6 +217,10 @@ arma::mat LossAbsolute::constantInitializer (const arma::mat& true_value) const
   out.fill(arma::median(temp));
   return out;
 }
+arma::mat LossAbsolute::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  return constantInitializer(true_value);
+}
 
 // Binomial loss:
 // -----------------------
@@ -263,21 +291,7 @@ arma::mat LossBinomial::definedGradient (const arma::mat& true_value, const arma
 */
 arma::mat LossBinomial::constantInitializer (const arma::mat& true_value) const
 {
-  arma::vec unique_values = arma::unique(true_value);
-  // This is necessary to prevent the program from segfolds... whyever???
-  // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
-  try {
-    if (unique_values.size() != 2) {
-      Rcpp::stop("Binomial loss does not support multiclass classification.");
-    }
-    if (! arma::all((unique_values == -1) || (unique_values == 1))) {
-      Rcpp::stop("Labels must be coded as -1 and 1.");
-    }
-  } catch ( std::exception &ex ) {
-    forward_exception_to_r( ex );
-  } catch (...) {
-    ::Rf_error( "c++ exception (unknown reason)" );
-  }
+  helper::checkForBinaryClassif(true_value, 1, -1);
 
   if (use_custom_offset) { return custom_offset; }
 
@@ -285,6 +299,10 @@ arma::mat LossBinomial::constantInitializer (const arma::mat& true_value) const
   arma::mat out(1, 1);
   out.fill(0.5 * std::log(p / (1 - p)));
   return out;
+}
+arma::mat LossBinomial::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  return constantInitializer(true_value);
 }
 
 // Custom loss:
@@ -361,6 +379,10 @@ arma::mat LossCustom::constantInitializer (const arma::mat& true_value) const
   out_single.fill(out[0]);
   return out_single;
 }
+arma::mat LossCustom::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  return constantInitializer(true_value);
+}
 
 // Custom cpp loss:
 // -----------------------
@@ -428,6 +450,10 @@ arma::mat LossCustomCpp::constantInitializer (const arma::mat& true_value) const
   arma::mat out(1, 1);
   out.fill(constInitFun(true_value));
   return out;
+}
+arma::mat LossCustomCpp::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  return constantInitializer(true_value);
 }
 
 } // namespace loss
