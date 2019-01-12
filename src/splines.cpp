@@ -333,8 +333,8 @@ arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, co
     Rcpp::warning(msg_warning);
   }
 
-  temp.elem( idx_lower ).fill(range_min);
-  temp.elem( idx_upper ).fill(range_max);
+  temp.elem(idx_lower).fill(range_min);
+  temp.elem(idx_upper).fill(range_max);
 
   return temp;
 }

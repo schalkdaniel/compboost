@@ -331,7 +331,8 @@ arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) 
 
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
-  return splines::createSplineBasis (newdata, degree, data_target->knots);
+  arma::mat out = splines::createSplineBasis (newdata, degree, data_target->knots);
+  return out;
 }
 
 // BaselearnerCustom:

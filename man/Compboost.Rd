@@ -98,31 +98,28 @@ cboost$plotInbagVsOobRisk()
 
 \strong{For cboost$addBaselearner()}:
 \describe{
-  \item{\code{features}}{[\code{character()}]\cr
-    Vector of column names that are used as input data matrix for a single base-learner. Note that not 
-    every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
-  }
-  \item{\code{id}}{[\code{character(1)}]\cr
-    Identifier of the base-learners. This is necessary since it is possible to define multiple 
-    base-learner with the same underlying data.
-  }
-  \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
-    Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
-    for possible choices.
-  }
-  \item{\code{data.source}}{[\code{S4 Data}]\cr
-    Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-    just in memory training is supported.
-  }
-  \item{\code{data.target}}{[\code{S4 Data}]\cr
-    Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-    just in memory training is supported.
-  }
-  \item{}{\code{...}\cr
-    Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-    \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
-    of the \code{S4} classes.
-  }
+\item{\code{features}}{[\code{character()}]\cr
+  Vector of column names which are used as input data matrix for a single base-learner. Note that not
+  every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
+}
+\item{\code{id}}{[\code{character(1)}]\cr
+  Id of the base-learners. This is necessary since it is possible to define multiple learners with the same underlying data.
+}
+\item{\code{bl.factory}}{[\code{S4 Factory}]\cr
+  Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
+  for possible choices.
+}
+\item{\code{data.source}}{[\code{S4 Data}]\cr
+  Data source object. At the moment just in memory is supported.
+}
+\item{\code{data.target}}{[\code{S4 Data}]\cr
+  Data target object. At the moment just in memory is supported.
+}
+\item{}{\code{...}\cr
+  Further arguments passed to the constructor of the \code{S4 Factory} class specified in
+  \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
+  of the \code{S4} classes.
+}
 }
 
 \strong{For cboost$train()}:
@@ -147,21 +144,21 @@ cboost$plotInbagVsOobRisk()
 }
 \strong{For cboost$plot()}:
 \describe{
-  \item{\code{blearner.type}}{[\code{character(1)}]\cr
-  	 Character value containing the name of the base-learner which should be visualized.
-  }
-  \item{\code{iters}}{[\code{integer()}]\cr
-  	 Integer vector containing the iterations at stages for that the effect should be visualized. 
-  }
-  \item{\code{from}}{[\code{numeric(1)}]\cr
-  	 Lower bound for plotting (should be smaller than \code{to}).
-  }
-  \item{\code{to}}{[\code{numeric(1)}]\cr
-  	 Upper bound for plotting (should be greater than \code{from}).
-  }
-  \item{\code{length.out}}{[\code{integer(1)}]\cr
-  	 Number of equidistant points between \code{from} and \code{to} used for plotting.
-  }
+\item{\code{blearner.type}}{[\code{character(1)}]\cr
+	 Character name of the base-learner to plot the additional contribution to the response.
+}
+\item{\code{iters}}{[\code{integer()}]\cr
+	 Integer vector containing the iterations the user wants to illustrate.
+}
+\item{\code{from}}{[\code{numeric(1)}]\cr
+	 Lower bound for plotting (should be smaller than \code{to}).
+}
+\item{\code{to}}{[\code{numeric(1)}]\cr
+	 Upper bound for plotting (should be greater than \code{from}).
+}
+\item{\code{length.out}}{[\code{integer(1)}]\cr
+	 Number of equidistant points between \code{from} and \code{to} used for plotting.
+}
 }
 }
 

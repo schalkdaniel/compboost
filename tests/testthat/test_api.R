@@ -220,7 +220,6 @@ test_that("custom cpp base-learner works through api", {
   expect_equivalent(cboost$getEstimatedCoef(), cboost1$getEstimatedCoef())
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$predict(), cboost$predict(mtcars))
-
 })
 
 test_that("custom loss works through api", {
@@ -259,7 +258,6 @@ test_that("custom loss works through api", {
   expect_equal(cboost$predict(mtcars), cboost$predict())
   expect_equal(cboost$predict(), cboost$predict(response = TRUE))
   expect_equal(cboost$predict(mtcars, response = TRUE), cboost$predict(response = TRUE))
-
 })
 
 test_that("custom cpp loss works through api", {
@@ -295,7 +293,6 @@ test_that("custom cpp loss works through api", {
   expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
   expect_equal(cboost$predict(mtcars), cboost$predict())
   expect_equal(cboost$predict(mtcars, response = TRUE), cboost$predict(response = TRUE))
-
 })
 
 test_that("training with absolute loss works", {
@@ -312,7 +309,6 @@ test_that("training with absolute loss works", {
   expect_equal(cboost$getEstimatedCoef()$offset, median(mtcars$hp))
   expect_equal(cboost$predict(), cboost$predict(response = TRUE))
   expect_equal(cboost$predict(mtcars), cboost$predict(mtcars, response = TRUE))
-
 })
 
 test_that("training throws an error with pre-defined iteration logger", {

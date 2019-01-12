@@ -343,16 +343,21 @@ Compboost = R6::R6Class("Compboost",
       if (inherits(loss, "C++Class")) {
         stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
       }
-      
+
       self$id = deparse(substitute(data))
       data = droplevels(as.data.frame(data))
+
+      if (! is.null(oob.fraction)) {
+        private$oob.idx = sample(x = seq_len(nrow(data)), size = floor(oob.fraction * nrow(data)), replace = FALSE)
+      }
+      private$train.idx = setdiff(seq_len(nrow(data)), private$oob.idx)
 
       if (is.character(target)) {
         checkmate::assertCharacter(target)
         if (! target %in% names(data))
           stop ("The target ", target, " is not present within the data")
 
-        response = data[[target]]
+        response = data[[target]][private$train.idx]
 
         # Transform factor or character labels to -1 and 1
         if (! is.numeric(response)) {
@@ -374,20 +379,8 @@ Compboost = R6::R6Class("Compboost",
         self$response = target
       }
 
-      self$target = self$response$getTargetName()
-      self$data = data[, !colnames(data) %in% self$target, drop = FALSE]
-      self$optimizer = optimizer
-      self$loss = loss
-      self$learning.rate = learning.rate
-
-      if (! is.null(oob.fraction)) {
-        private$oob.idx = sample(x = seq_len(nrow(data)), size = floor(oob.fraction * nrow(data)), replace = FALSE)
-      }
-      private$train.idx = setdiff(seq_len(nrow(data)), private$oob.idx)
-
       self$oob.fraction = oob.fraction
-      self$target = target
-      self$response = response[private$train.idx]
+      self$target = self$response$getTargetName()      
       self$data = data[private$train.idx, !colnames(data) %in% target, drop = FALSE]
       self$optimizer = optimizer
       self$loss = loss
