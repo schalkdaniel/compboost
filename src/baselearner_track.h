@@ -40,6 +40,7 @@ class BaselearnerTrack
     std::map<std::string, arma::mat> my_parameter_map;
 
     double learning_rate;
+    std::vector<double> step_sizes;
 
   public:
 

@@ -9,6 +9,7 @@ test_that("Compboost loggs correctly", {
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
+  response = ResponseRegr$new("mpg", as.matrix(y))
 
   expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
@@ -53,7 +54,7 @@ test_that("Compboost loggs correctly", {
   expect_output(logger.list$printRegisteredLogger())
   expect_silent({
     cboost = Compboost_internal$new(
-      response      = y,
+      response      = response,
       learning_rate = learning.rate,
       stop_if_all_stopper_fulfilled = FALSE,
       factory_list = factory.list,
@@ -80,6 +81,7 @@ test_that("compboost does the same as mboost", {
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
+  response = ResponseRegr$new("mpg", as.matrix(y))
 
   expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
@@ -113,7 +115,7 @@ test_that("compboost does the same as mboost", {
   expect_silent({ logger.list$registerLogger(log.time) })
   expect_silent({
     cboost = Compboost_internal$new(
-      response      = y,
+      response      = response,
       learning_rate = learning.rate,
       stop_if_all_stopper_fulfilled = TRUE,
       factory_list = factory.list,
@@ -203,7 +205,8 @@ test_that("compboost does the same as mboost", {
   }
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
   expect_equal(cboost$predict(eval.oob.test, FALSE), predict(mod, df))
-  expect_equal(cboost$predictAtIteration(eval.oob.test, 200, FALSE), predict(mod.reduced, df))
+  expect_silent(cboost$setToIteration(200))
+  expect_equal(cboost$predict(eval.oob.test, FALSE), predict(mod.reduced, df))
 
   suppressWarnings({
     mod.new = mboost(

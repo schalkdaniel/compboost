@@ -330,7 +330,8 @@ test_that("training throws an error with pre-defined iteration logger", {
 
 test_that("training with binomial loss works", {
 
-  mtcars$hp.cat = ifelse(mtcars$hp > 150, 1, -1)
+  hp.classes = ifelse(mtcars$hp > 150, 1, -1)
+  mtcars$hp.cat = factor(hp.classes, levels = c(1, -1))
 
   expect_warning({ bin.loss = LossBinomial$new(2) })
 
@@ -345,7 +346,7 @@ test_that("training with binomial loss works", {
 
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
-  expect_equal(cboost$getEstimatedCoef()$offset, 0.5 * log(sum(mtcars$hp.cat > 0)/ sum(mtcars$hp.cat < 0)))
+  expect_equal(cboost$getEstimatedCoef()$offset, 0.5 * log(sum(hp.classes > 0)/ sum(hp.classes < 0)))
   expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(response = TRUE))
   expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, response = TRUE))
 

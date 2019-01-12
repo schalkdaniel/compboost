@@ -310,6 +310,9 @@ Compboost = R6::R6Class("Compboost",
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning.rate = 0.05) {
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
 
+      self$id = deparse(substitute(data))
+      data = droplevels(as.data.frame(data))
+
       if (is.character(target)) {
         checkmate::assertCharacter(target)
         if (! target %in% names(data))
@@ -328,7 +331,7 @@ Compboost = R6::R6Class("Compboost",
 
           # Transform to vector with -1 and 1:
           response = as.integer(response) * (1 - as.integer(response)) + 1
-          self$respone = ResponseBinaryClassif$new(target, as.matrix(response))
+          self$response = ResponseBinaryClassif$new(target, as.matrix(response))
         } else {
           self$response = ResponseRegr$new(target, as.matrix(response))
         }
@@ -342,9 +345,6 @@ Compboost = R6::R6Class("Compboost",
         stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
       }
 
-      self$id = deparse(substitute(data))
-
-      data = droplevels(as.data.frame(data))
       self$target = self$response$getTargetName()
       self$data = data[, !colnames(data) %in% self$target, drop = FALSE]
       self$optimizer = optimizer
@@ -491,7 +491,7 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$positive.category))
         p = glue::glue(p, "\nPositive class: {self$positive.category}")
 
-      if(!is.null(self$model))
+      if(! is.null(self$model))
         p = glue::glue(p, "\nOffset: {round(self$model$getOffset(), 4)}")
 
       print(p)

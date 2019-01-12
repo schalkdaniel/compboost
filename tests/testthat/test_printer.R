@@ -180,6 +180,7 @@ test_that("Compboost printer works", {
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
+  response = ResponseRegr$new("mpg", as.matrix(y))
 
   expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
@@ -225,7 +226,7 @@ test_that("Compboost printer works", {
 
   expect_silent({
     cboost = Compboost_internal$new(
-      response      = y,
+      response      = response,
       learning_rate = learning.rate,
       stop_if_all_stopper_fulfilled = FALSE,
       factory_list = factory.list,

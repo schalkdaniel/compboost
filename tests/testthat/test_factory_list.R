@@ -50,5 +50,4 @@ test_that("factory list works", {
   expect_silent(factory.list$clearRegisteredFactories())
 
   expect_equal(factory.list$getNumberOfRegisteredFactories(), 0)
-
 })

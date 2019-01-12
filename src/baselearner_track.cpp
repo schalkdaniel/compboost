@@ -34,9 +34,9 @@ void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner, const
 {
   // Insert new baselearner:
   blearner_vector.push_back(blearner);
+  step_sizes.push_back(step_size);
 
   std::string insert_id = blearner->getDataIdentifier() + "_" + blearner->getBaselearnerType();
-  // std::cout << "Insert base-learner with base-learner id: " << blearner->getBaselearnerType() << std::endl;;
 
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
@@ -104,7 +104,7 @@ std::map<std::string, arma::mat> BaselearnerTrack::getEstimatedParameterOfIterat
       std::map<std::string, arma::mat>::iterator it = my_new_parameter_map.find(insert_id);
 
       // Prune parameter by multiplying it with the learning rate:
-      arma::mat parameter_temp = learning_rate * blearner_vector[i]->getParameter();
+      arma::mat parameter_temp = learning_rate * step_sizes[i] * blearner_vector[i]->getParameter();
 
       // Check if this is the first parameter entry:
       if (it == my_new_parameter_map.end()) {

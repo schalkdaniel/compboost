@@ -173,7 +173,7 @@ arma::vec Compboost::getPrediction (const bool& as_response) const
 {
   arma::vec pred;
   if (as_response) {
-    return sh_ptr_response->getPredictionResponse();
+    return sh_ptr_response->getPredictionTransform();
   } else {
     return sh_ptr_response->getPredictionScores();
   }
@@ -238,8 +238,6 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
   arma::mat pred(data_map.begin()->second->getData().n_rows, sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
   pred = sh_ptr_response->calculateInitialPrediction(pred);
 
-  Rcpp::Rcout << "pred[0]: " << pred[0] << std::endl;
-
   // Idea is simply to calculate the vector matrix product of parameter and
   // newdata. The problem here is that the newdata comes as raw data and has
   // to be transformed first:
@@ -258,14 +256,11 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
     // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
     if (it_newdata != data_map.end()) {
       arma::mat data_trafo = sel_factory_obj->instantiateData(it_newdata->second->getData());
-      arma::mat update = data_trafo * it.second;
-      Rcpp::Rcout << "update[0]: " << update[0] << std::endl;
       pred += data_trafo * it.second;
     }
-    Rcpp::Rcout << "pred[0]: " << pred[0] << std::endl;
   }
   if (as_response) {
-    pred = sh_ptr_response->getPredictionResponse(pred);
+    pred = sh_ptr_response->getPredictionTransform(pred);
   }
   return pred;
 }

@@ -17,6 +17,5 @@ test_that("register and delete of logger entries works", {
   expect_silent(logger.list$clearRegisteredLogger())
   
   expect_equal(logger.list$getNumberOfRegisteredLogger(), 0)
-  expect_equal(logger.list$getNamesOfRegisteredLogger(), character(0L))
-  
+  expect_equal(logger.list$getNamesOfRegisteredLogger(), character(0L))  
 })
