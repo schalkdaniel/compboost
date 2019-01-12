@@ -788,9 +788,37 @@ NULL
 #' @export LossCustomCpp
 NULL
 
+#' Create response object for regression.
+#'
+#' \code{ResponseRegr} creates a response object that are used as target during the 
+#' fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name ResponseRegr
+#'
+#' @section Usage:
+#' \preformatted{
+#' ResponseRegr$new(target_name, response)
+#' ResponseRegr$new(target_name, response, weights)
+#' }
+#'
 #' @export ResponseRegr
 NULL
 
+#' Create response object for binary classification.
+#'
+#' \code{ResponseBinaryClassif} creates a response object that are used as target during the 
+#' fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name ResponseBinaryClassif
+#'
+#' @section Usage:
+#' \preformatted{
+#' ResponseBinaryClassif$new(target_name, response)
+#' ResponseBinaryClassif$new(target_name, response, weights)
+#' }
+#'
 #' @export ResponseBinaryClassif
 NULL
 
@@ -1325,6 +1353,7 @@ NULL
 #'
 #' # Target variable:
 #' y = df[["mpg.cat"]]
+#' response = ResponseBinaryClassif$new("mpg.cat", as.matrix(y))
 #'
 #' data.source.hp = InMemoryData$new(X.hp, "hp")
 #' data.source.wt = InMemoryData$new(X.wt, "wt")
@@ -1388,7 +1417,7 @@ NULL
 #'
 #' # Initialize object:
 #' cboost = Compboost_internal$new(
-#'   response      = y,
+#'   response      = response,
 #'   learning_rate = 0.05,
 #'   stop_if_all_stopper_fulfilled = FALSE,
 #'   factory_list = factory.list,

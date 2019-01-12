@@ -113,6 +113,7 @@ X.wt = as.matrix(df[["wt"]])
 
 # Target variable:
 y = df[["mpg.cat"]]
+response = ResponseBinaryClassif$new("mpg.cat", as.matrix(y))
 
 data.source.hp = InMemoryData$new(X.hp, "hp")
 data.source.wt = InMemoryData$new(X.wt, "wt")
@@ -176,7 +177,7 @@ logger.list$registerLogger(log.oob)
 
 # Initialize object:
 cboost = Compboost_internal$new(
-  response      = y,
+  response      = response,
   learning_rate = 0.05,
   stop_if_all_stopper_fulfilled = FALSE,
   factory_list = factory.list,
