@@ -1408,6 +1408,12 @@ public:
     return sh_ptr_response->getPredictionResponse();
   }
 
+  void filter (const arma::uvec& idx) const
+  {
+    // Shift by 1 to transform R index to C++ index:
+    sh_ptr_response->filter(idx - 1);
+  }
+
   double calculateEmpiricalRisk (LossWrapper& loss) const
   {
     return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss());
@@ -1457,6 +1463,12 @@ public:
     return sh_ptr_response->getPredictionResponse();
   }
 
+  void filter (const arma::uvec& idx) const
+  {
+    // Shift by 1 to transform R index to C++ index:
+    sh_ptr_response->filter(idx);
+  }
+
   double calculateEmpiricalRisk (LossWrapper& loss) const
   {
     return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss());
@@ -1495,6 +1507,7 @@ RCPP_MODULE (response_module)
     .method("getPrediction",          &ResponseRegrWrapper::getPrediction, "Get prediction scores")
     .method("getPredictionTransform", &ResponseRegrWrapper::getPredictionTransform, "Get transformed prediction scores")
     .method("getPredictionResponse",  &ResponseRegrWrapper::getPredictionResponse, "Get transformed prediction as response")
+    .method("filter",                 &ResponseRegrWrapper::filter, "Filter response elements")
     .method("calculateEmpiricalRisk", &ResponseRegrWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
   ;
 
@@ -1510,6 +1523,7 @@ RCPP_MODULE (response_module)
     .method("getPrediction",          &ResponseBinaryClassifWrapper::getPrediction, "Get prediction scores")
     .method("getPredictionTransform", &ResponseBinaryClassifWrapper::getPredictionTransform, "Get transformed prediction scores")
     .method("getPredictionResponse",  &ResponseBinaryClassifWrapper::getPredictionResponse, "Get transformed prediction as response")
+    .method("filter",                 &ResponseBinaryClassifWrapper::filter, "Filter response elements")
     .method("calculateEmpiricalRisk", &ResponseBinaryClassifWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")

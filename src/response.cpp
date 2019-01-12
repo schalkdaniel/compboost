@@ -173,6 +173,15 @@ arma::mat ResponseRegr::getPredictionResponse (const arma::mat& pred_scores) con
   return pred_scores;
 }
 
+void ResponseRegr::filter (const arma::uvec& idx)
+{
+  response = response.elem(idx);
+  if (use_weights) {
+    weights = weights.elem(idx);
+  }
+  pseudo_residuals = pseudo_residuals.elem(idx);
+  prediction_scores = prediction_scores.elem(idx);
+}
 
 // Binary Classification
 
@@ -235,6 +244,16 @@ arma::mat ResponseBinaryClassif::getPredictionTransform (const arma::mat& pred_s
 arma::mat ResponseBinaryClassif::getPredictionResponse (const arma::mat& pred_scores) const
 {
   return helper::transformToBinaryResponse(getPredictionTransform(pred_scores), threshold, 1, -1);
+}
+
+void ResponseBinaryClassif::filter (const arma::uvec& idx)
+{
+  response = response.elem(idx);
+  if (use_weights) {
+    weights = weights.elem(idx);
+  }
+  pseudo_residuals = pseudo_residuals.elem(idx);
+  prediction_scores = prediction_scores.elem(idx);
 }
 
 void ResponseBinaryClassif::setThreshold (const double& new_thresh)

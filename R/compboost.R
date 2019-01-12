@@ -357,7 +357,7 @@ Compboost = R6::R6Class("Compboost",
         if (! target %in% names(data))
           stop ("The target ", target, " is not present within the data")
 
-        response = data[[target]][private$train.idx]
+        response = data[[target]]
 
         # Transform factor or character labels to -1 and 1
         if (! is.numeric(response)) {
@@ -376,6 +376,8 @@ Compboost = R6::R6Class("Compboost",
         }
       } else {
         assertRcppClass(target, "Response")
+        if (nrow(target$getResponse()) != nrow(data))
+          stop("Response must have same number of observations as the given dataset.")
         self$response = target
       }
 
@@ -387,7 +389,8 @@ Compboost = R6::R6Class("Compboost",
       self$learning.rate = learning.rate
       if (! is.null(self$oob.fraction)) { 
         self$data.oob = data[private$oob.idx, !colnames(data) %in% target, drop = FALSE]
-        self$response.oob = response[private$oob.idx]
+        self$response.oob = self$response$getResponse()[private$oob.idx, , drop = FALSE]
+        self$response$filter(private$train.idx)
       }
 
       # Initialize new base-learner factory list. All factories which are defined in

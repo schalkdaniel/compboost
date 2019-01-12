@@ -42,7 +42,6 @@ protected:
   arma::mat initialization;
   arma::mat pseudo_residuals;
   arma::mat prediction_scores;
-  arma::mat actual_prediction_scores;
 
   unsigned int actual_iteration = 0;
   bool is_initialization_initialized = false;
@@ -80,6 +79,8 @@ public:
 
   double calculateEmpiricalRisk (loss::Loss*) const;
 
+  virtual void filter (const arma::uvec&) = 0;
+
   virtual ~Response () { };
 };
 
@@ -99,6 +100,7 @@ public:
   void initializePrediction ();
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
+  void filter (const arma::uvec&);
 };
 
 class ResponseBinaryClassif : public Response
@@ -113,6 +115,8 @@ public:
   void initializePrediction ();
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
+
+  void filter (const arma::uvec&);
 
   void setThreshold (const double&);
 };

@@ -17,6 +17,15 @@ test_that("Regression response works correctly", {
   expect_error(response$calculateEmpiricalRisk(loss.false))
 
   expect_error({ response = ResponseRegr$new(id, X, cbind(weights, weights)) })
+
+  idx = 3:8
+  expect_silent(response$filter(idx))
+  expect_equal(response$getResponse(), X[idx, , drop = FALSE])
+  expect_equal(response$getPrediction(), (X * 0)[idx, , drop = FALSE])
+  expect_equal(response$getPredictionTransform(), (X * 0)[idx, , drop = FALSE])
+  expect_equal(response$getPredictionResponse(), (X * 0)[idx, , drop = FALSE])
+
+  expect_error(response$filter(1:100))
 })
 
 test_that("Regression response with weights works correctly", {
