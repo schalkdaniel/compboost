@@ -137,9 +137,11 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
   double knot_range = (inner_knot_max - inner_knot_min) / (n_knots + 1);
 
   // Inner knots:
-  for (unsigned int i = 0; i <= n_knots + 1; i++) {
+  for (unsigned int i = 0; i < n_knots + 1; i++) {
     knots[degree + i] = inner_knot_min + i * knot_range;
   }
+  knots[degree + n_knots + 1] = inner_knot_max;
+
   // Lower and upper 'boundary knots'
   for (unsigned int i = 0; i < degree; i++) {
     // Lower:
@@ -304,4 +306,37 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
   return out;
 }
 
+arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, const double& range_max, const std::string& feat_name)
+{
+  arma::uword idx_min = newdata.index_min();
+  arma::uword idx_max = newdata.index_max();
+
+  double newdata_min = newdata(idx_min);
+  double newdata_max = newdata(idx_max);
+
+  arma::mat temp = newdata;
+
+  arma::uvec idx_lower = arma::find(temp < range_min);
+  arma::uvec idx_upper = arma::find(temp > range_max);
+
+  if (idx_lower.size() > 0 || idx_upper.size() > 0) {
+
+    std::string msg_warning = "New data for '" + feat_name + "' contains values that are out of range";
+    
+    if (idx_lower.size() > 0) {
+      msg_warning += ". Values smaller than " + std::to_string(range_min) + " are set to " + std::to_string(range_min);
+    }
+    if (idx_upper.size() > 0) {
+      msg_warning += ". Values greater than " + std::to_string(range_max) + " are set to " + std::to_string(range_max);
+    } 
+    msg_warning += ".";
+    Rcpp::warning(msg_warning);
+  }
+
+  temp.elem( idx_lower ).fill(range_min);
+  temp.elem( idx_upper ).fill(range_max);
+
+  return temp;
+}
+  
 } // namespace splines

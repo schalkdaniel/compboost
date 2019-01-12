@@ -1369,19 +1369,19 @@ NULL
 #'
 #' # Define logger. We want just the iterations as stopper but also track the
 #' # time, inbag risk and oob risk:
-#' log.iterations  = LoggerIteration$new(TRUE, 500)
-#' log.time        = LoggerTime$new(FALSE, 500, "microseconds")
-#' log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
-#' log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
+#' log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
+#' log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
+#' log.inbag       = LoggerInbagRisk$new("inbag.binomial", FALSE, loss.bin, 0.05)
+#' log.oob         = LoggerOobRisk$new("oob.binomial", FALSE, loss.bin, 0.05, oob.data, y)
 #'
 #' # Define new logger list:
 #' logger.list = LoggerList$new()
 #'
 #' # Register the logger:
-#' logger.list$registerLogger(" iteration.logger", log.iterations)
-#' logger.list$registerLogger("time.logger", log.time)
-#' logger.list$registerLogger("inbag.binomial", log.inbag)
-#' logger.list$registerLogger("oob.binomial", log.oob)
+#' logger.list$registerLogger(log.iterations)
+#' logger.list$registerLogger(log.time)
+#' logger.list$registerLogger(log.inbag)
+#' logger.list$registerLogger(log.oob)
 #'
 #' # Run compboost:
 #' # --------------

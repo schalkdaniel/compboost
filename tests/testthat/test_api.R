@@ -322,9 +322,8 @@ test_that("training throws an error with pre-defined iteration logger", {
     cboost$addLogger(LoggerIteration, use.as.stopper = TRUE, "iteration", max.iter = 1000)
     cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
       intercept = FALSE)
-  })
-
-  expect_warning(cboost$train(200))
+  }) 
+  expect_output(expect_warning(cboost$train(200))) 
   expect_length(cboost$getInbagRisk(), 1001)
 })
 
@@ -488,4 +487,21 @@ test_that("default values are used by handler", {
   expect_silent(cboost$addBaselearner("Sepal.Length", "linear", BaselearnerPolynomial))
   expect_silent(cboost$addBaselearner("Petal.Length", "spline", BaselearnerPSpline))
 
+})
+
+test_that("out of range values are set correctly", {
+  
+  data(cars)
+  nuisance = capture.output({ 
+    mod = boostSplines(data = cars, loss = LossQuadratic$new(), target = "speed", optimizer = OptimizerCoordinateDescent$new())
+  })
+
+  expect_silent(mod$predict(data.frame(dist = c(2, 4, 100, 120))))
+  expect_warning(mod$predict(data.frame(dist = 200)))
+  expect_warning(mod$predict(data.frame(dist = -10)))
+  expect_warning({
+    pred_broken = mod$predict(data.frame(dist = c(-10, 2, 100, 120, 200)))
+  })
+
+  expect_equal(pred_broken, mod$predict(data.frame(dist = c(2, 2, 100, 120, 120))))
 })

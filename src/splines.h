@@ -45,6 +45,7 @@ unsigned int findSpan (const double&, const arma::vec&);
 arma::vec createKnots (const arma::vec&, const unsigned int&,const unsigned int&);
 arma::mat createSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
 arma::sp_mat createSparseSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
+arma::mat filterKnotRange (const arma::mat&, const double&, const double&, const std::string&);
 
 } // namespace splines
 
