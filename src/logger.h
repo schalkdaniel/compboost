@@ -49,6 +49,7 @@
 
 #include "loss.h"
 #include "baselearner.h"
+#include "response.h"
 
 namespace logger
 {
@@ -251,14 +252,14 @@ private:
    */
 
   /// The response variable which corresponds to the given OOB data
-  arma::mat oob_response;
+  std::shared_ptr<response::Response> sh_ptr_oob_response;
 
 
 public:
 
   /// Default constructor
   LoggerOobRisk (const std::string&, const bool&, loss::Loss*, const double&,
-    std::map<std::string, data::Data*>, const arma::vec&);
+    std::map<std::string, data::Data*>, std::shared_ptr<response::Response>);
 
   /// Log current step of compboost iteration for class `LoggerOobRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,

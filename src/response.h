@@ -70,6 +70,7 @@ public:
   void updatePrediction (const double&, const double&, const arma::mat&);
 
   void constantInitialization (loss::Loss*);
+  void constantInitialization (const arma::mat&);
   virtual arma::mat calculateInitialPrediction (const arma::mat&) const = 0;
   virtual void initializePrediction () = 0;
   arma::mat getPredictionTransform () const;

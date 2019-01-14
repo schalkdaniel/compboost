@@ -86,6 +86,16 @@ void Response::constantInitialization (loss::Loss* used_loss)
   }
 }
 
+void Response::constantInitialization (const arma::mat& init_mat)
+{
+  if (! is_initialization_initialized) {
+    initialization = init_mat;
+    is_initialization_initialized = true;
+  } else {
+    Rcpp::stop("Constant initialization is already initialized.");
+  }
+}
+
 
 double Response::calculateEmpiricalRisk (loss::Loss* used_loss) const
 {

@@ -354,18 +354,15 @@ std::string LoggerInbagRisk::printLoggerStatus () const
  */
 
 LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss,
-  const double& eps_for_break, std::map<std::string, data::Data*> oob_data,
-  const arma::vec& oob_response)
+  const double& eps_for_break, std::map<std::string, data::Data*> oob_data, std::shared_ptr<response::Response> oob_response)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break ),
     oob_data ( oob_data ),
-    oob_response ( oob_response )
+    sh_ptr_oob_response ( oob_response )
 {
   is_a_stopper = is_a_stopper0;
-
-  arma::mat temp (oob_response.n_rows, oob_response.n_cols);
-  oob_prediction = temp;
   logger_id = logger_id0;
+  // sh_ptr_oob_response = oob_response;
 }
 
 /**
@@ -409,7 +406,8 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
   blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_iteration == 1) {
-    oob_prediction = sh_ptr_response->calculateInitialPrediction(oob_prediction);
+    sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
+    sh_ptr_oob_response->initializePrediction();
   }
   std::string blearner_id = used_blearner->getDataIdentifier();
 
@@ -419,8 +417,8 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
 
   // Predict this data using the selected baselearner:
   arma::mat temp_oob_prediction = used_blearner->predict(oob_blearner_data);
+  sh_ptr_oob_response->updatePrediction(learning_rate, step_size, temp_oob_prediction);
 
-  oob_prediction += learning_rate * step_size * temp_oob_prediction;
 
   /* *****************************************************************************************************************************
    *
@@ -446,13 +444,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
    * oob_prediction += learning_rate * step_size * oob_data_transformed.find(blearner_id)->second * used_blearner->getParameter();
    ****************************************************************************************************************************** */
 
-  // Calculate empirical risk. Calculation of the temporary vector ensures
-  // that stuff like auc logging is possible:
-  // arma::mat loss_temp = used_loss->definedLoss(oob_response, oob_prediction);
-  // double temp_risk = arma::accu(loss_temp) / loss_temp.size();
-  double temp_risk = used_loss->calculateEmpiricalRisk(oob_response, oob_prediction);
-
-  // Track empirical risk:
+  double temp_risk = sh_ptr_oob_response->calculateEmpiricalRisk(used_loss);
   tracked_oob_risk.push_back(temp_risk);
 }
 

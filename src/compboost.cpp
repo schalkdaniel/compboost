@@ -265,38 +265,6 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
   return pred;
 }
 
-// arma::vec Compboost::predictionOfIteration (std::map<std::string, data::Data*> data_map, const unsigned int& k, const bool& as_response) const
-// {
-//   // Rcpp::Rcout << "Get into Compboost::predict" << std::endl;
-
-//   // Check is done in function GetEstimatedParameterOfIteration in baselearner_track.cpp
-//   std::map<std::string, arma::mat> parameter_map = blearner_track.getEstimatedParameterOfIteration(k);
-
-//   arma::vec pred(data_map.begin()->second->getData().n_rows);
-//   pred.fill(initialization);
-
-//   // Rcpp::Rcout << "initialize pred vec" << std::endl;
-
-//   for (auto& it : parameter_map) {
-
-//     std::string sel_factory = it.first;
-
-//     // Rcpp::Rcout << "Fatory id of parameter map: " << sel_factory << std::endl;
-
-//     blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.getMap().find(sel_factory)->second;
-
-//     // Rcpp::Rcout << "Data of selected factory: " << sel_factory_obj->GetDataIdentifier() << std::endl;
-
-//     arma::mat data_trafo = sel_factory_obj->instantiateData((data_map.find(sel_factory_obj->getDataIdentifier())->second->getData()));
-//     pred += data_trafo * it.second;
-
-//   }
-//   if (as_response) {
-//     pred = used_loss->responseTransformation(pred);
-//   }
-//   return pred;
-// }
-
 // Set model to an given iteration. The predictions and everything is then done at this iteration:
 void Compboost::setToIteration (const unsigned int& k)
 {

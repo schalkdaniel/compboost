@@ -58,7 +58,7 @@ cboost$plotInbagVsOobRisk()
     A data frame containing the data.
   }
   \item{\code{target}}{[\code{character(1)}]\cr
-    Character value containing the target variable. Note that the loss must match the 
+    Character value containing the target variable. Note that the loss must match the
     data type of the target.
   }
   \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
@@ -66,7 +66,7 @@ cboost$plotInbagVsOobRisk()
     to select features at each iteration.
   }
   \item{\code{loss}}{[\code{S4 Loss}]\cr
-    Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
+    Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
     residuals (e.g. \code{LossQuadratic$new()}).
   }
   \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
@@ -80,11 +80,11 @@ cboost$plotInbagVsOobRisk()
 \strong{For cboost$addLogger()}:
 \describe{
   \item{\code{logger}}{[\code{S4 Logger}]\cr
-    Uninitialized \code{S4 Logger} class object that is registered in the model. 
+    Uninitialized \code{S4 Logger} class object that is registered in the model.
     See the details for possible choices.
   }
   \item{\code{use.as.stopper}}{[\code{logical(1)}]\cr
-    Logical value indicating whether the new logger should also be used as stopper 
+    Logical value indicating whether the new logger should also be used as stopper
     (early stopping). Default value is \code{FALSE}.
   }
   \item{\code{logger.id}}{[\code{character(1)}]\cr
@@ -169,16 +169,16 @@ cboost$plotInbagVsOobRisk()
 	 \itemize{
     \item
       \code{LossQuadratic} (Regression)
- 
+
     \item
       \code{LossAbsolute} (Regression)
- 
+
     \item
       \code{LossBinomial} (Binary Classification)
- 
+
     \item
       \code{LossCustom} (Custom)
- 
+
   }
   (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}) and the
   \code{C++} documentation for details)
@@ -239,7 +239,7 @@ cboost$plotInbagVsOobRisk()
         }
       }
     }
-  
+
   \strong{Note}:
   \itemize{
     \item
@@ -270,7 +270,7 @@ cboost$plotInbagVsOobRisk()
   	 Name of the target variable
   }
   \item{\code{id} [\code{character(1)}]}{
-  	 Name of the given dataset. 
+  	 Name of the given dataset.
   }
   \item{\code{optimizer} [\code{S4 Optimizer}]}{
     Optimizer used within the fitting process.

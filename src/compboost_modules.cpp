@@ -1367,7 +1367,7 @@ protected:
 
 //' Create response object for regression.
 //'
-//' \code{ResponseRegr} creates a response object that are used as target during the 
+//' \code{ResponseRegr} creates a response object that are used as target during the
 //' fitting process.
 //'
 //' @format \code{\link{S4}} object.
@@ -1436,7 +1436,7 @@ public:
 
 //' Create response object for binary classification.
 //'
-//' \code{ResponseBinaryClassif} creates a response object that are used as target during the 
+//' \code{ResponseBinaryClassif} creates a response object that are used as target during the
 //' fitting process.
 //'
 //' @format \code{\link{S4}} object.
@@ -1452,6 +1452,7 @@ public:
 class ResponseBinaryClassifWrapper : public ResponseWrapper
 {
 public:
+
   ResponseBinaryClassifWrapper (std::string target_name, arma::mat response)
   {
     sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
@@ -1897,7 +1898,7 @@ private:
 
 public:
   LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
-    Rcpp::List oob_data, arma::vec oob_response)
+    Rcpp::List oob_data, ResponseWrapper& oob_response)
   {
     std::map<std::string, data::Data*> oob_data_map;
 
@@ -1922,7 +1923,7 @@ public:
 
     logger_id = logger_id0;
     obj = new logger::LoggerOobRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
-      oob_data_map, oob_response);
+      oob_data_map, oob_response.getResponseObj());
   }
 
   void summarizeLogger ()
@@ -2158,7 +2159,7 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
+    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, ResponseWrapper&> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 

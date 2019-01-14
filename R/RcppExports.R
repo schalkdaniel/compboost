@@ -790,7 +790,7 @@ NULL
 
 #' Create response object for regression.
 #'
-#' \code{ResponseRegr} creates a response object that are used as target during the 
+#' \code{ResponseRegr} creates a response object that are used as target during the
 #' fitting process.
 #'
 #' @format \code{\link{S4}} object.
@@ -807,7 +807,7 @@ NULL
 
 #' Create response object for binary classification.
 #'
-#' \code{ResponseBinaryClassif} creates a response object that are used as target during the 
+#' \code{ResponseBinaryClassif} creates a response object that are used as target during the
 #' fitting process.
 #'
 #' @format \code{\link{S4}} object.

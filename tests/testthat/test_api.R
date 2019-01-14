@@ -148,7 +148,7 @@ test_that("multiple logger works", {
   )
   expect_silent(
     cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = TRUE, logger.id = "oob",
-      LossQuadratic$new(), 0.01, cboost$prepareData(mtcars), mtcars[["mpg"]])
+      LossQuadratic$new(), 0.01, cboost$prepareData(mtcars), ResponseRegr$new("oob_response", as.matrix(mtcars[["mpg"]])))
   )
   expect_silent(
     cboost$addLogger(logger = LoggerInbagRisk, use.as.stopper = TRUE, logger.id = "inbag",
@@ -318,8 +318,8 @@ test_that("training throws an error with pre-defined iteration logger", {
     cboost$addLogger(LoggerIteration, use.as.stopper = TRUE, "iteration", max.iter = 1000)
     cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
       intercept = FALSE)
-  }) 
-  expect_output(expect_warning(cboost$train(200))) 
+  })
+  expect_output(expect_warning(cboost$train(200)))
   expect_length(cboost$getInbagRisk(), 1001)
 })
 
@@ -486,9 +486,9 @@ test_that("default values are used by handler", {
 })
 
 test_that("out of range values are set correctly", {
-  
+
   data(cars)
-  nuisance = capture.output({ 
+  nuisance = capture.output({
     mod = boostSplines(data = cars, loss = LossQuadratic$new(), target = "speed", optimizer = OptimizerCoordinateDescent$new())
   })
 

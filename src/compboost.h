@@ -121,7 +121,6 @@ public:
 
   arma::vec predict () const;
   arma::vec predict (std::map<std::string, data::Data*>, const bool&) const;
-  // arma::vec predictionOfIteration (std::map<std::string, data::Data*>, const unsigned int&, const bool&) const;
 
   void setToIteration (const unsigned int&);
 
@@ -132,7 +131,6 @@ public:
 
   // Destructor:
   ~Compboost ();
-
 };
 
 } // namespace cboost

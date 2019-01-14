@@ -34,13 +34,13 @@
 #' cboost$getBaselearnerNames()
 #'
 #' cboost$prepareData(newdata)
-#' 
+#'
 #' cboost$getLoggerData()
-#' 
+#'
 #' cboost$calculateFeatureImportance(num.feats = NULL)
-#' 
+#'
 #' cboost$plotFeatureImportance(num.feats = NULL)
-#' 
+#'
 #' cboost$plotInbagVsOobRisk()
 #'
 #' }
@@ -51,7 +51,7 @@
 #'     A data frame containing the data.
 #'   }
 #'   \item{\code{target}}{[\code{character(1)}]\cr
-#'     Character value containing the target variable. Note that the loss must match the 
+#'     Character value containing the target variable. Note that the loss must match the
 #'     data type of the target.
 #'   }
 #'   \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
@@ -59,7 +59,7 @@
 #'     to select features at each iteration.
 #'   }
 #'   \item{\code{loss}}{[\code{S4 Loss}]\cr
-#'     Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
+#'     Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
 #'     residuals (e.g. \code{LossQuadratic$new()}).
 #'   }
 #'   \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
@@ -73,11 +73,11 @@
 #' \strong{For cboost$addLogger()}:
 #' \describe{
 #'   \item{\code{logger}}{[\code{S4 Logger}]\cr
-#'     Uninitialized \code{S4 Logger} class object that is registered in the model. 
+#'     Uninitialized \code{S4 Logger} class object that is registered in the model.
 #'     See the details for possible choices.
 #'   }
 #'   \item{\code{use.as.stopper}}{[\code{logical(1)}]\cr
-#'     Logical value indicating whether the new logger should also be used as stopper 
+#'     Logical value indicating whether the new logger should also be used as stopper
 #'     (early stopping). Default value is \code{FALSE}.
 #'   }
 #'   \item{\code{logger.id}}{[\code{character(1)}]\cr
@@ -159,16 +159,16 @@
 #' 	 \itemize{
 #'     \item
 #'       \code{LossQuadratic} (Regression)
-#'  
+#'
 #'     \item
 #'       \code{LossAbsolute} (Regression)
-#'  
+#'
 #'     \item
 #'       \code{LossBinomial} (Binary Classification)
-#'  
+#'
 #'     \item
 #'       \code{LossCustom} (Custom)
-#'  
+#'
 #      \item
 #        \code{LossCustomCpp} (Custom)
 #'   }
@@ -231,7 +231,7 @@
 #'         }
 #'       }
 #'     }
-#'   
+#'
 #'   \strong{Note}:
 #'   \itemize{
 #'     \item
@@ -260,7 +260,7 @@
 #'   	 Name of the target variable
 #'   }
 #'   \item{\code{id} [\code{character(1)}]}{
-#'   	 Name of the given dataset. 
+#'   	 Name of the given dataset.
 #'   }
 #'   \item{\code{optimizer} [\code{S4 Optimizer}]}{
 #'     Optimizer used within the fitting process.
@@ -357,39 +357,23 @@ Compboost = R6::R6Class("Compboost",
         if (! target %in% names(data))
           stop ("The target ", target, " is not present within the data")
 
-        response = data[[target]]
-
-        # Transform factor or character labels to -1 and 1
-        if (! is.numeric(response)) {
-          response = as.factor(response)
-
-          if (length(levels(response)) > 2) {
-            stop("Multiclass classification is not supported.")
-          }
-          self$positive.category = levels(response)[1]
-
-          # Transform to vector with -1 and 1:
-          response = as.integer(response) * (1 - as.integer(response)) + 1
-          self$response = ResponseBinaryClassif$new(target, as.matrix(response))
-        } else {
-          self$response = ResponseRegr$new(target, as.matrix(response))
-        }
+        self$response = .vectorToResponse(data[[target]], target)
       } else {
-        assertRcppClass(target, "Response")
+        .assertRcppClass(target, "Response")
         if (nrow(target$getResponse()) != nrow(data))
           stop("Response must have same number of observations as the given dataset.")
         self$response = target
       }
 
       self$oob.fraction = oob.fraction
-      self$target = self$response$getTargetName()      
+      self$target = self$response$getTargetName()
       self$data = data[private$train.idx, !colnames(data) %in% target, drop = FALSE]
       self$optimizer = optimizer
       self$loss = loss
       self$learning.rate = learning.rate
-      if (! is.null(self$oob.fraction)) { 
+      if (! is.null(self$oob.fraction)) {
         self$data.oob = data[private$oob.idx, !colnames(data) %in% target, drop = FALSE]
-        self$response.oob = self$response$getResponse()[private$oob.idx, , drop = FALSE]
+        self$response.oob = .vectorToResponse(self$response$getResponse()[private$oob.idx, , drop = FALSE], "oob_response")
         self$response$filter(private$train.idx)
       }
 
@@ -655,8 +639,8 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$model)) {
         out.list = self$model$getLoggerData()
         out.mat = out.list[[2]]
-        colnames(out.mat) = out.list[[1]] 
-        
+        colnames(out.mat) = out.list[[1]]
+
         return(as.data.frame(out.mat[seq_len(self$getCurrentIteration()),]))
       } else {
         warning("Train the model to get logger data.")
@@ -667,7 +651,7 @@ Compboost = R6::R6Class("Compboost",
 
         max.feats = length(unique(self$getSelectedBaselearner()))
         checkmate::assert_integerish(x = num.feats, lower = 1, upper = max.feats, any.missing = FALSE, len = 1L, null.ok = TRUE)
-        
+
         if (is.null(num.feats)) {
           num.feats = max.feats
           if (num.feats > 15L) { num.feats = 15L }
@@ -692,7 +676,7 @@ Compboost = R6::R6Class("Compboost",
 
         data.vip = self$calculateFeatureImportance(num.feats)
 
-        gg = ggplot2::ggplot(data.vip, ggplot2::aes(x = reorder(baselearner, relative.risk.reduction), y = relative.risk.reduction)) + 
+        gg = ggplot2::ggplot(data.vip, ggplot2::aes(x = reorder(baselearner, relative.risk.reduction), y = relative.risk.reduction)) +
           ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
         return (gg)
@@ -709,19 +693,19 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$model)) {
         if (requireNamespace("ggplot2", quietly = TRUE)) {
           inbag.trace = self$getInbagRisk()
-          oob.data = self$getLoggerData() 
-          if ("oob_risk" %in% names(oob.data)) {  
+          oob.data = self$getLoggerData()
+          if ("oob_risk" %in% names(oob.data)) {
             oob.trace = oob.data[["oob_risk"]]
-            
+
             risk.data = data.frame(
               risk = c(inbag.trace, oob.trace),
               type = rep(c("inbag", "oob"), times = c(length(inbag.trace), length(oob.trace))),
               iter = c(seq_along(inbag.trace), seq_along(oob.trace))
             )
 
-            gg = ggplot2::ggplot(risk.data, ggplot2::aes(x = iter, y = risk, color = type)) + 
-              ggplot2::geom_line(size = 1.1) + 
-              ggplot2::xlab("Iteration") + 
+            gg = ggplot2::ggplot(risk.data, ggplot2::aes(x = iter, y = risk, color = type)) +
+              ggplot2::geom_line(size = 1.1) +
+              ggplot2::xlab("Iteration") +
               ggplot2::ylab("Risk")# + labs(color = "")
 
             return(gg)
@@ -759,7 +743,7 @@ Compboost = R6::R6Class("Compboost",
 
       if (! is.null(self$oob.fraction)) {
         self$addLogger(logger = LoggerOobRisk, logger.id = "oob_risk",
-          used.loss = self$loss, eps.for.break = 0, oob.data = self$prepareData(self$data.oob), 
+          used.loss = self$loss, eps.for.break = 0, oob.data = self$prepareData(self$data.oob),
           oob.response = self$response.oob)
       }
     },

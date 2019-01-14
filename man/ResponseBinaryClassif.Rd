@@ -5,7 +5,7 @@
 \title{Create response object for binary classification.}
 \format{\code{\link{S4}} object.}
 \description{
-\code{ResponseBinaryClassif} creates a response object that are used as target during the 
+\code{ResponseBinaryClassif} creates a response object that are used as target during the
 fitting process.
 }
 \section{Usage}{
