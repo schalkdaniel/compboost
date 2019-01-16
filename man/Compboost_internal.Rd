@@ -113,6 +113,7 @@ X.wt = as.matrix(df[["wt"]])
 
 # Target variable:
 y = df[["mpg.cat"]]
+response = ResponseBinaryClassif$new("mpg.cat", as.matrix(y))
 
 data.source.hp = InMemoryData$new(X.hp, "hp")
 data.source.wt = InMemoryData$new(X.wt, "wt")
@@ -129,13 +130,13 @@ oob.data = list(data.source.hp, data.source.wt)
 test.data = oob.data
 
 # Factories:
-linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
   list(degree = 1, intercept = TRUE))
-linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1,
   list(degree = 1, intercept = TRUE))
-quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
   list(degree = 2, intercept = TRUE))
-spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
+spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2,
   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
 
 # Create new factory list:
@@ -157,26 +158,26 @@ optimizer = OptimizerCoordinateDescent$new()
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations  = LoggerIteration$new(TRUE, 500)
-log.time        = LoggerTime$new(FALSE, 500, "microseconds")
-log.inbag       = LoggerInbagRisk$new(FALSE, loss.bin, 0.05)
-log.oob         = LoggerOobRisk$new(FALSE, loss.bin, 0.05, oob.data, y)
+log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
+log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
+log.inbag       = LoggerInbagRisk$new("inbag.binomial", FALSE, loss.bin, 0.05)
+log.oob         = LoggerOobRisk$new("oob.binomial", FALSE, loss.bin, 0.05, oob.data, y)
 
 # Define new logger list:
 logger.list = LoggerList$new()
 
 # Register the logger:
-logger.list$registerLogger(" iteration.logger", log.iterations)
-logger.list$registerLogger("time.logger", log.time)
-logger.list$registerLogger("inbag.binomial", log.inbag)
-logger.list$registerLogger("oob.binomial", log.oob)
+logger.list$registerLogger(log.iterations)
+logger.list$registerLogger(log.time)
+logger.list$registerLogger(log.inbag)
+logger.list$registerLogger(log.oob)
 
 # Run compboost:
 # --------------
 
 # Initialize object:
 cboost = Compboost_internal$new(
-  response      = y,
+  response      = response,
   learning_rate = 0.05,
   stop_if_all_stopper_fulfilled = FALSE,
   factory_list = factory.list,

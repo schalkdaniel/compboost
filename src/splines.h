@@ -13,8 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // Written by:
 // -----------
@@ -38,10 +38,15 @@
 
 #include <RcppArmadillo.h>
 
+namespace splines {
+
 arma::mat penaltyMat (const unsigned int&, const unsigned int&);
 unsigned int findSpan (const double&, const arma::vec&);
 arma::vec createKnots (const arma::vec&, const unsigned int&,const unsigned int&);
 arma::mat createSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
 arma::sp_mat createSparseSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
+arma::mat filterKnotRange (const arma::mat&, const double&, const double&, const std::string&);
+
+} // namespace splines
 
 # endif // SPLINE_H_

@@ -13,34 +13,29 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
-//
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // =========================================================================== #
 
 #ifndef HELPER_H_
 #define HELPER_H_
 
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
 #include <sstream>
 #include <string>
 
+namespace helper
+{
+
 bool stringInNames (std::string, std::vector<std::string>);
 Rcpp::List argHandler (Rcpp::List, Rcpp::List, bool);
+double calculateSumOfSquaredError (const arma::mat&, const arma::mat&);
+arma::mat sigmoid (const arma::mat&);
+arma::mat transformToBinaryResponse (const arma::mat&, const double&, const double&, const double&);
+void checkForBinaryClassif (const arma::mat&, const int&, const int&);
+void checkMatrixDim (const arma::mat&, const arma::mat&);
+
+} // namespace helper
 
 # endif // HELPER_H_

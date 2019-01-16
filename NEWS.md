@@ -1,3 +1,11 @@
+- **14.12.2018** \
+  To track the out of bag risk is now easy controllable through a argument `oob.fraction`. The paths of inbag vs. out of bag risk can be plotted with `plotInbagVsOobRisk()`
+
+- **28.11.2018** \
+  It is now possible to directly access the logger data with `getLoggerData()` and to calculate and plot feature importance with `calculateFeatureImportance()` and `plotFeatureImportance()`.
+
+- **27.11.2018** \
+  Fix bug in the spline base-learner for out of range values.
 
 - **09.11.2018** \
   Adding a new optimizer `OptimizerCoordinateDescentLineSearch` which conducts line search after each iteration.

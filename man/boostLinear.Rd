@@ -7,26 +7,26 @@
 boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(),
   loss, learning.rate = 0.05, iterations = 100, trace = -1,
   intercept = TRUE, data.source = InMemoryData,
-  data.target = InMemoryData)
+  data.target = InMemoryData, oob.fraction = NULL)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
-A data frame containing the data on which the model should be built.}
+A data frame containing the data.}
 
 \item{target}{[\code{character(1)}]\cr
-Character indicating the target variable. Note that the loss must match the 
+Character value containing the target variable. Note that the loss must match the 
 data type of the target.}
 
 \item{optimizer}{[\code{S4 Optimizer}]\cr
-Optimizer to select features. This should be an initialized \code{S4 Optimizer} object
-exposed by Rcpp (for instance \code{OptimizerCoordinateDescent$new()}).}
+An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
+to select features at each iteration.}
 
 \item{loss}{[\code{S4 Loss}]\cr
-Loss used to calculate the risk and pseudo residuals. This object must be an initialized
-\code{S4 Loss} object exposed by Rcpp (for instance \code{LossQuadratic$new()}).}
+Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
+residuals (e.g. \code{LossQuadratic$new()}).}
 
 \item{learning.rate}{[\code{numeric(1)}]\cr
-Learning rate which is used to shrink the parameter in each step.}
+Learning rate to shrink the parameter in each step.}
 
 \item{iterations}{[\code{integer(1)}]\cr
 Number of iterations that are trained.}
@@ -34,7 +34,7 @@ Number of iterations that are trained.}
 \item{trace}{[\code{integer(1)}]\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
--1 which means that we set \code{trace} at a value that 40 iterations are printed.}
+-1 which means that in total 40 iterations are printed.}
 
 \item{intercept}{[\code{logical(1)}]\cr
 Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
@@ -47,28 +47,32 @@ just in memory training is supported.}
 \item{data.target}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
+
+\item{oob.fraction}{[\code{numeric(1)}]\cr
+Fraction of how much data are used to track the out of bag risk.}
 }
 \value{
-Usually a model of class \code{Compboost}. This model is an \code{R6} object
+A model of the \code{Compboost} class. This model is an \code{R6} object
   which can be used for retraining, predicting, plotting, and anything described in 
   \code{?Compboost}.
 }
 \description{
-This wrapper function automatically initializes the model by adding all numerical
-features of a dataset within a linear base-learner. Categorical features are
-dummy encoded and inserted using linear base-learners without intercept. After 
-initializing the model \code{boostLinear} also fits as many iterations as given 
-by the user through \code{iters}.
+This wrapper function automatically initialize the model by adding all numerical
+features as linear base-learner. Categorical features are dummy encoded and inserted 
+using another linear base-learners without intercept. The function \code{boostLinear} 
+does also train the model.
 }
 \details{
-The returned object is an object of the \code{Compboost} class which then can be 
+The returned object is an object of the \code{Compboost} class. This object can be 
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
-mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
+mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
+  oob.fraction = 0.3)
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())
 mod$predict()
 mod$plot("Sepal.Width_linear")
+mod$plotInbagVsOobRisk()
 }

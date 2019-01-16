@@ -9,6 +9,8 @@ test_that("Compboost loggs correctly", {
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
+  response = ResponseRegr$new("mpg", as.matrix(y))
+  response.oob = ResponseRegr$new("mpg_oog", as.matrix(y))
 
   expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
@@ -21,11 +23,11 @@ test_that("Compboost loggs correctly", {
   learning.rate = 0.05
   iter.max      = 500
 
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
     list(degree = 2, intercept = FALSE)) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
   expect_silent({ factory.list$registerFactory(linear.factory.hp) })
@@ -38,7 +40,7 @@ test_that("Compboost loggs correctly", {
   expect_silent({ log.time.sec   = LoggerTime$new("time.seconds", TRUE, 10, "seconds") })
   expect_silent({ log.time.min   = LoggerTime$new("time.minutes", TRUE, 10, "minutes") })
   expect_silent({ log.inbag      = LoggerInbagRisk$new("inbag.risk", FALSE, loss.quadratic, 0.01) })
-  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
+  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.01, eval.oob.test, response.oob) })
   expect_silent({ logger.list = LoggerList$new() })
   expect_silent({ logger.list$registerLogger(log.iterations) })
   expect_silent({ logger.list$registerLogger(log.time.ms) })
@@ -46,14 +48,14 @@ test_that("Compboost loggs correctly", {
   expect_silent({ logger.list$registerLogger(log.time.min) })
   expect_silent({ logger.list$registerLogger(log.inbag) })
   expect_silent({ logger.list$registerLogger(log.oob) })
-  
+
   expect_output(show(log.inbag))
   expect_output(show(log.oob))
 
   expect_output(logger.list$printRegisteredLogger())
   expect_silent({
     cboost = Compboost_internal$new(
-      response      = y,
+      response      = response,
       learning_rate = learning.rate,
       stop_if_all_stopper_fulfilled = FALSE,
       factory_list = factory.list,
@@ -68,7 +70,7 @@ test_that("Compboost loggs correctly", {
   expect_equal(dim(logger.data$logger.data), c(iter.max, logger.list$getNumberOfRegisteredLogger()))
   expect_equal(cboost$getLoggerData()$logger.data[, 1], 1:500)
   expect_equal(cboost$getLoggerData()$logger.data[, 2], cboost$getLoggerData()$logger.data[, 3])
-  
+
 })
 
 test_that("compboost does the same as mboost", {
@@ -80,6 +82,7 @@ test_that("compboost does the same as mboost", {
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
+  response = ResponseRegr$new("mpg", as.matrix(y))
 
   expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
@@ -92,11 +95,11 @@ test_that("compboost does the same as mboost", {
   learning.rate = 0.05
   iter.max = 500
 
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
     list(degree = 2, intercept = FALSE)) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
 
@@ -113,7 +116,7 @@ test_that("compboost does the same as mboost", {
   expect_silent({ logger.list$registerLogger(log.time) })
   expect_silent({
     cboost = Compboost_internal$new(
-      response      = y,
+      response      = response,
       learning_rate = learning.rate,
       stop_if_all_stopper_fulfilled = TRUE,
       factory_list = factory.list,
@@ -203,7 +206,8 @@ test_that("compboost does the same as mboost", {
   }
   expect_equal(cboost$getParameterMatrix()$parameter.matrix[idx, ], matrix.compare)
   expect_equal(cboost$predict(eval.oob.test, FALSE), predict(mod, df))
-  expect_equal(cboost$predictAtIteration(eval.oob.test, 200, FALSE), predict(mod.reduced, df))
+  expect_silent(cboost$setToIteration(200))
+  expect_equal(cboost$predict(eval.oob.test, FALSE), predict(mod.reduced, df))
 
   suppressWarnings({
     mod.new = mboost(

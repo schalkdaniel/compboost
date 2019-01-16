@@ -13,8 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // Written by:
 // -----------
@@ -61,10 +61,10 @@ void BaselearnerFactory::initializeDataObjects (data::Data* data_source0,
 {
   data_source = data_source0;
   data_target = data_target0;
-  
+
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
-  
+
   // Get the data of the source, transform it and write it into the target:
   data_target->setData(instantiateData(data_source->getData()));
 }
@@ -78,20 +78,20 @@ BaselearnerFactory::~BaselearnerFactory () {}
 // BaselearnerPolynomial:
 // -----------------------
 
-BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& blearner_type0, 
-  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
+BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& blearner_type0,
+  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree,
   const bool& intercept)
   : degree ( degree ),
     intercept ( intercept )
 {
   blearner_type = blearner_type0;
-  
+
   data_source = data_source0;
   data_target = data_target0;
-  
+
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
-  
+
   // Prepare computation of intercept and slope of an ordinary linear regression:
   if (data_source->getData().n_cols == 1) {
     // Store centered x values for faster computation:
@@ -111,26 +111,26 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& b
     data_target->setData(instantiateData(data_source->getData()));
     data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
   }
-  
+
   // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
 blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
-  
-  // Create new polynomial baselearner. This one will be returned by the 
+
+  // Create new polynomial baselearner. This one will be returned by the
   // factory:
   blearner_obj = new blearner::BaselearnerPolynomial(data_target, identifier, degree, intercept);
   blearner_obj->setBaselearnerType(blearner_type);
-  
+
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
   //   data = blearner_obj->instantiateData();
-  //   
+  //
   //   is_data_instantiated = true;
-  //   
+  //
   //   // update baselearner type:
   //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
   // }
@@ -139,15 +139,15 @@ blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const st
 
 /**
  * \brief Data getter which always returns an arma::mat
- * 
+ *
  * This function is important to have a unified interface to access the data
  * matrices. Especially for predicting we have to get the data of each factory
  * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
  * this function should only be used to get temporary matrices which are deleted
  * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly 
+ * dispatch with the getData() function of the Data objects which are mostly
  * called internally.
- * 
+ *
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
 arma::mat BaselearnerPolynomialFactory::getData () const
@@ -163,7 +163,7 @@ arma::mat BaselearnerPolynomialFactory::getData () const
     }
   } else {
     return data_target->getData();
-  }  
+  }
 }
 
 // Transform data. This is done twice since it makes the prediction
@@ -185,27 +185,27 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
 
 /**
  * \brief Default constructor of class `PSplineBleanrerFactory`
- * 
+ *
  * The PSpline constructor has some important tasks which are:
  *   - Set the knots
  *   - Initialize the data (knots must be setted prior)
- *   - Compute and store penalty matrix 
- * 
+ *   - Compute and store penalty matrix
+ *
  * \param blearner_type0 `std::string` Name of the baselearner type (setted by
  *   the Rcpp Wrapper classes in `compboost_modules.cpp`)
  * \param data_source `data::Data*` Source of the data
  * \param data_target `data::Data*` Object to store the transformed data source
  * \param degree `unsigned int` Polynomial degree of the splines
- * \param n_knots `unsigned int` Number of inner knots used 
+ * \param n_knots `unsigned int` Number of inner knots used
  * \param penalty `double` Regularization parameter `penalty = 0` yields
  *   b splines while a bigger penalty forces the splines into a global
  *   polynomial form.
- * \param differences `unsigned int` Number of differences used for the 
+ * \param differences `unsigned int` Number of differences used for the
  *   penalty matrix.
  */
 
-BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearner_type0, 
-  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
+BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearner_type0,
+  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree,
   const unsigned int& n_knots, const double& penalty, const unsigned int& differences,
   const bool& use_sparse_matrices)
   : degree ( degree ),
@@ -227,54 +227,54 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearne
     }
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
-  } catch (...) { 
-    ::Rf_error( "c++ exception (unknown reason)" ); 
+  } catch (...) {
+    ::Rf_error( "c++ exception (unknown reason)" );
   }
   // Initialize knots:
-  data_target->knots = createKnots(data_source->getData(), n_knots, degree);
-  
+  data_target->knots = splines::createKnots(data_source->getData(), n_knots, degree);
+
   // Additionally set the penalty matrix:
-  data_target->penalty_mat = penaltyMat(n_knots + (degree + 1), differences);
-  
+  data_target->penalty_mat = splines::penaltyMat(n_knots + (degree + 1), differences);
+
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
-  
+
   // Get the data of the source, transform it and write it into the target. This needs some explanations:
   //   - If we use sparse matrices we want to store the sparse matrix into the sparse data matrix member of
   //     the data object. This also requires to adopt getData() for that purpose.
-  //   - To get some (very) nice speed ups we store the transposed matrix not the standard one. This also 
+  //   - To get some (very) nice speed ups we store the transposed matrix not the standard one. This also
   //     affects how the training in baselearner.cpp is done. Nevertheless, this speed up things dramatically.
   if (use_sparse_matrices) {
-    data_target->sparse_data_mat = createSparseSplineBasis (data_source->getData(), degree, data_target->knots).t();
+    data_target->sparse_data_mat = splines::createSparseSplineBasis (data_source->getData(), degree, data_target->knots).t();
     data_target->XtX_inv = arma::inv(data_target->sparse_data_mat * data_target->sparse_data_mat.t() + penalty * data_target->penalty_mat);
   } else {
     data_target->setData(instantiateData(data_source->getData()));
     data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
-  } 
+  }
 }
 
 /**
  * \brief Create new `BaselearnerPSpline` object
- * 
+ *
  * \param identifier `std::string` identifier of that specific baselearner object
  */
 blearner::Baselearner* BaselearnerPSplineFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
-  
-  // Create new polynomial baselearner. This one will be returned by the 
+
+  // Create new polynomial baselearner. This one will be returned by the
   // factory:
   blearner_obj = new blearner::BaselearnerPSpline(data_target, identifier, degree,
     n_knots, penalty, differences, use_sparse_matrices);
   blearner_obj->setBaselearnerType(blearner_type);
-  
+
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
   //   data = blearner_obj->instantiateData();
-  //   
+  //
   //   is_data_instantiated = true;
-  //   
+  //
   //   // update baselearner type:
   //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
   // }
@@ -283,15 +283,15 @@ blearner::Baselearner* BaselearnerPSplineFactory::createBaselearner (const std::
 
 /**
  * \brief Data getter which always returns an arma::mat
- * 
+ *
  * This function is important to have a unified interface to access the data
  * matrices. Especially for predicting we have to get the data of each factory
  * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
  * this function should only be used to get temporary matrices which are deleted
  * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly 
+ * dispatch with the getData() function of the Data objects which are mostly
  * called internally.
- * 
+ *
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
 arma::mat BaselearnerPSplineFactory::getData () const
@@ -308,29 +308,38 @@ arma::mat BaselearnerPSplineFactory::getData () const
 
 /**
  * \brief Instantiate data matrix (design matrix)
- * 
+ *
  * This function is ment to create the design matrix which is then stored
  * within the data object. This should be done just once and then reused all
  * the time.
- * 
+ *
  * Note that this function sets the `data_mat` object of the data object!
- * 
+ *
  * \param newdata `arma::mat` Input data which is transformed to the design matrix
- * 
+ *
  * \returns `arma::mat` of transformed data
  */
 arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) const
 {
+  arma::vec knots = data_target->knots;
+
+  // check if the new data matrix contains value which are out of range:
+  double range_min = knots[degree];                   // minimal value from original data
+  double range_max = knots[n_knots + degree + 1];     // maximal value from original data
+
+  arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, data_target->getDataIdentifier());
+
   // Data object has to be created prior! That means that data_ptr must have
   // initialized knots, and penalty matrix!
-  return createSplineBasis (newdata, degree, data_target->knots);
+  arma::mat out = splines::createSplineBasis (temp, degree, data_target->knots);
+  return out;
 }
 
 // BaselearnerCustom:
 // -----------------------
 
-BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_type0, 
-  data::Data* data_source, data::Data* data_target, Rcpp::Function instantiateDataFun, 
+BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_type0,
+  data::Data* data_source, data::Data* data_target, Rcpp::Function instantiateDataFun,
   Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
@@ -341,19 +350,19 @@ BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_
   initializeDataObjects(data_source, data_target);
 }
 
-blearner::Baselearner *BaselearnerCustomFactory::createBaselearner (const std::string &identifier)
+blearner::Baselearner* BaselearnerCustomFactory::createBaselearner (const std::string &identifier)
 {
   blearner::Baselearner *blearner_obj;
-  
-  blearner_obj = new blearner::BaselearnerCustom(data_target, identifier, 
+
+  blearner_obj = new blearner::BaselearnerCustom(data_target, identifier,
     instantiateDataFun, trainFun, predictFun, extractParameter);
   blearner_obj->setBaselearnerType(blearner_type);
-  
+
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
   //   data = blearner_obj->instantiateData();
-  //   
+  //
   //   is_data_instantiated = true;
   // }
   return blearner_obj;
@@ -361,15 +370,15 @@ blearner::Baselearner *BaselearnerCustomFactory::createBaselearner (const std::s
 
 /**
  * \brief Data getter which always returns an arma::mat
- * 
+ *
  * This function is important to have a unified interface to access the data
  * matrices. Especially for predicting we have to get the data of each factory
  * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
  * this function should only be used to get temporary matrices which are deleted
  * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly 
+ * dispatch with the getData() function of the Data objects which are mostly
  * called internally.
- * 
+ *
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
 arma::mat BaselearnerCustomFactory::getData () const
@@ -388,8 +397,8 @@ arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) c
 // BaselearnerCustomCpp:
 // -----------------------
 
-BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& blearner_type0, 
-  data::Data* data_source, data::Data* data_target, SEXP instantiateDataFun, 
+BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& blearner_type0,
+  data::Data* data_source, data::Data* data_target, SEXP instantiateDataFun,
   SEXP trainFun, SEXP predictFun)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
@@ -402,16 +411,16 @@ BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& ble
 blearner::Baselearner* BaselearnerCustomCppFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
-  
-  blearner_obj = new blearner::BaselearnerCustomCpp(data_target, identifier, 
+
+  blearner_obj = new blearner::BaselearnerCustomCpp(data_target, identifier,
     instantiateDataFun, trainFun, predictFun);
   blearner_obj->setBaselearnerType(blearner_type);
-  
+
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
   //   data = blearner_obj->instantiateData();
-  //   
+  //
   //   is_data_instantiated = true;
   // }
   return blearner_obj;
@@ -419,15 +428,15 @@ blearner::Baselearner* BaselearnerCustomCppFactory::createBaselearner (const std
 
 /**
  * \brief Data getter which always returns an arma::mat
- * 
+ *
  * This function is important to have a unified interface to access the data
  * matrices. Especially for predicting we have to get the data of each factory
  * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
  * this function should only be used to get temporary matrices which are deleted
  * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly 
+ * dispatch with the getData() function of the Data objects which are mostly
  * called internally.
- * 
+ *
  * \returns `arma::mat` of data used for modelling a single base-learner
  */
 arma::mat BaselearnerCustomCppFactory::getData () const
@@ -441,7 +450,7 @@ arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata
 {
   Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun);
   instantiateDataFunPtr instantiateDataFun0 = *myTempInstantiation;
-  
+
   return instantiateDataFun0(newdata);
 }
 

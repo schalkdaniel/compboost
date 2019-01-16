@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #ifndef DATA_H_
@@ -79,10 +64,6 @@ public:
   
   /// Vector of knots (directly accessible)
   arma::vec knots;
-  
-  /// Upper and lower boundary for values, values which are out of range
-  /// have a basis of zeros (directly accessible)
-  arma::vec knot_boundaries;
   
   /// This is way to speed up the algorithm (nicked from the mboost guys)
   /// Generally we calculate \f$X^T X\f$ once and reuse this in every iteration.
