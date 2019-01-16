@@ -224,6 +224,7 @@ class LossBinomial : public Loss
 {
 public:
 
+
   /// Default Constructor
   LossBinomial ();
 
