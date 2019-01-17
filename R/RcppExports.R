@@ -822,23 +822,6 @@ NULL
 #' @export ResponseBinaryClassif
 NULL
 
-#' Create response object for binary classification.
-#'
-#' \code{ResponseFDA} creates a response object that are used as target during the
-#' fitting process
-#'
-#' @format \code{\link{S4}} object.
-#' @name ResponseFDA
-#'
-#' @section Usage:
-#' \preformatted{
-#' ResponseFDA$new(target_name, response)
-#' ResponseFDA$new(target_name, response, weights)
-#' }
-#'
-#' @export ResponseFDA
-NULL
-
 #' Logger class to log the current iteration
 #'
 #' @format \code{\link{S4}} object.
