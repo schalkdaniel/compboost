@@ -20,6 +20,9 @@
 
 #include "response.h"
 
+#include "tensors.cpp"
+#include "tensors.h"
+
 namespace response
 {
 
@@ -64,6 +67,7 @@ void Response::updatePseudoResiduals (loss::Loss* used_loss)
     pseudo_residuals = used_loss->calculatePseudoResiduals(response, prediction_scores);
   }
 }
+
 void Response::updatePrediction (const double& learning_rate, const double& step_size, const arma::mat& update)
 {
   prediction_scores += learning_rate * step_size * update;
@@ -272,6 +276,93 @@ void ResponseBinaryClassif::setThreshold (const double& new_thresh)
     Rcpp::stop("Threshold must be element of [0,1]");
   }
   threshold = new_thresh;
+}
+
+// Functional Data Response
+
+ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& grid0)
+{
+  target_name = target_name0;
+  response = response0;
+  task_id = "regression"; // set parent
+  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+  prediction_scores = temp_mat; // set parent
+  pseudo_residuals = temp_mat;  // set parent
+  // FDA specifics
+  grid = grid0;
+  arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
+  weights = temp_mat_1; 
+  trapez_weights = trapezWeights(grid0);
+}
+
+ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
+{
+  helper::checkMatrixDim(response0, weights0);
+  target_name = target_name0;
+  response = response0;
+  weights = weights0;
+  task_id = "regression"; // set parent
+  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+  prediction_scores = temp_mat; // set parent
+  pseudo_residuals = temp_mat;  // set parent
+  // FDA specifics
+  grid = grid0;
+  trapez_weights = trapezWeights(grid0);
+}
+
+arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const
+{
+  arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+  
+  if (! is_initialization_initialized) {
+    Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  }
+  // Use just first element to correctly use .fill:
+  init.fill(initialization[0]);
+  return init;
+}
+
+void ResponseFDA::initializePrediction ()
+{
+  if (is_initialization_initialized) {
+    if (! is_model_initialized) {
+      prediction_scores = calculateInitialPrediction(response);
+      is_model_initialized = true;
+    } else {
+      Rcpp::stop("Prediction is already initialized.");
+    }
+  } else {
+    Rcpp::stop("Initialize constant initialization first by calling 'constantInitialization()'.");
+  }
+}
+
+void ResponseFDA::updatePseudoResiduals (loss::Loss* used_loss)
+{
+  checkLossCompatibility(used_loss);
+  weights = weights.each_row() % trapez_weights.t();
+  pseudo_residuals = used_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
+}
+
+
+arma::mat ResponseFDA::getPredictionTransform (const arma::mat& pred_scores) const
+{
+  // No transformation is done in regression
+  return pred_scores;
+}
+
+arma::mat ResponseFDA::getPredictionResponse (const arma::mat& pred_scores) const
+{
+  return pred_scores;
+}
+
+void ResponseFDA::filter (const arma::uvec& idx)
+{
+  response = response.elem(idx);
+  if (use_weights) {
+    weights = weights.elem(idx);
+  }
+  pseudo_residuals = pseudo_residuals.elem(idx);
+  prediction_scores = prediction_scores.elem(idx);
 }
 
 } // namespace response
