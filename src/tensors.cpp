@@ -111,6 +111,32 @@ std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const
 }
 
 // 
+/**
+ * \Compute the weights from a time point grid
+ * 
+ * Helper function that computes the weights from a time point
+ * grid to be used for Loss weighting.
+ * Expects ORDERED values in time_points.
+ */
+arma::vec trapezWeights (const arma::vec& time_points)
+{
+
+  /// Get Differences of the current function
+  arma::vec t_diffs = arma::diff( time_points ) ;
+  arma::vec weights = time_points;
+
+  /// change the border values
+  weights(arma::span(0)) = t_diffs(arma::span(0));
+  weights(arma::span(weights.size()-1)) = t_diffs(arma::span(t_diffs.size()-1));
+
+  /// divide all by half except for beginning and end, add to get mean per value
+  arma::vec t_diff_halfs = t_diffs / 2;
+
+  weights(arma::span(1,weights.size()-2)) =  t_diff_halfs(arma::span(1,t_diff_halfs.size()-1)) + 
+    t_diff_halfs(arma::span(0,t_diff_halfs.size()-2));
+
+  return weights;
+}
 
 
 
