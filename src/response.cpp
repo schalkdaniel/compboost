@@ -20,9 +20,6 @@
 
 #include "response.h"
 
-#include "tensors.cpp"
-#include "tensors.h"
-
 namespace response
 {
 
@@ -292,7 +289,7 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
   grid = grid0;
   arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
   weights = temp_mat_1; 
-  trapez_weights = trapezWeights(grid0);
+  trapez_weights = tensors::trapezWeights(grid0);
 }
 
 ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
@@ -307,7 +304,7 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
   pseudo_residuals = temp_mat;  // set parent
   // FDA specifics
   grid = grid0;
-  trapez_weights = trapezWeights(grid0);
+  trapez_weights = tensors::trapezWeights(grid0);
 }
 
 arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const

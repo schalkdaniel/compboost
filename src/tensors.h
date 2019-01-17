@@ -21,11 +21,14 @@
 #ifndef TENSORS_H_
 #define TENSORS_H_
 
-#include <RcppArmadillo.h>
+#include "RcppArmadillo.h"
 
+namespace tensors
+{
 arma::mat rowWiseKronecker (const arma::mat&, const arma::mat&);
-arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb);
-arma::mat centerEffects (const arma::mat& X1, const arma::mat& X2);
+arma::mat penaltySumKronecker (const arma::mat&, const arma::mat&);
 arma::vec trapezWeights (const arma::vec&);
+std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat&, const arma::mat&, const arma::mat&);
+} // namespace tensors
 
 # endif // SPLINE_H_

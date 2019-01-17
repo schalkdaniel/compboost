@@ -35,17 +35,9 @@
 
 #include "tensors.h"
 
+namespace tensors
+{
 
-/**
- * \calculating rowwise Kronecker Product
- * 
- * 
- * \returns `arma::mat` returns rowwise kronecker product of two matrices
- */
-
-
-// [[Rcpp::depends(RcppArmadillo)]]
-// [[Rcpp::export]]
 arma::mat rowWiseKronecker (const arma::mat& A, const arma::mat& B)
 {
   // Variables
@@ -59,7 +51,6 @@ arma::mat rowWiseKronecker (const arma::mat& A, const arma::mat& B)
   return out;
 }
 
-// [[Rcpp::export]]
 arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
 {
   // Variables
@@ -75,7 +66,7 @@ arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
   return out;
 }
 
-// [[Rcpp::export]]
+
 std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const arma::mat& P1, const arma::mat& X2)
 {
 
@@ -110,14 +101,6 @@ std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const
   /// return X1_out;
 }
 
-// 
-/**
- * \Compute the weights from a time point grid
- * 
- * Helper function that computes the weights from a time point
- * grid to be used for Loss weighting.
- * Expects ORDERED values in time_points.
- */
 arma::vec trapezWeights (const arma::vec& time_points)
 {
 
@@ -138,6 +121,6 @@ arma::vec trapezWeights (const arma::vec& time_points)
   return weights;
 }
 
-
+} // namespace tensors
 
 
