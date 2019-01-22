@@ -26,21 +26,21 @@
 #' cboost$getInbagRisk()
 #'
 #' cboost$getSelectedBaselearner()
-#' 
+#'
 #' cboost$getEstimatedCoef()
-#' 
+#'
 #' cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
-#' 
+#'
 #' cboost$getBaselearnerNames()
-#' 
+#'
 #' cboost$prepareData(newdata)
-#' 
+#'
 #' cboost$getLoggerData()
-#' 
+#'
 #' cboost$calculateFeatureImportance(num.feats = NULL)
-#' 
+#'
 #' cboost$plotFeatureImportance(num.feats = NULL)
-#' 
+#'
 #' cboost$plotInbagVsOobRisk()
 #'
 #' }
@@ -51,7 +51,7 @@
 #'     A data frame containing the data.
 #'   }
 #'   \item{\code{target}}{[\code{character(1)}]\cr
-#'     Character value containing the target variable. Note that the loss must match the 
+#'     Character value containing the target variable. Note that the loss must match the
 #'     data type of the target.
 #'   }
 #'   \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
@@ -59,7 +59,7 @@
 #'     to select features at each iteration.
 #'   }
 #'   \item{\code{loss}}{[\code{S4 Loss}]\cr
-#'     Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
+#'     Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
 #'     residuals (e.g. \code{LossQuadratic$new()}).
 #'   }
 #'   \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
@@ -73,11 +73,11 @@
 #' \strong{For cboost$addLogger()}:
 #' \describe{
 #'   \item{\code{logger}}{[\code{S4 Logger}]\cr
-#'     Uninitialized \code{S4 Logger} class object that is registered in the model. 
+#'     Uninitialized \code{S4 Logger} class object that is registered in the model.
 #'     See the details for possible choices.
 #'   }
 #'   \item{\code{use.as.stopper}}{[\code{logical(1)}]\cr
-#'     Logical value indicating whether the new logger should also be used as stopper 
+#'     Logical value indicating whether the new logger should also be used as stopper
 #'     (early stopping). Default value is \code{FALSE}.
 #'   }
 #'   \item{\code{logger.id}}{[\code{character(1)}]\cr
@@ -91,31 +91,28 @@
 #'
 #' \strong{For cboost$addBaselearner()}:
 #' \describe{
-#'   \item{\code{features}}{[\code{character()}]\cr
-#'     Vector of column names that are used as input data matrix for a single base-learner. Note that not 
-#'     every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
-#'   }
-#'   \item{\code{id}}{[\code{character(1)}]\cr
-#'     Identifier of the base-learners. This is necessary since it is possible to define multiple 
-#'     base-learner with the same underlying data.
-#'   }
-#'   \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
-#'     Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
-#'     for possible choices.
-#'   }
-#'   \item{\code{data.source}}{[\code{S4 Data}]\cr
-#'     Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-#'     just in memory training is supported.
-#'   }
-#'   \item{\code{data.target}}{[\code{S4 Data}]\cr
-#'     Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-#'     just in memory training is supported.
-#'   }
-#'   \item{}{\code{...}\cr
-#'     Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-#'     \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
-#'     of the \code{S4} classes.
-#'   }
+#' \item{\code{features}}{[\code{character()}]\cr
+#'   Vector of column names which are used as input data matrix for a single base-learner. Note that not
+#'   every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
+#' }
+#' \item{\code{id}}{[\code{character(1)}]\cr
+#'   Id of the base-learners. This is necessary since it is possible to define multiple learners with the same underlying data.
+#' }
+#' \item{\code{bl.factory}}{[\code{S4 Factory}]\cr
+#'   Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
+#'   for possible choices.
+#' }
+#' \item{\code{data.source}}{[\code{S4 Data}]\cr
+#'   Data source object. At the moment just in memory is supported.
+#' }
+#' \item{\code{data.target}}{[\code{S4 Data}]\cr
+#'   Data target object. At the moment just in memory is supported.
+#' }
+#' \item{}{\code{...}\cr
+#'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
+#'   \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
+#'   of the \code{S4} classes.
+#' }
 #' }
 #'
 #' \strong{For cboost$train()}:
@@ -140,21 +137,21 @@
 #' }
 #' \strong{For cboost$plot()}:
 #' \describe{
-#'   \item{\code{blearner.type}}{[\code{character(1)}]\cr
-#'   	 Character value containing the name of the base-learner which should be visualized.
-#'   }
-#'   \item{\code{iters}}{[\code{integer()}]\cr
-#'   	 Integer vector containing the iterations at stages for that the effect should be visualized. 
-#'   }
-#'   \item{\code{from}}{[\code{numeric(1)}]\cr
-#'   	 Lower bound for plotting (should be smaller than \code{to}).
-#'   }
-#'   \item{\code{to}}{[\code{numeric(1)}]\cr
-#'   	 Upper bound for plotting (should be greater than \code{from}).
-#'   }
-#'   \item{\code{length.out}}{[\code{integer(1)}]\cr
-#'   	 Number of equidistant points between \code{from} and \code{to} used for plotting.
-#'   }
+#' \item{\code{blearner.type}}{[\code{character(1)}]\cr
+#' 	 Character name of the base-learner to plot the additional contribution to the response.
+#' }
+#' \item{\code{iters}}{[\code{integer()}]\cr
+#' 	 Integer vector containing the iterations the user wants to illustrate.
+#' }
+#' \item{\code{from}}{[\code{numeric(1)}]\cr
+#' 	 Lower bound for plotting (should be smaller than \code{to}).
+#' }
+#' \item{\code{to}}{[\code{numeric(1)}]\cr
+#' 	 Upper bound for plotting (should be greater than \code{from}).
+#' }
+#' \item{\code{length.out}}{[\code{integer(1)}]\cr
+#' 	 Number of equidistant points between \code{from} and \code{to} used for plotting.
+#' }
 #' }
 #' @section Details:
 #'   \strong{Loss}\cr
@@ -162,16 +159,16 @@
 #' 	 \itemize{
 #'     \item
 #'       \code{LossQuadratic} (Regression)
-#'  
+#'
 #'     \item
 #'       \code{LossAbsolute} (Regression)
-#'  
+#'
 #'     \item
 #'       \code{LossBinomial} (Binary Classification)
-#'  
+#'
 #'     \item
 #'       \code{LossCustom} (Custom)
-#'  
+#'
 #      \item
 #        \code{LossCustomCpp} (Custom)
 #'   }
@@ -234,7 +231,7 @@
 #'         }
 #'       }
 #'     }
-#'   
+#'
 #'   \strong{Note}:
 #'   \itemize{
 #'     \item
@@ -263,7 +260,7 @@
 #'   	 Name of the target variable
 #'   }
 #'   \item{\code{id} [\code{character(1)}]}{
-#'   	 Name of the given dataset. 
+#'   	 Name of the given dataset.
 #'   }
 #'   \item{\code{optimizer} [\code{S4 Optimizer}]}{
 #'     Optimizer used within the fitting process.
@@ -312,7 +309,7 @@
 #' cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
 #'   n.knots = 10, penalty = 2, differences = 2)
 #' cboost$train(1000)
-#' 
+#'
 #' table(cboost$getSelectedBaselearner())
 #' cboost$plot("hp_spline")
 #' cboost$plotInbagVsOobRisk()
@@ -337,7 +334,6 @@ Compboost = R6::R6Class("Compboost",
     stop.if.all.stoppers.fulfilled = FALSE,
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning.rate = 0.05, oob.fraction = NULL) {
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
-      checkmate::assertCharacter(target)
       checkmate::assertNumeric(learning.rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob.fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
 
@@ -347,46 +343,46 @@ Compboost = R6::R6Class("Compboost",
       if (inherits(loss, "C++Class")) {
         stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
       }
-      
+
       self$id = deparse(substitute(data))
-      
       data = droplevels(as.data.frame(data))
-      response = data[[target]]
-      
-      # Transform factor or character labels to -1 and 1
-      if (! is.numeric(response)) {
-        response = as.factor(response)
-        
-        if (length(levels(response)) > 2) {
-          stop("Multiclass classification is not supported.")
-        }
-        self$positive.category = levels(response)[1]
-        
-        # Transform to vector with -1 and 1:
-        response = as.integer(response) * (1 - as.integer(response)) + 1
-      }
 
       if (! is.null(oob.fraction)) {
         private$oob.idx = sample(x = seq_len(nrow(data)), size = floor(oob.fraction * nrow(data)), replace = FALSE)
       }
       private$train.idx = setdiff(seq_len(nrow(data)), private$oob.idx)
 
+      if (is.character(target)) {
+        checkmate::assertCharacter(target)
+        if (! target %in% names(data))
+          stop ("The target ", target, " is not present within the data")
+
+        # With .vectorToRespone we are very restricted to the task types. We can just guess for regression or classification. For every
+        # other task one should use the Response interface!
+        self$response = .vectorToResponse(data[[target]], target)
+      } else {
+        .assertRcppClass(target, "Response")
+        if (nrow(target$getResponse()) != nrow(data))
+          stop("Response must have same number of observations as the given dataset.")
+        self$response = target
+      }
+
       self$oob.fraction = oob.fraction
-      self$target = target
-      self$response = response[private$train.idx]
+      self$target = self$response$getTargetName()
       self$data = data[private$train.idx, !colnames(data) %in% target, drop = FALSE]
       self$optimizer = optimizer
       self$loss = loss
       self$learning.rate = learning.rate
-      if (! is.null(self$oob.fraction)) { 
+      if (! is.null(self$oob.fraction)) {
         self$data.oob = data[private$oob.idx, !colnames(data) %in% target, drop = FALSE]
-        self$response.oob = response[private$oob.idx]
+        self$response.oob = .vectorToResponse(self$response$getResponse()[private$oob.idx, , drop = FALSE], "oob_response")
+        self$response$filter(private$train.idx)
       }
 
       # Initialize new base-learner factory list. All factories which are defined in
       # `addBaselearners` are registered here:
       self$bl.factory.list = BlearnerFactoryList$new()
-      
+
     },
     addLogger = function(logger, use.as.stopper = FALSE, logger.id, ...) {
       private$l.list[[logger.id]] = logger$new(logger.id, use.as.stopper = use.as.stopper, ...)
@@ -402,7 +398,7 @@ Compboost = R6::R6Class("Compboost",
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
       }
-      
+
       # Clear base-learners which are within the bl.list but not registered:
       idx.remove = ! names(private$bl.list) %in% self$bl.factory.list$getRegisteredFactoryNames()
       if (any(idx.remove)) {
@@ -410,10 +406,10 @@ Compboost = R6::R6Class("Compboost",
           private$bl.list[[i]] = NULL
         }
       }
-      
+
       data.columns = self$data[, feature, drop = FALSE]
       id.fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
-      
+
       if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1])) {
         private$addSingleCatBl(data.columns, feature, id, id.fac, bl.factory, data.source, data.target, ...)
       }	else {
@@ -421,19 +417,19 @@ Compboost = R6::R6Class("Compboost",
       }
     },
     train = function(iteration = 100, trace = -1) {
-      
+
       if (self$bl.factory.list$getNumberOfRegisteredFactories() == 0) {
         stop("Could not train without any registered base-learner.")
       }
-      
+
       checkmate::assertIntegerish(iteration, lower = 1, len = 1, null.ok = TRUE)
       # checkmate::assertFlag(trace)
       checkmate::assertIntegerish(trace, lower = -1, upper = iteration, len = 1, null.ok = FALSE)
-      
+
       if (trace == -1) {
         trace = round(iteration / 40)
       }
-      
+
       # Check if it is necessary to add a initial iteration logger. This is not the case
       # when the user already has add one by calling `addLogger`:
       if (is.null(self$model)) {
@@ -463,20 +459,20 @@ Compboost = R6::R6Class("Compboost",
     },
     prepareData = function (newdata) {
       new.source.features = unique(lapply(private$bl.list, function (x) x$feature))
-      
+
       new.sources = list()
       data.names = character()
-      
+
       # Remove lapply due to categorical feature handling which needs to return multiple data objects
       # at once.
       for (ns in new.source.features) {
-        
+
         data.columns = newdata[, ns, drop = FALSE]
-        
+
         if (ncol(data.columns) == 1 && !is.numeric(data.columns[, 1])) {
-          
+
           lvls = unlist(unique(data.columns))
-          
+
           # Create dummy variable for each category and use that vector as data matrix. Hence,
           # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
           # base-learners (unbiased feature selection).
@@ -520,13 +516,13 @@ Compboost = R6::R6Class("Compboost",
 				Learning rate: {self$learning.rate}
 				Iterations: {self$getCurrentIteration()}
 				")
-      
-      if (! is.null(self$positive.category)) 
+
+      if (! is.null(self$positive.category))
         p = glue::glue(p, "\nPositive class: {self$positive.category}")
-      
-      if(!is.null(self$model))
+
+      if(! is.null(self$model))
         p = glue::glue(p, "\nOffset: {round(self$model$getOffset(), 4)}")
-      
+
       print(p)
       print(self$loss)
     },
@@ -537,15 +533,15 @@ Compboost = R6::R6Class("Compboost",
       return(NULL)
     },
     plot = function (blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000) {
-      
+
       if (requireNamespace("ggplot2", quietly = TRUE)) {
-        
+
         if (is.null(self$model)) {
           stop("Model needs to be trained first.")
         }
         checkmate::assertIntegerish(iters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
         checkmate::assertCharacter(blearner.type, len = 1, null.ok = TRUE)
-        
+
         if (is.null(blearner.type)) {
           stop("Please specify a valid base-learner plus feature.")
         }
@@ -565,12 +561,12 @@ Compboost = R6::R6Class("Compboost",
           }
         }
         feat.name = private$bl.list[[blearner.type]]$target$getIdentifier()
-        
+
         checkmate::assertNumeric(x = self$data[[feat.name]], min.len = 2, null.ok = FALSE)
         checkmate::assertNumeric(from, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
         checkmate::assertNumeric(to, lower =  min(self$data[[feat.name]]), upper = max(self$data[[feat.name]]), len = 1, null.ok = TRUE)
-        
-        if (is.null(from)) { 				
+
+        if (is.null(from)) {
           from = min(self$data[[feat.name]])
         }
         if (is.null(to)) {
@@ -582,10 +578,10 @@ Compboost = R6::R6Class("Compboost",
           from = to
           to = temp
         }
-        
+
         plot.data = as.matrix(seq(from = from, to = to, length.out = length.out))
         feat.map  = private$bl.list[[blearner.type]]$factory$transformData(plot.data)
-        
+
         # Create data.frame for plotting depending if iters is specified:
         if (!is.null(iters[1])) {
           preds = lapply(iters, function (x) {
@@ -596,41 +592,41 @@ Compboost = R6::R6Class("Compboost",
             }
           })
           names(preds) = iters
-          
+
           df.plot = data.frame(
             effect    = unlist(preds),
             iteration = as.factor(rep(iters, each = length.out)),
             feature   = plot.data
           )
-          
+
           gg = ggplot2::ggplot(df.plot, ggplot2::aes(feature, effect, color = iteration))
-          
+
         } else {
           df.plot = data.frame(
             effect  = feat.map %*% self$getEstimatedCoef()[[blearner.type]],
             feature = plot.data
           )
-          
+
           gg = ggplot2::ggplot(df.plot, ggplot2::aes(feature, effect))
         }
-        
+
         # If there are too much rows we need to take just a sample or completely remove rugs:
         if (nrow(self$data) > 1000) {
           idx.rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
         } else {
           idx.rugs = seq_len(nrow(self$data))
         }
-        
-        gg = gg + 
-          ggplot2::geom_line() + 
-          ggplot2::geom_rug(data = self$data[idx.rugs,], ggplot2::aes_string(x = feat.name), inherit.aes = FALSE, 
-            alpha = 0.8) + 
-          ggplot2::xlab(feat.name) + 
+
+        gg = gg +
+          ggplot2::geom_line() +
+          ggplot2::geom_rug(data = self$data[idx.rugs,], ggplot2::aes_string(x = feat.name), inherit.aes = FALSE,
+            alpha = 0.8) +
+          ggplot2::xlab(feat.name) +
           ggplot2::xlim(from, to) +
-          ggplot2::ylab("Additive Contribution") + 
-          ggplot2::labs(title = paste0("Effect of ", blearner.type), 
+          ggplot2::ylab("Additive Contribution") +
+          ggplot2::labs(title = paste0("Effect of ", blearner.type),
             subtitle = "Additive contribution of predictor")
-        
+
         return(gg)
       } else {
         message("Please install ggplot2 to create plots.")
@@ -645,8 +641,8 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$model)) {
         out.list = self$model$getLoggerData()
         out.mat = out.list[[2]]
-        colnames(out.mat) = out.list[[1]] 
-        
+        colnames(out.mat) = out.list[[1]]
+
         return(as.data.frame(out.mat[seq_len(self$getCurrentIteration()),]))
       } else {
         warning("Train the model to get logger data.")
@@ -657,7 +653,7 @@ Compboost = R6::R6Class("Compboost",
 
         max.feats = length(unique(self$getSelectedBaselearner()))
         checkmate::assert_integerish(x = num.feats, lower = 1, upper = max.feats, any.missing = FALSE, len = 1L, null.ok = TRUE)
-        
+
         if (is.null(num.feats)) {
           num.feats = max.feats
           if (num.feats > 15L) { num.feats = 15L }
@@ -682,7 +678,7 @@ Compboost = R6::R6Class("Compboost",
 
         data.vip = self$calculateFeatureImportance(num.feats)
 
-        gg = ggplot2::ggplot(data.vip, ggplot2::aes(x = reorder(baselearner, relative.risk.reduction), y = relative.risk.reduction)) + 
+        gg = ggplot2::ggplot(data.vip, ggplot2::aes(x = reorder(baselearner, relative.risk.reduction), y = relative.risk.reduction)) +
           ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
         return (gg)
@@ -699,19 +695,19 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$model)) {
         if (requireNamespace("ggplot2", quietly = TRUE)) {
           inbag.trace = self$getInbagRisk()
-          oob.data = self$getLoggerData() 
-          if ("oob_risk" %in% names(oob.data)) {  
+          oob.data = self$getLoggerData()
+          if ("oob_risk" %in% names(oob.data)) {
             oob.trace = oob.data[["oob_risk"]]
-            
+
             risk.data = data.frame(
               risk = c(inbag.trace, oob.trace),
               type = rep(c("inbag", "oob"), times = c(length(inbag.trace), length(oob.trace))),
               iter = c(seq_along(inbag.trace), seq_along(oob.trace))
             )
 
-            gg = ggplot2::ggplot(risk.data, ggplot2::aes(x = iter, y = risk, color = type)) + 
-              ggplot2::geom_line(size = 1.1) + 
-              ggplot2::xlab("Iteration") + 
+            gg = ggplot2::ggplot(risk.data, ggplot2::aes(x = iter, y = risk, color = type)) +
+              ggplot2::geom_line(size = 1.1) +
+              ggplot2::xlab("Iteration") +
               ggplot2::ylab("Risk")# + labs(color = "")
 
             return(gg)
@@ -735,9 +731,8 @@ Compboost = R6::R6Class("Compboost",
     logger.list = list(),
     oob.idx = NULL,
     train.idx = NULL,
-    
     initializeModel = function() {
-      
+
       private$logger.list = LoggerList$new()
       lapply(private$l.list, function (logger) { private$logger.list$registerLogger(logger) })
       # for (i in seq_along(private$l.list)) {
@@ -750,43 +745,43 @@ Compboost = R6::R6Class("Compboost",
 
       if (! is.null(self$oob.fraction)) {
         self$addLogger(logger = LoggerOobRisk, logger.id = "oob_risk",
-          used.loss = self$loss, eps.for.break = 0, oob.data = self$prepareData(self$data.oob), 
+          used.loss = self$loss, eps.for.break = 0, oob.data = self$prepareData(self$data.oob),
           oob.response = self$response.oob)
       }
     },
     addSingleNumericBl = function(data.columns, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
-      
+
       private$bl.list[[id]] = list()
       private$bl.list[[id]]$source = data.source$new(as.matrix(data.columns), paste(feature, collapse = "_"))
       private$bl.list[[id]]$feature = feature
       private$bl.list[[id]]$target = data.target$new()
-      
+
       # Call handler for default arguments and argument handling:
       # handler.name = paste0(".handle", bl.factory@.Data)
       # par.set = c(source = private$bl.list[[id]]$source, target = private$bl.list[[id]]$target, id = id.fac, do.call(handler.name, list(...)))
       # private$bl.list[[id]]$factory = do.call(bl.factory$new, par.set)
 
       private$bl.list[[id]]$factory = bl.factory$new(private$bl.list[[id]]$source, private$bl.list[[id]]$target, id.fac, list(...))
-      
+
       self$bl.factory.list$registerFactory(private$bl.list[[id]]$factory)
       private$bl.list[[id]]$source = NULL
-      
-    },	
+
+    },
     addSingleCatBl = function(data.column, feature, id.fac, id, bl.factory, data.source, data.target, ...) {
-      
+
       lvls = unlist(unique(data.column))
-      
+
       # Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
       for (lvl in lvls) {
-        
+
         list.id = paste(feature, lvl, id.fac, sep = "_")
-        
+
         private$addSingleNumericBl(data.columns = as.matrix(as.integer(data.column == lvl)),
-          feature = paste(feature, lvl, sep = "_"), id.fac = id.fac, 
+          feature = paste(feature, lvl, sep = "_"), id.fac = id.fac,
           id = list.id, bl.factory, data.source, data.target, ...)
-        
+
         # This is important because of:
         #   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
         #      data objects correctly in a unique way.

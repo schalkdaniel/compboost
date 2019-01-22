@@ -135,9 +135,9 @@ NULL
 #' data.target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1,
 #'   list(degree = 2, intercept = FALSE))
-#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
+#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Get the transformed data:
@@ -250,7 +250,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
+#' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
 #'   train.fun, predict.fun, param.fun))
 #' }
 #'
@@ -342,7 +342,7 @@ NULL
 #'
 #' # Create new custom linear base-learner factory:
 #' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-#'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
+#'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun,
 #'     predict.fun = predictFun, param.fun = extractParameter))
 #'
 #' # Get the transformed data:
@@ -487,9 +487,9 @@ NULL
 #' data.target1 = InMemoryData$new()
 #' data.target2 = InMemoryData$new()
 #'
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1,
 #'   list(degree = 1, intercept = TRUE))
-#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 
+#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Create new base-learner list:
@@ -661,7 +661,7 @@ NULL
 #'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 #'
 #' @examples
-#' 
+#'
 #' # Create new loss object:
 #' bin.loss = LossBinomial$new()
 #' bin.loss
@@ -786,6 +786,40 @@ NULL
 #' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 #' }
 #' @export LossCustomCpp
+NULL
+
+#' Create response object for regression.
+#'
+#' \code{ResponseRegr} creates a response object that are used as target during the
+#' fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name ResponseRegr
+#'
+#' @section Usage:
+#' \preformatted{
+#' ResponseRegr$new(target_name, response)
+#' ResponseRegr$new(target_name, response, weights)
+#' }
+#'
+#' @export ResponseRegr
+NULL
+
+#' Create response object for binary classification.
+#'
+#' \code{ResponseBinaryClassif} creates a response object that are used as target during the
+#' fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name ResponseBinaryClassif
+#'
+#' @section Usage:
+#' \preformatted{
+#' ResponseBinaryClassif$new(target_name, response)
+#' ResponseBinaryClassif$new(target_name, response, weights)
+#' }
+#'
+#' @export ResponseBinaryClassif
 NULL
 
 #' Logger class to log the current iteration
@@ -936,7 +970,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
 #'   oob_data, oob_response)
 #' }
 #'
@@ -1032,8 +1066,11 @@ NULL
 #' # Used loss:
 #' log.bin = LossBinomial$new()
 #'
+#' # Define response object of oob data:
+#' oob.response = ResponseRegr$new("oob_response", as.matrix(y.oob))
+#'
 #' # Define logger:
-#' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
+#' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, oob.response)
 #'
 #' # Summarize logger:
 #' log.oob.risk$summarizeLogger()
@@ -1190,7 +1227,7 @@ NULL
 
 #' Coordinate Descent with line search
 #'
-#' This class defines a new object which is used to conduct Coordinate Descent with line search. 
+#' This class defines a new object which is used to conduct Coordinate Descent with line search.
 #' The optimizer just calculates for each base-learner the sum of squared error and returns
 #' the base-learner with the smallest SSE. In addition, this optimizer computes
 #' a line search to find the optimal step size in each iteration.
@@ -1319,6 +1356,7 @@ NULL
 #'
 #' # Target variable:
 #' y = df[["mpg.cat"]]
+#' response = ResponseBinaryClassif$new("mpg.cat", as.matrix(y))
 #'
 #' data.source.hp = InMemoryData$new(X.hp, "hp")
 #' data.source.wt = InMemoryData$new(X.wt, "wt")
@@ -1335,13 +1373,13 @@ NULL
 #' test.data = oob.data
 #'
 #' # Factories:
-#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
 #'   list(degree = 1, intercept = TRUE))
-#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1,
 #'   list(degree = 1, intercept = TRUE))
-#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
 #'   list(degree = 2, intercept = TRUE))
-#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
+#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2,
 #'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
 #'
 #' # Create new factory list:
@@ -1365,8 +1403,6 @@ NULL
 #' # time, inbag risk and oob risk:
 #' log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
 #' log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
-#' log.inbag       = LoggerInbagRisk$new("inbag.binomial", FALSE, loss.bin, 0.05)
-#' log.oob         = LoggerOobRisk$new("oob.binomial", FALSE, loss.bin, 0.05, oob.data, y)
 #'
 #' # Define new logger list:
 #' logger.list = LoggerList$new()
@@ -1374,15 +1410,13 @@ NULL
 #' # Register the logger:
 #' logger.list$registerLogger(log.iterations)
 #' logger.list$registerLogger(log.time)
-#' logger.list$registerLogger(log.inbag)
-#' logger.list$registerLogger(log.oob)
 #'
 #' # Run compboost:
 #' # --------------
 #'
 #' # Initialize object:
 #' cboost = Compboost_internal$new(
-#'   response      = y,
+#'   response      = response,
 #'   learning_rate = 0.05,
 #'   stop_if_all_stopper_fulfilled = FALSE,
 #'   factory_list = factory.list,

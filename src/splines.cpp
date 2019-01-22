@@ -13,7 +13,7 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
+// MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
 // Written by:
@@ -34,6 +34,9 @@
 // =========================================================================== #
 
 #include "splines.h"
+
+namespace splines
+{
 
 /**
  * \brief Calculating penalty matrix
@@ -335,3 +338,5 @@ arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, co
 
   return temp;
 }
+  
+} // namespace splines

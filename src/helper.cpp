@@ -13,40 +13,28 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
-//
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // =========================================================================== #
 
 #include "helper.h"
+
+namespace helper
+{
 /**
  * \brief Check if a string occurs within a string vector
- * 
+ *
  * This function just takes a string, iterates over a given vector of strings,
- * and returns true if the string occurs within the vector. This function is 
+ * and returns true if the string occurs within the vector. This function is
  * used to check the argument name match up.
- * 
+ *
  * \param str `str::string` String for the lookup.
- *   
- * \param differences `std::vector<std::string>` Vector of strings which we 
+ *
+ * \param differences `std::vector<std::string>` Vector of strings which we
  '   want to check if str occurs..
- * 
- * \returns `bool` boolean if the string occurs within the vector. 
+ *
+ * \returns `bool` boolean if the string occurs within the vector.
  */
 bool stringInNames (std::string str, std::vector<std::string> names)
 {
@@ -63,18 +51,18 @@ bool stringInNames (std::string str, std::vector<std::string> names)
 
 /**
  * \brief Check and set list arguments
- * 
+ *
  * This function matches to lists to update an internal list with a new
- * match-up list. This function checks which elements are available, 
+ * match-up list. This function checks which elements are available,
  * if they occurs in the internal list, and if the underlying data types
  * matches. If so, this function replaces
- * the values of the internal list with the new values. If the new list 
+ * the values of the internal list with the new values. If the new list
  * contains unused elements, this function also throws a warning and prints
  * the unused ones.
- * 
+ *
  * \param internal_list `Rcpp::List` Internal list with default values.
  * \param matching_list `Rcpp::List` New list to replace default values.
- * \returns `Rcpp::List` of updated default values. 
+ * \returns `Rcpp::List` of updated default values.
  */
 Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list, bool type_check = TRUE)
 {
@@ -93,8 +81,8 @@ Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list, bool 
       Rcpp::stop("Be sure to specify names within your argument list.");
     } catch ( std::exception &ex ) {
       forward_exception_to_r( ex );
-    } catch (...) { 
-      ::Rf_error( "c++ exception (unknown reason)" ); 
+    } catch (...) {
+      ::Rf_error( "c++ exception (unknown reason)" );
     }
   }
 
@@ -127,8 +115,8 @@ Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list, bool 
             Rcpp::stop("Argument types for \"" + matching_list_names[i] + "\" does not match. Maybe you should take a look at the documentation.");
           } catch ( std::exception &ex ) {
             forward_exception_to_r( ex );
-          } catch (...) { 
-            ::Rf_error( "c++ exception (unknown reason)" ); 
+          } catch (...) {
+            ::Rf_error( "c++ exception (unknown reason)" );
           }
         }
       } else {
@@ -153,3 +141,60 @@ Rcpp::List argHandler (Rcpp::List internal_list, Rcpp::List matching_list, bool 
   }
   return internal_list;
 }
+
+double calculateSumOfSquaredError (const arma::mat& response, const arma::mat& prediction)
+{
+  return arma::accu(arma::pow(response - prediction, 2));
+}
+
+arma::mat sigmoid (const arma::mat& scores)
+{
+  return 1 / (1 + arma::exp(-scores));
+}
+
+arma::mat transformToBinaryResponse (const arma::mat& score_mat, const double& threshold, const double& pos, const double& neg)
+{
+  arma::mat out = score_mat;
+
+  arma::umat ids_pos = find(score_mat >= threshold);
+  arma::umat ids_neg = find(score_mat < threshold);
+
+  out.elem(ids_pos).fill(pos);
+  out.elem(ids_neg).fill(neg);
+
+  return out;
+}
+
+void checkForBinaryClassif (const arma::mat& response, const int& pos, const int& neg)
+{
+  arma::vec unique_values = arma::unique(response);
+  try {
+    if (unique_values.size() != 2) {
+      Rcpp::stop("Multiple classes detected.");
+    }
+    if (! arma::all((unique_values == neg) || (unique_values == pos))) {
+      std::string msg_stop = "Labels must be coded as " + std::to_string(neg) + " and " + std::to_string(pos) + ".";
+      Rcpp::stop("Labels must be coded as -1 and 1.");
+    }
+  } catch ( std::exception &ex ) {
+    forward_exception_to_r( ex );
+  } catch (...) {
+    ::Rf_error( "c++ exception (unknown reason)" );
+  }
+}
+
+void checkMatrixDim (const arma::mat& X, const arma::mat& Y)
+{
+  try {
+    if (X.n_rows != Y.n_rows || X.n_cols != Y.n_cols) {
+      std::string error_msg = "Dimension does not match " + std::to_string(X.n_rows) + "x" + std::to_string(X.n_cols) + " and " + std::to_string(Y.n_rows) + "x" + std::to_string(Y.n_cols) + ".";
+      Rcpp::stop(error_msg);
+    }
+  } catch ( std::exception &ex ) {
+    forward_exception_to_r( ex );
+  } catch (...) {
+    ::Rf_error( "c++ exception (unknown reason)" );
+  }
+}
+
+} // namespace helper

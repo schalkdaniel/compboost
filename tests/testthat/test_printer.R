@@ -26,7 +26,7 @@ test_that("Loss printer works", {
   expect_silent({ quadratic.loss = LossQuadratic$new() })
   expect_silent({ absolute.loss  = LossAbsolute$new() })
   expect_silent({ binomial.loss = LossBinomial$new() })
-  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })  
+  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
 
   myLossFun = function (true.value, prediction) NULL
   myGradientFun = function (true.value, prediction) NULL
@@ -59,28 +59,28 @@ test_that("Baselearner factory printer works", {
   expect_silent({ data.source    = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.sp = InMemoryData$new(X.hp.sp, "hp") })
   expect_silent({ data.target    = InMemoryData$new() })
-  
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source, data.target,
     list(degree = 1, intercept = FALSE)) })
   expect_output({ linear.factory.hp.printer = show(linear.factory.hp) })
   expect_equal(linear.factory.hp.printer, "BaselearnerPolynomialPrinter")
-  
-  expect_silent({ quad.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+
+  expect_silent({ quad.factory.hp = BaselearnerPolynomial$new(data.source, data.target,
     list(degree = 2, intercept = FALSE)) })
   expect_output({ quad.factory.hp.printer = show(quad.factory.hp) })
   expect_equal(quad.factory.hp.printer, "BaselearnerPolynomialPrinter")
-  
-  expect_silent({ cubic.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+
+  expect_silent({ cubic.factory.hp = BaselearnerPolynomial$new(data.source, data.target,
     list(degree = 3, intercept = FALSE)) })
   expect_output({ cubic.factory.hp.printer = show(cubic.factory.hp) })
   expect_equal(cubic.factory.hp.printer, "BaselearnerPolynomialPrinter")
-  
-  expect_silent({ poly.factory.hp = BaselearnerPolynomial$new(data.source, data.target, 
+
+  expect_silent({ poly.factory.hp = BaselearnerPolynomial$new(data.source, data.target,
     list(degree = 4, intercept = FALSE)) })
   expect_output({ poly.factory.hp.printer = show(poly.factory.hp) })
   expect_equal(poly.factory.hp.printer, "BaselearnerPolynomialPrinter")
-  
-  expect_silent({ spline.factory = BaselearnerPSpline$new(data.source.sp, data.target, 
+
+  expect_silent({ spline.factory = BaselearnerPSpline$new(data.source.sp, data.target,
     list(degree = 3, n.knots = 5, penalty = 2.5, differences = 2)) })
   expect_output({ spline.printer = show(spline.factory) })
   expect_equal(spline.printer, "BaselearnerPSplinePrinter")
@@ -101,7 +101,7 @@ test_that("Baselearner factory printer works", {
 
   expect_silent({
     custom.factory = BaselearnerCustom$new(data.source, data.target,
-      list(instantiate.fun = instantiateData, train.fun = trainFun, 
+      list(instantiate.fun = instantiateData, train.fun = trainFun,
         predict.fun = predictFun, param.fun = extractParameter))
   })
   expect_output({ custom.factory.printer = show(custom.factory) })
@@ -141,11 +141,12 @@ test_that("Logger(List) printer works", {
   })
 
   y = NA_real_
+  response.oob = ResponseRegr$new("mpg_oog", as.matrix(y))
 
   expect_silent({ log.iterations = LoggerIteration$new("iterations", TRUE, 500) })
   expect_silent({ log.time       = LoggerTime$new("time", FALSE, 500, "microseconds") })
   expect_silent({ log.inbag      = LoggerInbagRisk$new("inbag.risk", FALSE, loss.quadratic, 0.05) })
-  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.05, eval.oob.test, y) })
+  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.05, eval.oob.test, response.oob) })
   expect_silent({ logger.list = LoggerList$new() })
   expect_output({ logger.list.printer = show(logger.list) })
 
@@ -180,6 +181,8 @@ test_that("Compboost printer works", {
   X.wt = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
+  response = ResponseRegr$new("mpg", as.matrix(y))
+  response.oob = ResponseRegr$new("mpg_oog", as.matrix(y))
 
   expect_silent({ data.source.hp = InMemoryData$new(X.hp, "hp") })
   expect_silent({ data.source.wt = InMemoryData$new(X.wt, "wt") })
@@ -193,11 +196,11 @@ test_that("Compboost printer works", {
   learning.rate = 0.05
   iter.max = 500
 
-  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+  expect_silent({ linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt, 
+  expect_silent({ linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+  expect_silent({ quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
     list(degree = 2, intercept = FALSE)) })
   expect_silent({ factory.list = BlearnerFactoryList$new() })
 
@@ -213,7 +216,7 @@ test_that("Compboost printer works", {
   expect_silent({ log.time.sec   = LoggerTime$new("time.sec", TRUE, 2, "seconds") })
   expect_silent({ log.time.min   = LoggerTime$new("time.min", TRUE, 1, "minutes") })
   expect_silent({ log.inbag      = LoggerInbagRisk$new("inbag.risk", FALSE, loss.quadratic, 0.01) })
-  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.01, eval.oob.test, y) })
+  expect_silent({ log.oob        = LoggerOobRisk$new("oob.risk", FALSE, loss.quadratic, 0.01, eval.oob.test, response.oob) })
 
   expect_silent({ logger.list = LoggerList$new() })
   expect_silent({ logger.list$registerLogger(log.iterations) })
@@ -225,7 +228,7 @@ test_that("Compboost printer works", {
 
   expect_silent({
     cboost = Compboost_internal$new(
-      response      = y,
+      response      = response,
       learning_rate = learning.rate,
       stop_if_all_stopper_fulfilled = FALSE,
       factory_list = factory.list,
