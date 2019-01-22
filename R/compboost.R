@@ -357,6 +357,8 @@ Compboost = R6::R6Class("Compboost",
         if (! target %in% names(data))
           stop ("The target ", target, " is not present within the data")
 
+        # With .vectorToRespone we are very restricted to the task types. We can just guess for regression or classification. For every
+        # other task one should use the Response interface!
         self$response = .vectorToResponse(data[[target]], target)
       } else {
         .assertRcppClass(target, "Response")

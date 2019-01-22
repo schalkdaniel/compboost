@@ -2,7 +2,7 @@
 title: "compboost: Fast and Flexible Component-Wise Boosting Framework"
 author: "Daniel Schalk"
 date: "`r Sys.Date()`"
-output: 
+output:
   rmarkdown::html_vignette:
     css: compboost.css
 vignette: >
@@ -12,7 +12,7 @@ vignette: >
 ---
 
 ```{r, include=FALSE}
-knitr::opts_chunk$set(collapse = TRUE)
+knitr::opts_chunk$set(collapse = TRUE, eval = FALSE)
 # devtools::load_all()
 library(compboost)
 
@@ -43,7 +43,7 @@ str(df.train)
 ```
 
 In the next step we transform the response to a factor with more intuitive levels:
- 
+
 ```{r}
 df.train$Survived = factor(df.train$Survived, labels = c("no", "yes"))
 
@@ -51,17 +51,17 @@ df.train$Survived = factor(df.train$Survived, labels = c("no", "yes"))
 set.seed(1111)
 
 idx.train = sample(x = seq_len(nrow(df.train)), size = 0.6 * nrow(df.train))
-idx.eval  = setdiff(seq_len(nrow(df.train)), idx.train) 
+idx.eval  = setdiff(seq_len(nrow(df.train)), idx.train)
 ```
 
-This split will be used while the training to calculate the out of bag risk. 
+This split will be used while the training to calculate the out of bag risk.
 
 
 ## Initializing Model
 
 Due to the `R6` API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:
 ```{r}
-cboost = Compboost$new(data = df.train[idx.train, ], target = "Survived", 
+cboost = Compboost$new(data = df.train[idx.train, ], target = "Survived",
   loss = LossBinomial$new())
 ```
 
@@ -93,7 +93,7 @@ cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
 
 When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don't need an intercept here:
 ```{r}
-cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, 
+cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial,
   intercept = FALSE)
 ```
 
@@ -109,7 +109,7 @@ cboost$getBaselearnerNames()
 This logger logs the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
 
 ```{r}
-cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time", 
+cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time",
   max.time = 0, time.unit = "microseconds")
 ```
 
@@ -117,9 +117,10 @@ cboost$addLogger(logger = LoggerTime, use.as.stopper = FALSE, logger.id = "time"
 
 The out of bag risk logger does basically the same as the inbag risk logger but calculates the empirical risk using another data source. Therefore, the new data object have to be a list with data sources containing the evaluation data. This is automatically done by the `prepareData()` member of `Compboost`:
 ```{r}
+oob.response = ResponseBinaryClassif$new("oob_response", as.matrix(df.train[["Survived"]][idx.eval]))
 cboost$addLogger(logger = LoggerOobRisk, use.as.stopper = FALSE, logger.id ="oob",
-  LossBinomial$new(), 0.01, cboost$prepareData(df.train[idx.eval, ]), 
-  df.train[["Survived"]][idx.eval])
+  LossBinomial$new(), 0.01, cboost$prepareData(df.train[idx.eval, ]),
+  oob.response)
 ```
 
 

@@ -27,3 +27,17 @@
     return (ResponseRegr$new(target, as.matrix(vec)))
   }
 }
+
+
+# .vectorToResponse = function (vec, target)
+# {
+#   # Classification:
+#   if (is.character(vec)) {
+#     vec = as.factor(vec)
+#
+#     if (length(levels(vec)) == 2) return (ResponseBinaryClassif$new(target, as.matrix(vec)))
+#     if (length(levels(vec)) > 2) stop("Multiclass classification is not supported.")
+#   }
+#   # Regression:
+#   if (is.numeric(vec)) return (ResponseRegr$new(target, as.matrix(vec)))
+# }
