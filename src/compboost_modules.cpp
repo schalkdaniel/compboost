@@ -2438,8 +2438,6 @@ RCPP_MODULE(optimizer_module)
 //' # time, inbag risk and oob risk:
 //' log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
 //' log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
-//' log.inbag       = LoggerInbagRisk$new("inbag.binomial", FALSE, loss.bin, 0.05)
-//' log.oob         = LoggerOobRisk$new("oob.binomial", FALSE, loss.bin, 0.05, oob.data, y)
 //'
 //' # Define new logger list:
 //' logger.list = LoggerList$new()

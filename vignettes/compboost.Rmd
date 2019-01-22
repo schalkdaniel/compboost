@@ -23,6 +23,7 @@ required.pcks = c("ggplot2")
 dependencies = all(
   unlist(lapply(required.pcks, requireNamespace, quietly = TRUE))
 )
+dependencies = FALSE
 ```
 
 
