@@ -167,8 +167,6 @@ logger.list = LoggerList$new()
 # Register the logger:
 logger.list$registerLogger(log.iterations)
 logger.list$registerLogger(log.time)
-logger.list$registerLogger(log.inbag)
-logger.list$registerLogger(log.oob)
 
 # Run compboost:
 # --------------
