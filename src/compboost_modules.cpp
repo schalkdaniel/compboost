@@ -1882,8 +1882,11 @@ public:
 //' # Used loss:
 //' log.bin = LossBinomial$new()
 //'
+//' # Define response object of oob data:
+//' oob.response = ResponseRegr$new("oob_response", as.matrix(y.oob))
+//'
 //' # Define logger:
-//' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
+//' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, oob.response)
 //'
 //' # Summarize logger:
 //' log.oob.risk$summarizeLogger()
