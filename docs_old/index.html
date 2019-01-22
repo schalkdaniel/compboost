@@ -1,0 +1,287 @@
+!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <link rel="apple-touch-icon" sizes="57x57" href="favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+  <link rel="manifest" href="favicon/manifest.json">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="favicon/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="style.css">
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='//fonts.googleapis.com/css?family=Rokkitt:400,700|Lato:400,300' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Nixie+One" rel="stylesheet">
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script>
+<script type="text/javascript" async
+src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<!-- include highlight.js -->
+<link rel="stylesheet" href="highlight_js/styles/zenburn.css">
+<script src="highlight_js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+
+<body>
+
+  <!-- Header -->
+  <div class="navbar">
+    <a href="">About compboost</a>
+    <a href="functionality.html">Functionality</a>
+    <a href="benchmark.html">Benchmark</a>
+    <a href="vignettes.html">Vignettes</a>
+    <a href="cpp_man/html/index.html">C++ Documentation</a>
+    <a class="headerref", href="https://github.com/schalkdaniel/compboost">View Source</a>
+  </div>
+  
+  <div class="content-noline" style="margin-bottom:100px;">
+
+    <img align="right" src="images/cboost_hexagon.png" width="100px">
+
+    <p>
+      <a class="badge", href="https://travis-ci.org/schalkdaniel/compboost">
+        <img src="https://api.travis-ci.org/schalkdaniel/compboost.svg?branch=master", alt="Build Status">
+      </a>     
+      <a class="badge", href="https://ci.appveyor.com/project/schalkdaniel/compboost">
+        <img src="https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&svg=true", alt="AppVeyor Build Status">
+      </a>
+      <a class="badge", href='https://coveralls.io/github/schalkdaniel/compboost?branch=master'>
+        <img src='https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master', alt='Coverage Status' />
+      </a>
+      <a class="badge", href='https://doi.org/10.21105/joss.00967'>
+        <img src='http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg', alt='JOSS' />
+      </a>
+    </p>
+
+    <!--
+    <h1>compboost: Fast and Flexible Component-Wise Boosting Framework</h1>
+
+    <p>
+      Component-wise boosting applies the boosting framework to statistical models, e.g., general additive models using component-wise smoothing splines. Boosting these kinds of models maintains interpretability and enables unbiased model selection in high dimensional feature spaces. 
+    </p>
+    <p>
+      The <code>R</code> package <code>compboost</code> is an alternative implementation of component-wise boosting written in <code>C++</code> using <a class="text" target="_blank" href="http://arma.sourceforge.net"><code>Armadillo</code></a>to obtain high runtime performance and full memory control. The main idea is to provide a modular class system which can be extended without editing the source code. Therefore, it is possible to use <code>R</code> functions as well as <code>C++</code> functions for custom base-learners, losses, logging mechanisms or stopping criteria. 
+    </p>
+    <p>
+
+    </p>
+  -->
+    <h2>What is component-wise boosting?</h2>
+
+    <hr>
+
+    <p>
+      Instead of getting huge predictive power, model-based (or component-wise) boosting aggregates statistical models to maintain interpretability. This is done by restricting the used base-learners to be linear in the parameters. This is important in terms of parameter estimation. For instance, having a base-learner \(b_j(x, \theta^{[m]})\) of a feature \(x\) with a corresponding parameter vector \(\theta^{[m]}\) and another base-learner \(b_j\) of the same type but with a different parameter vector \(\theta^{[m^\prime]}\), then it is possible, due to linearity, to combine those two learners to one new one:
+      \[
+      b_j(x, \theta^{[m]}) + b_j(x, \theta^{[m^\prime]}) = b_j(x, \theta^{[m]} + \theta^{[m^\prime]})
+      \] 
+      So, instead of boosting trees like <code>xgboost</code>, model-based boosting uses a selection of important base-learners, each with estimated parameters. 
+    </p>
+    <p>
+      The ordinary way of finding good base-learners is done by a greedy search. Therefore, in each iteration, all base-learners are fitted to the so-called pseudo residuals in the current iteration that act as a kind of error of the actual model. A new base-learner is then selected by choosing the base-learner with the smallest empirical risk \(\mathcal{R}_\text{emp}\).
+    </p>
+    <img src="images/cboost.gif" class="center">
+    <p>
+      The illustration above uses three base-learners \(b_1\), \(b_2\), and \(b_3\). You can think of each base-learner as a wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more frequently than another base-learner, it indicates that this base-learner (or feature) is more important. To get a sparser model in terms of selected features there is also a learning rate \(\beta\) to shrink the parameter in each iteration. The learning rate corresponds to the step size used in gradient descent. The three models within each iteration of the illustration are:
+      \[
+      \begin{align}
+      \text{Iteration 1:} \ &\hat{f}^{[1]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) \\
+      \text{Iteration 2:} \ &\hat{f}^{[2]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) \\
+      \text{Iteration 3:} \ &\hat{f}^{[3]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) + \beta b_1(x_1, \theta^{[3]})
+      \end{align}
+      \]
+      Using the linearity of the base-learners it is possible to aggregate the \(b_3\) base-learners:
+      \[
+      \hat{f}^{[3]}(x) = f_0 + \beta \left( b_3(x_3, \theta^{[1]} + \theta^{[2]}) + b_1(x_1, \theta^{[3]}) \right)
+      \]
+    </p>
+    <p>
+      This is a very simple example but it displays the main strength of model-based boosting such as an inherent variable selection very well. Since the fitting is done iteratively on the single base-learners, model-based boosting is also a very efficient approach for data situations where \(p \gg n\), which is learning in high-dimensional feature spaces. For instance, genomic data where the number of features $p$ could be several thousand but the number of observations are not more than a few hundred.
+    </p>
+
+
+    <h2 style="display:inline-block;">Getting started with compboost</h2> <a class="text" style="float:right;margin-top:30px;" href="demo.R" >Get demo code</a>
+
+    <hr>
+
+    <p>
+      First of all, the <code>compboost</code> <code>R</code> API is written as <a class="text" href="https://cran.r-project.org/web/packages/R6/vignettes/Introduction.html" target="_blank">R6 class</a>. Hence, defining base-learners works a bit different than using the common formula interface. 
+    </p>
+
+    <h3>Quickstart with wrapper functions</h3>
+    <p>
+      The easiest way of training a component-wise boosting model is to use <code>boostLinear()</code> or <code>boostSplines()</code>. Those two functions take each feature and wrap them into a linear or a spline base-learner. The parameters are then used for each base-learner. For instance, wrapping each feature by a spline base-learner we can easily use:
+      <pre class="r"><code>library(compboost)
+
+cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new())
+cboost
+## Component-Wise Gradient Boosting
+## 
+## Trained on data with target Petal.Length
+## Number of base-learners: 6
+## Learning rate: 0.05
+## Iterations: 100
+## Offset: 3.758
+## 
+## LossQuadratic Loss:
+## 
+##   Loss function: L(y,x) = 0.5 * (y - f(x))^2
+## 
+## </code></pre>
+      If we adjust parameters like the number of knots (<code>n.knots</code>) or the penalty term (<code>penalty</code>), then they are applied on each base-learner:
+      <pre class="r"><code>cboost = boostSplines(data = iris, target = "Petal.Length", loss = LossQuadratic$new(),
+  n.knots = 4, penalty = 4)</code></pre>
+      The object returned by <code>boostLinear()</code> and <code>boostSplines()</code> is an <code>R6 Compboost</code> object. For details on how to use those objects see the section on how to access elements of a fitted model.
+    </p>
+    <h3>Explicitely defining elements</h3>
+    <p>
+      The idea is to explicitely define which learner you want to use on which feature. But first of all we need to define a <code>Compboost</code> object (for convenience we are using the <code>iris</code> dataset): 
+      <pre class="r"><code>library(compboost)
+
+cboost = Compboost$new(data = iris, target = "Petal.Length", loss = LossQuadratic$new())
+cboost
+## 
+## Componentwise Gradient Boosting
+## 
+## Trained on iris with target Petal.Length
+## Number of base-learners: 1
+## Learning rate: 0.05
+## Iterations: 0
+## 
+## LossQuadratic Loss:
+## 
+##   Loss function: L(y,x) = (y - f(x))^2
+##</code></pre>
+
+      Note that the <code>loss</code> is given as instantiated object. This object is an instantiated <code>S4</code> class since the objects are exposed by the <a class="text" href="http://dirk.eddelbuettel.com/code/rcpp/Rcpp-modules.pdf">Rcpp modules</a>. This also gives the possibility to define a loss with a custom offset. Therefore just call, for instance, <code>LossQuadratic$new(offset = 10)</code>.
+    </p>
+    <p>
+      Now we can add base-learner for the training. The base-learner are added by calling the <code>addBaselearner()</code> member function. This function gets an <strong>uninstantiated</strong> base-learner object (such as <code>BaselearnerPSpline</code> or <code>BaselearnerCustomCpp</code>). Note that each base-learner needs an identifier which must be given by the user. This makes the selected learner unique and yields an intuitive naming:
+    <pre class="r"><code>cboost$addBaselearner(feature = "Petal.Width", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
+  knots = 10, penalty = 2, differences = 2)
+
+cboost$addBaselearner(feature = c("Sepal.Length", "Sepal.Width"), id = "2dim_linear", 
+  bl.factory = BaselearnerPolynomial, degree = 1, intercept = TRUE)
+
+cboost$getBaselearnerNames()
+## [1] "Petal.Width_spline"
+## [2] "Sepal.Length_Sepal.Width_2dim_linear"</code></pre>
+      Adding a categorical feature always registers each single group as feature for the base-learner using dummy encoding:
+      <pre class="r"><code>cboost$addBaselearner(feature = "Species", id = "categorical", bl.factory = BaselearnerPolynomial, 
+  degree = 1, intercept = FALSE)
+
+cboost$getBaselearnerNames()
+## [1] "Petal.Width_spline"
+## [2] "Sepal.Length_Sepal.Width_2dim_linear"
+## [3] "Species_setosa_categorical"
+## [4] "Species_versicolor_categorical"
+## [5] "Species_virginica_categorical"</code></pre>
+    </p>
+    <p>
+      After defining the base-learners we can start the training by calling the <code>train()</code> member function. If train is set, then every, in this case, 200th iteration of the trace is printed:
+      <pre class="r"><code>cboost$train(1000, trace = 200)
+##    1/1000: risk = 1.4
+##  200/1000: risk = 0.032
+##  400/1000: risk = 0.03
+##  600/1000: risk = 0.03
+##  800/1000: risk = 0.029
+## 1000/1000: risk = 0.029
+## 
+## 
+## Train 1000 iterations in 0 Seconds.
+## Final risk based on the train set: 0.029
+## 
+## </code></pre> 
+    </p>
+    <h3>Access elements of a fitted model</h3>
+    <p>
+      To get a vector of selected feature call <code>getSelectedBaselearner()</code>:      
+      <pre class="r"><code>cboost$getSelectedBaselearner()[1:10]
+##  [1] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
+##  [4] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
+##  [7] "Petal.Width_spline" "Petal.Width_spline" "Petal.Width_spline"
+## [10] "Petal.Width_spline"
+
+table(cboost$getSelectedBaselearner())
+## 
+##                   Petal.Width_spline Sepal.Length_Sepal.Width_2dim_linear
+##                                  485                                   96
+##       Species_versicolor_categorical        Species_virginica_categorical
+##                                  196                                  223</code></pre> 
+      To continue training or set the algorithm to another iteration one can again call <code>train()</code> with a new number of iterations. This automatically updates the estimated parameter:
+      <pre class="r"><code>cboost$train(1500)
+## 
+## You have already trained 1000 iterations.
+## Train 500 additional iterations.
+## </code></pre> 
+      After the training it is also possible to visualize the contribution of a single base-learner to the response. Note that at the moment just univariate plotting is supported. It is also important to call exactly the same name as given in <code>getBaselearnerNames()</code>. Otherwise <code>compboost</code> can't match the learner:
+      <pre class="r"><code>cboost$plot("Petal.Width_spline")</code></pre>
+      <p style="text-align:center;">
+        <img src="images/plot1.png" alt="Visualization 1" style="width:50%;">
+      </p>
+      Since <code>plot()</code> always returns a <code>ggplot</code> we can also customize the graphic: 
+      <pre class="r"><code>library(ggplot2)
+library(ggthemes)
+
+cboost$plot("Petal.Width_spline", iters = c(5, 100, 500, 1000, 1500)) +
+  labs(title = "Effect of Petal Width", subtitle = "Additive contribution to linear predictor") +
+  theme_tufte() + 
+  scale_color_brewer(palette = "Spectral")</code></pre> 
+      <p style="text-align:center;">
+        <img src="images/plot2.png" alt="Visualization 2" style="width:50%;">
+      </p>
+    </p>
+    <p>
+      To make prediction using a new dataset we can call the <code>predict()</code> member function:
+      <pre class="r"><code>all.equal(cboost$predict(), cboost$predict(iris))
+## TRUE</code></pre>   
+      Additional useful member functions are <code>getInbagRisk()</code> or <code>coef()</code> to get the inbag risk and the estimated parameter: 
+      <pre class="r"><code>str(cboost$getEstimatedCoef())
+## List of 5
+##  $ Petal.Width_spline                  : num [1:24, 1] -1.7 -1.68 -1.71 -1.77 -1.61 ...
+##  $ Sepal.Length_Sepal.Width_2dim_linear: num [1:3, 1] -2.714 0.595 -0.251
+##  $ Species_versicolor_categorical      : num [1, 1] -0.19
+##  $ Species_virginica_categorical       : num [1, 1] 0.247
+##  $ offset                              : num 3.76  </code></pre>     
+    </p>
+    <p>
+      More advanced possibilities are:
+      <ul>
+        <li>
+          Define custom <code>R</code> or <code>C++</code> losses (see <code>getCustomCppExample(example = "loss")</code>) that can also be used to track performance measures inbag or out of bag.
+        </li>
+        <li>
+          Defining logger and stopper to use early stopping in combination with custom losses.
+        </li>
+        <li>
+          Write custom <code>R</code> or <code>C++</code> functions to train custom base-learner (see <code>getCustomCppExample()</code>).
+        </li>
+      </ul>
+    </p>
+</div>
+</body>
+</html>

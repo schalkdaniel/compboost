@@ -1,0 +1,21 @@
+title: compboost
+url: https://schalkdaniel.github.io/compboost/docs/index.html
+template:
+  params:
+    bootswatch: simplex
+navbar:
+  title:
+  type: default
+  left:
+  - text: Getting Started
+    href: articles/getting_started.html
+  - text: Functionality
+    menu:
+    - text: Base-Learner
+      href: articles/functionality/baselearner.html
+    - text: Loss Functions
+      href: articles/functionality/loss.html
+  - text: "Reference"
+    href: "reference/index.html"
+    contents:
+    - '`compboost`'

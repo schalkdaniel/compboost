@@ -1,0 +1,18 @@
+---
+title: "Getting Started With compboost"
+output: rmarkdown::html_vignette
+bibliography: bibliography.bib
+vignette: >
+  %\VignetteIndexEntry{compboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, child="head.Rmd"}
+```
+
+# Arrrrriba
+
+```{r}
+plot(1:10)
+```

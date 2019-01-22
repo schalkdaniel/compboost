@@ -4,6 +4,9 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+```{r, child="vignettes/head.Rmd"}
+```
+
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -12,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-<img align="right" src="docs/images/cboost_hexagon.png" width="100px">
+<img align="right" src="man/figures/cboost_hexagon.png" width="100px">
 
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&svg=true)](https://ci.appveyor.com/project/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
@@ -23,16 +26,16 @@ knitr::opts_chunk$set(
 ## compboost: Fast and Flexible Component-Wise Boosting Framework
 
 Component-wise boosting applies the boosting framework to
-statistical models, e.g., general additive models using component-wise smoothing 
-splines. Boosting these kinds of models maintains interpretability and enables 
-unbiased model selection in high dimensional feature spaces. 
+statistical models, e.g., general additive models using component-wise smoothing
+splines. Boosting these kinds of models maintains interpretability and enables
+unbiased model selection in high dimensional feature spaces.
 
 The `R` package `compboost` is an alternative implementation of component-wise
 boosting written in `C++` to obtain high runtime
 performance and full memory control. The main idea is to provide a modular
 class system which can be extended without editing the
 source code. Therefore, it is possible to use `R` functions as well as
-`C++` functions for custom base-learners, losses, logging mechanisms or 
+`C++` functions for custom base-learners, losses, logging mechanisms or
 stopping criteria.
 
 For an introduction and overview about the functionality visit the [project page](https://schalkdaniel.github.io/compboost/).
@@ -76,7 +79,7 @@ cboost
 cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = BaselearnerPSpline)
 
 # Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
+cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3,
   n.knots = 10, penalty = 4, differences = 2)
 
 # Add categorical feature (as single linear base-learner):
@@ -101,12 +104,12 @@ str(params)
 cboost$train(3000)
 
 cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
-  ggthemes::theme_tufte() + 
+  ggthemes::theme_tufte() +
   ggplot2::scale_color_brewer(palette = "Spectral")
 ```
 <p align="center">
   <img src="Readme_files/cboost-1.png" width="70%" />
-</p>  
+</p>
 
 
 ## Benchmark

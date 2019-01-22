@@ -1,0 +1,12 @@
+pandoc: 2.2.2
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  compboost: compboost.html
+  extending_compboost: extending_compboost.html
+  getting_started: getting_started.html
+  head: head.html
+urls:
+  reference: https://schalkdaniel.github.io/compboost/docs/index.html/reference
+  article: https://schalkdaniel.github.io/compboost/docs/index.html/articles
+
