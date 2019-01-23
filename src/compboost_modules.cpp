@@ -38,14 +38,11 @@ class DataWrapper
 {
 public:
   DataWrapper () {}
-
-  data::Data* getDataObj () { return obj; }
-
-  virtual ~DataWrapper () { delete obj; }
+  std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
+  virtual ~DataWrapper () {}
 
 protected:
-  data::Data* obj;
-
+  std::shared_ptr<data::Data> sh_ptr_data;
 };
 
 //' In memory data class to store data in RAM
@@ -122,8 +119,7 @@ class InMemoryDataWrapper : public DataWrapper
 // Solve this copying issue:
 // https://github.com/schalkdaniel/compboost/issues/123
 private:
-  // arma::vec data_vec = arma::vec (1, arma::fill::zeros);
-  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
+  // arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
 
 public:
 
@@ -135,30 +131,23 @@ public:
 
   InMemoryDataWrapper ()
   {
-    obj = new data::InMemoryData ();
+    sh_ptr_data = std::make_shared<data::InMemoryData>();
   }
 
-  // Rcpp doesn't detect if vector or matrix if using arma::vec and arma::mat:
-  // InMemoryDataWrapper (Rcpp::NumericVector data0, std::string data_identifier)
-  // {
-  //   data_vec = Rcpp::as<arma::vec>(data0);
-  //   Rcpp::Rcout << "Vector Initializer" << std::endl;
-  //   obj = new data::InMemoryData (data_vec, data_identifier);
-  // }
-
-  InMemoryDataWrapper (arma::mat data0, std::string data_identifier)
+  InMemoryDataWrapper (arma::mat data_mat, std::string data_identifier)
   {
-    data_mat = data0;
-
-    obj = new data::InMemoryData (data_mat, data_identifier);
+    // data_mat = data0;
+    sh_ptr_data = std::make_shared<data::InMemoryData>(data_mat, data_identifier);
   }
+
   arma::mat getData () const
   {
-    return obj->getData();
+    return sh_ptr_data->getData();
   }
+
   std::string getIdentifier () const
   {
-    return obj->getDataIdentifier();
+    return sh_ptr_data->getDataIdentifier();
   }
 };
 
@@ -197,12 +186,12 @@ class BaselearnerFactoryWrapper
 {
 public:
 
-  blearnerfactory::BaselearnerFactory* getFactory () { return obj; }
-  virtual ~BaselearnerFactoryWrapper () { delete obj; }
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> getFactory () { return sh_ptr_blearner_factory; }
+  virtual ~BaselearnerFactoryWrapper () {}
 
 protected:
 
-  blearnerfactory::BaselearnerFactory* obj;
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory;
   // blearner::Baselearner* test_obj;
 };
 
@@ -309,7 +298,7 @@ public:
 
     std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
 
-    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type_temp, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type_temp, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
   }
 
@@ -318,17 +307,17 @@ public:
   {
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
-    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
   }
 
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
+  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
 
   arma::mat transformData (const arma::mat& newdata)
   {
-    return obj->instantiateData(newdata);
+    return sh_ptr_blearner_factory->instantiateData(newdata);
   }
 
   void summarizeFactory ()
@@ -348,8 +337,8 @@ public:
     if (degree > 3) {
       Rcpp::Rcout << "Polynomial base-learner of degree " << degree << " factory:" << std::endl;
     }
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -458,7 +447,7 @@ public:
 
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
 
-    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type_temp, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
        data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
        internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
 
@@ -469,18 +458,18 @@ public:
   {
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
-    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
   }
 
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
+  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
 
   arma::mat transformData (const arma::mat& newdata)
   {
-    return obj->instantiateData(newdata);
+    return sh_ptr_blearner_factory->instantiateData(newdata);
   }
 
   void summarizeFactory ()
@@ -489,8 +478,8 @@ public:
     int degree = internal_arg_list["degree"];
 
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -628,7 +617,7 @@ public:
     // Don't check argument types since we don't have a Function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomFactory("custom", data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomFactory>("custom", data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["instantiate_fun"], internal_arg_list["train_fun"],
       internal_arg_list["predict_fun"], internal_arg_list["param_fun"]);
   }
@@ -639,26 +628,26 @@ public:
     // Don't check argument types since we don't have a Function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomFactory(blearner_type, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["instantiate_fun"], internal_arg_list["train_fun"],
       internal_arg_list["predict_fun"], internal_arg_list["param_fun"]);
   }
 
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
+  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
 
   arma::mat transformData (const arma::mat& newdata)
   {
-    return obj->instantiateData(newdata);
+    return sh_ptr_blearner_factory->instantiateData(newdata);
   }
 
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom base-learner Factory:" << std::endl;
 
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -761,7 +750,7 @@ public:
     // Don't check argument types since we don't have a Function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomCppFactory("custom_cpp", data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomCppFactory>("custom_cpp", data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["instantiate_ptr"], internal_arg_list["train_ptr"],
       internal_arg_list["predict_ptr"]);
   }
@@ -772,26 +761,22 @@ public:
     // Don't check argument types since we don't have a Function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomCppFactory(blearner_type, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomCppFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["instantiate_ptr"], internal_arg_list["train_ptr"],
       internal_arg_list["predict_ptr"]);
   }
 
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
+  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
 
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return obj->instantiateData(newdata);
-  }
+  arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
 
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom cpp base-learner Factory:" << std::endl;
-
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -1574,9 +1559,9 @@ public:
 
   LoggerWrapper () {};
 
-  logger::Logger* getLogger ()
+  std::shared_ptr<logger::Logger> getLogger ()
   {
-    return obj;
+    return sh_ptr_logger;
   }
 
   std::string getLoggerId ()
@@ -1584,10 +1569,10 @@ public:
     return logger_id;
   }
 
-  virtual ~LoggerWrapper () { delete obj; }
+  virtual ~LoggerWrapper () {}
 
 protected:
-  logger::Logger* obj;
+  std::shared_ptr<logger::Logger> sh_ptr_logger;
   std::string logger_id;
 };
 
@@ -1650,7 +1635,7 @@ public:
       use_as_stopper ( use_as_stopper )
   {
     logger_id = logger_id0;
-    obj = new logger::LoggerIteration (logger_id, use_as_stopper, max_iterations);
+    sh_ptr_logger = std::make_shared<logger::LoggerIteration>(logger_id, use_as_stopper, max_iterations);
   }
 
   void summarizeLogger ()
@@ -1762,7 +1747,7 @@ public:
       use_as_stopper ( use_as_stopper)
   {
     logger_id = logger_id0;
-    obj = new logger::LoggerInbagRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
+    sh_ptr_logger = std::make_shared<logger::LoggerInbagRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
   }
 
   void summarizeLogger ()
@@ -1876,7 +1861,7 @@ public:
 //'
 //' oob_list = list(data_source1, data_source2)
 //'
-//' set_seed(123)
+//' set.seed(123)
 //' y_oob = rnorm(10)
 //'
 //' # Used loss:
@@ -1903,7 +1888,7 @@ public:
   LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
     Rcpp::List oob_data, ResponseWrapper& oob_response)
   {
-    std::map<std::string, data::Data*> oob_data_map;
+    std::map<std::string, std::shared_ptr<data::Data>> oob_data_map;
 
     // Be very careful with the wrappers. For instance: doing something like
     // temp = oob_data[i] within the loop will force temp to call its destructor
@@ -1925,7 +1910,7 @@ public:
     }
 
     logger_id = logger_id0;
-    obj = new logger::LoggerOobRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
+    sh_ptr_logger = std::make_shared<logger::LoggerOobRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
       oob_data_map, oob_response.getResponseObj());
   }
 
@@ -2014,7 +1999,7 @@ public:
   {
     // logger_id = logger_id0 + "." + time_unit;
     logger_id = logger_id0;
-    obj = new logger::LoggerTime (logger_id, use_as_stopper, max_time, time_unit);
+    sh_ptr_logger = std::make_shared<logger::LoggerTime>(logger_id, use_as_stopper, max_time, time_unit);
   }
 
   void summarizeLogger ()
@@ -2578,7 +2563,7 @@ public:
 
   arma::vec predict (Rcpp::List& newdata, bool as_response)
   {
-    std::map<std::string, data::Data*> data_map;
+    std::map<std::string, std::shared_ptr<data::Data>> data_map;
 
     // Create data map (see line 780, same applies here):
     for (unsigned int i = 0; i < newdata.size(); i++) {

@@ -56,8 +56,8 @@ std::string BaselearnerFactory::getBaselearnerType() const
   return blearner_type;
 }
 
-void BaselearnerFactory::initializeDataObjects (data::Data* data_source0,
-  data::Data* data_target0)
+void BaselearnerFactory::initializeDataObjects (std::shared_ptr<data::Data> data_source0,
+  std::shared_ptr<data::Data> data_target0)
 {
   data_source = data_source0;
   data_target = data_target0;
@@ -79,7 +79,7 @@ BaselearnerFactory::~BaselearnerFactory () {}
 // -----------------------
 
 BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& blearner_type0,
-  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree,
+  std::shared_ptr<data::Data> data_source0, std::shared_ptr<data::Data> data_target0, const unsigned int& degree,
   const bool& intercept)
   : degree ( degree ),
     intercept ( intercept )
@@ -193,8 +193,8 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
  *
  * \param blearner_type0 `std::string` Name of the baselearner type (setted by
  *   the Rcpp Wrapper classes in `compboost_modules.cpp`)
- * \param data_source `data::Data*` Source of the data
- * \param data_target `data::Data*` Object to store the transformed data source
+ * \param data_source `std::shared_ptr<data::Data>` Source of the data
+ * \param data_target `std::shared_ptr<data::Data>` Object to store the transformed data source
  * \param degree `unsigned int` Polynomial degree of the splines
  * \param n_knots `unsigned int` Number of inner knots used
  * \param penalty `double` Regularization parameter `penalty = 0` yields
@@ -205,7 +205,7 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
  */
 
 BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearner_type0,
-  data::Data* data_source0, data::Data* data_target0, const unsigned int& degree,
+  std::shared_ptr<data::Data> data_source0, std::shared_ptr<data::Data> data_target0, const unsigned int& degree,
   const unsigned int& n_knots, const double& penalty, const unsigned int& differences,
   const bool& use_sparse_matrices)
   : degree ( degree ),
@@ -339,7 +339,7 @@ arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) 
 // -----------------------
 
 BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_type0,
-  data::Data* data_source, data::Data* data_target, Rcpp::Function instantiateDataFun,
+  std::shared_ptr<data::Data> data_source, std::shared_ptr<data::Data> data_target, Rcpp::Function instantiateDataFun,
   Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),
@@ -398,7 +398,7 @@ arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) c
 // -----------------------
 
 BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& blearner_type0,
-  data::Data* data_source, data::Data* data_target, SEXP instantiateDataFun,
+  std::shared_ptr<data::Data> data_source, std::shared_ptr<data::Data> data_target, SEXP instantiateDataFun,
   SEXP trainFun, SEXP predictFun)
   : instantiateDataFun ( instantiateDataFun ),
     trainFun ( trainFun ),

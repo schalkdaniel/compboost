@@ -1,3 +1,5 @@
+## compboost 0.1.1
+
 - **23.01.2019** \
   **Style**: Change `.` to `_`, e.g. change `n.knots` to `n_knots`, to be more consistent with `C++` syntax.  
 

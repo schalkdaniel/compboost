@@ -120,7 +120,7 @@ public:
   std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
 
   arma::vec predict () const;
-  arma::vec predict (std::map<std::string, data::Data*>, const bool&) const;
+  arma::vec predict (std::map<std::string, std::shared_ptr<data::Data>>, const bool&) const;
 
   void setToIteration (const unsigned int&);
 

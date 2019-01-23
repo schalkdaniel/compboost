@@ -228,7 +228,7 @@ arma::vec Compboost::predict () const
 // Those columns are then transformed by the corresponding transform data function of the
 // specific factory. After the transformation, the transformed data is multiplied by the
 // corresponding parameter.
-arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const bool& as_response) const
+arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>> data_map, const bool& as_response) const
 {
   // IMPROVE THIS FUNCTION!!! See:
   // https://github.com/schalkdaniel/compboost/issues/206
@@ -247,10 +247,10 @@ arma::vec Compboost::predict (std::map<std::string, data::Data*> data_map, const
     std::string sel_factory = it.first;
 
     // Find the element with key 'hat'
-    blearnerfactory::BaselearnerFactory* sel_factory_obj = used_baselearner_list.getMap().find(sel_factory)->second;
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = used_baselearner_list.getMap().find(sel_factory)->second;
 
     // Select newdata corresponding to selected facotry object:
-    std::map<std::string, data::Data*>::iterator it_newdata;
+    std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;
     it_newdata = data_map.find(sel_factory_obj->getDataIdentifier());
 
     // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
@@ -274,7 +274,7 @@ void Compboost::setToIteration (const unsigned int& k)
   if (k > max_iteration) {
     // Define new iteration logger for missing iterations:
     unsigned int iteration_diff = k - max_iteration;
-    logger::Logger* temp_logger = new logger::LoggerIteration("_iteration", true, iteration_diff);
+    std::shared_ptr<logger::Logger> temp_logger = std::make_shared<logger::LoggerIteration>("_iteration", true, iteration_diff);
     loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
 
     std::string logger_id = "setToIteration.retraining" + std::to_string(logger_map.size());

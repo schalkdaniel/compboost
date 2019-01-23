@@ -44,7 +44,7 @@ public:
   arma::mat getParameter () const;
 
   virtual arma::mat predict () const = 0;
-  virtual arma::mat predict (data::Data*) const = 0;
+  virtual arma::mat predict (std::shared_ptr<data::Data>) const = 0;
 
   // Specify how the data has to be transformed. E. g. for splines a mapping
   // to the higher dimension space. The overloading function with the
@@ -54,14 +54,14 @@ public:
   // Clone function (in some places needed e.g. "optimizer.cpp") and a copy
   // function which is called by clone to avoid copy and pasting of the
   // protected members:
-  void copyMembers (const arma::mat&, const std::string&, data::Data*);
+  void copyMembers (const arma::mat&, const std::string&, std::shared_ptr<data::Data>);
   virtual Baselearner* clone () = 0;
 
   // Within 'setData' the pointer will be setted, while 'instantiateData'
   // overwrite the object on which 'data_ptr' points. This guarantees that
   // the data is just stored once in the factory and then called by reference
   // within the baselearner:
-  void setData (data::Data*);
+  void setData (std::shared_ptr<data::Data>);
   // arma::mat getData () const;
 
   // Get data identifier stored within the data object:
@@ -86,7 +86,7 @@ protected:
   arma::mat parameter;
   std::string blearner_identifier;
   std::string blearner_type;
-  data::Data* data_ptr;
+  std::shared_ptr<data::Data> data_ptr;
   // std::string data_identifier;
 
 };
@@ -112,7 +112,7 @@ private:
 public:
 
   // (data pointer, data identifier, baselearner identifier, degree)
-  BaselearnerPolynomial (data::Data*, const std::string&, const unsigned int&, const bool&);
+  BaselearnerPolynomial (std::shared_ptr<data::Data>, const std::string&, const unsigned int&, const bool&);
 
   Baselearner* clone ();
 
@@ -121,7 +121,7 @@ public:
 
   void train (const arma::mat&);
   arma::mat predict () const;
-  arma::mat predict (data::Data*) const;
+  arma::mat predict (std::shared_ptr<data::Data>) const;
 
   ~BaselearnerPolynomial ();
 
@@ -169,7 +169,7 @@ private:
 
 public:
   /// Default constructor of `BaselearnerPSpline` class
-  BaselearnerPSpline (data::Data*, const std::string&, const unsigned int&,
+  BaselearnerPSpline (std::shared_ptr<data::Data>, const std::string&, const unsigned int&,
     const unsigned int&, const double&, const unsigned int&, const bool&);
 
   /// Clean copy of baselearner
@@ -185,7 +185,7 @@ public:
   arma::mat predict () const;
 
   /// Predict on newdata
-  arma::mat predict (data::Data*) const;
+  arma::mat predict (std::shared_ptr<data::Data>) const;
 
 
   /// Destructor
@@ -216,7 +216,7 @@ public:
   // (data pointer, data identifier, baselearner identifier, R function for
   // data instantiation, R function for training, R function for prediction,
   // R function to extract parameter):
-  BaselearnerCustom (data::Data*, const std::string&, Rcpp::Function,
+  BaselearnerCustom (std::shared_ptr<data::Data>, const std::string&, Rcpp::Function,
     Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
   // Copy constructor:
@@ -227,7 +227,7 @@ public:
 
   void train (const arma::mat&);
   arma::mat predict () const;
-  arma::mat predict (data::Data*) const;
+  arma::mat predict (std::shared_ptr<data::Data>) const;
 
   ~BaselearnerCustom ();
 
@@ -262,7 +262,7 @@ public:
   // (data pointer, data identifier, baselearner identifier, R function for
   // data instantiation, R function for training, R function for prediction,
   // R function to extract parameter):
-  BaselearnerCustomCpp (data::Data*, const std::string&, SEXP, SEXP, SEXP);
+  BaselearnerCustomCpp (std::shared_ptr<data::Data>, const std::string&, SEXP, SEXP, SEXP);
 
   // Copy constructor:
   Baselearner* clone ();
@@ -272,7 +272,7 @@ public:
 
   void train (const arma::mat&);
   arma::mat predict () const;
-  arma::mat predict (data::Data*) const;
+  arma::mat predict (std::shared_ptr<data::Data>) const;
 
   ~BaselearnerCustomCpp ();
 };

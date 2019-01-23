@@ -28,7 +28,7 @@ namespace blearner {
 
 // Copy (or initialize) the members in new copied class:
 void Baselearner::copyMembers (const arma::mat& parameter0,
-  const std::string& blearner_identifier0, data::Data* data0)
+  const std::string& blearner_identifier0, std::shared_ptr<data::Data> data0)
 {
   parameter = parameter0;
   blearner_identifier = blearner_identifier0;
@@ -36,7 +36,7 @@ void Baselearner::copyMembers (const arma::mat& parameter0,
 }
 
 // Set the data pointer:
-void Baselearner::setData (data::Data* data)
+void Baselearner::setData (std::shared_ptr<data::Data> data)
 {
   data_ptr = data;
 }
@@ -106,7 +106,7 @@ Baselearner::~Baselearner ()
 // BaselearnerPolynomial:
 // -----------------------
 
-BaselearnerPolynomial::BaselearnerPolynomial (data::Data* data, const std::string& identifier,
+BaselearnerPolynomial::BaselearnerPolynomial (std::shared_ptr<data::Data> data, const std::string& identifier,
   const unsigned int& degree, const bool& intercept)
   : degree ( degree ),
     intercept ( intercept )
@@ -185,7 +185,7 @@ arma::mat BaselearnerPolynomial::predict () const
     return data_ptr->getData() * parameter;
   }
 }
-arma::mat BaselearnerPolynomial::predict (data::Data* newdata) const
+arma::mat BaselearnerPolynomial::predict (std::shared_ptr<data::Data> newdata) const
 {
   return instantiateData(newdata->getData()) * parameter;
 }
@@ -222,7 +222,7 @@ BaselearnerPolynomial::~BaselearnerPolynomial () {}
  * Finally we get a \f$9 - (p + 1)\f$ splines for which we can calculate the
  * base.
  *
- * \param data `data::Data*` Target data used for training etc.
+ * \param data `std::shared_ptr<data::Data>` Target data used for training etc.
  * \param identifier `std::string` Identifier for one specific baselearner
  * \param degree `unsigned int` Polynomial degree of the splines
  * \param n_knots `unsigned int` Number of inner knots used
@@ -233,7 +233,7 @@ BaselearnerPolynomial::~BaselearnerPolynomial () {}
  *   penalty matrix.
  */
 
-BaselearnerPSpline::BaselearnerPSpline (data::Data* data, const std::string& identifier,
+BaselearnerPSpline::BaselearnerPSpline (std::shared_ptr<data::Data> data, const std::string& identifier,
   const unsigned int& degree, const unsigned int& n_knots, const double& penalty,
   const unsigned int& differences, const bool& use_sparse_matrices)
   : degree ( degree ),
@@ -327,11 +327,11 @@ arma::mat BaselearnerPSpline::predict () const
 /**
  * \brief Predict on newdata
  *
- * \param newdata `data::Data*` new source data object
+ * \param newdata `std::shared_ptr<data::Data>` new source data object
  *
  * \returns `arma::mat` of predicted values
  */
-arma::mat BaselearnerPSpline::predict (data::Data* newdata) const
+arma::mat BaselearnerPSpline::predict (std::shared_ptr<data::Data> newdata) const
 {
   return instantiateData(newdata->getData()) * parameter;
 }
@@ -344,7 +344,7 @@ BaselearnerPSpline::~BaselearnerPSpline () {}
 // BaselearnerCustom:
 // -----------------------
 
-BaselearnerCustom::BaselearnerCustom (data::Data* data, const std::string& identifier,
+BaselearnerCustom::BaselearnerCustom (std::shared_ptr<data::Data> data, const std::string& identifier,
   Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun,
   Rcpp::Function extractParameter)
   : instantiateDataFun ( instantiateDataFun ),
@@ -392,7 +392,7 @@ arma::mat BaselearnerCustom::predict () const
   return Rcpp::as<arma::mat>(out);
 }
 
-arma::mat BaselearnerCustom::predict (data::Data* newdata) const
+arma::mat BaselearnerCustom::predict (std::shared_ptr<data::Data> newdata) const
 {
   Rcpp::NumericMatrix out = predictFun(model, instantiateData(newdata->getData()));
   return Rcpp::as<arma::mat>(out);
@@ -405,7 +405,7 @@ BaselearnerCustom::~BaselearnerCustom () {}
 // BaselearnerCustomCpp:
 // -----------------------
 
-BaselearnerCustomCpp::BaselearnerCustomCpp (data::Data* data, const std::string& identifier,
+BaselearnerCustomCpp::BaselearnerCustomCpp (std::shared_ptr<data::Data> data, const std::string& identifier,
   SEXP instantiateDataFun0, SEXP trainFun0, SEXP predictFun0)
 {
   // Called from parent class 'Baselearner':
@@ -457,7 +457,7 @@ arma::mat BaselearnerCustomCpp::predict () const
   return predictFun (data_ptr->getData(), parameter);
 }
 
-arma::mat BaselearnerCustomCpp::predict (data::Data* newdata) const
+arma::mat BaselearnerCustomCpp::predict (std::shared_ptr<data::Data> newdata) const
 {
   arma::mat temp_mat = instantiateData(newdata->getData());
   return predictFun (temp_mat, parameter);

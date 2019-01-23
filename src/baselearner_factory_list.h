@@ -26,7 +26,7 @@
 #include "baselearner_factory.h"
 
 // Define the type for the list (because we are lazy :))
-typedef std::map<std::string, blearnerfactory::BaselearnerFactory*> blearner_factory_map;
+typedef std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>> blearner_factory_map;
 
 namespace blearnerlist
 {
@@ -47,7 +47,7 @@ public:
 
   // Functions to register a baselearner factory and print all registered
   // factories:
-  void registerBaselearnerFactory (const std::string&, blearnerfactory::BaselearnerFactory*);
+  void registerBaselearnerFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>);
   void printRegisteredFactories () const;
 
   // Get the actual map:

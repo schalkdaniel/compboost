@@ -244,7 +244,7 @@ private:
   arma::mat oob_prediction;
 
   /// The OOB data provided by the user
-  std::map<std::string, data::Data*> oob_data;
+  std::map<std::string, std::shared_ptr<data::Data>> oob_data;
 
   /* This is part of the memory saving version (see logger.cpp)
    * /// Transformed oob data for predicting on the oob set:
@@ -259,7 +259,7 @@ public:
 
   /// Default constructor
   LoggerOobRisk (const std::string&, const bool&, loss::Loss*, const double&,
-    std::map<std::string, data::Data*>, std::shared_ptr<response::Response>);
+    std::map<std::string, std::shared_ptr<data::Data>>, std::shared_ptr<response::Response>);
 
   /// Log current step of compboost iteration for class `LoggerOobRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,

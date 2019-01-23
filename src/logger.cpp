@@ -349,12 +349,12 @@ std::string LoggerInbagRisk::printLoggerStatus () const
  * \param used_loss `Loss*` which is used to calculate the empirical risk (this
  *   can differ from the loss used while trining the model)
  * \param eps_for_break `double` sets value of the stopping criteria
- * \param oob_data `std::map<std::string, data::Data*>` the new data
+ * \param oob_data `std::map<std::string, std::shared_ptr<data::Data>>` the new data
  * \param oob_response `arma::vec` response of the new data
  */
 
 LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss,
-  const double& eps_for_break, std::map<std::string, data::Data*> oob_data, std::shared_ptr<response::Response> oob_response)
+  const double& eps_for_break, std::map<std::string, std::shared_ptr<data::Data>> oob_data, std::shared_ptr<response::Response> oob_response)
   : used_loss ( used_loss ),
     eps_for_break ( eps_for_break ),
     oob_data ( oob_data ),
@@ -413,7 +413,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
 
   // Get data of corresponding selected baselearner. E.g. iteration 100 linear
   // baselearner of feature x_7, then get the data of feature x_7:
-  data::Data* oob_blearner_data = oob_data.find(blearner_id)->second;
+  std::shared_ptr<data::Data> oob_blearner_data = oob_data.find(blearner_id)->second;
 
   // Predict this data using the selected baselearner:
   arma::mat temp_oob_prediction = used_blearner->predict(oob_blearner_data);
@@ -435,7 +435,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
    *
    * /////// Get data of corresponding selected baselearner. E.g. iteration 100 linear
    * /////// baselearner of feature x_7, then get the data of feature x_7:
-   * /////// data::Data* oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
+   * /////// std::shared_ptr<data::Data> oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
    * /////
    * /////// Predict this data using the selected baselearner:
    * /////// arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);

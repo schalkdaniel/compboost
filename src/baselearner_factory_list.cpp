@@ -28,13 +28,13 @@ BaselearnerFactoryList::BaselearnerFactoryList () {}
 
 // Register a factory:
 void BaselearnerFactoryList::registerBaselearnerFactory (const std::string& factory_id,
-  blearnerfactory::BaselearnerFactory *blearner_factory)
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner_factory)
 {
   // Create iterator and check if learner is already registered:
-  std::map<std::string, blearnerfactory::BaselearnerFactory*>::iterator it = my_factory_map.find(factory_id);
+  std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>>::iterator it = my_factory_map.find(factory_id);
 
   if (it == my_factory_map.end()) {
-    my_factory_map.insert(std::pair<std::string, blearnerfactory::BaselearnerFactory*>(factory_id, blearner_factory));
+    my_factory_map.insert(std::pair<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>>(factory_id, blearner_factory));
   } else {
     my_factory_map[ factory_id ] = blearner_factory;
   }

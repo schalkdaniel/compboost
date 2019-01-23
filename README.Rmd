@@ -42,7 +42,7 @@ For an introduction and overview about the functionality visit the [project page
 #### CRAN version:
 
 ```r
-instlal.packages("compboost")
+install.packages("compboost")
 ```
 
 #### Developer version:

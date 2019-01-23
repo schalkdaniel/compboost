@@ -1060,7 +1060,7 @@ NULL
 #'
 #' oob_list = list(data_source1, data_source2)
 #'
-#' set_seed(123)
+#' set.seed(123)
 #' y_oob = rnorm(10)
 #'
 #' # Used loss:

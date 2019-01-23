@@ -44,6 +44,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 #include "baselearner.h"
 #include "data.h"
@@ -70,7 +71,7 @@ public:
   virtual arma::mat instantiateData (const arma::mat&) const = 0;
   virtual arma::mat getData() const = 0;
 
-  void initializeDataObjects (data::Data*, data::Data*);
+  void initializeDataObjects (std::shared_ptr<data::Data>, std::shared_ptr<data::Data>);
 
   // Destructor:
   virtual ~BaselearnerFactory ();
@@ -79,8 +80,8 @@ protected:
 
   // Minimal functionality every baselearner should have:
   std::string blearner_type;
-  data::Data* data_source;
-  data::Data* data_target;
+  std::shared_ptr<data::Data> data_source;
+  std::shared_ptr<data::Data> data_target;
 
 };
 
@@ -100,7 +101,7 @@ private:
 
 public:
 
-  BaselearnerPolynomialFactory (const std::string&, data::Data*, data::Data*, const unsigned int&,
+  BaselearnerPolynomialFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>, const unsigned int&,
     const bool&);
 
   blearner::Baselearner* createBaselearner (const std::string&);
@@ -142,7 +143,7 @@ private:
 public:
 
   /// Default constructor of class `PSplineBleanrerFactory`
-  BaselearnerPSplineFactory (const std::string&, data::Data*, data::Data*,
+  BaselearnerPSplineFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     const unsigned int&, const unsigned int&, const double&,
     const unsigned int&, const bool&);
 
@@ -172,7 +173,7 @@ private:
 
 public:
 
-  BaselearnerCustomFactory (const std::string&, data::Data*, data::Data*,
+  BaselearnerCustomFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
   blearner::Baselearner* createBaselearner (const std::string&);
@@ -200,7 +201,7 @@ private:
 
 public:
 
-  BaselearnerCustomCppFactory (const std::string&, data::Data*, data::Data*,
+  BaselearnerCustomCppFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     SEXP, SEXP, SEXP);
 
   blearner::Baselearner* createBaselearner (const std::string&);

@@ -53,9 +53,6 @@ public:
   /// Sparse matrix for design matrix (directly accessible)
   arma::sp_mat sparse_data_mat;
   
-  
-  const arma::mat* data_mat_ptr = NULL;
-  
   // Some spline specific data stuff (of course they can be used for other
   // classes to):
   
@@ -84,7 +81,7 @@ public:
   void setDataType (const std::string&);
   
   virtual 
-    ~Data () { };
+    ~Data () {};
 };
 
 
@@ -115,7 +112,6 @@ public:
   arma::mat getData() const;
   
   ~InMemoryData ();
-  
 };
 
 } // namespace data

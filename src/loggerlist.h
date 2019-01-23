@@ -27,7 +27,7 @@
 #include "logger.h"
 #include "response.h"
 
-typedef std::map<std::string, logger::Logger*> logger_map;
+typedef std::map<std::string, std::shared_ptr<logger::Logger>> logger_map;
 
 namespace loggerlist
 {
@@ -45,7 +45,7 @@ public:
   // LoggerList (arma::mat&, std::chrono::system_clock::time_point, double);
 
   // String for logger and the logger itselfe:
-  void registerLogger (logger::Logger*);
+  void registerLogger (std::shared_ptr<logger::Logger>);
   void printRegisteredLogger () const;
 
   logger_map getMap () const;

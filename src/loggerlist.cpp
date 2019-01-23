@@ -42,9 +42,9 @@ namespace loggerlist
 
 LoggerList::LoggerList () {}
 
-void LoggerList::registerLogger (logger::Logger* which_logger)
+void LoggerList::registerLogger (std::shared_ptr<logger::Logger> which_logger)
 {
-  log_list.insert(std::pair<std::string, logger::Logger*>(which_logger->getLoggerId(), which_logger));
+  log_list.insert(std::pair<std::string, std::shared_ptr<logger::Logger>>(which_logger->getLoggerId(), which_logger));
   if (which_logger->getIfLoggerIsStopper()) {
     sum_of_stopper += 1;
   }
