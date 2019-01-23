@@ -190,21 +190,17 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
 
 
 
-
-
 // BaselearnerPolynomial:
 // -----------------------
 
-BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& blearner_type0, 
-                                                            data::Data* data_source0, data::Data* data_target0, const unsigned int& degree, 
-                                                            const bool& intercept)
-  : degree ( degree ),
-    intercept ( intercept )
+BaselearnerKronPolynomialFactory::BaselearnerKronPolynomialFactory (const std::string& blearner_type0, 
+                                                                BaselearnerFactory& bl1,
+                                                                BaselearnerFactory& bl2)
 {
   blearner_type = blearner_type0;
   
-  data_source = data_source0;
-  data_target = data_target0;
+  bl1_data = bl1.getData();
+  bl2_data = bl2.getData();
   
   // Make sure that the data identifier is setted correctly:
   data_target->setDataIdentifier(data_source->getDataIdentifier());
@@ -232,13 +228,13 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& b
   // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
-blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const std::string& identifier)
+blearner::Baselearner* BaselearnerKronPolynomialFactory::createBaselearner (const std::string& identifier)
 {
   blearner::Baselearner* blearner_obj;
   
   // Create new polynomial baselearner. This one will be returned by the 
   // factory:
-  blearner_obj = new blearner::BaselearnerPolynomial(data_target, identifier, degree, intercept);
+  blearner_obj = new blearner::BaselearnerKronPolynomial(data_target, identifier, degree, intercept);
   blearner_obj->setBaselearnerType(blearner_type);
   
   // // Check if the data is already set. If not, run 'instantiateData' from the
@@ -267,7 +263,7 @@ blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const st
 * 
 * \returns `arma::mat` of data used for modelling a single base-learner
 */
-arma::mat BaselearnerPolynomialFactory::getData () const
+arma::mat BaselearnerKronPolynomialFactory::getData () const
 {
   // In the case of p = 1 we have to treat the getData() function differently
   // due to the saved and already transformed data without intercept. This
@@ -285,7 +281,7 @@ arma::mat BaselearnerPolynomialFactory::getData () const
 
 // Transform data. This is done twice since it makes the prediction
 // of the whole compboost object so much easier:
-arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdata) const
+arma::mat BaselearnerKronPolynomialFactory::instantiateData (const arma::mat& newdata) const
 {
   arma::mat temp = arma::pow(newdata, degree);
   if (intercept) {
@@ -305,6 +301,8 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
 
 
 // UNDER CONSTRUCTION END
+
+
 
 
 
