@@ -1,9 +1,12 @@
 ## compboost 0.1.1
 
 - **23.01.2019** \
-  **Style**: Change `.` to `_`, e.g. change `n.knots` to `n_knots`, to be more consistent with `C++` syntax.  
+  Most parts of compboost are now using smart pointer.
 
 - **23.01.2019** \
+  **Style**: Change `.` to `_`, e.g. change `n.knots` to `n_knots`, to be more consistent with `C++` syntax.  
+
+- **19.01.2019** \
   There is now a new `Response` class to be more versatile for given tasks.
 
 - **14.12.2018** \
