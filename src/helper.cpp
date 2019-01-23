@@ -197,4 +197,15 @@ void checkMatrixDim (const arma::mat& X, const arma::mat& Y)
   }
 }
 
+bool checkTracePrinter (const unsigned int& k, const unsigned int& trace)
+{
+  bool print_trace = false;
+  if (trace > 0) {
+    if ((k == 1) || ((k % trace) == 0)) {
+      print_trace = true;
+    }
+  }
+  return print_trace;
+};
+
 } // namespace helper

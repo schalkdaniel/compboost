@@ -74,6 +74,9 @@ public:
   // Print the logger status:
   void printLoggerStatus (const double&) const;
 
+  // Prepare logger data for retraining:
+  void prepareForRetraining (const unsigned int&);
+
   // Clear the logger data (should be used in front of every compboost training):
   void clearLoggerData ();
 

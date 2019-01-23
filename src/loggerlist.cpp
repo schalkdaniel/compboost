@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include <numeric>
@@ -42,10 +27,10 @@ namespace loggerlist
 
 LoggerList::LoggerList () {}
 
-void LoggerList::registerLogger (std::shared_ptr<logger::Logger> which_logger)
+void LoggerList::registerLogger (std::shared_ptr<logger::Logger> logger)
 {
-  log_list.insert(std::pair<std::string, std::shared_ptr<logger::Logger>>(which_logger->getLoggerId(), which_logger));
-  if (which_logger->getIfLoggerIsStopper()) {
+  log_list.insert(std::pair<std::string, std::shared_ptr<logger::Logger>>(logger->getLoggerId(), logger));
+  if (logger->getIfLoggerIsStopper()) {
     sum_of_stopper += 1;
   }
 }
@@ -117,7 +102,7 @@ void LoggerList::logCurrent (const unsigned int& current_iteration, std::shared_
   // e.g. for the risk should be done within the logger object. If so, the
   // computation is just done if one would really use the logger!
   
-  // Maybe the current risk should be replaced by the map of baselearner and
+  // Maybe the current risk should be replaced by the map of base-learner and
   // the initial response. Then for the risk it is necessary to call:
   
   // used_loss.DefinedLoss(initial_response, selected_baselearner.predict())
@@ -146,6 +131,23 @@ void LoggerList::printLoggerStatus (const double& current_risk) const
   Rcpp::Rcout << printer.str() << std::endl;
 }
 
+void LoggerList::prepareForRetraining (const unsigned int& new_max_iters)
+{
+  bool iters_in_list = false;
+  for (auto& it : log_list) {
+    it.second->is_a_stopper = false;
+    if (it.second->getLoggerType() == "iteration") {
+      std::static_pointer_cast<logger::LoggerIteration>(it.second)->updateMaxIterations(new_max_iters);
+      it.second->is_a_stopper = true;
+      iters_in_list = true;
+    }
+  }
+  if (! iters_in_list) {
+    std::shared_ptr<logger::Logger> new_logger = std::make_shared<logger::LoggerIteration>("iters_re", true, new_max_iters);
+    log_list.insert(std::pair<std::string, std::shared_ptr<logger::Logger>>("_iteration", new_logger));
+  }
+}
+
 // Clear logger data:
 void LoggerList::clearLoggerData ()
 {
@@ -155,11 +157,6 @@ void LoggerList::clearLoggerData ()
 }
 
 // Destructor:
-LoggerList::~LoggerList ()
-{
-  // Rcpp::Rcout << "Call LoggerList Destructor" << std::endl;
-  // The loggerlist does not have to delete the second map arguments since
-  // the individual logger delets themselfe when they went out of scope in R.
-}
+LoggerList::~LoggerList () {}
 
 } // namespace loggerlist

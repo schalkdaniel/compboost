@@ -1963,48 +1963,46 @@ public:
 class LoggerListWrapper
 {
 private:
-
-  loggerlist::LoggerList* obj = new loggerlist::LoggerList();
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist = std::make_shared<loggerlist::LoggerList>();
 
 public:
-
   LoggerListWrapper () {};
 
-  loggerlist::LoggerList* getLoggerList ()
+  std::shared_ptr<loggerlist::LoggerList> getLoggerList ()
   {
-    return obj;
+    return sh_ptr_loggerlist;
   }
 
   void registerLogger (LoggerWrapper& logger_wrapper)
   {
-    obj->registerLogger(logger_wrapper.getLogger());
+    sh_ptr_loggerlist->registerLogger(logger_wrapper.getLogger());
   }
 
   void printRegisteredLogger ()
   {
-    obj->printRegisteredLogger();
+    sh_ptr_loggerlist->printRegisteredLogger();
   }
 
   void clearRegisteredLogger ()
   {
-    obj->clearMap();
+    sh_ptr_loggerlist->clearMap();
   }
 
   unsigned int getNumberOfRegisteredLogger ()
   {
-    return obj->getMap().size();
+    return sh_ptr_loggerlist->getMap().size();
   }
 
   std::vector<std::string> getNamesOfRegisteredLogger ()
   {
     std::vector<std::string> out;
-    for (auto& it : obj->getMap()) {
+    for (auto& it : sh_ptr_loggerlist->getMap()) {
       out.push_back(it.first);
     }
     return out;
   }
 
-  virtual ~LoggerListWrapper () { delete obj; }
+  virtual ~LoggerListWrapper () {}
 };
 
 // Expose abstract BaselearnerWrapper class and define modules:
@@ -2365,57 +2363,40 @@ public:
     LossWrapper& loss, LoggerListWrapper& logger_list, OptimizerWrapper& optimizer)
   {
 
-    learning_rate0 = learning_rate;
-    used_logger    = logger_list.getLoggerList();
-    used_optimizer = optimizer.getOptimizer();
-    blearner_list_ptr = factory_list.getFactoryList();
+    learning_rate0     =  learning_rate;
+    sh_ptr_loggerlist  =  logger_list.getLoggerList();
+    used_optimizer     =  optimizer.getOptimizer();
+    blearner_list_ptr  =  factory_list.getFactoryList();
 
-    obj = new cboost::Compboost(response.getResponseObj(), learning_rate0, stop_if_all_stopper_fulfilled,
-      used_optimizer, loss.getLoss(), used_logger, *blearner_list_ptr);
+    unique_ptr_cboost = std::make_unique<cboost::Compboost>(response.getResponseObj(), learning_rate0, stop_if_all_stopper_fulfilled,
+      used_optimizer, loss.getLoss(), sh_ptr_loggerlist, *blearner_list_ptr);
   }
 
   // Member functions
   void train (unsigned int trace)
   {
-    obj->trainCompboost(trace);
+    unique_ptr_cboost->trainCompboost(trace);
     is_trained = true;
   }
 
-  void continueTraining (unsigned int trace, LoggerListWrapper& logger_list)
-  {
-    obj->continueTraining(logger_list.getLoggerList(), trace);
-  }
-
-  arma::vec getPrediction (bool as_response)
-  {
-    return obj->getPrediction(as_response);
-  }
-
-  std::vector<std::string> getSelectedBaselearner ()
-  {
-    return obj->getSelectedBaselearner();
-  }
+  void continueTraining (unsigned int trace) { unique_ptr_cboost->continueTraining(trace); }
+  arma::vec getPrediction (bool as_response) { return unique_ptr_cboost->getPrediction(as_response); }
+  std::vector<std::string> getSelectedBaselearner () { return unique_ptr_cboost->getSelectedBaselearner(); }
 
   Rcpp::List getLoggerData ()
   {
     Rcpp::List out_list;
 
-    for (auto& it : obj->getLoggerList()) {
-      out_list[it.first] = Rcpp::List::create(
-        Rcpp::Named("logger_names") = it.second->getLoggerData().first,
-        Rcpp::Named("logger_data")  = it.second->getLoggerData().second
-      );
-    }
-    if (out_list.size() == 1) {
-      return out_list[0];
-    } else {
-      return out_list;
-    }
+    out_list["logger_data"] = Rcpp::List::create(
+      Rcpp::Named("logger_names") = unique_ptr_cboost->getLoggerList()->getLoggerData().first,
+      Rcpp::Named("logger_data")  = unique_ptr_cboost->getLoggerList()->getLoggerData().second
+    );
+    return out_list[0];
   }
 
   Rcpp::List getEstimatedParameter ()
   {
-    std::map<std::string, arma::mat> parameter = obj->getParameter();
+    std::map<std::string, arma::mat> parameter = unique_ptr_cboost->getParameter();
 
     Rcpp::List out;
 
@@ -2427,7 +2408,7 @@ public:
 
   Rcpp::List getParameterAtIteration (unsigned int k)
   {
-    std::map<std::string, arma::mat> parameter = obj->getParameterOfIteration(k);
+    std::map<std::string, arma::mat> parameter = unique_ptr_cboost->getParameterOfIteration(k);
 
     Rcpp::List out;
 
@@ -2439,7 +2420,7 @@ public:
 
   Rcpp::List getParameterMatrix ()
   {
-    std::pair<std::vector<std::string>, arma::mat> out_pair = obj->getParameterMatrix();
+    std::pair<std::vector<std::string>, arma::mat> out_pair = unique_ptr_cboost->getParameterMatrix();
 
     return Rcpp::List::create(
       Rcpp::Named("parameter_names")   = out_pair.first,
@@ -2451,56 +2432,28 @@ public:
   {
     std::map<std::string, std::shared_ptr<data::Data>> data_map;
 
-    // Create data map (see line 780, same applies here):
     for (unsigned int i = 0; i < newdata.size(); i++) {
-
-      // Get data wrapper:
       DataWrapper* temp = newdata[i];
-
-      // Get the real data pointer:
       data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
-
     }
-    return obj->predict(data_map, as_response);
+    return unique_ptr_cboost->predict(data_map, as_response);
   }
 
-  void summarizeCompboost ()
-  {
-    obj->summarizeCompboost();
-  }
+  void summarizeCompboost () { unique_ptr_cboost->summarizeCompboost(); }
+  bool isTrained () { return is_trained; }
+  arma::mat getOffset () { return unique_ptr_cboost->getOffset(); }
+  std::vector<double> getRiskVector () { return unique_ptr_cboost->getRiskVector(); }
+  void setToIteration (const unsigned int& k, const unsigned int& trace) { unique_ptr_cboost->setToIteration(k, trace); }
 
-  bool isTrained ()
-  {
-    return is_trained;
-  }
-
-  arma::mat getOffset ()
-  {
-    return obj->getOffset();
-  }
-
-  std::vector<double> getRiskVector ()
-  {
-    return obj->getRiskVector();
-  }
-
-  void setToIteration (const unsigned int& k)
-  {
-    obj->setToIteration(k);
-  }
-
-  // Destructor:
-  ~CompboostWrapper ()
-  {
-    delete obj;
-  }
+  ~CompboostWrapper () {}
 
 private:
 
+  std::unique_ptr<cboost::Compboost> unique_ptr_cboost;
+
   blearnerlist::BaselearnerFactoryList* blearner_list_ptr;
-  loggerlist::LoggerList* used_logger;
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
   optimizer::Optimizer* used_optimizer;
-  cboost::Compboost* obj;
   arma::mat* eval_data;
 
   unsigned int max_iterations;

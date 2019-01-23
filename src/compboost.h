@@ -89,32 +89,30 @@ private:
   optimizer::Optimizer* used_optimizer;
   loss::Loss* used_loss;
   blearnerlist::BaselearnerFactoryList used_baselearner_list;
-
-  // Vector of loggerlists, needed if one want to continue training:
-  std::map<std::string, loggerlist::LoggerList*> logger_map;
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
 
 public:
 
   Compboost ();
 
   Compboost (std::shared_ptr<response::Response>, const double&, const bool&, optimizer::Optimizer*, loss::Loss*,
-    loggerlist::LoggerList*, blearnerlist::BaselearnerFactoryList);
+    std::shared_ptr<loggerlist::LoggerList>, blearnerlist::BaselearnerFactoryList);
 
   // Basic train function used by trainCompbost and continueTraining:
-  void train (const unsigned int&, loggerlist::LoggerList*);
+  void train (const unsigned int&, std::shared_ptr<loggerlist::LoggerList>);
 
   // Initial training:
   void trainCompboost (const unsigned int&);
 
   // Retraining after initial training:
-  void continueTraining (loggerlist::LoggerList*, const unsigned int&);
+  void continueTraining (const unsigned int&);
 
   arma::vec getPrediction (const bool&) const;
 
   std::map<std::string, arma::mat> getParameter () const;
   std::vector<std::string> getSelectedBaselearner () const;
 
-  std::map<std::string, loggerlist::LoggerList*> getLoggerList () const;
+  std::shared_ptr<loggerlist::LoggerList> getLoggerList () const;
   std::map<std::string, arma::mat> getParameterOfIteration (const unsigned int&) const;
 
   std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
@@ -122,7 +120,7 @@ public:
   arma::vec predict () const;
   arma::vec predict (std::map<std::string, std::shared_ptr<data::Data>>, const bool&) const;
 
-  void setToIteration (const unsigned int&);
+  void setToIteration (const unsigned int&, const unsigned int&);
 
   arma::mat getOffset () const;
   std::vector<double> getRiskVector () const;

@@ -77,6 +77,8 @@ namespace logger
 class Logger
 {
 public:
+  /// Tag if the logger is used as stopper
+  bool is_a_stopper;
 
   /// Log current step of compboost iteration dependent on the child class
   virtual void logStep (const unsigned int&, std::shared_ptr<response::Response>,
@@ -96,6 +98,7 @@ public:
 
   /// Get logger identifier:
   std::string getLoggerId () const;
+  std::string getLoggerType () const;
 
   /// Just a getter if the logger is also used as stopper
   bool getIfLoggerIsStopper () const;
@@ -104,11 +107,8 @@ public:
     ~Logger ();
 
 protected:
-
+  std::string logger_type;
   std::string logger_id;
-
-  /// Tag if the logger is used as stopper
-  bool is_a_stopper;
 };
 
 // -------------------------------------------------------------------------- //
@@ -158,6 +158,9 @@ public:
 
   /// Print status of current iteration into the console
   std::string printLoggerStatus () const;
+
+  /// Update maximal iteration:
+  void updateMaxIterations (const unsigned int&);
 };
 
 // InbagRisk:
