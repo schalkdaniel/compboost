@@ -65,14 +65,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -82,10 +94,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -130,7 +145,7 @@
 
     
     <pre>
-BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
+BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
   differences))
 </pre>
     
@@ -141,7 +156,7 @@ BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
 <dt><code>data_source</code> [<code>Data</code> Object]</dt><dd><p>Data object which contains the source data.</p></dd>
 <dt><code>data_target</code> [<code>Data</code> Object]</dt><dd><p>Data object which gets the transformed source data.</p></dd>
 <dt><code>degree</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>]</dt><dd><p>Degree of the spline functions to interpolate the knots.</p></dd>
-<dt><code>n.knots</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>]</dt><dd><p>Number of <strong>inner knots</strong>. To prevent weird behavior on the edges
+<dt><code>n_knots</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/integer'>integer(1)</a></code>]</dt><dd><p>Number of <strong>inner knots</strong>. To prevent weird behavior on the edges
   the inner knots are expanded by \(\mathrm{degree} - 1\) additional knots.</p></dd>
 <dt><code>penalty</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]</dt><dd><p>Positive numeric value to specify the penalty parameter. Setting the
   penalty to 0 ordinary B-splines are used for the fitting.</p></dd>
@@ -178,19 +193,19 @@ BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Sample data:</span>
-<span class='no'>data.mat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>data_mat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Trig'>sin</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
 
 <span class='co'># Create new data object:</span>
-<span class='no'>data.source</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>data.mat</span>, <span class='st'>"my.data.name"</span>)
-<span class='no'>data.target</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
+<span class='no'>data_source</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>data_mat</span>, <span class='st'>"my_data_name"</span>)
+<span class='no'>data_target</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
 
 <span class='co'># Create new linear base-learner:</span>
-<span class='no'>spline.factory</span> <span class='kw'>=</span> <span class='no'>BaselearnerPSpline</span>$<span class='fu'>new</span>(<span class='no'>data.source</span>, <span class='no'>data.target</span>,
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>n.knots</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>penalty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>differences</span> <span class='kw'>=</span> <span class='fl'>2</span>))
+<span class='no'>spline_factory</span> <span class='kw'>=</span> <span class='no'>BaselearnerPSpline</span>$<span class='fu'>new</span>(<span class='no'>data_source</span>, <span class='no'>data_target</span>,
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>n_knots</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>penalty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>differences</span> <span class='kw'>=</span> <span class='fl'>2</span>))
 
 <span class='co'># Get the transformed data:</span>
-<span class='no'>spline.factory</span>$<span class='fu'>getData</span>()</div><div class='output co'>#&gt;             [,1]       [,2]        [,3]         [,4]         [,5]        [,6]
+<span class='no'>spline_factory</span>$<span class='fu'>getData</span>()</div><div class='output co'>#&gt;             [,1]       [,2]        [,3]         [,4]         [,5]        [,6]
 #&gt;  [1,] 0.16666667 0.66666667 0.166666667 0.0000000000 0.0000000000 0.000000000
 #&gt;  [2,] 0.01463192 0.44375857 0.513031550 0.0285779607 0.0000000000 0.000000000
 #&gt;  [3,] 0.00000000 0.11705533 0.655006859 0.2277091907 0.0002286237 0.000000000
@@ -213,11 +228,11 @@ BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
 #&gt;  [9,] 0.44375857 0.01463192
 #&gt; [10,] 0.66666667 0.16666667</div><div class='input'>
 <span class='co'># Summarize factory:</span>
-<span class='no'>spline.factory</span>$<span class='fu'>summarizeFactory</span>()</div><div class='output co'>#&gt; Spline factory of degree 3
-#&gt; 	- Name of the used data: my.data.name
+<span class='no'>spline_factory</span>$<span class='fu'>summarizeFactory</span>()</div><div class='output co'>#&gt; Spline factory of degree 3
+#&gt; 	- Name of the used data: my_data_name
 #&gt; 	- Factory creates the following base-learner: spline_degree_3</div><div class='input'>
 <span class='co'># Transform data manually:</span>
-<span class='no'>spline.factory</span>$<span class='fu'>transformData</span>(<span class='no'>data.mat</span>)</div><div class='output co'>#&gt;             [,1]       [,2]        [,3]         [,4]         [,5]        [,6]
+<span class='no'>spline_factory</span>$<span class='fu'>transformData</span>(<span class='no'>data_mat</span>)</div><div class='output co'>#&gt;             [,1]       [,2]        [,3]         [,4]         [,5]        [,6]
 #&gt;  [1,] 0.16666667 0.66666667 0.166666667 0.0000000000 0.0000000000 0.000000000
 #&gt;  [2,] 0.01463192 0.44375857 0.513031550 0.0285779607 0.0000000000 0.000000000
 #&gt;  [3,] 0.00000000 0.11705533 0.655006859 0.2277091907 0.0002286237 0.000000000

@@ -66,14 +66,26 @@ does also train the model." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -83,10 +95,13 @@ does also train the model." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -124,9 +139,9 @@ does also train the model.</p>
     </div>
 
     <pre class="usage"><span class='fu'>boostLinear</span>(<span class='no'>data</span>, <span class='no'>target</span>, <span class='kw'>optimizer</span> <span class='kw'>=</span> <span class='no'>OptimizerCoordinateDescent</span>$<span class='fu'>new</span>(),
-  <span class='no'>loss</span>, <span class='kw'>learning.rate</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>trace</span> <span class='kw'>=</span> -<span class='fl'>1</span>,
-  <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>data.source</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>,
-  <span class='kw'>data.target</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>, <span class='kw'>oob.fraction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='no'>loss</span>, <span class='kw'>learning_rate</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>iterations</span> <span class='kw'>=</span> <span class='fl'>100</span>, <span class='kw'>trace</span> <span class='kw'>=</span> -<span class='fl'>1</span>,
+  <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>data_source</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>,
+  <span class='kw'>data_target</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>, <span class='kw'>oob_fraction</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,7 +170,7 @@ Initialized <code>S4 Loss</code> object exposed by Rcpp that is used to calculat
 residuals (e.g. <code>LossQuadratic$new()</code>).</p></td>
     </tr>
     <tr>
-      <th>learning.rate</th>
+      <th>learning_rate</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br />
 Learning rate to shrink the parameter in each step.</p></td>
     </tr>
@@ -178,19 +193,19 @@ Internally used by <code>BaselearnerPolynomial</code>. This logical value indica
 each feature should get an intercept or not (default is <code>TRUE</code>).</p></td>
     </tr>
     <tr>
-      <th>data.source</th>
+      <th>data_source</th>
       <td><p>[<code>S4 Data</code>]<br />
 Uninitialized <code>S4 Data</code> object which is used to store the data. At the moment
 just in memory training is supported.</p></td>
     </tr>
     <tr>
-      <th>data.target</th>
+      <th>data_target</th>
       <td><p>[<code>S4 Data</code>]<br />
 Uninitialized <code>S4 Data</code> object which is used to store the data. At the moment
 just in memory training is supported.</p></td>
     </tr>
     <tr>
-      <th>oob.fraction</th>
+      <th>oob_fraction</th>
       <td><p>[<code><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>numeric(1)</a></code>]<br />
 Fraction of how much data are used to track the out of bag risk.</p></td>
     </tr>
@@ -210,7 +225,7 @@ used for further analyses (see <code><a href='Compboost.html'>?Compboost</a></co
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>mod</span> <span class='kw'>=</span> <span class='fu'>boostLinear</span>(<span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>, <span class='kw'>target</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>, <span class='kw'>loss</span> <span class='kw'>=</span> <span class='no'>LossQuadratic</span>$<span class='fu'>new</span>(),
-  <span class='kw'>oob.fraction</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt;   1/100   risk = 0.33  oob_risk = 0.27   
+  <span class='kw'>oob_fraction</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)</div><div class='output co'>#&gt;   1/100   risk = 0.33  oob_risk = 0.27   
 #&gt;   2/100   risk = 0.31  oob_risk = 0.25   
 #&gt;   4/100   risk = 0.27  oob_risk = 0.22   
 #&gt;   6/100   risk = 0.23  oob_risk = 0.19   
@@ -264,7 +279,7 @@ used for further analyses (see <code><a href='Compboost.html'>?Compboost</a></co
 #&gt; 
 #&gt; 
 #&gt; Train 100 iterations in 0 Seconds.
-#&gt; Final risk based on the train set: 0.06
+#&gt; Final risk based on the train set: 0.059
 #&gt; </div><div class='input'><span class='no'>mod</span>$<span class='fu'>getBaselearnerNames</span>()</div><div class='output co'>#&gt; [1] "Sepal.Width_linear"          "Petal.Length_linear"        
 #&gt; [3] "Petal.Width_linear"          "Species_setosa_category"    
 #&gt; [5] "Species_versicolor_category" "Species_virginica_category" </div><div class='input'><span class='no'>mod</span>$<span class='fu'>getEstimatedCoef</span>()</div><div class='output co'>#&gt; $Petal.Length_linear

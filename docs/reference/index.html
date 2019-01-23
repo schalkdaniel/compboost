@@ -60,14 +60,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -77,10 +89,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -242,6 +257,18 @@ pointer.</p></td>
           <p><code><a href="OptimizerCoordinateDescentLineSearch.html">OptimizerCoordinateDescentLineSearch</a></code> </p>
         </td>
         <td><p>Coordinate Descent with line search</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ResponseBinaryClassif.html">ResponseBinaryClassif</a></code> </p>
+        </td>
+        <td><p>Create response object for binary classification.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="ResponseRegr.html">ResponseRegr</a></code> </p>
+        </td>
+        <td><p>Create response object for regression.</p></td>
       </tr><tr>
         
         <td>

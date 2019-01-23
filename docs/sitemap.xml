@@ -64,6 +64,12 @@
     <loc>https://schalkdaniel.github.io/compboost/docs/index.html/reference/OptimizerCoordinateDescentLineSearch.html</loc>
   </url>
   <url>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/reference/ResponseBinaryClassif.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/reference/ResponseRegr.html</loc>
+  </url>
+  <url>
     <loc>https://schalkdaniel.github.io/compboost/docs/index.html/reference/boostLinear.html</loc>
   </url>
   <url>
@@ -73,13 +79,22 @@
     <loc>https://schalkdaniel.github.io/compboost/docs/index.html/reference/getCustomCppExample.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/compboost.html</loc>
-  </url>
-  <url>
     <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/extending_compboost.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/getting_started.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/functionality/baselearner.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/functionality/logger.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/functionality/loss.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/getting_started/about_cboosting.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/getting_started/use_case.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/docs/index.html/articles/head.html</loc>

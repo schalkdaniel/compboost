@@ -64,14 +64,26 @@ Rcpp::Function to set R functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -81,10 +93,13 @@ Rcpp::Function to set R functions." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -168,20 +183,20 @@ LossCustom$new(lossFun, gradientFun, initFun)
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='co'># Loss function:</span>
-<span class='no'>myLoss</span> <span class='kw'>=</span> <span class='kw'>function</span> (<span class='no'>true.values</span>, <span class='no'>prediction</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span> (<span class='fl'>0.5</span> * (<span class='no'>true.values</span> - <span class='no'>prediction</span>)^<span class='fl'>2</span>)
+<span class='no'>myLoss</span> <span class='kw'>=</span> <span class='kw'>function</span> (<span class='no'>true_values</span>, <span class='no'>prediction</span>) {
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span> (<span class='fl'>0.5</span> * (<span class='no'>true_values</span> - <span class='no'>prediction</span>)^<span class='fl'>2</span>)
 }
 <span class='co'># Gradient of loss function:</span>
-<span class='no'>myGradient</span> <span class='kw'>=</span> <span class='kw'>function</span> (<span class='no'>true.values</span>, <span class='no'>prediction</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span> (<span class='no'>prediction</span> - <span class='no'>true.values</span>)
+<span class='no'>myGradient</span> <span class='kw'>=</span> <span class='kw'>function</span> (<span class='no'>true_values</span>, <span class='no'>prediction</span>) {
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span> (<span class='no'>prediction</span> - <span class='no'>true_values</span>)
 }
 <span class='co'># Constant initialization:</span>
-<span class='no'>myConstInit</span> <span class='kw'>=</span> <span class='kw'>function</span> (<span class='no'>true.values</span>) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>true.values</span>))
+<span class='no'>myConstInit</span> <span class='kw'>=</span> <span class='kw'>function</span> (<span class='no'>true_values</span>) {
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/function'>return</a></span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>true_values</span>))
 }
 
 <span class='co'># Create new custom quadratic loss:</span>
-<span class='no'>my.loss</span> <span class='kw'>=</span> <span class='no'>LossCustom</span>$<span class='fu'>new</span>(<span class='no'>myLoss</span>, <span class='no'>myGradient</span>, <span class='no'>myConstInit</span>)</div></pre>
+<span class='no'>my_loss</span> <span class='kw'>=</span> <span class='no'>LossCustom</span>$<span class='fu'>new</span>(<span class='no'>myLoss</span>, <span class='no'>myGradient</span>, <span class='no'>myConstInit</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

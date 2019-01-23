@@ -60,14 +60,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -77,10 +89,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -107,6 +122,20 @@
       
     </div>
 
+    <div id="compboost-0-1-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#compboost-0-1-1" class="anchor"></a>compboost 0.1.1</h2>
+<ul>
+<li><p><strong>23.01.2019</strong> \ Most parts of compboost are now using smart pointer.</p></li>
+<li><p><strong>23.01.2019</strong> \ <strong>Style</strong>: Change <code>.</code> to <code>_</code>, e.g. change <code>n.knots</code> to <code>n_knots</code>, to be more consistent with <code>C++</code> syntax.</p></li>
+<li><p><strong>19.01.2019</strong> \ There is now a new <code>Response</code> class to be more versatile for given tasks.</p></li>
+<li><p><strong>14.12.2018</strong> \ To track the out of bag risk is now easy controllable through a argument <code>oob.fraction</code>. The paths of inbag vs. out of bag risk can be plotted with <code>plotInbagVsOobRisk()</code></p></li>
+<li><p><strong>28.11.2018</strong> \ It is now possible to directly access the logger data with <code>getLoggerData()</code> and to calculate and plot feature importance with <code>calculateFeatureImportance()</code> and <code>plotFeatureImportance()</code>.</p></li>
+<li><p><strong>27.11.2018</strong> \ Fix bug in the spline base-learner for out of range values.</p></li>
+<li><p><strong>09.11.2018</strong> \ Adding a new optimizer <code>OptimizerCoordinateDescentLineSearch</code> which conducts line search after each iteration.</p></li>
+<li><p><strong>09.11.2018</strong> \ Improve trace of the training process by passing logger identifier directly to <code>C++</code>.</p></li>
+</ul>
+</div>
     <div id="compboost-0-1-0" class="section level2">
 <h2 class="hasAnchor">
 <a href="#compboost-0-1-0" class="anchor"></a>compboost 0.1.0</h2>
@@ -133,6 +162,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#compboost-0-1-1">0.1.1</a></li>
         <li><a href="#compboost-0-1-0">0.1.0</a></li>
       </ul>
     </div>

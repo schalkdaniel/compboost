@@ -56,7 +56,17 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Examples
 
-This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
+
+The examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
+
+The fastest way to train a `Compboost` model is to use the wrapper functions `boostLinear()` or `boostSplines()`:
+```{r, results="hide", warnings=FALSE}
+cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
+```
+
+For more extensive examples and how to use the `R6` interface visit the project page.
+
+<!--
 
 To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
 
@@ -79,7 +89,7 @@ cboost
 cboost$addBaselearner(feature = "pressure", id = "spline", bl_factory = BaselearnerPSpline)
 
 # Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl_factory = BaselearnerPSpline, degree = 3, 
+cboost$addBaselearner(feature = "age", id = "spline", bl_factory = BaselearnerPSpline, degree = 3,
   n_knots = 10, penalty = 4, differences = 2)
 
 # Add categorical feature (as single linear base-learner):
@@ -110,7 +120,7 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 <p align="center">
   <img src="Readme_files/cboost-1.png" width="70%" />
 </p>
-
+ -->
 
 ## Benchmark
 

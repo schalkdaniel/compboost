@@ -64,14 +64,26 @@ progress of the algorithm." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -81,10 +93,13 @@ progress of the algorithm." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -156,31 +171,31 @@ LoggerList$new()
   logger as integer.</p></dd>
 <dt><code>printRegisteredLogger()</code></dt><dd><p>Prints all registered logger.</p></dd>
 <dt><code>registerLogger(logger)</code></dt><dd><p>Includes a new <code>logger</code>
-  into the logger list with the <code>logger.id</code> as key.</p></dd>
+  into the logger list with the <code>logger_id</code> as key.</p></dd>
 </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Define logger:</span>
-<span class='no'>log.iters</span> <span class='kw'>=</span> <span class='no'>LoggerIteration</span>$<span class='fu'>new</span>(<span class='st'>"iteration"</span>, <span class='fl'>TRUE</span>, <span class='fl'>100</span>)
-<span class='no'>log.time</span> <span class='kw'>=</span> <span class='no'>LoggerTime</span>$<span class='fu'>new</span>(<span class='st'>"time"</span>, <span class='fl'>FALSE</span>, <span class='fl'>20</span>, <span class='st'>"minutes"</span>)
+<span class='no'>log_iters</span> <span class='kw'>=</span> <span class='no'>LoggerIteration</span>$<span class='fu'>new</span>(<span class='st'>"iteration"</span>, <span class='fl'>TRUE</span>, <span class='fl'>100</span>)
+<span class='no'>log_time</span> <span class='kw'>=</span> <span class='no'>LoggerTime</span>$<span class='fu'>new</span>(<span class='st'>"time"</span>, <span class='fl'>FALSE</span>, <span class='fl'>20</span>, <span class='st'>"minutes"</span>)
 
 <span class='co'># Create logger list:</span>
-<span class='no'>logger.list</span> <span class='kw'>=</span> <span class='no'>LoggerList</span>$<span class='fu'>new</span>()
+<span class='no'>logger_list</span> <span class='kw'>=</span> <span class='no'>LoggerList</span>$<span class='fu'>new</span>()
 
 <span class='co'># Register new loggeR:</span>
-<span class='no'>logger.list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log.iters</span>)
-<span class='no'>logger.list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log.time</span>)
+<span class='no'>logger_list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log_iters</span>)
+<span class='no'>logger_list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log_time</span>)
 
 <span class='co'># Print registered logger:</span>
-<span class='no'>logger.list</span>$<span class='fu'>printRegisteredLogger</span>()</div><div class='output co'>#&gt; Registered Logger:
+<span class='no'>logger_list</span>$<span class='fu'>printRegisteredLogger</span>()</div><div class='output co'>#&gt; Registered Logger:
 #&gt; 	&gt;&gt;iteration&lt;&lt; Logger
 #&gt; 	&gt;&gt;time&lt;&lt; Logger</div><div class='input'>
 <span class='co'># Remove all logger:</span>
-<span class='no'>logger.list</span>$<span class='fu'>clearRegisteredLogger</span>()
+<span class='no'>logger_list</span>$<span class='fu'>clearRegisteredLogger</span>()
 
 <span class='co'># Get number of registered logger:</span>
-<span class='no'>logger.list</span>$<span class='fu'>getNumberOfRegisteredLogger</span>()</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
+<span class='no'>logger_list</span>$<span class='fu'>getNumberOfRegisteredLogger</span>()</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

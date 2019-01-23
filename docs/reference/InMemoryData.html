@@ -66,14 +66,26 @@ any arguments." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -83,10 +95,13 @@ any arguments." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -133,31 +148,31 @@ any arguments.</p>
     
     <pre>
 InMemoryData$new()
-InMemoryData$new(data.mat, data.identifier)
+InMemoryData$new(data_mat, data_identifier)
 </pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
 
     
     <dl class='dl-horizontal'>
-<dt><code>data.mat</code> [<code>matrix</code>]</dt><dd><p>Matrix containing the source data. This source data is later transformed
+<dt><code>data_mat</code> [<code>matrix</code>]</dt><dd><p>Matrix containing the source data. This source data is later transformed
   to obtain the design matrix a base-learner uses for training.</p></dd>
-<dt><code>data.identifier</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]</dt><dd><p>The name for the data specified in <code>data.mat</code>. Note that it is
+<dt><code>data_identifier</code> [<code><a href='https://www.rdocumentation.org/packages/base/topics/character'>character(1)</a></code>]</dt><dd><p>The name for the data specified in <code>data_mat</code>. Note that it is
   important to have the same data names for train and evaluation data.</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p>The <code>data.mat</code> needs to suits the base-learner. For instance, the
+    <p>The <code>data_mat</code> needs to suits the base-learner. For instance, the
   spline base-learner does just take a one column matrix since there are
   just one dimensional splines till now. Additionally, using the polynomial
-  base-learner the <code>data.mat</code> is used to control if a intercept should
+  base-learner the <code>data_mat</code> is used to control if a intercept should
   be fitted or not by adding a column containing just ones. It is also
   possible to add other columns to estimate multiple features
   simultaneously. Anyway, this is not recommended in terms of unbiased
   features selection.</p>
-<p>The <code>data.mat</code> and <code>data.identifier</code> of a target data object
+<p>The <code>data_mat</code> and <code>data_identifier</code> of a target data object
   is set automatically by passing the source and target object to the
   desired factory. <code>getData()</code> can then be used to access the
   transformed data of the target object.</p>
@@ -174,20 +189,20 @@ InMemoryData$new(data.mat, data.identifier)
 
     
     <dl class='dl-horizontal'>
-<dt><code>getData()</code></dt><dd><p>method extract the <code>data.mat</code> from the data object.</p></dd>
+<dt><code>getData()</code></dt><dd><p>method extract the <code>data_mat</code> from the data object.</p></dd>
 <dt><code>getIdentifier()</code></dt><dd><p>method to extract the used name from the data object.</p></dd>
 </dl>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Sample data:</span>
-<span class='no'>data.mat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
+<span class='no'>data_mat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='fl'>1</span>:<span class='fl'>10</span>)
 
 <span class='co'># Create new data object:</span>
-<span class='no'>data.obj</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>data.mat</span>, <span class='st'>"my.data.name"</span>)
+<span class='no'>data_obj</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>data_mat</span>, <span class='st'>"my_data_name"</span>)
 
 <span class='co'># Get data and identifier:</span>
-<span class='no'>data.obj</span>$<span class='fu'>getData</span>()</div><div class='output co'>#&gt;       [,1]
+<span class='no'>data_obj</span>$<span class='fu'>getData</span>()</div><div class='output co'>#&gt;       [,1]
 #&gt;  [1,]    1
 #&gt;  [2,]    2
 #&gt;  [3,]    3
@@ -197,7 +212,7 @@ InMemoryData$new(data.mat, data.identifier)
 #&gt;  [7,]    7
 #&gt;  [8,]    8
 #&gt;  [9,]    9
-#&gt; [10,]   10</div><div class='input'><span class='no'>data.obj</span>$<span class='fu'>getIdentifier</span>()</div><div class='output co'>#&gt; [1] "my.data.name"</div><div class='input'>
+#&gt; [10,]   10</div><div class='input'><span class='no'>data_obj</span>$<span class='fu'>getIdentifier</span>()</div><div class='output co'>#&gt; [1] "my_data_name"</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

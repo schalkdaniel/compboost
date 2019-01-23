@@ -30,14 +30,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -47,10 +59,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
     </li>
   </ul>
 </li>
@@ -73,7 +85,7 @@
       <h1>compboost: Fast and Flexible Component-Wise Boosting Framework</h1>
                         <h4 class="author">Daniel Schalk</h4>
             
-            <h4 class="date">2019-01-22</h4>
+            <h4 class="date">2019-01-23</h4>
       
       
       <div class="hidden name"><code>compboost.Rmd</code></div>
@@ -91,22 +103,7 @@
 <a class="sourceLine" id="cb1-2" data-line-number="2">df.train =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(titanic<span class="op">::</span>titanic_train)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">df.test  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/na.fail">na.omit</a></span>(titanic<span class="op">::</span>titanic_test)</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(df.train)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">## 'data.frame':    714 obs. of  12 variables:</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">##  $ PassengerId: int  1 2 3 4 5 7 8 9 10 11 ...</span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">##  $ Survived   : int  0 1 1 1 0 0 0 1 1 1 ...</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">##  $ Pclass     : int  3 1 3 1 3 1 3 3 2 3 ...</span></a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">##  $ Name       : chr  "Braund, Mr. Owen Harris" "Cumings, Mrs. John Bradley (Florence Briggs Thayer)" "Heikkinen, Miss. Laina" "Futrelle, Mrs. Jacques Heath (Lily May Peel)" ...</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">##  $ Sex        : chr  "male" "female" "female" "female" ...</span></a>
-<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="co">##  $ Age        : num  22 38 26 35 35 54 2 27 14 4 ...</span></a>
-<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">##  $ SibSp      : int  1 1 0 1 0 0 3 0 1 1 ...</span></a>
-<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">##  $ Parch      : int  0 0 0 0 0 0 1 2 0 1 ...</span></a>
-<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">##  $ Ticket     : chr  "A/5 21171" "PC 17599" "STON/O2. 3101282" "113803" ...</span></a>
-<a class="sourceLine" id="cb1-16" data-line-number="16"><span class="co">##  $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...</span></a>
-<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">##  $ Cabin      : chr  "" "C85" "" "C123" ...</span></a>
-<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="co">##  $ Embarked   : chr  "S" "C" "S" "S" ...</span></a>
-<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="co">##  - attr(*, "na.action")= 'omit' Named int  6 18 20 27 29 30 32 33 37 43 ...</span></a>
-<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="co">##   ..- attr(*, "names")= chr  "6" "18" "20" "27" ...</span></a></code></pre></div>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(df.train)</a></code></pre></div>
 <p>In the next step we transform the response to a factor with more intuitive levels:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">df.train<span class="op">$</span>Survived =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">factor</a></span>(df.train<span class="op">$</span>Survived, <span class="dt">labels =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"no"</span>, <span class="st">"yes"</span>))</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
@@ -114,14 +111,14 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1111</span>)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6">idx.train =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="dt">x =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(df.train)), <span class="dt">size =</span> <span class="fl">0.6</span> <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(df.train))</a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">idx.eval  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(df.train)), idx.train) </a></code></pre></div>
+<a class="sourceLine" id="cb2-7" data-line-number="7">idx.eval  =<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sets">setdiff</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq_len</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(df.train)), idx.train)</a></code></pre></div>
 <p>This split will be used while the training to calculate the out of bag risk.</p>
 </div>
 <div id="initializing-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#initializing-model" class="anchor"></a>Initializing Model</h2>
 <p>Due to the <code>R6</code> API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cboost =<span class="st"> </span>Compboost<span class="op">$</span><span class="kw">new</span>(<span class="dt">data =</span> df.train[idx.train, ], <span class="dt">target =</span> <span class="st">"Survived"</span>, </a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">cboost =<span class="st"> </span>Compboost<span class="op">$</span><span class="kw">new</span>(<span class="dt">data =</span> df.train[idx.train, ], <span class="dt">target =</span> <span class="st">"Survived"</span>,</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="dt">loss =</span> LossBinomial<span class="op">$</span><span class="kw">new</span>())</a></code></pre></div>
 <p>Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.</p>
 </div>
@@ -147,12 +144,10 @@
 <h3 class="hasAnchor">
 <a href="#categorical-features" class="anchor"></a>Categorical Features</h3>
 <p>When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don’t need an intercept here:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">"Sex"</span>, <span class="st">"categorical"</span>, BaselearnerPolynomial, </a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addBaselearner</span>(<span class="st">"Sex"</span>, <span class="st">"categorical"</span>, BaselearnerPolynomial,</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="dt">intercept =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>Finally, we can check what factories are registered:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">getBaselearnerNames</span>()</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">## [1] "Age_spline"             "Age_linear"             "Fare_spline"           </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">## [4] "Sex_male_categorical"   "Sex_female_categorical"</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">getBaselearnerNames</span>()</a></code></pre></div>
 </div>
 </div>
 <div id="define-logger" class="section level2">
@@ -162,16 +157,17 @@
 <h3 class="hasAnchor">
 <a href="#time-logger" class="anchor"></a>Time logger</h3>
 <p>This logger logs the elapsed time. The time unit can be one of <code>microseconds</code>, <code>seconds</code> or <code>minutes</code>. The logger stops if <code>max_time</code> is reached. But we do not use that logger as stopper here:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerTime, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span> <span class="st">"time"</span>, </a>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerTime, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span> <span class="st">"time"</span>,</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="dt">max.time =</span> <span class="dv">0</span>, <span class="dt">time.unit =</span> <span class="st">"microseconds"</span>)</a></code></pre></div>
 </div>
 <div id="out-of-bag-risk-logger" class="section level3">
 <h3 class="hasAnchor">
 <a href="#out-of-bag-risk-logger" class="anchor"></a>Out of bag risk logger</h3>
 <p>The out of bag risk logger does basically the same as the inbag risk logger but calculates the empirical risk using another data source. Therefore, the new data object have to be a list with data sources containing the evaluation data. This is automatically done by the <code>prepareData()</code> member of <code>Compboost</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerOobRisk, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span><span class="st">"oob"</span>,</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  LossBinomial<span class="op">$</span><span class="kw">new</span>(), <span class="fl">0.01</span>, cboost<span class="op">$</span><span class="kw">prepareData</span>(df.train[idx.eval, ]), </a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">  df.train[[<span class="st">"Survived"</span>]][idx.eval])</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">oob.response =<span class="st"> </span>ResponseBinaryClassif<span class="op">$</span><span class="kw">new</span>(<span class="st">"oob_response"</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">as.matrix</a></span>(df.train[[<span class="st">"Survived"</span>]][idx.eval]))</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">cboost<span class="op">$</span><span class="kw">addLogger</span>(<span class="dt">logger =</span> LoggerOobRisk, <span class="dt">use.as.stopper =</span> <span class="ot">FALSE</span>, <span class="dt">logger.id =</span><span class="st">"oob"</span>,</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">  LossBinomial<span class="op">$</span><span class="kw">new</span>(), <span class="fl">0.01</span>, cboost<span class="op">$</span><span class="kw">prepareData</span>(df.train[idx.eval, ]),</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">  oob.response)</a></code></pre></div>
 </div>
 </div>
 <div id="train-model-and-access-elements" class="section level2">
@@ -179,114 +175,39 @@
 <a href="#train-model-and-access-elements" class="anchor"></a>Train Model and Access Elements</h2>
 <p>After defining all object we can train the model:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">1000</span>, <span class="dt">trace =</span> <span class="dv">50</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">##    1/1000: risk = 0.67             0.52:                 1: </span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">##   50/1000: risk = 0.61             0.53:              4461: </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">##  100/1000: risk = 0.57             0.59:              9170: </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">##  150/1000: risk = 0.55             0.65:             13585: </span></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">##  200/1000: risk = 0.54             0.69:             17881: </span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">##  250/1000: risk = 0.52             0.73:             22251: </span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">##  300/1000: risk = 0.52             0.77:             26637: </span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">##  350/1000: risk = 0.51             0.80:             31431: </span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">##  400/1000: risk = 0.51             0.82:             35776: </span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">##  450/1000: risk = 0.5             0.85:             40145: </span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">##  500/1000: risk = 0.5             0.87:             44624: </span></a>
-<a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">##  550/1000: risk = 0.5             0.89:             49061: </span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">##  600/1000: risk = 0.5             0.91:             53483: </span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">##  650/1000: risk = 0.49             0.93:             57981: </span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">##  700/1000: risk = 0.49             0.94:             62595: </span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">##  750/1000: risk = 0.49             0.95:             67269: </span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">##  800/1000: risk = 0.49             0.96:             71810: </span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">##  850/1000: risk = 0.49             0.97:             76477: </span></a>
-<a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">##  900/1000: risk = 0.49             0.98:             81072: </span></a>
-<a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">##  950/1000: risk = 0.49             0.99:             85689: </span></a>
-<a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">## 1000/1000: risk = 0.49             1.00:             90332: </span></a>
-<a class="sourceLine" id="cb10-23" data-line-number="23"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-24" data-line-number="24"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-25" data-line-number="25"><span class="co">## Train 1000 iterations in 0 Seconds.</span></a>
-<a class="sourceLine" id="cb10-26" data-line-number="26"><span class="co">## Final risk based on the train set: 0.49</span></a>
-<a class="sourceLine" id="cb10-27" data-line-number="27">cboost</a>
-<a class="sourceLine" id="cb10-28" data-line-number="28"><span class="co">## Component-Wise Gradient Boosting</span></a>
-<a class="sourceLine" id="cb10-29" data-line-number="29"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-30" data-line-number="30"><span class="co">## Trained on df.train[idx.train, ] with target Survived</span></a>
-<a class="sourceLine" id="cb10-31" data-line-number="31"><span class="co">## Number of base-learners: 5</span></a>
-<a class="sourceLine" id="cb10-32" data-line-number="32"><span class="co">## Learning rate: 0.05</span></a>
-<a class="sourceLine" id="cb10-33" data-line-number="33"><span class="co">## Iterations: 1000</span></a>
-<a class="sourceLine" id="cb10-34" data-line-number="34"><span class="co">## Positive class: no</span></a>
-<a class="sourceLine" id="cb10-35" data-line-number="35"><span class="co">## Offset: 0.2529</span></a>
-<a class="sourceLine" id="cb10-36" data-line-number="36"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-37" data-line-number="37"><span class="co">## LossBinomial Loss:</span></a>
-<a class="sourceLine" id="cb10-38" data-line-number="38"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-39" data-line-number="39"><span class="co">##   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span></a>
-<a class="sourceLine" id="cb10-40" data-line-number="40"><span class="co">## </span></a>
-<a class="sourceLine" id="cb10-41" data-line-number="41"><span class="co">## </span></a></code></pre></div>
+<a class="sourceLine" id="cb10-2" data-line-number="2">cboost</a></code></pre></div>
 </div>
 <div id="accessing-elements" class="section level2">
 <h2 class="hasAnchor">
 <a href="#accessing-elements" class="anchor"></a>Accessing Elements</h2>
 <p>Object of the <code>Compboost</code> class do have member functions such as <code>getEstimatedCoef()</code>, <code>getInbagRisk()</code> or <code><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict()</a></code> to access the results:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getEstimatedCoef</span>())</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">## List of 5</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">##  $ Age_spline            : num [1:24, 1] -2.5721 -1.0457 -0.4804 -0.0319 0.3728 ...</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">##  $ Fare_spline           : num [1:17, 1] 0.969 0.215 -0.291 -0.704 -0.864 ...</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">##  $ Sex_female_categorical: num [1, 1] -1.33</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">##  $ Sex_male_categorical  : num [1, 1] 0.836</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">##  $ offset                : num 0.253</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getInbagRisk</span>())</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">##  num [1:1001] 0.67 0.668 0.666 0.664 0.663 ...</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>())</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">##  num [1:428, 1] 1.86 -1.481 1.553 -0.816 1.467 ...</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getInbagRisk</span>())</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>())</a></code></pre></div>
 <p>To obtain a vector of selected learner just call <code>getSelectedBaselearner()</code></p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(cboost<span class="op">$</span><span class="kw">getSelectedBaselearner</span>())</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="co">## </span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3"><span class="co">##             Age_spline            Fare_spline Sex_female_categorical </span></a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">##                    315                    211                    287 </span></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">##   Sex_male_categorical </span></a>
-<a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">##                    187</span></a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(cboost<span class="op">$</span><span class="kw">getSelectedBaselearner</span>())</a></code></pre></div>
 <p>We can also predict on new data to get estimated probabilities. Therefore we have to use <code>response = TRUE</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">prob.newdata =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(df.train[idx.eval, ], <span class="dt">response =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(df.train[idx.eval, <span class="st">"Survived"</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(prob.newdata <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>))</a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co">##      </span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="co">##        no yes</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="co">##   no  131  26</span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="co">##   yes  38  91</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(df.train[idx.eval, <span class="st">"Survived"</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(prob.newdata <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>))</a></code></pre></div>
 </div>
 <div id="retrain-the-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#retrain-the-model" class="anchor"></a>Retrain the Model</h2>
 <p>To set the whole model to another iteration one can easily call <code>train()</code> to another iteration:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">cboost<span class="op">$</span><span class="kw">train</span>(<span class="dv">1500</span>)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="co">## </span></a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="co">## You have already trained 1000 iterations.</span></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="co">## Train 500 additional iterations.</span></a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getEstimatedCoef</span>())</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="co">## List of 5</span></a>
-<a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co">##  $ Age_spline            : num [1:24, 1] -3.5358 -0.998 -0.4564 -0.0534 0.5817 ...</span></a>
-<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co">##  $ Fare_spline           : num [1:17, 1] 1.012 0.236 -0.294 -0.764 -0.94 ...</span></a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"><span class="co">##  $ Sex_female_categorical: num [1, 1] -1.42</span></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="co">##  $ Sex_male_categorical  : num [1, 1] 0.838</span></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="co">##  $ offset                : num 0.253</span></a>
-<a class="sourceLine" id="cb14-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb14-14" data-line-number="14"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getInbagRisk</span>())</a>
-<a class="sourceLine" id="cb14-15" data-line-number="15"><span class="co">##  num [1:1501] 0.67 0.668 0.666 0.664 0.663 ...</span></a>
-<a class="sourceLine" id="cb14-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb14-17" data-line-number="17"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(cboost<span class="op">$</span><span class="kw">getSelectedBaselearner</span>())</a>
-<a class="sourceLine" id="cb14-18" data-line-number="18"><span class="co">## </span></a>
-<a class="sourceLine" id="cb14-19" data-line-number="19"><span class="co">##             Age_spline            Fare_spline Sex_female_categorical </span></a>
-<a class="sourceLine" id="cb14-20" data-line-number="20"><span class="co">##                    655                    277                    378 </span></a>
-<a class="sourceLine" id="cb14-21" data-line-number="21"><span class="co">##   Sex_male_categorical </span></a>
-<a class="sourceLine" id="cb14-22" data-line-number="22"><span class="co">##                    190</span></a>
-<a class="sourceLine" id="cb14-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb14-24" data-line-number="24"><span class="co"># Get confusion matrix:</span></a>
-<a class="sourceLine" id="cb14-25" data-line-number="25">prob.newdata =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(df.train[idx.eval, ], <span class="dt">response =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb14-26" data-line-number="26"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(df.train[idx.eval, <span class="st">"Survived"</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(prob.newdata <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>))</a>
-<a class="sourceLine" id="cb14-27" data-line-number="27"><span class="co">##      </span></a>
-<a class="sourceLine" id="cb14-28" data-line-number="28"><span class="co">##        no yes</span></a>
-<a class="sourceLine" id="cb14-29" data-line-number="29"><span class="co">##   no  131  26</span></a>
-<a class="sourceLine" id="cb14-30" data-line-number="30"><span class="co">##   yes  39  90</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getEstimatedCoef</span>())</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb14-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(cboost<span class="op">$</span><span class="kw">getInbagRisk</span>())</a>
+<a class="sourceLine" id="cb14-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb14-7" data-line-number="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(cboost<span class="op">$</span><span class="kw">getSelectedBaselearner</span>())</a>
+<a class="sourceLine" id="cb14-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb14-9" data-line-number="9"><span class="co"># Get confusion matrix:</span></a>
+<a class="sourceLine" id="cb14-10" data-line-number="10">prob.newdata =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(df.train[idx.eval, ], <span class="dt">response =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb14-11" data-line-number="11"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(df.train[idx.eval, <span class="st">"Survived"</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/ifelse">ifelse</a></span>(prob.newdata <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>, <span class="st">"no"</span>, <span class="st">"yes"</span>))</a></code></pre></div>
 </div>
 <div id="visualizing-base-learner" class="section level2">
 <h2 class="hasAnchor">
@@ -294,10 +215,8 @@
 <p>To visualize a base-learner it is important to exactly use a name from <code>getBaselearnerNames()</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">gg1 =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="st">"Age_spline"</span>)</a>
 <a class="sourceLine" id="cb15-2" data-line-number="2">gg2 =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="st">"Age_spline"</span>, <span class="dt">iters =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">1500</span>))</a></code></pre></div>
-<p><img src="compboost_files/figure-html/unnamed-chunk-17-1.png" width="600px" height="400px" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">gg1 =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="st">"Age_spline"</span>)</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2">gg2 =<span class="st"> </span>cboost<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(<span class="st">"Age_spline"</span>, <span class="dt">iters =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">50</span>, <span class="dv">100</span>, <span class="dv">500</span>, <span class="dv">1000</span>, <span class="dv">1500</span>))</a></code></pre></div>
-<p><img src="compboost_files/figure-html/unnamed-chunk-19-1.png" width="600px" height="400px" style="display: block; margin: auto;"></p>
 </div>
   </div>
 

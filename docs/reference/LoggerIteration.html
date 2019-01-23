@@ -63,14 +63,26 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -80,10 +92,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -161,10 +176,10 @@ LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Define logger:</span>
-<span class='no'>log.iters</span> <span class='kw'>=</span> <span class='no'>LoggerIteration</span>$<span class='fu'>new</span>(<span class='st'>"iterations"</span>, <span class='fl'>FALSE</span>, <span class='fl'>100</span>)
+<span class='no'>log_iters</span> <span class='kw'>=</span> <span class='no'>LoggerIteration</span>$<span class='fu'>new</span>(<span class='st'>"iterations"</span>, <span class='fl'>FALSE</span>, <span class='fl'>100</span>)
 
 <span class='co'># Summarize logger:</span>
-<span class='no'>log.iters</span>$<span class='fu'>summarizeLogger</span>()</div><div class='output co'>#&gt; Iteration logger:
+<span class='no'>log_iters</span>$<span class='fu'>summarizeLogger</span>()</div><div class='output co'>#&gt; Iteration logger:
 #&gt; 	- Maximal iterations: 100
 #&gt; 	- Use logger as stopper: 0</div><div class='input'>
 </div></pre>

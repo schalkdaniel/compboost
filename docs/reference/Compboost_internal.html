@@ -65,14 +65,26 @@ algorithm." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li>
-  <a href="../articles/getting_started.html">Getting Started</a>
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Getting Started
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    </li>
+    <li>
+      <a href="../articles/getting_started/use_case.html">First Use-Case</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -82,10 +94,13 @@ algorithm." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/tutorial/functionality_baselearner.html">Base-Learner</a>
+      <a href="../articles/functionality/baselearner.html">Base-Learner</a>
     </li>
     <li>
-      <a href="../articles/tutorial/functionality_loss.html">Loss Functions</a>
+      <a href="../articles/functionality/loss.html">Loss Functions</a>
+    </li>
+    <li>
+      <a href="../articles/functionality/logger.html">Logger</a>
     </li>
   </ul>
 </li>
@@ -205,53 +220,54 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
     <pre class="examples"><div class='input'>
 <span class='co'># Some data:</span>
 <span class='no'>df</span> <span class='kw'>=</span> <span class='no'>mtcars</span>
-<span class='no'>df</span>$<span class='no'>mpg.cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='no'>df</span>$<span class='no'>mpg</span> <span class='kw'>&gt;</span> <span class='fl'>20</span>, <span class='fl'>1</span>, -<span class='fl'>1</span>)
+<span class='no'>df</span>$<span class='no'>mpg_cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='no'>df</span>$<span class='no'>mpg</span> <span class='kw'>&gt;</span> <span class='fl'>20</span>, <span class='fl'>1</span>, -<span class='fl'>1</span>)
 
 <span class='co'># # Create new variable to check the polynomial base-learner with degree 2:</span>
 <span class='co'># df$hp2 = df[["hp"]]^2</span>
 
 <span class='co'># Data for the baselearner are matrices:</span>
-<span class='no'>X.hp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>df</span><span class='kw'>[[</span><span class='st'>"hp"</span>]])
-<span class='no'>X.wt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>df</span><span class='kw'>[[</span><span class='st'>"wt"</span>]])
+<span class='no'>X_hp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>df</span><span class='kw'>[[</span><span class='st'>"hp"</span>]])
+<span class='no'>X_wt</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>df</span><span class='kw'>[[</span><span class='st'>"wt"</span>]])
 
 <span class='co'># Target variable:</span>
-<span class='no'>y</span> <span class='kw'>=</span> <span class='no'>df</span><span class='kw'>[[</span><span class='st'>"mpg.cat"</span>]]
+<span class='no'>y</span> <span class='kw'>=</span> <span class='no'>df</span><span class='kw'>[[</span><span class='st'>"mpg_cat"</span>]]
+<span class='no'>response</span> <span class='kw'>=</span> <span class='no'>ResponseBinaryClassif</span>$<span class='fu'>new</span>(<span class='st'>"mpg_cat"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>y</span>))
 
-<span class='no'>data.source.hp</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>X.hp</span>, <span class='st'>"hp"</span>)
-<span class='no'>data.source.wt</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>X.wt</span>, <span class='st'>"wt"</span>)
+<span class='no'>data_source_hp</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>X_hp</span>, <span class='st'>"hp"</span>)
+<span class='no'>data_source_wt</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>(<span class='no'>X_wt</span>, <span class='st'>"wt"</span>)
 
-<span class='no'>data.target.hp1</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
-<span class='no'>data.target.hp2</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
-<span class='no'>data.target.wt1</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
-<span class='no'>data.target.wt2</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
+<span class='no'>data_target_hp1</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
+<span class='no'>data_target_hp2</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
+<span class='no'>data_target_wt1</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
+<span class='no'>data_target_wt2</span> <span class='kw'>=</span> <span class='no'>InMemoryData</span>$<span class='fu'>new</span>()
 
 <span class='co'># List for oob logging:</span>
-<span class='no'>oob.data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>data.source.hp</span>, <span class='no'>data.source.wt</span>)
+<span class='no'>oob_data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>data_source_hp</span>, <span class='no'>data_source_wt</span>)
 
 <span class='co'># List to test prediction on newdata:</span>
-<span class='no'>test.data</span> <span class='kw'>=</span> <span class='no'>oob.data</span>
+<span class='no'>test_data</span> <span class='kw'>=</span> <span class='no'>oob_data</span>
 
 <span class='co'># Factories:</span>
-<span class='no'>linear.factory.hp</span> <span class='kw'>=</span> <span class='no'>BaselearnerPolynomial</span>$<span class='fu'>new</span>(<span class='no'>data.source.hp</span>, <span class='no'>data.target.hp1</span>,
+<span class='no'>linear_factory_hp</span> <span class='kw'>=</span> <span class='no'>BaselearnerPolynomial</span>$<span class='fu'>new</span>(<span class='no'>data_source_hp</span>, <span class='no'>data_target_hp1</span>,
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-<span class='no'>linear.factory.wt</span> <span class='kw'>=</span> <span class='no'>BaselearnerPolynomial</span>$<span class='fu'>new</span>(<span class='no'>data.source.wt</span>, <span class='no'>data.target.wt1</span>,
+<span class='no'>linear_factory_wt</span> <span class='kw'>=</span> <span class='no'>BaselearnerPolynomial</span>$<span class='fu'>new</span>(<span class='no'>data_source_wt</span>, <span class='no'>data_target_wt1</span>,
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-<span class='no'>quadratic.factory.hp</span> <span class='kw'>=</span> <span class='no'>BaselearnerPolynomial</span>$<span class='fu'>new</span>(<span class='no'>data.source.hp</span>, <span class='no'>data.target.hp2</span>,
+<span class='no'>quadratic_factory_hp</span> <span class='kw'>=</span> <span class='no'>BaselearnerPolynomial</span>$<span class='fu'>new</span>(<span class='no'>data_source_hp</span>, <span class='no'>data_target_hp2</span>,
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>intercept</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-<span class='no'>spline.factory.wt</span> <span class='kw'>=</span> <span class='no'>BaselearnerPSpline</span>$<span class='fu'>new</span>(<span class='no'>data.source.wt</span>, <span class='no'>data.target.wt2</span>,
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>n.knots</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>penalty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>differences</span> <span class='kw'>=</span> <span class='fl'>2</span>))
+<span class='no'>spline_factory_wt</span> <span class='kw'>=</span> <span class='no'>BaselearnerPSpline</span>$<span class='fu'>new</span>(<span class='no'>data_source_wt</span>, <span class='no'>data_target_wt2</span>,
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>degree</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>n_knots</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>penalty</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>differences</span> <span class='kw'>=</span> <span class='fl'>2</span>))
 
 <span class='co'># Create new factory list:</span>
-<span class='no'>factory.list</span> <span class='kw'>=</span> <span class='no'>BlearnerFactoryList</span>$<span class='fu'>new</span>()
+<span class='no'>factory_list</span> <span class='kw'>=</span> <span class='no'>BlearnerFactoryList</span>$<span class='fu'>new</span>()
 
 <span class='co'># Register factories:</span>
-<span class='no'>factory.list</span>$<span class='fu'>registerFactory</span>(<span class='no'>linear.factory.hp</span>)
-<span class='no'>factory.list</span>$<span class='fu'>registerFactory</span>(<span class='no'>linear.factory.wt</span>)
-<span class='no'>factory.list</span>$<span class='fu'>registerFactory</span>(<span class='no'>quadratic.factory.hp</span>)
-<span class='no'>factory.list</span>$<span class='fu'>registerFactory</span>(<span class='no'>spline.factory.wt</span>)
+<span class='no'>factory_list</span>$<span class='fu'>registerFactory</span>(<span class='no'>linear_factory_hp</span>)
+<span class='no'>factory_list</span>$<span class='fu'>registerFactory</span>(<span class='no'>linear_factory_wt</span>)
+<span class='no'>factory_list</span>$<span class='fu'>registerFactory</span>(<span class='no'>quadratic_factory_hp</span>)
+<span class='no'>factory_list</span>$<span class='fu'>registerFactory</span>(<span class='no'>spline_factory_wt</span>)
 
 <span class='co'># Define loss:</span>
-<span class='no'>loss.bin</span> <span class='kw'>=</span> <span class='no'>LossBinomial</span>$<span class='fu'>new</span>()
+<span class='no'>loss_bin</span> <span class='kw'>=</span> <span class='no'>LossBinomial</span>$<span class='fu'>new</span>()
 
 <span class='co'># Define optimizer:</span>
 <span class='no'>optimizer</span> <span class='kw'>=</span> <span class='no'>OptimizerCoordinateDescent</span>$<span class='fu'>new</span>()
@@ -260,59 +276,53 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 
 <span class='co'># Define logger. We want just the iterations as stopper but also track the</span>
 <span class='co'># time, inbag risk and oob risk:</span>
-<span class='no'>log.iterations</span>  <span class='kw'>=</span> <span class='no'>LoggerIteration</span>$<span class='fu'>new</span>(<span class='st'>" iteration.logger"</span>, <span class='fl'>TRUE</span>, <span class='fl'>500</span>)
-<span class='no'>log.time</span>        <span class='kw'>=</span> <span class='no'>LoggerTime</span>$<span class='fu'>new</span>(<span class='st'>"time.logger"</span>, <span class='fl'>FALSE</span>, <span class='fl'>500</span>, <span class='st'>"microseconds"</span>)
-<span class='no'>log.inbag</span>       <span class='kw'>=</span> <span class='no'>LoggerInbagRisk</span>$<span class='fu'>new</span>(<span class='st'>"inbag.binomial"</span>, <span class='fl'>FALSE</span>, <span class='no'>loss.bin</span>, <span class='fl'>0.05</span>)
-<span class='no'>log.oob</span>         <span class='kw'>=</span> <span class='no'>LoggerOobRisk</span>$<span class='fu'>new</span>(<span class='st'>"oob.binomial"</span>, <span class='fl'>FALSE</span>, <span class='no'>loss.bin</span>, <span class='fl'>0.05</span>, <span class='no'>oob.data</span>, <span class='no'>y</span>)
+<span class='no'>log_iterations</span>  <span class='kw'>=</span> <span class='no'>LoggerIteration</span>$<span class='fu'>new</span>(<span class='st'>" iteration_logger"</span>, <span class='fl'>TRUE</span>, <span class='fl'>500</span>)
+<span class='no'>log_time</span>        <span class='kw'>=</span> <span class='no'>LoggerTime</span>$<span class='fu'>new</span>(<span class='st'>"time_logger"</span>, <span class='fl'>FALSE</span>, <span class='fl'>500</span>, <span class='st'>"microseconds"</span>)
 
 <span class='co'># Define new logger list:</span>
-<span class='no'>logger.list</span> <span class='kw'>=</span> <span class='no'>LoggerList</span>$<span class='fu'>new</span>()
+<span class='no'>logger_list</span> <span class='kw'>=</span> <span class='no'>LoggerList</span>$<span class='fu'>new</span>()
 
 <span class='co'># Register the logger:</span>
-<span class='no'>logger.list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log.iterations</span>)
-<span class='no'>logger.list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log.time</span>)
-<span class='no'>logger.list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log.inbag</span>)
-<span class='no'>logger.list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log.oob</span>)
+<span class='no'>logger_list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log_iterations</span>)
+<span class='no'>logger_list</span>$<span class='fu'>registerLogger</span>(<span class='no'>log_time</span>)
 
 <span class='co'># Run compboost:</span>
 <span class='co'># --------------</span>
 
 <span class='co'># Initialize object:</span>
 <span class='no'>cboost</span> <span class='kw'>=</span> <span class='no'>Compboost_internal</span>$<span class='fu'>new</span>(
-  <span class='kw'>response</span>      <span class='kw'>=</span> <span class='no'>y</span>,
+  <span class='kw'>response</span>      <span class='kw'>=</span> <span class='no'>response</span>,
   <span class='kw'>learning_rate</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='kw'>stop_if_all_stopper_fulfilled</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>factory_list</span> <span class='kw'>=</span> <span class='no'>factory.list</span>,
-  <span class='kw'>loss</span>         <span class='kw'>=</span> <span class='no'>loss.bin</span>,
-  <span class='kw'>logger_list</span>  <span class='kw'>=</span> <span class='no'>logger.list</span>,
+  <span class='kw'>factory_list</span> <span class='kw'>=</span> <span class='no'>factory_list</span>,
+  <span class='kw'>loss</span>         <span class='kw'>=</span> <span class='no'>loss_bin</span>,
+  <span class='kw'>logger_list</span>  <span class='kw'>=</span> <span class='no'>logger_list</span>,
   <span class='kw'>optimizer</span>    <span class='kw'>=</span> <span class='no'>optimizer</span>
 )
 
 <span class='co'># Train the model (we want to print the trace):</span>
-<span class='no'>cboost</span>$<span class='fu'>train</span>(<span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>50</span>)</div><div class='output co'>#&gt;   1/500   risk = 0.65  inbag.binomial = 0.65   oob.binomial = 0.65   time.logger = 1   
-#&gt;  50/500   risk = 0.19  inbag.binomial = 0.19   oob.binomial = 0.19   time.logger = 1083   
-#&gt; 100/500   risk = 0.13  inbag.binomial = 0.13   oob.binomial = 0.13   time.logger = 2048   
-#&gt; 150/500   risk = 0.11  inbag.binomial = 0.11   oob.binomial = 0.11   time.logger = 2993   
-#&gt; 200/500   risk = 0.094  inbag.binomial = 0.094   oob.binomial = 0.094   time.logger = 3919   
-#&gt; 250/500   risk = 0.085  inbag.binomial = 0.085   oob.binomial = 0.085   time.logger = 4848   
-#&gt; 300/500   risk = 0.078  inbag.binomial = 0.078   oob.binomial = 0.078   time.logger = 5789   
-#&gt; 350/500   risk = 0.073  inbag.binomial = 0.073   oob.binomial = 0.073   time.logger = 6714   
-#&gt; 400/500   risk = 0.068  inbag.binomial = 0.068   oob.binomial = 0.068   time.logger = 7636   
-#&gt; 450/500   risk = 0.064  inbag.binomial = 0.064   oob.binomial = 0.064   time.logger = 8559   
-#&gt; 500/500   risk = 0.06  inbag.binomial = 0.06   oob.binomial = 0.06   time.logger = 9506   
+<span class='no'>cboost</span>$<span class='fu'>train</span>(<span class='kw'>trace</span> <span class='kw'>=</span> <span class='fl'>50</span>)</div><div class='output co'>#&gt;   1/500   risk = 0.85  time_logger = 1   
+#&gt;  50/500   risk = 0.65  time_logger = 770   
+#&gt; 100/500   risk = 0.59  time_logger = 1452   
+#&gt; 150/500   risk = 0.57  time_logger = 2139   
+#&gt; 200/500   risk = 0.55  time_logger = 2829   
+#&gt; 250/500   risk = 0.54  time_logger = 3516   
+#&gt; 300/500   risk = 0.54  time_logger = 4220   
+#&gt; 350/500   risk = 0.53  time_logger = 4906   
+#&gt; 400/500   risk = 0.53  time_logger = 5594   
+#&gt; 450/500   risk = 0.52  time_logger = 6285   
+#&gt; 500/500   risk = 0.52  time_logger = 7020   
 #&gt; 
 #&gt; 
 #&gt; Train 500 iterations in 0 Seconds.
-#&gt; Final risk based on the train set: 0.06
+#&gt; Final risk based on the train set: 0.52
 #&gt; </div><div class='input'><span class='no'>cboost</span></div><div class='output co'>#&gt; 
 #&gt; Compboost object with:
 #&gt; 	- Learning Rate: 0.05
 #&gt; 	- Are all logger used as stopper: 0
 #&gt; 	- Model is already trained with 500 iterations/fitted baselearner
 #&gt; 	- Actual state is at iteration 500
-#&gt; 	- Loss optimal initialization: -0.13
 #&gt; 
-#&gt; To get more information check the other objects!
 #&gt; 
 #&gt; </div><div class='input'>
 <span class='co'># Get estimated parameter:</span>
