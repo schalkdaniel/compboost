@@ -62,19 +62,19 @@ LossCustom$new(lossFun, gradientFun, initFun)
 \examples{
 
 # Loss function:
-myLoss = function (true.values, prediction) {
-  return (0.5 * (true.values - prediction)^2)
+myLoss = function (true_values, prediction) {
+  return (0.5 * (true_values - prediction)^2)
 }
 # Gradient of loss function:
-myGradient = function (true.values, prediction) {
-  return (prediction - true.values)
+myGradient = function (true_values, prediction) {
+  return (prediction - true_values)
 }
 # Constant initialization:
-myConstInit = function (true.values) {
-  return (mean(true.values))
+myConstInit = function (true_values) {
+  return (mean(true_values))
 }
 
 # Create new custom quadratic loss:
-my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
+my_loss = LossCustom$new(myLoss, myGradient, myConstInit)
 
 }

@@ -90,12 +90,12 @@ iteration \eqn{m} is calculated by:
 
 \examples{
 # Used loss:
-log.bin = LossBinomial$new()
+log_bin = LossBinomial$new()
 
 # Define logger:
-log.inbag.risk = LoggerInbagRisk$new("inbag", FALSE, log.bin, 0.05)
+log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
 
 # Summarize logger:
-log.inbag.risk$summarizeLogger()
+log_inbag_risk$summarizeLogger()
 
 }

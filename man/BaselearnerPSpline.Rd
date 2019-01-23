@@ -12,7 +12,7 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
+BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
   differences))
 }
 }
@@ -29,7 +29,7 @@ BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
 \item{\code{degree} [\code{integer(1)}]}{
   Degree of the spline functions to interpolate the knots.
 }
-\item{\code{n.knots} [\code{integer(1)}]}{
+\item{\code{n_knots} [\code{integer(1)}]}{
   Number of \strong{inner knots}. To prevent weird behavior on the edges
   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 }
@@ -73,24 +73,24 @@ BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
 
 \examples{
 # Sample data:
-data.mat = cbind(1:10)
+data_mat = cbind(1:10)
 y = sin(1:10)
 
 # Create new data object:
-data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target = InMemoryData$new()
+data_source = InMemoryData$new(data_mat, "my_data_name")
+data_target = InMemoryData$new()
 
 # Create new linear base-learner:
-spline.factory = BaselearnerPSpline$new(data.source, data.target,
-  list(degree = 3, n.knots = 4, penalty = 2, differences = 2))
+spline_factory = BaselearnerPSpline$new(data_source, data_target,
+  list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
 
 # Get the transformed data:
-spline.factory$getData()
+spline_factory$getData()
 
 # Summarize factory:
-spline.factory$summarizeFactory()
+spline_factory$summarizeFactory()
 
 # Transform data manually:
-spline.factory$transformData(data.mat)
+spline_factory$transformData(data_mat)
 
 }

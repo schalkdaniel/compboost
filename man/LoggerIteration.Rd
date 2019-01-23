@@ -52,9 +52,9 @@ LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 
 \examples{
 # Define logger:
-log.iters = LoggerIteration$new("iterations", FALSE, 100)
+log_iters = LoggerIteration$new("iterations", FALSE, 100)
 
 # Summarize logger:
-log.iters$summarizeLogger()
+log_iters$summarizeLogger()
 
 }

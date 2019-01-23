@@ -1,7 +1,7 @@
 # Helper functions:
 # -----------------
 
-glueLoss = function (name, definition = NULL, additional.desc = "")
+glueLoss = function (name, definition = NULL, additional_desc = "")
 {
   if (is.null(definition)) {
     definition = "No function specified, probably you are using a custom loss."
@@ -9,17 +9,17 @@ glueLoss = function (name, definition = NULL, additional.desc = "")
     definition = paste0("Loss function: L(y,x) = ", definition)
   }
 
-  ignore.me = glue::glue("
+  ignore_me = glue::glue("
 
     {name} Loss:
 
       {definition}
 
-      {additional.desc}
+      {additional_desc}
 
     ")
 
-  print(ignore.me)
+  print(ignore_me)
   return(invisible(paste0(name, "Printer")))
 }
 
@@ -28,7 +28,7 @@ glueLoss = function (name, definition = NULL, additional.desc = "")
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_InMemoryData")
-ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
+ignore_me = setMethod("show", "Rcpp_InMemoryData", function (object) {
 
   cat("\n")
 
@@ -51,7 +51,7 @@ ignore.me = setMethod("show", "Rcpp_InMemoryData", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_BaselearnerPolynomial")
-ignore.me = setMethod("show", "Rcpp_BaselearnerPolynomial", function (object) {
+ignore_me = setMethod("show", "Rcpp_BaselearnerPolynomial", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
@@ -60,7 +60,7 @@ ignore.me = setMethod("show", "Rcpp_BaselearnerPolynomial", function (object) {
 })
 
 setClass("Rcpp_BaselearnerPSpline")
-ignore.me = setMethod("show", "Rcpp_BaselearnerPSpline", function (object) {
+ignore_me = setMethod("show", "Rcpp_BaselearnerPSpline", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
@@ -69,7 +69,7 @@ ignore.me = setMethod("show", "Rcpp_BaselearnerPSpline", function (object) {
 })
 
 setClass("Rcpp_BaselearnerCustom")
-ignore.me = setMethod("show", "Rcpp_BaselearnerCustom", function (object) {
+ignore_me = setMethod("show", "Rcpp_BaselearnerCustom", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
@@ -78,7 +78,7 @@ ignore.me = setMethod("show", "Rcpp_BaselearnerCustom", function (object) {
 })
 
 setClass("Rcpp_BaselearnerCustomCpp")
-ignore.me = setMethod("show", "Rcpp_BaselearnerCustomCpp", function (object) {
+ignore_me = setMethod("show", "Rcpp_BaselearnerCustomCpp", function (object) {
   cat("\n")
   object$summarizeFactory()
   cat("\n\n")
@@ -91,7 +91,7 @@ ignore.me = setMethod("show", "Rcpp_BaselearnerCustomCpp", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_BlearnerFactoryList")
-ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
+ignore_me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
   cat("\n")
   object$printRegisteredFactories()
   cat("\n\n")
@@ -106,28 +106,28 @@ ignore.me = setMethod("show", "Rcpp_BlearnerFactoryList", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_LossQuadratic")
-ignore.me = setMethod("show", "Rcpp_LossQuadratic", function (object) {
+ignore_me = setMethod("show", "Rcpp_LossQuadratic", function (object) {
   glueLoss("LossQuadratic", "0.5 * (y - f(x))^2")
 })
 
 setClass("Rcpp_LossAbsolute")
-ignore.me = setMethod("show", "Rcpp_LossAbsolute", function (object) {
+ignore_me = setMethod("show", "Rcpp_LossAbsolute", function (object) {
   glueLoss("LossAbsolute", "|y - f(x)|")
 })
 
 setClass("Rcpp_LossBinomial")
-ignore.me = setMethod("show", "Rcpp_LossBinomial", function (object) {
+ignore_me = setMethod("show", "Rcpp_LossBinomial", function (object) {
   # glueLoss("LossBinomial", "log(1 + exp(-2yf(x))", "Labels should be coded as -1 and 1!")
   glueLoss("LossBinomial", "log(1 + exp(-2yf(x))")
 })
 
 setClass("Rcpp_LossCustom")
-ignore.me = setMethod("show", "Rcpp_LossCustom", function (object) {
+ignore_me = setMethod("show", "Rcpp_LossCustom", function (object) {
   glueLoss("LossCustom")
 })
 
 setClass("Rcpp_LossCustomCpp")
-ignore.me = setMethod("show", "Rcpp_LossCustomCpp", function (object) {
+ignore_me = setMethod("show", "Rcpp_LossCustomCpp", function (object) {
   glueLoss("LossCustomCpp")
 })
 
@@ -136,7 +136,7 @@ ignore.me = setMethod("show", "Rcpp_LossCustomCpp", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_LoggerIteration")
-ignore.me = setMethod("show", "Rcpp_LoggerIteration", function (object) {
+ignore_me = setMethod("show", "Rcpp_LoggerIteration", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
@@ -145,7 +145,7 @@ ignore.me = setMethod("show", "Rcpp_LoggerIteration", function (object) {
 })
 
 setClass("Rcpp_LoggerInbagRisk")
-ignore.me = setMethod("show", "Rcpp_LoggerInbagRisk", function (object) {
+ignore_me = setMethod("show", "Rcpp_LoggerInbagRisk", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
@@ -154,7 +154,7 @@ ignore.me = setMethod("show", "Rcpp_LoggerInbagRisk", function (object) {
 })
 
 setClass("Rcpp_LoggerOobRisk")
-ignore.me = setMethod("show", "Rcpp_LoggerOobRisk", function (object) {
+ignore_me = setMethod("show", "Rcpp_LoggerOobRisk", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
@@ -163,7 +163,7 @@ ignore.me = setMethod("show", "Rcpp_LoggerOobRisk", function (object) {
 })
 
 setClass("Rcpp_LoggerTime")
-ignore.me = setMethod("show", "Rcpp_LoggerTime", function (object) {
+ignore_me = setMethod("show", "Rcpp_LoggerTime", function (object) {
   cat("\n")
   object$summarizeLogger()
   cat("\n\n")
@@ -176,7 +176,7 @@ ignore.me = setMethod("show", "Rcpp_LoggerTime", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_LoggerList")
-ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
+ignore_me = setMethod("show", "Rcpp_LoggerList", function (object) {
   cat("\n")
   if (object$getNumberOfRegisteredLogger() == 0) {
     cat("No registered logger!")
@@ -193,7 +193,7 @@ ignore.me = setMethod("show", "Rcpp_LoggerList", function (object) {
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_OptimizerCoordinateDescent")
-ignore.me = setMethod("show", "Rcpp_OptimizerCoordinateDescent", function (object) {
+ignore_me = setMethod("show", "Rcpp_OptimizerCoordinateDescent", function (object) {
   cat("\n")
   cat("Coordinate Descent optimizer\n")
   cat("\n\n")
@@ -202,7 +202,7 @@ ignore.me = setMethod("show", "Rcpp_OptimizerCoordinateDescent", function (objec
 })
 
 setClass("Rcpp_OptimizerCoordinateDescentLineSearch")
-ignore.me = setMethod("show", "Rcpp_OptimizerCoordinateDescentLineSearch", function (object) {
+ignore_me = setMethod("show", "Rcpp_OptimizerCoordinateDescentLineSearch", function (object) {
   cat("\n")
   cat("Cordinate Descent optimizer with line search\n")
   cat("\n\n")
@@ -216,7 +216,7 @@ ignore.me = setMethod("show", "Rcpp_OptimizerCoordinateDescentLineSearch", funct
 # ---------------------------------------------------------------------------- #
 
 setClass("Rcpp_Compboost_internal")
-ignore.me = setMethod("show", "Rcpp_Compboost_internal", function (object) {
+ignore_me = setMethod("show", "Rcpp_Compboost_internal", function (object) {
   cat("\n")
   object$summarizeCompboost()
   cat("\n\n")

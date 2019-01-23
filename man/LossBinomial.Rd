@@ -56,7 +56,7 @@ LossBinomial$new(offset)
 \examples{
 
 # Create new loss object:
-bin.loss = LossBinomial$new()
-bin.loss
+bin_loss = LossBinomial$new()
+bin_loss
 
 }

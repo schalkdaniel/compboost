@@ -1,12 +1,12 @@
-.assertRcppClass = function (x, x.class, stop.when.error = TRUE)
+.assertRcppClass = function (x, x_class, stop_when.error = TRUE)
 {
   cls = class(x)
-  rcpp.class = TRUE
+  rcpp_class = TRUE
   if (! grepl("Rcpp", cls)) {
     stop("Object was not exposed by Rcpp.")
   }
-  if (! grepl(x.class, cls)) {
-    stop("Object does not belong to class ", x.class, ".")
+  if (! grepl(x_class, cls)) {
+    stop("Object does not belong to class ", x_class, ".")
   }
 }
 

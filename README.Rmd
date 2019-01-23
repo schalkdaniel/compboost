@@ -51,7 +51,7 @@ instlal.packages("compboost")
 devtools::install_github("schalkdaniel/compboost")
 ```
 
-## Examples [![Binder](http://mybinder.org/badge.svg)](http://beta.mybinder.org/v2/gh/schalkdaniel/compboost/master?filepath=./binder/tutorial_intro.ipynb)
+## Examples
 
 This examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 
@@ -66,21 +66,21 @@ packageVersion("compboost")
 # Load data set with binary classification task:
 data(PimaIndiansDiabetes, package = "mlbench")
 # Create categorical feature:
-PimaIndiansDiabetes$pregnant.cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
+PimaIndiansDiabetes$pregnant_cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
 
 # Define Compboost object:
 cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossBinomial$new())
 cboost
 
 # Add p-spline base-learner with default parameter:
-cboost$addBaselearner(feature = "pressure", id = "spline", bl.factory = BaselearnerPSpline)
+cboost$addBaselearner(feature = "pressure", id = "spline", bl_factory = BaselearnerPSpline)
 
 # Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl.factory = BaselearnerPSpline, degree = 3, 
-  n.knots = 10, penalty = 4, differences = 2)
+cboost$addBaselearner(feature = "age", id = "spline", bl_factory = BaselearnerPSpline, degree = 3, 
+  n_knots = 10, penalty = 4, differences = 2)
 
 # Add categorical feature (as single linear base-learner):
-cboost$addBaselearner(feature = "pregnant.cat", id = "category", bl.factory = BaselearnerPolynomial,
+cboost$addBaselearner(feature = "pregnant_cat", id = "category", bl_factory = BaselearnerPolynomial,
   degree = 1, intercept = FALSE)
 
 # Check all registered base-learner:
@@ -92,8 +92,8 @@ cboost
 
 cboost$getBaselearnerNames()
 
-selected.features = cboost$getSelectedBaselearner()
-table(selected.features)
+selected_features = cboost$getSelectedBaselearner()
+table(selected_features)
 
 params = cboost$getEstimatedCoef()
 str(params)

@@ -5,10 +5,10 @@
 \title{Wrapper to boost general additive models for each feature.}
 \usage{
 boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(),
-  loss, learning.rate = 0.05, iterations = 100, trace = -1,
-  degree = 3, n.knots = 20, penalty = 2, differences = 2,
-  data.source = InMemoryData, data.target = InMemoryData,
-  oob.fraction = NULL)
+  loss, learning_rate = 0.05, iterations = 100, trace = -1,
+  degree = 3, n_knots = 20, penalty = 2, differences = 2,
+  data_source = InMemoryData, data_target = InMemoryData,
+  oob_fraction = NULL)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
@@ -26,7 +26,7 @@ to select features at each iteration.}
 Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
 residuals (e.g. \code{LossQuadratic$new()}).}
 
-\item{learning.rate}{[\code{numeric(1)}]\cr
+\item{learning_rate}{[\code{numeric(1)}]\cr
 Learning rate to shrink the parameter in each step.}
 
 \item{iterations}{[\code{integer(1)}]\cr
@@ -40,7 +40,7 @@ Integer indicating how often a trace should be printed. Specifying \code{trace =
 \item{degree}{[\code{integer(1)}]\cr
 Polynomial degree of the splines.}
 
-\item{n.knots}{[\code{integer(1)}]\cr
+\item{n_knots}{[\code{integer(1)}]\cr
 Number of equidistant "inner knots". The actual number of used knots does also depend on
 the polynomial degree.}
 
@@ -51,15 +51,15 @@ The higher the penalty, the higher the smoothness.}
 \item{differences}{[\code{integer(1)}]\cr
 Number of differences that are used for penalization. The higher the difference, the higher the smoothness.}
 
-\item{data.source}{[\code{S4 Data}]\cr
+\item{data_source}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{data.target}{[\code{S4 Data}]\cr
+\item{data_target}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{oob.fraction}{[\code{numeric(1)}]\cr
+\item{oob_fraction}{[\code{numeric(1)}]\cr
 Fraction of how much data we want to use to track the out of bag risk.}
 }
 \value{
@@ -79,7 +79,7 @@ used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
 mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
-  oob.fraction = 0.3)
+  oob_fraction = 0.3)
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())

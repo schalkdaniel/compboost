@@ -48,35 +48,35 @@ BlearnerFactoryList$new()
 
 \examples{
 # Sample data:
-data.mat = cbind(1:10)
+data_mat = cbind(1:10)
 
 # Create new data object:
-data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target1 = InMemoryData$new()
-data.target2 = InMemoryData$new()
+data_source = InMemoryData$new(data_mat, "my_data_name")
+data_target1 = InMemoryData$new()
+data_target2 = InMemoryData$new()
 
-lin.factory = BaselearnerPolynomial$new(data.source, data.target1,
+lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
   list(degree = 1, intercept = TRUE))
-poly.factory = BaselearnerPolynomial$new(data.source, data.target2,
+poly_factory = BaselearnerPolynomial$new(data_source, data_target2,
   list(degree = 2, intercept = TRUE))
 
 # Create new base-learner list:
-my.bl.list = BlearnerFactoryList$new()
+my_bl_list = BlearnerFactoryList$new()
 
 # Register factories:
-my.bl.list$registerFactory(lin.factory)
-my.bl.list$registerFactory(poly.factory)
+my_bl_list$registerFactory(lin_factory)
+my_bl_list$registerFactory(poly_factory)
 
 # Get registered factories:
-my.bl.list$printRegisteredFactories()
+my_bl_list$printRegisteredFactories()
 
 # Get all target data matrices in one big matrix:
-my.bl.list$getModelFrame()
+my_bl_list$getModelFrame()
 
 # Clear list:
-my.bl.list$clearRegisteredFactories()
+my_bl_list$clearRegisteredFactories()
 
 # Get number of registered factories:
-my.bl.list$getNumberOfRegisteredFactories()
+my_bl_list$getNumberOfRegisteredFactories()
 
 }

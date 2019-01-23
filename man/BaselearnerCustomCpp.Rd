@@ -13,8 +13,8 @@ pointer.}
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
-  train.ptr, predict.ptr))
+BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
+  train_ptr, predict_ptr))
 }
 }
 
@@ -27,13 +27,13 @@ BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
 \item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
-\item{\code{instantiate.ptr} [\code{externalptr}]}{
+\item{\code{instantiate_ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} instantiate data function.
 }
-\item{\code{train.ptr} [\code{externalptr}]}{
+\item{\code{train_ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} train function.
 }
-\item{\code{predict.ptr} [\code{externalptr}]}{
+\item{\code{predict_ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} predict function.
 }
 }
@@ -68,28 +68,28 @@ BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
 \examples{
 \donttest{
 # Sample data:
-data.mat = cbind(1, 1:10)
+data_mat = cbind(1, 1:10)
 y = 2 + 3 * 1:10
 
 # Create new data object:
-data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target = InMemoryData$new()
+data_source = InMemoryData$new(data_mat, "my_data_name")
+data_target = InMemoryData$new()
 
 # Source the external pointer exposed by using XPtr:
 Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 
 # Create new linear base-learner:
-custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-  list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
-    predict.ptr = predictFunSetter()))
+custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+  list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
+    predict_ptr = predictFunSetter()))
 
 # Get the transformed data:
-custom.cpp.factory$getData()
+custom_cpp_factory$getData()
 
 # Summarize factory:
-custom.cpp.factory$summarizeFactory()
+custom_cpp_factory$summarizeFactory()
 
 # Transform data manually:
-custom.cpp.factory$transformData(data.mat)
+custom_cpp_factory$transformData(data_mat)
 }
 }

@@ -102,54 +102,54 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 
 # Some data:
 df = mtcars
-df$mpg.cat = ifelse(df$mpg > 20, 1, -1)
+df$mpg_cat = ifelse(df$mpg > 20, 1, -1)
 
 # # Create new variable to check the polynomial base-learner with degree 2:
 # df$hp2 = df[["hp"]]^2
 
 # Data for the baselearner are matrices:
-X.hp = as.matrix(df[["hp"]])
-X.wt = as.matrix(df[["wt"]])
+X_hp = as.matrix(df[["hp"]])
+X_wt = as.matrix(df[["wt"]])
 
 # Target variable:
-y = df[["mpg.cat"]]
-response = ResponseBinaryClassif$new("mpg.cat", as.matrix(y))
+y = df[["mpg_cat"]]
+response = ResponseBinaryClassif$new("mpg_cat", as.matrix(y))
 
-data.source.hp = InMemoryData$new(X.hp, "hp")
-data.source.wt = InMemoryData$new(X.wt, "wt")
+data_source_hp = InMemoryData$new(X_hp, "hp")
+data_source_wt = InMemoryData$new(X_wt, "wt")
 
-data.target.hp1 = InMemoryData$new()
-data.target.hp2 = InMemoryData$new()
-data.target.wt1 = InMemoryData$new()
-data.target.wt2 = InMemoryData$new()
+data_target_hp1 = InMemoryData$new()
+data_target_hp2 = InMemoryData$new()
+data_target_wt1 = InMemoryData$new()
+data_target_wt2 = InMemoryData$new()
 
 # List for oob logging:
-oob.data = list(data.source.hp, data.source.wt)
+oob_data = list(data_source_hp, data_source_wt)
 
 # List to test prediction on newdata:
-test.data = oob.data
+test_data = oob_data
 
 # Factories:
-linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1,
+linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
   list(degree = 1, intercept = TRUE))
-linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1,
+linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt1,
   list(degree = 1, intercept = TRUE))
-quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2,
+quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
   list(degree = 2, intercept = TRUE))
-spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2,
-  list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
+spline_factory_wt = BaselearnerPSpline$new(data_source_wt, data_target_wt2,
+  list(degree = 3, n_knots = 10, penalty = 2, differences = 2))
 
 # Create new factory list:
-factory.list = BlearnerFactoryList$new()
+factory_list = BlearnerFactoryList$new()
 
 # Register factories:
-factory.list$registerFactory(linear.factory.hp)
-factory.list$registerFactory(linear.factory.wt)
-factory.list$registerFactory(quadratic.factory.hp)
-factory.list$registerFactory(spline.factory.wt)
+factory_list$registerFactory(linear_factory_hp)
+factory_list$registerFactory(linear_factory_wt)
+factory_list$registerFactory(quadratic_factory_hp)
+factory_list$registerFactory(spline_factory_wt)
 
 # Define loss:
-loss.bin = LossBinomial$new()
+loss_bin = LossBinomial$new()
 
 # Define optimizer:
 optimizer = OptimizerCoordinateDescent$new()
@@ -158,15 +158,15 @@ optimizer = OptimizerCoordinateDescent$new()
 
 # Define logger. We want just the iterations as stopper but also track the
 # time, inbag risk and oob risk:
-log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
-log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
+log_iterations  = LoggerIteration$new(" iteration_logger", TRUE, 500)
+log_time        = LoggerTime$new("time_logger", FALSE, 500, "microseconds")
 
 # Define new logger list:
-logger.list = LoggerList$new()
+logger_list = LoggerList$new()
 
 # Register the logger:
-logger.list$registerLogger(log.iterations)
-logger.list$registerLogger(log.time)
+logger_list$registerLogger(log_iterations)
+logger_list$registerLogger(log_time)
 
 # Run compboost:
 # --------------
@@ -176,9 +176,9 @@ cboost = Compboost_internal$new(
   response      = response,
   learning_rate = 0.05,
   stop_if_all_stopper_fulfilled = FALSE,
-  factory_list = factory.list,
-  loss         = loss.bin,
-  logger_list  = logger.list,
+  factory_list = factory_list,
+  loss         = loss_bin,
+  logger_list  = logger_list,
   optimizer    = optimizer
 )
 

@@ -51,7 +51,7 @@ LossAbsolute$new(offset)
 \examples{
 
 # Create new loss object:
-absolute.loss = LossAbsolute$new()
-absolute.loss
+absolute_loss = LossAbsolute$new()
+absolute_loss
 
 }

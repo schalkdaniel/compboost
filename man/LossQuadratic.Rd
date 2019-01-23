@@ -51,7 +51,7 @@ LossQuadratic$new(offset)
 \examples{
 
 # Create new loss object:
-quadratic.loss = LossQuadratic$new()
-quadratic.loss
+quadratic_loss = LossQuadratic$new()
+quadratic_loss
 
 }

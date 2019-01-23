@@ -14,12 +14,12 @@ with the most \code{S4} classes.
 
 \preformatted{
 cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-  learning.rate = 0.05, oob.fraction)
+  learning_rate = 0.05, oob_fraction)
 
-cboost$addLogger(logger, use.as.stopper = FALSE, logger.id, ...)
+cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 
-cbboost$addBaselearner(features, id, bl.factory, data.source = InMemoryData,
-  data.target = InMemoryData, ...)
+cbboost$addBaselearner(features, id, bl_factory, data_source = InMemoryData,
+  data_target = InMemoryData, ...)
 
 cbboost$train(iteration = 100, trace = -1)
 
@@ -33,7 +33,7 @@ cboost$getSelectedBaselearner()
 
 cboost$getEstimatedCoef()
 
-cboost$plot(blearner.type = NULL, iters = NULL, from = NULL, to = NULL, length.out = 1000)
+cboost$plot(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000)
 
 cboost$getBaselearnerNames()
 
@@ -41,9 +41,9 @@ cboost$prepareData(newdata)
 
 cboost$getLoggerData()
 
-cboost$calculateFeatureImportance(num.feats = NULL)
+cboost$calculateFeatureImportance(num_feats = NULL)
 
-cboost$plotFeatureImportance(num.feats = NULL)
+cboost$plotFeatureImportance(num_feats = NULL)
 
 cboost$plotInbagVsOobRisk()
 
@@ -72,7 +72,7 @@ cboost$plotInbagVsOobRisk()
   \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
     Learning rate to shrink the parameter in each step.
   }
-  \item{\code{oob.fraction}}{[\code{numeric(1)}]\cr
+  \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
     Fraction of how much data are used to track the out of bag risk.
   }
 }
@@ -83,11 +83,11 @@ cboost$plotInbagVsOobRisk()
     Uninitialized \code{S4 Logger} class object that is registered in the model.
     See the details for possible choices.
   }
-  \item{\code{use.as.stopper}}{[\code{logical(1)}]\cr
+  \item{\code{use_as_stopper}}{[\code{logical(1)}]\cr
     Logical value indicating whether the new logger should also be used as stopper
     (early stopping). Default value is \code{FALSE}.
   }
-  \item{\code{logger.id}}{[\code{character(1)}]\cr
+  \item{\code{logger_id}}{[\code{character(1)}]\cr
     Id of the new logger. This is necessary to, for example, register multiple risk logger.
   }
   \item{}{\code{...}\cr
@@ -105,19 +105,19 @@ cboost$plotInbagVsOobRisk()
 \item{\code{id}}{[\code{character(1)}]\cr
   Id of the base-learners. This is necessary since it is possible to define multiple learners with the same underlying data.
 }
-\item{\code{bl.factory}}{[\code{S4 Factory}]\cr
+\item{\code{bl_factory}}{[\code{S4 Factory}]\cr
   Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
   for possible choices.
 }
-\item{\code{data.source}}{[\code{S4 Data}]\cr
+\item{\code{data_source}}{[\code{S4 Data}]\cr
   Data source object. At the moment just in memory is supported.
 }
-\item{\code{data.target}}{[\code{S4 Data}]\cr
+\item{\code{data_target}}{[\code{S4 Data}]\cr
   Data target object. At the moment just in memory is supported.
 }
 \item{}{\code{...}\cr
   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-  \code{bl.factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
+  \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
   of the \code{S4} classes.
 }
 }
@@ -144,7 +144,7 @@ cboost$plotInbagVsOobRisk()
 }
 \strong{For cboost$plot()}:
 \describe{
-\item{\code{blearner.type}}{[\code{character(1)}]\cr
+\item{\code{blearner_name}}{[\code{character(1)}]\cr
 	 Character name of the base-learner to plot the additional contribution to the response.
 }
 \item{\code{iters}}{[\code{integer()}]\cr
@@ -156,7 +156,7 @@ cboost$plotInbagVsOobRisk()
 \item{\code{to}}{[\code{numeric(1)}]\cr
 	 Upper bound for plotting (should be greater than \code{from}).
 }
-\item{\code{length.out}}{[\code{integer(1)}]\cr
+\item{\code{length_out}}{[\code{integer(1)}]\cr
 	 Number of equidistant points between \code{from} and \code{to} used for plotting.
 }
 }
@@ -257,10 +257,10 @@ cboost$plotInbagVsOobRisk()
   \item{\code{data} [\code{data.frame}]}{
     Data used for training the algorithm.
   }
-  \item{\code{data.oob} [\code{data.frame}]}{
+  \item{\code{data_oob} [\code{data.frame}]}{
     Data used for out of bag tracking.
   }
-  \item{\code{oob.fraction} [\code{numeric(1)}]}{
+  \item{\code{oob_fraction} [\code{numeric(1)}]}{
     Fraction of how much data are used to track the out of bag risk.
   }
   \item{\code{response} [\code{vector}]}{
@@ -278,19 +278,19 @@ cboost$plotInbagVsOobRisk()
   \item{\code{loss} [\code{S4 Loss}]}{
     Loss used to calculate pseudo residuals and empirical risk.
   }
-  \item{\code{learning.rate} [\code{numeric(1)}]}{
+  \item{\code{learning_rate} [\code{numeric(1)}]}{
     Learning rate used to shrink the estimated parameter in each iteration.
   }
   \item{\code{model} [\code{S4 Compboost_internal}]}{
     \code{S4 Compboost_internal} class object from that the main operations are called.
   }
-  \item{\code{bl.factory.list} [\code{S4 FactoryList}]}{
+  \item{\code{bl_factory_list} [\code{S4 FactoryList}]}{
     List of all registered factories represented as \code{S4 FactoryList} class.
   }
-  \item{\code{positive.category} [\code{character(1)}]}{
+  \item{\code{positive_category} [\code{character(1)}]}{
     Character containing the name of the positive class in the case of (binary) classification.
   }
-  \item{\code{stop.if.all.stoppers.fulfilled} [\code{logical(1)}]}{
+  \item{\code{stop_if_all_stoppers_fulfilled} [\code{logical(1)}]}{
     Logical indicating whether all stopper should be used simultaneously or if it is sufficient
     to just use the first stopper to stop the algorithm.
   }
@@ -313,12 +313,12 @@ cboost$plotInbagVsOobRisk()
   \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
   \item{\code{calculateFeatureImportance}}{method to calculate feature importance.}
   \item{\code{plotFeatureImportance}}{method to plot the feature importance calculated by \code{calulateFeatureImportance}.}
-  \item{\code{plotInbagVsOobRisk}}{method to plot the inbag vs the out of bag behavior. This is just applicable if a logger with name \code{oob_logger} was registered. This is automatically done if the \code{oob.fraction} is set.}
+  \item{\code{plotInbagVsOobRisk}}{method to plot the inbag vs the out of bag behavior. This is just applicable if a logger with name \code{oob_logger} was registered. This is automatically done if the \code{oob_fraction} is set.}
 }
 }
 
 \examples{
-cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob.fraction = 0.3)
+cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
 cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
   n.knots = 10, penalty = 2, differences = 2)
 cboost$train(1000)

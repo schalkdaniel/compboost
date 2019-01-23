@@ -1,3 +1,9 @@
+- **23.01.2019** \
+  **Style**: Change `.` to `_`, e.g. change `n.knots` to `n_knots`, to be more consistent with `C++` syntax.  
+
+- **23.01.2019** \
+  There is now a new `Response` class to be more versatile for given tasks.
+
 - **14.12.2018** \
   To track the out of bag risk is now easy controllable through a argument `oob.fraction`. The paths of inbag vs. out of bag risk can be plotted with `plotInbagVsOobRisk()`
 

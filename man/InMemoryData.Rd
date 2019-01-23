@@ -14,19 +14,19 @@ any arguments.
 
 \preformatted{
 InMemoryData$new()
-InMemoryData$new(data.mat, data.identifier)
+InMemoryData$new(data_mat, data_identifier)
 }
 }
 
 \section{Arguments}{
 
 \describe{
-\item{\code{data.mat} [\code{matrix}]}{
+\item{\code{data_mat} [\code{matrix}]}{
   Matrix containing the source data. This source data is later transformed
   to obtain the design matrix a base-learner uses for training.
 }
-\item{\code{data.identifier} [\code{character(1)}]}{
-  The name for the data specified in \code{data.mat}. Note that it is
+\item{\code{data_identifier} [\code{character(1)}]}{
+  The name for the data specified in \code{data_mat}. Note that it is
   important to have the same data names for train and evaluation data.
 }
 }
@@ -34,16 +34,16 @@ InMemoryData$new(data.mat, data.identifier)
 
 \section{Details}{
 
-  The \code{data.mat} needs to suits the base-learner. For instance, the
+  The \code{data_mat} needs to suits the base-learner. For instance, the
   spline base-learner does just take a one column matrix since there are
   just one dimensional splines till now. Additionally, using the polynomial
-  base-learner the \code{data.mat} is used to control if a intercept should
+  base-learner the \code{data_mat} is used to control if a intercept should
   be fitted or not by adding a column containing just ones. It is also
   possible to add other columns to estimate multiple features
   simultaneously. Anyway, this is not recommended in terms of unbiased
   features selection.
 
-  The \code{data.mat} and \code{data.identifier} of a target data object
+  The \code{data_mat} and \code{data_identifier} of a target data object
   is set automatically by passing the source and target object to the
   desired factory. \code{getData()} can then be used to access the
   transformed data of the target object.
@@ -61,20 +61,20 @@ InMemoryData$new(data.mat, data.identifier)
 \section{Methods}{
 
 \describe{
-\item{\code{getData()}}{method extract the \code{data.mat} from the data object.}
+\item{\code{getData()}}{method extract the \code{data_mat} from the data object.}
 \item{\code{getIdentifier()}}{method to extract the used name from the data object.}
 }
 }
 
 \examples{
 # Sample data:
-data.mat = cbind(1:10)
+data_mat = cbind(1:10)
 
 # Create new data object:
-data.obj = InMemoryData$new(data.mat, "my.data.name")
+data_obj = InMemoryData$new(data_mat, "my_data_name")
 
 # Get data and identifier:
-data.obj$getData()
-data.obj$getIdentifier()
+data_obj$getData()
+data_obj$getIdentifier()
 
 }

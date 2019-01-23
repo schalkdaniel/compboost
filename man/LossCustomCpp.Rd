@@ -46,6 +46,6 @@ LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 
 # Create new custom quadratic loss:
-my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 }
 }

@@ -12,8 +12,8 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
-  train.fun, predict.fun, param.fun))
+BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
+  train_fun, predict_fun, param_fun))
 }
 }
 
@@ -26,19 +26,19 @@ BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
 \item{\code{data_target} [\code{Data} Object]}{
   Data object which gets the transformed source data.
 }
-\item{\code{instantiate.fun} [\code{function}]}{
+\item{\code{instantiate_fun} [\code{function}]}{
   \code{R} function to transform the source data. For details see the
   \code{Details}.
 }
-\item{\code{train.fun} [\code{function}]}{
+\item{\code{train_fun} [\code{function}]}{
   \code{R} function to train the base-learner on the target data. For
   details see the \code{Details}.
 }
-\item{\code{predict.fun} [\code{function}]}{
+\item{\code{predict_fun} [\code{function}]}{
   \code{R} function to predict on the object returned by \code{train}.
   For details see the \code{Details}.
 }
-\item{\code{param.fun} [\code{function}]}{
+\item{\code{param_fun} [\code{function}]}{
   \code{R} function to extract the parameter of the object returned by
   \code{train}. For details see the \code{Details}.
 }
@@ -49,7 +49,7 @@ BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
 
   The function must have the following structure:
 
-  \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
+  \code{instantiateData(X) { ... return (X_trafo) }} With a matrix argument
   \code{X} and a matrix as return object.
 
   \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
@@ -91,12 +91,12 @@ BaselearnerCustom$new(data_source, data_target, list(instantiate.fun,
 
 \examples{
 # Sample data:
-data.mat = cbind(1, 1:10)
+data_mat = cbind(1, 1:10)
 y = 2 + 3 * 1:10
 
 # Create new data object:
-data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target = InMemoryData$new()
+data_source = InMemoryData$new(data_mat, "my_data_name")
+data_target = InMemoryData$new()
 
 instantiateDataFun = function (X) {
   return(X)
@@ -113,17 +113,17 @@ extractParameter = function (model) {
 }
 
 # Create new custom linear base-learner factory:
-custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-  list(instantiate.fun = instantiateDataFun, train.fun = trainFun,
-    predict.fun = predictFun, param.fun = extractParameter))
+custom_lin_factory = BaselearnerCustom$new(data_source, data_target,
+  list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
+    predict_fun = predictFun, param_fun = extractParameter))
 
 # Get the transformed data:
-custom.lin.factory$getData()
+custom_lin_factory$getData()
 
 # Summarize factory:
-custom.lin.factory$summarizeFactory()
+custom_lin_factory$summarizeFactory()
 
 # Transform data manually:
-custom.lin.factory$transformData(data.mat)
+custom_lin_factory$transformData(data_mat)
 
 }
