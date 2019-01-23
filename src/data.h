@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of 
 // the MIT License along with compboost. 
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #ifndef DATA_H_
@@ -68,9 +53,6 @@ public:
   /// Sparse matrix for design matrix (directly accessible)
   arma::sp_mat sparse_data_mat;
   
-  
-  const arma::mat* data_mat_ptr = NULL;
-  
   // Some spline specific data stuff (of course they can be used for other
   // classes to):
   
@@ -99,7 +81,7 @@ public:
   void setDataType (const std::string&);
   
   virtual 
-    ~Data () { };
+    ~Data () {};
 };
 
 
@@ -130,7 +112,6 @@ public:
   arma::mat getData() const;
   
   ~InMemoryData ();
-  
 };
 
 } // namespace data

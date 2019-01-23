@@ -12,7 +12,7 @@ see the use case or extending compboost vignette.
 \section{Usage}{
 
 \preformatted{
-LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
   oob_data, oob_response)
 }
 }
@@ -107,21 +107,24 @@ iteration \eqn{m} is calculated by:
 # Define data:
 X1 = cbind(1:10)
 X2 = cbind(10:1)
-data.source1 = InMemoryData$new(X1, "x1")
-data.source2 = InMemoryData$new(X2, "x2")
+data_source1 = InMemoryData$new(X1, "x1")
+data_source2 = InMemoryData$new(X2, "x2")
 
-oob.list = list(data.source1, data.source2)
+oob_list = list(data_source1, data_source2)
 
 set.seed(123)
-y.oob = rnorm(10)
+y_oob = rnorm(10)
 
 # Used loss:
-log.bin = LossBinomial$new()
+log_bin = LossBinomial$new()
+
+# Define response object of oob data:
+oob_response = ResponseRegr$new("oob_response", as.matrix(y_oob))
 
 # Define logger:
-log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
+log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, oob_list, oob_response)
 
 # Summarize logger:
-log.oob.risk$summarizeLogger()
+log_oob_risk$summarizeLogger()
 
 }

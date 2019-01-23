@@ -66,28 +66,28 @@ BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, 
 
 \examples{
 # Sample data:
-data.mat = cbind(1:10)
+data_mat = cbind(1:10)
 
 # Create new data object:
-data.source = InMemoryData$new(data.mat, "my.data.name")
-data.target1 = InMemoryData$new()
-data.target2 = InMemoryData$new()
+data_source = InMemoryData$new(data_mat, "my_data_name")
+data_target1 = InMemoryData$new()
+data_target2 = InMemoryData$new()
 
 # Create new linear base-learner factory:
-lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
   list(degree = 2, intercept = FALSE))
-lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
+lin_factory_int = BaselearnerPolynomial$new(data_source, data_target2,
   list(degree = 2, intercept = TRUE))
 
 # Get the transformed data:
-lin.factory$getData()
-lin.factory.int$getData()
+lin_factory$getData()
+lin_factory_int$getData()
 
 # Summarize factory:
-lin.factory$summarizeFactory()
+lin_factory$summarizeFactory()
 
 # Transform data manually:
-lin.factory$transformData(data.mat)
-lin.factory.int$transformData(data.mat)
+lin_factory$transformData(data_mat)
+lin_factory_int$transformData(data_mat)
 
 }

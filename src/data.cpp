@@ -65,36 +65,15 @@ void Data::setDataType (const std::string& data_type0)
 
 InMemoryData::InMemoryData () {}
 
-// InMemoryData::InMemoryData (const arma::vec& raw_data, const std::string& data_identifier0)
-// {
-//   Rcpp::Rcout << "Vector Initializer" << std::endl;
-//   data_mat_ptr    = &raw_data;
-//   data_identifier = data_identifier0;
-// }
-
 InMemoryData::InMemoryData (const arma::mat& raw_data, const std::string& data_identifier0)
 {
-  data_mat_ptr    = &raw_data;
+  data_mat = raw_data;
   data_identifier = data_identifier0;
 }
 
-void InMemoryData::setData (const arma::mat& transformed_data) 
-{
-  data_mat = transformed_data;
-}
+void InMemoryData::setData (const arma::mat& transformed_data) { data_mat = transformed_data; }
+arma::mat InMemoryData::getData () const { return data_mat; }
 
-arma::mat InMemoryData::getData () const
-{
-  // Give data depending on source (by reference) or target (by value):
-  if (data_mat_ptr == NULL) {
-    return data_mat;
-  } else {
-    return *data_mat_ptr;
-  }
-}
-
-InMemoryData::~InMemoryData () {
-  // Rcpp::Rcout << "Delete Data" << std::endl;
-}
+InMemoryData::~InMemoryData () {};
 
 } // namespace data

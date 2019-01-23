@@ -5,9 +5,9 @@
 \title{Wrapper to boost linear models for each feature.}
 \usage{
 boostLinear(data, target, optimizer = OptimizerCoordinateDescent$new(),
-  loss, learning.rate = 0.05, iterations = 100, trace = -1,
-  intercept = TRUE, data.source = InMemoryData,
-  data.target = InMemoryData, oob.fraction = NULL)
+  loss, learning_rate = 0.05, iterations = 100, trace = -1,
+  intercept = TRUE, data_source = InMemoryData,
+  data_target = InMemoryData, oob_fraction = NULL)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
@@ -25,7 +25,7 @@ to select features at each iteration.}
 Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
 residuals (e.g. \code{LossQuadratic$new()}).}
 
-\item{learning.rate}{[\code{numeric(1)}]\cr
+\item{learning_rate}{[\code{numeric(1)}]\cr
 Learning rate to shrink the parameter in each step.}
 
 \item{iterations}{[\code{integer(1)}]\cr
@@ -40,15 +40,15 @@ Integer indicating how often a trace should be printed. Specifying \code{trace =
 Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
-\item{data.source}{[\code{S4 Data}]\cr
+\item{data_source}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{data.target}{[\code{S4 Data}]\cr
+\item{data_target}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{oob.fraction}{[\code{numeric(1)}]\cr
+\item{oob_fraction}{[\code{numeric(1)}]\cr
 Fraction of how much data are used to track the out of bag risk.}
 }
 \value{
@@ -68,7 +68,7 @@ used for further analyses (see \code{?Compboost} for details).
 }
 \examples{
 mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
-  oob.fraction = 0.3)
+  oob_fraction = 0.3)
 mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())

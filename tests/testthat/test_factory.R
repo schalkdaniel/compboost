@@ -3,43 +3,43 @@ context("Factories of 'compboost'")
 test_that("polynomial factory works", {
 
   # Data X and response y:
-  X.linear = 1:10
-  X.cubic  = X.linear^3
+  X_linear = 1:10
+  X_cubic  = X_linear^3
 
-  y = 3 * X.linear + rnorm(10, 0, 2)
+  y = 3 * X_linear + rnorm(10, 0, 2)
   
-  expect_silent({ data.source = InMemoryData$new(as.matrix(X.linear), "my_variable") })
-  expect_silent({ data.target.lin = InMemoryData$new() })
-  expect_silent({ data.target.cub = InMemoryData$new() })
-  expect_error({ linear.factory = BaselearnerPolynomial$new(data.source, data.target.lin, 
+  expect_silent({ data_source = InMemoryData$new(as.matrix(X_linear), "my_variable") })
+  expect_silent({ data_target_lin = InMemoryData$new() })
+  expect_silent({ data_target_cub = InMemoryData$new() })
+  expect_error({ linear_factory = BaselearnerPolynomial$new(data_source, data_target_lin, 
     list(1, FALSE)) })
-  expect_error({ cubic.factory = BaselearnerPolynomial$new(data.source, data.target.cub, 
+  expect_error({ cubic_factory = BaselearnerPolynomial$new(data_source, data_target_cub, 
     list(degree = "test", intercept = FALSE)) })  
-  expect_warning({ cubic.factory = BaselearnerPolynomial$new(data.source, data.target.cub, 
+  expect_warning({ cubic_factory = BaselearnerPolynomial$new(data_source, data_target_cub, 
     list(degree = 5, intercept = FALSE, nuisance = 10)) })  
-  expect_silent({ linear.factory = BaselearnerPolynomial$new(data.source, data.target.lin, 
+  expect_silent({ linear_factory = BaselearnerPolynomial$new(data_source, data_target_lin, 
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ cubic.factory = BaselearnerPolynomial$new(data.source, data.target.cub, 
+  expect_silent({ cubic_factory = BaselearnerPolynomial$new(data_source, data_target_cub, 
     list(degree = 3, intercept = FALSE)) })
 
-  mod.linear = lm(y ~ 0 + X.linear)
-  mod.cubic  = lm(y ~ 0 + X.cubic)
+  mod_linear = lm(y ~ 0 + X_linear)
+  mod_cubic  = lm(y ~ 0 + X_cubic)
 
   expect_equal(
-    linear.factory$getData(),
-    as.matrix(mod.linear$model[["X.linear"]])
+    linear_factory$getData(),
+    as.matrix(mod_linear$model[["X_linear"]])
   )
   expect_equal(
-    cubic.factory$getData(),
-    as.matrix(mod.cubic$model[["X.cubic"]])
+    cubic_factory$getData(),
+    as.matrix(mod_cubic$model[["X_cubic"]])
   )
   expect_equal(
-    linear.factory$getData(),
-    linear.factory$transformData(data.source$getData())
+    linear_factory$getData(),
+    linear_factory$transformData(data_source$getData())
   )
   expect_equal(
-    cubic.factory$getData(),
-    cubic.factory$transformData(data.source$getData())
+    cubic_factory$getData(),
+    cubic_factory$transformData(data_source$getData())
   )
 })
 
@@ -63,20 +63,20 @@ test_that("custom factory works", {
   X = matrix(1:10, ncol = 1)
   y = sin(as.numeric(X)) + rnorm(10, 0, 0.6)
 
-  expect_silent({ data.source = InMemoryData$new(X, "variable_1") })
-  expect_silent({ data.target = InMemoryData$new() })
+  expect_silent({ data_source = InMemoryData$new(X, "variable_1") })
+  expect_silent({ data_target = InMemoryData$new() })
   expect_silent({
-    custom.factory = BaselearnerCustom$new(data.source, data.target, 
-      list(instantiate.fun = instantiateDataFun, train.fun =  trainFun, predict.fun = predictFun, 
-        param.fun = extractParameter))
+    custom_factory = BaselearnerCustom$new(data_source, data_target, 
+      list(instantiate_fun = instantiateDataFun, train_fun =  trainFun, predict_fun = predictFun, 
+        param_fun = extractParameter))
   })
   expect_equal(
-    custom.factory$getData(),
+    custom_factory$getData(),
     instantiateDataFun(X)
   )
   expect_equal(
-    custom.factory$getData(),
-    custom.factory$transformData(data.source$getData())
+    custom_factory$getData(),
+    custom_factory$transformData(data_source$getData())
   )
 })
 
@@ -89,16 +89,16 @@ test_that("custom cpp factory works", {
   X = matrix(1:10, ncol = 1)
   y = 3 * as.numeric(X) + rnorm(10, 0, 2)
 
-  expect_silent({ data.source = InMemoryData$new(X, "my_variable_name") })
-  expect_silent({ data.target = InMemoryData$new() })
+  expect_silent({ data_source = InMemoryData$new(X, "my_variable_name") })
+  expect_silent({ data_target = InMemoryData$new() })
   expect_silent({
-    custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target, 
-      list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(), 
-        predict.ptr = predictFunSetter()))
+    custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target, 
+      list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(), 
+        predict_ptr = predictFunSetter()))
   })
-  expect_equal(custom.cpp.factory$getData(), X)  
+  expect_equal(custom_cpp_factory$getData(), X)  
   expect_equal(
-    custom.cpp.factory$getData(),
-    custom.cpp.factory$transformData(data.source$getData())
+    custom_cpp_factory$getData(),
+    custom_cpp_factory$transformData(data_source$getData())
   )
 })

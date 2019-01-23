@@ -14,33 +14,33 @@
 #' @section Usage:
 #' \preformatted{
 #' InMemoryData$new()
-#' InMemoryData$new(data.mat, data.identifier)
+#' InMemoryData$new(data_mat, data_identifier)
 #' }
 #'
 #' @section Arguments:
 #' \describe{
-#' \item{\code{data.mat} [\code{matrix}]}{
+#' \item{\code{data_mat} [\code{matrix}]}{
 #'   Matrix containing the source data. This source data is later transformed
 #'   to obtain the design matrix a base-learner uses for training.
 #' }
-#' \item{\code{data.identifier} [\code{character(1)}]}{
-#'   The name for the data specified in \code{data.mat}. Note that it is
+#' \item{\code{data_identifier} [\code{character(1)}]}{
+#'   The name for the data specified in \code{data_mat}. Note that it is
 #'   important to have the same data names for train and evaluation data.
 #' }
 #' }
 #'
 #'
 #' @section Details:
-#'   The \code{data.mat} needs to suits the base-learner. For instance, the
+#'   The \code{data_mat} needs to suits the base-learner. For instance, the
 #'   spline base-learner does just take a one column matrix since there are
 #'   just one dimensional splines till now. Additionally, using the polynomial
-#'   base-learner the \code{data.mat} is used to control if a intercept should
+#'   base-learner the \code{data_mat} is used to control if a intercept should
 #'   be fitted or not by adding a column containing just ones. It is also
 #'   possible to add other columns to estimate multiple features
 #'   simultaneously. Anyway, this is not recommended in terms of unbiased
 #'   features selection.
 #'
-#'   The \code{data.mat} and \code{data.identifier} of a target data object
+#'   The \code{data_mat} and \code{data_identifier} of a target data object
 #'   is set automatically by passing the source and target object to the
 #'   desired factory. \code{getData()} can then be used to access the
 #'   transformed data of the target object.
@@ -54,19 +54,19 @@
 #'
 #' @section Methods:
 #' \describe{
-#' \item{\code{getData()}}{method extract the \code{data.mat} from the data object.}
+#' \item{\code{getData()}}{method extract the \code{data_mat} from the data object.}
 #' \item{\code{getIdentifier()}}{method to extract the used name from the data object.}
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1:10)
+#' data_mat = cbind(1:10)
 #'
 #' # Create new data object:
-#' data.obj = InMemoryData$new(data.mat, "my.data.name")
+#' data_obj = InMemoryData$new(data_mat, "my_data_name")
 #'
 #' # Get data and identifier:
-#' data.obj$getData()
-#' data.obj$getIdentifier()
+#' data_obj$getData()
+#' data_obj$getIdentifier()
 #'
 #' @export InMemoryData
 NULL
@@ -127,29 +127,29 @@ NULL
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1:10)
+#' data_mat = cbind(1:10)
 #'
 #' # Create new data object:
-#' data.source = InMemoryData$new(data.mat, "my.data.name")
-#' data.target1 = InMemoryData$new()
-#' data.target2 = InMemoryData$new()
+#' data_source = InMemoryData$new(data_mat, "my_data_name")
+#' data_target1 = InMemoryData$new()
+#' data_target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
 #'   list(degree = 2, intercept = FALSE))
-#' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
+#' lin_factory_int = BaselearnerPolynomial$new(data_source, data_target2,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Get the transformed data:
-#' lin.factory$getData()
-#' lin.factory.int$getData()
+#' lin_factory$getData()
+#' lin_factory_int$getData()
 #'
 #' # Summarize factory:
-#' lin.factory$summarizeFactory()
+#' lin_factory$summarizeFactory()
 #'
 #' # Transform data manually:
-#' lin.factory$transformData(data.mat)
-#' lin.factory.int$transformData(data.mat)
+#' lin_factory$transformData(data_mat)
+#' lin_factory_int$transformData(data_mat)
 #'
 #' @export BaselearnerPolynomial
 NULL
@@ -165,7 +165,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
+#' BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
 #'   differences))
 #' }
 #'
@@ -180,7 +180,7 @@ NULL
 #' \item{\code{degree} [\code{integer(1)}]}{
 #'   Degree of the spline functions to interpolate the knots.
 #' }
-#' \item{\code{n.knots} [\code{integer(1)}]}{
+#' \item{\code{n_knots} [\code{integer(1)}]}{
 #'   Number of \strong{inner knots}. To prevent weird behavior on the edges
 #'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 #' }
@@ -216,25 +216,25 @@ NULL
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1:10)
+#' data_mat = cbind(1:10)
 #' y = sin(1:10)
 #'
 #' # Create new data object:
-#' data.source = InMemoryData$new(data.mat, "my.data.name")
-#' data.target = InMemoryData$new()
+#' data_source = InMemoryData$new(data_mat, "my_data_name")
+#' data_target = InMemoryData$new()
 #'
 #' # Create new linear base-learner:
-#' spline.factory = BaselearnerPSpline$new(data.source, data.target,
-#'   list(degree = 3, n.knots = 4, penalty = 2, differences = 2))
+#' spline_factory = BaselearnerPSpline$new(data_source, data_target,
+#'   list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
 #'
 #' # Get the transformed data:
-#' spline.factory$getData()
+#' spline_factory$getData()
 #'
 #' # Summarize factory:
-#' spline.factory$summarizeFactory()
+#' spline_factory$summarizeFactory()
 #'
 #' # Transform data manually:
-#' spline.factory$transformData(data.mat)
+#' spline_factory$transformData(data_mat)
 #'
 #' @export BaselearnerPSpline
 NULL
@@ -250,8 +250,8 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
-#'   train.fun, predict.fun, param.fun))
+#' BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
+#'   train_fun, predict_fun, param_fun))
 #' }
 #'
 #' @section Arguments:
@@ -262,19 +262,19 @@ NULL
 #' \item{\code{data_target} [\code{Data} Object]}{
 #'   Data object which gets the transformed source data.
 #' }
-#' \item{\code{instantiate.fun} [\code{function}]}{
+#' \item{\code{instantiate_fun} [\code{function}]}{
 #'   \code{R} function to transform the source data. For details see the
 #'   \code{Details}.
 #' }
-#' \item{\code{train.fun} [\code{function}]}{
+#' \item{\code{train_fun} [\code{function}]}{
 #'   \code{R} function to train the base-learner on the target data. For
 #'   details see the \code{Details}.
 #' }
-#' \item{\code{predict.fun} [\code{function}]}{
+#' \item{\code{predict_fun} [\code{function}]}{
 #'   \code{R} function to predict on the object returned by \code{train}.
 #'   For details see the \code{Details}.
 #' }
-#' \item{\code{param.fun} [\code{function}]}{
+#' \item{\code{param_fun} [\code{function}]}{
 #'   \code{R} function to extract the parameter of the object returned by
 #'   \code{train}. For details see the \code{Details}.
 #' }
@@ -283,7 +283,7 @@ NULL
 #' @section Details:
 #'   The function must have the following structure:
 #'
-#'   \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
+#'   \code{instantiateData(X) { ... return (X_trafo) }} With a matrix argument
 #'   \code{X} and a matrix as return object.
 #'
 #'   \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
@@ -319,12 +319,12 @@ NULL
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1, 1:10)
+#' data_mat = cbind(1, 1:10)
 #' y = 2 + 3 * 1:10
 #'
 #' # Create new data object:
-#' data.source = InMemoryData$new(data.mat, "my.data.name")
-#' data.target = InMemoryData$new()
+#' data_source = InMemoryData$new(data_mat, "my_data_name")
+#' data_target = InMemoryData$new()
 #'
 #' instantiateDataFun = function (X) {
 #'   return(X)
@@ -341,18 +341,18 @@ NULL
 #' }
 #'
 #' # Create new custom linear base-learner factory:
-#' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-#'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
-#'     predict.fun = predictFun, param.fun = extractParameter))
+#' custom_lin_factory = BaselearnerCustom$new(data_source, data_target,
+#'   list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
+#'     predict_fun = predictFun, param_fun = extractParameter))
 #'
 #' # Get the transformed data:
-#' custom.lin.factory$getData()
+#' custom_lin_factory$getData()
 #'
 #' # Summarize factory:
-#' custom.lin.factory$summarizeFactory()
+#' custom_lin_factory$summarizeFactory()
 #'
 #' # Transform data manually:
-#' custom.lin.factory$transformData(data.mat)
+#' custom_lin_factory$transformData(data_mat)
 #'
 #' @export BaselearnerCustom
 NULL
@@ -369,8 +369,8 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
-#'   train.ptr, predict.ptr))
+#' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
+#'   train_ptr, predict_ptr))
 #' }
 #'
 #' @section Arguments:
@@ -381,13 +381,13 @@ NULL
 #' \item{\code{data_target} [\code{Data} Object]}{
 #'   Data object which gets the transformed source data.
 #' }
-#' \item{\code{instantiate.ptr} [\code{externalptr}]}{
+#' \item{\code{instantiate_ptr} [\code{externalptr}]}{
 #'   External pointer to the \code{C++} instantiate data function.
 #' }
-#' \item{\code{train.ptr} [\code{externalptr}]}{
+#' \item{\code{train_ptr} [\code{externalptr}]}{
 #'   External pointer to the \code{C++} train function.
 #' }
-#' \item{\code{predict.ptr} [\code{externalptr}]}{
+#' \item{\code{predict_ptr} [\code{externalptr}]}{
 #'   External pointer to the \code{C++} predict function.
 #' }
 #' }
@@ -414,29 +414,29 @@ NULL
 #' @examples
 #' \donttest{
 #' # Sample data:
-#' data.mat = cbind(1, 1:10)
+#' data_mat = cbind(1, 1:10)
 #' y = 2 + 3 * 1:10
 #'
 #' # Create new data object:
-#' data.source = InMemoryData$new(data.mat, "my.data.name")
-#' data.target = InMemoryData$new()
+#' data_source = InMemoryData$new(data_mat, "my_data_name")
+#' data_target = InMemoryData$new()
 #'
 #' # Source the external pointer exposed by using XPtr:
 #' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 #'
 #' # Create new linear base-learner:
-#' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-#'   list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
-#'     predict.ptr = predictFunSetter()))
+#' custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+#'   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
+#'     predict_ptr = predictFunSetter()))
 #'
 #' # Get the transformed data:
-#' custom.cpp.factory$getData()
+#' custom_cpp_factory$getData()
 #'
 #' # Summarize factory:
-#' custom.cpp.factory$summarizeFactory()
+#' custom_cpp_factory$summarizeFactory()
 #'
 #' # Transform data manually:
-#' custom.cpp.factory$transformData(data.mat)
+#' custom_cpp_factory$transformData(data_mat)
 #' }
 #' @export BaselearnerCustomCpp
 NULL
@@ -480,36 +480,36 @@ NULL
 #' }
 #' @examples
 #' # Sample data:
-#' data.mat = cbind(1:10)
+#' data_mat = cbind(1:10)
 #'
 #' # Create new data object:
-#' data.source = InMemoryData$new(data.mat, "my.data.name")
-#' data.target1 = InMemoryData$new()
-#' data.target2 = InMemoryData$new()
+#' data_source = InMemoryData$new(data_mat, "my_data_name")
+#' data_target1 = InMemoryData$new()
+#' data_target2 = InMemoryData$new()
 #'
-#' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+#' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
 #'   list(degree = 1, intercept = TRUE))
-#' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 
+#' poly_factory = BaselearnerPolynomial$new(data_source, data_target2,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Create new base-learner list:
-#' my.bl.list = BlearnerFactoryList$new()
+#' my_bl_list = BlearnerFactoryList$new()
 #'
 #' # Register factories:
-#' my.bl.list$registerFactory(lin.factory)
-#' my.bl.list$registerFactory(poly.factory)
+#' my_bl_list$registerFactory(lin_factory)
+#' my_bl_list$registerFactory(poly_factory)
 #'
 #' # Get registered factories:
-#' my.bl.list$printRegisteredFactories()
+#' my_bl_list$printRegisteredFactories()
 #'
 #' # Get all target data matrices in one big matrix:
-#' my.bl.list$getModelFrame()
+#' my_bl_list$getModelFrame()
 #'
 #' # Clear list:
-#' my.bl.list$clearRegisteredFactories()
+#' my_bl_list$clearRegisteredFactories()
 #'
 #' # Get number of registered factories:
-#' my.bl.list$getNumberOfRegisteredFactories()
+#' my_bl_list$getNumberOfRegisteredFactories()
 #'
 #' @export BlearnerFactoryList
 NULL
@@ -558,8 +558,8 @@ NULL
 #' @examples
 #'
 #' # Create new loss object:
-#' quadratic.loss = LossQuadratic$new()
-#' quadratic.loss
+#' quadratic_loss = LossQuadratic$new()
+#' quadratic_loss
 #'
 #' @export LossQuadratic
 NULL
@@ -608,8 +608,8 @@ NULL
 #' @examples
 #'
 #' # Create new loss object:
-#' absolute.loss = LossAbsolute$new()
-#' absolute.loss
+#' absolute_loss = LossAbsolute$new()
+#' absolute_loss
 #'
 #' @export LossAbsolute
 NULL
@@ -661,10 +661,10 @@ NULL
 #'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 #'
 #' @examples
-#' 
+#'
 #' # Create new loss object:
-#' bin.loss = LossBinomial$new()
-#' bin.loss
+#' bin_loss = LossBinomial$new()
+#' bin_loss
 #'
 #' @export LossBinomial
 NULL
@@ -725,20 +725,20 @@ NULL
 #' @examples
 #'
 #' # Loss function:
-#' myLoss = function (true.values, prediction) {
-#'   return (0.5 * (true.values - prediction)^2)
+#' myLoss = function (true_values, prediction) {
+#'   return (0.5 * (true_values - prediction)^2)
 #' }
 #' # Gradient of loss function:
-#' myGradient = function (true.values, prediction) {
-#'   return (prediction - true.values)
+#' myGradient = function (true_values, prediction) {
+#'   return (prediction - true_values)
 #' }
 #' # Constant initialization:
-#' myConstInit = function (true.values) {
-#'   return (mean(true.values))
+#' myConstInit = function (true_values) {
+#'   return (mean(true_values))
 #' }
 #'
 #' # Create new custom quadratic loss:
-#' my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
+#' my_loss = LossCustom$new(myLoss, myGradient, myConstInit)
 #'
 #' @export LossCustom
 NULL
@@ -783,9 +783,43 @@ NULL
 #' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 #'
 #' # Create new custom quadratic loss:
-#' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+#' my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 #' }
 #' @export LossCustomCpp
+NULL
+
+#' Create response object for regression.
+#'
+#' \code{ResponseRegr} creates a response object that are used as target during the
+#' fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name ResponseRegr
+#'
+#' @section Usage:
+#' \preformatted{
+#' ResponseRegr$new(target_name, response)
+#' ResponseRegr$new(target_name, response, weights)
+#' }
+#'
+#' @export ResponseRegr
+NULL
+
+#' Create response object for binary classification.
+#'
+#' \code{ResponseBinaryClassif} creates a response object that are used as target during the
+#' fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name ResponseBinaryClassif
+#'
+#' @section Usage:
+#' \preformatted{
+#' ResponseBinaryClassif$new(target_name, response)
+#' ResponseBinaryClassif$new(target_name, response, weights)
+#' }
+#'
+#' @export ResponseBinaryClassif
 NULL
 
 #' Logger class to log the current iteration
@@ -827,10 +861,10 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.iters = LoggerIteration$new("iterations", FALSE, 100)
+#' log_iters = LoggerIteration$new("iterations", FALSE, 100)
 #'
 #' # Summarize logger:
-#' log.iters$summarizeLogger()
+#' log_iters$summarizeLogger()
 #'
 #' @export LoggerIteration
 NULL
@@ -914,13 +948,13 @@ NULL
 #' }
 #' @examples
 #' # Used loss:
-#' log.bin = LossBinomial$new()
+#' log_bin = LossBinomial$new()
 #'
 #' # Define logger:
-#' log.inbag.risk = LoggerInbagRisk$new("inbag", FALSE, log.bin, 0.05)
+#' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
 #'
 #' # Summarize logger:
-#' log.inbag.risk$summarizeLogger()
+#' log_inbag_risk$summarizeLogger()
 #'
 #' @export LoggerInbagRisk
 NULL
@@ -936,7 +970,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
 #'   oob_data, oob_response)
 #' }
 #'
@@ -1021,22 +1055,25 @@ NULL
 #' # Define data:
 #' X1 = cbind(1:10)
 #' X2 = cbind(10:1)
-#' data.source1 = InMemoryData$new(X1, "x1")
-#' data.source2 = InMemoryData$new(X2, "x2")
+#' data_source1 = InMemoryData$new(X1, "x1")
+#' data_source2 = InMemoryData$new(X2, "x2")
 #'
-#' oob.list = list(data.source1, data.source2)
+#' oob_list = list(data_source1, data_source2)
 #'
 #' set.seed(123)
-#' y.oob = rnorm(10)
+#' y_oob = rnorm(10)
 #'
 #' # Used loss:
-#' log.bin = LossBinomial$new()
+#' log_bin = LossBinomial$new()
+#'
+#' # Define response object of oob data:
+#' oob_response = ResponseRegr$new("oob_response", as.matrix(y_oob))
 #'
 #' # Define logger:
-#' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
+#' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, oob_list, oob_response)
 #'
 #' # Summarize logger:
-#' log.oob.risk$summarizeLogger()
+#' log_oob_risk$summarizeLogger()
 #'
 #' @export LoggerOobRisk
 NULL
@@ -1093,10 +1130,10 @@ NULL
 #' }
 #' @examples
 #' # Define logger:
-#' log.time = LoggerTime$new("time.minutes", FALSE, 20, "minutes")
+#' log_time = LoggerTime$new("time_minutes", FALSE, 20, "minutes")
 #'
 #' # Summarize logger:
-#' log.time$summarizeLogger()
+#' log_time$summarizeLogger()
 #'
 #' @export LoggerTime
 NULL
@@ -1134,28 +1171,28 @@ NULL
 #'   logger as integer.}
 #' \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
 #' \item{\code{registerLogger(logger)}}{Includes a new \code{logger}
-#'   into the logger list with the \code{logger.id} as key.}
+#'   into the logger list with the \code{logger_id} as key.}
 #' }
 #' @examples
 #' # Define logger:
-#' log.iters = LoggerIteration$new("iteration", TRUE, 100)
-#' log.time = LoggerTime$new("time", FALSE, 20, "minutes")
+#' log_iters = LoggerIteration$new("iteration", TRUE, 100)
+#' log_time = LoggerTime$new("time", FALSE, 20, "minutes")
 #'
 #' # Create logger list:
-#' logger.list = LoggerList$new()
+#' logger_list = LoggerList$new()
 #'
 #' # Register new loggeR:
-#' logger.list$registerLogger(log.iters)
-#' logger.list$registerLogger(log.time)
+#' logger_list$registerLogger(log_iters)
+#' logger_list$registerLogger(log_time)
 #'
 #' # Print registered logger:
-#' logger.list$printRegisteredLogger()
+#' logger_list$printRegisteredLogger()
 #'
 #' # Remove all logger:
-#' logger.list$clearRegisteredLogger()
+#' logger_list$clearRegisteredLogger()
 #'
 #' # Get number of registered logger:
-#' logger.list$getNumberOfRegisteredLogger()
+#' logger_list$getNumberOfRegisteredLogger()
 #'
 #' @export LoggerList
 NULL
@@ -1190,7 +1227,7 @@ NULL
 
 #' Coordinate Descent with line search
 #'
-#' This class defines a new object which is used to conduct Coordinate Descent with line search. 
+#' This class defines a new object which is used to conduct Coordinate Descent with line search.
 #' The optimizer just calculates for each base-learner the sum of squared error and returns
 #' the base-learner with the smallest SSE. In addition, this optimizer computes
 #' a line search to find the optimal step size in each iteration.
@@ -1308,53 +1345,54 @@ NULL
 #'
 #' # Some data:
 #' df = mtcars
-#' df$mpg.cat = ifelse(df$mpg > 20, 1, -1)
+#' df$mpg_cat = ifelse(df$mpg > 20, 1, -1)
 #'
 #' # # Create new variable to check the polynomial base-learner with degree 2:
 #' # df$hp2 = df[["hp"]]^2
 #'
 #' # Data for the baselearner are matrices:
-#' X.hp = as.matrix(df[["hp"]])
-#' X.wt = as.matrix(df[["wt"]])
+#' X_hp = as.matrix(df[["hp"]])
+#' X_wt = as.matrix(df[["wt"]])
 #'
 #' # Target variable:
-#' y = df[["mpg.cat"]]
+#' y = df[["mpg_cat"]]
+#' response = ResponseBinaryClassif$new("mpg_cat", as.matrix(y))
 #'
-#' data.source.hp = InMemoryData$new(X.hp, "hp")
-#' data.source.wt = InMemoryData$new(X.wt, "wt")
+#' data_source_hp = InMemoryData$new(X_hp, "hp")
+#' data_source_wt = InMemoryData$new(X_wt, "wt")
 #'
-#' data.target.hp1 = InMemoryData$new()
-#' data.target.hp2 = InMemoryData$new()
-#' data.target.wt1 = InMemoryData$new()
-#' data.target.wt2 = InMemoryData$new()
+#' data_target_hp1 = InMemoryData$new()
+#' data_target_hp2 = InMemoryData$new()
+#' data_target_wt1 = InMemoryData$new()
+#' data_target_wt2 = InMemoryData$new()
 #'
 #' # List for oob logging:
-#' oob.data = list(data.source.hp, data.source.wt)
+#' oob_data = list(data_source_hp, data_source_wt)
 #'
 #' # List to test prediction on newdata:
-#' test.data = oob.data
+#' test_data = oob_data
 #'
 #' # Factories:
-#' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+#' linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
 #'   list(degree = 1, intercept = TRUE))
-#' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+#' linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt1,
 #'   list(degree = 1, intercept = TRUE))
-#' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+#' quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
 #'   list(degree = 2, intercept = TRUE))
-#' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
-#'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
+#' spline_factory_wt = BaselearnerPSpline$new(data_source_wt, data_target_wt2,
+#'   list(degree = 3, n_knots = 10, penalty = 2, differences = 2))
 #'
 #' # Create new factory list:
-#' factory.list = BlearnerFactoryList$new()
+#' factory_list = BlearnerFactoryList$new()
 #'
 #' # Register factories:
-#' factory.list$registerFactory(linear.factory.hp)
-#' factory.list$registerFactory(linear.factory.wt)
-#' factory.list$registerFactory(quadratic.factory.hp)
-#' factory.list$registerFactory(spline.factory.wt)
+#' factory_list$registerFactory(linear_factory_hp)
+#' factory_list$registerFactory(linear_factory_wt)
+#' factory_list$registerFactory(quadratic_factory_hp)
+#' factory_list$registerFactory(spline_factory_wt)
 #'
 #' # Define loss:
-#' loss.bin = LossBinomial$new()
+#' loss_bin = LossBinomial$new()
 #'
 #' # Define optimizer:
 #' optimizer = OptimizerCoordinateDescent$new()
@@ -1363,31 +1401,27 @@ NULL
 #'
 #' # Define logger. We want just the iterations as stopper but also track the
 #' # time, inbag risk and oob risk:
-#' log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
-#' log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
-#' log.inbag       = LoggerInbagRisk$new("inbag.binomial", FALSE, loss.bin, 0.05)
-#' log.oob         = LoggerOobRisk$new("oob.binomial", FALSE, loss.bin, 0.05, oob.data, y)
+#' log_iterations  = LoggerIteration$new(" iteration_logger", TRUE, 500)
+#' log_time        = LoggerTime$new("time_logger", FALSE, 500, "microseconds")
 #'
 #' # Define new logger list:
-#' logger.list = LoggerList$new()
+#' logger_list = LoggerList$new()
 #'
 #' # Register the logger:
-#' logger.list$registerLogger(log.iterations)
-#' logger.list$registerLogger(log.time)
-#' logger.list$registerLogger(log.inbag)
-#' logger.list$registerLogger(log.oob)
+#' logger_list$registerLogger(log_iterations)
+#' logger_list$registerLogger(log_time)
 #'
 #' # Run compboost:
 #' # --------------
 #'
 #' # Initialize object:
 #' cboost = Compboost_internal$new(
-#'   response      = y,
+#'   response      = response,
 #'   learning_rate = 0.05,
 #'   stop_if_all_stopper_fulfilled = FALSE,
-#'   factory_list = factory.list,
-#'   loss         = loss.bin,
-#'   logger_list  = logger.list,
+#'   factory_list = factory_list,
+#'   loss         = loss_bin,
+#'   logger_list  = logger_list,
 #'   optimizer    = optimizer
 #' )
 #'

@@ -1,5 +1,0 @@
-install.packages("ggplot2")
-install.packages("ggthemes")
-install.packages("mlbench")
-install.packages("remotes")
-remotes::install_github("schalkdaniel/compboost")

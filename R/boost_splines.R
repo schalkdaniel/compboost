@@ -22,7 +22,7 @@
 #' @param loss [\code{S4 Loss}]\cr
 #'   Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
 #'   residuals (e.g. \code{LossQuadratic$new()}).
-#' @param learning.rate [\code{numeric(1)}]\cr
+#' @param learning_rate [\code{numeric(1)}]\cr
 #'   Learning rate to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
 #'   Number of iterations that are trained.
@@ -32,7 +32,7 @@
 #'   -1 which means that in total 40 iterations are printed.
 #' @param degree [\code{integer(1)}]\cr
 #'   Polynomial degree of the splines.
-#' @param n.knots [\code{integer(1)}]\cr
+#' @param n_knots [\code{integer(1)}]\cr
 #'   Number of equidistant "inner knots". The actual number of used knots does also depend on
 #'   the polynomial degree.
 #' @param penalty [\code{numeric(1)}]\cr
@@ -40,17 +40,17 @@
 #'   The higher the penalty, the higher the smoothness.
 #' @param differences [\code{integer(1)}]\cr
 #'   Number of differences that are used for penalization. The higher the difference, the higher the smoothness.
-#' @param data.source [\code{S4 Data}]\cr
+#' @param data_source [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param data.target [\code{S4 Data}]\cr
+#' @param data_target [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param oob.fraction [\code{numeric(1)}]\cr
+#' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data we want to use to track the out of bag risk.
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
-#'   oob.fraction = 0.3)
+#'   oob_fraction = 0.3)
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
@@ -59,21 +59,21 @@
 #' mod$plotInbagVsOobRisk()
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
-  learning.rate = 0.05, iterations = 100, trace = -1, degree = 3, n.knots = 20, 
-  penalty = 2, differences = 2, data.source = InMemoryData, data.target = InMemoryData, oob.fraction = NULL) 
+  learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20, 
+  penalty = 2, differences = 2, data_source = InMemoryData, data_target = InMemoryData, oob_fraction = NULL) 
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss, 
-    learning.rate = learning.rate, oob.fraction = oob.fraction)
+    learning_rate = learning_rate, oob_fraction = oob_fraction)
   features = setdiff(colnames(data), target)
 
   # This loop could be replaced with foreach???
   # Issue: 
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", BaselearnerPSpline, data.source, data.target,
-        degree = degree, n.knots = n.knots, penalty = penalty, differences = differences)
+      model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source, data_target,
+        degree = degree, n_knots = n_knots, penalty = penalty, differences = differences)
     } else {
-      model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
+      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
         degree = 1, intercept = FALSE)
     }
   }

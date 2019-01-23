@@ -63,9 +63,9 @@ LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 
 \examples{
 # Define logger:
-log.time = LoggerTime$new("time.minutes", FALSE, 20, "minutes")
+log_time = LoggerTime$new("time_minutes", FALSE, 20, "minutes")
 
 # Summarize logger:
-log.time$summarizeLogger()
+log_time$summarizeLogger()
 
 }

@@ -22,7 +22,7 @@
 #' @param loss [\code{S4 Loss}]\cr
 #'   Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
 #'   residuals (e.g. \code{LossQuadratic$new()}).
-#' @param learning.rate [\code{numeric(1)}]\cr
+#' @param learning_rate [\code{numeric(1)}]\cr
 #'   Learning rate to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
 #'   Number of iterations that are trained.
@@ -33,17 +33,17 @@
 #' @param intercept [\code{logical(1)}]\cr
 #'   Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 #'   each feature should get an intercept or not (default is \code{TRUE}).
-#' @param data.source [\code{S4 Data}]\cr
+#' @param data_source [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param data.target [\code{S4 Data}]\cr
+#' @param data_target [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param oob.fraction [\code{numeric(1)}]\cr
+#' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data are used to track the out of bag risk.
 #' @examples
 #' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
-#'   oob.fraction = 0.3)
+#'   oob_fraction = 0.3)
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
@@ -52,19 +52,19 @@
 #' mod$plotInbagVsOobRisk()
 #' @export
 boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
-	learning.rate = 0.05, iterations = 100, trace = -1, intercept = TRUE, 
-	data.source = InMemoryData, data.target = InMemoryData, oob.fraction = NULL) 
+	learning_rate = 0.05, iterations = 100, trace = -1, intercept = TRUE, 
+	data_source = InMemoryData, data_target = InMemoryData, oob_fraction = NULL) 
 {
 	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss, 
-		learning.rate = learning.rate, oob.fraction = oob.fraction)
+		learning_rate = learning_rate, oob_fraction = oob_fraction)
 	features = setdiff(colnames(data), target)
 
 	for (feat in features) {
 		if (is.numeric(data[[feat]])) {
-			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data.source, data.target,
+			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data_source, data_target,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "category", BaselearnerPolynomial, data.source, data.target,
+			model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
 				degree = 1, intercept = FALSE)
 		}
 	}

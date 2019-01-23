@@ -13,25 +13,10 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef COMPBOOST_MODULES_CPP_
 #define COMPBOOST_MODULES_CPP_
@@ -43,6 +28,7 @@
 #include "data.h"
 #include "helper.h"
 #include "optimizer.h"
+#include "response.h"
 
 // -------------------------------------------------------------------------- //
 //                                   DATA                                     //
@@ -52,14 +38,11 @@ class DataWrapper
 {
 public:
   DataWrapper () {}
-
-  data::Data* getDataObj () { return obj; }
-
-  virtual ~DataWrapper () { delete obj; }
+  std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
+  virtual ~DataWrapper () {}
 
 protected:
-  data::Data* obj;
-
+  std::shared_ptr<data::Data> sh_ptr_data;
 };
 
 //' In memory data class to store data in RAM
@@ -75,33 +58,33 @@ protected:
 //' @section Usage:
 //' \preformatted{
 //' InMemoryData$new()
-//' InMemoryData$new(data.mat, data.identifier)
+//' InMemoryData$new(data_mat, data_identifier)
 //' }
 //'
 //' @section Arguments:
 //' \describe{
-//' \item{\code{data.mat} [\code{matrix}]}{
+//' \item{\code{data_mat} [\code{matrix}]}{
 //'   Matrix containing the source data. This source data is later transformed
 //'   to obtain the design matrix a base-learner uses for training.
 //' }
-//' \item{\code{data.identifier} [\code{character(1)}]}{
-//'   The name for the data specified in \code{data.mat}. Note that it is
+//' \item{\code{data_identifier} [\code{character(1)}]}{
+//'   The name for the data specified in \code{data_mat}. Note that it is
 //'   important to have the same data names for train and evaluation data.
 //' }
 //' }
 //'
 //'
 //' @section Details:
-//'   The \code{data.mat} needs to suits the base-learner. For instance, the
+//'   The \code{data_mat} needs to suits the base-learner. For instance, the
 //'   spline base-learner does just take a one column matrix since there are
 //'   just one dimensional splines till now. Additionally, using the polynomial
-//'   base-learner the \code{data.mat} is used to control if a intercept should
+//'   base-learner the \code{data_mat} is used to control if a intercept should
 //'   be fitted or not by adding a column containing just ones. It is also
 //'   possible to add other columns to estimate multiple features
 //'   simultaneously. Anyway, this is not recommended in terms of unbiased
 //'   features selection.
 //'
-//'   The \code{data.mat} and \code{data.identifier} of a target data object
+//'   The \code{data_mat} and \code{data_identifier} of a target data object
 //'   is set automatically by passing the source and target object to the
 //'   desired factory. \code{getData()} can then be used to access the
 //'   transformed data of the target object.
@@ -115,19 +98,19 @@ protected:
 //'
 //' @section Methods:
 //' \describe{
-//' \item{\code{getData()}}{method extract the \code{data.mat} from the data object.}
+//' \item{\code{getData()}}{method extract the \code{data_mat} from the data object.}
 //' \item{\code{getIdentifier()}}{method to extract the used name from the data object.}
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1:10)
+//' data_mat = cbind(1:10)
 //'
 //' # Create new data object:
-//' data.obj = InMemoryData$new(data.mat, "my.data.name")
+//' data_obj = InMemoryData$new(data_mat, "my_data_name")
 //'
 //' # Get data and identifier:
-//' data.obj$getData()
-//' data.obj$getIdentifier()
+//' data_obj$getData()
+//' data_obj$getIdentifier()
 //'
 //' @export InMemoryData
 class InMemoryDataWrapper : public DataWrapper
@@ -136,8 +119,7 @@ class InMemoryDataWrapper : public DataWrapper
 // Solve this copying issue:
 // https://github.com/schalkdaniel/compboost/issues/123
 private:
-  arma::vec data_vec = arma::vec (1, arma::fill::zeros);
-  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
+  // arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
 
 public:
 
@@ -149,30 +131,23 @@ public:
 
   InMemoryDataWrapper ()
   {
-    obj = new data::InMemoryData ();
+    sh_ptr_data = std::make_shared<data::InMemoryData>();
   }
 
-  // Rcpp doesn't detect if vector or matrix if using arma::vec and arma::mat:
-  // InMemoryDataWrapper (Rcpp::NumericVector data0, std::string data_identifier)
-  // {
-  //   data_vec = Rcpp::as<arma::vec>(data0);
-  //   Rcpp::Rcout << "Vector Initializer" << std::endl;
-  //   obj = new data::InMemoryData (data_vec, data_identifier);
-  // }
-
-  InMemoryDataWrapper (arma::mat data0, std::string data_identifier)
+  InMemoryDataWrapper (arma::mat data_mat, std::string data_identifier)
   {
-    data_mat = data0;
-
-    obj = new data::InMemoryData (data_mat, data_identifier);
+    // data_mat = data0;
+    sh_ptr_data = std::make_shared<data::InMemoryData>(data_mat, data_identifier);
   }
+
   arma::mat getData () const
   {
-    return obj->getData();
+    return sh_ptr_data->getData();
   }
+
   std::string getIdentifier () const
   {
-    return obj->getDataIdentifier();
+    return sh_ptr_data->getDataIdentifier();
   }
 };
 
@@ -201,7 +176,7 @@ RCPP_MODULE (data_module)
 
 
 // -------------------------------------------------------------------------- //
-//                         BASELEARNER FACTORIES                               //
+//                         BASELEARNER FACTORIES                              //
 // -------------------------------------------------------------------------- //
 
 // Abstract class. This one is given to the factory list. The factory list then
@@ -210,14 +185,16 @@ RCPP_MODULE (data_module)
 class BaselearnerFactoryWrapper
 {
 public:
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> getFactory () { return sh_ptr_blearner_factory; }
+  virtual ~BaselearnerFactoryWrapper () {}
 
-  blearnerfactory::BaselearnerFactory* getFactory () { return obj; }
-  virtual ~BaselearnerFactoryWrapper () { delete obj; }
+  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
+  arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
 
 protected:
-
-  blearnerfactory::BaselearnerFactory* obj;
-  // blearner::Baselearner* test_obj;
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory;
 };
 
 
@@ -277,36 +254,36 @@ protected:
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1:10)
+//' data_mat = cbind(1:10)
 //'
 //' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target1 = InMemoryData$new()
-//' data.target2 = InMemoryData$new()
+//' data_source = InMemoryData$new(data_mat, "my_data_name")
+//' data_target1 = InMemoryData$new()
+//' data_target2 = InMemoryData$new()
 //'
 //' # Create new linear base-learner factory:
-//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+//' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
 //'   list(degree = 2, intercept = FALSE))
-//' lin.factory.int = BaselearnerPolynomial$new(data.source, data.target2, 
+//' lin_factory_int = BaselearnerPolynomial$new(data_source, data_target2,
 //'   list(degree = 2, intercept = TRUE))
 //'
 //' # Get the transformed data:
-//' lin.factory$getData()
-//' lin.factory.int$getData()
+//' lin_factory$getData()
+//' lin_factory_int$getData()
 //'
 //' # Summarize factory:
-//' lin.factory$summarizeFactory()
+//' lin_factory$summarizeFactory()
 //'
 //' # Transform data manually:
-//' lin.factory$transformData(data.mat)
-//' lin.factory.int$transformData(data.mat)
+//' lin_factory$transformData(data_mat)
+//' lin_factory_int$transformData(data_mat)
 //'
 //' @export BaselearnerPolynomial
 class BaselearnerPolynomialFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
-    Rcpp::Named("degree") = 1, 
+    Rcpp::Named("degree") = 1,
     Rcpp::Named("intercept") = true
   );
 
@@ -316,40 +293,31 @@ public:
     Rcpp::List arg_list)
   {
     // Match defaults with custom arguments:
-    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
     // We need to converse the SEXP from the element to an integer:
-    int degree = internal_arg_list["degree"]; 
+    int degree = internal_arg_list["degree"];
 
     std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
 
-    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type_temp, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type_temp, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
   }
 
   BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, Rcpp::List arg_list)
   {
-    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
-    obj = new blearnerfactory::BaselearnerPolynomialFactory(blearner_type, data_source.getDataObj(),
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
-  }
-
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return obj->instantiateData(newdata);
   }
 
   void summarizeFactory ()
   {
     // We need to converse the SEXP from the element to an integer:
-    int degree = internal_arg_list["degree"]; 
-    
+    int degree = internal_arg_list["degree"];
+
     if (degree == 1) {
       Rcpp::Rcout << "Linear base-learner factory:" << std::endl;
     }
@@ -362,8 +330,8 @@ public:
     if (degree > 3) {
       Rcpp::Rcout << "Polynomial base-learner of degree " << degree << " factory:" << std::endl;
     }
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -378,7 +346,7 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerPSpline$new(data_source, data_target, list(degree, n.knots, penalty,
+//' BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
 //'   differences))
 //' }
 //'
@@ -393,7 +361,7 @@ public:
 //' \item{\code{degree} [\code{integer(1)}]}{
 //'   Degree of the spline functions to interpolate the knots.
 //' }
-//' \item{\code{n.knots} [\code{integer(1)}]}{
+//' \item{\code{n_knots} [\code{integer(1)}]}{
 //'   Number of \strong{inner knots}. To prevent weird behavior on the edges
 //'   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 //' }
@@ -429,33 +397,33 @@ public:
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1:10)
+//' data_mat = cbind(1:10)
 //' y = sin(1:10)
 //'
 //' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
+//' data_source = InMemoryData$new(data_mat, "my_data_name")
+//' data_target = InMemoryData$new()
 //'
 //' # Create new linear base-learner:
-//' spline.factory = BaselearnerPSpline$new(data.source, data.target,
-//'   list(degree = 3, n.knots = 4, penalty = 2, differences = 2))
+//' spline_factory = BaselearnerPSpline$new(data_source, data_target,
+//'   list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
 //'
 //' # Get the transformed data:
-//' spline.factory$getData()
+//' spline_factory$getData()
 //'
 //' # Summarize factory:
-//' spline.factory$summarizeFactory()
+//' spline_factory$summarizeFactory()
 //'
 //' # Transform data manually:
-//' spline.factory$transformData(data.mat)
+//' spline_factory$transformData(data_mat)
 //'
 //' @export BaselearnerPSpline
 class BaselearnerPSplineFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
-    Rcpp::Named("degree") = 3, 
-    Rcpp::Named("n.knots") = 20,
+    Rcpp::Named("degree") = 3,
+    Rcpp::Named("n_knots") = 20,
     Rcpp::Named("penalty") = 2,
     Rcpp::Named("differences") = 2
   );
@@ -465,46 +433,37 @@ public:
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     Rcpp::List arg_list)
   {
-    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
     // We need to converse the SEXP from the element to an integer:
-    int degree = internal_arg_list["degree"]; 
+    int degree = internal_arg_list["degree"];
 
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
-    
-    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type_temp, data_source.getDataObj(),
-       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n.knots"], 
-       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);      
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
+       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
+       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
 
   }
 
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, Rcpp::List arg_list)
   {
-    internal_arg_list = argHandler(internal_arg_list, arg_list, TRUE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
-    obj = new blearnerfactory::BaselearnerPSplineFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n.knots"], 
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
-  }
-
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return obj->instantiateData(newdata);
   }
 
   void summarizeFactory ()
   {
     // We need to converse the SEXP from the element to an integer:
-    int degree = internal_arg_list["degree"]; 
+    int degree = internal_arg_list["degree"];
 
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -519,8 +478,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerCustom$new(data_source, data_target, list(instantiate.fun, 
-//'   train.fun, predict.fun, param.fun))
+//' BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
+//'   train_fun, predict_fun, param_fun))
 //' }
 //'
 //' @section Arguments:
@@ -531,19 +490,19 @@ public:
 //' \item{\code{data_target} [\code{Data} Object]}{
 //'   Data object which gets the transformed source data.
 //' }
-//' \item{\code{instantiate.fun} [\code{function}]}{
+//' \item{\code{instantiate_fun} [\code{function}]}{
 //'   \code{R} function to transform the source data. For details see the
 //'   \code{Details}.
 //' }
-//' \item{\code{train.fun} [\code{function}]}{
+//' \item{\code{train_fun} [\code{function}]}{
 //'   \code{R} function to train the base-learner on the target data. For
 //'   details see the \code{Details}.
 //' }
-//' \item{\code{predict.fun} [\code{function}]}{
+//' \item{\code{predict_fun} [\code{function}]}{
 //'   \code{R} function to predict on the object returned by \code{train}.
 //'   For details see the \code{Details}.
 //' }
-//' \item{\code{param.fun} [\code{function}]}{
+//' \item{\code{param_fun} [\code{function}]}{
 //'   \code{R} function to extract the parameter of the object returned by
 //'   \code{train}. For details see the \code{Details}.
 //' }
@@ -552,7 +511,7 @@ public:
 //' @section Details:
 //'   The function must have the following structure:
 //'
-//'   \code{instantiateData(X) { ... return (X.trafo) }} With a matrix argument
+//'   \code{instantiateData(X) { ... return (X_trafo) }} With a matrix argument
 //'   \code{X} and a matrix as return object.
 //'
 //'   \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
@@ -588,12 +547,12 @@ public:
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1, 1:10)
+//' data_mat = cbind(1, 1:10)
 //' y = 2 + 3 * 1:10
 //'
 //' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
+//' data_source = InMemoryData$new(data_mat, "my_data_name")
+//' data_target = InMemoryData$new()
 //'
 //' instantiateDataFun = function (X) {
 //'   return(X)
@@ -610,28 +569,28 @@ public:
 //' }
 //'
 //' # Create new custom linear base-learner factory:
-//' custom.lin.factory = BaselearnerCustom$new(data.source, data.target,
-//'   list(instantiate.fun = instantiateDataFun, train.fun = trainFun, 
-//'     predict.fun = predictFun, param.fun = extractParameter))
+//' custom_lin_factory = BaselearnerCustom$new(data_source, data_target,
+//'   list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
+//'     predict_fun = predictFun, param_fun = extractParameter))
 //'
 //' # Get the transformed data:
-//' custom.lin.factory$getData()
+//' custom_lin_factory$getData()
 //'
 //' # Summarize factory:
-//' custom.lin.factory$summarizeFactory()
+//' custom_lin_factory$summarizeFactory()
 //'
 //' # Transform data manually:
-//' custom.lin.factory$transformData(data.mat)
+//' custom_lin_factory$transformData(data_mat)
 //'
 //' @export BaselearnerCustom
 class BaselearnerCustomFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
-    Rcpp::Named("instantiate.fun") = 0, 
-    Rcpp::Named("train.fun") = 0,
-    Rcpp::Named("predict.fun") = 0,
-    Rcpp::Named("param.fun") = 0
+    Rcpp::Named("instantiate_fun") = 0,
+    Rcpp::Named("train_fun") = 0,
+    Rcpp::Named("predict_fun") = 0,
+    Rcpp::Named("param_fun") = 0
   );
 
 public:
@@ -640,39 +599,30 @@ public:
     Rcpp::List arg_list)
   {
     // Don't check argument types since we don't have a Function placeholder for the default list:
-    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomFactory("custom", data_source.getDataObj(),
-      data_target.getDataObj(), internal_arg_list["instantiate.fun"], internal_arg_list["train.fun"], 
-      internal_arg_list["predict.fun"], internal_arg_list["param.fun"]);
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomFactory>("custom", data_source.getDataObj(),
+      data_target.getDataObj(), internal_arg_list["instantiate_fun"], internal_arg_list["train_fun"],
+      internal_arg_list["predict_fun"], internal_arg_list["param_fun"]);
   }
 
   BaselearnerCustomFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, Rcpp::List arg_list)
   {
     // Don't check argument types since we don't have a Function placeholder for the default list:
-    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), internal_arg_list["instantiate.fun"], internal_arg_list["train.fun"], 
-      internal_arg_list["predict.fun"], internal_arg_list["param.fun"]);
-  }
-
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return obj->instantiateData(newdata);
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomFactory>(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), internal_arg_list["instantiate_fun"], internal_arg_list["train_fun"],
+      internal_arg_list["predict_fun"], internal_arg_list["param_fun"]);
   }
 
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom base-learner Factory:" << std::endl;
 
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -688,8 +638,8 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate.ptr,
-//'   train.ptr, predict.ptr))
+//' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
+//'   train_ptr, predict_ptr))
 //' }
 //'
 //' @section Arguments:
@@ -700,13 +650,13 @@ public:
 //' \item{\code{data_target} [\code{Data} Object]}{
 //'   Data object which gets the transformed source data.
 //' }
-//' \item{\code{instantiate.ptr} [\code{externalptr}]}{
+//' \item{\code{instantiate_ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} instantiate data function.
 //' }
-//' \item{\code{train.ptr} [\code{externalptr}]}{
+//' \item{\code{train_ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} train function.
 //' }
-//' \item{\code{predict.ptr} [\code{externalptr}]}{
+//' \item{\code{predict_ptr} [\code{externalptr}]}{
 //'   External pointer to the \code{C++} predict function.
 //' }
 //' }
@@ -733,38 +683,38 @@ public:
 //' @examples
 //' \donttest{
 //' # Sample data:
-//' data.mat = cbind(1, 1:10)
+//' data_mat = cbind(1, 1:10)
 //' y = 2 + 3 * 1:10
 //'
 //' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target = InMemoryData$new()
+//' data_source = InMemoryData$new(data_mat, "my_data_name")
+//' data_target = InMemoryData$new()
 //'
 //' # Source the external pointer exposed by using XPtr:
 //' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 //'
 //' # Create new linear base-learner:
-//' custom.cpp.factory = BaselearnerCustomCpp$new(data.source, data.target,
-//'   list(instantiate.ptr = dataFunSetter(), train.ptr = trainFunSetter(),
-//'     predict.ptr = predictFunSetter()))
+//' custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+//'   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
+//'     predict_ptr = predictFunSetter()))
 //'
 //' # Get the transformed data:
-//' custom.cpp.factory$getData()
+//' custom_cpp_factory$getData()
 //'
 //' # Summarize factory:
-//' custom.cpp.factory$summarizeFactory()
+//' custom_cpp_factory$summarizeFactory()
 //'
 //' # Transform data manually:
-//' custom.cpp.factory$transformData(data.mat)
+//' custom_cpp_factory$transformData(data_mat)
 //' }
 //' @export BaselearnerCustomCpp
 class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
-    Rcpp::Named("instantiate.ptr") = 0, 
-    Rcpp::Named("train.ptr") = 0,
-    Rcpp::Named("predict.ptr") = 0
+    Rcpp::Named("instantiate_ptr") = 0,
+    Rcpp::Named("train_ptr") = 0,
+    Rcpp::Named("predict_ptr") = 0
   );
 
 public:
@@ -773,39 +723,29 @@ public:
     Rcpp::List arg_list)
   {
     // Don't check argument types since we don't have a Function placeholder for the default list:
-    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomCppFactory("custom_cpp", data_source.getDataObj(),
-      data_target.getDataObj(), internal_arg_list["instantiate.ptr"], internal_arg_list["train.ptr"], 
-      internal_arg_list["predict.ptr"]);
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomCppFactory>("custom_cpp", data_source.getDataObj(),
+      data_target.getDataObj(), internal_arg_list["instantiate_ptr"], internal_arg_list["train_ptr"],
+      internal_arg_list["predict_ptr"]);
   }
 
   BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
     const std::string& blearner_type, Rcpp::List arg_list)
   {
     // Don't check argument types since we don't have a Function placeholder for the default list:
-    internal_arg_list = argHandler(internal_arg_list, arg_list, FALSE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
-    obj = new blearnerfactory::BaselearnerCustomCppFactory(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), internal_arg_list["instantiate.ptr"], internal_arg_list["train.ptr"], 
-      internal_arg_list["predict.ptr"]);
-  }
-
-  arma::mat getData () { return obj->getData(); }
-  std::string getDataIdentifier () { return obj->getDataIdentifier(); }
-  std::string getBaselearnerType () { return obj->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return obj->instantiateData(newdata);
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomCppFactory>(blearner_type, data_source.getDataObj(),
+      data_target.getDataObj(), internal_arg_list["instantiate_ptr"], internal_arg_list["train_ptr"],
+      internal_arg_list["predict_ptr"]);
   }
 
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom cpp base-learner Factory:" << std::endl;
-
-    Rcpp::Rcout << "\t- Name of the used data: " << obj->getDataIdentifier() << std::endl;
-    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << obj->getBaselearnerType() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
 
@@ -817,23 +757,24 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor ("Create BaselearnerFactory class")
+
+    .method("getData",       &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
+    .method("transformData", &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
   ;
 
   class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-     .method("getData",          &BaselearnerPolynomialFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",     &BaselearnerPolynomialFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
-     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+    
+    .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-    .method("getData",          &BaselearnerPSplineFactoryWrapper::getData, "Get design matrix")
-    .method("transformData",    &BaselearnerPSplineFactoryWrapper::transformData, "Compute spline basis for new data")
+
     .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
@@ -841,18 +782,16 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-     .method("getData",          &BaselearnerCustomFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &BaselearnerCustomFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+
+    .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<BaselearnerCustomCppFactoryWrapper> ("BaselearnerCustomCpp")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-     .method("getData",          &BaselearnerCustomCppFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &BaselearnerCustomCppFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+
+    .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 }
 
@@ -901,36 +840,36 @@ RCPP_MODULE (baselearner_factory_module)
 //' }
 //' @examples
 //' # Sample data:
-//' data.mat = cbind(1:10)
+//' data_mat = cbind(1:10)
 //'
 //' # Create new data object:
-//' data.source = InMemoryData$new(data.mat, "my.data.name")
-//' data.target1 = InMemoryData$new()
-//' data.target2 = InMemoryData$new()
+//' data_source = InMemoryData$new(data_mat, "my_data_name")
+//' data_target1 = InMemoryData$new()
+//' data_target2 = InMemoryData$new()
 //'
-//' lin.factory = BaselearnerPolynomial$new(data.source, data.target1, 
+//' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
 //'   list(degree = 1, intercept = TRUE))
-//' poly.factory = BaselearnerPolynomial$new(data.source, data.target2, 
+//' poly_factory = BaselearnerPolynomial$new(data_source, data_target2,
 //'   list(degree = 2, intercept = TRUE))
 //'
 //' # Create new base-learner list:
-//' my.bl.list = BlearnerFactoryList$new()
+//' my_bl_list = BlearnerFactoryList$new()
 //'
 //' # Register factories:
-//' my.bl.list$registerFactory(lin.factory)
-//' my.bl.list$registerFactory(poly.factory)
+//' my_bl_list$registerFactory(lin_factory)
+//' my_bl_list$registerFactory(poly_factory)
 //'
 //' # Get registered factories:
-//' my.bl.list$printRegisteredFactories()
+//' my_bl_list$printRegisteredFactories()
 //'
 //' # Get all target data matrices in one big matrix:
-//' my.bl.list$getModelFrame()
+//' my_bl_list$getModelFrame()
 //'
 //' # Clear list:
-//' my.bl.list$clearRegisteredFactories()
+//' my_bl_list$clearRegisteredFactories()
 //'
 //' # Get number of registered factories:
-//' my.bl.list$getNumberOfRegisteredFactories()
+//' my_bl_list$getNumberOfRegisteredFactories()
 //'
 //' @export BlearnerFactoryList
 class BlearnerFactoryListWrapper
@@ -968,7 +907,7 @@ public:
 
     return Rcpp::List::create(
       Rcpp::Named("colnames")    = raw_frame.first,
-      Rcpp::Named("model.frame") = raw_frame.second
+      Rcpp::Named("model_frame") = raw_frame.second
     );
   }
 
@@ -1063,8 +1002,8 @@ protected:
 //' @examples
 //'
 //' # Create new loss object:
-//' quadratic.loss = LossQuadratic$new()
-//' quadratic.loss
+//' quadratic_loss = LossQuadratic$new()
+//' quadratic_loss
 //'
 //' @export LossQuadratic
 class LossQuadraticWrapper : public LossWrapper
@@ -1118,8 +1057,8 @@ public:
 //' @examples
 //'
 //' # Create new loss object:
-//' absolute.loss = LossAbsolute$new()
-//' absolute.loss
+//' absolute_loss = LossAbsolute$new()
+//' absolute_loss
 //'
 //' @export LossAbsolute
 class LossAbsoluteWrapper : public LossWrapper
@@ -1176,10 +1115,10 @@ public:
 //'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 //'
 //' @examples
-//' 
+//'
 //' # Create new loss object:
-//' bin.loss = LossBinomial$new()
-//' bin.loss
+//' bin_loss = LossBinomial$new()
+//' bin_loss
 //'
 //' @export LossBinomial
 class LossBinomialWrapper : public LossWrapper
@@ -1245,20 +1184,20 @@ public:
 //' @examples
 //'
 //' # Loss function:
-//' myLoss = function (true.values, prediction) {
-//'   return (0.5 * (true.values - prediction)^2)
+//' myLoss = function (true_values, prediction) {
+//'   return (0.5 * (true_values - prediction)^2)
 //' }
 //' # Gradient of loss function:
-//' myGradient = function (true.values, prediction) {
-//'   return (prediction - true.values)
+//' myGradient = function (true_values, prediction) {
+//'   return (prediction - true_values)
 //' }
 //' # Constant initialization:
-//' myConstInit = function (true.values) {
-//'   return (mean(true.values))
+//' myConstInit = function (true_values) {
+//'   return (mean(true_values))
 //' }
 //'
 //' # Create new custom quadratic loss:
-//' my.loss = LossCustom$new(myLoss, myGradient, myConstInit)
+//' my_loss = LossCustom$new(myLoss, myGradient, myConstInit)
 //'
 //' @export LossCustom
 class LossCustomWrapper : public LossWrapper
@@ -1311,7 +1250,7 @@ public:
 //' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 //'
 //' # Create new custom quadratic loss:
-//' my.cpp.loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+//' my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
 //' }
 //' @export LossCustomCpp
 class LossCustomCppWrapper : public LossWrapper
@@ -1362,6 +1301,137 @@ RCPP_MODULE (loss_module)
   ;
 }
 
+
+// -------------------------------------------------------------------------- //
+//                             RESPONSE CLASSES                               //
+// -------------------------------------------------------------------------- //
+
+
+class ResponseWrapper
+{
+public:
+  ResponseWrapper () {}
+
+  std::shared_ptr<response::Response> getResponseObj () { return sh_ptr_response; }
+
+  std::string getTargetName () const { return sh_ptr_response->getTargetName(); }
+  arma::mat getResponse () const { return sh_ptr_response->getResponse(); }
+  arma::mat getWeights () const { return sh_ptr_response->getWeights(); }
+  arma::mat getPrediction () const { return sh_ptr_response->getPredictionScores(); }
+  arma::mat getPredictionTransform () const { return sh_ptr_response->getPredictionTransform(); }
+  arma::mat getPredictionResponse () const { return sh_ptr_response->getPredictionResponse(); }
+  void filter (const arma::uvec& idx) const { sh_ptr_response->filter(idx - 1); } // +1 to shift from R to C++ index
+  double calculateEmpiricalRisk (LossWrapper& loss) const { return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss()); }
+
+protected:
+  std::shared_ptr<response::Response> sh_ptr_response;
+};
+
+//' Create response object for regression.
+//'
+//' \code{ResponseRegr} creates a response object that are used as target during the
+//' fitting process.
+//'
+//' @format \code{\link{S4}} object.
+//' @name ResponseRegr
+//'
+//' @section Usage:
+//' \preformatted{
+//' ResponseRegr$new(target_name, response)
+//' ResponseRegr$new(target_name, response, weights)
+//' }
+//'
+//' @export ResponseRegr
+class ResponseRegrWrapper : public ResponseWrapper
+{
+public:
+  ResponseRegrWrapper (std::string target_name, arma::mat response)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response);
+  }
+  ResponseRegrWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
+  }
+};
+
+//' Create response object for binary classification.
+//'
+//' \code{ResponseBinaryClassif} creates a response object that are used as target during the
+//' fitting process.
+//'
+//' @format \code{\link{S4}} object.
+//' @name ResponseBinaryClassif
+//'
+//' @section Usage:
+//' \preformatted{
+//' ResponseBinaryClassif$new(target_name, response)
+//' ResponseBinaryClassif$new(target_name, response, weights)
+//' }
+//'
+//' @export ResponseBinaryClassif
+class ResponseBinaryClassifWrapper : public ResponseWrapper
+{
+public:
+
+  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
+  }
+  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
+  }
+
+  double getThreshold () const
+  {
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->threshold;
+  }
+  void setThreshold (double thresh)
+  {
+    std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->setThreshold(thresh);
+  }
+};
+
+RCPP_EXPOSED_CLASS(ResponseWrapper)
+RCPP_MODULE (response_module)
+{
+  using namespace Rcpp;
+
+  class_<ResponseWrapper> ("Response")
+    .constructor ("Create Response class")
+
+    .method("getTargetName",          &ResponseWrapper::getTargetName, "Get the name of the target variable")
+    .method("getResponse",            &ResponseWrapper::getResponse, "Get the original response")
+    .method("getWeights",             &ResponseWrapper::getWeights, "Get the weights")
+    .method("getPrediction",          &ResponseWrapper::getPrediction, "Get prediction scores")
+    .method("getPredictionTransform", &ResponseWrapper::getPredictionTransform, "Get transformed prediction scores")
+    .method("getPredictionResponse",  &ResponseWrapper::getPredictionResponse, "Get transformed prediction as response")
+    .method("filter",                 &ResponseWrapper::filter, "Filter response elements")
+    .method("calculateEmpiricalRisk", &ResponseWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
+  ;
+
+  class_<ResponseRegrWrapper> ("ResponseRegr")
+    .derives<ResponseWrapper> ("Response")
+
+    .constructor<std::string, arma::mat> ()
+    .constructor<std::string, arma::mat, arma::mat> ()
+
+  ;
+
+  class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
+    .derives<ResponseWrapper> ("Response")
+
+    .constructor<std::string, arma::mat> ()
+    .constructor<std::string, arma::mat, arma::mat> ()
+
+    .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
+    .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
+  ;
+}
+
+
+
 // -------------------------------------------------------------------------- //
 //                                  LOGGER                                    //
 // -------------------------------------------------------------------------- //
@@ -1375,9 +1445,9 @@ public:
 
   LoggerWrapper () {};
 
-  logger::Logger* getLogger ()
+  std::shared_ptr<logger::Logger> getLogger ()
   {
-    return obj;
+    return sh_ptr_logger;
   }
 
   std::string getLoggerId ()
@@ -1385,10 +1455,10 @@ public:
     return logger_id;
   }
 
-  virtual ~LoggerWrapper () { delete obj; }
+  virtual ~LoggerWrapper () {}
 
 protected:
-  logger::Logger* obj;
+  std::shared_ptr<logger::Logger> sh_ptr_logger;
   std::string logger_id;
 };
 
@@ -1432,10 +1502,10 @@ protected:
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = LoggerIteration$new("iterations", FALSE, 100)
+//' log_iters = LoggerIteration$new("iterations", FALSE, 100)
 //'
 //' # Summarize logger:
-//' log.iters$summarizeLogger()
+//' log_iters$summarizeLogger()
 //'
 //' @export LoggerIteration
 class LoggerIterationWrapper : public LoggerWrapper
@@ -1451,7 +1521,7 @@ public:
       use_as_stopper ( use_as_stopper )
   {
     logger_id = logger_id0;
-    obj = new logger::LoggerIteration (logger_id, use_as_stopper, max_iterations);
+    sh_ptr_logger = std::make_shared<logger::LoggerIteration>(logger_id, use_as_stopper, max_iterations);
   }
 
   void summarizeLogger ()
@@ -1541,13 +1611,13 @@ public:
 //' }
 //' @examples
 //' # Used loss:
-//' log.bin = LossBinomial$new()
+//' log_bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log.inbag.risk = LoggerInbagRisk$new("inbag", FALSE, log.bin, 0.05)
+//' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
 //'
 //' # Summarize logger:
-//' log.inbag.risk$summarizeLogger()
+//' log_inbag_risk$summarizeLogger()
 //'
 //' @export LoggerInbagRisk
 class LoggerInbagRiskWrapper : public LoggerWrapper
@@ -1563,7 +1633,7 @@ public:
       use_as_stopper ( use_as_stopper)
   {
     logger_id = logger_id0;
-    obj = new logger::LoggerInbagRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
+    sh_ptr_logger = std::make_shared<logger::LoggerInbagRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
   }
 
   void summarizeLogger ()
@@ -1587,7 +1657,7 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, 
+//' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
 //'   oob_data, oob_response)
 //' }
 //'
@@ -1672,22 +1742,25 @@ public:
 //' # Define data:
 //' X1 = cbind(1:10)
 //' X2 = cbind(10:1)
-//' data.source1 = InMemoryData$new(X1, "x1")
-//' data.source2 = InMemoryData$new(X2, "x2")
+//' data_source1 = InMemoryData$new(X1, "x1")
+//' data_source2 = InMemoryData$new(X2, "x2")
 //'
-//' oob.list = list(data.source1, data.source2)
+//' oob_list = list(data_source1, data_source2)
 //'
 //' set.seed(123)
-//' y.oob = rnorm(10)
+//' y_oob = rnorm(10)
 //'
 //' # Used loss:
-//' log.bin = LossBinomial$new()
+//' log_bin = LossBinomial$new()
+//'
+//' # Define response object of oob data:
+//' oob_response = ResponseRegr$new("oob_response", as.matrix(y_oob))
 //'
 //' # Define logger:
-//' log.oob.risk = LoggerOobRisk$new("oob", FALSE, log.bin, 0.05, oob.list, y.oob)
+//' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, oob_list, oob_response)
 //'
 //' # Summarize logger:
-//' log.oob.risk$summarizeLogger()
+//' log_oob_risk$summarizeLogger()
 //'
 //' @export LoggerOobRisk
 class LoggerOobRiskWrapper : public LoggerWrapper
@@ -1699,9 +1772,9 @@ private:
 
 public:
   LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
-    Rcpp::List oob_data, arma::vec oob_response)
+    Rcpp::List oob_data, ResponseWrapper& oob_response)
   {
-    std::map<std::string, data::Data*> oob_data_map;
+    std::map<std::string, std::shared_ptr<data::Data>> oob_data_map;
 
     // Be very careful with the wrappers. For instance: doing something like
     // temp = oob_data[i] within the loop will force temp to call its destructor
@@ -1723,8 +1796,8 @@ public:
     }
 
     logger_id = logger_id0;
-    obj = new logger::LoggerOobRisk (logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
-      oob_data_map, oob_response);
+    sh_ptr_logger = std::make_shared<logger::LoggerOobRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
+      oob_data_map, oob_response.getResponseObj());
   }
 
   void summarizeLogger ()
@@ -1789,10 +1862,10 @@ public:
 //' }
 //' @examples
 //' # Define logger:
-//' log.time = LoggerTime$new("time.minutes", FALSE, 20, "minutes")
+//' log_time = LoggerTime$new("time_minutes", FALSE, 20, "minutes")
 //'
 //' # Summarize logger:
-//' log.time$summarizeLogger()
+//' log_time$summarizeLogger()
 //'
 //' @export LoggerTime
 class LoggerTimeWrapper : public LoggerWrapper
@@ -1812,7 +1885,7 @@ public:
   {
     // logger_id = logger_id0 + "." + time_unit;
     logger_id = logger_id0;
-    obj = new logger::LoggerTime (logger_id, use_as_stopper, max_time, time_unit);
+    sh_ptr_logger = std::make_shared<logger::LoggerTime>(logger_id, use_as_stopper, max_time, time_unit);
   }
 
   void summarizeLogger ()
@@ -1863,28 +1936,28 @@ public:
 //'   logger as integer.}
 //' \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
 //' \item{\code{registerLogger(logger)}}{Includes a new \code{logger}
-//'   into the logger list with the \code{logger.id} as key.}
+//'   into the logger list with the \code{logger_id} as key.}
 //' }
 //' @examples
 //' # Define logger:
-//' log.iters = LoggerIteration$new("iteration", TRUE, 100)
-//' log.time = LoggerTime$new("time", FALSE, 20, "minutes")
+//' log_iters = LoggerIteration$new("iteration", TRUE, 100)
+//' log_time = LoggerTime$new("time", FALSE, 20, "minutes")
 //'
 //' # Create logger list:
-//' logger.list = LoggerList$new()
+//' logger_list = LoggerList$new()
 //'
 //' # Register new loggeR:
-//' logger.list$registerLogger(log.iters)
-//' logger.list$registerLogger(log.time)
+//' logger_list$registerLogger(log_iters)
+//' logger_list$registerLogger(log_time)
 //'
 //' # Print registered logger:
-//' logger.list$printRegisteredLogger()
+//' logger_list$printRegisteredLogger()
 //'
 //' # Remove all logger:
-//' logger.list$clearRegisteredLogger()
+//' logger_list$clearRegisteredLogger()
 //'
 //' # Get number of registered logger:
-//' logger.list$getNumberOfRegisteredLogger()
+//' logger_list$getNumberOfRegisteredLogger()
 //'
 //' @export LoggerList
 class LoggerListWrapper
@@ -1960,7 +2033,7 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, arma::vec> ()
+    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, ResponseWrapper&> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
@@ -2031,7 +2104,7 @@ public:
 
 //' Coordinate Descent with line search
 //'
-//' This class defines a new object which is used to conduct Coordinate Descent with line search. 
+//' This class defines a new object which is used to conduct Coordinate Descent with line search.
 //' The optimizer just calculates for each base-learner the sum of squared error and returns
 //' the base-learner with the smallest SSE. In addition, this optimizer computes
 //' a line search to find the optimal step size in each iteration.
@@ -2076,7 +2149,7 @@ RCPP_MODULE(optimizer_module)
   class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
-  ;  
+  ;
 
   class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")
     .derives<OptimizerWrapper> ("Optimizer")
@@ -2181,53 +2254,54 @@ RCPP_MODULE(optimizer_module)
 //'
 //' # Some data:
 //' df = mtcars
-//' df$mpg.cat = ifelse(df$mpg > 20, 1, -1)
+//' df$mpg_cat = ifelse(df$mpg > 20, 1, -1)
 //'
 //' # # Create new variable to check the polynomial base-learner with degree 2:
 //' # df$hp2 = df[["hp"]]^2
 //'
 //' # Data for the baselearner are matrices:
-//' X.hp = as.matrix(df[["hp"]])
-//' X.wt = as.matrix(df[["wt"]])
+//' X_hp = as.matrix(df[["hp"]])
+//' X_wt = as.matrix(df[["wt"]])
 //'
 //' # Target variable:
-//' y = df[["mpg.cat"]]
+//' y = df[["mpg_cat"]]
+//' response = ResponseBinaryClassif$new("mpg_cat", as.matrix(y))
 //'
-//' data.source.hp = InMemoryData$new(X.hp, "hp")
-//' data.source.wt = InMemoryData$new(X.wt, "wt")
+//' data_source_hp = InMemoryData$new(X_hp, "hp")
+//' data_source_wt = InMemoryData$new(X_wt, "wt")
 //'
-//' data.target.hp1 = InMemoryData$new()
-//' data.target.hp2 = InMemoryData$new()
-//' data.target.wt1 = InMemoryData$new()
-//' data.target.wt2 = InMemoryData$new()
+//' data_target_hp1 = InMemoryData$new()
+//' data_target_hp2 = InMemoryData$new()
+//' data_target_wt1 = InMemoryData$new()
+//' data_target_wt2 = InMemoryData$new()
 //'
 //' # List for oob logging:
-//' oob.data = list(data.source.hp, data.source.wt)
+//' oob_data = list(data_source_hp, data_source_wt)
 //'
 //' # List to test prediction on newdata:
-//' test.data = oob.data
+//' test_data = oob_data
 //'
 //' # Factories:
-//' linear.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp1, 
+//' linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
 //'   list(degree = 1, intercept = TRUE))
-//' linear.factory.wt = BaselearnerPolynomial$new(data.source.wt, data.target.wt1, 
+//' linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt1,
 //'   list(degree = 1, intercept = TRUE))
-//' quadratic.factory.hp = BaselearnerPolynomial$new(data.source.hp, data.target.hp2, 
+//' quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
 //'   list(degree = 2, intercept = TRUE))
-//' spline.factory.wt = BaselearnerPSpline$new(data.source.wt, data.target.wt2, 
-//'   list(degree = 3, n.knots = 10, penalty = 2, differences = 2))
+//' spline_factory_wt = BaselearnerPSpline$new(data_source_wt, data_target_wt2,
+//'   list(degree = 3, n_knots = 10, penalty = 2, differences = 2))
 //'
 //' # Create new factory list:
-//' factory.list = BlearnerFactoryList$new()
+//' factory_list = BlearnerFactoryList$new()
 //'
 //' # Register factories:
-//' factory.list$registerFactory(linear.factory.hp)
-//' factory.list$registerFactory(linear.factory.wt)
-//' factory.list$registerFactory(quadratic.factory.hp)
-//' factory.list$registerFactory(spline.factory.wt)
+//' factory_list$registerFactory(linear_factory_hp)
+//' factory_list$registerFactory(linear_factory_wt)
+//' factory_list$registerFactory(quadratic_factory_hp)
+//' factory_list$registerFactory(spline_factory_wt)
 //'
 //' # Define loss:
-//' loss.bin = LossBinomial$new()
+//' loss_bin = LossBinomial$new()
 //'
 //' # Define optimizer:
 //' optimizer = OptimizerCoordinateDescent$new()
@@ -2236,31 +2310,27 @@ RCPP_MODULE(optimizer_module)
 //'
 //' # Define logger. We want just the iterations as stopper but also track the
 //' # time, inbag risk and oob risk:
-//' log.iterations  = LoggerIteration$new(" iteration.logger", TRUE, 500)
-//' log.time        = LoggerTime$new("time.logger", FALSE, 500, "microseconds")
-//' log.inbag       = LoggerInbagRisk$new("inbag.binomial", FALSE, loss.bin, 0.05)
-//' log.oob         = LoggerOobRisk$new("oob.binomial", FALSE, loss.bin, 0.05, oob.data, y)
+//' log_iterations  = LoggerIteration$new(" iteration_logger", TRUE, 500)
+//' log_time        = LoggerTime$new("time_logger", FALSE, 500, "microseconds")
 //'
 //' # Define new logger list:
-//' logger.list = LoggerList$new()
+//' logger_list = LoggerList$new()
 //'
 //' # Register the logger:
-//' logger.list$registerLogger(log.iterations)
-//' logger.list$registerLogger(log.time)
-//' logger.list$registerLogger(log.inbag)
-//' logger.list$registerLogger(log.oob)
+//' logger_list$registerLogger(log_iterations)
+//' logger_list$registerLogger(log_time)
 //'
 //' # Run compboost:
 //' # --------------
 //'
 //' # Initialize object:
 //' cboost = Compboost_internal$new(
-//'   response      = y,
+//'   response      = response,
 //'   learning_rate = 0.05,
 //'   stop_if_all_stopper_fulfilled = FALSE,
-//'   factory_list = factory.list,
-//'   loss         = loss.bin,
-//'   logger_list  = logger.list,
+//'   factory_list = factory_list,
+//'   loss         = loss_bin,
+//'   logger_list  = logger_list,
 //'   optimizer    = optimizer
 //' )
 //'
@@ -2290,7 +2360,7 @@ public:
   //   - double    -> const double &
   //   - bool      -> const bool&
   // crashes the compilation?
-  CompboostWrapper (arma::vec response, double learning_rate,
+  CompboostWrapper (ResponseWrapper& response, double learning_rate,
     bool stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
     LossWrapper& loss, LoggerListWrapper& logger_list, OptimizerWrapper& optimizer)
   {
@@ -2300,7 +2370,7 @@ public:
     used_optimizer = optimizer.getOptimizer();
     blearner_list_ptr = factory_list.getFactoryList();
 
-    obj = new cboost::Compboost(response, learning_rate0, stop_if_all_stopper_fulfilled,
+    obj = new cboost::Compboost(response.getResponseObj(), learning_rate0, stop_if_all_stopper_fulfilled,
       used_optimizer, loss.getLoss(), used_logger, *blearner_list_ptr);
   }
 
@@ -2332,8 +2402,8 @@ public:
 
     for (auto& it : obj->getLoggerList()) {
       out_list[it.first] = Rcpp::List::create(
-        Rcpp::Named("logger.names") = it.second->getLoggerData().first,
-        Rcpp::Named("logger.data")  = it.second->getLoggerData().second
+        Rcpp::Named("logger_names") = it.second->getLoggerData().first,
+        Rcpp::Named("logger_data")  = it.second->getLoggerData().second
       );
     }
     if (out_list.size() == 1) {
@@ -2372,14 +2442,14 @@ public:
     std::pair<std::vector<std::string>, arma::mat> out_pair = obj->getParameterMatrix();
 
     return Rcpp::List::create(
-      Rcpp::Named("parameter.names")   = out_pair.first,
-      Rcpp::Named("parameter.matrix")  = out_pair.second
+      Rcpp::Named("parameter_names")   = out_pair.first,
+      Rcpp::Named("parameter_matrix")  = out_pair.second
     );
   }
 
   arma::vec predict (Rcpp::List& newdata, bool as_response)
   {
-    std::map<std::string, data::Data*> data_map;
+    std::map<std::string, std::shared_ptr<data::Data>> data_map;
 
     // Create data map (see line 780, same applies here):
     for (unsigned int i = 0; i < newdata.size(); i++) {
@@ -2394,23 +2464,6 @@ public:
     return obj->predict(data_map, as_response);
   }
 
-  arma::vec predictAtIteration (Rcpp::List& newdata, unsigned int k, bool as_response)
-  {
-    std::map<std::string, data::Data*> data_map;
-
-    // Create data map (see line 780, same applies here):
-    for (unsigned int i = 0; i < newdata.size(); i++) {
-
-      // Get data wrapper:
-      DataWrapper* temp = newdata[i];
-
-      // Get the real data pointer:
-      data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
-
-    }
-    return obj->predictionOfIteration(data_map, k, as_response);
-  }
-
   void summarizeCompboost ()
   {
     obj->summarizeCompboost();
@@ -2421,7 +2474,7 @@ public:
     return is_trained;
   }
 
-  double getOffset ()
+  arma::mat getOffset ()
   {
     return obj->getOffset();
   }
@@ -2463,18 +2516,17 @@ RCPP_MODULE (compboost_module)
   using namespace Rcpp;
 
   class_<CompboostWrapper> ("Compboost_internal")
-    .constructor<arma::vec, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
-    .method("train", &CompboostWrapper::train, "Run componentwise boosting")
+    .constructor<ResponseWrapper&, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
+    .method("train", &CompboostWrapper::train, "Run component-wise boosting")
     .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected base-learner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
-    .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated paraemter")
-    .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter.max")
+    .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated parameter")
+    .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
-    .method("predict", &CompboostWrapper::predict, "Predict newdata")
-    .method("predictAtIteration", &CompboostWrapper::predictAtIteration, "Predict newdata for iteration k < iter.max")
-    .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
+    .method("predict", &CompboostWrapper::predict, "Predict new data")
+    .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Summarize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
     .method("setToIteration", &CompboostWrapper::setToIteration, "Set state of the model to a given iteration")
     .method("getOffset", &CompboostWrapper::getOffset, "Get offset.")

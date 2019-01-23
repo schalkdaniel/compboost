@@ -13,38 +13,23 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
-//
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // =========================================================================== #
 
-/** 
+/**
  *  @file    baselearner_factory.h
  *  @author  Daniel Schalk (github: schalkdaniel)
- *  
+ *
  *  @brief Definition of baselearner factory classes
  *
  *  @section DESCRIPTION
- *  
+ *
  *  This file defines the baselearner factory classes. Every baselearner should
- *  have a corresponding factory class. This factory class just exists to 
- *  crate baselearner objects. 
- *  
+ *  have a corresponding factory class. This factory class just exists to
+ *  crate baselearner objects.
+ *
  *  the factories are also there to instantiate the data at the moment the
  *  factory is instantiated. This is done by taking a data source and transform
  *  it baselearner dependent into a data target object. This data object is then
@@ -59,6 +44,7 @@
 
 #include <iostream>
 #include <string>
+#include <memory>
 
 #include "baselearner.h"
 #include "data.h"
@@ -73,30 +59,30 @@ namespace blearnerfactory {
 class BaselearnerFactory
 {
 public:
-  
+
   // Create new baselearner with id:
   virtual blearner::Baselearner* createBaselearner (const std::string&) = 0;
-  
+
   // Getter for data, data identifier and the baselearner type:
   // arma::mat getData () const;
   std::string getDataIdentifier () const;
   std::string getBaselearnerType () const;
-  
+
   virtual arma::mat instantiateData (const arma::mat&) const = 0;
   virtual arma::mat getData() const = 0;
-  
-  void initializeDataObjects (data::Data*, data::Data*);
-  
+
+  void initializeDataObjects (std::shared_ptr<data::Data>, std::shared_ptr<data::Data>);
+
   // Destructor:
   virtual ~BaselearnerFactory ();
-  
+
 protected:
-  
+
   // Minimal functionality every baselearner should have:
   std::string blearner_type;
-  data::Data* data_source;
-  data::Data* data_target;
-  
+  std::shared_ptr<data::Data> data_source;
+  std::shared_ptr<data::Data> data_target;
+
 };
 
 // -------------------------------------------------------------------------- //
@@ -109,20 +95,20 @@ protected:
 class BaselearnerPolynomialFactory : public BaselearnerFactory
 {
 private:
-  
+
   const unsigned int degree;
   bool intercept;
-  
+
 public:
-  
-  BaselearnerPolynomialFactory (const std::string&, data::Data*, data::Data*, const unsigned int&,
+
+  BaselearnerPolynomialFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>, const unsigned int&,
     const bool&);
-  
+
   blearner::Baselearner* createBaselearner (const std::string&);
-  
+
   /// Get data used for modeling
   arma::mat getData() const;
-  
+
   arma::mat instantiateData (const arma::mat&) const;
 };
 
@@ -131,39 +117,39 @@ public:
 
 /**
  * \class BaselearnerPSplineFactory
- * 
+ *
  * \brief Factory to create `PSplineBlearner` objects
- * 
+ *
  */
 class BaselearnerPSplineFactory : public BaselearnerFactory
 {
 private:
-  
+
   /// Degree of splines
   const unsigned int degree;
-  
+
   /// Number of inner knots
   const unsigned int n_knots;
-  
+
   /// Regularization parameter
   const double penalty;
-  
+
   /// Order of differences used for penalty matrix
   const unsigned int differences;
 
   /// Flag if sparse matrices should be used:
   const bool use_sparse_matrices;
-  
+
 public:
 
   /// Default constructor of class `PSplineBleanrerFactory`
-  BaselearnerPSplineFactory (const std::string&, data::Data*, data::Data*, 
-    const unsigned int&, const unsigned int&, const double&, 
+  BaselearnerPSplineFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
+    const unsigned int&, const unsigned int&, const double&,
     const unsigned int&, const bool&);
-  
+
   /// Create new `BaselearnerPSpline` object
   blearner::Baselearner* createBaselearner (const std::string&);
-  
+
   /// Get data used for modelling
   arma::mat getData() const;
 
@@ -179,24 +165,24 @@ public:
 class BaselearnerCustomFactory : public BaselearnerFactory
 {
 private:
-  
+
   Rcpp::Function instantiateDataFun;
   Rcpp::Function trainFun;
   Rcpp::Function predictFun;
   Rcpp::Function extractParameter;
-  
+
 public:
-  
-  BaselearnerCustomFactory (const std::string&, data::Data*, data::Data*,
+
+  BaselearnerCustomFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
-  
+
   blearner::Baselearner* createBaselearner (const std::string&);
-  
+
   /// Get data used for modelling
   arma::mat getData() const;
-  
+
   arma::mat instantiateData (const arma::mat&) const;
-  
+
 };
 
 // BaselearnerCustomCppFactory:
@@ -207,24 +193,24 @@ typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
 class BaselearnerCustomCppFactory : public BaselearnerFactory
 {
 private:
-  
+
   // Cpp functions for a custom baselearner:
   SEXP instantiateDataFun;
   SEXP trainFun;
   SEXP predictFun;
-  
+
 public:
-  
-  BaselearnerCustomCppFactory (const std::string&, data::Data*, data::Data*, 
+
+  BaselearnerCustomCppFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     SEXP, SEXP, SEXP);
-  
+
   blearner::Baselearner* createBaselearner (const std::string&);
-  
+
   /// Get data used for modelling
   arma::mat getData() const;
 
   arma::mat instantiateData (const arma::mat&) const;
-  
+
 };
 
 } // namespace blearnerfactory

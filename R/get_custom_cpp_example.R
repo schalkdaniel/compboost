@@ -21,7 +21,7 @@ getCustomCppExample = function (example = "blearner", silent = FALSE)
     example = "blearner"
   }
   
-  code.blearner = "
+  code_blearner = "
   // Example for a linear baselearner:
   // ---------------------------------
   
@@ -86,7 +86,7 @@ getCustomCppExample = function (example = "blearner", silent = FALSE)
   }
   "
   
-  code.loss = "
+  code_loss = "
   // Example for a quadratic loss:
   // -----------------------------  
   // [[Rcpp::depends(RcppArmadillo)]]
@@ -151,15 +151,15 @@ getCustomCppExample = function (example = "blearner", silent = FALSE)
   "
   
   if (example == "blearner") {
-    code = code.blearner
+    code = code_blearner
   }
   if (example == "loss") {
-    code = code.loss
+    code = code_loss
   }
   
   if (! silent) {
     cat(code)
   }
   
-  return (invisible(code))
+  return(invisible(code))
 }
