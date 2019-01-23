@@ -185,14 +185,16 @@ RCPP_MODULE (data_module)
 class BaselearnerFactoryWrapper
 {
 public:
-
   std::shared_ptr<blearnerfactory::BaselearnerFactory> getFactory () { return sh_ptr_blearner_factory; }
   virtual ~BaselearnerFactoryWrapper () {}
 
-protected:
+  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
+  arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
 
+protected:
   std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory;
-  // blearner::Baselearner* test_obj;
 };
 
 
@@ -309,15 +311,6 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["intercept"]);
-  }
-
-  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
-  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
-  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return sh_ptr_blearner_factory->instantiateData(newdata);
   }
 
   void summarizeFactory ()
@@ -461,15 +454,6 @@ public:
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
-  }
-
-  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
-  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
-  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return sh_ptr_blearner_factory->instantiateData(newdata);
   }
 
   void summarizeFactory ()
@@ -633,15 +617,6 @@ public:
       internal_arg_list["predict_fun"], internal_arg_list["param_fun"]);
   }
 
-  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
-  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
-  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata)
-  {
-    return sh_ptr_blearner_factory->instantiateData(newdata);
-  }
-
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom base-learner Factory:" << std::endl;
@@ -766,12 +741,6 @@ public:
       internal_arg_list["predict_ptr"]);
   }
 
-  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
-  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
-  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-
-  arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
-
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom cpp base-learner Factory:" << std::endl;
@@ -788,23 +757,24 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor ("Create BaselearnerFactory class")
+
+    .method("getData",       &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
+    .method("transformData", &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
   ;
 
   class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-     .method("getData",          &BaselearnerPolynomialFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",     &BaselearnerPolynomialFactoryWrapper::transformData, "Transform newdata corresponding to polynomial learner")
-     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+    
+    .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-    .method("getData",          &BaselearnerPSplineFactoryWrapper::getData, "Get design matrix")
-    .method("transformData",    &BaselearnerPSplineFactoryWrapper::transformData, "Compute spline basis for new data")
+
     .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
@@ -812,18 +782,16 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-     .method("getData",          &BaselearnerCustomFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &BaselearnerCustomFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+
+    .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<BaselearnerCustomCppFactoryWrapper> ("BaselearnerCustomCpp")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-     .method("getData",          &BaselearnerCustomCppFactoryWrapper::getData, "Get the data which the factory uses")
-     .method("transformData",    &BaselearnerCustomCppFactoryWrapper::transformData, "Transform data")
-     .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Sumamrize Factory")
+
+    .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 }
 
@@ -1346,6 +1314,15 @@ public:
 
   std::shared_ptr<response::Response> getResponseObj () { return sh_ptr_response; }
 
+  std::string getTargetName () const { return sh_ptr_response->getTargetName(); }
+  arma::mat getResponse () const { return sh_ptr_response->getResponse(); }
+  arma::mat getWeights () const { return sh_ptr_response->getWeights(); }
+  arma::mat getPrediction () const { return sh_ptr_response->getPredictionScores(); }
+  arma::mat getPredictionTransform () const { return sh_ptr_response->getPredictionTransform(); }
+  arma::mat getPredictionResponse () const { return sh_ptr_response->getPredictionResponse(); }
+  void filter (const arma::uvec& idx) const { sh_ptr_response->filter(idx - 1); } // +1 to shift from R to C++ index
+  double calculateEmpiricalRisk (LossWrapper& loss) const { return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss()); }
+
 protected:
   std::shared_ptr<response::Response> sh_ptr_response;
 };
@@ -1375,47 +1352,6 @@ public:
   ResponseRegrWrapper (std::string target_name, arma::mat response, arma::mat weights)
   {
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
-  }
-
-  std::string getTargetName () const
-  {
-    return sh_ptr_response->getTargetName();
-  }
-
-  arma::mat getResponse () const
-  {
-    return sh_ptr_response->getResponse();
-  }
-
-  arma::mat getWeights () const
-  {
-    return sh_ptr_response->getWeights();
-  }
-
-  arma::mat getPrediction () const
-  {
-    return sh_ptr_response->getPredictionScores();
-  }
-
-  arma::mat getPredictionTransform () const
-  {
-    return sh_ptr_response->getPredictionTransform();
-  }
-
-  arma::mat getPredictionResponse () const
-  {
-    return sh_ptr_response->getPredictionResponse();
-  }
-
-  void filter (const arma::uvec& idx) const
-  {
-    // Shift by 1 to transform R index to C++ index:
-    sh_ptr_response->filter(idx - 1);
-  }
-
-  double calculateEmpiricalRisk (LossWrapper& loss) const
-  {
-    return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss());
   }
 };
 
@@ -1447,51 +1383,8 @@ public:
     sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
   }
 
-  std::string getTargetName () const
-  {
-    return sh_ptr_response->getTargetName();
-  }
-
-  arma::mat getResponse () const
-  {
-    return sh_ptr_response->getResponse();
-  }
-
-  arma::mat getWeights () const
-  {
-    return sh_ptr_response->getWeights();
-  }
-
-  arma::mat getPrediction () const
-  {
-    return sh_ptr_response->getPredictionScores();
-  }
-
-  arma::mat getPredictionTransform () const
-  {
-    return sh_ptr_response->getPredictionTransform();
-  }
-
-  arma::mat getPredictionResponse () const
-  {
-    return sh_ptr_response->getPredictionResponse();
-  }
-
-  void filter (const arma::uvec& idx) const
-  {
-    // Shift by 1 to transform R index to C++ index:
-    sh_ptr_response->filter(idx);
-  }
-
-  double calculateEmpiricalRisk (LossWrapper& loss) const
-  {
-    return sh_ptr_response->calculateEmpiricalRisk(loss.getLoss());
-  }
-
   double getThreshold () const
   {
-  // B* pB = static_cast<B*>(x);
-  // pB->myNewMethod();
     return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->threshold;
   }
   void setThreshold (double thresh)
@@ -1507,6 +1400,15 @@ RCPP_MODULE (response_module)
 
   class_<ResponseWrapper> ("Response")
     .constructor ("Create Response class")
+
+    .method("getTargetName",          &ResponseWrapper::getTargetName, "Get the name of the target variable")
+    .method("getResponse",            &ResponseWrapper::getResponse, "Get the original response")
+    .method("getWeights",             &ResponseWrapper::getWeights, "Get the weights")
+    .method("getPrediction",          &ResponseWrapper::getPrediction, "Get prediction scores")
+    .method("getPredictionTransform", &ResponseWrapper::getPredictionTransform, "Get transformed prediction scores")
+    .method("getPredictionResponse",  &ResponseWrapper::getPredictionResponse, "Get transformed prediction as response")
+    .method("filter",                 &ResponseWrapper::filter, "Filter response elements")
+    .method("calculateEmpiricalRisk", &ResponseWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
   ;
 
   class_<ResponseRegrWrapper> ("ResponseRegr")
@@ -1515,14 +1417,6 @@ RCPP_MODULE (response_module)
     .constructor<std::string, arma::mat> ()
     .constructor<std::string, arma::mat, arma::mat> ()
 
-    .method("getTargetName",          &ResponseRegrWrapper::getTargetName, "Get the name of the target variable")
-    .method("getResponse",            &ResponseRegrWrapper::getResponse, "Get the original response")
-    .method("getWeights",             &ResponseRegrWrapper::getWeights, "Get the weights")
-    .method("getPrediction",          &ResponseRegrWrapper::getPrediction, "Get prediction scores")
-    .method("getPredictionTransform", &ResponseRegrWrapper::getPredictionTransform, "Get transformed prediction scores")
-    .method("getPredictionResponse",  &ResponseRegrWrapper::getPredictionResponse, "Get transformed prediction as response")
-    .method("filter",                 &ResponseRegrWrapper::filter, "Filter response elements")
-    .method("calculateEmpiricalRisk", &ResponseRegrWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
@@ -1531,14 +1425,6 @@ RCPP_MODULE (response_module)
     .constructor<std::string, arma::mat> ()
     .constructor<std::string, arma::mat, arma::mat> ()
 
-    .method("getTargetName",          &ResponseBinaryClassifWrapper::getTargetName, "Get the name of the target variable")
-    .method("getResponse",            &ResponseBinaryClassifWrapper::getResponse, "Get the original response")
-    .method("getWeights",             &ResponseBinaryClassifWrapper::getWeights, "Get the weights")
-    .method("getPrediction",          &ResponseBinaryClassifWrapper::getPrediction, "Get prediction scores")
-    .method("getPredictionTransform", &ResponseBinaryClassifWrapper::getPredictionTransform, "Get transformed prediction scores")
-    .method("getPredictionResponse",  &ResponseBinaryClassifWrapper::getPredictionResponse, "Get transformed prediction as response")
-    .method("filter",                 &ResponseBinaryClassifWrapper::filter, "Filter response elements")
-    .method("calculateEmpiricalRisk", &ResponseBinaryClassifWrapper::calculateEmpiricalRisk, "Calculates the empirical list given a specific loss")
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
   ;
@@ -2631,16 +2517,16 @@ RCPP_MODULE (compboost_module)
 
   class_<CompboostWrapper> ("Compboost_internal")
     .constructor<ResponseWrapper&, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
-    .method("train", &CompboostWrapper::train, "Run componentwise boosting")
+    .method("train", &CompboostWrapper::train, "Run component-wise boosting")
     .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected base-learner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
-    .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated paraemter")
-    .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter.max")
+    .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated parameter")
+    .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
-    .method("predict", &CompboostWrapper::predict, "Predict newdata")
-    .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Sumamrize compboost object.")
+    .method("predict", &CompboostWrapper::predict, "Predict new data")
+    .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Summarize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
     .method("setToIteration", &CompboostWrapper::setToIteration, "Set state of the model to a given iteration")
     .method("getOffset", &CompboostWrapper::getOffset, "Get offset.")
