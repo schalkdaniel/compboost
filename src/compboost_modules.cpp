@@ -1393,6 +1393,34 @@ public:
   }
 };
 
+//' Create response object for FDA.
+//'
+//' \code{ResponseFDA} creates a response object that are used as target during the
+//' fitting process.
+//'
+//' @format \code{\link{S4}} object.
+//' @name ResponseFDA
+//'
+//' @section Usage:
+//' \preformatted{
+//' ResponseFDA$new(target_name, response)
+//' ResponseFDA$new(target_name, response, weights)
+//' }
+//'
+//' @export ResponseFDA
+class ResponseFDAWrapper : public ResponseWrapper
+{
+public:
+  ResponseFDAWrapper (std::string target_name, arma::mat response, arma::mat grid)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseFDA>(target_name, response, grid);
+  }
+  ResponseFDAWrapper (std::string target_name, arma::mat response, arma::mat grid, arma::mat weights)
+  {
+    sh_ptr_response = std::make_shared<response::ResponseFDA>(target_name, response, grid, weights);
+  }
+};
+
 RCPP_EXPOSED_CLASS(ResponseWrapper)
 RCPP_MODULE (response_module)
 {
@@ -1427,6 +1455,14 @@ RCPP_MODULE (response_module)
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
+  ;
+  
+  class_<ResponseFDAWrapper> ("ResponseFDA")
+    .derives<ResponseWrapper> ("Response")
+  
+    .constructor<std::string, arma::mat, arma::mat> ()
+    .constructor<std::string, arma::mat, arma::mat, arma::mat> ()
+ 
   ;
 }
 
