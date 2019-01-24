@@ -30,7 +30,7 @@ namespace linesearch {
  *
  * \param step_size `double`
  *
- * \param used_loss `loss::Loss*`
+ * \param sh_ptr_loss `std::shared_ptr<loss::Loss>`
  *
  * \param target `arma::vec`
  *
@@ -40,10 +40,10 @@ namespace linesearch {
  *
  * \returns `double` Risk evaluated at the given step size
  */
-double calculateRisk (const double& step_size, loss::Loss* used_loss, const arma::vec& target, const arma::vec& model_prediction,
+double calculateRisk (const double& step_size, std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
   const arma::vec& baselearner_prediction)
 {
-  return arma::accu(used_loss->definedLoss(target, model_prediction + step_size * baselearner_prediction)) / model_prediction.size();
+  return arma::accu(sh_ptr_loss->definedLoss(target, model_prediction + step_size * baselearner_prediction)) / model_prediction.size();
 }
 
 /**
@@ -53,7 +53,7 @@ double calculateRisk (const double& step_size, loss::Loss* used_loss, const arma
  * It uses the Brent methods from boost to find the minimum. Included from the boost library:
  * https://www.boost.org/doc/libs/1_61_0/libs/math/doc/html/math_toolkit/roots/brent_minima.html
  *
- * \param used_loss `loss::Loss*`
+ * \param sh_ptr_loss `std::shared_ptr<loss::Loss>`
  *
  * \param target `arma::vec`
  *
@@ -63,7 +63,7 @@ double calculateRisk (const double& step_size, loss::Loss* used_loss, const arma
  *
  * \returns `double` Optimal step size.
  */
-double findOptimalStepSize (loss::Loss* used_loss, const arma::vec& target, const arma::vec& model_prediction,
+double findOptimalStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
   const arma::vec& baselearner_prediction, const double& lower_bound, const double& upper_bound)
 {
   boost::uintmax_t max_iter = 500;
@@ -71,7 +71,7 @@ double findOptimalStepSize (loss::Loss* used_loss, const arma::vec& target, cons
   int bits = std::numeric_limits<double>::digits;
 
   // Conduct the root finding:
-  std::pair<double, double> r = boost::math::tools::brent_find_minima(std::bind(calculateRisk, std::placeholders::_1, used_loss, target, model_prediction, baselearner_prediction), lower_bound, upper_bound, bits, max_iter);
+  std::pair<double, double> r = boost::math::tools::brent_find_minima(std::bind(calculateRisk, std::placeholders::_1, sh_ptr_loss, target, model_prediction, baselearner_prediction), lower_bound, upper_bound, bits, max_iter);
 
   // return (r.first + r.second) / 2;
   return r.first;

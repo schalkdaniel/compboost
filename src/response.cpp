@@ -46,22 +46,22 @@ arma::mat Response::getPseudoResiduals () const { return pseudo_residuals; }
 arma::mat Response::getPredictionScores () const { return prediction_scores; }
 
 
-void Response::checkLossCompatibility (loss::Loss* used_loss) const
+void Response::checkLossCompatibility (std::shared_ptr<loss::Loss> sh_ptr_loss) const
 {
-  if ((task_id != used_loss->getTaskId()) && (used_loss->getTaskId() != "custom")) {
-    std::string error_msg = "Loss task '" + used_loss->getTaskId() + "' is not compatible with the response class task '" + task_id + "'.";
+  if ((task_id != sh_ptr_loss->getTaskId()) && (sh_ptr_loss->getTaskId() != "custom")) {
+    std::string error_msg = "Loss task '" + sh_ptr_loss->getTaskId() + "' is not compatible with the response class task '" + task_id + "'.";
     Rcpp::stop(error_msg);
   }
 }
 
 
-void Response::updatePseudoResiduals (loss::Loss* used_loss)
+void Response::updatePseudoResiduals (std::shared_ptr<loss::Loss> sh_ptr_loss)
 {
-  checkLossCompatibility(used_loss);
+  checkLossCompatibility(sh_ptr_loss);
   if (use_weights) {
-    pseudo_residuals = used_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
+    pseudo_residuals = sh_ptr_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
   } else {
-    pseudo_residuals = used_loss->calculatePseudoResiduals(response, prediction_scores);
+    pseudo_residuals = sh_ptr_loss->calculatePseudoResiduals(response, prediction_scores);
   }
 }
 
@@ -71,15 +71,15 @@ void Response::updatePrediction (const double& learning_rate, const double& step
 }
 
 
-void Response::constantInitialization (loss::Loss* used_loss)
+void Response::constantInitialization (std::shared_ptr<loss::Loss> sh_ptr_loss)
 {
-  checkLossCompatibility(used_loss);
+  checkLossCompatibility(sh_ptr_loss);
 
   if (! is_initialization_initialized) {
     if (use_weights) {
-      initialization = used_loss->weightedConstantInitializer(response, weights);
+      initialization = sh_ptr_loss->weightedConstantInitializer(response, weights);
     } else {
-      initialization = used_loss->constantInitializer(response);
+      initialization = sh_ptr_loss->constantInitializer(response);
     }
     is_initialization_initialized = true;
   } else {
@@ -98,13 +98,13 @@ void Response::constantInitialization (const arma::mat& init_mat)
 }
 
 
-double Response::calculateEmpiricalRisk (loss::Loss* used_loss) const
+double Response::calculateEmpiricalRisk (std::shared_ptr<loss::Loss> sh_ptr_loss) const
 {
-  checkLossCompatibility(used_loss);
+  checkLossCompatibility(sh_ptr_loss);
   if (use_weights) {
-    return used_loss->calculateWeightedEmpiricalRisk(response, getPredictionTransform(), weights);
+    return sh_ptr_loss->calculateWeightedEmpiricalRisk(response, getPredictionTransform(), weights);
   } else {
-    return used_loss->calculateEmpiricalRisk(response, getPredictionTransform());
+    return sh_ptr_loss->calculateEmpiricalRisk(response, getPredictionTransform());
   }
 }
 
@@ -333,11 +333,11 @@ void ResponseFDA::initializePrediction ()
   }
 }
 
-void ResponseFDA::updatePseudoResiduals (loss::Loss* used_loss)
+void ResponseFDA::updatePseudoResiduals (std::shared_ptr<loss::Loss> sh_ptr_loss)
 {
-  checkLossCompatibility(used_loss);
+  checkLossCompatibility(sh_ptr_loss);
   weights = weights.each_row() % trapez_weights.t();
-  pseudo_residuals = used_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
+  pseudo_residuals = sh_ptr_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
 }
 
 

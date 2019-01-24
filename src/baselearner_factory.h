@@ -61,7 +61,7 @@ class BaselearnerFactory
 public:
 
   // Create new baselearner with id:
-  virtual blearner::Baselearner* createBaselearner (const std::string&) = 0;
+  virtual std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&) = 0;
 
   // Getter for data, data identifier and the baselearner type:
   // arma::mat getData () const;
@@ -104,7 +104,7 @@ public:
   BaselearnerPolynomialFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>, const unsigned int&,
     const bool&);
 
-  blearner::Baselearner* createBaselearner (const std::string&);
+  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
 
   /// Get data used for modeling
   arma::mat getData() const;
@@ -148,7 +148,7 @@ public:
     const unsigned int&, const bool&);
 
   /// Create new `BaselearnerPSpline` object
-  blearner::Baselearner* createBaselearner (const std::string&);
+  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
 
   /// Get data used for modelling
   arma::mat getData() const;
@@ -176,7 +176,7 @@ public:
   BaselearnerCustomFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
-  blearner::Baselearner* createBaselearner (const std::string&);
+  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
 
   /// Get data used for modelling
   arma::mat getData() const;
@@ -204,7 +204,7 @@ public:
   BaselearnerCustomCppFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     SEXP, SEXP, SEXP);
 
-  blearner::Baselearner* createBaselearner (const std::string&);
+  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
 
   /// Get data used for modelling
   arma::mat getData() const;

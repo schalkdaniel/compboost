@@ -32,7 +32,7 @@ class BaselearnerTrack
   private:
 
     // Vector of selected baselearner:
-    std::vector<blearner::Baselearner*> blearner_vector;
+    std::vector<std::shared_ptr<blearner::Baselearner>> blearner_vector;
 
     // Parameter map. The first element contains the baselearner type and the
     // second element the parameter. This one will be updated in every
@@ -48,10 +48,10 @@ class BaselearnerTrack
     BaselearnerTrack (double);
 
     // Insert a baselearner into vector and update parameter:
-    void insertBaselearner (blearner::Baselearner*, const double& step_size);
+    void insertBaselearner (std::shared_ptr<blearner::Baselearner>, const double& step_size);
 
     // Return the vector of baselearner:
-    std::vector<blearner::Baselearner*> getBaselearnerVector () const;
+    std::vector<std::shared_ptr<blearner::Baselearner>> getBaselearnerVector () const;
 
     // Return so far estimated parameter map:
     std::map<std::string, arma::mat> getParameterMap () const;

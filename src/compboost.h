@@ -86,8 +86,8 @@ private:
 
   std::shared_ptr<response::Response> sh_ptr_response;
   blearnertrack::BaselearnerTrack blearner_track;
-  optimizer::Optimizer* used_optimizer;
-  loss::Loss* used_loss;
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
+  std::shared_ptr<loss::Loss> sh_ptr_loss;
   blearnerlist::BaselearnerFactoryList used_baselearner_list;
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
 
@@ -95,7 +95,7 @@ public:
 
   Compboost ();
 
-  Compboost (std::shared_ptr<response::Response>, const double&, const bool&, optimizer::Optimizer*, loss::Loss*,
+  Compboost (std::shared_ptr<response::Response>, const double&, const bool&, std::shared_ptr<optimizer::Optimizer>, std::shared_ptr<loss::Loss>,
     std::shared_ptr<loggerlist::LoggerList>, blearnerlist::BaselearnerFactoryList);
 
   // Basic train function used by trainCompbost and continueTraining:
