@@ -766,7 +766,7 @@ RCPP_MODULE (baselearner_factory_module)
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
-    
+
     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
@@ -2368,8 +2368,9 @@ public:
     used_optimizer     =  optimizer.getOptimizer();
     blearner_list_ptr  =  factory_list.getFactoryList();
 
-    unique_ptr_cboost = std::make_unique<cboost::Compboost>(response.getResponseObj(), learning_rate0, stop_if_all_stopper_fulfilled,
-      used_optimizer, loss.getLoss(), sh_ptr_loggerlist, *blearner_list_ptr);
+    std::unique_ptr<cboost::Compboost> unique_ptr_cboost_temp(new cboost::Compboost(response.getResponseObj(), learning_rate0,
+      stop_if_all_stopper_fulfilled, used_optimizer, loss.getLoss(), sh_ptr_loggerlist, *blearner_list_ptr));
+    unique_ptr_cboost = std::move(unique_ptr_cboost_temp);
   }
 
   // Member functions
