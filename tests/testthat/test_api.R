@@ -500,3 +500,36 @@ test_that("out of range values are set correctly", {
   })
   expect_equal(pred_broken, mod$predict(data.frame(dist = c(2, 2, 100, 120, 120))))
 })
+
+
+test_that("retraining of compboost logs correctly", {
+  
+  set.seed(1234)
+  cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
+  cboost$addBaselearner("disp", "linear", BaselearnerPolynomial)
+  cboost$addBaselearner("qsec", "linear", BaselearnerPolynomial)
+  cboost$addBaselearner("hp", "spline", BaselearnerPSpline)
+  cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
+  cboost$addLogger(logger = LoggerInbagRisk, use_as_stopper = FALSE, logger_id = "inbag",
+    LossQuadratic$new(), 0.01)
+  
+  expect_output(suppressWarnings(cboost$train(200)))
+  expect_output(suppressWarnings(cboost$train(220)))
+  expect_output(suppressWarnings(cboost$train(250)))  
+  expect_output(suppressWarnings(cboost$train(1000)))  
+
+  set.seed(1234)
+  cboost1 = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
+  cboost1$addBaselearner("disp", "linear", BaselearnerPolynomial)
+  cboost1$addBaselearner("qsec", "linear", BaselearnerPolynomial)
+  cboost1$addBaselearner("hp", "spline", BaselearnerPSpline)
+  cboost1$addBaselearner("wt", "spline", BaselearnerPSpline)
+  cboost1$addLogger(logger = LoggerInbagRisk, use_as_stopper = FALSE, logger_id = "inbag",
+    LossQuadratic$new(), 0.01)
+  
+  expect_output(suppressWarnings(cboost1$train(1000)))
+
+  expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
+  expect_equal(cboost$getLoggerData(), cboost1$getLoggerData())
+  expect_equal(cboost$getInbagRisk(), cboost1$getInbagRisk())
+})

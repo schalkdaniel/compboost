@@ -32,7 +32,7 @@ Compboost::Compboost () {}
 
 Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const double& learning_rate,
   const bool& stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, loss::Loss* used_loss,
-  loggerlist::LoggerList* logger_map0, blearnerlist::BaselearnerFactoryList used_baselearner_list)
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList used_baselearner_list)
   : sh_ptr_response ( sh_ptr_response ),
     learning_rate ( learning_rate ),
     stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
@@ -43,14 +43,14 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
   sh_ptr_response->constantInitialization(used_loss);
   sh_ptr_response->initializePrediction();
   blearner_track = blearnertrack::BaselearnerTrack(learning_rate);
-  logger_map["initial.training"] = logger_map0;
+  sh_ptr_loggerlist = sh_ptr_loggerlist0;
 }
 
 // --------------------------------------------------------------------------- #
 // Member functions:
 // --------------------------------------------------------------------------- #
 
-void Compboost::train (const unsigned int& trace, loggerlist::LoggerList* logger_list)
+void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::LoggerList> logger_list)
 {
 
   if (used_baselearner_list.getMap().size() == 0) {
@@ -67,9 +67,9 @@ void Compboost::train (const unsigned int& trace, loggerlist::LoggerList* logger
   while (! stop_the_algorithm) {
 
     actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
-
+    
+    sh_ptr_response->setActualIteration(actual_iteration);
     sh_ptr_response->updatePseudoResiduals(used_loss);
-    sh_ptr_response->setActualIteration(k);
 
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
@@ -89,7 +89,7 @@ void Compboost::train (const unsigned int& trace, loggerlist::LoggerList* logger
     // Log the current step:
     //   The last term has to be the prediction or anything like that. This is
     //   important to track the risk (inbag or oob)!!!!
-    logger_list->logCurrent(k, sh_ptr_response, selected_blearner, learning_rate, used_optimizer->getStepSize(actual_iteration));
+    logger_list->logCurrent(actual_iteration, sh_ptr_response, selected_blearner, learning_rate, used_optimizer->getStepSize(actual_iteration));
 
     // Calculate and log risk:
     risk.push_back(sh_ptr_response->calculateEmpiricalRisk(used_loss));
@@ -98,11 +98,7 @@ void Compboost::train (const unsigned int& trace, loggerlist::LoggerList* logger
     // seems a bit weird, but it makes the while loop easier to read:
     stop_the_algorithm = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
 
-    if (trace > 0) {
-      if ((k == 1) || ((k % trace) == 0)) {
-        logger_list->printLoggerStatus(risk.back());
-      }
-    }
+    if (helper::checkTracePrinter(actual_iteration, trace)) { logger_list->printLoggerStatus(risk.back()); }
     k += 1;
   }
 
@@ -116,9 +112,8 @@ void Compboost::trainCompboost (const unsigned int& trace)
 {
   // Make sure, that the selected baselearner and logger data is empty:
   blearner_track.clearBaselearnerVector();
-  for (auto& it : logger_map) {
-    it.second->clearLoggerData();
-  }
+  sh_ptr_loggerlist->clearLoggerData();
+
   // Calculate risk for initial model:
   risk.push_back(sh_ptr_response->calculateEmpiricalRisk(used_loss));
 
@@ -126,7 +121,7 @@ void Compboost::trainCompboost (const unsigned int& trace)
   auto t1 = std::chrono::high_resolution_clock::now();
 
   // Initial training:
-  train(trace, logger_map["initial.training"]);
+  train(trace, sh_ptr_loggerlist);
 
   // track time:
   auto t2 = std::chrono::high_resolution_clock::now();
@@ -142,28 +137,16 @@ void Compboost::trainCompboost (const unsigned int& trace)
   model_is_trained = true;
 }
 
-void Compboost::continueTraining (loggerlist::LoggerList* logger, const unsigned int& trace)
+void Compboost::continueTraining (const unsigned int& trace)
 {
   if (! model_is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
-  // Set state to maximal possible iteration to cleanly continue training:
   if (actual_iteration != blearner_track.getBaselearnerVector().size()) {
-
     unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
-
-    // Rcpp::Rcout << "Set iteration to maximal possible value: " << std::to_string(max_iteration) << std::endl;
-
-    setToIteration(max_iteration);
-
+    setToIteration(max_iteration, -1);
   }
-
-  // Continue training:
-  train(trace, logger);
-
-  // Register logger in hash map to store logging data:
-  std::string logger_id = "retraining" + std::to_string(logger_map.size());
-  logger_map[logger_id] = logger;
+  train(trace, sh_ptr_loggerlist);
 
   // Update actual state:
   actual_iteration = blearner_track.getBaselearnerVector().size();
@@ -194,9 +177,9 @@ std::vector<std::string> Compboost::getSelectedBaselearner () const
   return selected_blearner;
 }
 
-std::map<std::string, loggerlist::LoggerList*> Compboost::getLoggerList () const
+std::shared_ptr<loggerlist::LoggerList> Compboost::getLoggerList () const
 {
-  return logger_map;
+  return sh_ptr_loggerlist;
 }
 
 std::map<std::string, arma::mat> Compboost::getParameterOfIteration (const unsigned int& k) const
@@ -266,25 +249,19 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 }
 
 // Set model to an given iteration. The predictions and everything is then done at this iteration:
-void Compboost::setToIteration (const unsigned int& k)
+void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace)
 {
   unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
 
   // Set parameter:
   if (k > max_iteration) {
-    // Define new iteration logger for missing iterations:
     unsigned int iteration_diff = k - max_iteration;
-    std::shared_ptr<logger::Logger> temp_logger = std::make_shared<logger::LoggerIteration>("_iteration", true, iteration_diff);
-    loggerlist::LoggerList* temp_loggerlist = new loggerlist::LoggerList();
-
-    std::string logger_id = "setToIteration.retraining" + std::to_string(logger_map.size());
-    temp_loggerlist->registerLogger(temp_logger);
-
     Rcpp::Rcout << "\nYou have already trained " << std::to_string(max_iteration) << " iterations.\n"
                 <<"Train " << std::to_string(iteration_diff) << " additional iterations."
                 << std::endl << std::endl;
 
-    continueTraining(temp_loggerlist, false);
+    sh_ptr_loggerlist->prepareForRetraining(k);
+    continueTraining(trace);
   }
 
   blearner_track.setToIteration(k);
@@ -317,18 +294,6 @@ void Compboost::summarizeCompboost () const
 }
 
 // Destructor:
-Compboost::~Compboost ()
-{
-  // blearner_track will be deleted automatically (allocated on the stack)
-
-  // logger_map will be deleted automatically (allocated on the stack). BUT we
-  // have to care about self registered logger by setToIteration:
-  for (auto& it : logger_map) {
-    if (it.first.find("setToIteration") != std::string::npos) {
-      // Delets the loggerlist:
-      delete it.second;
-    }
-  }
-}
+Compboost::~Compboost () {}
 
 } // namespace cboost

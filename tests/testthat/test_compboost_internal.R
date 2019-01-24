@@ -206,7 +206,7 @@ test_that("compboost does the same as mboost", {
   }
   expect_equal(cboost$getParameterMatrix()$parameter_matrix[idx, ], matrix_compare)
   expect_equal(cboost$predict(eval_oob_test, FALSE), predict(mod, df))
-  expect_silent(cboost$setToIteration(200))
+  expect_silent(cboost$setToIteration(200, -1))
   expect_equal(cboost$predict(eval_oob_test, FALSE), predict(mod_reduced, df))
 
   suppressWarnings({
@@ -218,7 +218,7 @@ test_that("compboost does the same as mboost", {
       control = boost_control(mstop = 700, nu = learning_rate)
     )
   })
-  expect_output(cboost$setToIteration(700))
+  expect_output(cboost$setToIteration(700, -1))
   expect_equal(cboost$getPrediction(FALSE), predict(mod_new))
 })
 

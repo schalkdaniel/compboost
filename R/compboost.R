@@ -436,8 +436,7 @@ Compboost = R6::R6Class("Compboost",
         stop("Could not train without any registered base-learner.")
       }
 
-      checkmate::assertIntegerish(iteration, lower = 1, len = 1, null.ok = TRUE)
-      # checkmate::assertFlag(trace)
+      checkmate::assertCount(iteration, positive = TRUE, null.ok = TRUE)
       checkmate::assertIntegerish(trace, lower = -1, upper = iteration, len = 1, null.ok = FALSE)
 
       if (trace == -1) {
@@ -464,10 +463,10 @@ Compboost = R6::R6Class("Compboost",
       }
       # Just call train for the initial fitting process. If the model is alredy initially trained,
       # then we use `setToIteration` to set to a lower iteration or retrain the model.
-      if (!self$model$isTrained())
+      if (! self$model$isTrained())
         self$model$train(trace)
       else {
-        self$model$setToIteration(iteration)
+        self$model$setToIteration(iteration, trace)
       }
       return(invisible(NULL))
     },
@@ -657,7 +656,7 @@ Compboost = R6::R6Class("Compboost",
         out_mat = out_list[[2]]
         colnames(out_mat) = out_list[[1]]
 
-        return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()),]))
+        return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()), , drop = FALSE]))
       } else {
         warning("Train the model to get logger data.")
       }
