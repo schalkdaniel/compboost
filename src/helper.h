@@ -35,6 +35,7 @@ arma::mat sigmoid (const arma::mat&);
 arma::mat transformToBinaryResponse (const arma::mat&, const double&, const double&, const double&);
 void checkForBinaryClassif (const arma::mat&, const int&, const int&);
 void checkMatrixDim (const arma::mat&, const arma::mat&);
+bool checkTracePrinter (const unsigned int&, const unsigned int&);
 
 } // namespace helper
 

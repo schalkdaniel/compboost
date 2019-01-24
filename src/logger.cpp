@@ -27,31 +27,11 @@ namespace logger
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
 
-/**
- * \brief Getter of logger identifier
- *
- * \returns `std::string` of logger id
- */
-std::string Logger::getLoggerId () const
-{
-  return logger_id;
-}
+std::string Logger::getLoggerId () const { return logger_id; }
+std::string Logger::getLoggerType () const { return logger_type; }
+bool Logger::getIfLoggerIsStopper () const { return is_a_stopper; }
 
-/**
- * \brief Getter if the logger is used as stopper
- *
- * \returns `bool` which says `true` if it is a logger, otherwise `false`
- */
-bool Logger::getIfLoggerIsStopper () const
-{
-  return is_a_stopper;
-}
-
-// Destructor:
-Logger::~Logger () { }
-
-
-
+Logger::~Logger () {}
 
 
 // -------------------------------------------------------------------------- //
@@ -79,6 +59,7 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
 {
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
+  logger_type = "iteration";
 }
 
 /**
@@ -177,7 +158,10 @@ std::string LoggerIteration::printLoggerStatus () const
   return ss.str();
 }
 
-
+void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
+{
+  max_iterations = new_max_iter;
+} 
 
 
 
@@ -201,6 +185,7 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
 {
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
+  logger_type = "inbag_risk";
 }
 
 /**
@@ -362,7 +347,7 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
 {
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
-  // sh_ptr_oob_response = oob_response;
+  logger_type = "oob_risk";
 }
 
 /**
@@ -555,6 +540,7 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
   // This is necessary to prevent the program from segfolds... whyever???
   // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
   try {
+    // Puh, that's ugly. :)
     if (time_unit != "minutes" ) {
       if (time_unit != "seconds") {
         if (time_unit != "microseconds") {
@@ -569,6 +555,7 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
   }
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
+  logger_type = "time";
 }
 
 /**
@@ -645,9 +632,9 @@ bool LoggerTime::reachedStopCriteria () const
 arma::vec LoggerTime::getLoggedData () const
 {
   // Cast integer vector to double:
-  std::vector<double> seconds_double (current_time.begin(), current_time.end());
+  std::vector<double> time_double (current_time.begin(), current_time.end());
 
-  arma::vec out (seconds_double);
+  arma::vec out (time_double);
   return out;
 }
 
