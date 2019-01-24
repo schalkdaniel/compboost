@@ -140,8 +140,7 @@ public:
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
   arma::mat getGrid (const arma::mat&) const;
-}
-  
+
   void filter (const arma::uvec&);
 };
 
