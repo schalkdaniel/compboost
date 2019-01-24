@@ -1436,7 +1436,7 @@ NULL
 #' cboost$getSelectedBaselearner()
 #'
 #' # Set to iteration 200:
-#' cboost$setToIteration(200)
+#' cboost$setToIteration(200, 30)
 #'
 #' # Get new parameter values:
 #' cboost$getEstimatedParameter()
