@@ -99,7 +99,7 @@
 b_j(x, \theta^{[m]}) + b_j(x, \theta^{[m^\prime]}) = b_j(x, \theta^{[m]} + \theta^{[m^\prime]})
 \]</span> So, instead of boosting trees like <code>xgboost</code>, model-based boosting uses a selection of important base-learners, each with estimated parameters.</p>
 <p>The ordinary way of finding good base-learners is done by a greedy search. Therefore, in each iteration, all base-learners are fitted to the so-called pseudo residuals in the current iteration that act as a kind of error of the actual model. A new base-learner is then selected by choosing the base-learner with the smallest empirical risk <span class="math inline">\(\mathcal{R}_\text{emp}\)</span>.</p>
-<p><img src="../images/cboost.gif" class="center"></p>
+<p><img src="../images/cboost_gif_bright.svg" class="center"></p>
 <p>The illustration above uses three base-learners <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, and <span class="math inline">\(b_3\)</span>. You can think of each base-learner as a wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more frequently than another base-learner, it indicates that this base-learner (or feature) is more important. To get a sparser model in terms of selected features there is also a learning rate <span class="math inline">\(\beta\)</span> to shrink the parameter in each iteration. The learning rate corresponds to the step size used in gradient descent. The three models within each iteration of the illustration are: <span class="math display">\[
 \begin{align}
 \text{Iteration 1:} \ &amp;\hat{f}^{[1]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) \\
