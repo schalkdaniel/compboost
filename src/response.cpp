@@ -352,6 +352,11 @@ arma::mat ResponseFDA::getPredictionResponse (const arma::mat& pred_scores) cons
   return pred_scores;
 }
 
+arma::mat ResponseFDA::getGrid (const arma::mat& grid) const
+{
+  return grid;
+}
+
 void ResponseFDA::filter (const arma::uvec& idx)
 {
   response = response.elem(idx);

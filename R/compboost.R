@@ -406,14 +406,28 @@ Compboost = R6::R6Class("Compboost",
           private$bl_list[[i]] = NULL
         }
       }
-
-      data_columns = self$data[, feature, drop = FALSE]
-      id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
-
-      if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
-        private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
-      }	else {
-        private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+      
+      # Check if the response functional data
+      if(class(self$response) != "Rcpp_ResponseFDA"){
+        data_columns = self$data[, feature, drop = FALSE]
+        id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+  
+        if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
+          private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+        }	else {
+          private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+        }
+      } else {
+        
+        data_columns = self$data[, feature, drop = FALSE]
+        data_columns = private$rowwise_tensor(data_columns, t(matrix(rep(x = self$response$getGrid(),nrow(data_columns)),ncol = nrow(data_columns))))
+        id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+        
+        if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
+          private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+        }	else {
+          private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+        }
       }
     },
     train = function(iteration = 100, trace = -1) {
@@ -789,6 +803,19 @@ Compboost = R6::R6Class("Compboost",
         #      feature name of the categorical variable, such as cat_feature (important for predictions).
         private$bl_list[[cat_feat_id]]$feature = feature
       }
+    },
+    rowwise_tensor = function(A, B)
+    {
+      m = NROW(A)
+      if(m != NROW(B)) stop("Matrix must have the same number of rows.")
+      # create an empty matrix for the result
+      C = matrix(nrow = m, ncol = NCOL(A) * NCOL(B))
+      
+      for(i in 1:m){
+        # but there is a method for the 'conventional' TP:
+        C[i,] = kronecker(A[i,], B[i,])
+      }
+      return(C)
     }
   )
 )
