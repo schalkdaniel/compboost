@@ -1,6 +1,0 @@
-<map id="blearner::BaselearnerCustom::clone" name="blearner::BaselearnerCustom::clone">
-<area shape="rect" id="node2" href="$classblearner_1_1_custom_blearner.html#a99b05f69e8d3cacfab556b6a5310f50a" title="blearner::BaselearnerCustom\l::BaselearnerCustom" alt="" coords="223,37,392,79"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_baselearner.html#ae8f114ca7c497f03c80de5981c7f811d" title="blearner::Baselearner\l::copyMembers" alt="" coords="235,103,380,144"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4" title="blearner::Baselearner\l::setData" alt="" coords="440,5,585,47"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76" title="blearner::Baselearner\l::setIdentifier" alt="" coords="440,71,585,112"/>
-</map>

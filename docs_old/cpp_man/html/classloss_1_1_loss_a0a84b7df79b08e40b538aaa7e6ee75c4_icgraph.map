@@ -1,5 +1,0 @@
-<map id="loss::Loss::responseTransformation" name="loss::Loss::responseTransformation">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a741143ae1cb41c54346e19f8bec3454d" title="cboost::Compboost::\lgetPrediction" alt="" coords="284,5,428,47"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a51c59cdddec77c2bed757aadad6afe1d" title="cboost::Compboost::\lpredict" alt="" coords="284,71,428,112"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#abd00401a8914cde27a93673e12ab3468" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="284,136,428,177"/>
-</map>

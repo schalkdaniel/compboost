@@ -1,6 +1,0 @@
-<map id="blearnertrack::BaselearnerTrack::insertBaselearner" name="blearnertrack::BaselearnerTrack::insertBaselearner">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html#a2393dc1e3cf90919ebbbd237fe303860" title="blearner::Baselearner\l::getDataIdentifier" alt="" coords="229,5,374,47"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#acec1a791f94eed39d2662c245e7f6b51" title="blearner::Baselearner\l::getBaselearnerType" alt="" coords="228,71,375,112"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_baselearner.html#a3362fe72e1b653ec3664cae2397414ed" title="blearner::Baselearner\l::getParameter" alt="" coords="229,136,374,177"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="423,13,609,39"/>
-</map>

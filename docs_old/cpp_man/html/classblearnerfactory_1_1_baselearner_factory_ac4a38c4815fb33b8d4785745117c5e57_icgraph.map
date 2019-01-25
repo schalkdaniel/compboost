@@ -1,7 +1,0 @@
-<map id="blearnerfactory::BaselearnerFactory::instantiateData" name="blearnerfactory::BaselearnerFactory::instantiateData">
-<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_factory.html#a147d4ef123ec382fe402d562a91df4d2" title="blearnerfactory::Baselearner\lFactory::initializeDataObjects" alt="" coords="237,53,431,94"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a51c59cdddec77c2bed757aadad6afe1d" title="cboost::Compboost::\lpredict" alt="" coords="263,118,405,159"/>
-<area shape="rect" id="node6" href="$classcboost_1_1_compboost.html#abd00401a8914cde27a93673e12ab3468" title="cboost::Compboost::\lpredictionOfIteration" alt="" coords="263,183,405,225"/>
-<area shape="rect" id="node3" href="$classblearnerfactory_1_1_baselearner_custom_factory.html#a17a9ea35c905f9641f684db8928d3fa8" title="blearnerfactory::Baselearner\lCustomFactory::BaselearnerCustom\lFactory" alt="" coords="490,5,723,61"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_custom_cpp_factory.html#aede05893f296f7cc4fa07b0601a426e8" title="blearnerfactory::Baselearner\lCustomCppFactory::BaselearnerCustom\lCppFactory" alt="" coords="479,85,735,141"/>
-</map>

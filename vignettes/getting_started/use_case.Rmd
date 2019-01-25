@@ -96,7 +96,7 @@ cboost$addLogger(logger = LoggerTime, use_as_stopper = FALSE, logger_id = "time"
 
 ## Train Model and Access Elements
 
-```{r, warnings="FALSE"}
+```{r, warnings=FALSE}
 cboost$train(2000, trace = 100)
 cboost
 ```

@@ -1,6 +1,0 @@
-<map id="blearner::Baselearner" name="blearner::Baselearner">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner_custom.html" title="{blearner::BaselearnerCustom\n|&#45; model\l&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l&#45; extractParameter\l|+ BaselearnerCustom()\l+ clone()\l+ instantiateData()\l+ train()\l+ predict()\l+ predict()\l+ ~BaselearnerCustom()\l}" alt="" coords="5,365,196,589"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_baselearner_custom_cpp.html" title="{blearner::BaselearnerCustomCpp\n|&#45; instantiateDataFun\l&#45; trainFun\l&#45; predictFun\l|+ BaselearnerCustomCpp()\l+ clone()\l+ instantiateData()\l+ train()\l+ predict()\l+ predict()\l+ ~BaselearnerCustomCpp()\l}" alt="" coords="221,380,434,575"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner_polynomial.html" title="{blearner::BaselearnerPolynomial\n|&#45; degree\l&#45; intercept\l|+ BaselearnerPolynomial()\l+ clone()\l+ instantiateData()\l+ train()\l+ predict()\l+ predict()\l+ ~BaselearnerPolynomial()\l}" alt="" coords="459,387,668,567"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_baselearner_p_spline.html" title="P&#45;Spline Baselearner. " alt="" coords="692,365,883,589"/>
-</map>
