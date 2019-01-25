@@ -1,6 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-<img align="right" src="docs/images/cboost_hexagon.png" width="100px">
+<img align="right" src="man/figures/cboost_hexagon.png" width="100px">
 
 [![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&svg=true)](https://ci.appveyor.com/project/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
@@ -133,14 +133,13 @@ cboost$train(3000)
 #> Train 2000 additional iterations.
 
 cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
-  ggthemes::theme_tufte() + 
+  ggthemes::theme_tufte() +
   ggplot2::scale_color_brewer(palette = "Spectral")
 ```
 
 <p align="center">
 <img src="Readme_files/cboost-1.png" width="70%" />
 </p>
-
 Benchmark
 ---------
 

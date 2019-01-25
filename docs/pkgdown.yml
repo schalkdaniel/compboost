@@ -1,0 +1,15 @@
+pandoc: 2.2.2
+pkgdown: 1.3.0
+pkgdown_sha: ~
+articles:
+  extending_compboost: extending_compboost.html
+  baselearner: functionality/baselearner.html
+  logger: functionality/logger.html
+  loss: functionality/loss.html
+  about_cboosting: getting_started/about_cboosting.html
+  use_case: getting_started/use_case.html
+  head: head.html
+urls:
+  reference: https://schalkdaniel.github.io/compboost/docs/index.html/reference
+  article: https://schalkdaniel.github.io/compboost/docs/index.html/articles
+

@@ -375,7 +375,7 @@ Compboost = R6::R6Class("Compboost",
       self$learning_rate = learning_rate
       if (! is.null(self$oob_fraction)) {
         self$data_oob = data[private$oob_idx, !colnames(data) %in% target, drop = FALSE]
-        self$response_oob = .vectorToResponse(self$response$getResponse()[private$oob_idx, , drop = FALSE], "oob_response")
+        self$response_oob = .vectorToResponse(data[private$oob_idx, self$target], "oob_response")
         self$response$filter(private$train_idx)
       }
 

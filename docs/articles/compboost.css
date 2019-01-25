@@ -1,0 +1,94 @@
+body {
+	background-color: #fff;
+    margin: 1em auto;
+    max-width: 700px;
+    overflow: visible;
+    padding-left: 2em;
+    padding-right: 2em;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.35;
+}
+
+h1 {
+	text-align: center;
+}
+
+h2 {
+	border-bottom: 1px solid rgba(0, 191, 255, 0.2);
+	color: rgb(0, 94, 119);
+	padding-top: 10px;
+    padding-bottom: 2px;
+    font-size: 145%;
+	display: block;
+	font-weight: bold;
+}
+
+h3 {
+	color: rgb(0, 94, 119);
+	font-weight: bold;
+}
+
+h4 {
+	/* border-bottom: 1px solid rgba(0, 191, 255, 0.2); */
+	margin-left: 8px;
+	font-size: 105%;
+    display: block;
+    -webkit-margin-before: 1.33em;
+    -webkit-margin-after: 1.33em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: normal;
+	text-align: center;
+}
+
+hr {
+	color: rgba(0, 191, 255, 0.2);
+}
+
+ul, menu, dir {
+    display: block;
+    list-style-type: disc;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-start: 40px;
+}
+
+ul li {
+    list-style: circle outside;
+	display: list-item;
+}
+
+a {
+	color: rgb(210, 180, 140);
+	text-decoration: none;
+}
+
+a:visited {
+	color: rgb(210, 180, 140);
+	text-decoration: none;
+}
+
+a:hover {
+	color: rgb(156, 102, 31);
+	text-decoration: underline;
+}
+
+code {
+	font-family: Consolas, Monaco, 'Courier New', monospace;
+	color: rgba(0, 0, 0, 0.6);
+}
+
+pre, xmp, plaintext, listing {
+    display: block;
+    font-family: monospace;
+    white-space: pre;
+    margin: 1em 0px;
+	background-color: rgba(0, 0, 0, 0.05);
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+}

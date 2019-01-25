@@ -1,0 +1,28 @@
+title: compboost
+url: https://schalkdaniel.github.io/compboost/docs/index.html
+template:
+  params:
+    bootswatch: simplex
+navbar:
+  title:
+  type: default
+  left:
+  - text: Getting Started
+    menu:
+      - text: About Component-Wise Boosting
+        href: articles/getting_started/about_cboosting.html
+      - text: First Use-Case
+        href: articles/getting_started/use_case.html
+
+  - text: Functionality
+    menu:
+    - text: Base-Learner
+      href: articles/functionality/baselearner.html
+    - text: Loss Functions
+      href: articles/functionality/loss.html
+    - text: Logger
+      href: articles/functionality/logger.html
+  - text: "Reference"
+    href: "reference/index.html"
+    contents:
+    - '`compboost`'

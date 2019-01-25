@@ -1,0 +1,61 @@
+---
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{compboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+<table>
+  <tr>
+    <th>Logger</th>
+    <th>Description</th>
+    <th>Arguments</th>
+  </tr>
+  <tr>
+    <td><code>LoggerIteration</code></td>
+    <td>
+      The basic logger to log the current iteration. This one is defined automatically by calling <code>train()</code>.
+    </td>
+    <td>
+      <dt><b>use_as_stopper</b></dt> <dd>Boolean to indicate whether this logger should also used as stopping criteria</dd>
+      <dt><b>max_iterations</b></dt> <dd>Integer value specifying the maximal numbers of iterations</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LoggerInbagRisk</code></td>
+    <td>
+      Risk logging on the given train dataset.
+    </td>
+    <td>
+      <dt><b>use_as_stopper</b></dt> <dd>Boolean to indicate whether this logger should used as stopping criteria</dd>
+      <dt><b>used_loss</b></dt><dd><code>Loss</code> object that defined the empirical risk</dd>
+      <dt><b>eps_for_break</b></dt> <dd>Numeric value indicating the relative improvement which is used to stop the algorithm</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LoggerOobRisk</code></td>
+    <td>
+      Risk logging on a given out of bag dataset.
+    </td>
+    <td>
+      <dt><b>use_as_stopper</b></dt> <dd>Boolean to indicate whether this logger should used as stopping criteria</dd>
+      <dt><b>used_loss</b></dt><code>Loss</code> object that defined the empirical risk
+      <dt><b>eps_for_break</b></dt> <dd>Numeric value indicating the relative improvement which is used to stop the algorithm</dd>
+      <dt><b>oob_data</b></dt> <dd>List of <code>Data</code> objects with the out of bag data. Note that a <code>data.frame</code> can be easily transformed by using <code>$prepareData()</code></dd>
+      <dt><b>oob_response</b></dt> <dd>Response object with the out of bag response</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LoggerTime</code></td>
+    <td>
+      Time logging after each iteration.
+    </td>
+    <td>
+      <dt><b>use_as_stopper</b></dt> <dd>Boolean to indicate whether this logger should used as stopping criteria</dd>
+      <dt><b>max_time</b></dt> <dd>Integer value specifying the the maximal number of time units</dd>
+      <dt><b>time_unit</b></dt> <dd>Character value indicating the time unit (possible choices are minutes, seconds, or microseconds)</dd>
+    </td>
+  </tr>
+</table>
