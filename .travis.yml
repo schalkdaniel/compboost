@@ -19,7 +19,7 @@ after_success:
   - Rscript -e 'covr::coveralls()'
 
 before_deploy:
-  - Rscript -e 'devtools::install(quick = TRUE); devtools::document(); pkgdown::build_site();'
+  - Rscript -e 'devtools::install(quick = TRUE); install.packages("mlbench"); devtools::document(); pkgdown::build_site();'
   # - Rscript -e 'devtools::install(quick = TRUE); devtools::document(); devtools::build_vignettes(); pkgdown::build_site();'
 deploy:
   provider: pages
