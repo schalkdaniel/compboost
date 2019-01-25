@@ -4,15 +4,14 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, child="vignettes/head.Rmd"}
-```
-
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "Readme_files/"
 )
+
+library(compboost)
 ```
 
 <img align="right" src="man/figures/cboost_hexagon.png" width="100px">
