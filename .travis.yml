@@ -31,8 +31,8 @@ deploy:
 
 after_deploy:
   - git checkout master
-  - Rscript -e 'rmarkdown::render(\"Readme.Rmd\")'
+  - Rscript -e 'rmarkdown::render("Readme.Rmd")'
   - git add Readme.md
   - git add Readme_files
-  - git commit "travis - update Readme"
+  - git commit -m "travis - update Readme"
   - git push origin master

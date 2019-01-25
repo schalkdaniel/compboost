@@ -26,7 +26,6 @@ in two data frames and remove all rows that contains `NA`s:
 ```{r}
 # Store train and test data:
 df_train = na.omit(titanic::titanic_train)
-df_test  = na.omit(titanic::titanic_test)
 
 str(df_train)
 ```

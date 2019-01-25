@@ -63,7 +63,7 @@ The fastest way to train a `Compboost` model is to use the wrapper functions `bo
 cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
 ```
 
-For more extensive examples and how to use the `R6` interface visit the project page.
+For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
 <!--
 
