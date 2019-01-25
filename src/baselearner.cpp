@@ -32,25 +32,25 @@ void Baselearner::copyMembers (const arma::mat& parameter0,
 {
   parameter = parameter0;
   blearner_identifier = blearner_identifier0;
-  data_ptr = data0;
+  sh_ptr_data = sh_ptr_data0;
 }
 
 // Set the data pointer:
 void Baselearner::setData (std::shared_ptr<data::Data> data)
 {
-  data_ptr = data;
+  sh_ptr_data = data;
 }
 
 // // Get the data on which data pointer points:
 // arma::mat Baselearner::getData () const
 // {
-//   return data_ptr->getData();
+//   return sh_ptr_data->getData();
 // }
 
 // Get the data identifier:
 std::string Baselearner::getDataIdentifier () const
 {
-  return data_ptr->getDataIdentifier();
+  return sh_ptr_data->getDataIdentifier();
 }
 
 // Get the parameter obtained by training:
@@ -62,7 +62,7 @@ arma::mat Baselearner::getParameter () const
 // Predict function. This one calls the virtual function with the data pointer:
 // arma::mat Baselearner::predict ()
 // {
-//   return predict(*data_ptr);
+//   return predict(*sh_ptr_data);
 // }
 
 // Function to set the identifier (should be unique over all baselearner):
@@ -95,7 +95,7 @@ Baselearner::~Baselearner ()
   // Rcpp::Rcout << "Call Baselearner Destructor" << std::endl;
 
   // delete blearner_type;
-  // delete data_ptr;
+  // delete sh_ptr_data;
   // delete data_identifier_ptr;
 }
 
@@ -120,7 +120,7 @@ BaselearnerPolynomial::BaselearnerPolynomial (std::shared_ptr<data::Data> data, 
 Baselearner* BaselearnerPolynomial::clone ()
 {
   Baselearner* newbl = new BaselearnerPolynomial(*this);
-  newbl->copyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->sh_ptr_data);
 
   return newbl;
 }
@@ -129,7 +129,7 @@ Baselearner* BaselearnerPolynomial::clone ()
 // arma::mat BaselearnerPolynomial::instantiateData ()
 // {
 //
-//   return arma::pow(*data_ptr, degree);
+//   return arma::pow(*sh_ptr_data, degree);
 // }
 //
 // Transform data. This is done twice since it makes the prediction
@@ -147,14 +147,14 @@ arma::mat BaselearnerPolynomial::instantiateData (const arma::mat& newdata) cons
 // Train the learner:
 void BaselearnerPolynomial::train (const arma::mat& response)
 {
-  if (data_ptr->getData().n_cols == 1) {
+  if (sh_ptr_data->getData().n_cols == 1) {
     double y_mean = 0;
     if (intercept) {
       y_mean = arma::as_scalar(arma::accu(response) / response.size());
     }
 
-    double slope = arma::as_scalar(arma::sum((data_ptr->getData() - data_ptr->XtX_inv(0,0)) % (response - y_mean)) / arma::as_scalar(data_ptr->XtX_inv(0,1)));
-    double intercept = y_mean - slope * data_ptr->XtX_inv(0,0);
+    double slope = arma::as_scalar(arma::sum((sh_ptr_data->getData() - sh_ptr_data->XtX_inv(0,0)) % (response - y_mean)) / arma::as_scalar(sh_ptr_data->XtX_inv(0,1)));
+    double intercept = y_mean - slope * sh_ptr_data->XtX_inv(0,0);
 
     if (intercept) {
       arma::mat out(2,1);
@@ -167,22 +167,22 @@ void BaselearnerPolynomial::train (const arma::mat& response)
       parameter = slope;
     }
   } else {
-    // parameter = arma::solve(data_ptr->getData(), response);
-    parameter = data_ptr->XtX_inv * data_ptr->getData().t() * response;
+    // parameter = arma::solve(sh_ptr_data->getData(), response);
+    parameter = sh_ptr_data->XtX_inv * sh_ptr_data->getData().t() * response;
   }
 }
 
 // Predict the learner:
 arma::mat BaselearnerPolynomial::predict () const
 {
-  if (data_ptr->getData().n_cols == 1) {
+  if (sh_ptr_data->getData().n_cols == 1) {
     if (intercept) {
-      return parameter(0) + data_ptr->getData() * parameter(1);
+      return parameter(0) + sh_ptr_data->getData() * parameter(1);
     } else {
-      return data_ptr->getData() * parameter;
+      return sh_ptr_data->getData() * parameter;
     }
   } else {
-    return data_ptr->getData() * parameter;
+    return sh_ptr_data->getData() * parameter;
   }
 }
 arma::mat BaselearnerPolynomial::predict (std::shared_ptr<data::Data> newdata) const
@@ -255,7 +255,7 @@ BaselearnerPSpline::BaselearnerPSpline (std::shared_ptr<data::Data> data, const 
 Baselearner* BaselearnerPSpline::clone ()
 {
   Baselearner* newbl = new BaselearnerPSpline (*this);
-  newbl->copyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->sh_ptr_data);
 
   return newbl;
 }
@@ -276,17 +276,17 @@ Baselearner* BaselearnerPSpline::clone ()
 arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
 {
 
-  arma::vec knots = data_ptr->knots;
+  arma::vec knots = sh_ptr_data->knots;
 
   // check if the new data matrix contains value which are out of range:
   double range_min = knots[degree];                   // minimal value from original data
   double range_max = knots[n_knots + degree + 1];     // maximal value from original data
 
-  arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, data_ptr->getDataIdentifier());
+  arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, sh_ptr_data->getDataIdentifier());
 
-  // Data object has to be created prior! That means that data_ptr must have
+  // Data object has to be created prior! That means that sh_ptr_data must have
   // initialized knots, and penalty matrix!
-  return splines::createSplineBasis (temp, degree, data_ptr->knots);
+  return splines::createSplineBasis (temp, degree, sh_ptr_data->knots);
 }
 
 /**
@@ -299,9 +299,9 @@ arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
 void BaselearnerPSpline::train (const arma::mat& response)
 {
   if (use_sparse_matrices) {
-    parameter = data_ptr->XtX_inv * (data_ptr->sparse_data_mat * response);
+    parameter = sh_ptr_data->XtX_inv * (sh_ptr_data->sparse_data_mat * response);
   } else {
-    parameter = data_ptr->XtX_inv * data_ptr->data_mat.t() * response;
+    parameter = sh_ptr_data->XtX_inv * sh_ptr_data->data_mat.t() * response;
   }
 }
 
@@ -315,11 +315,11 @@ arma::mat BaselearnerPSpline::predict () const
   // arma::mat out;
   if (use_sparse_matrices) {
     // Trick to speed up things. Try to avoid transposing the sparse matrix. The
-    // original one (data_ptr->sparse_data_mat * parameter) is about 4 or 5 times
+    // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
     // slower than that one:
-    return (parameter.t() * data_ptr->sparse_data_mat).t();
+    return (parameter.t() * sh_ptr_data->sparse_data_mat).t();
   } else {
-    return data_ptr->data_mat * parameter;
+    return sh_ptr_data->data_mat * parameter;
   }
   // return out;
 }
@@ -361,7 +361,7 @@ BaselearnerCustom::BaselearnerCustom (std::shared_ptr<data::Data> data, const st
 Baselearner* BaselearnerCustom::clone ()
 {
   Baselearner* newbl = new BaselearnerCustom (*this);
-  newbl->copyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->sh_ptr_data);
 
   return newbl;
 }
@@ -381,14 +381,14 @@ arma::mat BaselearnerCustom::instantiateData (const arma::mat& newdata) const
 //       during the whole process:
 void BaselearnerCustom::train (const arma::mat& response)
 {
-  model     = trainFun(response, data_ptr->getData());
+  model     = trainFun(response, sh_ptr_data->getData());
   parameter = Rcpp::as<arma::mat>(extractParameter(model));
 }
 
 // Predict by using the R function 'predictFun':
 arma::mat BaselearnerCustom::predict () const
 {
-  Rcpp::NumericMatrix out = predictFun(model, data_ptr->getData());
+  Rcpp::NumericMatrix out = predictFun(model, sh_ptr_data->getData());
   return Rcpp::as<arma::mat>(out);
 }
 
@@ -427,7 +427,7 @@ BaselearnerCustomCpp::BaselearnerCustomCpp (std::shared_ptr<data::Data> data, co
 Baselearner* BaselearnerCustomCpp::clone ()
 {
   Baselearner* newbl = new BaselearnerCustomCpp (*this);
-  newbl->copyMembers(this->parameter, this->blearner_identifier, this->data_ptr);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->sh_ptr_data);
 
   return newbl;
 }
@@ -448,13 +448,13 @@ arma::mat BaselearnerCustomCpp::instantiateData (const arma::mat& newdata) const
 //       during the whole process:
 void BaselearnerCustomCpp::train (const arma::mat& response)
 {
-  parameter = trainFun(response, data_ptr->getData());
+  parameter = trainFun(response, sh_ptr_data->getData());
 }
 
 // Predict by using the external pointer to the function 'predictFun':
 arma::mat BaselearnerCustomCpp::predict () const
 {
-  return predictFun (data_ptr->getData(), parameter);
+  return predictFun (sh_ptr_data->getData(), parameter);
 }
 
 arma::mat BaselearnerCustomCpp::predict (std::shared_ptr<data::Data> newdata) const
