@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include "splines.h"
@@ -333,8 +318,8 @@ arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, co
   //   Rcpp::warning(msg_warning);
   // }
 
-  temp.elem( idx_lower ).fill(range_min);
-  temp.elem( idx_upper ).fill(range_max);
+  temp.elem(idx_lower).fill(range_min);
+  temp.elem(idx_upper).fill(range_max);
 
   return temp;
 }

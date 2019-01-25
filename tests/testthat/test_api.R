@@ -493,9 +493,9 @@ test_that("out of range values are set correctly", {
   })
 
   expect_silent(mod$predict(data.frame(dist = c(2, 4, 100, 120))))
-  expect_warning(mod$predict(data.frame(dist = 200)))
-  expect_warning(mod$predict(data.frame(dist = -10)))
-  expect_warning({
+  expect_silent(mod$predict(data.frame(dist = 200)))
+  expect_silent(mod$predict(data.frame(dist = -10)))
+  expect_silent({
     pred_broken = mod$predict(data.frame(dist = c(-10, 2, 100, 120, 200)))
   })
   expect_equal(pred_broken, mod$predict(data.frame(dist = c(2, 2, 100, 120, 120))))
@@ -503,7 +503,7 @@ test_that("out of range values are set correctly", {
 
 
 test_that("retraining of compboost logs correctly", {
-  
+
   set.seed(1234)
   cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
   cboost$addBaselearner("disp", "linear", BaselearnerPolynomial)
@@ -512,11 +512,11 @@ test_that("retraining of compboost logs correctly", {
   cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
   cboost$addLogger(logger = LoggerInbagRisk, use_as_stopper = FALSE, logger_id = "inbag",
     LossQuadratic$new(), 0.01)
-  
+
   expect_output(suppressWarnings(cboost$train(200)))
   expect_output(suppressWarnings(cboost$train(220)))
-  expect_output(suppressWarnings(cboost$train(250)))  
-  expect_output(suppressWarnings(cboost$train(1000)))  
+  expect_output(suppressWarnings(cboost$train(250)))
+  expect_output(suppressWarnings(cboost$train(1000)))
 
   set.seed(1234)
   cboost1 = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
@@ -526,7 +526,7 @@ test_that("retraining of compboost logs correctly", {
   cboost1$addBaselearner("wt", "spline", BaselearnerPSpline)
   cboost1$addLogger(logger = LoggerInbagRisk, use_as_stopper = FALSE, logger_id = "inbag",
     LossQuadratic$new(), 0.01)
-  
+
   expect_output(suppressWarnings(cboost1$train(1000)))
 
   expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
