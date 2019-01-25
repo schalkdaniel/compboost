@@ -7,10 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, child="../head.Rmd"}
-```
-
-Instead of getting huge predictive power, model-based (or component-wise) boosting aggregates statistical models to maintain interpretability. This is done by restricting the used base-learners to be linear in the parameters. This is important in terms of parameter estimation. For instance, having a base-learner $b_j(x, \theta^{[m]})$ of a feature $x$ with a corresponding parameter vector $\theta^{[m]}$ and another base-learner $b_j$ of the same type but with a different parameter vector $\theta^{[m^\prime]}$, then it is possible, due to linearity, to combine those two learners to a new one, again, of the same type:
+nstead of getting huge predictive power, model-based (or component-wise) boosting aggregates statistical models to maintain interpretability. This is done by restricting the used base-learners to be linear in the parameters. This is important in terms of parameter estimation. For instance, having a base-learner $b_j(x, \theta^{[m]})$ of a feature $x$ with a corresponding parameter vector $\theta^{[m]}$ and another base-learner $b_j$ of the same type but with a different parameter vector $\theta^{[m^\prime]}$, then it is possible, due to linearity, to combine those two learners to a new one, again, of the same type:
 $$
 b_j(x, \theta^{[m]}) + b_j(x, \theta^{[m^\prime]}) = b_j(x, \theta^{[m]} + \theta^{[m^\prime]})
 $$
