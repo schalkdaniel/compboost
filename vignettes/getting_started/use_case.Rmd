@@ -132,7 +132,7 @@ cboost$plotInbagVsOobRisk()
 ## Retrain the Model
 
 To set the whole model to another iteration one can easily call `train()` to another iteration:
-```{r}
+```{r, warnings=FALSE}
 cboost$train(3000)
 
 str(cboost$getEstimatedCoef())
