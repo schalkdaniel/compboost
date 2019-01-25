@@ -28,7 +28,7 @@ namespace blearner {
 
 // Copy (or initialize) the members in new copied class:
 void Baselearner::copyMembers (const arma::mat& parameter0,
-  const std::string& blearner_identifier0, std::shared_ptr<data::Data> data0)
+  const std::string& blearner_identifier0, std::shared_ptr<data::Data> sh_ptr_data0)
 {
   parameter = parameter0;
   blearner_identifier = blearner_identifier0;
