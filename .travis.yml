@@ -28,11 +28,4 @@ deploy:
   local-dir: docs
   on:
     branch: master
-
-after_deploy:
-  - git checkout master
-  - Rscript -e 'rmarkdown::render("Readme.Rmd")'
-  - git add Readme.md
-  - git add Readme_files
-  - git commit -m "travis - update Readme"
-  - git push origin master
+    
