@@ -70,7 +70,7 @@ plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, 
   df_plot = calculateFeatEffectData(cboost_obj = cboost_obj, bl_list = bl_list, blearner_name = blearner_name,
     iters = iters, from = from, to = to, length_out = length_out)
 
-  if (is.null(iters[1])) {
+  if (! is.null(iters[1])) {
     gg = ggplot2::ggplot(df_plot, ggplot2::aes(feature, effect, color = iteration))
   } else {
     gg = ggplot2::ggplot(df_plot, ggplot2::aes(feature, effect))
