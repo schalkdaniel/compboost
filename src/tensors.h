@@ -31,4 +31,4 @@ arma::vec trapezWeights (const arma::vec&);
 std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat&, const arma::mat&, const arma::mat&);
 } // namespace tensors
 
-# endif // SPLINE_H_
+# endif // TENSORS_H_
