@@ -337,8 +337,10 @@ Compboost = R6::R6Class("Compboost",
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
 
-      if (! target %in% names(data)) {
-        stop ("The target ", target, " is not present within the data")
+      if (! isRcppClass(target, "Response")) {
+        if (! target %in% names(data)) {
+          stop ("The target ", target, " is not present within the data")
+        }
       }
       if (inherits(loss, "C++Class")) {
         stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
@@ -369,7 +371,7 @@ Compboost = R6::R6Class("Compboost",
 
       self$oob_fraction = oob_fraction
       self$target = self$response$getTargetName()
-      self$data = data[private$train_idx, !colnames(data) %in% target, drop = FALSE]
+      self$data = data[private$train_idx, !colnames(data) %in% self$target, drop = FALSE]
       self$optimizer = optimizer
       self$loss = loss
       self$learning_rate = learning_rate

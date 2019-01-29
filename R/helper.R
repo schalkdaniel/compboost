@@ -1,13 +1,27 @@
 assertRcppClass = function (x, x_class, stop_when.error = TRUE)
 {
   cls = class(x)
-  rcpp_class = TRUE
+  
   if (! grepl("Rcpp", cls)) {
     stop("Object was not exposed by Rcpp.")
   }
   if (! grepl(x_class, cls)) {
     stop("Object does not belong to class ", x_class, ".")
   }
+}
+
+isRcppClass = function (x, x_class)
+{
+  cls = class(x)
+  is_rcpp_class = TRUE
+  
+  if (! grepl("Rcpp", cls)) {
+    is_rcpp_class = FALSE
+  }
+  if (! grepl(x_class, cls)) {
+    is_rcpp_class = FALSE
+  }
+  return(is_rcpp_class)
 }
 
 vectorToResponse = function (vec, target)
