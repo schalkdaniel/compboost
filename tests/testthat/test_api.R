@@ -119,11 +119,10 @@ test_that("plot works", {
 	expect_error({ gg = cboost$plot("hp_spline", to = 10) })
 	expect_error({ gg = cboost$plot("hp_spline", from = -100) })
 
-	expect_warning(cboost$plot("hp_spline", from = 200, to = 100))
-
-	expect_s3_class(cboost$plot("hp_spline"), "ggplot")
-	expect_s3_class(cboost$plot("hp_spline", iters = c(10, 200, 500)), "ggplot")
+  expect_s3_class(cboost$plot("hp_spline"), "ggplot")
+  expect_s3_class(cboost$plot("hp_spline", iters = c(10, 200, 500)), "ggplot")
   expect_s3_class(cboost$plot("hp_spline", from = 150, to = 250), "ggplot")
+	expect_s3_class(cboost$plot("hp_spline", from = 200, to = 100), "ggplot")
 
   expect_warning(cboost$plot("wt_linear", iters = c(1, 10)))
 

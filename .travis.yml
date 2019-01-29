@@ -20,7 +20,6 @@ after_success:
 
 before_deploy:
   - Rscript -e 'devtools::install(quick = TRUE); install.packages(c("mlbench", "ggthemes", "gridExtra")); devtools::document(); pkgdown::build_site();'
-  # - Rscript -e 'devtools::install(quick = TRUE); devtools::document(); devtools::build_vignettes(); pkgdown::build_site();'
 deploy:
   provider: pages
   skip-cleanup: true
@@ -28,4 +27,4 @@ deploy:
   local-dir: docs
   on:
     branch: master
-    
+
