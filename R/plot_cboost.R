@@ -70,10 +70,15 @@ plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, 
   df_plot = calculateFeatEffectData(cboost_obj = cboost_obj, bl_list = bl_list, blearner_name = blearner_name,
     iters = iters, from = from, to = to, length_out = length_out)
 
+  # Use aes_string to avoid check note:
+  # > checking R code for possible problems ... NOTE
+  # >   plotFeatEffect: no visible binding for global variable ‘feature’
+  # >   plotFeatEffect: no visible binding for global variable ‘effect’
+  # >   plotFeatEffect: no visible binding for global variable ‘iteration’
   if (! is.null(iters[1])) {
-    gg = ggplot2::ggplot(df_plot, ggplot2::aes(feature, effect, color = iteration))
+    gg = ggplot2::ggplot(df_plot, ggplot2::aes_string("feature", "effect", color = "iteration"))
   } else {
-    gg = ggplot2::ggplot(df_plot, ggplot2::aes(feature, effect))
+    gg = ggplot2::ggplot(df_plot, ggplot2::aes_string("feature", "effect"))
   }
   # If there are too much rows we need to take just a sample or completely remove rugs:
   if (nrow(cboost_obj$data) > 1000) {
