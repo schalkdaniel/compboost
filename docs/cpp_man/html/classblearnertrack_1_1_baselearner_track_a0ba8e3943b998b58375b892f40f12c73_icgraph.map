@@ -1,6 +1,0 @@
-<map id="blearnertrack::BaselearnerTrack::getParameterMap" name="blearnertrack::BaselearnerTrack::getParameterMap">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a7b90eaa8107f91806b09ceedf8581537" title="cboost::Compboost::\lgetParameter" alt="" coords="228,5,372,47"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a32d1066a24607ff6ef2f934002adf62b" title="cboost::Compboost::\lpredict" alt="" coords="228,71,372,112"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="420,71,564,112"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#a0e72bc9f0d36d4a9f141978e445f2cdc" title="cboost::Compboost::\lcontinueTraining" alt="" coords="612,71,756,112"/>
-</map>

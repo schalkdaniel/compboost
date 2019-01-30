@@ -1,6 +1,0 @@
-<map id="blearner::BaselearnerPSpline::clone" name="blearner::BaselearnerPSpline::clone">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner_p_spline.html#af891e692907a085213491c584305fbde" title="Default constructor of BaselearnerPSpline class. " alt="" coords="244,37,435,79"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_baselearner.html#ae8f114ca7c497f03c80de5981c7f811d" title="blearner::Baselearner\l::copyMembers" alt="" coords="267,103,412,144"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4" title="blearner::Baselearner\l::setData" alt="" coords="483,5,628,47"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76" title="blearner::Baselearner\l::setIdentifier" alt="" coords="483,71,628,112"/>
-</map>

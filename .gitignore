@@ -18,3 +18,4 @@ benchmark/.drake
 benchmark/Readme.html
 benchmark/benchmark.R
 /revdep/.cache.rds
+docs

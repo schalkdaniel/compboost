@@ -1,3 +1,0 @@
-<map id="blearner::BaselearnerPolynomial" name="blearner::BaselearnerPolynomial">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html" title="{blearner::Baselearner\n|# parameter\l# blearner_identifier\l# blearner_type\l# data_ptr\l|+ train()\l+ getParameter()\l+ predict()\l+ predict()\l+ instantiateData()\l+ copyMembers()\l+ clone()\l+ setData()\l+ getDataIdentifier()\l+ setIdentifier()\l+ getIdentifier()\l+ setBaselearnerType()\l+ getBaselearnerType()\l+ ~Baselearner()\l}" alt="" coords="20,5,179,317"/>
-</map>

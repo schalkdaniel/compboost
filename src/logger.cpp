@@ -71,7 +71,7 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
  * \param response `arma::vec` of the given response used for training
  * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in
+ * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
@@ -79,7 +79,7 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
  */
 
 void LoggerIteration::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
 {
   iterations.push_back(current_iteration);
 }
@@ -173,14 +173,14 @@ void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
  *
  * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` specify if the logger should be used as stopper
- * \param used_loss `Loss*` used loss to calculate the empirical risk (this
+ * \param sh_ptr_loss `Loss*` used loss to calculate the empirical risk (this
  *   can differ from the one used while training the model)
  * \param eps_for_break `double` sets value of the stopping criteria`
  */
 
-LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss,
+LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, std::shared_ptr<loss::Loss> sh_ptr_loss,
   const double& eps_for_break)
-  : used_loss ( used_loss ),
+  : sh_ptr_loss ( sh_ptr_loss ),
     eps_for_break ( eps_for_break )
 {
   is_a_stopper = is_a_stopper0;
@@ -217,7 +217,7 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
  * \param response `arma::vec` of the given response used for training
  * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in
+ * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
@@ -225,14 +225,14 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
  */
 
 void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
 {
   // Calculate empirical risk. Calculateion of the temporary vector ensures
   // // that stuff like auc logging is possible:
-  // arma::vec loss_vec_temp = used_loss->definedLoss(response, prediction);
+  // arma::vec loss_vec_temp = sh_ptr_loss->definedLoss(response, prediction);
   // double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
 
-  double temp_risk = sh_ptr_response->calculateEmpiricalRisk(used_loss);
+  double temp_risk = sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss);
 
   tracked_inbag_risk.push_back(temp_risk);
 }
@@ -331,16 +331,16 @@ std::string LoggerInbagRisk::printLoggerStatus () const
  *
  * \param logger_id0 `std::string` unique identifier of the logger
  * \param is_a_stopper0 `bool` to set if the logger should be used as stopper
- * \param used_loss `Loss*` which is used to calculate the empirical risk (this
+ * \param sh_ptr_loss `Loss*` which is used to calculate the empirical risk (this
  *   can differ from the loss used while trining the model)
  * \param eps_for_break `double` sets value of the stopping criteria
  * \param oob_data `std::map<std::string, std::shared_ptr<data::Data>>` the new data
  * \param oob_response `arma::vec` response of the new data
  */
 
-LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, loss::Loss* used_loss,
+LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, std::shared_ptr<loss::Loss> sh_ptr_loss,
   const double& eps_for_break, std::map<std::string, std::shared_ptr<data::Data>> oob_data, std::shared_ptr<response::Response> oob_response)
-  : used_loss ( used_loss ),
+  : sh_ptr_loss ( sh_ptr_loss ),
     eps_for_break ( eps_for_break ),
     oob_data ( oob_data ),
     sh_ptr_oob_response ( oob_response )
@@ -380,7 +380,7 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
  * \param response `arma::vec` of the given response used for training
  * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in
+ * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
@@ -388,20 +388,20 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
  */
 
 void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_iteration == 1) {
     sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
     sh_ptr_oob_response->initializePrediction();
   }
-  std::string blearner_id = used_blearner->getDataIdentifier();
+  std::string blearner_id = sh_ptr_blearner->getDataIdentifier();
 
   // Get data of corresponding selected baselearner. E.g. iteration 100 linear
   // baselearner of feature x_7, then get the data of feature x_7:
   std::shared_ptr<data::Data> oob_blearner_data = oob_data.find(blearner_id)->second;
 
   // Predict this data using the selected baselearner:
-  arma::mat temp_oob_prediction = used_blearner->predict(oob_blearner_data);
+  arma::mat temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
   sh_ptr_oob_response->updatePrediction(learning_rate, step_size, temp_oob_prediction);
 
 
@@ -414,22 +414,22 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
    * // Check if transformed oob dataset already exists in map. If not, insert the transformed matrix:
    * if (oob_data_transformed.find(blearner_id) == oob_data_transformed.end()) {
    *
-   *   mat_temp = used_blearner->instantiateData(oob_data.find(blearner_id)->second->getData());
+   *   mat_temp = sh_ptr_blearner->instantiateData(oob_data.find(blearner_id)->second->getData());
    *   oob_data_transformed.insert(std::pair<std::string, arma::mat>(blearner_id, mat_temp));
    * }
    *
    * /////// Get data of corresponding selected baselearner. E.g. iteration 100 linear
    * /////// baselearner of feature x_7, then get the data of feature x_7:
-   * /////// std::shared_ptr<data::Data> oob_blearner_data = oob_data.find(used_blearner->getDataIdentifier())->second;
+   * /////// std::shared_ptr<data::Data> oob_blearner_data = oob_data.find(sh_ptr_blearner->getDataIdentifier())->second;
    * /////
    * /////// Predict this data using the selected baselearner:
-   * /////// arma::vec temp_oob_prediction = used_blearner->predict(oob_blearner_data);
+   * /////// arma::vec temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
    *
    * Cumulate prediction and shrink by learning rate:
-   * oob_prediction += learning_rate * step_size * oob_data_transformed.find(blearner_id)->second * used_blearner->getParameter();
+   * oob_prediction += learning_rate * step_size * oob_data_transformed.find(blearner_id)->second * sh_ptr_blearner->getParameter();
    ****************************************************************************************************************************** */
 
-  double temp_risk = sh_ptr_oob_response->calculateEmpiricalRisk(used_loss);
+  double temp_risk = sh_ptr_oob_response->calculateEmpiricalRisk(sh_ptr_loss);
   tracked_oob_risk.push_back(temp_risk);
 }
 
@@ -568,7 +568,7 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
  * \param response `arma::vec` of the given response used for training
  * \param prediction `arma::vec` actual prediction of the boosting model at
  *   iteration `current_iteration`
- * \param used_blearner `Baselearner*` pointer to the selected baselearner in
+ * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
  *   iteration `current_iteration`
  * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
@@ -576,7 +576,7 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
  */
 
 void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  blearner::Baselearner* used_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
 {
   if (current_time.size() == 0) {
     init_time = std::chrono::steady_clock::now();

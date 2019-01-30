@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #ifndef OPTIMIZER_H_
@@ -59,11 +44,11 @@ class Optimizer
 {
   public:
 
-    virtual blearner::Baselearner* findBestBaselearner (const std::string&,
+    virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
       std::shared_ptr<response::Response>, const blearner_factory_map&) const = 0;
 
     // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
-    virtual void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&) = 0;
+    virtual void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&) = 0;
     virtual std::vector<double> getStepSize () const = 0;
     virtual double getStepSize (const unsigned int&) const = 0;
 
@@ -85,14 +70,13 @@ class Optimizer
 class OptimizerCoordinateDescent : public Optimizer
 {
   public:
-
     // No special initialization necessary:
     OptimizerCoordinateDescent ();
 
-    blearner::Baselearner* findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
+    std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
       const blearner_factory_map&) const;
 
-    void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&);
+    void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
     double getStepSize (const unsigned int&) const;
 };
@@ -102,18 +86,16 @@ class OptimizerCoordinateDescent : public Optimizer
 class OptimizerCoordinateDescentLineSearch : public Optimizer
 {
   public:
-
     // No special initialization necessary:
     OptimizerCoordinateDescentLineSearch ();
 
-    blearner::Baselearner* findBestBaselearner (const std::string&,
+    std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
       std::shared_ptr<response::Response>, const blearner_factory_map&) const;
 
-    void calculateStepSize (loss::Loss*, std::shared_ptr<response::Response>, const arma::vec&);
+    void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
     double getStepSize (const unsigned int&) const;
 };
-
 
 } // namespace optimizer
 

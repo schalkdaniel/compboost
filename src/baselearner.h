@@ -86,9 +86,8 @@ protected:
   arma::mat parameter;
   std::string blearner_identifier;
   std::string blearner_type;
-  std::shared_ptr<data::Data> data_ptr;
+  std::shared_ptr<data::Data> sh_ptr_data;
   // std::string data_identifier;
-
 };
 
 // -------------------------------------------------------------------------- //
@@ -105,12 +104,10 @@ protected:
 class BaselearnerPolynomial : public Baselearner
 {
 private:
-
   unsigned int degree;
   bool intercept;
 
 public:
-
   // (data pointer, data identifier, baselearner identifier, degree)
   BaselearnerPolynomial (std::shared_ptr<data::Data>, const std::string&, const unsigned int&, const bool&);
 

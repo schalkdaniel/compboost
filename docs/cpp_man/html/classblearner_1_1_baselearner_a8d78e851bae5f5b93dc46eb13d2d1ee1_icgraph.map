@@ -1,6 +1,0 @@
-<map id="blearner::Baselearner::setBaselearnerType" name="blearner::Baselearner::setBaselearnerType">
-<area shape="rect" id="node2" href="$classblearnerfactory_1_1_baselearner_polynomial_factory.html#a18095806fa93e6ac2159e966ededc1cf" title="blearnerfactory::Baselearner\lPolynomialFactory::createBaselearner" alt="" coords="203,5,446,47"/>
-<area shape="rect" id="node3" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html#a3f47f46766e8e50eafe824bd97f7fc44" title="Create new BaselearnerPSpline object. " alt="" coords="213,71,437,112"/>
-<area shape="rect" id="node4" href="$classblearnerfactory_1_1_baselearner_custom_factory.html#a79a93fe73bd8f307bb888f76da39246d" title="blearnerfactory::Baselearner\lCustomFactory::createBaselearner" alt="" coords="212,136,437,177"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_custom_cpp_factory.html#a1754f789953cc9d12f7cdd861772d13b" title="blearnerfactory::Baselearner\lCustomCppFactory::createBaselearner" alt="" coords="200,201,449,243"/>
-</map>

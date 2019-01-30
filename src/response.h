@@ -65,12 +65,12 @@ public:
 
   bool use_weights = false;
 
-  void checkLossCompatibility (loss::Loss*) const;
+  void checkLossCompatibility (std::shared_ptr<loss::Loss>) const;
 
-  void updatePseudoResiduals (loss::Loss*);
+  void updatePseudoResiduals (std::shared_ptr<loss::Loss>);
   void updatePrediction (const double&, const double&, const arma::mat&);
 
-  void constantInitialization (loss::Loss*);
+  void constantInitialization (std::shared_ptr<loss::Loss>);
   void constantInitialization (const arma::mat&);
   virtual arma::mat calculateInitialPrediction (const arma::mat&) const = 0;
   virtual void initializePrediction () = 0;
@@ -79,7 +79,7 @@ public:
   arma::mat getPredictionResponse () const;
   virtual arma::mat getPredictionResponse (const arma::mat&) const = 0;
 
-  double calculateEmpiricalRisk (loss::Loss*) const;
+  double calculateEmpiricalRisk (std::shared_ptr<loss::Loss>) const;
 
   virtual void filter (const arma::uvec&) = 0;
 
@@ -136,7 +136,7 @@ public:
   
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   void initializePrediction ();
-  void updatePseudoResiduals (loss::Loss*);
+  void updatePseudoResiduals (std::shared_ptr<loss::Loss>);
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
   arma::mat getGrid (const arma::mat&) const;

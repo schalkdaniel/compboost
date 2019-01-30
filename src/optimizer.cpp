@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include "optimizer.h"
@@ -58,14 +43,14 @@ OptimizerCoordinateDescent::OptimizerCoordinateDescent () {
   step_sizes.assign(1, 1.0);
 }
 
-blearner::Baselearner* OptimizerCoordinateDescent::findBestBaselearner (const std::string& iteration_id,
+std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBaselearner (const std::string& iteration_id,
   std::shared_ptr<response::Response> sh_ptr_response, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
   double ssq_best = std::numeric_limits<double>::infinity();
 
-  blearner::Baselearner* blearner_temp;
-  blearner::Baselearner* blearner_best;
+  std::shared_ptr<blearner::Baselearner> blearner_temp;
+  std::shared_ptr<blearner::Baselearner> blearner_best;
 
   for (auto& it : my_blearner_factory_map) {
 
@@ -84,22 +69,17 @@ blearner::Baselearner* OptimizerCoordinateDescent::findBestBaselearner (const st
     // ssq_best is declared as infinity):
     if (ssq_temp < ssq_best) {
       ssq_best = ssq_temp;
-      // Deep copy since the temporary base-learner is deleted every time which
-      // will also deletes the data for the best base-learner if we don't copy
-      // the whole data of the object:
-      blearner_best = blearner_temp->clone();
+      // // Deep copy since the temporary base-learner is deleted every time which
+      // // will also deletes the data for the best base-learner if we don't copy
+      // // the whole data of the object:
+      // blearner_best = blearner_temp->clone();
+      blearner_best = blearner_temp;
     }
-
-    // Completely remove the temporary base-learner. This one isn't needed anymore:
-    delete blearner_temp;
   }
-  // Remove pointer of the temporary base-learner.
-  blearner_temp = NULL;
-
   return blearner_best;
 }
 
-void OptimizerCoordinateDescent::calculateStepSize (loss::Loss* used_loss, std::shared_ptr<response::Response> sh_ptr_response,
+void OptimizerCoordinateDescent::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,
   const arma::vec& baselearner_prediction)
 {
   // This function does literally nothing!
@@ -122,14 +102,14 @@ double OptimizerCoordinateDescent::getStepSize (const unsigned int& actual_itera
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch () { }
 
 
-blearner::Baselearner* OptimizerCoordinateDescentLineSearch::findBestBaselearner (const std::string& iteration_id,
+std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescentLineSearch::findBestBaselearner (const std::string& iteration_id,
   std::shared_ptr<response::Response> sh_ptr_response, const blearner_factory_map& my_blearner_factory_map) const
 {
   double ssq_temp;
   double ssq_best = std::numeric_limits<double>::infinity();
 
-  blearner::Baselearner* blearner_temp;
-  blearner::Baselearner* blearner_best;
+  std::shared_ptr<blearner::Baselearner> blearner_temp;
+  std::shared_ptr<blearner::Baselearner> blearner_best;
 
   for (auto& it : my_blearner_factory_map) {
 
@@ -148,25 +128,23 @@ blearner::Baselearner* OptimizerCoordinateDescentLineSearch::findBestBaselearner
     // ssq_best is declared as infinity):
     if (ssq_temp < ssq_best) {
       ssq_best = ssq_temp;
-      // Deep copy since the temporary base-learner is deleted every time which
-      // will also deletes the data for the best base-learner if we don't copy
-      // the whole data of the object:
-      blearner_best = blearner_temp->clone();
+      // // Deep copy since the temporary base-learner is deleted every time which
+      // // will also deletes the data for the best base-learner if we don't copy
+      // // the whole data of the object:
+      // blearner_best = blearner_temp->clone();
+      blearner_best = blearner_temp;
     }
 
-    // Completely remove the temporary base-learner. This one isn't needed anymore:
-    delete blearner_temp;
+    // // Completely remove the temporary base-learner. This one isn't needed anymore:
+    // delete blearner_temp;
   }
-  // Remove pointer of the temporary base-learner.
-  blearner_temp = NULL;
-
   return blearner_best;
 }
 
-void OptimizerCoordinateDescentLineSearch::calculateStepSize (loss::Loss* used_loss, std::shared_ptr<response::Response> sh_ptr_response,
+void OptimizerCoordinateDescentLineSearch::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,
   const arma::vec& baselearner_prediction)
 {
-  step_sizes.push_back(linesearch::findOptimalStepSize(used_loss, sh_ptr_response->getResponse(), sh_ptr_response->getPredictionScores(), baselearner_prediction));
+  step_sizes.push_back(linesearch::findOptimalStepSize(sh_ptr_loss, sh_ptr_response->getResponse(), sh_ptr_response->getPredictionScores(), baselearner_prediction));
 }
 
 std::vector<double> OptimizerCoordinateDescentLineSearch::getStepSize () const

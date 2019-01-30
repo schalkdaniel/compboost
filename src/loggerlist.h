@@ -23,6 +23,7 @@
 
 #include <chrono>
 #include <string>
+#include <memory>
 
 #include "logger.h"
 #include "response.h"
@@ -69,7 +70,7 @@ public:
   // Log the current step (structure <iteration, actual time, actual risk>).
   // This is given to the instantiated logger:
   void logCurrent (const unsigned int&, std::shared_ptr<response::Response>,
-    blearner::Baselearner*, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
 
   // Print the logger status:
   void printLoggerStatus (const double&) const;

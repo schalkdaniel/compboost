@@ -39,3 +39,4 @@ cran-comments.md
 ^README-.*\.png$
 ^LICENSE\.md$
 ^cran-comments\.md$
+man/figures/*

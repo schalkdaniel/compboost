@@ -30,20 +30,20 @@ BaselearnerTrack::BaselearnerTrack (double learning_rate) : learning_rate ( lear
 
 // Insert a baselearner to the vector. We also want to add up the parameter
 // in there to get an estimator in the end:
-void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner, const double& step_size)
+void BaselearnerTrack::insertBaselearner (std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& step_size)
 {
   // Insert new baselearner:
-  blearner_vector.push_back(blearner);
+  blearner_vector.push_back(sh_ptr_blearner);
   step_sizes.push_back(step_size);
 
-  std::string insert_id = blearner->getDataIdentifier() + "_" + blearner->getBaselearnerType();
+  std::string insert_id = sh_ptr_blearner->getDataIdentifier() + "_" + sh_ptr_blearner->getBaselearnerType();
 
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
   std::map<std::string, arma::mat>::iterator it = my_parameter_map.find(insert_id);
 
   // Prune parameter by multiplying it with the learning rate:
-  arma::mat parameter_temp = learning_rate * step_size * blearner->getParameter();
+  arma::mat parameter_temp = learning_rate * step_size * sh_ptr_blearner->getParameter();
 
   // Check if this is the first parameter entry:
   if (it == my_parameter_map.end()) {
@@ -56,14 +56,14 @@ void BaselearnerTrack::insertBaselearner (blearner::Baselearner* blearner, const
 
   // Accumulating parameter. If there is a nan, then this will be ignored and
   // the non  nan entries are added up:
-  // arma::mat parameter_insert = parameter_temp + my_parameter_map.find(blearner->getBaselearnerType())->second;
-  // my_parameter_map.insert(std::pair<std::string, arma::mat>(blearner->getBaselearnerType(), parameter_insert));
+  // arma::mat parameter_insert = parameter_temp + my_parameter_map.find(sh_ptr_blearner->getBaselearnerType())->second;
+  // my_parameter_map.insert(std::pair<std::string, arma::mat>(sh_ptr_blearner->getBaselearnerType(), parameter_insert));
   my_parameter_map[ insert_id ] = parameter_temp + my_parameter_map.find(insert_id)->second;
 
 }
 
 // Get the vector of baselearner:
-std::vector<blearner::Baselearner*> BaselearnerTrack::getBaselearnerVector () const
+std::vector<std::shared_ptr<blearner::Baselearner>> BaselearnerTrack::getBaselearnerVector () const
 {
   return blearner_vector;
 }
@@ -77,10 +77,10 @@ std::map<std::string, arma::mat> BaselearnerTrack::getParameterMap () const
 // Clear baselearner vector:
 void BaselearnerTrack::clearBaselearnerVector ()
 {
-  for (unsigned int i = 0; i < blearner_vector.size(); i++)
-  {
-    delete blearner_vector[i];
-  }
+  // for (unsigned int i = 0; i < blearner_vector.size(); i++)
+  // {
+  //   delete blearner_vector[i];
+  // }
   blearner_vector.clear();
 }
 
@@ -112,9 +112,7 @@ std::map<std::string, arma::mat> BaselearnerTrack::getEstimatedParameterOfIterat
         // If this is the first entry, initialize it with zeros:
         arma::mat init_parameter(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
         my_new_parameter_map.insert(std::pair<std::string, arma::mat>(insert_id, init_parameter));
-
       }
-
       // Accumulating parameter. If there is a nan, then this will be ignored and
       // the non  nan entries are added up:
       my_new_parameter_map[ insert_id ] = parameter_temp + my_new_parameter_map.find(insert_id)->second;

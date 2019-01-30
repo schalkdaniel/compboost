@@ -1,0 +1,61 @@
+---
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{compboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+<table>
+  <tr>
+    <th>Loss</th>
+    <th>Description</th>
+    <th>Arguments</th>
+  </tr>
+  <tr>
+    <td><code>LossQuadratic</code></td>
+    <td>
+      Quadratic differences between prediction and response. This loss corresponds to the Gaussian distribution.
+    </td>
+    <td>
+      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LossAbsolute</code></td>
+    <td>
+      Absolute differences between prediction and response. This loss corresponds to the Laplace distribution.
+    </td>
+    <td>
+      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LossBinomial</code></td>
+    <td>
+      Binary classification loss that corresponds to the binomial distribution with logit link. Labels are coded as -1 and 1.
+    </td>
+    <td>
+      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LossCustom</code></td>
+    <td>Custom loss by using custom <code>C++</code> functions.</td>
+    <td>
+      <dt><b>loss</b></dt> <dd><code>R</code> function to calculates the loss (vectorized)</dd>
+      <dt><b>gradient</b></dt> <dd><code>R</code> function to calculate the gradient</dd>
+      <dt><b>constant_initializer</b></dt> <dd><code>R</code> function to compute the optimal constant initialization</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LossCustomCpp</code></td>
+    <td>Custom loss by using custom <code>C++</code> functions.</td>
+    <td>
+      <dt><b>loss_ptr</b></dt> <dd><code>C++</code> pointer to a function that defines the loss</dd>
+      <dt><b>gradient_ptr</b></dt> <dd><code>C++</code> pointer to a function to calculate the gradient</dd>
+      <dt><b>constant_initializer_ptr</b></dt> <dd><code>C++</code> pointer to a function to compute the optimal constant initialization</dd>
+    </td>
+  </tr>
+</table>
