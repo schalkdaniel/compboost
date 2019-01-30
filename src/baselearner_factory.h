@@ -113,29 +113,6 @@ public:
 };
 
 
-// BaselearnerPolynomialFactory:
-// -----------------------------
-
-class BaselearnerKronPolynomialFactory : public BaselearnerFactory
-{
-private:
-  
-  const unsigned int degree;
-  bool intercept;
-  
-public:
-  
-  BaselearnerKronPolynomialFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>, const unsigned int&,
-                                const bool&);
-  
-  blearner::Baselearner* createBaselearner (const std::string&);
-  
-  /// Get data used for modeling
-  arma::mat getData() const;
-  
-  arma::mat instantiateData (const arma::mat&) const;
-};
-
 
 // BaselearnerPSplineFactory:
 // -----------------------------

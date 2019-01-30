@@ -421,16 +421,50 @@ Compboost = R6::R6Class("Compboost",
         }
       } else {
         
-        data_columns = self$data[, feature, drop = FALSE]
-        data_columns = private$rowwise_tensor(data_columns, t(matrix(rep(x = self$response$getGrid(),nrow(data_columns)),ncol = nrow(data_columns))))
-        id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
-        
-        if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
-          private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
-        }	else {
-          private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
-        }
       }
+    },
+    CombineBaselearners = function(bl1, bl2, bl_factory = BaselearnerPolynomial, keep = FALSE){
+      if(! bl1 %in% easy_boost$getBaselearnerNames()){
+        stop("Bl1 is not a registered Baselearner.")
+      }
+      if(! bl2 %in% easy_boost$getBaselearnerNames()){
+        stop("Bl2 is not a registered Baselearner.")
+      }
+      if(!is.logical(keep)){
+        stop("keep must be logical.")
+      }
+      if(class(private$bl_list[[bl1]]$factory) != class(private$bl_list[[bl2]]$factory)){
+        stop("Baselearners must be of the same kind to be combined.")
+      }
+      
+      # Get Design Matrices from both learners
+      bl1_design_mat = private$bl_list[[bl1]]$factory$getData()
+      bl2_design_mat = private$bl_list[[bl2]]$factory$getData()
+  
+      bln = paste0(bl1,"_%_",bl2)
+      bln_design_mat = as.matrix(rowwiseTensor(bl1_design_mat, bl2_design_mat))
+      
+      bln_source = InMemoryData$new(as.matrix(bln_design_mat), bln)
+      bln_target = InMemoryData$new()
+      
+      private$bl_list[[bln]] = list()
+      private$bl_list[[bln]]$source = bln_source
+      private$bl_list[[bln]]$feature = bln
+      private$bl_list[[bln]]$target = bln_target
+      private$bl_list[[bln]]$factory = BaselearnerPolynomial$new(private$bl_list[[bln]]$source, 
+                                                                 private$bl_list[[bln]]$target, 
+                                                                 "Combined", 
+                                                                 list(degree = 1, intercept = FALSE))
+
+      self$bl_factory_list$registerFactory(private$bl_list[[bln]]$factory)
+      private$bl_list[[bln]]$source = NULL
+      
+      
+      if(!keep){
+        private$bl_list[[bl1]] = NULL
+        private$bl_list[[bl2]] = NULL
+      }
+        
     },
     train = function(iteration = 100, trace = -1) {
 
@@ -683,19 +717,6 @@ Compboost = R6::R6Class("Compboost",
         #      feature name of the categorical variable, such as cat_feature (important for predictions).
         private$bl_list[[cat_feat_id]]$feature = feature
       }
-    },
-    rowwise_tensor = function(A, B)
-    {
-      m = NROW(A)
-      if(m != NROW(B)) stop("Matrix must have the same number of rows.")
-      # create an empty matrix for the result
-      C = matrix(nrow = m, ncol = NCOL(A) * NCOL(B))
-      
-      for(i in 1:m){
-        # but there is a method for the 'conventional' TP:
-        C[i,] = kronecker(A[i,], B[i,])
-      }
-      return(C)
     }
   )
 )

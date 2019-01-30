@@ -159,32 +159,6 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
   return temp;
 }
 
-
-
-
-
-// UNDER CONSTRUCTION START
-
-
-
-
-
-
-
-// BaselearnerPolynomial:
-// -----------------------
-
-
-
-
-
-// UNDER CONSTRUCTION END
-
-
-
-
-
-
 // BaselearnerPSpline:
 // -----------------------
 
@@ -452,5 +426,6 @@ arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata
 
   return instantiateDataFun0(newdata);
 }
+
 
 } // namespace blearnerfactory

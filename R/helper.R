@@ -42,6 +42,18 @@ vectorToResponse = function (vec, target)
   }
 }
 
+rowwiseTensor <- function(A, B)
+{
+  m <- NROW(A)
+  if(m != NROW(B)) stop("Matrix must have the same number of rows.")
+  # create an empty matrix for the result
+  C <- matrix(nrow = m, ncol = NCOL(A) * NCOL(B))
+  for(i in 1:m){
+    # but there is a method for the 'conventional' TP:
+    C[i,] <- kronecker(A[i,], B[i,])
+  }
+  return(C)
+}
 
 # .vectorToResponse = function (vec, target)
 # {

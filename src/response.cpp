@@ -275,6 +275,7 @@ void ResponseBinaryClassif::setThreshold (const double& new_thresh)
   threshold = new_thresh;
 }
 
+
 // Functional Data Response
 
 ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& grid0)
