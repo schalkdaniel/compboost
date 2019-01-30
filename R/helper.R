@@ -41,3 +41,4 @@
 #   # Regression:
 #   if (is.numeric(vec)) return (ResponseRegr$new(target, as.matrix(vec)))
 # }
+

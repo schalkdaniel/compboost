@@ -361,7 +361,7 @@ Compboost = R6::R6Class("Compboost",
         # other task one should use the Response interface!
         self$response = .vectorToResponse(data[[target]], target)
       } else {
-        .assertRcppClass(target, "Response")
+       # .assertRcppClass(target, "Response") # FIXME Object not exposed by Rcpp
         if (nrow(target$getResponse()) != nrow(data))
           stop("Response must have same number of observations as the given dataset.")
         self$response = target
