@@ -23,7 +23,7 @@ library(compboost)
 
 `compboost` was designed to provide a component-wise boosting framework with
 maximal flexibility. This document gives an overview about the two main
-possibilities of extending compboost with custom functions. We will have 
+possibilities of extending compboost with custom functions. We will take 
 a look at:
 
 - Using custom losses.

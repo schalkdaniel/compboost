@@ -950,12 +950,12 @@ class LossWrapper
 {
 public:
 
-  loss::Loss* getLoss () { return obj; }
-  virtual ~LossWrapper () { delete obj; }
+  std::shared_ptr<loss::Loss> getLoss () { return sh_ptr_loss; }
+  virtual ~LossWrapper () {}
 
 protected:
 
-  loss::Loss* obj;
+  std::shared_ptr<loss::Loss> sh_ptr_loss;
 };
 
 //' Quadratic loss for regression tasks.
@@ -1009,8 +1009,8 @@ protected:
 class LossQuadraticWrapper : public LossWrapper
 {
 public:
-  LossQuadraticWrapper () { obj = new loss::LossQuadratic(); }
-  LossQuadraticWrapper (double custom_offset) { obj = new loss::LossQuadratic(custom_offset); }
+  LossQuadraticWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(); }
+  LossQuadraticWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
 };
 
 //' Absolute loss for regression tasks.
@@ -1064,8 +1064,8 @@ public:
 class LossAbsoluteWrapper : public LossWrapper
 {
 public:
-  LossAbsoluteWrapper () { obj = new loss::LossAbsolute(); }
-  LossAbsoluteWrapper (double custom_offset) { obj = new loss::LossAbsolute(custom_offset); }
+  LossAbsoluteWrapper () { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(); }
+  LossAbsoluteWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(custom_offset); }
 };
 
 //' 0-1 Loss for binary classification derived of the binomial distribution
@@ -1124,8 +1124,8 @@ public:
 class LossBinomialWrapper : public LossWrapper
 {
 public:
-  LossBinomialWrapper () { obj = new loss::LossBinomial(); }
-  LossBinomialWrapper (double custom_offset) { obj = new loss::LossBinomial(custom_offset); }
+  LossBinomialWrapper () { sh_ptr_loss = std::make_shared<loss::LossBinomial>(); }
+  LossBinomialWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
 };
 
 //' Create LossCustom by using R functions.
@@ -1206,7 +1206,7 @@ public:
   LossCustomWrapper (Rcpp::Function lossFun, Rcpp::Function gradientFun,
     Rcpp::Function initFun)
   {
-    obj = new loss::LossCustom(lossFun, gradientFun, initFun);
+    sh_ptr_loss = std::make_shared<loss::LossCustom>(lossFun, gradientFun, initFun);
   }
 };
 
@@ -1258,7 +1258,7 @@ class LossCustomCppWrapper : public LossWrapper
 public:
   LossCustomCppWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
   {
-    obj = new loss::LossCustomCpp(loss_ptr, grad_ptr, const_init_ptr);
+    sh_ptr_loss = std::make_shared<loss::LossCustomCpp>(loss_ptr, grad_ptr, const_init_ptr);
   }
 };
 
@@ -2096,12 +2096,12 @@ class OptimizerWrapper
 {
 public:
   OptimizerWrapper () {};
-  optimizer::Optimizer* getOptimizer () { return obj; }
+  std::shared_ptr<optimizer::Optimizer> getOptimizer () { return sh_ptr_optimizer; }
 
-  virtual ~OptimizerWrapper () { delete obj; }
+  virtual ~OptimizerWrapper () {}
 
 protected:
-  optimizer::Optimizer* obj;
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
 };
 
 //' Coordinate Descent
@@ -2133,7 +2133,7 @@ protected:
 class OptimizerCoordinateDescent : public OptimizerWrapper
 {
 public:
-  OptimizerCoordinateDescent () { obj = new optimizer::OptimizerCoordinateDescent(); }
+  OptimizerCoordinateDescent () { sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>(); }
 };
 
 //' Coordinate Descent with line search
@@ -2166,8 +2166,8 @@ public:
 class OptimizerCoordinateDescentLineSearch : public OptimizerWrapper
 {
 public:
-  OptimizerCoordinateDescentLineSearch () { obj = new optimizer::OptimizerCoordinateDescentLineSearch(); }
-  std::vector<double> getStepSize() { return obj->getStepSize(); }
+  OptimizerCoordinateDescentLineSearch () { sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(); }
+  std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
 
 
@@ -2401,11 +2401,11 @@ public:
 
     learning_rate0     =  learning_rate;
     sh_ptr_loggerlist  =  logger_list.getLoggerList();
-    used_optimizer     =  optimizer.getOptimizer();
+    sh_ptr_optimizer   =  optimizer.getOptimizer();
     blearner_list_ptr  =  factory_list.getFactoryList();
 
     std::unique_ptr<cboost::Compboost> unique_ptr_cboost_temp(new cboost::Compboost(response.getResponseObj(), learning_rate0,
-      stop_if_all_stopper_fulfilled, used_optimizer, loss.getLoss(), sh_ptr_loggerlist, *blearner_list_ptr));
+      stop_if_all_stopper_fulfilled, sh_ptr_optimizer, loss.getLoss(), sh_ptr_loggerlist, *blearner_list_ptr));
     unique_ptr_cboost = std::move(unique_ptr_cboost_temp);
   }
 
@@ -2490,8 +2490,7 @@ private:
 
   blearnerlist::BaselearnerFactoryList* blearner_list_ptr;
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
-  optimizer::Optimizer* used_optimizer;
-  arma::mat* eval_data;
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
 
   unsigned int max_iterations;
   double learning_rate0;

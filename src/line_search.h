@@ -13,23 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
-//
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // =========================================================================== #
 
@@ -43,8 +28,8 @@
 
 namespace linesearch {
 
-double calculateRisk (const double&, loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&);
-double findOptimalStepSize (loss::Loss*, const arma::vec&, const arma::vec&, const arma::vec&, 
+double calculateRisk (const double&, std::shared_ptr<loss::Loss>, const arma::vec&, const arma::vec&, const arma::vec&);
+double findOptimalStepSize (std::shared_ptr<loss::Loss>, const arma::vec&, const arma::vec&, const arma::vec&,
   const double& = 0., const double& = 100);
 
 } // namespace linesearch

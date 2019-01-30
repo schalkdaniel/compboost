@@ -1,8 +1,0 @@
-<map id="loss::Loss::definedLoss" name="loss::Loss::definedLoss">
-<area shape="rect" id="node2" href="$classcboost_1_1_compboost.html#a5d0ec331d3a75a19b89c54b67e64acad" title="cboost::Compboost::\ltrain" alt="" coords="223,64,367,105"/>
-<area shape="rect" id="node3" href="$classcboost_1_1_compboost.html#a3689a0d4517ec30905ef5ae46b1cb9c9" title="cboost::Compboost::\ltrainCompboost" alt="" coords="424,5,568,47"/>
-<area shape="rect" id="node6" href="$classlogger_1_1_logger_inbag_risk.html#aa7cb90600de663c51feaaf8a0715a0f9" title="Log current step of compboost iteration for class LoggerInbagRisk " alt="" coords="213,129,376,171"/>
-<area shape="rect" id="node7" href="$classlogger_1_1_logger_oob_risk.html#a4b0ea670a7970bca31037efab99cc06a" title="Log current step of compboost iteration for class LoggerOobRisk " alt="" coords="217,195,372,236"/>
-<area shape="rect" id="node4" href="$classcboost_1_1_compboost.html#a0e72bc9f0d36d4a9f141978e445f2cdc" title="cboost::Compboost::\lcontinueTraining" alt="" coords="424,71,568,112"/>
-<area shape="rect" id="node5" href="$classcboost_1_1_compboost.html#ad1ee3b88f585f38255d827dceb4b7659" title="cboost::Compboost::\lsetToIteration" alt="" coords="616,71,760,112"/>
-</map>

@@ -82,7 +82,7 @@ public:
 
   /// Log current step of compboost iteration dependent on the child class
   virtual void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    blearner::Baselearner*, const double&, const double&) = 0;
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&) = 0;
 
   /// Class dependent check if the stopping criteria is fulfilled
   virtual bool reachedStopCriteria () const = 0;
@@ -145,7 +145,7 @@ public:
 
   /// Log current step of compboost iteration of class `LoggerIteration`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    blearner::Baselearner*, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
 
   /// Stop criteria is fulfilled if the current iteration exceed `max_iteration`
   bool reachedStopCriteria () const;
@@ -183,7 +183,7 @@ class LoggerInbagRisk : public Logger
 private:
 
   /// Used loss. **Note** that you can specify a different loss than the loss used for training
-  loss::Loss* used_loss;
+  std::shared_ptr<loss::Loss> sh_ptr_loss;
 
   /// Vector of inbag risk for every iteration
   std::vector<double> tracked_inbag_risk;
@@ -195,11 +195,11 @@ private:
 public:
 
   /// Default constructor
-  LoggerInbagRisk (const std::string&, const bool&, loss::Loss*, const double&);
+  LoggerInbagRisk (const std::string&, const bool&, std::shared_ptr<loss::Loss>, const double&);
 
   /// Log current step of compboost iteration for class `LoggerInbagRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    blearner::Baselearner*, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
 
   /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria () const;
@@ -235,7 +235,7 @@ class LoggerOobRisk : public Logger
 private:
 
   /// Used loss. **Note** that you can specify a different loss than the loss used for training
-  loss::Loss* used_loss;
+  std::shared_ptr<loss::Loss> sh_ptr_loss;
 
   /// Vector of OOB risk for every iteration
   std::vector<double> tracked_oob_risk;
@@ -261,12 +261,12 @@ private:
 public:
 
   /// Default constructor
-  LoggerOobRisk (const std::string&, const bool&, loss::Loss*, const double&,
+  LoggerOobRisk (const std::string&, const bool&, std::shared_ptr<loss::Loss>, const double&,
     std::map<std::string, std::shared_ptr<data::Data>>, std::shared_ptr<response::Response>);
 
   /// Log current step of compboost iteration for class `LoggerOobRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    blearner::Baselearner*, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
 
   /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria () const;
@@ -323,7 +323,7 @@ public:
 
   /// Log current step of compboost iteration for class `LoggerTime`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    blearner::Baselearner*, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
 
   /// Stop criteria is fulfilled if the passed time exceeds `max_time`
   bool reachedStopCriteria () const;

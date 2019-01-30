@@ -1,8 +1,0 @@
-<map id="findSpan" name="findSpan">
-<area shape="rect" id="node2" href="$splines_8h.html#a337394c7b0e3d15a0fd43f1b2dce4767" title="Transformation from a vector of input points to matrix of basis. " alt="" coords="147,78,274,105"/>
-<area shape="rect" id="node7" href="$splines_8h.html#ac48ccbc9a36de85b7f1616a7fcf6b870" title="Transformation from a vector of input points to sparse matrix of basis. " alt="" coords="127,133,295,159"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_baselearner_p_spline.html#a1a83493d31e14f7e28d0aba40a3f4396" title="Instatiate data matrix (design matrix) " alt="" coords="351,5,541,47"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html#aeefb27ef79b2a95b2943a22d0e6368e2" title="Instantiate the design matrix. " alt="" coords="343,71,549,112"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner_p_spline.html#a241485cc3e932c45564370a0881e3772" title="Predict on newdata. " alt="" coords="619,5,809,47"/>
-<area shape="rect" id="node6" href="$classblearnerfactory_1_1_baselearner_p_spline_factory.html#a295bad8fb9554cb45a56c8b6c5e8e047" title="Default constructor of class PSplineBleanrerFactory " alt="" coords="597,97,831,153"/>
-</map>

@@ -31,16 +31,16 @@ namespace cboost {
 Compboost::Compboost () {}
 
 Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const double& learning_rate,
-  const bool& stop_if_all_stopper_fulfilled, optimizer::Optimizer* used_optimizer, loss::Loss* used_loss,
+  const bool& stop_if_all_stopper_fulfilled, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList used_baselearner_list)
   : sh_ptr_response ( sh_ptr_response ),
     learning_rate ( learning_rate ),
     stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
-    used_optimizer ( used_optimizer ),
-    used_loss ( used_loss ),
+    sh_ptr_optimizer ( sh_ptr_optimizer ),
+    sh_ptr_loss ( sh_ptr_loss ),
     used_baselearner_list ( used_baselearner_list )
 {
-  sh_ptr_response->constantInitialization(used_loss);
+  sh_ptr_response->constantInitialization(sh_ptr_loss);
   sh_ptr_response->initializePrediction();
   blearner_track = blearnertrack::BaselearnerTrack(learning_rate);
   sh_ptr_loggerlist = sh_ptr_loggerlist0;
@@ -69,30 +69,31 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
     actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
     
     sh_ptr_response->setActualIteration(actual_iteration);
-    sh_ptr_response->updatePseudoResiduals(used_loss);
+    sh_ptr_response->updatePseudoResiduals(sh_ptr_loss);
 
     // Cast integer k to string for baselearner identifier:
     std::string temp_string = std::to_string(k);
-    blearner::Baselearner* selected_blearner = used_optimizer->findBestBaselearner(temp_string, sh_ptr_response, used_baselearner_list.getMap());
+    std::shared_ptr<blearner::Baselearner> sh_ptr_blearner_selected = sh_ptr_optimizer->findBestBaselearner(temp_string, 
+      sh_ptr_response, used_baselearner_list.getMap());
 
     // Prediction is needed more often, use a temp vector to avoid multiple computations:
-    blearner_pred_temp = selected_blearner->predict();
+    blearner_pred_temp = sh_ptr_blearner_selected->predict();
 
-    used_optimizer->calculateStepSize(used_loss, sh_ptr_response, blearner_pred_temp);
+    sh_ptr_optimizer->calculateStepSize(sh_ptr_loss, sh_ptr_response, blearner_pred_temp);
 
     // Insert new base-learner to vector of selected base-learner. The parameter are estimated here, hence
     // the contribution to the old parameter is the estimated parameter times the learning rate times
     // the step size. Therefore we have to pass the step size which changes in each iteration:
-    blearner_track.insertBaselearner(selected_blearner, used_optimizer->getStepSize(actual_iteration));
-    sh_ptr_response->updatePrediction(learning_rate, used_optimizer->getStepSize(actual_iteration), blearner_pred_temp);
+    blearner_track.insertBaselearner(sh_ptr_blearner_selected, sh_ptr_optimizer->getStepSize(actual_iteration));
+    sh_ptr_response->updatePrediction(learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration), blearner_pred_temp);
 
     // Log the current step:
     //   The last term has to be the prediction or anything like that. This is
     //   important to track the risk (inbag or oob)!!!!
-    logger_list->logCurrent(actual_iteration, sh_ptr_response, selected_blearner, learning_rate, used_optimizer->getStepSize(actual_iteration));
+    logger_list->logCurrent(actual_iteration, sh_ptr_response, sh_ptr_blearner_selected, learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration));
 
     // Calculate and log risk:
-    risk.push_back(sh_ptr_response->calculateEmpiricalRisk(used_loss));
+    risk.push_back(sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss));
 
     // Get status of the algorithm (is the stopping criteria reached?). The negation here
     // seems a bit weird, but it makes the while loop easier to read:
@@ -115,7 +116,7 @@ void Compboost::trainCompboost (const unsigned int& trace)
   sh_ptr_loggerlist->clearLoggerData();
 
   // Calculate risk for initial model:
-  risk.push_back(sh_ptr_response->calculateEmpiricalRisk(used_loss));
+  risk.push_back(sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss));
 
   // track time:
   auto t1 = std::chrono::high_resolution_clock::now();
@@ -169,12 +170,12 @@ std::map<std::string, arma::mat> Compboost::getParameter () const
 
 std::vector<std::string> Compboost::getSelectedBaselearner () const
 {
-  std::vector<std::string> selected_blearner;
+  std::vector<std::string> selected_blearner_names;
 
   for (unsigned int i = 0; i < actual_iteration; i++) {
-    selected_blearner.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + "_" + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
+    selected_blearner_names.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + "_" + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
   }
-  return selected_blearner;
+  return selected_blearner_names;
 }
 
 std::shared_ptr<loggerlist::LoggerList> Compboost::getLoggerList () const

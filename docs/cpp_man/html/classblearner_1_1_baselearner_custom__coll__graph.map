@@ -1,4 +1,0 @@
-<map id="blearner::BaselearnerCustom" name="blearner::BaselearnerCustom">
-<area shape="rect" id="node2" href="$classblearner_1_1_baselearner.html" title="{blearner::Baselearner\n|# parameter\l# blearner_identifier\l# blearner_type\l|+ train()\l+ getParameter()\l+ predict()\l+ predict()\l+ instantiateData()\l+ copyMembers()\l+ clone()\l+ setData()\l+ getDataIdentifier()\l+ setIdentifier()\l+ getIdentifier()\l+ setBaselearnerType()\l+ getBaselearnerType()\l+ ~Baselearner()\l}" alt="" coords="22,351,179,648"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html" title="{data::Data\n|+ data_mat\l+ sparse_data_mat\l+ data_mat_ptr\l+ penalty_mat\l+ knots\l+ knot_boundaries\l+ XtX_inv\l# data_identifier\l# data_type\l|+ Data()\l+ setData()\l+ getData()\l+ setDataIdentifier()\l+ getDataIdentifier()\l+ setDataType()\l+ ~Data()\l}" alt="" coords="33,5,168,288"/>
-</map>

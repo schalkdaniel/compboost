@@ -337,8 +337,10 @@ Compboost = R6::R6Class("Compboost",
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
 
-      if (! target %in% names(data)) {
-        stop ("The target ", target, " is not present within the data")
+      if (! isRcppClass(target, "Response")) {
+        if (! target %in% names(data)) {
+          stop ("The target ", target, " is not present within the data")
+        }
       }
       if (inherits(loss, "C++Class")) {
         stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
@@ -359,23 +361,23 @@ Compboost = R6::R6Class("Compboost",
 
         # With .vectorToRespone we are very restricted to the task types. We can just guess for regression or classification. For every
         # other task one should use the Response interface!
-        self$response = .vectorToResponse(data[[target]], target)
+        self$response = vectorToResponse(data[[target]], target)
       } else {
-       # .assertRcppClass(target, "Response") # FIXME Object not exposed by Rcpp
+        assertRcppClass(target, "Response")
         if (nrow(target$getResponse()) != nrow(data))
-          stop("Response must have same number of observations as the given dataset.")
+          stop("Response must have same number of observations as the given dataset")
         self$response = target
       }
 
       self$oob_fraction = oob_fraction
       self$target = self$response$getTargetName()
-      self$data = data[private$train_idx, !colnames(data) %in% target, drop = FALSE]
+      self$data = data[private$train_idx, !colnames(data) %in% self$target, drop = FALSE]
       self$optimizer = optimizer
       self$loss = loss
       self$learning_rate = learning_rate
       if (! is.null(self$oob_fraction)) {
         self$data_oob = data[private$oob_idx, !colnames(data) %in% target, drop = FALSE]
-        self$response_oob = .vectorToResponse(self$response$getResponse()[private$oob_idx, , drop = FALSE], "oob_response")
+        self$response_oob = vectorToResponse(data[private$oob_idx, self$target], "oob_response")
         self$response$filter(private$train_idx)
       }
 
@@ -546,199 +548,86 @@ Compboost = R6::R6Class("Compboost",
       return(NULL)
     },
     plot = function (blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000) {
+      checkModelPlotAvailability(self)
 
-      if (requireNamespace("ggplot2", quietly = TRUE)) {
+      gg = plotFeatEffect(cboost_obj = self, bl_list = private$bl_list, blearner_name = blearner_name,
+        iters = iters, from = from, to = to, length_out = length_out)
 
-        if (is.null(self$model)) {
-          stop("Model needs to be trained first.")
-        }
-        checkmate::assertIntegerish(iters, min.len = 1, any.missing = FALSE, null.ok = TRUE)
-        checkmate::assertCharacter(blearner_name, len = 1, null.ok = TRUE)
-
-        if (is.null(blearner_name)) {
-          stop("Please specify a valid base-learner plus feature.")
-        }
-        if (! blearner_name %in% names(private$bl_list)) {
-          stop("Your requested feature plus learner is not available. Check 'getBaselearnerNames()' for available learners.")
-        }
-        if (length(private$bl_list[[blearner_name]]$feature) > 1) {
-          stop("Only univariate plotting is supported.")
-        }
-        # Check if selected base-learner includes the proposed one + check if iters is big enough:
-        iter.min = which(self$getSelectedBaselearner() == blearner_name)[1]
-        if (! blearner_name %in% unique(self$getSelectedBaselearner())) {
-          stop("Requested base-learner plus feature was not selected.")
-        } else {
-          if (any(iters < iter.min)) {
-            warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
-          }
-        }
-        feat_name = private$bl_list[[blearner_name]]$target$getIdentifier()
-
-        checkmate::assertNumeric(x = self$data[[feat_name]], min.len = 2, null.ok = FALSE)
-        checkmate::assertNumeric(from, lower =  min(self$data[[feat_name]]), upper = max(self$data[[feat_name]]), len = 1, null.ok = TRUE)
-        checkmate::assertNumeric(to, lower =  min(self$data[[feat_name]]), upper = max(self$data[[feat_name]]), len = 1, null.ok = TRUE)
-
-        if (is.null(from)) {
-          from = min(self$data[[feat_name]])
-        }
-        if (is.null(to)) {
-          to = max(self$data[[feat_name]])
-        }
-        if (from >= to) {
-          warning("Argument from is smaller than to, hence the x interval is [to, from].")
-          temp = from
-          from = to
-          to = temp
-        }
-
-        plot_data = as.matrix(seq(from = from, to = to, length.out = length_out))
-        feat_map  = private$bl_list[[blearner_name]]$factory$transformData(plot_data)
-
-        # Create data.frame for plotting depending if iters is specified:
-        if (!is.null(iters[1])) {
-          preds = lapply(iters, function (x) {
-            if (x >= iter.min) {
-              return(feat_map %*% self$model$getParameterAtIteration(x)[[blearner_name]])
-            } else {
-              return(rep(0, length_out))
-            }
-          })
-          names(preds) = iters
-
-          df_plot = data.frame(
-            effect    = unlist(preds),
-            iteration = as.factor(rep(iters, each = length_out)),
-            feature   = plot_data
-          )
-
-          gg = ggplot2::ggplot(df_plot, ggplot2::aes(feature, effect, color = iteration))
-
-        } else {
-          df_plot = data.frame(
-            effect  = feat_map %*% self$getEstimatedCoef()[[blearner_name]],
-            feature = plot_data
-          )
-
-          gg = ggplot2::ggplot(df_plot, ggplot2::aes(feature, effect))
-        }
-
-        # If there are too much rows we need to take just a sample or completely remove rugs:
-        if (nrow(self$data) > 1000) {
-          idx_rugs = sample(seq_len(nrow(self$data)), 1000, FALSE)
-        } else {
-          idx_rugs = seq_len(nrow(self$data))
-        }
-
-        gg = gg +
-          ggplot2::geom_line() +
-          ggplot2::geom_rug(data = self$data[idx_rugs,], ggplot2::aes_string(x = feat_name), inherit.aes = FALSE,
-            alpha = 0.8) +
-          ggplot2::xlab(feat_name) +
-          ggplot2::xlim(from, to) +
-          ggplot2::ylab("Additive Contribution") +
-          ggplot2::labs(title = paste0("Effect of ", blearner_name),
-            subtitle = "Additive contribution of predictor")
-
-        return(gg)
-      } else {
-        message("Please install ggplot2 to create plots.")
-        return(NULL)
-      }
+      return(gg)
     },
     getBaselearnerNames = function () {
-      # return(lapply(private$bl_list, function (bl) bl[[1]]$target$getIdentifier()))
       return(names(private$bl_list))
     },
     getLoggerData = function () {
-      if (! is.null(self$model)) {
-        out_list = self$model$getLoggerData()
-        out_mat = out_list[[2]]
-        colnames(out_mat) = out_list[[1]]
+      checkModelPlotAvailability(self, check_ggplot = FALSE)
 
-        return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()), , drop = FALSE]))
-      } else {
-        warning("Train the model to get logger data.")
-      }
+      out_list = self$model$getLoggerData()
+      out_mat = out_list[[2]]
+      colnames(out_mat) = out_list[[1]]
+
+      return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()), , drop = FALSE]))
     },
     calculateFeatureImportance = function (num_feats = NULL) {
-      if (! is.null(self$model)) {
+      checkModelPlotAvailability(self, check_ggplot = FALSE)
 
-        max_feats = length(unique(self$getSelectedBaselearner()))
-        checkmate::assert_integerish(x = num_feats, lower = 1, upper = max_feats, any.missing = FALSE, len = 1L, null.ok = TRUE)
+      max_feats = length(unique(self$getSelectedBaselearner()))
+      checkmate::assert_integerish(x = num_feats, lower = 1, upper = max_feats, any.missing = FALSE, len = 1L, null.ok = TRUE)
 
-        if (is.null(num_feats)) {
-          num_feats = max_feats
-          if (num_feats > 15L) { num_feats = 15L }
-        }
-
-        inbag_risk_differences = abs(diff(self$getInbagRisk()))
-        selected_learner = self$getSelectedBaselearner()
-
-        blearner_sums = aggregate(inbag_risk_differences, by = list(selected_learner), FUN = sum)
-        colnames(blearner_sums) = c("baselearner", "relative_risk_reduction")
-        blearner_sums[["relative_risk_reduction"]] = blearner_sums[["relative_risk_reduction"]] / sum(blearner_sums[["relative_risk_reduction"]])
-
-        return(blearner_sums[order(blearner_sums[["relative_risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ])
-      } else {
-        warning("Train the model to get logger data.")
+      if (is.null(num_feats)) {
+        num_feats = max_feats
+        if (num_feats > 15L) { num_feats = 15L }
       }
+
+      inbag_risk_differences = abs(diff(self$getInbagRisk()))
+      selected_learner = self$getSelectedBaselearner()
+
+      blearner_sums = aggregate(inbag_risk_differences, by = list(selected_learner), FUN = sum)
+      colnames(blearner_sums) = c("baselearner", "relative_risk_reduction")
+      blearner_sums[["relative_risk_reduction"]] = blearner_sums[["relative_risk_reduction"]] / sum(blearner_sums[["relative_risk_reduction"]])
+
+      return(blearner_sums[order(blearner_sums[["relative_risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ])
     },
     plotFeatureImportance = function (num_feats = NULL) {
 
-      if (! is.null(self$model)) {
-        if (requireNamespace("ggplot2", quietly = TRUE)) {
+      checkModelPlotAvailability(self)
 
-        df_vip = self$calculateFeatureImportance(num_feats)
+      df_vip = self$calculateFeatureImportance(num_feats)
 
-        gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, relative_risk_reduction), y = relative_risk_reduction)) +
-          ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
+      gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, relative_risk_reduction), y = relative_risk_reduction)) +
+        ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
-        return (gg)
-
-        } else {
-          message("Please install ggplot2 to create plots.")
-          return(NULL)
-        }
-      } else {
-        warning("Train the model to get logger data.")
-      }
+      return (gg)
     },
     plotInbagVsOobRisk = function () {
-      if (! is.null(self$model)) {
-        if (requireNamespace("ggplot2", quietly = TRUE)) {
-          inbag_trace = self$getInbagRisk()
-          oob_data = self$getLoggerData()
-          if ("oob_risk" %in% names(oob_data)) {
-            oob_trace = oob_data[["oob_risk"]]
 
-            df_risk = data.frame(
-              risk = c(inbag_trace, oob_trace),
-              type = rep(c("inbag", "oob"), times = c(length(inbag_trace), length(oob_trace))),
-              iter = c(seq_along(inbag_trace), seq_along(oob_trace))
-            )
+      checkModelPlotAvailability(self)
 
-            gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk, color = type)) +
-              ggplot2::geom_line(size = 1.1) +
-              ggplot2::xlab("Iteration") +
-              ggplot2::ylab("Risk")# + labs(color = "")
+      inbag_trace = self$getInbagRisk()
+      oob_data = self$getLoggerData()
 
-            return(gg)
-          } else {
-            stop("Model was not trained with an out of bag risk logger called 'oob_risk'.")
-          }
-        } else {
-          message("Please install ggplot2 to create plots.")
-          return(NULL)
-        }
+      if ("oob_risk" %in% names(oob_data)) {
+        oob_trace = oob_data[["oob_risk"]]
+
+        df_risk = data.frame(
+          risk = c(inbag_trace, oob_trace),
+          type = rep(c("inbag", "oob"), times = c(length(inbag_trace), length(oob_trace))),
+          iter = c(seq_along(inbag_trace), seq_along(oob_trace))
+        )
+
+        gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk, color = type)) +
+          ggplot2::geom_line(size = 1.1) +
+          ggplot2::xlab("Iteration") +
+          ggplot2::ylab("Risk")# + labs(color = "")
+
+        return(gg)
       } else {
-        warning("Train the model to get logger data.")
+        stop("Model was not trained with an out of bag risk logger called 'oob_risk'.")
       }
     }
   ),
   private = list(
     # Lists of single logger and base-learner factories. Necessary to prevent the factories from the
-    # arbage collector which deallocates all the data from the heap and couses R to crash.
+    # garbage collector which deallocates all the data from the heap and couses R to crash.
     l_list = list(),
     bl_list = list(),
     logger_list = list(),
@@ -748,9 +637,7 @@ Compboost = R6::R6Class("Compboost",
 
       private$logger_list = LoggerList$new()
       lapply(private$l_list, function (logger) { private$logger_list$registerLogger(logger) })
-      # for (i in seq_along(private$l_list)) {
-      #   private$logger_list$registerLogger(private$l_list[[i]])
-      # }
+
       self$model = Compboost_internal$new(self$response, self$learning_rate,
         self$stop_if_all_stoppers_fulfilled, self$bl_factory_list, self$loss, private$logger_list, self$optimizer)
     },
@@ -768,12 +655,6 @@ Compboost = R6::R6Class("Compboost",
       private$bl_list[[id]]$source = data_source$new(as.matrix(data_columns), paste(feature, collapse = "_"))
       private$bl_list[[id]]$feature = feature
       private$bl_list[[id]]$target = data_target$new()
-
-      # Call handler for default arguments and argument handling:
-      # handler.name = paste0(".handle", bl_factory@.Data)
-      # par.set = c(source = private$bl_list[[id]]$source, target = private$bl_list[[id]]$target, id = id_fac, do.call(handler.name, list(...)))
-      # private$bl_list[[id]]$factory = do.call(bl_factory$new, par.set)
-
       private$bl_list[[id]]$factory = bl_factory$new(private$bl_list[[id]]$source, private$bl_list[[id]]$target, id_fac, list(...))
 
       self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)

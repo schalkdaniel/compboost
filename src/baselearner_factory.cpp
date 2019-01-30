@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include "baselearner_factory.h"
@@ -115,26 +100,22 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& b
   // blearner_type = blearner_type + " with degree " + std::to_string(degree);
 }
 
-blearner::Baselearner* BaselearnerPolynomialFactory::createBaselearner (const std::string& identifier)
+std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner (const std::string& identifier)
 {
-  blearner::Baselearner* blearner_obj;
-
-  // Create new polynomial baselearner. This one will be returned by the
-  // factory:
-  blearner_obj = new blearner::BaselearnerPolynomial(data_target, identifier, degree, intercept);
-  blearner_obj->setBaselearnerType(blearner_type);
+  std::shared_ptr<blearner::Baselearner>  sh_ptr_blearner = std::make_shared<blearner::BaselearnerPolynomial>(data_target, identifier, degree, intercept);
+  sh_ptr_blearner->setBaselearnerType(blearner_type);
 
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
-  //   data = blearner_obj->instantiateData();
+  //   data = sh_ptr_blearner->instantiateData();
   //
   //   is_data_instantiated = true;
   //
   //   // update baselearner type:
   //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
   // }
-  return blearner_obj;
+  return sh_ptr_blearner;
 }
 
 /**
@@ -282,27 +263,25 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearne
  *
  * \param identifier `std::string` identifier of that specific baselearner object
  */
-blearner::Baselearner* BaselearnerPSplineFactory::createBaselearner (const std::string& identifier)
+std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselearner (const std::string& identifier)
 {
-  blearner::Baselearner* blearner_obj;
-
   // Create new polynomial baselearner. This one will be returned by the
   // factory:
-  blearner_obj = new blearner::BaselearnerPSpline(data_target, identifier, degree,
+  std::shared_ptr<blearner::Baselearner>  sh_ptr_blearner = std::make_shared<blearner::BaselearnerPSpline>(data_target, identifier, degree,
     n_knots, penalty, differences, use_sparse_matrices);
-  blearner_obj->setBaselearnerType(blearner_type);
+  sh_ptr_blearner->setBaselearnerType(blearner_type);
 
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
-  //   data = blearner_obj->instantiateData();
+  //   data = sh_ptr_blearner->instantiateData();
   //
   //   is_data_instantiated = true;
   //
   //   // update baselearner type:
   //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
   // }
-  return blearner_obj;
+  return sh_ptr_blearner;
 }
 
 /**
@@ -374,22 +353,20 @@ BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_
   initializeDataObjects(data_source, data_target);
 }
 
-blearner::Baselearner* BaselearnerCustomFactory::createBaselearner (const std::string &identifier)
+std::shared_ptr<blearner::Baselearner> BaselearnerCustomFactory::createBaselearner (const std::string &identifier)
 {
-  blearner::Baselearner *blearner_obj;
-
-  blearner_obj = new blearner::BaselearnerCustom(data_target, identifier,
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner = std::make_shared<blearner::BaselearnerCustom>(data_target, identifier,
     instantiateDataFun, trainFun, predictFun, extractParameter);
-  blearner_obj->setBaselearnerType(blearner_type);
+  sh_ptr_blearner->setBaselearnerType(blearner_type);
 
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
-  //   data = blearner_obj->instantiateData();
+  //   data = sh_ptr_blearner->instantiateData();
   //
   //   is_data_instantiated = true;
   // }
-  return blearner_obj;
+  return sh_ptr_blearner;
 }
 
 /**
@@ -432,22 +409,20 @@ BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& ble
   initializeDataObjects(data_source, data_target);
 }
 
-blearner::Baselearner* BaselearnerCustomCppFactory::createBaselearner (const std::string& identifier)
+std::shared_ptr<blearner::Baselearner> BaselearnerCustomCppFactory::createBaselearner (const std::string& identifier)
 {
-  blearner::Baselearner* blearner_obj;
-
-  blearner_obj = new blearner::BaselearnerCustomCpp(data_target, identifier,
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner = std::make_shared<blearner::BaselearnerCustomCpp>(data_target, identifier,
     instantiateDataFun, trainFun, predictFun);
-  blearner_obj->setBaselearnerType(blearner_type);
+  sh_ptr_blearner->setBaselearnerType(blearner_type);
 
   // // Check if the data is already set. If not, run 'instantiateData' from the
   // // baselearner:
   // if (! is_data_instantiated) {
-  //   data = blearner_obj->instantiateData();
+  //   data = sh_ptr_blearner->instantiateData();
   //
   //   is_data_instantiated = true;
   // }
-  return blearner_obj;
+  return sh_ptr_blearner;
 }
 
 /**

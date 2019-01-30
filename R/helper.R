@@ -1,7 +1,7 @@
-.assertRcppClass = function (x, x_class, stop_when.error = TRUE)
+assertRcppClass = function (x, x_class, stop_when.error = TRUE)
 {
   cls = class(x)
-  rcpp_class = TRUE
+  
   if (! grepl("Rcpp", cls)) {
     stop("Object was not exposed by Rcpp.")
   }
@@ -10,7 +10,21 @@
   }
 }
 
-.vectorToResponse = function (vec, target)
+isRcppClass = function (x, x_class)
+{
+  cls = class(x)
+  is_rcpp_class = TRUE
+  
+  if (! grepl("Rcpp", cls)) {
+    is_rcpp_class = FALSE
+  }
+  if (! grepl(x_class, cls)) {
+    is_rcpp_class = FALSE
+  }
+  return(is_rcpp_class)
+}
+
+vectorToResponse = function (vec, target)
 {
   # Transform factor or character labels to -1 and 1
   if (! is.numeric(vec)) {
@@ -42,3 +56,8 @@
 #   if (is.numeric(vec)) return (ResponseRegr$new(target, as.matrix(vec)))
 # }
 
+checkModelPlotAvailability = function (cboost_obj, check_ggplot = TRUE)
+{
+  if (is.null(cboost_obj$model)) { stop("Train the model to get logger data.") }
+  if ((! requireNamespace("ggplot2", quietly = TRUE)) && check_ggplot) { stop("Please install ggplot2 to create plots.") }
+}

@@ -16,21 +16,6 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// Written by:
-// -----------
-//
-//   Daniel Schalk
-//   Department of Statistics
-//   Ludwig-Maximilians-University Munich
-//   Ludwigstrasse 33
-//   D-80539 München
-//
-//   https://www.compstat.statistik.uni-muenchen.de
-//
-//   Contact
-//   e: contact@danielschalk.com
-//   w: danielschalk.com
-//
 // =========================================================================== #
 
 #include "splines.h"
@@ -40,16 +25,16 @@ namespace splines
 
 /**
  * \brief Calculating penalty matrix
- * 
- * This function calculates the penalty matrix for a given number of 
+ *
+ * This function calculates the penalty matrix for a given number of
  * parameters (`nparams`) and a given number of differences (`differences`).
- * 
+ *
  * \param nparams `unsigned int` Number of params which should be penalized.
  *   This also pretend the number of rows and columns.
- *   
+ *
  * \param differences `unsigned int` Number of penalized differences.
- * 
- * \returns `arma::sp_mat` Sparse penalty matrix used for p splines. 
+ *
+ * \returns `arma::sp_mat` Sparse penalty matrix used for p splines.
  */
 
 arma::mat penaltyMat (const unsigned int& nparams, const unsigned int& differences)
@@ -62,7 +47,7 @@ arma::mat penaltyMat (const unsigned int& nparams, const unsigned int& differenc
     insert[i + 1] = 1;
     diffs = arma::join_cols(diffs, insert);
   }
-  
+
   // Calculate the difference matrix for higher orders:
   if (differences > 1) {
     arma::mat diffs_reduced = diffs;
@@ -76,17 +61,17 @@ arma::mat penaltyMat (const unsigned int& nparams, const unsigned int& differenc
 
 /**
  * \brief Binary search to find index of given point within knots
- * 
+ *
  * This small functions search for the position of `x` within the
  * `knots` and returns the smalles index for which x >= knots[i].
- * 
- * Note that this function returns the `C++` index which starts 
+ *
+ * Note that this function returns the `C++` index which starts
  * with `0` and ends with `n-1`.
- * 
+ *
  * \param x `double` Point to search for position in knots.
  * \param knots `arma::vec` Vector of knots. It's the users responsibility to
  *   pass a **SORTED** vector.
- *   
+ *
  * \returns `unsigned int` of position of `x` in `knots`.
  */
 
@@ -95,11 +80,11 @@ unsigned int findSpan (const double& x, const arma::vec& knots)
   // Special case which the algorithm can't handle:
   if (x < knots[1]) { return 0; }
   if (x == knots[knots.size() - 1]) { return knots.size() - 1; }
-  
+
   unsigned int low = 0;
   unsigned int high = knots.size() - 1;
   unsigned int mid = std::round( (low + high) / 2 );
-  
+
   while (x < knots[mid] || x >= knots[mid + 1]) {
     if (x < knots[mid]) {
       high = mid;
@@ -113,15 +98,15 @@ unsigned int findSpan (const double& x, const arma::vec& knots)
 
 /**
  * \brief Create knots for a specific number, degree and values
- * 
+ *
  * This functions takes a vector of points and creates knots used for the
  * splines depending on the number of knots and degree. This function just
  * handles equidistant knots.
- * 
+ *
  * \param values `arma::vec` Points to create the basis matrix.
  * \param n_knots `unsigned int` Number of innter knots.
  * \param degree `unsigned int` polynomial degree of splines.
- *    
+ *
  * \returns `arma::vec` of knots.
  */
 
@@ -130,12 +115,12 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
 {
   // Expand inner knots to avoid ugly issues on the edges:
   arma::vec knots(n_knots + 2 * (degree + 1), arma::fill::zeros);
-  
+
   double inner_knot_min = values.min();
   double inner_knot_max = values.max();
-  
+
   double knot_range = (inner_knot_max - inner_knot_min) / (n_knots + 1);
-  
+
   // Inner knots:
   for (unsigned int i = 0; i < n_knots + 1; i++) {
     knots[degree + i] = inner_knot_min + i * knot_range;
@@ -149,25 +134,25 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
     // Upper:
     knots[degree + n_knots + i + 2] = inner_knot_max + (i + 1) * knot_range;
   }
-  
+
   return knots;
 }
 
 /**
  * \brief Transformation from a vector of input points to matrix of basis
- * 
+ *
  * This functions takes a vector of points and create a matrix of
- * basis functions. Each row contains the basis of the corresponding value 
+ * basis functions. Each row contains the basis of the corresponding value
  * in `values`.
- * 
+ *
  * \param values `arma::vec` Points to create the basis matrix.
  * \param n_knots `unsigned int` Number of innter knots.
  * \param degree `unsigned int` polynomial degree of splines.
- *    
+ *
  * \returns `sp_mat` sparse matrix of base functions.
  */
 
-arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree, 
+arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree,
   const arma::vec& knots)
 {
   unsigned int n_cols =  knots.size() - (degree + 1);
@@ -179,7 +164,7 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree
 
   // Frame for output:
   arma::mat spline_basis(values.size(), n_cols, arma::fill::zeros);
-  
+
   // Inserting rowwise. This loop creates the basis functions for each row:
   for (unsigned int actual_row = 0; actual_row < values.size(); actual_row++) {
 
@@ -224,23 +209,23 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree
 
 /**
  * \brief Transformation from a vector of input points to sparse matrix of basis
- * 
+ *
  * This functions takes a vector of points and create a sparse matrix of
- * basis functions. Each row contains the basis of the corresponding value 
+ * basis functions. Each row contains the basis of the corresponding value
  * in `values`.
  *
- * Instead of calculating each row through a helper function we directly 
- * calculate deboors algorithm here. This is due to the procedure how 
+ * Instead of calculating each row through a helper function we directly
+ * calculate deboors algorithm here. This is due to the procedure how
  * sparse matrices should be allocated and constructed.
- * 
+ *
  * \param param values `arma::vec` Points to create the basis matrix.
  * \param param n_knots `unsigned int` Number of innter knots.
  * \param param degree `unsigned int` polynomial degree of splines.
- *    
+ *
  * \returns `arma::sp_mat` sparse matrix of base functions.
  */
 
-arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned int& degree, 
+arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned int& degree,
   const arma::vec& knots)
 {
   // Allocate memory for index matrix and values of the sparse matrix:
@@ -302,7 +287,7 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
   }
   // Create sparse matrix:
   arma::sp_mat out(idx_sparse, insert_values, values.size(), knots.size() - (degree + 1));
-  
+
   return out;
 }
 
@@ -319,24 +304,24 @@ arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, co
   arma::uvec idx_lower = arma::find(temp < range_min);
   arma::uvec idx_upper = arma::find(temp > range_max);
 
-  if (idx_lower.size() > 0 || idx_upper.size() > 0) {
+  // if (idx_lower.size() > 0 || idx_upper.size() > 0) {
 
-    std::string msg_warning = "New data for '" + feat_name + "' contains values that are out of range";
-    
-    if (idx_lower.size() > 0) {
-      msg_warning += ". Values smaller than " + std::to_string(range_min) + " are set to " + std::to_string(range_min);
-    }
-    if (idx_upper.size() > 0) {
-      msg_warning += ". Values greater than " + std::to_string(range_max) + " are set to " + std::to_string(range_max);
-    } 
-    msg_warning += ".";
-    Rcpp::warning(msg_warning);
-  }
+  //   std::string msg_warning = "New data for '" + feat_name + "' contains values that are out of range";
 
-  temp.elem( idx_lower ).fill(range_min);
-  temp.elem( idx_upper ).fill(range_max);
+  //   if (idx_lower.size() > 0) {
+  //     msg_warning += ". Values smaller than " + std::to_string(range_min) + " are set to " + std::to_string(range_min);
+  //   }
+  //   if (idx_upper.size() > 0) {
+  //     msg_warning += ". Values greater than " + std::to_string(range_max) + " are set to " + std::to_string(range_max);
+  //   }
+  //   msg_warning += ".";
+  //   Rcpp::warning(msg_warning);
+  // }
+
+  temp.elem(idx_lower).fill(range_min);
+  temp.elem(idx_upper).fill(range_max);
 
   return temp;
 }
-  
+
 } // namespace splines

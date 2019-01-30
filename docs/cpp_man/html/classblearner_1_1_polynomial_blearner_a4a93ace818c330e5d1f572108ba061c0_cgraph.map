@@ -1,6 +1,0 @@
-<map id="blearner::BaselearnerPolynomial::clone" name="blearner::BaselearnerPolynomial::clone">
-<area shape="rect" id="node2" href="$classblearner_1_1_polynomial_blearner.html#abc12720faabbad27d60d2dbdb006802e" title="blearner::BaselearnerPolynomial\l::BaselearnerPolynomial" alt="" coords="241,37,429,79"/>
-<area shape="rect" id="node5" href="$classblearner_1_1_baselearner.html#ae8f114ca7c497f03c80de5981c7f811d" title="blearner::Baselearner\l::copyMembers" alt="" coords="263,103,408,144"/>
-<area shape="rect" id="node3" href="$classblearner_1_1_baselearner.html#a29122c6125ef6ec03ad84602b3e2d0d4" title="blearner::Baselearner\l::setData" alt="" coords="477,5,623,47"/>
-<area shape="rect" id="node4" href="$classblearner_1_1_baselearner.html#a6669906a481cbdd516dce8df6f6e5b76" title="blearner::Baselearner\l::setIdentifier" alt="" coords="477,71,623,112"/>
-</map>

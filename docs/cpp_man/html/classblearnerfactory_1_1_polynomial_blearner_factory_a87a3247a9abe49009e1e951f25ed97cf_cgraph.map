@@ -1,7 +1,0 @@
-<map id="blearnerfactory::BaselearnerPolynomialFactory::BaselearnerPolynomialFactory" name="blearnerfactory::BaselearnerPolynomialFactory::BaselearnerPolynomialFactory">
-<area shape="rect" id="node2" href="$classdata_1_1_data.html#a62bcea680e1a7d1d4ecec60c111936dc" title="data::Data::setDataIdentifier" alt="" coords="301,5,484,32"/>
-<area shape="rect" id="node3" href="$classdata_1_1_data.html#a1af63a4e5aa708de31e1ffdd727a4e16" title="data::Data::getDataIdentifier" alt="" coords="301,56,484,83"/>
-<area shape="rect" id="node4" href="$classdata_1_1_data.html#a0e928c49b31f803e7984cc24e2f73f70" title="Set the main data (design matrix) " alt="" coords="325,107,460,133"/>
-<area shape="rect" id="node5" href="$classblearnerfactory_1_1_polynomial_blearner_factory.html#aeea9c480671ae7cf7d3be470ce0feaef" title="blearnerfactory::Polynomial\lBlearnerFactory::instantiateData" alt="" coords="288,158,497,199"/>
-<area shape="rect" id="node6" href="$classdata_1_1_data.html#aa4073af1bc8ccc7c50809e1676436eb4" title="Get the design matrix. " alt="" coords="325,224,460,251"/>
-</map>

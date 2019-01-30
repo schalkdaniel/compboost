@@ -1,4 +1,0 @@
-<map id="createBasis" name="createBasis">
-<area shape="rect" id="node2" href="$splines_8cpp.html#ab5674a405e1cfc5b8e04ae2d113b9868" title="De Boors algorithm to find basis functions. " alt="" coords="144,5,227,32"/>
-<area shape="rect" id="node3" href="$splines_8cpp.html#a5e4d339339067981aad8b6f39695ad7b" title="Binary search to find index of given point within knots. " alt="" coords="275,5,347,32"/>
-</map>
