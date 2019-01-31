@@ -37,7 +37,7 @@ void Response::setActualPredictionScores (const arma::mat& new_prediction_scores
   actual_iteration = actual_iter;
 }
 
-std::string Response::getTargetName () const { return target_name; }
+std::vector<std::string> Response::getTargetName () { return target_name; }
 std::string Response::getTaskIdentifier () const { return task_id; }
 arma::mat Response::getResponse () const { return response; }
 arma::mat Response::getWeights () const { return weights; }
@@ -124,7 +124,7 @@ arma::mat Response::getPredictionResponse () const
 
 // Regression
 
-ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0)
+ResponseRegr::ResponseRegr (std::vector<std::string>& target_name0, const arma::mat& response0)
 {
   target_name = target_name0;
   response = response0;
@@ -134,7 +134,7 @@ ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& re
   pseudo_residuals = temp_mat;  // set parent
 }
 
-ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+ResponseRegr::ResponseRegr (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0)
 {
   helper::checkMatrixDim(response0, weights0);
   target_name = target_name0;
@@ -173,6 +173,7 @@ void ResponseRegr::initializePrediction ()
   }
 }
 
+
 arma::mat ResponseRegr::getPredictionTransform (const arma::mat& pred_scores) const
 {
   // No transformation is done in regression
@@ -194,9 +195,10 @@ void ResponseRegr::filter (const arma::uvec& idx)
   prediction_scores = prediction_scores.elem(idx);
 }
 
+
 // Binary Classification
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0)
+ResponseBinaryClassif::ResponseBinaryClassif (std::vector<std::string>& target_name0, const arma::mat& response0)
 {
   helper::checkForBinaryClassif(response0, -1, 1);
   target_name = target_name0;
@@ -207,7 +209,7 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, c
   pseudo_residuals = temp_mat;  // set parent
 }
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+ResponseBinaryClassif::ResponseBinaryClassif (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0)
 {
   helper::checkForBinaryClassif(response0, -1, 1);
   helper::checkMatrixDim(response0, weights0);
@@ -277,7 +279,7 @@ void ResponseBinaryClassif::setThreshold (const double& new_thresh)
 
 // Functional Data Response
 
-ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& grid0)
+ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& grid0)
 {
   target_name = target_name0;
   response = response0;
@@ -292,7 +294,7 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
   trapez_weights = tensors::trapezWeights(grid0);
 }
 
-ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
+ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
 {
   helper::checkMatrixDim(response0, weights0);
   target_name = target_name0;

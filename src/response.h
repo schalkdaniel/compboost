@@ -36,7 +36,7 @@ namespace response
 class Response
 {
 protected:
-  std::string target_name;
+  std::vector<std::string> target_name;
   std::string task_id;
   arma::mat response;
   arma::mat weights;
@@ -55,7 +55,7 @@ public:
   void setActualIteration (const unsigned int&);
   void setActualPredictionScores (const arma::mat&, const unsigned int&);
 
-  std::string getTargetName () const;
+  std::vector<std::string> getTargetName ();
   std::string getTaskIdentifier () const;
   arma::mat getResponse () const;
   arma::mat getWeights () const;
@@ -95,8 +95,8 @@ class ResponseRegr : public Response
 {
 
 public:
-  ResponseRegr (const std::string&, const arma::mat&);
-  ResponseRegr (const std::string&, const arma::mat&, const arma::mat&);
+  ResponseRegr (std::vector<std::string>&, const arma::mat&);
+  ResponseRegr (std::vector<std::string>&, const arma::mat&, const arma::mat&);
 
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   void initializePrediction ();
@@ -110,8 +110,8 @@ class ResponseBinaryClassif : public Response
 public:
   double threshold = 0.5;
 
-  ResponseBinaryClassif (const std::string&, const arma::mat&);
-  ResponseBinaryClassif (const std::string&, const arma::mat&, const arma::mat&);
+  ResponseBinaryClassif (std::vector<std::string>&, const arma::mat&);
+  ResponseBinaryClassif (std::vector<std::string>&, const arma::mat&, const arma::mat&);
 
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   void initializePrediction ();
@@ -131,8 +131,8 @@ public:
   arma::mat grid;
   arma::mat trapez_weights;
   
-  ResponseFDA (const std::string&, const arma::mat&, const arma::mat&);
-  ResponseFDA (const std::string&, const arma::mat&, const arma::mat&, const arma::mat&);
+  ResponseFDA (std::vector<std::string>&, const arma::mat&, const arma::mat&);
+  ResponseFDA (std::vector<std::string>&, const arma::mat&, const arma::mat&, const arma::mat&);
   
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   void initializePrediction ();
