@@ -26,3 +26,6 @@ navbar:
     href: "reference/index.html"
     contents:
     - '`compboost`'
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/schalkdaniel/compboost
