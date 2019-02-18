@@ -13,7 +13,7 @@ Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branc
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost)
 [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
-[Documentation](https://compboost.org) | [Contributors](CONTRIBUTORS.md)
+[Documentation](https://danielschalk.com/compboost/) | [Contributors](CONTRIBUTORS.md)
 | [Release Notes](NEWS.md)
 
 ## Overview
