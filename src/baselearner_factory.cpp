@@ -163,7 +163,7 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
 // -----------------------
 
 /**
- * \brief Default constructor of class `PSplineBleanrerFactory`
+ * \brief Default constructor of class `PSplineBlearnerFactory`
  *
  * The PSpline constructor has some important tasks which are:
  *   - Set the knots

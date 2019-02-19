@@ -1314,7 +1314,7 @@ public:
 
   std::shared_ptr<response::Response> getResponseObj () { return sh_ptr_response; }
 
-  std::string getTargetName () const { return sh_ptr_response->getTargetName(); }
+  std::vector<std::string> getTargetName () { return sh_ptr_response->getTargetName(); }
   arma::mat getResponse () const { return sh_ptr_response->getResponse(); }
   arma::mat getWeights () const { return sh_ptr_response->getWeights(); }
   arma::mat getPrediction () const { return sh_ptr_response->getPredictionScores(); }
@@ -1345,11 +1345,11 @@ protected:
 class ResponseRegrWrapper : public ResponseWrapper
 {
 public:
-  ResponseRegrWrapper (std::string target_name, arma::mat response)
+  ResponseRegrWrapper (std::vector<std::string> target_name, arma::mat response)
   {
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response);
   }
-  ResponseRegrWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  ResponseRegrWrapper (std::vector<std::string> target_name, arma::mat response, arma::mat weights)
   {
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
   }
@@ -1374,11 +1374,11 @@ class ResponseBinaryClassifWrapper : public ResponseWrapper
 {
 public:
 
-  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response)
+  ResponseBinaryClassifWrapper (std::vector<std::string> target_name, arma::mat response)
   {
     sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
   }
-  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  ResponseBinaryClassifWrapper (std::vector<std::string> target_name, arma::mat response, arma::mat weights)
   {
     sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
   }
@@ -1393,7 +1393,8 @@ public:
   }
 };
 
-//' Create response object for FDA.
+
+//' Create response object for functional response data.
 //'
 //' \code{ResponseFDA} creates a response object that are used as target during the
 //' fitting process.
@@ -1403,6 +1404,7 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
+
 //' ResponseFDA$new(target_name, response)
 //' ResponseFDA$new(target_name, response, weights)
 //' }
@@ -1411,14 +1413,21 @@ public:
 class ResponseFDAWrapper : public ResponseWrapper
 {
 public:
-  ResponseFDAWrapper (std::string target_name, arma::mat response, arma::mat grid)
+  
+  ResponseFDAWrapper (std::vector<std::string> target_name, arma::mat response, arma::mat grid)
   {
     sh_ptr_response = std::make_shared<response::ResponseFDA>(target_name, response, grid);
   }
-  ResponseFDAWrapper (std::string target_name, arma::mat response, arma::mat grid, arma::mat weights)
+  ResponseFDAWrapper (std::vector<std::string> target_name, arma::mat response, arma::mat weights, arma::mat grid)
   {
-    sh_ptr_response = std::make_shared<response::ResponseFDA>(target_name, response, grid, weights);
+    sh_ptr_response = std::make_shared<response::ResponseFDA>(target_name, response, weights, grid);
   }
+
+  arma::mat getGrid () const
+  {
+    return std::static_pointer_cast<response::ResponseFDA>(sh_ptr_response)->grid;
+  }
+  
 };
 
 RCPP_EXPOSED_CLASS(ResponseWrapper)
@@ -1442,16 +1451,16 @@ RCPP_MODULE (response_module)
   class_<ResponseRegrWrapper> ("ResponseRegr")
     .derives<ResponseWrapper> ("Response")
 
-    .constructor<std::string, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat> ()
+    .constructor<std::vector<std::string>, arma::mat> ()
+    .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
 
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
     .derives<ResponseWrapper> ("Response")
 
-    .constructor<std::string, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat> ()
+    .constructor<std::vector<std::string>, arma::mat> ()
+    .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
@@ -1460,10 +1469,11 @@ RCPP_MODULE (response_module)
   class_<ResponseFDAWrapper> ("ResponseFDA")
     .derives<ResponseWrapper> ("Response")
   
-    .constructor<std::string, arma::mat, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat, arma::mat> ()
- 
-  ;
+     .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
+     .constructor<std::vector<std::string>, arma::mat, arma::mat, arma::mat> ()
+  
+      .method("getGrid",           &ResponseFDAWrapper::getGrid, "Get the functional grid.")
+ ;
 }
 
 

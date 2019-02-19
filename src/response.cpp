@@ -37,7 +37,7 @@ void Response::setActualPredictionScores (const arma::mat& new_prediction_scores
   actual_iteration = actual_iter;
 }
 
-std::string Response::getTargetName () const { return target_name; }
+std::vector<std::string> Response::getTargetName () { return target_name; }
 std::string Response::getTaskIdentifier () const { return task_id; }
 arma::mat Response::getResponse () const { return response; }
 arma::mat Response::getWeights () const { return weights; }
@@ -124,7 +124,7 @@ arma::mat Response::getPredictionResponse () const
 
 // Regression
 
-ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0)
+ResponseRegr::ResponseRegr (std::vector<std::string>& target_name0, const arma::mat& response0)
 {
   target_name = target_name0;
   response = response0;
@@ -134,7 +134,7 @@ ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& re
   pseudo_residuals = temp_mat;  // set parent
 }
 
-ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+ResponseRegr::ResponseRegr (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0)
 {
   helper::checkMatrixDim(response0, weights0);
   target_name = target_name0;
@@ -173,6 +173,7 @@ void ResponseRegr::initializePrediction ()
   }
 }
 
+
 arma::mat ResponseRegr::getPredictionTransform (const arma::mat& pred_scores) const
 {
   // No transformation is done in regression
@@ -194,9 +195,10 @@ void ResponseRegr::filter (const arma::uvec& idx)
   prediction_scores = prediction_scores.elem(idx);
 }
 
+
 // Binary Classification
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0)
+ResponseBinaryClassif::ResponseBinaryClassif (std::vector<std::string>& target_name0, const arma::mat& response0)
 {
   helper::checkForBinaryClassif(response0, -1, 1);
   target_name = target_name0;
@@ -207,7 +209,7 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, c
   pseudo_residuals = temp_mat;  // set parent
 }
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+ResponseBinaryClassif::ResponseBinaryClassif (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0)
 {
   helper::checkForBinaryClassif(response0, -1, 1);
   helper::checkMatrixDim(response0, weights0);
@@ -278,7 +280,7 @@ void ResponseBinaryClassif::setThreshold (const double& new_thresh)
 
 // Functional Data Response
 
-ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& grid0)
+ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& grid0)
 {
   target_name = target_name0;
   response = response0;
@@ -291,9 +293,21 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
   arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
   weights = temp_mat_1; 
   trapez_weights = tensors::trapezWeights(grid0);
+  // vectorize
+  // FIXME inefficient because feature are copied length(grid0)-times
+  response = response.t();
+  response.reshape(response.n_cols*response.n_rows,1);
+  prediction_scores = response.t();
+  prediction_scores.reshape(prediction_scores.n_cols*prediction_scores.n_rows,1);
+  pseudo_residuals = pseudo_residuals.t();
+  pseudo_residuals.reshape(pseudo_residuals.n_cols*pseudo_residuals.n_rows,1);
+  weights = weights.t();
+  weights.reshape(weights.n_cols*weights.n_rows,1);
+  trapez_weights = trapez_weights.t();
+  trapez_weights.reshape(trapez_weights.n_cols*trapez_weights.n_rows,1);
 }
 
-ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
+ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
 {
   helper::checkMatrixDim(response0, weights0);
   target_name = target_name0;
@@ -306,6 +320,17 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
   // FDA specifics
   grid = grid0;
   trapez_weights = tensors::trapezWeights(grid0);
+  // FIXME inefficient because feature are copied length(grid0)-times
+  response = response.t();
+  response.reshape(response.n_cols*response.n_rows,1);
+  prediction_scores = response.t();
+  prediction_scores.reshape(prediction_scores.n_cols*prediction_scores.n_rows,1);
+  pseudo_residuals = pseudo_residuals.t();
+  pseudo_residuals.reshape(pseudo_residuals.n_cols*pseudo_residuals.n_rows,1);
+  weights = weights.t();
+  weights.reshape(weights.n_cols*weights.n_rows,1);
+  trapez_weights = trapez_weights.t();
+  trapez_weights.reshape(trapez_weights.n_cols*trapez_weights.n_rows,1);
 }
 
 arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const
@@ -367,5 +392,8 @@ void ResponseFDA::filter (const arma::uvec& idx)
   pseudo_residuals = pseudo_residuals.elem(idx);
   prediction_scores = prediction_scores.elem(idx);
 }
+
+arma::mat ResponseFDA::getGrid () const { return grid; }
+
 
 } // namespace response
