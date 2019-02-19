@@ -348,26 +348,32 @@ Compboost = R6::R6Class("Compboost",
 
       self$id = deparse(substitute(data))
       data = droplevels(as.data.frame(data))
-
-      if (! is.null(oob_fraction)) {
-        private$oob_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
-      }
-      private$train_idx = setdiff(seq_len(nrow(data)), private$oob_idx)
-
+      
       if (is.character(target)) {
         checkmate::assertCharacter(target)
         if (! target %in% names(data))
           stop ("The target ", target, " is not present within the data")
-
+        
         # With .vectorToRespone we are very restricted to the task types. We can just guess for regression or classification. For every
         # other task one should use the Response interface!
         self$response = vectorToResponse(data[[target]], target)
       } else {
         assertRcppClass(target, "Response")
+        
+        if(class(target)[1] == "Rcpp_ResponseFDA"){
+          data = data[rep(seq_len(nrow(data)), each = length(target$getGrid())),]
+        }
         if (nrow(target$getResponse()) != nrow(data))
           stop("Response must have same number of observations as the given dataset")
         self$response = target
       }
+      
+      
+      if (! is.null(oob_fraction)) {
+        private$oob_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+      }
+      private$train_idx = setdiff(seq_len(nrow(data)), private$oob_idx)
+      
 
       self$oob_fraction = oob_fraction
       self$target = self$response$getTargetName()

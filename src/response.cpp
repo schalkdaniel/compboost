@@ -292,6 +292,18 @@ ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::ma
   arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
   weights = temp_mat_1; 
   trapez_weights = tensors::trapezWeights(grid0);
+  // vectorize
+  // FIXME inefficient because feature are copied length(grid0)-times
+  response = response.t();
+  response.reshape(response.n_cols*response.n_rows,1);
+  prediction_scores = response.t();
+  prediction_scores.reshape(prediction_scores.n_cols*prediction_scores.n_rows,1);
+  pseudo_residuals = pseudo_residuals.t();
+  pseudo_residuals.reshape(pseudo_residuals.n_cols*pseudo_residuals.n_rows,1);
+  weights = weights.t();
+  weights.reshape(weights.n_cols*weights.n_rows,1);
+  trapez_weights = trapez_weights.t();
+  trapez_weights.reshape(trapez_weights.n_cols*trapez_weights.n_rows,1);
 }
 
 ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
@@ -307,6 +319,17 @@ ResponseFDA::ResponseFDA (std::vector<std::string>& target_name0, const arma::ma
   // FDA specifics
   grid = grid0;
   trapez_weights = tensors::trapezWeights(grid0);
+  // FIXME inefficient because feature are copied length(grid0)-times
+  response = response.t();
+  response.reshape(response.n_cols*response.n_rows,1);
+  prediction_scores = response.t();
+  prediction_scores.reshape(prediction_scores.n_cols*prediction_scores.n_rows,1);
+  pseudo_residuals = pseudo_residuals.t();
+  pseudo_residuals.reshape(pseudo_residuals.n_cols*pseudo_residuals.n_rows,1);
+  weights = weights.t();
+  weights.reshape(weights.n_cols*weights.n_rows,1);
+  trapez_weights = trapez_weights.t();
+  trapez_weights.reshape(trapez_weights.n_cols*trapez_weights.n_rows,1);
 }
 
 arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const
@@ -363,5 +386,8 @@ void ResponseFDA::filter (const arma::uvec& idx)
   pseudo_residuals = pseudo_residuals.elem(idx);
   prediction_scores = prediction_scores.elem(idx);
 }
+
+arma::mat ResponseFDA::getGrid () const { return grid; }
+
 
 } // namespace response

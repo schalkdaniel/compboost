@@ -1420,6 +1420,11 @@ public:
   {
     sh_ptr_response = std::make_shared<response::ResponseFDA>(target_name, response, weights, grid);
   }
+
+  arma::mat getGrid () const
+  {
+    return std::static_pointer_cast<response::ResponseFDA>(sh_ptr_response)->grid;
+  }
   
 };
 
@@ -1465,6 +1470,8 @@ RCPP_MODULE (response_module)
   
   .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
   .constructor<std::vector<std::string>, arma::mat, arma::mat, arma::mat> ()
+  
+  .method("getGrid",           &ResponseFDAWrapper::getGrid, "Get the functional grid.")
  ;
 }
 
