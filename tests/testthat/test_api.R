@@ -163,7 +163,7 @@ test_that("multiple logger works", {
   # Test retraining for time:
   n_retrain = 400L
   expect_output(cboost$train(n_retrain))
-  expect_equal(order(cboost$getLoggerData$time), seq_len(n_retrain))
+  expect_equal(order(cboost$getLoggerData()$time), seq_len(n_retrain))
 })
 
 test_that("custom base-learner works through api", {
