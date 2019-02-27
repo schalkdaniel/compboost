@@ -13,8 +13,8 @@
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of 
-// the MIT License along with compboost. 
+// MIT License for more details. You should have received a copy of
+// the MIT License along with compboost.
 //
 // =========================================================================== #
 
@@ -22,7 +22,7 @@
 
 #include "loggerlist.h"
 
-namespace loggerlist 
+namespace loggerlist
 {
 
 LoggerList::LoggerList () {}
@@ -56,19 +56,19 @@ void LoggerList::clearMap ()
 bool LoggerList::getStopperStatus (const bool& use_global_stop) const
 {
   // Define variables to get the status of the algorithm:
-  
+
   // Should the algorithm be returned?
   bool return_algorithm = true;
   // Get status for every registered logger:
   std::vector<bool> status;
-  
+
   // Iterate over logger and get stopper status:
   for (auto& it : log_list) {
     status.push_back(it.second->reachedStopCriteria());
   }
   // Sum over status vector to decide if the stop criteria is fullfilled:
   unsigned int status_sum = std::accumulate(status.begin(), status.end(), 0);
-  
+
   // Check if global stop (all stopper has to be true) or local stop (it is
   // sufficient to have just one stopper saying true):
   if (use_global_stop) {
@@ -87,7 +87,7 @@ std::pair<std::vector<std::string>, arma::mat> LoggerList::getLoggerData () cons
 {
   arma::mat out_matrix;
   std::vector<std::string> logger_names;
-  
+
   for (auto& it : log_list) {
     out_matrix = arma::join_rows(out_matrix, it.second->getLoggedData());
     logger_names.push_back(it.first);
@@ -95,22 +95,22 @@ std::pair<std::vector<std::string>, arma::mat> LoggerList::getLoggerData () cons
   return std::pair<std::vector<std::string>, arma::mat>(logger_names, out_matrix);
 }
 
-void LoggerList::logCurrent (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response, 
+void LoggerList::logCurrent (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
   std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
 {
-  // Think about how to implement this the best way. I think the computations 
+  // Think about how to implement this the best way. I think the computations
   // e.g. for the risk should be done within the logger object. If so, the
   // computation is just done if one would really use the logger!
-  
+
   // Maybe the current risk should be replaced by the map of base-learner and
   // the initial response. Then for the risk it is necessary to call:
-  
+
   // used_loss.DefinedLoss(initial_response, selected_baselearner.predict())
-  
+
   // This can be easily extended to an oob risk by just using the evaluation
   // data specified by initializing the logger list.
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
-    it->second->logStep(current_iteration, sh_ptr_response, sh_ptr_blearner, 
+    it->second->logStep(current_iteration, sh_ptr_response, sh_ptr_blearner,
       learning_rate, step_size);
   }
 }
@@ -140,6 +140,9 @@ void LoggerList::prepareForRetraining (const unsigned int& new_max_iters)
       std::static_pointer_cast<logger::LoggerIteration>(it.second)->updateMaxIterations(new_max_iters);
       it.second->is_a_stopper = true;
       iters_in_list = true;
+    }
+    if (it.second->getLoggerType() == "time") {
+      std::static_pointer_cast<logger::LoggerTime>(it.second)->reInitializeTime();
     }
   }
   if (! iters_in_list) {

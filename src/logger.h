@@ -315,6 +315,9 @@ private:
   /// The unit for time measuring, allowed are `minutes`, `seconds` and `microseconds`
   std::string time_unit;
 
+  /// Drift that is added to runtime to be able to proper stop time for retraining
+  unsigned int retrain_drift = 0;
+
 
 public:
 
@@ -336,6 +339,8 @@ public:
 
   /// Print status of current iteration into the console
   std::string printLoggerStatus () const;
+
+  void reInitializeTime();
 
 };
 

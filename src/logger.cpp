@@ -161,7 +161,7 @@ std::string LoggerIteration::printLoggerStatus () const
 void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
 {
   max_iterations = new_max_iter;
-} 
+}
 
 
 
@@ -581,15 +581,17 @@ void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr
   if (current_time.size() == 0) {
     init_time = std::chrono::steady_clock::now();
   }
+  unsigned int interim_time;
   if (time_unit == "minutes") {
-    current_time.push_back(std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - init_time).count());
+    interim_time = std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - init_time).count();
   }
   if (time_unit == "seconds") {
-    current_time.push_back(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count());
+    interim_time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count();
   }
   if (time_unit == "microseconds") {
-    current_time.push_back(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - init_time).count());
+    interim_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - init_time).count();
   }
+  current_time.push_back(interim_time + retrain_drift);
 }
 
 /**
@@ -667,6 +669,12 @@ std::string LoggerTime::printLoggerStatus () const
   ss << logger_id << " = " << std::setprecision(2) << current_time.back();
 
   return ss.str();
+}
+
+void LoggerTime::reInitializeTime ()
+{
+  init_time = std::chrono::steady_clock::now();
+  retrain_drift += current_time.back();
 }
 
 } // namespace logger
