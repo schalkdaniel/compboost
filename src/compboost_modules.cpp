@@ -2097,7 +2097,14 @@ protected:
 class OptimizerCoordinateDescent : public OptimizerWrapper
 {
 public:
-  OptimizerCoordinateDescent () { sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>(); }
+
+  OptimizerCoordinateDescent () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>();
+  }
+
+  OptimizerCoordinateDescent (unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>(num_threads);
+  }
 };
 
 //' Coordinate Descent with line search
@@ -2147,6 +2154,7 @@ RCPP_MODULE(optimizer_module)
   class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
+    .constructor <unsigned int> ()
   ;
 
   class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")
