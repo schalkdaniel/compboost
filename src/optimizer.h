@@ -90,14 +90,11 @@ class OptimizerCoordinateDescent : public Optimizer
 
 // Coordinate Descent with line search:
 // -------------------------------------------
-class OptimizerCoordinateDescentLineSearch : public Optimizer
+class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
 {
   public:
     // No special initialization necessary:
     OptimizerCoordinateDescentLineSearch ();
-
-    std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
-      std::shared_ptr<response::Response>, const blearner_factory_map&) const;
 
     void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
