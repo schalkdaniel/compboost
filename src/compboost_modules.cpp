@@ -1772,7 +1772,7 @@ private:
 
 public:
   LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
-    Rcpp::List oob_data, ResponseWrapper& oob_response)
+    unsigned int patience, Rcpp::List oob_data, ResponseWrapper& oob_response)
   {
     std::map<std::string, std::shared_ptr<data::Data>> oob_data_map;
 
@@ -1797,7 +1797,7 @@ public:
 
     logger_id = logger_id0;
     sh_ptr_logger = std::make_shared<logger::LoggerOobRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
-      oob_data_map, oob_response.getResponseObj());
+      patience, oob_data_map, oob_response.getResponseObj());
   }
 
   void summarizeLogger ()
@@ -2031,7 +2031,7 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, ResponseWrapper&> ()
+    .constructor<std::string, bool, LossWrapper&, double, unsigned int, Rcpp::List, ResponseWrapper&> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 

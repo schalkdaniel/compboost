@@ -40,7 +40,7 @@ test_that("Compboost loggs correctly", {
   expect_silent({ log_time_sec   = LoggerTime$new("time_seconds", TRUE, 10, "seconds") })
   expect_silent({ log_time_min   = LoggerTime$new("time_minutes", TRUE, 10, "minutes") })
   expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.01) })
-  expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.01, eval_oob_test, response_oob) })
+  expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.01, 5, eval_oob_test, response_oob) })
   expect_silent({ logger_list = LoggerList$new() })
   expect_silent({ logger_list$registerLogger(log_iterations) })
   expect_silent({ logger_list$registerLogger(log_time_ms) })

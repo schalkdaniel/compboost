@@ -633,7 +633,7 @@ Compboost = R6::R6Class("Compboost",
 
       if (! is.null(self$oob_fraction)) {
         self$addLogger(logger = LoggerOobRisk, logger_id = "oob_risk",
-          used.loss = self$loss, eps.for.break = 0, oob_data = self$prepareData(self$data_oob),
+          used.loss = self$loss, eps.for.break = 0, patience = 0, oob_data = self$prepareData(self$data_oob),
           oob.response = self$response_oob)
       }
     },

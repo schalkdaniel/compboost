@@ -147,7 +147,7 @@ test_that("multiple logger works", {
   )
   expect_silent(
     cboost$addLogger(logger = LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob",
-      LossQuadratic$new(), 0.01, cboost$prepareData(mtcars), ResponseRegr$new("oob_response", as.matrix(mtcars[["mpg"]])))
+      LossQuadratic$new(), 0.01, 5, cboost$prepareData(mtcars), ResponseRegr$new("oob_response", as.matrix(mtcars[["mpg"]])))
   )
   expect_silent(
     cboost$addLogger(logger = LoggerInbagRisk, use_as_stopper = TRUE, logger_id = "inbag",
