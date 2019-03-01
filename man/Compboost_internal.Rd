@@ -102,7 +102,7 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 
 # Some data:
 df = mtcars
-df$mpg_cat = ifelse(df$mpg > 20, 1, -1)
+df$mpg_cat = ifelse(df$mpg > 20, "high", "low")
 
 # # Create new variable to check the polynomial base-learner with degree 2:
 # df$hp2 = df[["hp"]]^2
@@ -112,8 +112,7 @@ X_hp = as.matrix(df[["hp"]])
 X_wt = as.matrix(df[["wt"]])
 
 # Target variable:
-y = df[["mpg_cat"]]
-response = ResponseBinaryClassif$new("mpg_cat", as.matrix(y))
+response = ResponseBinaryClassif$new("mpg_cat", "high", df[["mpg_cat"]])
 
 data_source_hp = InMemoryData$new(X_hp, "hp")
 data_source_wt = InMemoryData$new(X_wt, "wt")

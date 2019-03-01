@@ -43,8 +43,9 @@ vignette: >
       <dt><b>use_as_stopper</b></dt> <dd>Boolean to indicate whether this logger should used as stopping criteria</dd>
       <dt><b>used_loss</b></dt><code>Loss</code> object that defined the empirical risk
       <dt><b>eps_for_break</b></dt> <dd>Numeric value indicating the relative improvement which is used to stop the algorithm</dd>
+      <dt><b>patience</b></dt> <dd>Integer defining how many consecutive iterations must fulfill the stopping criteria to finally stop the algorithm</dd>
       <dt><b>oob_data</b></dt> <dd>List of <code>Data</code> objects with the out of bag data. Note that a <code>data.frame</code> can be easily transformed by using <code>$prepareData()</code></dd>
-      <dt><b>oob_response</b></dt> <dd>Response object with the out of bag response</dd>
+      <dt><b>oob_response</b></dt> <dd>Response object with the out of bag response. Note that a <code>Response</code> class can be easily created by <code>$prepareResponse()</code></dd>
     </td>
   </tr>
   <tr>

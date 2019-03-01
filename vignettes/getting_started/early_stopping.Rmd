@@ -105,28 +105,70 @@ With that data we can add the oob risk logger, declare it as stopper, and train 
 
 ```{r}
 cboost$addLogger(logger = LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob",
-  used_loss = LossBinomial$new(), eps_for_break = 0, oob_data = oob_data, oob_response = oob_response)
+  used_loss = LossBinomial$new(), eps_for_break = 0, patience = 5, oob_data = oob_data, 
+  oob_response = oob_response)
 
 cboost$train(2000, trace = 100)
 ```
 
 **Note:** The use of `eps_for_break = 0` is a hard constrained that says that the training should continue until the oob risk starts to get bigger.
 
-Taking a look at the logger data tells us that we stopped after the first difference is bigger than zero (the oob risk of the current iteration is bigger than the previous one):
+Taking a look at the logger data tells us that we stopped after the first 5 differences are bigger than zero (the oob risk of that iterations is bigger than the previous ones):
 ```{r}
-tail(cboost$getLoggerData())
-diff(tail(cboost$getLoggerData()$oob))
+tail(cboost$getLoggerData(), n = 10)
+diff(tail(cboost$getLoggerData()$oob, n = 10))
 ```
 
 ```{r}
 library(ggplot2)
+
 ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) +
   geom_line() +
   xlab("Iteration") +
   ylab("Empirical Risk")
 ```
 
-**Note:** It could happen that the model's oob behavior increases locally for a view iterations and then starts to decrease again. To capture this we would need a "patience" parameter which waits for, lets say, 10 iterations and breaks just if all 10 iterations fulfill the criteria.
+Taking a look at 2000 iterations shows that we have stopped quiet good:
+```{r}
+cboost$train(2000, trace = 0)
+
+ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) +
+  geom_line() +
+  xlab("Iteration") +
+  ylab("Empirical Risk")
+```
+
+**Note:** It could happen that the model's oob behavior increases locally for a view iterations and then starts to decrease again. To capture this we would need the "patience" parameter which waits for, lets say, 5 iterations and breaks just if all 5 iterations fulfill the criteria. Setting this parameter to 1 can lead to very unstable results:
+```{r}
+df = na.omit(titanic::titanic_train)
+df$Survived = factor(df$Survived, labels = c("no", "yes"))
+
+set.seed(123)
+idx_train = sample(seq_len(nrow(df)), size = nrow(df) * 0.8)
+idx_test = setdiff(seq_len(nrow(df)), idx_train)
+
+cboost = Compboost$new(data = df[idx_train, ], target = "Survived", loss = LossBinomial$new())
+
+cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
+cboost$addBaselearner("Fare", "spline", BaselearnerPSpline)
+cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = FALSE)
+
+oob_response = cboost$prepareResponse(df$Survived[idx_test])
+oob_data = cboost$prepareData(df[idx_test,])
+
+cboost$addLogger(logger = LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob",
+  used_loss = LossBinomial$new(), eps_for_break = 0, patience = 1, oob_data = oob_data, 
+  oob_response = oob_response)
+
+cboost$train(2000, trace = 0)
+
+
+library(ggplot2)
+ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) +
+  geom_line() +
+  xlab("Iteration") +
+  ylab("Empirical Risk")
+```
 
 ### Further comments on risk logging
 

@@ -1,7 +1,7 @@
 context("Compboost parallel")
 
 test_that("If parallel speed up the algorithm", {
-  if (parallel::detectCores() > 1) {
+  if (parallel::detectCores() > 2) {
 
     feats = 20
     n = 10000

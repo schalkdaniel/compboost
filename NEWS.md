@@ -1,3 +1,6 @@
+- **01.03.2019** \
+  It is now possible to use parallel optimizer to speed up training.
+
 ## compboost 0.1.1
 
 - **23.01.2019** \
