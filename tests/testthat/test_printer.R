@@ -146,7 +146,7 @@ test_that("Logger(List) printer works", {
   expect_silent({ log_iterations = LoggerIteration$new("iterations", TRUE, 500) })
   expect_silent({ log_time       = LoggerTime$new("time", FALSE, 500, "microseconds") })
   expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.05) })
-  expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.05, eval_oob_test, response_oob) })
+  expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.05, 5, eval_oob_test, response_oob) })
   expect_silent({ logger_list = LoggerList$new() })
   expect_output({ logger_list_printer = show(logger_list) })
 
@@ -216,7 +216,7 @@ test_that("Compboost printer works", {
   expect_silent({ log_time_sec   = LoggerTime$new("time_sec", TRUE, 2, "seconds") })
   expect_silent({ log_time_min   = LoggerTime$new("time_min", TRUE, 1, "minutes") })
   expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.01) })
-  expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.01, eval_oob_test, response_oob) })
+  expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.01, 5, eval_oob_test, response_oob) })
 
   expect_silent({ logger_list = LoggerList$new() })
   expect_silent({ logger_list$registerLogger(log_iterations) })

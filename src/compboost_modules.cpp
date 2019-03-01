@@ -1781,7 +1781,7 @@ private:
 
 public:
   LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
-    Rcpp::List oob_data, ResponseWrapper& oob_response)
+    unsigned int patience, Rcpp::List oob_data, ResponseWrapper& oob_response)
   {
     std::map<std::string, std::shared_ptr<data::Data>> oob_data_map;
 
@@ -1806,7 +1806,7 @@ public:
 
     logger_id = logger_id0;
     sh_ptr_logger = std::make_shared<logger::LoggerOobRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break,
-      oob_data_map, oob_response.getResponseObj());
+      patience, oob_data_map, oob_response.getResponseObj());
   }
 
   void summarizeLogger ()
@@ -2040,7 +2040,7 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<std::string, bool, LossWrapper&, double, Rcpp::List, ResponseWrapper&> ()
+    .constructor<std::string, bool, LossWrapper&, double, unsigned int, Rcpp::List, ResponseWrapper&> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
@@ -2106,7 +2106,14 @@ protected:
 class OptimizerCoordinateDescent : public OptimizerWrapper
 {
 public:
-  OptimizerCoordinateDescent () { sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>(); }
+
+  OptimizerCoordinateDescent () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>();
+  }
+
+  OptimizerCoordinateDescent (unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>(num_threads);
+  }
 };
 
 //' Coordinate Descent with line search
@@ -2139,7 +2146,12 @@ public:
 class OptimizerCoordinateDescentLineSearch : public OptimizerWrapper
 {
 public:
-  OptimizerCoordinateDescentLineSearch () { sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(); }
+  OptimizerCoordinateDescentLineSearch () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>();
+  }
+  OptimizerCoordinateDescentLineSearch (unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(num_threads);
+  }
   std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
 
@@ -2156,11 +2168,13 @@ RCPP_MODULE(optimizer_module)
   class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
+    .constructor <unsigned int> ()
   ;
 
   class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
+    .constructor <unsigned int> ()
     .method("getStepSize", &OptimizerCoordinateDescentLineSearch::getStepSize, "Get vector of step sizes")
   ;
 }

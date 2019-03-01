@@ -93,7 +93,7 @@ void LoggerIteration::logStep (const unsigned int& current_iteration, std::share
  *   (if the logger isn't a stopper then this is always false)
  */
 
-bool LoggerIteration::reachedStopCriteria () const
+bool LoggerIteration::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
@@ -253,7 +253,7 @@ void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::share
  *   (if the logger isn't a stopper then this is always false)
  */
 
-bool LoggerInbagRisk::reachedStopCriteria () const
+bool LoggerInbagRisk::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
@@ -339,9 +339,11 @@ std::string LoggerInbagRisk::printLoggerStatus () const
  */
 
 LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  const double& eps_for_break, std::map<std::string, std::shared_ptr<data::Data>> oob_data, std::shared_ptr<response::Response> oob_response)
+  const double& eps_for_break, const unsigned int& patience, std::map<std::string, std::shared_ptr<data::Data>> oob_data, 
+  std::shared_ptr<response::Response> oob_response)
   : sh_ptr_loss ( sh_ptr_loss ),
     eps_for_break ( eps_for_break ),
+    patience ( patience ),
     oob_data ( oob_data ),
     sh_ptr_oob_response ( oob_response )
 {
@@ -450,7 +452,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
  *   (if the logger isn't a stopper then this is always false)
  */
 
-bool LoggerOobRisk::reachedStopCriteria () const
+bool LoggerOobRisk::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
@@ -463,8 +465,11 @@ bool LoggerOobRisk::reachedStopCriteria () const
       oob_eps = oob_eps / tracked_oob_risk[tracked_oob_risk.size() - 2];
 
       if (oob_eps <= eps_for_break) {
-        stop_criteria_is_reached = true;
+        count_patience += 1;
+      } else {
+        count_patience = 0;
       }
+      if (count_patience == patience) stop_criteria_is_reached = true;
     }
   }
   return stop_criteria_is_reached;
@@ -607,7 +612,7 @@ void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr
  *   (if the logger isn't a stopper then this is always false)
  */
 
-bool LoggerTime::reachedStopCriteria () const
+bool LoggerTime::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 

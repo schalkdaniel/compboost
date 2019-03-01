@@ -34,6 +34,10 @@
 #include "line_search.h"
 #include "helper.h"
 
+#ifdef _OPENMP
+#include <omp.h>
+#endif
+
 namespace optimizer {
 
 // -------------------------------------------------------------------------- //
@@ -70,8 +74,11 @@ class Optimizer
 class OptimizerCoordinateDescent : public Optimizer
 {
   public:
-    // No special initialization necessary:
+
+    unsigned int num_threads = 1;
+
     OptimizerCoordinateDescent ();
+    OptimizerCoordinateDescent (const unsigned int&);
 
     std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
       const blearner_factory_map&) const;
@@ -83,14 +90,12 @@ class OptimizerCoordinateDescent : public Optimizer
 
 // Coordinate Descent with line search:
 // -------------------------------------------
-class OptimizerCoordinateDescentLineSearch : public Optimizer
+class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
 {
   public:
     // No special initialization necessary:
     OptimizerCoordinateDescentLineSearch ();
-
-    std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
-      std::shared_ptr<response::Response>, const blearner_factory_map&) const;
+    OptimizerCoordinateDescentLineSearch (const unsigned int&);
 
     void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;

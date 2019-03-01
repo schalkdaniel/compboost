@@ -33,7 +33,7 @@ test_that("Internal oob is the same as the logger", {
   oob_response = ResponseRegr$new("oob_response", as.matrix(df[[target_var]][idx_test]))
 
   cboost$addLogger(logger = LoggerOobRisk, logger_id = "oob_risk",
-    used_loss = LossQuadratic$new(), eps_for_break = 0,
+    used_loss = LossQuadratic$new(), eps_for_break = 0, patience = 5,
     oob_data = oob_data, oob_response = oob_response)
 
   nuisance = capture.output(suppressWarnings({
