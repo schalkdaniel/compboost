@@ -1,0 +1,167 @@
+---
+title: "First Use-Case"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{First use-case using compboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+  # fig.path = "Readme_files/"
+)
+
+library(compboost)
+```
+
+## Data: Titanic Passenger Survival Data Set
+
+We use the [titanic dataset](https://www.kaggle.com/c/titanic/data) with binary
+classification on `survived`. First of all we store the train and test data
+in two data frames and remove all rows that contains `NA`s:
+
+```{r}
+# Store train and test data:
+df_train = na.omit(titanic::titanic_train)
+
+str(df_train)
+```
+
+In the next step we transform the response to a factor with more intuitive levels:
+
+```{r}
+df_train$Survived = factor(df_train$Survived, labels = c("no", "yes"))
+```
+
+## Initializing Model
+
+Due to the `R6` API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:
+```{r}
+cboost = Compboost$new(data = df_train, target = "Survived",
+  loss = LossBinomial$new(), oob_fraction = 0.3)
+```
+
+Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.
+
+## Adding Base-Learner
+
+Adding new base-learners is also done by giving a character to indicate the feature. As second argument it is important to name an identifier for the factory since we can define multiple base-learner on the same source.
+
+### Numerical Features
+
+For instance, we can define a spline and a linear base-learner of the same feature:
+```{r}
+# Spline base-learner of age:
+cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
+
+# Linear base-learner of age (degree = 1 with intercept is default):
+cboost$addBaselearner("Age", "linear", BaselearnerPolynomial)
+```
+
+Additional arguments can be specified after naming the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the project page:
+```{r}
+# Spline base-learner of fare:
+cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
+  n_knots = 14, penalty = 10, differences = 2)
+```
+
+### Categorical Features
+
+When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don't need an intercept here:
+```{r}
+cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial,
+  intercept = FALSE)
+```
+
+Finally, we can check what factories are registered:
+```{r}
+cboost$getBaselearnerNames()
+```
+
+## Define Logger
+
+### Time logger
+
+This logger logs the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
+
+```{r}
+cboost$addLogger(logger = LoggerTime, use_as_stopper = FALSE, logger_id = "time",
+  max_time = 0, time_unit = "microseconds")
+```
+
+
+## Train Model and Access Elements
+
+```{r, warnings=FALSE}
+cboost$train(2000, trace = 100)
+cboost
+```
+
+Objects of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `getInbagRisk()` or `predict()` to access the results:
+```{r}
+str(cboost$getEstimatedCoef())
+
+str(cboost$getInbagRisk())
+
+str(cboost$predict())
+```
+
+To obtain a vector of selected learner just call `getSelectedBaselearner()`
+```{r}
+table(cboost$getSelectedBaselearner())
+```
+
+We can also access predictions directly from the response object `cboost$response` and `cboost$response_oob`. Note that `$response_oob` was created automatically when defining an `oob_fraction` within the constructor:
+```{r}
+oob_label = cboost$response_oob$getResponse()
+oob_pred = cboost$response_oob$getPredictionResponse()
+table(true_label = oob_label, predicted = oob_pred)
+```
+
+
+## Visualizing Inbag vs. Out-Of-Bag Behavior
+
+```{r}
+cboost$plotInbagVsOobRisk()
+```
+
+## Retrain the Model
+
+To set the whole model to another iteration one can easily call `train()` to another iteration:
+```{r, warnings=FALSE}
+cboost$train(3000)
+
+str(cboost$getEstimatedCoef())
+
+str(cboost$getInbagRisk())
+
+table(cboost$getSelectedBaselearner())
+```
+
+## Visualizing Base-Learner
+
+To visualize a base-learner it is important to exactly use a name from `getBaselearnerNames()`:
+```{r, eval=FALSE}
+gg1 = cboost$plot("Age_spline")
+gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
+```
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+gg1 = cboost$plot("Age_spline")
+gg2 = cboost$plot("Age_spline", iters = c(200, 500, 1000, 1500))
+
+gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+```
+
+```{r, eval=FALSE}
+gg1 = cboost$plot("Age_spline")
+gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
+```
+```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
+gg1 = cboost$plot("Fare_spline")
+gg2 = cboost$plot("Fare_spline", iters = c(200, 500, 1000, 1500))
+
+gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+```
