@@ -1374,13 +1374,13 @@ class ResponseBinaryClassifWrapper : public ResponseWrapper
 {
 public:
 
-  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response)
+  ResponseBinaryClassifWrapper (std::string target_name, std::string pos_class, std::vector<std::string> response)
   {
-    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, pos_class, response);
   }
-  ResponseBinaryClassifWrapper (std::string target_name, arma::mat response, arma::mat weights)
+  ResponseBinaryClassifWrapper (std::string target_name, std::string pos_class, std::vector<std::string> response, arma::mat weights)
   {
-    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, pos_class, response, weights);
   }
 
   double getThreshold () const
@@ -1390,6 +1390,14 @@ public:
   void setThreshold (double thresh)
   {
     std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->setThreshold(thresh);
+  }
+  std::string getPositiveClass () const
+  {
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->getPositiveClass();
+  }
+  std::map<std::string, unsigned int> getClassTable () const
+  {
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->getClassTable();
   }
 };
 
@@ -1416,17 +1424,18 @@ RCPP_MODULE (response_module)
 
     .constructor<std::string, arma::mat> ()
     .constructor<std::string, arma::mat, arma::mat> ()
-
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
     .derives<ResponseWrapper> ("Response")
 
-    .constructor<std::string, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat> ()
+    .constructor<std::string, std::string, std::vector<std::string>> ()
+    .constructor<std::string, std::string, std::vector<std::string>, arma::mat> ()
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
+    .method("getPositiveClass",       &ResponseBinaryClassifWrapper::getPositiveClass, "Get string of the positive class")
+    .method("getClassTable",          &ResponseBinaryClassifWrapper::getClassTable, "Get table of response used for modeling")
   ;
 }
 

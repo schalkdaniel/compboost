@@ -196,24 +196,29 @@ void ResponseRegr::filter (const arma::uvec& idx)
 
 // Binary Classification
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0)
+ResponseBinaryClassif::ResponseBinaryClassif (const std::string& _target_name, const std::string& _pos_class, const std::vector<std::string>& _response)
 {
-  helper::checkForBinaryClassif(response0, -1, 1);
-  target_name = target_name0;
-  response = response0;
+  helper::checkForBinaryClassif(_response);
+  class_table = helper::tableResponse(_response);
+  response = helper::stringVecToBinaryVec(_response, _pos_class);
+  target_name = _target_name;
+  pos_class = _pos_class;
   task_id = "binary_classif"; // set parent
   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
   prediction_scores = temp_mat; // set parent
   pseudo_residuals = temp_mat;  // set parent
 }
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+ResponseBinaryClassif::ResponseBinaryClassif (const std::string& _target_name, const std::string& _pos_class, const std::vector<std::string>& _response, const arma::mat& _weights)
 {
-  helper::checkForBinaryClassif(response0, -1, 1);
-  helper::checkMatrixDim(response0, weights0);
-  target_name = target_name0;
-  response = response0;
-  weights = weights0;
+
+  helper::checkForBinaryClassif(_response);
+  class_table = helper::tableResponse(_response);
+  response = helper::stringVecToBinaryVec(_response, _pos_class);
+  helper::checkMatrixDim(response, _weights);
+  target_name = _target_name;
+  pos_class = _pos_class;
+  weights = _weights;
   use_weights = true;
   task_id = "binary_classif"; // set parent
   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
@@ -257,6 +262,9 @@ arma::mat ResponseBinaryClassif::getPredictionResponse (const arma::mat& pred_sc
   return helper::transformToBinaryResponse(getPredictionTransform(pred_scores), threshold, 1, -1);
 }
 
+std::string ResponseBinaryClassif::getPositiveClass () const { return pos_class; }
+std::map<std::string, unsigned int> ResponseBinaryClassif::getClassTable () const { return class_table; }
+
 void ResponseBinaryClassif::filter (const arma::uvec& idx)
 {
   response = response.elem(idx);
@@ -288,7 +296,7 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
   // FDA specifics
   grid = grid0;
   arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
-  weights = temp_mat_1; 
+  weights = temp_mat_1;
   trapez_weights = tensors::trapezWeights(grid0);
 }
 
@@ -310,7 +318,7 @@ ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& resp
 arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const
 {
   arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
-  
+
   if (! is_initialization_initialized) {
     Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }

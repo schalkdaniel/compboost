@@ -489,12 +489,19 @@ Compboost = R6::R6Class("Compboost",
       names(new_sources) = data_names
       return(new_sources)
     },
-    predict = function(newdata = NULL, response = FALSE) {
+    prepareResponse = function (response) {
+      pos_class = NULL
+      if (grepl(pattern = "ResponseBinaryClassif", x = class(self$response)))
+        pos_class = self$response$getPositiveClass()
+
+      return(vectorToResponse(vec = response, target = self$target, pos_class = pos_class))
+    },
+    predict = function(newdata = NULL, as_response = FALSE) {
       checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
       if (is.null(newdata)) {
-        return(self$model$getPrediction(response))
+        return(self$model$getPrediction(as_response))
       } else {
-        return(self$model$predict(self$prepareData(newdata), response))
+        return(self$model$predict(self$prepareData(newdata), as_response))
       }
     },
     getInbagRisk = function() {

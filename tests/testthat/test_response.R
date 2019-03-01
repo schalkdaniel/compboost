@@ -46,19 +46,22 @@ test_that("Binary classification response works correctly", {
   threshold = 0.5
   X_false = as.matrix(1:10)
   X_correct = as.matrix(sample(c(1,-1), 10, TRUE))
+  response_vec = c("neg", "pos")[(X_correct + 1) / 2 + 1]
   sigmoid = 1 / (1 + exp(-X_correct * 0))
   pred_response = ifelse(sigmoid < threshold, -1, 1)
   loss = LossBinomial$new()
 
   expect_error({ response = ResponseBinaryClassif$new(target, X_false) })
-  expect_silent({ response = ResponseBinaryClassif$new(target, X_correct) })
+  expect_error({ response = ResponseBinaryClassif$new(target, "pos", c(response_vec, "test")) })
+  expect_silent({ response = ResponseBinaryClassif$new(target, "pos", response_vec) })
   expect_equal(response$getTargetName(), target)
   expect_equal(response$getResponse(), X_correct)
   expect_equal(response$getPrediction(), X_correct * 0)
   expect_equal(response$getPredictionTransform(), sigmoid)
   expect_equal(response$getPredictionResponse(), pred_response)
   expect_equal(response$calculateEmpiricalRisk(loss), mean(log(1 + exp(-2 * X_correct * response$getPredictionTransform()))))
-
+  expect_equal(response$getPositiveClass(), "pos")
+  expect_equal(response$getClassTable(), table(response_vec))
   expect_error({ response = ResponseRegr$new(id, X, cbind(weights, weights)) })
 
   threshold = 0.8
@@ -75,12 +78,13 @@ test_that("Binary classification response with weights works correctly", {
   target = "x"
   threshold = 0.5
   X_correct = as.matrix(sample(c(1,-1), 10, TRUE))
+  response_vec = c("neg", "pos")[(X_correct + 1) / 2 + 1]
   weights = as.matrix(rep(c(0.5, 2), 5))
   sigmoid = 1 / (1 + exp(-X_correct * 0))
   pred_response = ifelse(sigmoid < threshold, -1, 1)
   loss = LossBinomial$new()
 
-  expect_silent({ response = ResponseBinaryClassif$new(target, X_correct, weights) })
+  expect_silent({ response = ResponseBinaryClassif$new(target, "pos", response_vec, weights) })
   expect_equal(response$getWeights(), weights)
   expect_equal(response$calculateEmpiricalRisk(loss), mean(weights * log(1 + exp(-2 * X_correct * response$getPredictionTransform()))))
 })

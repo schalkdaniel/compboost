@@ -165,16 +165,38 @@ arma::mat transformToBinaryResponse (const arma::mat& score_mat, const double& t
   return out;
 }
 
-void checkForBinaryClassif (const arma::mat& response, const int& pos, const int& neg)
+std::map<std::string, unsigned int> tableResponse (const std::vector<std::string>& response)
 {
-  arma::vec unique_values = arma::unique(response);
+  std::map<std::string, unsigned int> out;
+  for (unsigned int i = 0; i < response.size(); i++) {
+    out[response[i]] += 1;
+  }
+  return out;
+}
+
+arma::vec stringVecToBinaryVec(const std::vector<std::string>& response, const std::string& pos_class)
+{
+  arma::mat out(response.size(), 1, arma::fill::ones);
+  for (unsigned int i = 0; i < response.size(); i++) {
+    if (response[i] != pos_class) out(i, 0) = -1;
+  }
+  return out;
+}
+
+std::map<std::string, unsigned int> table (const std::vector<std::string>& response)
+{
+  std::map<std::string, unsigned int> out;
+  for (unsigned int i = 0; i < response.size(); i++) {
+    out[response[i]] += 1;
+  }
+}
+
+void checkForBinaryClassif (const std::vector<std::string>& response)
+{
+  std::map<std::string, unsigned int> class_table = helper::tableResponse(response);
   try {
-    if (unique_values.size() != 2) {
+    if (class_table.size() != 2) {
       Rcpp::stop("Multiple classes detected.");
-    }
-    if (! arma::all((unique_values == neg) || (unique_values == pos))) {
-      std::string msg_stop = "Labels must be coded as " + std::to_string(neg) + " and " + std::to_string(pos) + ".";
-      Rcpp::stop("Labels must be coded as -1 and 1.");
     }
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );

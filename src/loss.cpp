@@ -291,7 +291,7 @@ arma::mat LossBinomial::definedGradient (const arma::mat& true_value, const arma
 */
 arma::mat LossBinomial::constantInitializer (const arma::mat& true_value) const
 {
-  helper::checkForBinaryClassif(true_value, 1, -1);
+  // helper::checkForBinaryClassif(true_value, 1, -1);
 
   if (use_custom_offset) { return custom_offset; }
 
