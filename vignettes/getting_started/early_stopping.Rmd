@@ -88,9 +88,9 @@ cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = F
 
 In machine learning we often like to stop when the best model performance is reached. Especially in boosting, which tends to overfit, we need ether tuning or early stopping to determine what is a good number of iteration $m$ to gain good model performance. A well-known procedure is to log the out of bag (oob) behavior of the model and stop after this behavior starts to get worse. This is how early stopping is implemented in `compboost` in regard of the loss. The freedom we have is to specify
 
-- the loss $L$ that is used for stopping: $$\mathcal{R}_{\text{emp}}^{[m]} = \frac{1}{n}\sum_{i=1}^n L\left(y^{(i)}, f^{[m]}(x^{(i)})\rigth)$$
+- the loss $L$ that is used for stopping: $$\mathcal{R}_{\text{emp}}^{[m]} = \frac{1}{n}\sum_{i=1}^n L\left(y^{(i)}, f^{[m]}(x^{(i)})\right)$$
 
-- the percentage of performance increase that should be undershot: $$\text{err}^{[m]} = \frac{\mathcal{R}_{\text{emp}}^{[m- 1]} \mathcal{R}_{\text{emp}}^{[m]}}{\mathcal{R}_{\text{emp}}^{[m - 1]}}$$
+- the percentage of performance increase that should be undershot: $$\text{err}^{[m]} = \frac{\mathcal{R}_{\text{emp}}^{[m- 1]} - \mathcal{R}_{\text{emp}}^{[m]}}{\mathcal{R}_{\text{emp}}^{[m - 1]}}$$
 
 ### Define the risk logger
 
@@ -120,7 +120,10 @@ diff(tail(cboost$getLoggerData()$oob))
 
 ```{r}
 library(ggplot2)
-ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) + geom_line()
+ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) +
+  geom_line() +
+  xlab("Iteration") +
+  ylab("Empirical Risk")
 ```
 
 **Note:** It could happen that the model's oob behavior increases locally for a view iterations and then starts to decrease again. To capture this we would need a "patience" parameter which waits for, lets say, 10 iterations and breaks just if all 10 iterations fulfill the criteria.
