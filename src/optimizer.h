@@ -95,6 +95,7 @@ class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
   public:
     // No special initialization necessary:
     OptimizerCoordinateDescentLineSearch ();
+    OptimizerCoordinateDescentLineSearch (const unsigned int&);
 
     void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;

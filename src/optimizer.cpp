@@ -62,7 +62,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
     std::shared_ptr<blearner::Baselearner> blearner_temp;
     std::shared_ptr<blearner::Baselearner> blearner_best;
 
-    #pragma omp for
+    #pragma omp for schedule(dynamic)
     for (unsigned int i = 0; i < my_blearner_factory_map.size(); i++) {
 
       // increment iterator to "index map elements by index" (https://stackoverflow.com/questions/8848870/use-openmp-in-iterating-over-a-map):
@@ -139,8 +139,8 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
       blearner_best = blearner_temp;
     }
   }
+  return blearner_best;
   **************************************************************************************** */
-  // return blearner_best;
 }
 
 void OptimizerCoordinateDescent::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,
@@ -164,6 +164,10 @@ double OptimizerCoordinateDescent::getStepSize (const unsigned int& actual_itera
 // ---------------------------------------------------
 
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch () { }
+OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch  (const unsigned int& _num_threads)
+{
+  num_threads = _num_threads;
+}
 
 void OptimizerCoordinateDescentLineSearch::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,
   const arma::vec& baselearner_prediction)

@@ -2137,7 +2137,12 @@ public:
 class OptimizerCoordinateDescentLineSearch : public OptimizerWrapper
 {
 public:
-  OptimizerCoordinateDescentLineSearch () { sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(); }
+  OptimizerCoordinateDescentLineSearch () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>();
+  }
+  OptimizerCoordinateDescentLineSearch (unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(num_threads);
+  }
   std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
 
@@ -2160,6 +2165,7 @@ RCPP_MODULE(optimizer_module)
   class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
+    .constructor <unsigned int> ()
     .method("getStepSize", &OptimizerCoordinateDescentLineSearch::getStepSize, "Get vector of step sizes")
   ;
 }
