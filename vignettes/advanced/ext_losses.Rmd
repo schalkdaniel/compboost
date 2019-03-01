@@ -2,7 +2,7 @@
 title: "Extending compboost: Losses"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{compboost}
+  %\VignetteIndexEntry{Extending compboost with losses}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -75,7 +75,7 @@ gradPoisson = function (truth, response) {
 
 ### The constant initialization
 
-$$\mathsf{arg min}_{c\in\mathbb{R}} \sum_{i = 1}^n L\left(y^{(i)}, f(x^{(i)}\right) = \log(\bar{y})$$
+$$\mathsf{arg min}_{c\in\mathbb{R}} \sum_{i = 1}^n L\left(y^{(i)}, c\right) = \log(\bar{y})$$
 
 ```{r}
 constInitPoisson = function (truth) {
@@ -150,7 +150,7 @@ return prediction - true_value;
 
 ### The constant initialization
 
-$$\mathsf{arg min}_{c\in\mathbb{R}} \sum_{i = 1}^n L\left(y^{(i)}, f(x^{(i)}\right) = \bar{y}$$
+$$\mathsf{arg min}_{c\in\mathbb{R}} \sum_{i = 1}^n L\left(y^{(i)}, c\right) = \bar{y}$$
 
 ```cpp
 double constInitFun (const arma::mat& true_value)

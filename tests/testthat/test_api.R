@@ -87,7 +87,7 @@ test_that("predict works", {
 
   expect_equal(cboost$predict(), cboost$predict(mtcars))
   expect_equal(as.matrix(cboost$predict()[1]), cboost$predict(mtcars[1,]))
-  expect_equal(cboost$predict(), cboost$predict(response = TRUE))
+  expect_equal(cboost$predict(), cboost$predict(as_response = TRUE))
 
 })
 
@@ -259,8 +259,8 @@ test_that("custom loss works through api", {
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
   expect_equal(cboost$predict(mtcars), cboost$predict())
-  expect_equal(cboost$predict(), cboost$predict(response = TRUE))
-  expect_equal(cboost$predict(mtcars, response = TRUE), cboost$predict(response = TRUE))
+  expect_equal(cboost$predict(), cboost$predict(as_response = TRUE))
+  expect_equal(cboost$predict(mtcars, as_response = TRUE), cboost$predict(as_response = TRUE))
 })
 
 test_that("custom cpp loss works through api", {
@@ -295,7 +295,7 @@ test_that("custom cpp loss works through api", {
   expect_equal(cboost$predict(), cboost1$predict())
   expect_equal(cboost$getSelectedBaselearner(), cboost1$getSelectedBaselearner())
   expect_equal(cboost$predict(mtcars), cboost$predict())
-  expect_equal(cboost$predict(mtcars, response = TRUE), cboost$predict(response = TRUE))
+  expect_equal(cboost$predict(mtcars, as_response = TRUE), cboost$predict(as_response = TRUE))
 })
 
 test_that("training with absolute loss works", {
@@ -310,8 +310,8 @@ test_that("training with absolute loss works", {
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
   expect_equal(cboost$getEstimatedCoef()$offset, median(mtcars$hp))
-  expect_equal(cboost$predict(), cboost$predict(response = TRUE))
-  expect_equal(cboost$predict(mtcars), cboost$predict(mtcars, response = TRUE))
+  expect_equal(cboost$predict(), cboost$predict(as_response = TRUE))
+  expect_equal(cboost$predict(mtcars), cboost$predict(mtcars, as_response = TRUE))
 })
 
 test_that("training throws an error with pre-defined iteration logger", {
@@ -345,8 +345,8 @@ test_that("training with binomial loss works", {
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
   expect_equal(cboost$getEstimatedCoef()$offset, 0.5 * log(sum(hp_classes > 0)/ sum(hp_classes < 0)))
-  expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(response = TRUE))
-  expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, response = TRUE))
+  expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(as_response = TRUE))
+  expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, as_response = TRUE))
 
   expect_silent({
     cboost = Compboost$new(mtcars, "hp", loss = LossBinomial$new())

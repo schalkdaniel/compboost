@@ -2,7 +2,7 @@
 title: "Early Stopping"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{compboost}
+  %\VignetteIndexEntry{Early stopping with compboost}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -36,6 +36,7 @@ df$Survived = factor(df$Survived, labels = c("no", "yes"))
 For the later stopping we split the dataset into train and test:
 
 ```{r}
+set.seed(123)
 idx_train = sample(seq_len(nrow(df)), size = nrow(df) * 0.8)
 idx_test = setdiff(seq_len(nrow(df)), idx_train)
 ```

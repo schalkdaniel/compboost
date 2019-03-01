@@ -61,7 +61,7 @@ test_that("Binary classification response works correctly", {
   expect_equal(response$getPredictionResponse(), pred_response)
   expect_equal(response$calculateEmpiricalRisk(loss), mean(log(1 + exp(-2 * X_correct * response$getPredictionTransform()))))
   expect_equal(response$getPositiveClass(), "pos")
-  expect_equal(response$getClassTable(), table(response_vec))
+  expect_equal(unname(response$getClassTable()), as.numeric(table(response_vec)))
   expect_error({ response = ResponseRegr$new(id, X, cbind(weights, weights)) })
 
   threshold = 0.8

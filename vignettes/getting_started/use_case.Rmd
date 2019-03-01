@@ -2,7 +2,7 @@
 title: "First Use-Case"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{compboost}
+  %\VignetteIndexEntry{First use-case using compboost}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

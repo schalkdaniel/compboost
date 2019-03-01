@@ -971,7 +971,7 @@ NULL
 #' @section Usage:
 #' \preformatted{
 #' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
-#'   oob_data, oob_response)
+#'   patience, oob_data, oob_response)
 #' }
 #'
 #' @section Arguments:
@@ -1070,7 +1070,7 @@ NULL
 #' oob_response = ResponseRegr$new("oob_response", as.matrix(y_oob))
 #'
 #' # Define logger:
-#' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, oob_list, oob_response)
+#' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, 5, oob_list, oob_response)
 #'
 #' # Summarize logger:
 #' log_oob_risk$summarizeLogger()
