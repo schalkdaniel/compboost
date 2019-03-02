@@ -19,7 +19,7 @@ library(compboost)
 
 ## Before Starting
 
-- Read the [use-case](https://danielschalk.com/compboost/articles/getting_started/use_case.html) site to get to know how to define a `Compboost` object using the `R6` interface
+- Read the [use-case](https://danielschalk.com/compboost/articles/getting_started/use_case.html) to get to know how to define a `Compboost` object using the `R6` interface
 
 ## Data: Titanic Passenger Survival Data Set
 
@@ -57,11 +57,11 @@ cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = F
 
 ### How does it work?
 
-The early stopping of the boosting algorithm is done using the logger. The logger is executed after each iteration and stores class dependent data, e.g. the runtime. Additionally, each logger can declared as a stopper with `use_as_stopper = TRUE`. Declaring a logger as stopper, the logged data is used to stop the algorithm after a logger-specific criteria is reached. For example, using `LoggerTime` as stopper the algorithm can be stopped after a pre-defined runtime is reached.
+The early stopping of `compboost` is done using logger objects. The logger is executed after each iteration and stores class dependent data, e.g. the runtime. Additionally, each logger can be declared as a stopper with `use_as_stopper = TRUE`. Declaring a logger as stopper, the logged data is used to stop the algorithm after a logger-specific criteria is reached. For example, using `LoggerTime` as stopper, the algorithm can be stopped after a pre-defined runtime is reached.
 
 ### Example with runtime stopping
 
-Now its time to define a logger to log the runtime. As mentioned above, we set `use_as_stopper = TRUE`. Now it matters what we specify in `max_time` since this is our stopping criteria. Here we like to stop after 50000 microseconds:
+Now it's time to define a logger to log the runtime. As mentioned above, we set `use_as_stopper = TRUE`. Now it matters what is specified in `max_time` since this defines the stopping behavior. Here we want to stop after 50000 microseconds:
 
 ```{r, warnings=FALSE}
 cboost$addLogger(logger = LoggerTime, use_as_stopper = TRUE, logger_id = "time",
@@ -71,7 +71,7 @@ cboost$train(2000, trace = 100)
 cboost
 ```
 
-As we can see, the fittings is stopped after `r cboost$getCurrentIteration()` and not after 2000 as specified in train. Taking a look at the logger data we can also see that the last entry exceeds the 50000 microseconds and therefore hits the stopping criteria:
+As we can see, the fittings is stopped after `r cboost$getCurrentIteration()` and not after 2000 iterations as specified in train. Taking a look at the logger data, we can see that the last entry exceeds the 50000 microseconds and therefore hits the stopping criteria:
 ```{r}
 tail(cboost$getLoggerData())
 ```
@@ -87,7 +87,7 @@ cboost$addBaselearner("Fare", "spline", BaselearnerPSpline)
 cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = FALSE)
 ```
 
-In machine learning we often like to stop when the best model performance is reached. Especially in boosting, which tends to overfit, we need ether tuning or early stopping to determine what is a good number of iteration $m$ to gain good model performance. A well-known procedure is to log the out of bag (oob) behavior of the model and stop after this behavior starts to get worse. This is how early stopping is implemented in `compboost` in regard of the loss. The freedom we have is to specify
+In machine learning we often like to stop when the best model performance is reached. Especially in boosting, which tends to overfit, we need either tuning or early stopping to determine what is a good number of iteration $m$ to get good model performance. A well-known procedure is to log the out of bag (oob) behavior of the model and stop after this starts to get worse. This is how oob early stopping is implemented in `compboost`. The freedom we have is to specify
 
 - the loss $L$ that is used for stopping: $$\mathcal{R}_{\text{emp}}^{[m]} = \frac{1}{n}\sum_{i=1}^n L\left(y^{(i)}, f^{[m]}(x^{(i)})\right)$$
 
