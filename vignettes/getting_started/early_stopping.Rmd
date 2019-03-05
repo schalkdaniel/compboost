@@ -129,7 +129,7 @@ ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) +
   ylab("Empirical Risk")
 ```
 
-Taking a look at 2000 iterations shows that we have stopped quiet good:
+Taking a look at 2000 iterations shows that we have stopped quite good:
 ```{r}
 cboost$train(2000, trace = 0)
 
@@ -139,7 +139,7 @@ ggplot(data = cboost$getLoggerData(), aes(x = `_iterations`, y = oob)) +
   ylab("Empirical Risk")
 ```
 
-**Note:** It could happen that the model's oob behavior increases locally for a view iterations and then starts to decrease again. To capture this we would need the "patience" parameter which waits for, lets say, 5 iterations and breaks just if all 5 iterations fulfill the criteria. Setting this parameter to 1 can lead to very unstable results:
+**Note:** It could happen that the model's oob behavior increases locally for a few iterations and then starts to decrease again. To capture this we would need the "patience" parameter which waits for, lets say, 5 iterations and breaks just if all 5 iterations fulfill the criteria. Setting this parameter to 1 can lead to very unstable results:
 ```{r}
 df = na.omit(titanic::titanic_train)
 df$Survived = factor(df$Survived, labels = c("no", "yes"))
