@@ -195,7 +195,7 @@ void checkForBinaryClassif (const std::vector<std::string>& response)
 {
   std::map<std::string, unsigned int> class_table = helper::tableResponse(response);
   try {
-    if (class_table.size() != 2) {
+    if (class_table.size() > 2) {
       Rcpp::stop("Multiple classes detected.");
     }
   } catch ( std::exception &ex ) {
