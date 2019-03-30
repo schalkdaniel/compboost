@@ -1637,12 +1637,13 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
+  LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
+    unsigned int patience)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
     logger_id = logger_id0;
-    sh_ptr_logger = std::make_shared<logger::LoggerInbagRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
+    sh_ptr_logger = std::make_shared<logger::LoggerInbagRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break, patience);
   }
 
   void summarizeLogger ()
@@ -2034,7 +2035,7 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<std::string, bool, LossWrapper&, double> ()
+    .constructor<std::string, bool, LossWrapper&, double, unsigned int> ()
     .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 

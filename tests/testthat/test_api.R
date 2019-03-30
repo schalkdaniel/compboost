@@ -151,7 +151,7 @@ test_that("multiple logger works", {
   )
   expect_silent(
     cboost$addLogger(logger = LoggerInbagRisk, use_as_stopper = TRUE, logger_id = "inbag",
-      LossQuadratic$new(), 0.01)
+      LossQuadratic$new(), 0.01, 5)
   )
 
   expect_output(cboost$train(100))
@@ -514,7 +514,7 @@ test_that("retraining of compboost logs correctly", {
   cboost$addBaselearner("hp", "spline", BaselearnerPSpline)
   cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
   cboost$addLogger(logger = LoggerInbagRisk, use_as_stopper = FALSE, logger_id = "inbag",
-    LossQuadratic$new(), 0.01)
+    LossQuadratic$new(), 0.01, 5)
 
   expect_output(suppressWarnings(cboost$train(200)))
   expect_output(suppressWarnings(cboost$train(220)))
@@ -528,7 +528,7 @@ test_that("retraining of compboost logs correctly", {
   cboost1$addBaselearner("hp", "spline", BaselearnerPSpline)
   cboost1$addBaselearner("wt", "spline", BaselearnerPSpline)
   cboost1$addLogger(logger = LoggerInbagRisk, use_as_stopper = FALSE, logger_id = "inbag",
-    LossQuadratic$new(), 0.01)
+    LossQuadratic$new(), 0.01, 5)
 
   expect_output(suppressWarnings(cboost1$train(1000)))
 
