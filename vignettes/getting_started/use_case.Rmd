@@ -20,8 +20,8 @@ library(compboost)
 ## Data: Titanic Passenger Survival Data Set
 
 We use the [titanic dataset](https://www.kaggle.com/c/titanic/data) with binary
-classification on `survived`. First of all we store the train and test data
-in two data frames and remove all rows that contains `NA`s:
+classification on `survived`. First of all, we store the train and test data
+into two data frames and remove all rows that contains missing values (`NA`s):
 
 ```{r}
 # Store train and test data:
@@ -30,7 +30,7 @@ df_train = na.omit(titanic::titanic_train)
 str(df_train)
 ```
 
-In the next step we transform the response to a factor with more intuitive levels:
+In the next step we transform the response to a factor having more intuitive levels:
 
 ```{r}
 df_train$Survived = factor(df_train$Survived, labels = c("no", "yes"))
@@ -38,21 +38,19 @@ df_train$Survived = factor(df_train$Survived, labels = c("no", "yes"))
 
 ## Initializing Model
 
-Due to the `R6` API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:
+Due to the `R6` API it is necessary to create a new class object by calling the `$new()` constructor which gets the data, the target as character, and the used loss. Note that it is important to pass an initialized loss object which gives the opportunity to use, for example, a custom offset:
 ```{r}
 cboost = Compboost$new(data = df_train, target = "Survived",
   loss = LossBinomial$new(), oob_fraction = 0.3)
 ```
 
-Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.
-
 ## Adding Base-Learner
 
-Adding new base-learners is also done by giving a character to indicate the feature. As second argument it is important to name an identifier for the factory since we can define multiple base-learner on the same source.
+Adding new base-learners requires as first argument a character to indicate what feature we want to use for the new base-learner. As second argument it is important to define an identifier for the factory. This is necessary since it is possible to define multiple base-learners on the same source.
 
 ### Numerical Features
 
-For instance, we can define a spline and a linear base-learner of the same feature:
+We can define a spline and a linear base-learner of the same feature:
 ```{r}
 # Spline base-learner of age:
 cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
@@ -61,7 +59,7 @@ cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 cboost$addBaselearner("Age", "linear", BaselearnerPolynomial)
 ```
 
-Additional arguments can be specified after naming the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the project page:
+Additional arguments can be specified after the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the project page:
 ```{r}
 # Spline base-learner of fare:
 cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
@@ -70,22 +68,26 @@ cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
 
 ### Categorical Features
 
-When adding categorical features each group is added as single base-learner to avoid biased feature selection. Also note that we don't need an intercept here:
+When adding categorical features, each group is added as single base-learner. Do also note that we don't want an intercept here:
 ```{r}
 cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial,
   intercept = FALSE)
 ```
 
-Finally, we can check what factories are registered:
+Finally, we can get all registered factories:
 ```{r}
 cboost$getBaselearnerNames()
 ```
 
 ## Define Logger
 
+A logger is another class that is evaluated after each iteration to track the performance, elapsed runtime, or the iterations. For each `Compboost` object is by default one iterations logger defined with as many iterations as specified in the `$train()` function.
+
+To be able to control the fitting behavior with logger, each logger can also be defined as stopper to stop the fitting process after a pre-defined stopping criteria.
+
 ### Time logger
 
-This logger logs the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
+This logger tracks the elapsed time. The time unit can be one of `microseconds`, `seconds` or `minutes`. The logger stops if `max_time` is reached. But we do not use that logger as stopper here:
 
 ```{r}
 cboost$addLogger(logger = LoggerTime, use_as_stopper = FALSE, logger_id = "time",
@@ -100,7 +102,7 @@ cboost$train(2000, trace = 100)
 cboost
 ```
 
-Objects of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `getInbagRisk()` or `predict()` to access the results:
+Objects of the `Compboost` class do have member functions such as `$getEstimatedCoef()`, `$getInbagRisk()` or `$predict()` to access the results:
 ```{r}
 str(cboost$getEstimatedCoef())
 
@@ -109,12 +111,12 @@ str(cboost$getInbagRisk())
 str(cboost$predict())
 ```
 
-To obtain a vector of selected learner just call `getSelectedBaselearner()`
+To obtain a vector of the selected base-learners just call `$getSelectedBaselearner()`
 ```{r}
 table(cboost$getSelectedBaselearner())
 ```
 
-We can also access predictions directly from the response object `cboost$response` and `cboost$response_oob`. Note that `$response_oob` was created automatically when defining an `oob_fraction` within the constructor:
+We can also access the predictions directly from the response object `cboost$response` and `cboost$response_oob`. Note that `$response_oob` was created automatically when defining an `oob_fraction` within the constructor:
 ```{r}
 oob_label = cboost$response_oob$getResponse()
 oob_pred = cboost$response_oob$getPredictionResponse()
@@ -130,7 +132,7 @@ cboost$plotInbagVsOobRisk()
 
 ## Retrain the Model
 
-To set the whole model to another iteration one can easily call `train()` to another iteration:
+To set the whole model to another iteration one can again call `$train()`. The model is then set to an already seen iteration, if the new iteration is smaller than the already trained once or it trains additional base-learner until the new number is reached:
 ```{r, warnings=FALSE}
 cboost$train(3000)
 
@@ -143,7 +145,7 @@ table(cboost$getSelectedBaselearner())
 
 ## Visualizing Base-Learner
 
-To visualize a base-learner it is important to exactly use a name from `getBaselearnerNames()`:
+To visualize a base-learner it is important to exactly use a name from `$getBaselearnerNames()`:
 ```{r, eval=FALSE}
 gg1 = cboost$plot("Age_spline")
 gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))

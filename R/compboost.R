@@ -575,10 +575,10 @@ Compboost = R6::R6Class("Compboost",
       selected_learner = self$getSelectedBaselearner()
 
       blearner_sums = aggregate(inbag_risk_differences, by = list(selected_learner), FUN = sum)
-      colnames(blearner_sums) = c("baselearner", "relative_risk_reduction")
-      blearner_sums[["relative_risk_reduction"]] = blearner_sums[["relative_risk_reduction"]] / sum(blearner_sums[["relative_risk_reduction"]])
+      colnames(blearner_sums) = c("baselearner", "risk_reduction")
+      # blearner_sums[["relative_risk_reduction"]] = blearner_sums[["relative_risk_reduction"]] / sum(blearner_sums[["relative_risk_reduction"]])
 
-      return(blearner_sums[order(blearner_sums[["relative_risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ])
+      return(blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ])
     },
     plotFeatureImportance = function (num_feats = NULL) {
 
@@ -586,7 +586,7 @@ Compboost = R6::R6Class("Compboost",
 
       df_vip = self$calculateFeatureImportance(num_feats)
 
-      gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, relative_risk_reduction), y = relative_risk_reduction)) +
+      gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
         ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
       return (gg)
