@@ -48,14 +48,6 @@ Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
 }
 }
 
-\section{Details}{
-
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classcboost_1_1_compboost.html}.
-}
-
 \section{Fields}{
 
   This class doesn't contain public fields.

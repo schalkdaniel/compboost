@@ -40,14 +40,6 @@ LossQuadratic$new(offset)
 }
 }
 
-\section{Details}{
-
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_quadratic_loss.html}.
-}
-
 \examples{
 
 # Create new loss object:

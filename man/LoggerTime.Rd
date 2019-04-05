@@ -41,14 +41,6 @@ LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 }
 }
 
-\section{Details}{
-
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_time_logger.html}.
-}
-
 \section{Fields}{
 
   This class doesn't contain public fields.

@@ -43,10 +43,6 @@ BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
 
   For an example see the extending compboost vignette or the function
   \code{getCustomCppExample}.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_cpp_blearner_factory.html}.
 }
 
 \section{Fields}{

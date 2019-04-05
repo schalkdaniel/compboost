@@ -30,16 +30,6 @@ LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 }
 }
 
-\section{Details}{
-
-  For an example see the extending compboost vignette or the function
-  \code{getCustomCppExample(example = "loss")}.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
-}
-
 \examples{
 \donttest{
 # Load loss functions:

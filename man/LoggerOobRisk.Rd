@@ -85,10 +85,6 @@ iteration \eqn{m} is calculated by:
    value for \eqn{risk_temp} and therefore the average equals the loss
    function. If this is just a value (like for the AUC) then the value is
    returned.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_oob_risk_logger.html}.
 }
 
 \section{Fields}{

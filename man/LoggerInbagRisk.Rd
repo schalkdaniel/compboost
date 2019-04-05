@@ -12,7 +12,7 @@ see the use case or extending compboost vignette.
 \section{Usage}{
 
 \preformatted{
-LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break)
+LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, patience)
 }
 }
 
@@ -70,10 +70,6 @@ iteration \eqn{m} is calculated by:
    value for \code{risk_temp} and therefore the average equals the loss
    function. If this is just a value (like for the AUC) then the value is
    returned.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_inbag_risk_logger.html}.
 }
 
 \section{Fields}{
@@ -93,7 +89,7 @@ iteration \eqn{m} is calculated by:
 log_bin = LossBinomial$new()
 
 # Define logger:
-log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
+log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05, 5)
 
 # Summarize logger:
 log_inbag_risk$summarizeLogger()
