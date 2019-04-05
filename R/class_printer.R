@@ -24,6 +24,31 @@ glueLoss = function (name, definition = NULL, additional_desc = "")
 }
 
 # ---------------------------------------------------------------------------- #
+# Response:
+# ---------------------------------------------------------------------------- #
+
+setClass("Rcpp_ResponseRegr")
+ignore_me = setMethod("show", "Rcpp_ResponseRegr", function (object) {
+
+  cat("\n")
+  cat("Regression response of target \"", object$getTargetName(), "\"", sep = "")
+  cat("\n\n")
+
+  return ("ResponseRegrPrinter")
+})
+
+setClass("Rcpp_ResponseBinaryClassif")
+ignore_me = setMethod("show", "Rcpp_ResponseBinaryClassif", function (object) {
+
+  cat("\n")
+  cat("Binary classification response of target \"", object$getTargetName(), "\" and threshold ", object$getThreshold(), sep = "")
+  cat("\n\n")
+
+  return ("ResponseBinaryClassifPrinter")
+})
+
+
+# ---------------------------------------------------------------------------- #
 # Data:
 # ---------------------------------------------------------------------------- #
 
@@ -113,6 +138,14 @@ ignore_me = setMethod("show", "Rcpp_LossQuadratic", function (object) {
 setClass("Rcpp_LossAbsolute")
 ignore_me = setMethod("show", "Rcpp_LossAbsolute", function (object) {
   glueLoss("LossAbsolute", "|y - f(x)|")
+})
+
+setClass("Rcpp_LossQuantile")
+ignore_me = setMethod("show", "Rcpp_LossQuantile", function (object) {
+  glueLoss("LossQuantile", "h|y - f(x)|", paste0(
+  "h = 2q        if  y - f(x) > 0\n",
+  "  h = 2(1 - q)  otherwise\n\n",
+  "  with quantile q = ", object$getQuantile(), "\n\n"))
 })
 
 setClass("Rcpp_LossBinomial")

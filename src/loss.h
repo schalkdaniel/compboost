@@ -188,6 +188,31 @@ public:
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
+
+
+class LossQuantile : public Loss
+{
+public:
+
+  double quantile;
+
+  /// Default Constructor
+  LossQuantile (const double&);
+
+  /// Constructor to initialize custom offset
+  LossQuantile (const double&, const double&);
+
+  /// Specific loss function
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
+
+  /// Gradient of loss functions for pseudo residuals
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
+
+  /// Constant initialization of the empirical risk
+  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+};
+
 // Binomial loss:
 // -----------------------
 

@@ -17,12 +17,12 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
     stop("Only univariate plotting is supported.")
   }
   # Check if selected base-learner includes the proposed one + check if iters is big enough:
-  iter.min = which(cboost_obj$getSelectedBaselearner() == blearner_name)[1]
+  iter_min = which(cboost_obj$getSelectedBaselearner() == blearner_name)[1]
   if (! blearner_name %in% unique(cboost_obj$getSelectedBaselearner())) {
     stop("Requested base-learner plus feature was not selected.")
   } else {
-    if (any(iters < iter.min)) {
-      warning("Requested base-learner plus feature was first selected at iteration ", iter.min)
+    if (any(iters < iter_min)) {
+      warning("Requested base-learner plus feature was first selected at iteration ", iter_min)
     }
   }
   feat_name = bl_list[[blearner_name]]$target$getIdentifier()
@@ -43,7 +43,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
   # Create data.frame for plotting depending if iters is specified:
   if (! is.null(iters[1])) {
     preds = lapply(iters, function (x) {
-      if (x >= iter.min) {
+      if (x >= iter_min) {
         return(feat_map %*% cboost_obj$model$getParameterAtIteration(x)[[blearner_name]])
       } else {
         return(rep(0, length_out))

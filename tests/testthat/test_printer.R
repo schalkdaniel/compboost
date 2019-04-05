@@ -21,10 +21,22 @@ test_that("factory list printer works", {
 
 })
 
+test_that("response printer works", {
+  expect_silent({ regr_response = ResponseRegr$new("target", cbind(rnorm(10))) })
+  expect_silent({ binary_classif_response = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE)) })
+
+  expect_output({ test_regr_response = show(regr_response) })
+  expect_output({ test_binary_classif_response = show(binary_classif_response) })
+
+  expect_equal(test_regr_response, "ResponseRegrPrinter")
+  expect_equal(test_binary_classif_response, "ResponseBinaryClassifPrinter")
+})
+
 test_that("Loss printer works", {
 
   expect_silent({ quadratic_loss = LossQuadratic$new() })
   expect_silent({ absolute_loss  = LossAbsolute$new() })
+  expect_silent({ quantile_loss  = LossQuantile$new() })
   expect_silent({ binomial_loss = LossBinomial$new() })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
 
@@ -37,15 +49,19 @@ test_that("Loss printer works", {
 
   expect_output({ test_quadratic_printer  = show(quadratic_loss) })
   expect_output({ test_absolute_printer   = show(absolute_loss) })
+  expect_output({ test_quantile_printer   = show(quantile_loss) })
   expect_output({ test_custom_printer     = show(custom_loss) })
   expect_output({ test_custom_cpp_printer = show(custom_cpp_loss) })
   expect_output({ test_binomialprinter    = show(binomial_loss) })
 
   expect_equal(test_quadratic_printer, "LossQuadraticPrinter")
   expect_equal(test_absolute_printer, "LossAbsolutePrinter")
+  expect_equal(test_quantile_printer, "LossQuantilePrinter")
   expect_equal(test_binomialprinter, "LossBinomialPrinter")
   expect_equal(test_custom_cpp_printer, "LossCustomCppPrinter")
   expect_equal(test_custom_printer, "LossCustomPrinter")
+
+  expect_equal(quantile_loss$getQuantile(), 0.5)
 
 })
 

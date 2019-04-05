@@ -197,9 +197,7 @@ arma::mat LossAbsolute::definedLoss (const arma::mat& true_value, const arma::ma
  */
 arma::mat LossAbsolute::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
-  // for debugging:
-  // Rcpp::Rcout << "Calculate gradient of child class Absolute!" << std::endl;
-  return arma::sign(prediction - true_value);
+  return - arma::sign(true_value - prediction);
 }
 
 /**
@@ -218,6 +216,91 @@ arma::mat LossAbsolute::constantInitializer (const arma::mat& true_value) const
   return out;
 }
 arma::mat LossAbsolute::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  return constantInitializer(true_value);
+}
+
+
+// Quantile loss:
+// -----------------------
+
+/**
+ * \brief Default constructor of `LossQuantile`
+ *
+ */
+LossQuantile::LossQuantile (const double& quantile) : quantile ( quantile )
+{
+  if ((quantile > 1) || (quantile < 0)) {
+    Rcpp::stop("Quantile must be in [0,1]");
+  }
+  task_id = "regression"; // set parent
+}
+
+/**
+ * \brief Constructor to initialize custom offset of `LossQuantile`
+ *
+ * \param custom_offset0 `double` Offset which is used instead of the pre
+ *   defined initialization
+ *
+ */
+LossQuantile::LossQuantile (const double& custom_offset0, const double& quantile) : quantile ( quantile )
+{
+  if ((quantile > 1) || (quantile < 0)) {
+    Rcpp::stop("Quantile must be in [0,1]");
+  }
+  task_id = "regression"; // set parent
+  custom_offset = custom_offset0;
+  use_custom_offset = true;
+}
+
+/**
+ * \brief Definition of the loss function (see description of the class)
+ *
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
+ *
+ * \returns `arma::mat` vector of elementwise application of the loss function
+ */
+arma::mat LossQuantile::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
+{
+  arma::mat residual_mat = true_value - prediction;
+  arma::mat quant_weights = residual_mat;
+  quant_weights.transform( [this](double elem) { return (elem < 0) ? double(2 * (1 - quantile)) : double(2 * quantile); } );
+  return arma::abs(residual_mat) % quant_weights;
+}
+
+/**
+ * \brief Definition of the gradient of the loss function (see description of the class)
+ *
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
+ *
+ * \returns `arma::mat` vector of elementwise application of the gradient
+ */
+arma::mat LossQuantile::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
+{
+  arma::mat residual_mat = true_value - prediction;
+  arma::mat quant_weights = residual_mat;
+  quant_weights.transform( [this](double elem) { return (elem < 0) ? double(2 * (1 - quantile)) : double(2 * quantile); } );
+  return - arma::sign(residual_mat) % quant_weights;
+}
+
+/**
+ * \brief Definition of the constant risk initialization (see description of the class)
+ *
+ * \param true_value `arma::mat` True value of the response
+ *
+ * \returns `double` constant which minimizes the empirical risk for the given true value
+ */
+arma::mat LossQuantile::constantInitializer (const arma::mat& true_value) const
+{
+  if (use_custom_offset) { return custom_offset; }
+  arma::vec temp = true_value;
+  arma::mat out(1, 1);
+  out.fill(helper::matrixQuantile(true_value, quantile));
+  return out;
+}
+arma::mat LossQuantile::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
 {
   return constantInitializer(true_value);
 }
