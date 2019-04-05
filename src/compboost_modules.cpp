@@ -1574,7 +1574,7 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break)
+//' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, patience)
 //' }
 //'
 //' @section Arguments:
@@ -1641,7 +1641,7 @@ public:
 //' log_bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
+//' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05, 5)
 //'
 //' # Summarize logger:
 //' log_inbag_risk$summarizeLogger()
