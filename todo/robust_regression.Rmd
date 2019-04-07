@@ -1,0 +1,114 @@
+---
+title: "Robust Regression"
+output: html_vignette
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+  # fig.path = "Readme_files/"
+)
+library(ggplot2)
+devtools::load_all()
+```
+
+## How does it work?
+
+Used loss functions:
+
+```{r, echo=FALSE, fig.align="center", out.width="50%", fig.width=7, fig.height=7}
+myLoss = function (resid, quantile)
+{
+  h = ifelse(resid > 0, 2 * quantile, 2 * (1 - quantile))
+  return(abs(resid) * h)
+}
+
+resid = seq(-4, 4, 0.1)
+quantiles = c(0.2, 0.5, 0.8)
+df_plot = data.frame(
+  residual = rep(resid, times = length(quantiles)),
+  Quantile = paste0(rep(100 * quantiles, each = length(resid)), " %"),
+  loss = unlist(lapply(quantiles, function (q) { myLoss(resid, q) }))
+)
+
+ggplot(data = df_plot, aes(x = residual, y = loss, color = Quantile, linetype = Quantile), size = 2) +
+  geom_line() +
+  ggthemes::theme_tufte() +
+  scale_color_brewer(palette = "Set1") +
+  xlab("Residual y - f(x)") +
+  ylab("Loss L(y,f(x))") +
+  coord_fixed()
+```
+
+## Simulate data
+
+```{r}
+nsim = 1000
+noutlier = 20
+outlier_mean = 1e6
+
+x = runif(nsim, 0, 10)
+y = 3 + 2 * sin(x) + rnorm(nsim, 0, 1)
+
+outlier_idx = sample(nsim, noutlier)
+y[outlier_idx] = sample(x = c(-1, 1), size = noutlier, replace = TRUE) * rnorm(noutlier, outlier_mean, 1)
+
+df = data.frame(x = x, y = y)
+```
+
+```{r, echo=FALSE, fig.align="center", out.width="100%", fig.width=14, fig.height=7}
+gg1 = ggplot(data = df, aes(x = x, y = y)) +
+  geom_point() +
+  ggtitle("Full target range (with outliers)") +
+  ggthemes::theme_tufte()
+
+gg2 = ggplot(data = df, aes(x = x, y = y)) +
+  geom_point() +
+  ggtitle("Real target range (without outliers)") +
+  ylim(-2, 8) +
+  ggthemes::theme_tufte()
+
+gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+```
+
+
+## How to use in compboost
+
+```{r, fig.align="center", out.width="100%", fig.width=14, fig.height=7}
+cboost = boostSplines(data = df, target = "y", loss = LossQuadratic$new(), iterations = 1000, trace = 200)
+cboost_10 = boostSplines(data = df, target = "y", loss = LossQuantile$new(0.1), iterations = 1000, trace = 200)
+cboost_50 = boostSplines(data = df, target = "y", loss = LossQuantile$new(0.5), iterations = 1000, trace = 200)
+cboost_90 = boostSplines(data = df, target = "y", loss = LossQuantile$new(0.9), iterations = 1000, trace = 200)
+
+df_pred = data.frame(
+  feat = x,
+  target = y,
+  mean = cboost$predict(),
+  quantile_10 = cboost_10$predict(),
+  quantile_50 = cboost_50$predict(),
+  quantile_90 = cboost_90$predict()
+)
+df_pred = tidyr::gather(data = df_pred, key = "Estimator", value = "pred", mean:quantile_90)
+
+gg1 = ggplot() +
+  geom_point(data = df_pred, aes(x = feat, y = target)) +
+  geom_line(data = df_pred, aes(x = feat, y = pred, color = Estimator, linetype = Estimator), size = 2, show.legend = FALSE) +
+  xlab("Feature") +
+  ylab("Target") +
+  ggthemes::theme_tufte() +
+  scale_color_brewer(palette = "Set1") +
+  ggtitle("Full target range (with outliers)")
+
+gg2 = ggplot() +
+  geom_point(data = df_pred, aes(x = feat, y = target)) +
+  geom_line(data = df_pred, aes(x = feat, y = pred, color = Estimator, linetype = Estimator), size = 2) +
+  ylim(-2, 8) +
+  xlab("Feature") +
+  ylab("") +
+  ggthemes::theme_tufte() +
+  scale_color_brewer(palette = "Set1") +
+  ggtitle("Real target range (without outliers)")
+
+gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+```
