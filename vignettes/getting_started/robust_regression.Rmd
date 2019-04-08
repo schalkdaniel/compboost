@@ -1,6 +1,10 @@
 ---
 title: "Qunatile/Robust Regression"
 output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{Quantile regression with compboost}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo=FALSE}
