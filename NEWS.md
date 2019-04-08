@@ -1,3 +1,6 @@
+- **08.04.2019** \
+  Quantile loss for quantile regression.
+
 - **01.03.2019** \
   It is now possible to use parallel optimizer to speed up training.
 
@@ -7,7 +10,7 @@
   Most parts of compboost are now using smart pointer.
 
 - **23.01.2019** \
-  **Style**: Change `.` to `_`, e.g. change `n.knots` to `n_knots`, to be more consistent with `C++` syntax.  
+  **Style**: Change `.` to `_`, e.g. change `n.knots` to `n_knots`, to be more consistent with `C++` syntax.
 
 - **19.01.2019** \
   There is now a new `Response` class to be more versatile for given tasks.
@@ -36,16 +39,16 @@ Initial release
 
 - **29.06.2018** \
   Compboost API is almost ready to use.
-  
+
 - **14.06.2018** \
   Update naming `GreedyOptimizer` -> `OptimizerCoordinateDescent` and small typos.
 
 - **30.03.2018** \
-  Compboost is now ready to do binary classification by using the 
+  Compboost is now ready to do binary classification by using the
   `BernoulliLoss`.
-  
+
 - **29.03.2018** \
-  Upload `C++` documentation created by doxygen. 
+  Upload `C++` documentation created by doxygen.
 
 - **28.03.2018** \
   P-Splines are now available as base-learner. Additionally the Polynomial and P-Spline learner
@@ -54,7 +57,7 @@ Initial release
 
 - **21.03.2018** \
   New data structure with independent source and target.
-  
+
 - **01.03.2018** \
   Compboost should now run stable and without memory leaks.
 
@@ -63,17 +66,17 @@ Initial release
 
 - **29.01.2018** \
   Update naming to a more consistent scheme.
-  
+
 - **26.01.2018** \
   Add printer for the classes.
-  
+
 - **22.01.2018** \
   Add inbag and out of bag logger.
-  
+
 - **21.01.2018** \
   New structure for factories and base-learner. The function
-  `InstantiateData` is now member of the factory, not the base-learner. This 
+  `InstantiateData` is now member of the factory, not the base-learner. This
   should also speed up the algorithm, since we don't have to check whether data
-  is instantiated or not. We can do that once within the constructor. 
+  is instantiated or not. We can do that once within the constructor.
   Additionally, it should be more clear now what the member does since there is
   no hacky base-learner helper necessary to instantiate the data.
