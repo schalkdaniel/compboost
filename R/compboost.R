@@ -9,19 +9,27 @@
 #' @name Compboost
 #' @section Usage:
 #' \preformatted{
+#' # Constructor
+#'
 #' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-#'   learning_rate = 0.05, oob_fraction)
+#'   learning_rate = 0.05, oob_fraction = NULL)
+#'
+#' # Member functions
 #'
 #' cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 #'
-#' cbboost$addBaselearner(features, id, bl_factory, data_source = InMemoryData,
+#' cbboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData,
 #'   data_target = InMemoryData, ...)
 #'
 #' cbboost$train(iteration = 100, trace = -1)
 #'
 #' cboost$getCurrentIteration()
 #'
-#' cboost$predict(newdata = NULL)
+#' cboost$prepareData(newdata)
+#'
+#' cboost$prepareResponse(response)
+#'
+#' cboost$predict(newdata = NULL, as_response = FALSE)
 #'
 #' cboost$getInbagRisk()
 #'
@@ -32,8 +40,6 @@
 #' cboost$plot(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000)
 #'
 #' cboost$getBaselearnerNames()
-#'
-#' cboost$prepareData(newdata)
 #'
 #' cboost$getLoggerData()
 #'
@@ -48,25 +54,25 @@
 #' \strong{For Compboost$new()}:
 #' \describe{
 #'   \item{\code{data}}{[\code{data.frame}]\cr
-#'     A data frame containing the data.
+#'     A data frame containing the data (features as well as target).
 #'   }
-#'   \item{\code{target}}{[\code{character(1)}]\cr
-#'     Character value containing the target variable. Note that the loss must match the
+#'   \item{\code{target}}{[\code{character(1)} or \code{S4 Response}]\cr
+#'     Character value containing the target variable or \code{Response} object. Note that the loss has to match the
 #'     data type of the target.
 #'   }
 #'   \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
 #'     An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
-#'     to select features at each iteration.
+#'     to specify how features are selected in each iteration.
 #'   }
 #'   \item{\code{loss}}{[\code{S4 Loss}]\cr
-#'     Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
+#'     Initialized \code{S4 Loss} object exposed by Rcpp which is used to calculate the risk and pseudo
 #'     residuals (e.g. \code{LossQuadratic$new()}).
 #'   }
-#'   \item{\code{learning.rage}}{[\code{numeric(1)}]\cr
-#'     Learning rate to shrink the parameter in each step.
+#'   \item{\code{learning_rage}}{[\code{numeric(1)}]\cr
+#'     Learning rate to shrink the new parameters in each iteration.
 #'   }
 #'   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
-#'     Fraction of how much data are used to track the out of bag risk.
+#'     Fraction of how much data are used to calculate the out of bag risk.
 #'   }
 #' }
 #'
@@ -81,7 +87,7 @@
 #'     (early stopping). Default value is \code{FALSE}.
 #'   }
 #'   \item{\code{logger_id}}{[\code{character(1)}]\cr
-#'     Id of the new logger. This is necessary to, for example, register multiple risk logger.
+#'     Id of the new logger. This is necessary to be able to register multiple logger.
 #'   }
 #'   \item{}{\code{...}\cr
 #'     Further arguments passed to the constructor of the \code{S4 Logger} class specified in
@@ -91,22 +97,22 @@
 #'
 #' \strong{For cboost$addBaselearner()}:
 #' \describe{
-#' \item{\code{features}}{[\code{character()}]\cr
-#'   Vector of column names which are used as input data matrix for a single base-learner. Note that not
+#' \item{\code{feature}}{[\code{character()}]\cr
+#'   Vector of column names that are used as input data matrix for a single base-learner. Note that not
 #'   every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
 #' }
 #' \item{\code{id}}{[\code{character(1)}]\cr
-#'   Id of the base-learners. This is necessary since it is possible to define multiple learners with the same underlying data.
+#'   Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
 #' }
 #' \item{\code{bl_factory}}{[\code{S4 Factory}]\cr
 #'   Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
 #'   for possible choices.
 #' }
 #' \item{\code{data_source}}{[\code{S4 Data}]\cr
-#'   Data source object. At the moment just in memory is supported.
+#'   Data source object. Just in memory data objects are supported at the moment.
 #' }
 #' \item{\code{data_target}}{[\code{S4 Data}]\cr
-#'   Data target object. At the moment just in memory is supported.
+#'   Data target object. Just in memory data objects are supported at the moment.
 #' }
 #' \item{}{\code{...}\cr
 #'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
@@ -118,13 +124,13 @@
 #' \strong{For cboost$train()}:
 #' \describe{
 #'   \item{\code{iteration}}{[\code{integer(1)}]\cr
-#'     Number of iterations that are trained. If the model is already trained the model is set to the given number
-#'     by goint back through the already trained base-learners or training new ones. Note: This function defines an
-#'     iteration logger with the id \code{_iterations} which is then used as stopper.
+#'     Number of iterations that are trained. If the model is already trained it sets to the given number
+#'     by going back to already trained base-learners or it trains new ones. Note: This function defines an
+#'     iteration logger with the id \code{_iterations} which is used as stopper for the new training.
 #'   }
 #'   \item{\code{trace}}{[\code{integer(1)}]\cr
-#'     Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
-#'     10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
+#'     Integer indicating after how many iterations a trace should be printed. Specifying \code{trace = 10}, then every
+#'     10th iteration is printed. If you do not want to print the trace set \code{trace = 0}. Default is
 #'     -1 which means that in total 40 iterations are printed.
 #'   }
 #' }
@@ -138,19 +144,26 @@
 #' \strong{For cboost$plot()}:
 #' \describe{
 #' \item{\code{blearner_name}}{[\code{character(1)}]\cr
-#' 	 Character name of the base-learner to plot the additional contribution to the response.
+#' 	 Character name of the base-learner to plot the contribution to the response. Available choices for
+#'   \code{blearner_name} use \code{cboost$getBaselearnerNames()}.
 #' }
 #' \item{\code{iters}}{[\code{integer()}]\cr
-#' 	 Integer vector containing the iterations the user wants to illustrate.
+#' 	 Integer vector containing the iterations the user wants to visualize.
 #' }
 #' \item{\code{from}}{[\code{numeric(1)}]\cr
-#' 	 Lower bound for plotting (should be smaller than \code{to}).
+#' 	 Lower bound for the x axis (should be smaller than \code{to}).
 #' }
 #' \item{\code{to}}{[\code{numeric(1)}]\cr
-#' 	 Upper bound for plotting (should be greater than \code{from}).
+#' 	 Upper bound for the x axis (should be greater than \code{from}).
 #' }
 #' \item{\code{length_out}}{[\code{integer(1)}]\cr
 #' 	 Number of equidistant points between \code{from} and \code{to} used for plotting.
+#' }
+#' }
+#' \strong{For cboost$calculateFeatureImportance() and cboost$plotFeatureImportance()}:
+#' \describe{
+#' \item{\code{num_feats}}{[\code{integer(1)}]\cr
+#'   Number of features for which the Importance will be returned.
 #' }
 #' }
 #' @section Details:
@@ -164,6 +177,13 @@
 #'       \code{LossAbsolute} (Regression)
 #'
 #'     \item
+#'       \code{LossQuantile} (Regression)
+#'       \describe{
+#'         \item{\code{quantile} [\code{numeric(1)}]}{
+#'           Quantile that is boosted.
+#'       }
+#'
+#'     \item
 #'       \code{LossBinomial} (Binary Classification)
 #'
 #'     \item
@@ -172,8 +192,7 @@
 #      \item
 #        \code{LossCustomCpp} (Custom)
 #'   }
-#'   (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}) and the
-#'   \code{C++} documentation for details)
+#'   (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}))
 #'
 #'   \strong{Logger}\cr
 #'   Available choices for the logger are:
@@ -208,6 +227,9 @@
 #'           This argument is used if the logger is also used as stopper. If the relative improvement
 #'           of the logged inbag risk falls below this boundary, then the stopper breaks the algorithm.
 #'         }
+#'         \item{\code{patience} [\code{integer(1)}]}{
+#'           Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
+#'         }
 #'       }
 #'
 #'     \item
@@ -229,6 +251,9 @@
 #'         \item{\code{oob_response} [\code{vector}]}{
 #'           Vector which contains the response for the out of bag data given within \code{oob_data}.
 #'         }
+#'         \item{\code{patience} [\code{integer(1)}]}{
+#'           Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
+#'         }
 #'       }
 #'     }
 #'
@@ -236,10 +261,6 @@
 #'   \itemize{
 #'     \item
 #'       Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}.
-#'
-#'     \item
-#'       We are aware of that the style guide here is not consistent with the \code{R6} arguments. Nevertheless, using
-#'       \code{_} as word separator is due to the used argument names within \code{C++}.
 #'   }
 #'
 #' @section Fields:
@@ -254,10 +275,13 @@
 #'     Fraction of how much data are used to track the out of bag risk.
 #'   }
 #'   \item{\code{response} [\code{vector}]}{
-#'     Response vector.
+#'     Response object that is created or passed in target for training the model.
+#'   }
+#'   \item{\code{response_oob} [\code{vector}]}{
+#'     Response object that is created by specifying the \code{oob_fraction} to evaluate each iteration.
 #'   }
 #'   \item{\code{target} [\code{character(1)}]}{
-#'   	 Name of the target variable
+#'   	 Name of the target variable.
 #'   }
 #'   \item{\code{id} [\code{character(1)}]}{
 #'   	 Name of the given dataset.
@@ -272,7 +296,7 @@
 #'     Learning rate used to shrink the estimated parameter in each iteration.
 #'   }
 #'   \item{\code{model} [\code{S4 Compboost_internal}]}{
-#'     \code{S4 Compboost_internal} class object from that the main operations are called.
+#'     \code{S4 Compboost_internal} class object from which the main operations (such as train) are called.
 #'   }
 #'   \item{\code{bl_factory_list} [\code{S4 FactoryList}]}{
 #'     List of all registered factories represented as \code{S4 FactoryList} class.

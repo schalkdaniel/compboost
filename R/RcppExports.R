@@ -614,7 +614,7 @@ NULL
 #' quadratic_loss = LossQuadratic$new()
 #' quadratic_loss
 #'
-#' @export LossQuadratic
+#' @export LossQuantile
 NULL
 
 #' 0-1 Loss for binary classification derived of the binomial distribution

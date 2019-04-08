@@ -1068,7 +1068,7 @@ public:
 //' quadratic_loss = LossQuadratic$new()
 //' quadratic_loss
 //'
-//' @export LossQuadratic
+//' @export LossQuantile
 class LossQuantileWrapper : public LossWrapper
 {
 public:
