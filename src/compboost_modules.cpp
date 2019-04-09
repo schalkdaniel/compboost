@@ -339,6 +339,8 @@ public:
     Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
+  
+  arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
 };
 
 //' Base-learner factory to do non-parametric B or P-spline regression
@@ -1112,6 +1114,7 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, DataWrapper&, arma::field<arma::mat>, arma::mat, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("transformData", &BaselearnerPolynomialFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")

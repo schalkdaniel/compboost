@@ -1,5 +1,6 @@
 calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 { 
+  browser()
   if (is.null(cboost_obj$model)) {
     stop("Model needs to be trained first.")
   }
@@ -79,6 +80,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
 
 plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 {
+  browser()
   df_plot = calculateFeatEffectData(cboost_obj = cboost_obj, bl_list = bl_list, blearner_name = blearner_name,
     iters = iters, from = from, to = to, length_out = length_out)
 

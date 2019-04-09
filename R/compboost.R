@@ -380,7 +380,25 @@ Compboost = R6::R6Class("Compboost",
       
       if (! is.null(oob_fraction)) {
         # FIXME functionl extraction
-        private$oob_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+        if(class(target)[1] == "Rcpp_ResponseFDA"){
+          stop("Currently OOB is not supported in FDA")
+          grid_length = length(target$getGrid())
+          n_obs = length(target$getResponse()) / grid_length
+          f_oob_idx = sort(sample(x = 0:(n_obs-1), size = floor(oob_fraction * n_obs), replace = FALSE))
+          private$oob_idx = unlist( lapply(f_oob_idx, function(x){(x*grid_length+1):((x*grid_length+1)+grid_length)}))
+          
+        }
+        if(class(target)[1] == "Rcpp_ResponseFDALong"){
+          stop("Currently OOB is not supported in FDA")
+          grid_lengths = unlist(lapply(target$getGrid_field(),length))
+          n_obs = length(target$getGrid_field())
+          f_oob_idx = sort(sample(x = 1:(n_obs), size = floor(oob_fraction * n_obs), replace = FALSE))
+          df_idx = data.frame(id = rep(1:n_obs, grid_lengths), idx = 1:length(target$getResponse()))
+          private$oob_idx = df_idx[df_idx$id %in% f_oob_idx,2]
+
+        } else{
+          private$oob_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+        }
       }
       private$train_idx = setdiff(seq_len(nrow(data)), private$oob_idx)
       
@@ -629,7 +647,7 @@ Compboost = R6::R6Class("Compboost",
       if(class(self$response)[1] %in% c("Rcpp_ResponseFDA","Rcpp_ResponseFDALong")){
         # Call Constructer with grid_mat in FDA case
         private$bl_list[[id]]$factory = bl_factory$new(private$bl_list[[id]]$source, private$bl_list[[id]]$target,
-          self$grid_mat, dots)
+          self$grid_mat,private$time_penalty, dots)
       } else{
         private$bl_list[[id]]$factory = bl_factory$new(private$bl_list[[id]]$source, private$bl_list[[id]]$target,
          dots)
