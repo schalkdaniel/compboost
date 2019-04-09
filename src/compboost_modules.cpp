@@ -287,7 +287,7 @@ private:
     Rcpp::Named("intercept") = true,
     Rcpp::Named("id_fac") = ""
   );
-
+  
 public:
 
   BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
@@ -341,6 +341,9 @@ public:
   }
   
   arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
+  arma::mat transformDataTime (const arma::mat& newdata, const arma::mat& newtime) { 
+    return  std::static_pointer_cast<blearnerfactory::BaselearnerPolynomialFactory>(sh_ptr_blearner_factory)->instantiateDataTime(newdata, newtime); 
+    }
 };
 
 //' Base-learner factory to do non-parametric B or P-spline regression
@@ -1113,8 +1116,9 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, DataWrapper&, arma::field<arma::mat>, arma::mat, Rcpp::List> ()
 
-    .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
-    .method("transformData", &BaselearnerPolynomialFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
+    .method("summarizeFactory",  &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("transformData",     &BaselearnerPolynomialFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
+    .method("transformDataTime", &BaselearnerPolynomialFactoryWrapper::transformDataTime, "Transform data to the dataset used within the learner")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")

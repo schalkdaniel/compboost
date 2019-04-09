@@ -122,6 +122,7 @@ public:
   arma::mat time_penalty;
 
   arma::mat instantiateData (const arma::mat&) const;
+  arma::mat instantiateDataTime (const arma::mat&, const arma::mat&) const;
 };
 
 

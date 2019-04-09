@@ -258,6 +258,32 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
   return temp;
 }
 
+
+// Transform data. This is done twice since it makes the prediction
+// of the whole compboost object so much easier:
+arma::mat BaselearnerPolynomialFactory::instantiateDataTime (const arma::mat& newdata, const arma::mat& newtime) const
+{
+  arma::mat temp = arma::pow(newdata, degree);
+  if (intercept) {
+    arma::mat temp_intercept(temp.n_rows, 1, arma::fill::ones);
+    temp = join_rows(temp_intercept, temp);
+  }
+
+
+  arma::mat data_kroned = arma::zeros(temp.n_rows,temp.n_cols*newtime.n_cols);
+    
+  int grid_n = newtime.n_rows;
+    
+  for(int i = 0; i <= temp.n_rows - grid_n; i = i + grid_n) {
+      data_kroned.rows(i,(i-1 + grid_n)) = tensors::rowWiseKronecker(newtime,temp.rows(i,(i-1 + grid_n)));
+    }
+    temp = data_kroned;
+    
+  return temp;
+}
+
+
+
 arma::mat BaselearnerPolynomialFactory::getPenalty () const
 {
   if(intercept){

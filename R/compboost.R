@@ -332,6 +332,7 @@ Compboost = R6::R6Class("Compboost",
     bl_factory_list = NULL,
     positive_category = NULL,
     grid_mat = NULL,
+    time_spline = NULL,
     stop_if_all_stoppers_fulfilled = FALSE,
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning_rate = 0.05, oob_fraction = NULL, 
       time_spline_pars = list(degree = 3, n_knots = 25, penalty = 0, differences = 2)) {
@@ -377,7 +378,7 @@ Compboost = R6::R6Class("Compboost",
         self$response = target
       }
       
-      
+
       if (! is.null(oob_fraction)) {
         # FIXME functionl extraction
         if(class(target)[1] == "Rcpp_ResponseFDA"){
@@ -429,10 +430,10 @@ Compboost = R6::R6Class("Compboost",
         # we will safe the factory for transforming data.
         blt_source = InMemoryData$new(as.matrix(self$response$getGrid()[1,]), "")
         blt_target = InMemoryData$new()
-        private$time_spline = BaselearnerPSpline$new(blt_source, blt_target, time_spline_pars)
-        private$time_penalty = private$time_spline$getPenaltyMat()
+        self$time_spline = BaselearnerPSpline$new(blt_source, blt_target, time_spline_pars)
+        private$time_penalty = self$time_spline$getPenaltyMat()
         
-        self$grid_mat = list(private$time_spline$getData())
+        self$grid_mat = list(self$time_spline$getData())
       }
       
       if(class(self$response)[1] == "Rcpp_ResponseFDALong"){
@@ -445,11 +446,11 @@ Compboost = R6::R6Class("Compboost",
         # we are effectively concatenating and sorting all grids to use all data
         g_source = InMemoryData$new(matrix(as.vector(unlist(grids)), ncol = 1), "")
         g_target = InMemoryData$new()
-        private$time_spline = BaselearnerPSpline$new(g_source, g_target, time_spline_pars)
-        private$time_penalty = private$time_spline$getPenaltyMat()
+        self$time_spline = BaselearnerPSpline$new(g_source, g_target, time_spline_pars)
+        private$time_penalty = self$time_spline$getPenaltyMat()
         
         for(g in 1:length(grids)){
-          grid_mats[[g]] = private$time_spline$transformData(matrix(grids[[g]], ncol = 1))
+          grid_mats[[g]] = self$time_spline$transformData(matrix(grids[[g]], ncol = 1))
         }
         self$grid_mat = grid_mats
       }
@@ -877,7 +878,6 @@ Compboost = R6::R6Class("Compboost",
     logger_list = list(),
     oob_idx = NULL,
     train_idx = NULL,
-    time_spline = NULL,
     time_penalty = NULL,
     initializeModel = function() {
 

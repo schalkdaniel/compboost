@@ -40,10 +40,12 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
   }
   
   # here we will need to loop through the baselearners
-  plot_data = as.matrix(seq(from = from, to = to, length.out = length_out))
+  plot_data = as.matrix(seq(from = from, to = to, length.out = nrow(cboost_obj$grid_mat[[1]])))
   feat_map  = bl_list[[blearner_name]]$factory$transformData(plot_data)
 
   if(class(cboost_obj$response)[1] %in% c("Rcpp_ResponseFDA","Rcpp_ResponseFDALong")){
+    
+    feat_map  = bl_list[[blearner_name]]$factory$
         coefs_extract = cboost_obj$getEstimatedCoef()
         df_plot = data.frame(
           effect  = feat_map %*% coefs_extract[[blearner_name]],
@@ -80,6 +82,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
 
 plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 {
+
   browser()
   df_plot = calculateFeatEffectData(cboost_obj = cboost_obj, bl_list = bl_list, blearner_name = blearner_name,
     iters = iters, from = from, to = to, length_out = length_out)
