@@ -635,8 +635,6 @@ arma::mat BaselearnerPSplineFactory::instantiateDataTime (const arma::mat& newda
   
   int grid_n = newtime.n_rows;
   
-  Rcpp::Rcout << "Updated" << std::endl;
-  
   for(int i = 0; i <= out.n_rows - grid_n; i = i + grid_n) {
     data_kroned.rows(i,(i-1 + grid_n)) = tensors::rowWiseKronecker(newtime,out.rows(i,(i-1 + grid_n)));
   }
