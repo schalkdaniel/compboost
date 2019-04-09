@@ -42,6 +42,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
   # here we will need to loop through the baselearners
   plot_data = as.matrix(seq(from = from, to = to, length.out = nrow(cboost_obj$grid_mat[[1]])))
   feat_map  = bl_list[[blearner_name]]$factory$transformData(plot_data)
+  
 
   if(class(cboost_obj$response)[1] %in% c("Rcpp_ResponseFDA","Rcpp_ResponseFDALong")){
     
