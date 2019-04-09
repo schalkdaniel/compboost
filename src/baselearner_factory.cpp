@@ -631,16 +631,18 @@ arma::mat BaselearnerPSplineFactory::instantiateDataTime (const arma::mat& newda
   // initialized knots, and penalty matrix!
   arma::mat out = splines::createSplineBasis(temp, degree, data_target->knots);
   
-  // Vars
-    
-  // Variables
-  arma::rowvec vecA = arma::rowvec(out.n_cols, arma::fill::ones);
-  arma::rowvec vecB = arma::rowvec(newtime.n_cols, arma::fill::ones);
+  arma::mat data_kroned = arma::zeros(out.n_rows,out.n_cols*newtime.n_cols);
   
-  // Multiply both kronecker products element-wise
-  arma::mat out2 = arma::mat(arma::kron(out,vecA) % arma::kron(vecB, newtime));
+  int grid_n = newtime.n_rows;
+  
+  Rcpp::Rcout << "Updated" << std::endl;
+  
+  for(int i = 0; i <= out.n_rows - grid_n; i = i + grid_n) {
+    data_kroned.rows(i,(i-1 + grid_n)) = tensors::rowWiseKronecker(newtime,out.rows(i,(i-1 + grid_n)));
+  }
+  temp = data_kroned;
 
-  return out2;
+  return temp;
 }
 
 /// ---------------------------------------------------------------------------------------------- ///
