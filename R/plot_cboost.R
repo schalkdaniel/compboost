@@ -38,8 +38,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
     to = max(cboost_obj$data[[feat_name]])
   }
   
-  browser()
-  
+
   # here we will need to loop through the baselearners
   plot_data = as.matrix(seq(from = from, to = to, length.out = nrow(cboost_obj$grid_mat[[1]])))
   feat_map  = bl_list[[blearner_name]]$factory$transformData(plot_data)
@@ -93,7 +92,6 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
 plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 {
 
-browser()
   df_plot = calculateFeatEffectData(cboost_obj = cboost_obj, bl_list = bl_list, blearner_name = blearner_name,
     iters = iters, from = from, to = to, length_out = length_out)
 
