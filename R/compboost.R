@@ -9,6 +9,7 @@
 #' @name Compboost
 #' @section Usage:
 #' \preformatted{
+#' 
 #' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
 #'   learning_rate = 0.05, oob_fraction)
 #'
