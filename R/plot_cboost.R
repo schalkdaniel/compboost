@@ -1,6 +1,5 @@
 calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 { 
-  browser()
   if (is.null(cboost_obj$model)) {
     stop("Model needs to be trained first.")
   }
@@ -46,12 +45,20 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
 
   if(class(cboost_obj$response)[1] %in% c("Rcpp_ResponseFDA","Rcpp_ResponseFDALong")){
     
-    feat_map  = bl_list[[blearner_name]]$factory$
-        coefs_extract = cboost_obj$getEstimatedCoef()
-        df_plot = data.frame(
-          effect  = feat_map %*% coefs_extract[[blearner_name]],
-          feature = plot_data
-        )
+    time_grid = seq(min(cboost_obj$response$getGrid()), max(cboost_obj$response$getGrid()),length.out = nrow(plot_data))
+    
+    coefs_extract = cboost_obj$getEstimatedCoef()[[blearner_name]]
+    
+    coef_mat = matrix(0, nrow = nrow(plot_data), ncol = nrow(plot_data))
+    
+    for(i in 1:length(time_grid)){
+      for(j in 1:length(plot_data)){
+        transformed_time = cboost_obj$time_spline$transformData(as.matrix(time_grid[i]))
+        coef_mat[i,j] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
+        }
+    }
+    df_plot = list(coef_mat = coef_mat, time_grid = time_grid, plot_data = plot_data) 
+
   } else{
       # Create data.frame for plotting depending if iters is specified:
       if (! is.null(iters[1])) {
@@ -84,40 +91,49 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
 plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 {
 
-  browser()
+
   df_plot = calculateFeatEffectData(cboost_obj = cboost_obj, bl_list = bl_list, blearner_name = blearner_name,
     iters = iters, from = from, to = to, length_out = length_out)
 
-  # Use aes_string to avoid check note:
-  # > checking R code for possible problems ... NOTE
-  # >   plotFeatEffect: no visible binding for global variable ‘feature’
-  # >   plotFeatEffect: no visible binding for global variable ‘effect’
-  # >   plotFeatEffect: no visible binding for global variable ‘iteration’
-  if (! is.null(iters[1])) {
-    gg = ggplot2::ggplot(df_plot, ggplot2::aes_string("feature", "effect", color = "iteration"))
-  } else {
-    gg = ggplot2::ggplot(df_plot, ggplot2::aes_string("feature", "effect"))
-  }
-  # If there are too much rows we need to take just a sample or completely remove rugs:
-  if (nrow(cboost_obj$data) > 1000) {
-    idx_rugs = sample(seq_len(nrow(cboost_obj$data)), 1000, FALSE)
-  } else {
-    idx_rugs = seq_len(nrow(cboost_obj$data))
+  if(!is.list(df_plot)){
+    # Use aes_string to avoid check note:
+    # > checking R code for possible problems ... NOTE
+    # >   plotFeatEffect: no visible binding for global variable ‘feature’
+    # >   plotFeatEffect: no visible binding for global variable ‘effect’
+    # >   plotFeatEffect: no visible binding for global variable ‘iteration’
+    if (! is.null(iters[1])) {
+      gg = ggplot2::ggplot(df_plot, ggplot2::aes_string("feature", "effect", color = "iteration"))
+    } else {
+      gg = ggplot2::ggplot(df_plot, ggplot2::aes_string("feature", "effect"))
+    }
+    # If there are too much rows we need to take just a sample or completely remove rugs:
+    if (nrow(cboost_obj$data) > 1000) {
+      idx_rugs = sample(seq_len(nrow(cboost_obj$data)), 1000, FALSE)
+    } else {
+      idx_rugs = seq_len(nrow(cboost_obj$data))
+    }
+    
+    feat_name = bl_list[[blearner_name]]$target$getIdentifier()
+    from = min(df_plot$feature)
+    to = max(df_plot$feature)
+    
+    gg = gg +
+      ggplot2::geom_line() +
+      ggplot2::geom_rug(data = cboost_obj$data[idx_rugs,], ggplot2::aes_string(x = feat_name), inherit.aes = FALSE,
+        alpha = 0.8) +
+      ggplot2::xlab(feat_name) +
+      ggplot2::xlim(from, to) +
+      ggplot2::ylab("Additive Contribution") +
+      ggplot2::labs(title = paste0("Effect of ", blearner_name),
+        subtitle = "Additive contribution of predictor")
+  } else{
+
+    graphics::image(x = df_plot$time_grid, y = df_plot$plot_data, z = df_plot$coef_mat, col = heat.colors(100),
+      main = paste("Effect of",blearner_name), xlab = "t", ylab = "Variable")
+    contour.default(x = df_plot$time_grid, y = df_plot$plot_data, z = df_plot$coef_mat, add = TRUE)
+    gg = NULL
   }
 
-  feat_name = bl_list[[blearner_name]]$target$getIdentifier()
-  from = min(df_plot$feature)
-  to = max(df_plot$feature)
-
-  gg = gg +
-    ggplot2::geom_line() +
-    ggplot2::geom_rug(data = cboost_obj$data[idx_rugs,], ggplot2::aes_string(x = feat_name), inherit.aes = FALSE,
-      alpha = 0.8) +
-    ggplot2::xlab(feat_name) +
-    ggplot2::xlim(from, to) +
-    ggplot2::ylab("Additive Contribution") +
-    ggplot2::labs(title = paste0("Effect of ", blearner_name),
-      subtitle = "Additive contribution of predictor")
 
   return(gg)
 }

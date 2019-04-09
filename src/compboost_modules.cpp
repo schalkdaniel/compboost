@@ -485,6 +485,9 @@ public:
   {
     return std::static_pointer_cast<blearnerfactory::BaselearnerPSplineFactory>(sh_ptr_blearner_factory)->penalty_mat;
   }
+  arma::mat transformDataTime (const arma::mat& newdata, const arma::mat& newtime) { 
+    return  std::static_pointer_cast<blearnerfactory::BaselearnerPSplineFactory>(sh_ptr_blearner_factory)->instantiateDataTime(newdata, newtime); 
+  }
 };
 
 
@@ -1128,6 +1131,7 @@ RCPP_MODULE (baselearner_factory_module)
 
     .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
     .method("getPenaltyMat", &BaselearnerPSplineFactoryWrapper::getPenaltyMat, "Get the penalty matrix")
+    .method("transformDataTime", &BaselearnerPSplineFactoryWrapper::transformDataTime, "Transform data to the dataset used within the learner")
   ;
 
   class_<BaselearnerTargetOnlyFactoryWrapper> ("BaselearnerTargetOnly")

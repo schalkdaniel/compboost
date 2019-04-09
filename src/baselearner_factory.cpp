@@ -616,6 +616,33 @@ arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) 
   return out;
 }
 
+arma::mat BaselearnerPSplineFactory::instantiateDataTime (const arma::mat& newdata, const arma::mat& newtime) const
+{
+  
+  arma::vec knots = data_target->knots;
+  
+  // check if the new data matrix contains value which are out of range:
+  double range_min = knots[degree];                   // minimal value from original data
+  double range_max = knots[n_knots + degree + 1];     // maximal value from original data
+  
+  arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, data_target->getDataIdentifier());
+  
+  // Data object has to be created prior! That means that data_ptr must have
+  // initialized knots, and penalty matrix!
+  arma::mat out = splines::createSplineBasis(temp, degree, data_target->knots);
+  
+  // Vars
+    
+  // Variables
+  arma::rowvec vecA = arma::rowvec(out.n_cols, arma::fill::ones);
+  arma::rowvec vecB = arma::rowvec(newtime.n_cols, arma::fill::ones);
+  
+  // Multiply both kronecker products element-wise
+  arma::mat out2 = arma::mat(arma::kron(out,vecA) % arma::kron(vecB, newtime));
+
+  return out2;
+}
+
 /// ---------------------------------------------------------------------------------------------- ///
 
 BaselearnerCombinedFactory::BaselearnerCombinedFactory (const std::string& blearner_type0, 

@@ -188,6 +188,7 @@ public:
 
   /// Instantiate the design matrix
   arma::mat instantiateData (const arma::mat&) const;
+  arma::mat instantiateDataTime (const arma::mat&, const arma::mat&) const;
 };
 
 // BaselearnerPolynomialFactory:
