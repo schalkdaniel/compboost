@@ -1,5 +1,6 @@
 calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, from, to, length_out)
 { 
+
   if (is.null(cboost_obj$model)) {
     stop("Model needs to be trained first.")
   }
@@ -45,21 +46,41 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
   
 
   if(class(cboost_obj$response)[1] %in% c("Rcpp_ResponseFDA","Rcpp_ResponseFDALong")){
+      if(class(cboost_obj$response)[1] == "Rcpp_ResponseFDA"){
+      
+      time_grid = seq(min(cboost_obj$response$getGrid()), max(cboost_obj$response$getGrid()),length.out = nrow(plot_data))
+      
+      coefs_extract = cboost_obj$getEstimatedCoef()[[blearner_name]]
+      
+      coef_mat = matrix(0, nrow = nrow(plot_data), ncol = nrow(plot_data))
+      
+      for(i in 1:length(time_grid)){
+        for(j in 1:length(plot_data)){
+          transformed_time = cboost_obj$time_spline$transformData(as.matrix(time_grid[i]))
+          coef_mat[j,i] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
+          }
+      }
+      
+      df_plot = list(coef_mat = coef_mat, time_grid = time_grid, plot_data = plot_data) 
+      } 
     
-    time_grid = seq(min(cboost_obj$response$getGrid()), max(cboost_obj$response$getGrid()),length.out = nrow(plot_data))
+    if(class(cboost_obj$response)[1] == "Rcpp_ResponseFDALong"){
+    
+    time_grid = seq(min(unlist(cboost_obj$response$getGrid_field())), max(unlist(cboost_obj$response$getGrid_field())),length.out = nrow(plot_data))
     
     coefs_extract = cboost_obj$getEstimatedCoef()[[blearner_name]]
     
     coef_mat = matrix(0, nrow = nrow(plot_data), ncol = nrow(plot_data))
-    
+    browser()
     for(i in 1:length(time_grid)){
       for(j in 1:length(plot_data)){
         transformed_time = cboost_obj$time_spline$transformData(as.matrix(time_grid[i]))
-        coef_mat[i,j] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
-        }
+        coef_mat[j,i] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
+      }
     }
     df_plot = list(coef_mat = coef_mat, time_grid = time_grid, plot_data = plot_data) 
-
+    
+    }
   } else{
       # Create data.frame for plotting depending if iters is specified:
       if (! is.null(iters[1])) {
@@ -131,7 +152,7 @@ plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, 
     graphics::image(x = df_plot$time_grid, y = df_plot$plot_data, z = df_plot$coef_mat, col = heat.colors(100),
       main = paste("Effect of",blearner_name), xlab = "t", ylab = "Variable")
     contour.default(x = df_plot$time_grid, y = df_plot$plot_data, z = df_plot$coef_mat, add = TRUE)
-    gg = NULL
+    gg =  df_plot$coef_mat
   }
 
 
