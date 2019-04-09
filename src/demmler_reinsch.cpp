@@ -24,6 +24,7 @@
 namespace demrei
 {
 
+
 // Define function to calculate the degrees of freedom depending on the penalty term. The root of this function
 // corresponds to the desired penalty term:
 double calculateDegreesOfFreedom (const double& x, const arma::vec& singular_values, const double& degrees_of_freedom)
