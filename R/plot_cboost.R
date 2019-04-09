@@ -57,7 +57,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
       for(i in 1:length(time_grid)){
         for(j in 1:length(plot_data)){
           transformed_time = cboost_obj$time_spline$transformData(as.matrix(time_grid[i]))
-          coef_mat[j,i] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
+          coef_mat[i,j] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
           }
       }
       
@@ -75,7 +75,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
     for(i in 1:length(time_grid)){
       for(j in 1:length(plot_data)){
         transformed_time = cboost_obj$time_spline$transformData(as.matrix(time_grid[i]))
-        coef_mat[j,i] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
+        coef_mat[i,j] = bl_list[[blearner_name]]$factory$transformDataTime(as.matrix(plot_data[j]), transformed_time) %*% coefs_extract
       }
     }
     df_plot = list(coef_mat = coef_mat, time_grid = time_grid, plot_data = plot_data) 
@@ -152,7 +152,7 @@ plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, 
     graphics::image(x = df_plot$time_grid, y = df_plot$plot_data, z = df_plot$coef_mat, col = heat.colors(100),
       main = paste("Effect of",blearner_name), xlab = "t", ylab = "Variable")
     contour.default(x = df_plot$time_grid, y = df_plot$plot_data, z = df_plot$coef_mat, add = TRUE)
-    gg =  df_plot$coef_mat
+    return()
   }
 
 

@@ -631,7 +631,6 @@ arma::mat BaselearnerPSplineFactory::instantiateDataTime (const arma::mat& newda
   // initialized knots, and penalty matrix!
   arma::mat out = splines::createSplineBasis(temp, degree, data_target->knots);
   
-  Rcpp::Rcout << "I'm alive" << std::endl;
   arma::mat data_kroned = arma::mat(out.n_rows, out.n_cols*newtime.n_cols);
   arma::mat temp2 = arma::mat();
   int grid_n = newtime.n_rows;
@@ -642,17 +641,16 @@ arma::mat BaselearnerPSplineFactory::instantiateDataTime (const arma::mat& newda
   arma::mat out2 = arma::mat();
   
   for(int i = 0; i <= out.n_rows - grid_n; i = i + grid_n) {
-    temp = out.rows(i,(i-1 + grid_n));
+    temp2 = out.rows(i,(i-1 + grid_n));
     
     // Variables
     vecA = arma::rowvec(temp2.n_cols, arma::fill::ones);
     vecB = arma::rowvec(newtime.n_cols, arma::fill::ones);
     
     // Multiply both kronecker products element-wise
-    out2 = arma::kron(temp,vecB) % arma::kron(vecA, newtime);
+    out2 = arma::kron(temp2,vecB) % arma::kron(vecA, newtime);
     data_kroned.rows(i,(i-1 + grid_n)) = out2;
   }
-  // store transposed
   
   return data_kroned;
 }
