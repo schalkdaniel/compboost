@@ -41,13 +41,13 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
   
 
   # here we will need to loop through the baselearners
-  plot_data = as.matrix(seq(from = from, to = to, length.out = nrow(cboost_obj$grid_mat[[1]])))
+  plot_data = as.matrix(seq(from = from, to = to, length.out = 100))
   feat_map  = bl_list[[blearner_name]]$factory$transformData(plot_data)
   
 
   if(class(cboost_obj$response)[1] %in% c("Rcpp_ResponseFDA","Rcpp_ResponseFDALong")){
       if(class(cboost_obj$response)[1] == "Rcpp_ResponseFDA"){
-      
+      plot_data = as.matrix(seq(from = from, to = to, length.out = nrow(cboost_obj$grid_mat[[1]])))
       time_grid = seq(min(cboost_obj$response$getGrid()), max(cboost_obj$response$getGrid()),length.out = nrow(plot_data))
       
       coefs_extract = cboost_obj$getEstimatedCoef()[[blearner_name]]
@@ -65,7 +65,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
       } 
     
     if(class(cboost_obj$response)[1] == "Rcpp_ResponseFDALong"){
-    
+    plot_data = as.matrix(seq(from = from, to = to, length.out = nrow(cboost_obj$grid_mat[[1]])))
     time_grid = seq(min(unlist(cboost_obj$response$getGrid_field())), max(unlist(cboost_obj$response$getGrid_field())),length.out = nrow(plot_data))
     
     coefs_extract = cboost_obj$getEstimatedCoef()[[blearner_name]]
