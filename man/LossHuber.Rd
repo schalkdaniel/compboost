@@ -10,17 +10,17 @@ This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 \details{
 \strong{Loss Function:}
 \deqn{
-  L(y, f(x)) = 0.5(y - f(x))^2 \ \ \text{if} \ \ |y - f(x)| < d
+  L(y, f(x)) = 0.5(y - f(x))^2 \ \ \mathrm{if} \ \ |y - f(x)| < d
 }
 \deqn{
-  L(y, f(x)) = d|y - f(x)| - 0.5d^2 \ \ \text{otherwise}
+  L(y, f(x)) = d|y - f(x)| - 0.5d^2 \ \ \mathrm{otherwise}
 }
 \strong{Gradient:}
 \deqn{
-  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \ \ \text{if} \ \ |y - f(x)| < d
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \ \ \mathrm{if} \ \ |y - f(x)| < d
 }
 \deqn{
-  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \text{otherwise}
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \mathrm{otherwise}
 }
 }
 \section{Usage}{
