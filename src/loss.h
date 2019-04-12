@@ -40,6 +40,8 @@
 #include <memory>
 
 #include "helper.h"
+// #include "lossoptim.h"
+
 
 namespace loss
 {
@@ -57,7 +59,7 @@ namespace loss
  * the `custom_offset` fails.
  *
  */
-class Loss
+class Loss : public std::enable_shared_from_this<Loss>
 {
 public:
   /// Get the task id
@@ -93,6 +95,22 @@ protected:
   /// Tag if a custom offset is used
   bool use_custom_offset = false;
 };
+
+} // namespace loss
+
+
+
+// Forward declaring lossoptim:
+namespace lossoptim
+{
+  double findOptimalLossConstant (const arma::mat&, const std::shared_ptr< const loss::Loss>, const double&, const double&);
+  double findOptimalWeightedLossConstant (const arma::mat&, const arma::mat&, const std::shared_ptr< const loss::Loss>, const double&, const double&);
+}
+
+
+
+namespace loss
+{
 
 // -------------------------------------------------------------------------- //
 // Loss implementations as child classes:
@@ -212,6 +230,33 @@ public:
   arma::mat constantInitializer (const arma::mat&) const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
+
+
+
+class LossHuber : public Loss
+{
+public:
+
+  double delta;
+
+  /// Default Constructor
+  LossHuber (const double&);
+
+  /// Constructor to initialize custom offset
+  LossHuber (const double&, const double&);
+
+  /// Specific loss function
+  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
+
+  /// Gradient of loss functions for pseudo residuals
+  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
+
+  /// Constant initialization of the empirical risk
+  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+};
+
+
 
 // Binomial loss:
 // -----------------------

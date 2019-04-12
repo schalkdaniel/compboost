@@ -1,5 +1,8 @@
 # Release Notes
 
+- **12.04.2019** \
+  The Huber loss is now available for training.
+
 - **08.04.2019** \
   Quantile loss for quantile regression.
 

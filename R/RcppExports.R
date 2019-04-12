@@ -617,6 +617,56 @@ NULL
 #' @export LossQuantile
 NULL
 
+#' Huber loss for regression tasks.
+#'
+#' This loss can be used for regression with \eqn{y \in \mathrm{R}}.
+#'
+#' \strong{Loss Function:}
+#' \deqn{
+#'   L(y, f(x)) = 0.5(y - f(x))^2 \ \ \text{if} \ \ |y - f(x)| < d
+#' }
+#' \deqn{
+#'   L(y, f(x)) = d|y - f(x)| - 0.5d^2 \ \ \text{otherwise}
+#' }
+#' \strong{Gradient:}
+#' \deqn{
+#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \ \ \text{if} \ \ |y - f(x)| < d
+#' }
+#' \deqn{
+#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \text{otherwise}
+#' }
+#'
+#' @format \code{\link{S4}} object.
+#' @name LossHuber
+#'
+#' @section Usage:
+#' \preformatted{
+#' LossHuber$new()
+#' LossHuber$new(delta)
+#' LossHuber$new(offset, delta)
+#' }
+#'
+#' @section Arguments:
+#' \describe{
+#' \item{\code{offset} [\code{numeric(1)}]}{
+#'   Numerical value which can be used to set a custom offset. If so, this
+#'   value is returned instead of the loss optimal initialization.
+#' }
+#' \item{\code{delta} [\code{numeric(1)}]}{
+#'   Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
+#'   Default is 1.
+#' }
+#' }
+#'
+#' @examples
+#'
+#' # Create new loss object:
+#' huber_loss = LossHuber$new()
+#' huber_loss
+#'
+#' @export LossHuber
+NULL
+
 #' 0-1 Loss for binary classification derived of the binomial distribution
 #'
 #' This loss can be used for binary classification. The coding we have chosen

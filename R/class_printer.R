@@ -145,7 +145,13 @@ ignore_me = setMethod("show", "Rcpp_LossQuantile", function (object) {
   glueLoss("LossQuantile", "h|y - f(x)|", paste0(
   "h = 2q        if  y - f(x) > 0\n",
   "  h = 2(1 - q)  otherwise\n\n",
-  "  with quantile q = ", object$getQuantile(), "\n\n"))
+  "  with quantile q = ", object$getQuantile(), "\n"))
+})
+
+setClass("Rcpp_LossHuber")
+ignore_me = setMethod("show", "Rcpp_LossHuber", function (object) {
+  glueLoss("LossHuber", "if (y - f(x) < d) { 0.5(y - f(x))^2 } else { d|y - f(x)| - 0.5d^2 }", paste0(
+  "  with delta d = ", object$getDelta(), "\n"))
 })
 
 setClass("Rcpp_LossBinomial")

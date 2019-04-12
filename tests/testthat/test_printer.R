@@ -37,7 +37,12 @@ test_that("Loss printer works", {
   expect_silent({ quadratic_loss = LossQuadratic$new() })
   expect_silent({ absolute_loss  = LossAbsolute$new() })
   expect_silent({ quantile_loss  = LossQuantile$new() })
-  expect_silent({ binomial_loss = LossBinomial$new() })
+  expect_silent({ quantile_loss  = LossQuantile$new(0.1) })
+  expect_silent({ quantile_loss  = LossQuantile$new(0.1, 0.1) })
+  expect_silent({ huber_loss     = LossHuber$new() })
+  expect_silent({ huber_loss     = LossHuber$new(1) })
+  expect_silent({ huber_loss     = LossHuber$new(1, 1) })
+  expect_silent({ binomial_loss  = LossBinomial$new() })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
 
   myLossFun = function (true_value, prediction) NULL
@@ -50,6 +55,7 @@ test_that("Loss printer works", {
   expect_output({ test_quadratic_printer  = show(quadratic_loss) })
   expect_output({ test_absolute_printer   = show(absolute_loss) })
   expect_output({ test_quantile_printer   = show(quantile_loss) })
+  expect_output({ test_huber_printer   = show(huber_loss) })
   expect_output({ test_custom_printer     = show(custom_loss) })
   expect_output({ test_custom_cpp_printer = show(custom_cpp_loss) })
   expect_output({ test_binomialprinter    = show(binomial_loss) })
@@ -57,11 +63,10 @@ test_that("Loss printer works", {
   expect_equal(test_quadratic_printer, "LossQuadraticPrinter")
   expect_equal(test_absolute_printer, "LossAbsolutePrinter")
   expect_equal(test_quantile_printer, "LossQuantilePrinter")
+  expect_equal(test_huber_printer, "LossHuberPrinter")
   expect_equal(test_binomialprinter, "LossBinomialPrinter")
   expect_equal(test_custom_cpp_printer, "LossCustomCppPrinter")
   expect_equal(test_custom_printer, "LossCustomPrinter")
-
-  expect_equal(quantile_loss$getQuantile(), 0.5)
 
 })
 

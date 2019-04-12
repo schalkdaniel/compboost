@@ -185,5 +185,5 @@ gridExtra::grid.arrange(gg1, gg2, ncol = 2)
 
 ## Comments
 
-Boosting the median is a technique to get a more robust model. Nevertheless, since boosting the mean has some nice estimation properties we introduce more variance in the estimators if we use the quantile loss. To get as precise predictions we need much more data to reduce the variance. Another better loss in terms of variance is the Huber loss which uses a quadratic approximation at around zero and after a threshold $\delta$ a linear extrapolation.
+Boosting the median is a technique to get a more robust model. Nevertheless, since boosting the mean has some nice estimation properties we introduce more variance in the estimators if we use the quantile loss. To get as precise predictions we need much more data to reduce the variance. Another better loss in terms of variance is the Huber loss `LossHuber$new()` which uses a quadratic approximation at around zero and after a threshold $\delta$ a linear extrapolation.
 

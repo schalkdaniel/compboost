@@ -305,6 +305,98 @@ arma::mat LossQuantile::weightedConstantInitializer (const arma::mat& true_value
   return constantInitializer(true_value);
 }
 
+
+// Huber loss:
+// -----------------------
+
+/**
+ * \brief Default constructor of `LossHuber`
+ *
+ */
+LossHuber::LossHuber (const double& delta) : delta ( delta )
+{
+  if ((delta < 0)) {
+    Rcpp::stop("Delta must be greater than 0");
+  }
+  task_id = "regression"; // set parent
+}
+
+/**
+ * \brief Constructor to initialize custom offset of `LossQuantile`
+ *
+ * \param custom_offset0 `double` Offset which is used instead of the pre
+ *   defined initialization
+ *
+ */
+LossHuber::LossHuber (const double& custom_offset0, const double& delta) : delta ( delta )
+{
+  if ((delta < 0)) {
+    Rcpp::stop("Delta must be greater than 0");
+  }
+  task_id = "regression"; // set parent
+  custom_offset = custom_offset0;
+  use_custom_offset = true;
+}
+
+/**
+ * \brief Definition of the loss function (see description of the class)
+ *
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
+ *
+ * \returns `arma::mat` vector of elementwise application of the loss function
+ */
+arma::mat LossHuber::definedLoss (const arma::mat& true_value, const arma::mat& prediction) const
+{
+  arma::mat loss_mat = true_value - prediction;
+  loss_mat.transform( [this](double elem) {
+    return (std::abs(elem) < delta) ? double(0.5 * std::pow(elem, 2)) : double(delta * std::abs(elem) - 0.5 * std::pow(delta, 2));
+  } );
+  return loss_mat;
+}
+
+/**
+ * \brief Definition of the gradient of the loss function (see description of the class)
+ *
+ * \param true_value `arma::mat` True value of the response
+ * \param prediction `arma::mat` Prediction of the true value
+ *
+ * \returns `arma::mat` vector of elementwise application of the gradient
+ */
+arma::mat LossHuber::definedGradient (const arma::mat& true_value, const arma::mat& prediction) const
+{
+  arma::mat grad_mat = true_value - prediction;
+  grad_mat.transform( [this](double elem) {
+    return (std::abs(elem) < delta) ? double(-elem) : double(-delta * elem / std::abs(elem));
+  } );
+  return grad_mat;
+}
+
+/**
+ * \brief Definition of the constant risk initialization (see description of the class)
+ *
+ * \param true_value `arma::mat` True value of the response
+ *
+ * \returns `double` constant which minimizes the empirical risk for the given true value
+ */
+arma::mat LossHuber::constantInitializer (const arma::mat& true_value) const
+{
+  if (use_custom_offset) { return custom_offset; }
+  double out = lossoptim::findOptimalLossConstant(true_value, shared_from_this(), true_value.min(), true_value.max());
+  arma::mat out_mat(1,1);
+  out_mat.fill(out);
+  return out_mat;
+}
+arma::mat LossHuber::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
+{
+  if (use_custom_offset) { return custom_offset; }
+  double out = lossoptim::findOptimalWeightedLossConstant(true_value, weights, shared_from_this(), true_value.min(), true_value.max());
+  arma::mat out_mat(1,1);
+  out_mat.fill(out);
+  return out_mat;
+}
+
+
 // Binomial loss:
 // -----------------------
 

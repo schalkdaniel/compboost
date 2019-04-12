@@ -29,6 +29,8 @@
 #include "helper.h"
 #include "optimizer.h"
 #include "response.h"
+// #include "lossoptim.h"
+
 
 // -------------------------------------------------------------------------- //
 //                                   DATA                                     //
@@ -1079,6 +1081,65 @@ public:
   double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->quantile; }
 };
 
+
+//' Huber loss for regression tasks.
+//'
+//' This loss can be used for regression with \eqn{y \in \mathrm{R}}.
+//'
+//' \strong{Loss Function:}
+//' \deqn{
+//'   L(y, f(x)) = 0.5(y - f(x))^2 \ \ \text{if} \ \ |y - f(x)| < d
+//' }
+//' \deqn{
+//'   L(y, f(x)) = d|y - f(x)| - 0.5d^2 \ \ \text{otherwise}
+//' }
+//' \strong{Gradient:}
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \ \ \text{if} \ \ |y - f(x)| < d
+//' }
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \text{otherwise}
+//' }
+//'
+//' @format \code{\link{S4}} object.
+//' @name LossHuber
+//'
+//' @section Usage:
+//' \preformatted{
+//' LossHuber$new()
+//' LossHuber$new(delta)
+//' LossHuber$new(offset, delta)
+//' }
+//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{offset} [\code{numeric(1)}]}{
+//'   Numerical value which can be used to set a custom offset. If so, this
+//'   value is returned instead of the loss optimal initialization.
+//' }
+//' \item{\code{delta} [\code{numeric(1)}]}{
+//'   Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
+//'   Default is 1.
+//' }
+//' }
+//'
+//' @examples
+//'
+//' # Create new loss object:
+//' huber_loss = LossHuber$new()
+//' huber_loss
+//'
+//' @export LossHuber
+class LossHuberWrapper : public LossWrapper
+{
+public:
+  LossHuberWrapper () { sh_ptr_loss = std::make_shared<loss::LossHuber>(1); }
+  LossHuberWrapper (double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(delta); }
+  LossHuberWrapper (double custom_offset, double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(custom_offset, delta); }
+
+  double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->delta; }
+};
+
 //' 0-1 Loss for binary classification derived of the binomial distribution
 //'
 //' This loss can be used for binary classification. The coding we have chosen
@@ -1253,6 +1314,36 @@ public:
   }
 };
 
+
+
+// //' Find loss optimal constant
+// //'
+// //' This function optimizes the empirical risk for an arbitrary loss function and
+// //' a constant as predictor.
+// //'
+// //' @param truth [\code{matrix}]\cr
+// //'   Matrix of true values passed to the loss.
+// //' @param loss [\code{Loss Object}]\cr
+// //'   The \code{S4 Loss} object which we like to optimize.
+// //' @param lower_bound [\code{numeric(1)}]\cr
+// //'   Lower bound to restrict the search space.
+// //' @param upper_bound [\code{numeric(1)}]\cr
+// //'   Upper bound to restrict the search space.
+// //' @return \code{numeric(1)} Loss optimal constant.
+// //' @examples
+// //' X = cbind(1, iris$Petal.Length, iris$Sepal.Length)
+// //' loss = LossQuadratic$new()
+// //'
+// //' findOptimalLossConstant(X, loss, min(X), max(X))
+// //' @export findOptimalLossConstant
+// double findOptimalLossConstant (const arma::mat& truth, LossWrapper& loss,
+//   const double& lower_bound, const double& upper_bound)
+// {
+//   return lossoptim::findOptimalLossConstant(truth, loss.getLoss(), lower_bound, upper_bound);
+// }
+
+
+
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(LossWrapper)
 RCPP_MODULE (loss_module)
@@ -1283,6 +1374,14 @@ RCPP_MODULE (loss_module)
     .method("getQuantile", &LossQuantileWrapper::getQuantile)
   ;
 
+  class_<LossHuberWrapper> ("LossHuber")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+    .constructor <double> ()
+    .constructor <double, double> ()
+    .method("getDelta", &LossHuberWrapper::getDelta)
+  ;
+
   class_<LossBinomialWrapper> ("LossBinomial")
     .derives<LossWrapper> ("Loss")
     .constructor ()
@@ -1298,6 +1397,8 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor<SEXP, SEXP, SEXP> ()
   ;
+
+  // function("findOptimalLossConstant", &findOptimalLossConstant);
 }
 
 
@@ -2493,5 +2594,6 @@ RCPP_MODULE (compboost_module)
     .method("getRiskVector", &CompboostWrapper::getRiskVector, "Get the risk vector.")
   ;
 }
+
 
 #endif // COMPBOOST_MODULES_CPP_
