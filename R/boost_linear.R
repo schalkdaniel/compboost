@@ -1,26 +1,26 @@
 #' Wrapper to boost linear models for each feature.
 #'
 #' This wrapper function automatically initialize the model by adding all numerical
-#' features as linear base-learner. Categorical features are dummy encoded and inserted 
-#' using another linear base-learners without intercept. The function \code{boostLinear} 
-#' does also train the model. 
-#' 
-#' The returned object is an object of the \code{Compboost} class. This object can be 
-#' used for further analyses (see \code{?Compboost} for details). 
+#' features as linear base-learner. Categorical features are dummy encoded and inserted
+#' using another linear base-learners without intercept. The function \code{boostLinear}
+#' does also train the model.
+#'
+#' The returned object is an object of the \code{Compboost} class. This object can be
+#' used for further analyses (see \code{?Compboost} for details).
 #'
 #' @return A model of the \code{Compboost} class. This model is an \code{R6} object
-#'   which can be used for retraining, predicting, plotting, and anything described in 
+#'   which can be used for retraining, predicting, plotting, and anything described in
 #'   \code{?Compboost}.
 #' @param data [\code{data.frame}]\cr
-#'   A data frame containing the data. 
-#' @param target [\code{character(1)}]\cr
-#'   Character value containing the target variable. Note that the loss must match the 
+#'   A data frame containing the data.
+#' @param target [\code{character(1)} or \code{Response} class]\cr
+#'   Character value containing the target variable or Response object. Note that the loss must match the
 #'   data type of the target.
 #' @param optimizer [\code{S4 Optimizer}]\cr
 #'   An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
 #'   to select features at each iteration.
 #' @param loss [\code{S4 Loss}]\cr
-#'   Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo 
+#'   Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
 #'   residuals (e.g. \code{LossQuadratic$new()}).
 #' @param learning_rate [\code{numeric(1)}]\cr
 #'   Learning rate to shrink the parameter in each step.
@@ -42,7 +42,7 @@
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data are used to track the out of bag risk.
 #' @examples
-#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), 
+#' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
 #' mod$getBaselearnerNames()
 #' mod$getEstimatedCoef()
@@ -51,13 +51,13 @@
 #' mod$plot("Sepal.Width_linear")
 #' mod$plotInbagVsOobRisk()
 #' @export
-boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, 
-	learning_rate = 0.05, iterations = 100, trace = -1, intercept = TRUE, 
-	data_source = InMemoryData, data_target = InMemoryData, oob_fraction = NULL) 
+boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
+	learning_rate = 0.05, iterations = 100, trace = -1, intercept = TRUE,
+	data_source = InMemoryData, data_target = InMemoryData, oob_fraction = NULL)
 {
-	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss, 
+	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
 		learning_rate = learning_rate, oob_fraction = oob_fraction)
-	features = setdiff(colnames(data), target)
+	features = setdiff(colnames(data), model$response$getTargetName())
 
 	for (feat in features) {
 		if (is.numeric(data[[feat]])) {
