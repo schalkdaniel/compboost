@@ -58,7 +58,7 @@ $$
 
 The default threshold here is 0.5:
 ```{r}
-obj_resopnse$getThreshold()
+obj_response$getThreshold()
 head(obj_response$getPredictionResponse())
 ```
 
