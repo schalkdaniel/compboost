@@ -36,21 +36,12 @@ InMemoryData$new(data_mat, data_identifier)
 
   The \code{data_mat} needs to suits the base-learner. For instance, the
   spline base-learner does just take a one column matrix since there are
-  just one dimensional splines till now. Additionally, using the polynomial
-  base-learner the \code{data_mat} is used to control if a intercept should
-  be fitted or not by adding a column containing just ones. It is also
-  possible to add other columns to estimate multiple features
-  simultaneously. Anyway, this is not recommended in terms of unbiased
-  features selection.
+  just one dimensional splines at the moment.
 
   The \code{data_mat} and \code{data_identifier} of a target data object
-  is set automatically by passing the source and target object to the
-  desired factory. \code{getData()} can then be used to access the
+  is set automatically by passing the source and target object to a
+  factory. \code{getData()} can then be used to access the
   transformed data of the target object.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classdata_1_1_in_memory_data.html}.
 }
 
 \section{Fields}{
@@ -61,8 +52,8 @@ InMemoryData$new(data_mat, data_identifier)
 \section{Methods}{
 
 \describe{
-\item{\code{getData()}}{method extract the \code{data_mat} from the data object.}
-\item{\code{getIdentifier()}}{method to extract the used name from the data object.}
+\item{\code{getData()}}{}
+\item{\code{getIdentifier()}}{}
 }
 }
 

@@ -32,6 +32,26 @@ vignette: >
     </td>
   </tr>
   <tr>
+    <td><code>LossQuantile</code></td>
+    <td>
+      Use this loss to boost arbitrary quantiles (robust regression).
+    </td>
+    <td>
+      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+      <dt><b>quantile</b></dt> <dd>The quantile you like to boost</dd>
+    </td>
+  </tr>
+  <tr>
+    <td><code>LossHuber</code></td>
+    <td>
+      Huber loss with quadratic loss in $[-d,d]$ and linear extrapolation outside.
+    </td>
+    <td>
+      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
+      <dt><b>delta</b></dt> <dd>Defining the interval in which the error is measured quadratically</dd>
+    </td>
+  </tr>
+  <tr>
     <td><code>LossBinomial</code></td>
     <td>
       Binary classification loss that corresponds to the binomial distribution with logit link. Labels are coded as -1 and 1.

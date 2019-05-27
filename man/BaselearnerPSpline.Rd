@@ -49,10 +49,6 @@ BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
   The data matrix of the source data is restricted to have just one column.
   The spline bases are created for this single feature. Multidimensional
   splines are not supported at the moment.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_p_spline_blearner_factory.html}.
 }
 
 \section{Fields}{

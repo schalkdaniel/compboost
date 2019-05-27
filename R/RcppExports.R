@@ -33,29 +33,20 @@
 #' @section Details:
 #'   The \code{data_mat} needs to suits the base-learner. For instance, the
 #'   spline base-learner does just take a one column matrix since there are
-#'   just one dimensional splines till now. Additionally, using the polynomial
-#'   base-learner the \code{data_mat} is used to control if a intercept should
-#'   be fitted or not by adding a column containing just ones. It is also
-#'   possible to add other columns to estimate multiple features
-#'   simultaneously. Anyway, this is not recommended in terms of unbiased
-#'   features selection.
+#'   just one dimensional splines at the moment.
 #'
 #'   The \code{data_mat} and \code{data_identifier} of a target data object
-#'   is set automatically by passing the source and target object to the
-#'   desired factory. \code{getData()} can then be used to access the
+#'   is set automatically by passing the source and target object to a
+#'   factory. \code{getData()} can then be used to access the
 #'   transformed data of the target object.
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classdata_1_1_in_memory_data.html}.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
 #' @section Methods:
 #' \describe{
-#' \item{\code{getData()}}{method extract the \code{data_mat} from the data object.}
-#' \item{\code{getIdentifier()}}{method to extract the used name from the data object.}
+#' \item{\code{getData()}}{}
+#' \item{\code{getIdentifier()}}{}
 #' }
 #' @examples
 #' # Sample data:
@@ -71,7 +62,7 @@
 #' @export InMemoryData
 NULL
 
-#' Base-learner factory to make polynomial regression
+#' Base-learner factory for polynomial regression
 #'
 #' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 #'  object which can be registered within a base-learner list and then used
@@ -107,12 +98,6 @@ NULL
 #' @section Details:
 #'   The polynomial base-learner factory takes any matrix which the user wants
 #'   to pass the number of columns indicates how much parameter are estimated.
-#'   Note that the intercept isn't added by default. To get an intercept add a
-#'   column of ones to the source data matrix.
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_polynomial_blearner_factory.html}.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
@@ -198,10 +183,6 @@ NULL
 #'   The data matrix of the source data is restricted to have just one column.
 #'   The spline bases are created for this single feature. Multidimensional
 #'   splines are not supported at the moment.
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_p_spline_blearner_factory.html}.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
@@ -551,10 +532,6 @@ NULL
 #'
 #'   For an example see the \code{Examples}.
 #'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_blearner_factory.html}.
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
@@ -645,10 +622,6 @@ NULL
 #'   For an example see the extending compboost vignette or the function
 #'   \code{getCustomCppExample}.
 #'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_cpp_blearner_factory.html}.
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
@@ -704,12 +677,6 @@ NULL
 #' \preformatted{
 #' BlearnerFactoryList$new()
 #' }
-#'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerlist_1_1_baselearner_factory_list.html}.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
@@ -798,12 +765,6 @@ NULL
 #' }
 #' }
 #'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_quadratic_loss.html}.
-#'
 #' @examples
 #'
 #' # Create new loss object:
@@ -823,7 +784,7 @@ NULL
 #' }
 #' \strong{Gradient:}
 #' \deqn{
-#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}( f(x) - y)
+#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -\mathrm{sign}(y - f(x))
 #' }
 #' \strong{Initialization:}
 #' \deqn{
@@ -848,12 +809,6 @@ NULL
 #' }
 #' }
 #'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
-#'
 #' @examples
 #'
 #' # Create new loss object:
@@ -861,6 +816,104 @@ NULL
 #' absolute_loss
 #'
 #' @export LossAbsolute
+NULL
+
+#' Quantile loss for regression tasks.
+#'
+#' This loss can be used for regression with \eqn{y \in \mathrm{R}}.
+#'
+#' \strong{Loss Function:}
+#' \deqn{
+#'   L(y, f(x)) = h| y - f(x)|
+#' }
+#' \strong{Gradient:}
+#' \deqn{
+#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -h\mathrm{sign}( y - f(x))
+#' }
+#' \strong{Initialization:}
+#' \deqn{
+#'   \hat{f}^{[0]}(x) = \mathrm{arg~min}_{c\in R}\ \frac{1}{n}\sum\limits_{i=1}^n
+#'   L(y^{(i)}, c) = \mathrm{quantile}(y, q)
+#' }
+#'
+#' @format \code{\link{S4}} object.
+#' @name LossQuantile
+#'
+#' @section Usage:
+#' \preformatted{
+#' LossAbsolute$new()
+#' LossAbsolute$new(quantile)
+#' LossAbsolute$new(offset, quantile)
+#' }
+#'
+#' @section Arguments:
+#' \describe{
+#' \item{\code{offset} [\code{numeric(1)}]}{
+#'   Numerical value which can be used to set a custom offset. If so, this
+#'   value is returned instead of the loss optimal initialization.
+#' }
+#' \item{\code{quantile} [\code{numeric(1)}]}{
+#'   Numerical value between 0 and 1 indicating the quantile used for boosting.
+#' }
+#' }
+#'
+#' @examples
+#'
+#' # Create new loss object:
+#' quadratic_loss = LossQuadratic$new()
+#' quadratic_loss
+#'
+#' @export LossQuantile
+NULL
+
+#' Huber loss for regression tasks.
+#'
+#' This loss can be used for regression with \eqn{y \in \mathrm{R}}.
+#'
+#' \strong{Loss Function:}
+#' \deqn{
+#'   L(y, f(x)) = 0.5(y - f(x))^2 \ \ \mathrm{if} \ \ |y - f(x)| < d
+#' }
+#' \deqn{
+#'   L(y, f(x)) = d|y - f(x)| - 0.5d^2 \ \ \mathrm{otherwise}
+#' }
+#' \strong{Gradient:}
+#' \deqn{
+#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \ \ \mathrm{if} \ \ |y - f(x)| < d
+#' }
+#' \deqn{
+#'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \mathrm{otherwise}
+#' }
+#'
+#' @format \code{\link{S4}} object.
+#' @name LossHuber
+#'
+#' @section Usage:
+#' \preformatted{
+#' LossHuber$new()
+#' LossHuber$new(delta)
+#' LossHuber$new(offset, delta)
+#' }
+#'
+#' @section Arguments:
+#' \describe{
+#' \item{\code{offset} [\code{numeric(1)}]}{
+#'   Numerical value which can be used to set a custom offset. If so, this
+#'   value is returned instead of the loss optimal initialization.
+#' }
+#' \item{\code{delta} [\code{numeric(1)}]}{
+#'   Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
+#'   Default is 1.
+#' }
+#' }
+#'
+#' @examples
+#'
+#' # Create new loss object:
+#' huber_loss = LossHuber$new()
+#' huber_loss
+#'
+#' @export LossHuber
 NULL
 
 #' 0-1 Loss for binary classification derived of the binomial distribution
@@ -902,12 +955,6 @@ NULL
 #'   value is returned instead of the loss optimal initialization.
 #' }
 #' }
-#'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 #'
 #' @examples
 #'
@@ -965,12 +1012,6 @@ NULL
 #'   return a numeric value containing the offset for the constant
 #'   initialization.
 #'
-#'   For an example see the \code{Examples}.
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
-#'
 #' @examples
 #'
 #' # Loss function:
@@ -1018,14 +1059,6 @@ NULL
 #' }
 #' }
 #'
-#' @section Details:
-#'   For an example see the extending compboost vignette or the function
-#'   \code{getCustomCppExample(example = "loss")}.
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
-#'
 #' @examples
 #' \donttest{
 #' # Load loss functions:
@@ -1051,6 +1084,12 @@ NULL
 #' ResponseRegr$new(target_name, response, weights)
 #' }
 #'
+#' @example
+#'
+#' response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
+#' response_regr$getResponse()
+#' response_regr$getTargetName()
+#'
 #' @export ResponseRegr
 NULL
 
@@ -1064,9 +1103,21 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' ResponseBinaryClassif$new(target_name, response)
-#' ResponseBinaryClassif$new(target_name, response, weights)
+#' ResponseBinaryClassif$new(target_name, pos_class, response)
+#' ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 #' }
+#'
+#' @example
+#'
+#' response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
+#' response_binary$getResponse()
+#' response_binary$getPrediction()
+#' response_binary$getPredictionTransform() # Applies sigmoid to prediction scores
+#' response_binary$getPredictionResponse()  # Categorizes depending on the transformed predictions
+#' response_binary$getTargetName()
+#' response_binary$setThreshold(0.7)
+#' response_binary$getThreshold()
+#' response_binary$getPositiveClass()
 #'
 #' @export ResponseBinaryClassif
 NULL
@@ -1133,12 +1184,6 @@ NULL
 #' }
 #' }
 #'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_iteration_logger.html}.
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
@@ -1167,7 +1212,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break)
+#' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, patience)
 #' }
 #'
 #' @section Arguments:
@@ -1222,10 +1267,6 @@ NULL
 #'    function. If this is just a value (like for the AUC) then the value is
 #'    returned.
 #'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_inbag_risk_logger.html}.
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
@@ -1238,7 +1279,7 @@ NULL
 #' log_bin = LossBinomial$new()
 #'
 #' # Define logger:
-#' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
+#' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05, 5)
 #'
 #' # Summarize logger:
 #' log_inbag_risk$summarizeLogger()
@@ -1327,10 +1368,6 @@ NULL
 #'    function. If this is just a value (like for the AUC) then the value is
 #'    returned.
 #'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_oob_risk_logger.html}.
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
@@ -1402,12 +1439,6 @@ NULL
 #' }
 #' }
 #'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_time_logger.html}.
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
@@ -1437,12 +1468,6 @@ NULL
 #' \preformatted{
 #' LoggerList$new()
 #' }
-#'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloggerlist_1_1_logger_list.html}.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
@@ -1498,12 +1523,6 @@ NULL
 #' OptimizerCoordinateDescent$new()
 #' }
 #'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
-#'
 #' @examples
 #'
 #' # Define optimizer:
@@ -1526,12 +1545,6 @@ NULL
 #' \preformatted{
 #' OptimizerCoordinateDescentLineSearch$new()
 #' }
-#'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
 #'
 #' @examples
 #'
@@ -1584,12 +1597,6 @@ NULL
 #'   base-learner.
 #' }
 #' }
-#'
-#' @section Details:
-#'
-#'   This class is a wrapper around the pure \code{C++} implementation. To see
-#'   the functionality of the \code{C++} class visit
-#'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classcboost_1_1_compboost.html}.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.

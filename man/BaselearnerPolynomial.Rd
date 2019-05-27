@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerPolynomial}
 \alias{BaselearnerPolynomial}
-\title{Base-learner factory to make polynomial regression}
+\title{Base-learner factory for polynomial regression}
 \format{\code{\link{S4}} object.}
 \description{
 \code{BaselearnerPolynomial} creates a polynomial base-learner factory
@@ -40,12 +40,6 @@ BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, 
 
   The polynomial base-learner factory takes any matrix which the user wants
   to pass the number of columns indicates how much parameter are estimated.
-  Note that the intercept isn't added by default. To get an intercept add a
-  column of ones to the source data matrix.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_polynomial_blearner_factory.html}.
 }
 
 \section{Fields}{
