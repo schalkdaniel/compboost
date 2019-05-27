@@ -1731,3 +1731,11 @@ NULL
 #' @export Compboost_internal
 NULL
 
+start_profiler <- function(str) {
+    .Call(`_compboost_start_profiler`, str)
+}
+
+stop_profiler <- function() {
+    .Call(`_compboost_stop_profiler`)
+}
+

@@ -6,6 +6,27 @@
 
 using namespace Rcpp;
 
+// start_profiler
+SEXP start_profiler(SEXP str);
+RcppExport SEXP _compboost_start_profiler(SEXP strSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type str(strSEXP);
+    rcpp_result_gen = Rcpp::wrap(start_profiler(str));
+    return rcpp_result_gen;
+END_RCPP
+}
+// stop_profiler
+SEXP stop_profiler();
+RcppExport SEXP _compboost_stop_profiler() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(stop_profiler());
+    return rcpp_result_gen;
+END_RCPP
+}
 
 RcppExport SEXP _rcpp_module_boot_data_module();
 RcppExport SEXP _rcpp_module_boot_baselearner_factory_module();
@@ -17,6 +38,8 @@ RcppExport SEXP _rcpp_module_boot_optimizer_module();
 RcppExport SEXP _rcpp_module_boot_compboost_module();
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_compboost_start_profiler", (DL_FUNC) &_compboost_start_profiler, 1},
+    {"_compboost_stop_profiler", (DL_FUNC) &_compboost_stop_profiler, 0},
     {"_rcpp_module_boot_data_module", (DL_FUNC) &_rcpp_module_boot_data_module, 0},
     {"_rcpp_module_boot_baselearner_factory_module", (DL_FUNC) &_rcpp_module_boot_baselearner_factory_module, 0},
     {"_rcpp_module_boot_baselearner_list_module", (DL_FUNC) &_rcpp_module_boot_baselearner_list_module, 0},
