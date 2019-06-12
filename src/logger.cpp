@@ -179,10 +179,9 @@ void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
  */
 
 LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  const double& eps_for_break, const unsigned int& patience)
+  const double& eps_for_break)
   : sh_ptr_loss ( sh_ptr_loss ),
-    eps_for_break ( eps_for_break ),
-    patience ( patience )
+    eps_for_break ( eps_for_break )
 {
   is_a_stopper = is_a_stopper0;
   logger_id = logger_id0;
@@ -267,11 +266,8 @@ bool LoggerInbagRisk::reachedStopCriteria ()
       inbag_eps = inbag_eps / tracked_inbag_risk[tracked_inbag_risk.size() - 2];
 
       if (inbag_eps <= eps_for_break) {
-        count_patience += 1;
-      } else {
-        count_patience = 0;
+        stop_criteria_is_reached = true;
       }
-      if (count_patience == patience) stop_criteria_is_reached = true;
     }
   }
   return stop_criteria_is_reached;

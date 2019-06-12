@@ -15,10 +15,6 @@ navbar:
         href: articles/getting_started/use_case.html
       - text: Early Stopping
         href: articles/getting_started/early_stopping.html
-      - text: Quantile Regression
-        href: articles/getting_started/robust_regression.html
-      - text: Reference Based Objects of Compboost
-        href: articles/getting_started/object_references.html
   - text: Advanced Topics
     menu:
       - text: Extending Losses

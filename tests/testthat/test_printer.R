@@ -21,24 +21,11 @@ test_that("factory list printer works", {
 
 })
 
-test_that("response printer works", {
-  expect_silent({ regr_response = ResponseRegr$new("target", cbind(rnorm(10))) })
-  expect_silent({ binary_classif_response = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE)) })
-
-  expect_output({ test_regr_response = show(regr_response) })
-  expect_output({ test_binary_classif_response = show(binary_classif_response) })
-
-  expect_equal(test_regr_response, "ResponseRegrPrinter")
-  expect_equal(test_binary_classif_response, "ResponseBinaryClassifPrinter")
-})
-
 test_that("Loss printer works", {
 
   expect_silent({ quadratic_loss = LossQuadratic$new() })
   expect_silent({ absolute_loss  = LossAbsolute$new() })
-  expect_silent({ quantile_loss  = LossQuantile$new() })
-  expect_silent({ huber_loss     = LossHuber$new() })
-  expect_silent({ binomial_loss  = LossBinomial$new() })
+  expect_silent({ binomial_loss = LossBinomial$new() })
   expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
 
   myLossFun = function (true_value, prediction) NULL
@@ -50,16 +37,12 @@ test_that("Loss printer works", {
 
   expect_output({ test_quadratic_printer  = show(quadratic_loss) })
   expect_output({ test_absolute_printer   = show(absolute_loss) })
-  expect_output({ test_quantile_printer   = show(quantile_loss) })
-  expect_output({ test_huber_printer      = show(huber_loss) })
   expect_output({ test_custom_printer     = show(custom_loss) })
   expect_output({ test_custom_cpp_printer = show(custom_cpp_loss) })
   expect_output({ test_binomialprinter    = show(binomial_loss) })
 
   expect_equal(test_quadratic_printer, "LossQuadraticPrinter")
   expect_equal(test_absolute_printer, "LossAbsolutePrinter")
-  expect_equal(test_quantile_printer, "LossQuantilePrinter")
-  expect_equal(test_huber_printer, "LossHuberPrinter")
   expect_equal(test_binomialprinter, "LossBinomialPrinter")
   expect_equal(test_custom_cpp_printer, "LossCustomCppPrinter")
   expect_equal(test_custom_printer, "LossCustomPrinter")
@@ -162,7 +145,7 @@ test_that("Logger(List) printer works", {
 
   expect_silent({ log_iterations = LoggerIteration$new("iterations", TRUE, 500) })
   expect_silent({ log_time       = LoggerTime$new("time", FALSE, 500, "microseconds") })
-  expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.05, 5) })
+  expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.05) })
   expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.05, 5, eval_oob_test, response_oob) })
   expect_silent({ logger_list = LoggerList$new() })
   expect_output({ logger_list_printer = show(logger_list) })
@@ -232,7 +215,7 @@ test_that("Compboost printer works", {
   expect_silent({ log_time_ms    = LoggerTime$new("time_ms", TRUE, 50000, "microseconds") })
   expect_silent({ log_time_sec   = LoggerTime$new("time_sec", TRUE, 2, "seconds") })
   expect_silent({ log_time_min   = LoggerTime$new("time_min", TRUE, 1, "minutes") })
-  expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.01, 5) })
+  expect_silent({ log_inbag      = LoggerInbagRisk$new("inbag_risk", FALSE, loss_quadratic, 0.01) })
   expect_silent({ log_oob        = LoggerOobRisk$new("oob_risk", FALSE, loss_quadratic, 0.01, 5, eval_oob_test, response_oob) })
 
   expect_silent({ logger_list = LoggerList$new() })

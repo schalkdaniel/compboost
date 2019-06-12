@@ -190,14 +190,12 @@ private:
 
   /// Stopping criteria, stop if \f$(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}\f$
   double eps_for_break;
-  unsigned int patience = 5;
-  unsigned int count_patience = 0;
 
 
 public:
 
   /// Default constructor
-  LoggerInbagRisk (const std::string&, const bool&, std::shared_ptr<loss::Loss>, const double&, const unsigned int&);
+  LoggerInbagRisk (const std::string&, const bool&, std::shared_ptr<loss::Loss>, const double&);
 
   /// Log current step of compboost iteration for class `LoggerInbagRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,

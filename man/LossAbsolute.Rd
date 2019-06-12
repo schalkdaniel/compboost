@@ -14,7 +14,7 @@ This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 }
 \strong{Gradient:}
 \deqn{
-  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -\mathrm{sign}(y - f(x))
+  \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}( f(x) - y)
 }
 \strong{Initialization:}
 \deqn{
@@ -38,6 +38,14 @@ LossAbsolute$new(offset)
   value is returned instead of the loss optimal initialization.
 }
 }
+}
+
+\section{Details}{
+
+
+  This class is a wrapper around the pure \code{C++} implementation. To see
+  the functionality of the \code{C++} class visit
+  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
 }
 
 \examples{

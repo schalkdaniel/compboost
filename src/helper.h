@@ -39,7 +39,6 @@ arma::mat transformToBinaryResponse (const arma::mat&, const double&, const doub
 void checkForBinaryClassif (const std::vector<std::string>&);
 void checkMatrixDim (const arma::mat&, const arma::mat&);
 bool checkTracePrinter (const unsigned int&, const unsigned int&);
-double matrixQuantile (const arma::mat&, const double&);
 
 } // namespace helper
 

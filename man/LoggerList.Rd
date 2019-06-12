@@ -15,6 +15,14 @@ LoggerList$new()
 }
 }
 
+\section{Details}{
+
+
+  This class is a wrapper around the pure \code{C++} implementation. To see
+  the functionality of the \code{C++} class visit
+  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloggerlist_1_1_logger_list.html}.
+}
+
 \section{Fields}{
 
   This class doesn't contain public fields.
