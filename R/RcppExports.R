@@ -1258,7 +1258,7 @@ NULL
 #' @section Usage:
 #' \preformatted{
 #' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
-#'   patience, oob_data, oob_response)
+#'   oob_data, oob_response)
 #' }
 #'
 #' @section Arguments:
@@ -1357,7 +1357,7 @@ NULL
 #' oob_response = ResponseRegr$new("oob_response", as.matrix(y_oob))
 #'
 #' # Define logger:
-#' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, 5, oob_list, oob_response)
+#' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, oob_list, oob_response)
 #'
 #' # Summarize logger:
 #' log_oob_risk$summarizeLogger()
@@ -1632,7 +1632,7 @@ NULL
 #'
 #' # Some data:
 #' df = mtcars
-#' df$mpg_cat = ifelse(df$mpg > 20, "high", "low")
+#' df$mpg_cat = ifelse(df$mpg > 20, 1, -1)
 #'
 #' # # Create new variable to check the polynomial base-learner with degree 2:
 #' # df$hp2 = df[["hp"]]^2
@@ -1642,7 +1642,8 @@ NULL
 #' X_wt = as.matrix(df[["wt"]])
 #'
 #' # Target variable:
-#' response = ResponseBinaryClassif$new("mpg_cat", "high", df[["mpg_cat"]])
+#' y = df[["mpg_cat"]]
+#' response = ResponseBinaryClassif$new("mpg_cat", as.matrix(y))
 #'
 #' data_source_hp = InMemoryData$new(X_hp, "hp")
 #' data_source_wt = InMemoryData$new(X_wt, "wt")

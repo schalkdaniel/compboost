@@ -1,9 +1,9 @@
 context("Compboost parallel")
 
 test_that("If parallel speed up the algorithm", {
-  if (parallel::detectCores() > 2) {
+  if (parallel::detectCores() > 1) {
 
-    feats = 40
+    feats = 20
     n = 10000
     mstop = 500
     mydata = as.data.frame(do.call(cbind, lapply(seq_len(feats + 1), function (x) { rnorm(n) })))

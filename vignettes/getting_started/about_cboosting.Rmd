@@ -2,7 +2,7 @@
 title: "What is component-wise boosting?"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{About component-wise boosting}
+  %\VignetteIndexEntry{compboost}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

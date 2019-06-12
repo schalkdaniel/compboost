@@ -11,6 +11,7 @@ src-x64
 ..Rcheck
 todos.Rmd
 inst/doc
+tutorials
 README.html
 cboost_hexagon.psd
 benchmark/.drake

@@ -24,7 +24,6 @@
 #include <RcppArmadillo.h>
 #include <sstream>
 #include <string>
-#include <vector>
 
 namespace helper
 {
@@ -33,10 +32,8 @@ bool stringInNames (std::string, std::vector<std::string>);
 Rcpp::List argHandler (Rcpp::List, Rcpp::List, bool);
 double calculateSumOfSquaredError (const arma::mat&, const arma::mat&);
 arma::mat sigmoid (const arma::mat&);
-std::map<std::string, unsigned int> tableResponse (const std::vector<std::string>&);
-arma::vec stringVecToBinaryVec(const std::vector<std::string>&, const std::string&);
 arma::mat transformToBinaryResponse (const arma::mat&, const double&, const double&, const double&);
-void checkForBinaryClassif (const std::vector<std::string>&);
+void checkForBinaryClassif (const arma::mat&, const int&, const int&);
 void checkMatrixDim (const arma::mat&, const arma::mat&);
 bool checkTracePrinter (const unsigned int&, const unsigned int&);
 

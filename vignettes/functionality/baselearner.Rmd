@@ -1,7 +1,7 @@
 ---
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Base-learner functionality}
+  %\VignetteIndexEntry{compboost}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
