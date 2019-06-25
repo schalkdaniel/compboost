@@ -1764,13 +1764,13 @@ class ResponseBinaryClassifWrapper : public ResponseWrapper
 {
 public:
 
-  ResponseBinaryClassifWrapper (std::vector<std::string> target_name, arma::mat response)
+  ResponseBinaryClassifWrapper (std::string target_name, std::string pos_class, std::vector<std::string> response)
   {
-    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response);
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, pos_class, response);
   }
-  ResponseBinaryClassifWrapper (std::vector<std::string> target_name, arma::mat response, arma::mat weights)
+  ResponseBinaryClassifWrapper (std::string target_name, std::string pos_class, std::vector<std::string> response, arma::mat weights)
   {
-    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, response, weights);
+    sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, pos_class, response, weights);
   }
 
   double getThreshold () const
@@ -1780,6 +1780,14 @@ public:
   void setThreshold (double thresh)
   {
     std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->setThreshold(thresh);
+  }
+  std::string getPositiveClass () const
+  {
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->getPositiveClass();
+  }
+  std::map<std::string, unsigned int> getClassTable () const
+  {
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->getClassTable();
   }
 };
 
@@ -1892,6 +1900,8 @@ RCPP_MODULE (response_module)
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
+    .method("getPositiveClass",       &ResponseBinaryClassifWrapper::getPositiveClass, "Get string of the positive class")
+    .method("getClassTable",          &ResponseBinaryClassifWrapper::getClassTable, "Get table of response used for modeling")
   ;
   
   class_<ResponseFDAWrapper> ("ResponseFDA")
@@ -2140,7 +2150,7 @@ public:
 //' @section Usage:
 //' \preformatted{
 //' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
-//'   oob_data, oob_response)
+//'   patience, oob_data, oob_response)
 //' }
 //'
 //' @section Arguments:
@@ -2239,7 +2249,7 @@ public:
 //' oob_response = ResponseRegr$new("oob_response", as.matrix(y_oob))
 //'
 //' # Define logger:
-//' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, oob_list, oob_response)
+//' log_oob_risk = LoggerOobRisk$new("oob", FALSE, log_bin, 0.05, 5, oob_list, oob_response)
 //'
 //' # Summarize logger:
 //' log_oob_risk$summarizeLogger()
@@ -2748,7 +2758,7 @@ RCPP_MODULE(optimizer_module)
 //'
 //' # Some data:
 //' df = mtcars
-//' df$mpg_cat = ifelse(df$mpg > 20, 1, -1)
+//' df$mpg_cat = ifelse(df$mpg > 20, "high", "low")
 //'
 //' # # Create new variable to check the polynomial base-learner with degree 2:
 //' # df$hp2 = df[["hp"]]^2
@@ -2758,8 +2768,7 @@ RCPP_MODULE(optimizer_module)
 //' X_wt = as.matrix(df[["wt"]])
 //'
 //' # Target variable:
-//' y = df[["mpg_cat"]]
-//' response = ResponseBinaryClassif$new("mpg_cat", as.matrix(y))
+//' response = ResponseBinaryClassif$new("mpg_cat", "high", df[["mpg_cat"]])
 //'
 //' data_source_hp = InMemoryData$new(X_hp, "hp")
 //' data_source_wt = InMemoryData$new(X_wt, "wt")

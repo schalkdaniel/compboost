@@ -109,24 +109,28 @@ class ResponseBinaryClassif : public Response
 {
 public:
   double threshold = 0.5;
+  std::string pos_class;
+  std::map<std::string, unsigned int> class_table;
 
-  ResponseBinaryClassif (std::vector<std::string>&, const arma::mat&);
-  ResponseBinaryClassif (std::vector<std::string>&, const arma::mat&, const arma::mat&);
+
+  ResponseBinaryClassif (const std::string&, const std::string&, const std::vector<std::string>&);
+  ResponseBinaryClassif (const std::string&, const std::string&, const std::vector<std::string>&, const arma::mat&);
 
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   void initializePrediction ();
   arma::mat getPredictionTransform (const arma::mat&) const;
   arma::mat getPredictionResponse (const arma::mat&) const;
+  std::string getPositiveClass () const;
+  std::map<std::string, unsigned int> getClassTable () const;
 
   void filter (const arma::uvec&);
-
   void setThreshold (const double&);
 };
 
 // -----------------------------------------------------------------------------------------------------------------
 class ResponseFDA : public Response
 {
-  
+
 public:
   arma::mat grid;
   arma::mat trapez_weights;

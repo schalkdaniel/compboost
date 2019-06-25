@@ -13,7 +13,16 @@ navbar:
         href: articles/getting_started/about_cboosting.html
       - text: First Use-Case
         href: articles/getting_started/use_case.html
-
+      - text: Early Stopping
+        href: articles/getting_started/early_stopping.html
+  - text: Advanced Topics
+    menu:
+      - text: Extending Losses
+        href: articles/advanced/ext_losses.html
+      - text: Extending Base-Learner
+        href: articles/advanced/ext_blearner.html
+      - text: Logging Performance Measures
+        href: articles/advanced/log_performance.html
   - text: Functionality
     menu:
     - text: Base-Learner

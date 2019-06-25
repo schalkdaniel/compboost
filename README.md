@@ -205,8 +205,8 @@ To cite `compboost` in publications, please use:
 
 ### On your local machine
 
-In order to test the pacakge functionality you can use devtools to test
-the pacakge on your local machine:
+In order to test the package functionality you can use devtools to test
+the package on your local machine:
 
 ``` r
 devtools::test()
