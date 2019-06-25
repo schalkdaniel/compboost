@@ -1,4 +1,4 @@
-## Contributors of `compboost`
+# Contributors of `compboost`
 
 Committers are people who have made substantial contribution to the project and granted write access to the project.
 

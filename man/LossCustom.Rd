@@ -51,12 +51,6 @@ LossCustom$new(lossFun, gradientFun, initFun)
   argument \code{truth} containing the real values. The function must
   return a numeric value containing the offset for the constant
   initialization.
-
-  For an example see the \code{Examples}.
-
-  This class is a wrapper around the pure \code{C++} implementation. To see
-  the functionality of the \code{C++} class visit
-  \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
 }
 
 \examples{

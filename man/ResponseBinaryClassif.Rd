@@ -11,8 +11,8 @@ fitting process.
 \section{Usage}{
 
 \preformatted{
-ResponseBinaryClassif$new(target_name, response)
-ResponseBinaryClassif$new(target_name, response, weights)
+ResponseBinaryClassif$new(target_name, pos_class, response)
+ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 }
 }
 

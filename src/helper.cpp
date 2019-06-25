@@ -230,4 +230,18 @@ bool checkTracePrinter (const unsigned int& k, const unsigned int& trace)
   return print_trace;
 };
 
+double matrixQuantile (const arma::mat& X, const double& quantile)
+{
+  double nq = X.size() * quantile;
+  int nq_int = int(nq);
+
+  arma::mat X_sort = arma::sort(arma::reshape(X, X.n_rows * X.n_cols, 1));
+
+  if (nq == nq_int) {
+    return arma::accu(X_sort( arma::span(nq_int - 1, nq_int), arma::span(0, 0) )) / 2;
+  } else {
+    return X_sort(nq_int - 1, 0);
+  }
+}
+
 } // namespace helper

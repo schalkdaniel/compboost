@@ -29,6 +29,8 @@
 #include "helper.h"
 #include "optimizer.h"
 #include "response.h"
+// #include "lossoptim.h"
+
 
 // -------------------------------------------------------------------------- //
 //                                   DATA                                     //
@@ -77,29 +79,20 @@ protected:
 //' @section Details:
 //'   The \code{data_mat} needs to suits the base-learner. For instance, the
 //'   spline base-learner does just take a one column matrix since there are
-//'   just one dimensional splines till now. Additionally, using the polynomial
-//'   base-learner the \code{data_mat} is used to control if a intercept should
-//'   be fitted or not by adding a column containing just ones. It is also
-//'   possible to add other columns to estimate multiple features
-//'   simultaneously. Anyway, this is not recommended in terms of unbiased
-//'   features selection.
+//'   just one dimensional splines at the moment.
 //'
 //'   The \code{data_mat} and \code{data_identifier} of a target data object
-//'   is set automatically by passing the source and target object to the
-//'   desired factory. \code{getData()} can then be used to access the
+//'   is set automatically by passing the source and target object to a
+//'   factory. \code{getData()} can then be used to access the
 //'   transformed data of the target object.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classdata_1_1_in_memory_data.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
 //'
 //' @section Methods:
 //' \describe{
-//' \item{\code{getData()}}{method extract the \code{data_mat} from the data object.}
-//' \item{\code{getIdentifier()}}{method to extract the used name from the data object.}
+//' \item{\code{getData()}}{}
+//' \item{\code{getIdentifier()}}{}
 //' }
 //' @examples
 //' # Sample data:
@@ -198,7 +191,7 @@ protected:
 };
 
 
-//' Base-learner factory to make polynomial regression
+//' Base-learner factory for polynomial regression
 //'
 //' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
 //'  object which can be registered within a base-learner list and then used
@@ -234,12 +227,6 @@ protected:
 //' @section Details:
 //'   The polynomial base-learner factory takes any matrix which the user wants
 //'   to pass the number of columns indicates how much parameter are estimated.
-//'   Note that the intercept isn't added by default. To get an intercept add a
-//'   column of ones to the source data matrix.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_polynomial_blearner_factory.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -390,10 +377,6 @@ public:
 //'   The data matrix of the source data is restricted to have just one column.
 //'   The spline bases are created for this single feature. Multidimensional
 //'   splines are not supported at the moment.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_p_spline_blearner_factory.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -882,10 +865,6 @@ public:
 //'
 //'   For an example see the \code{Examples}.
 //'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_blearner_factory.html}.
-//'
 //' @section Fields:
 //'   This class doesn't contain public fields.
 //'
@@ -1016,10 +995,6 @@ public:
 //' @section Details:
 //'   For an example see the extending compboost vignette or the function
 //'   \code{getCustomCppExample}.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerfactory_1_1_custom_cpp_blearner_factory.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -1193,12 +1168,6 @@ RCPP_MODULE (baselearner_factory_module)
 //' \preformatted{
 //' BlearnerFactoryList$new()
 //' }
-//'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classblearnerlist_1_1_baselearner_factory_list.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -1383,12 +1352,6 @@ protected:
 //' }
 //' }
 //'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_quadratic_loss.html}.
-//'
 //' @examples
 //'
 //' # Create new loss object:
@@ -1413,7 +1376,7 @@ public:
 //' }
 //' \strong{Gradient:}
 //' \deqn{
-//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = \mathrm{sign}( f(x) - y)
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -\mathrm{sign}(y - f(x))
 //' }
 //' \strong{Initialization:}
 //' \deqn{
@@ -1438,12 +1401,6 @@ public:
 //' }
 //' }
 //'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_absolute_loss.html}.
-//'
 //' @examples
 //'
 //' # Create new loss object:
@@ -1456,6 +1413,121 @@ class LossAbsoluteWrapper : public LossWrapper
 public:
   LossAbsoluteWrapper () { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(); }
   LossAbsoluteWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(custom_offset); }
+};
+
+//' Quantile loss for regression tasks.
+//'
+//' This loss can be used for regression with \eqn{y \in \mathrm{R}}.
+//'
+//' \strong{Loss Function:}
+//' \deqn{
+//'   L(y, f(x)) = h| y - f(x)|
+//' }
+//' \strong{Gradient:}
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -h\mathrm{sign}( y - f(x))
+//' }
+//' \strong{Initialization:}
+//' \deqn{
+//'   \hat{f}^{[0]}(x) = \mathrm{arg~min}_{c\in R}\ \frac{1}{n}\sum\limits_{i=1}^n
+//'   L(y^{(i)}, c) = \mathrm{quantile}(y, q)
+//' }
+//'
+//' @format \code{\link{S4}} object.
+//' @name LossQuantile
+//'
+//' @section Usage:
+//' \preformatted{
+//' LossAbsolute$new()
+//' LossAbsolute$new(quantile)
+//' LossAbsolute$new(offset, quantile)
+//' }
+//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{offset} [\code{numeric(1)}]}{
+//'   Numerical value which can be used to set a custom offset. If so, this
+//'   value is returned instead of the loss optimal initialization.
+//' }
+//' \item{\code{quantile} [\code{numeric(1)}]}{
+//'   Numerical value between 0 and 1 indicating the quantile used for boosting.
+//' }
+//' }
+//'
+//' @examples
+//'
+//' # Create new loss object:
+//' quadratic_loss = LossQuadratic$new()
+//' quadratic_loss
+//'
+//' @export LossQuantile
+class LossQuantileWrapper : public LossWrapper
+{
+public:
+  LossQuantileWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuantile>(0.5); }
+  LossQuantileWrapper (double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(quantile); }
+  LossQuantileWrapper (double custom_offset, double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(custom_offset, quantile); }
+
+  double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->quantile; }
+};
+
+
+//' Huber loss for regression tasks.
+//'
+//' This loss can be used for regression with \eqn{y \in \mathrm{R}}.
+//'
+//' \strong{Loss Function:}
+//' \deqn{
+//'   L(y, f(x)) = 0.5(y - f(x))^2 \ \ \mathrm{if} \ \ |y - f(x)| < d
+//' }
+//' \deqn{
+//'   L(y, f(x)) = d|y - f(x)| - 0.5d^2 \ \ \mathrm{otherwise}
+//' }
+//' \strong{Gradient:}
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = f(x) - y \ \ \mathrm{if} \ \ |y - f(x)| < d
+//' }
+//' \deqn{
+//'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \mathrm{otherwise}
+//' }
+//'
+//' @format \code{\link{S4}} object.
+//' @name LossHuber
+//'
+//' @section Usage:
+//' \preformatted{
+//' LossHuber$new()
+//' LossHuber$new(delta)
+//' LossHuber$new(offset, delta)
+//' }
+//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{offset} [\code{numeric(1)}]}{
+//'   Numerical value which can be used to set a custom offset. If so, this
+//'   value is returned instead of the loss optimal initialization.
+//' }
+//' \item{\code{delta} [\code{numeric(1)}]}{
+//'   Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
+//'   Default is 1.
+//' }
+//' }
+//'
+//' @examples
+//'
+//' # Create new loss object:
+//' huber_loss = LossHuber$new()
+//' huber_loss
+//'
+//' @export LossHuber
+class LossHuberWrapper : public LossWrapper
+{
+public:
+  LossHuberWrapper () { sh_ptr_loss = std::make_shared<loss::LossHuber>(1); }
+  LossHuberWrapper (double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(delta); }
+  LossHuberWrapper (double custom_offset, double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(custom_offset, delta); }
+
+  double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->delta; }
 };
 
 //' 0-1 Loss for binary classification derived of the binomial distribution
@@ -1497,12 +1569,6 @@ public:
 //'   value is returned instead of the loss optimal initialization.
 //' }
 //' }
-//'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_binomial_loss.html}.
 //'
 //' @examples
 //'
@@ -1565,12 +1631,6 @@ public:
 //'   return a numeric value containing the offset for the constant
 //'   initialization.
 //'
-//'   For an example see the \code{Examples}.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_loss.html}.
-//'
 //' @examples
 //'
 //' # Loss function:
@@ -1626,14 +1686,6 @@ public:
 //' }
 //' }
 //'
-//' @section Details:
-//'   For an example see the extending compboost vignette or the function
-//'   \code{getCustomCppExample(example = "loss")}.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloss_1_1_custom_cpp_loss.html}.
-//'
 //' @examples
 //' \donttest{
 //' # Load loss functions:
@@ -1651,6 +1703,36 @@ public:
     sh_ptr_loss = std::make_shared<loss::LossCustomCpp>(loss_ptr, grad_ptr, const_init_ptr);
   }
 };
+
+
+
+// //' Find loss optimal constant
+// //'
+// //' This function optimizes the empirical risk for an arbitrary loss function and
+// //' a constant as predictor.
+// //'
+// //' @param truth [\code{matrix}]\cr
+// //'   Matrix of true values passed to the loss.
+// //' @param loss [\code{Loss Object}]\cr
+// //'   The \code{S4 Loss} object which we like to optimize.
+// //' @param lower_bound [\code{numeric(1)}]\cr
+// //'   Lower bound to restrict the search space.
+// //' @param upper_bound [\code{numeric(1)}]\cr
+// //'   Upper bound to restrict the search space.
+// //' @return \code{numeric(1)} Loss optimal constant.
+// //' @examples
+// //' X = cbind(1, iris$Petal.Length, iris$Sepal.Length)
+// //' loss = LossQuadratic$new()
+// //'
+// //' findOptimalLossConstant(X, loss, min(X), max(X))
+// //' @export findOptimalLossConstant
+// double findOptimalLossConstant (const arma::mat& truth, LossWrapper& loss,
+//   const double& lower_bound, const double& upper_bound)
+// {
+//   return lossoptim::findOptimalLossConstant(truth, loss.getLoss(), lower_bound, upper_bound);
+// }
+
+
 
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(LossWrapper)
@@ -1674,6 +1756,22 @@ RCPP_MODULE (loss_module)
     .constructor <double> ()
   ;
 
+  class_<LossQuantileWrapper> ("LossQuantile")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+    .constructor <double> ()
+    .constructor <double, double> ()
+    .method("getQuantile", &LossQuantileWrapper::getQuantile)
+  ;
+
+  class_<LossHuberWrapper> ("LossHuber")
+    .derives<LossWrapper> ("Loss")
+    .constructor ()
+    .constructor <double> ()
+    .constructor <double, double> ()
+    .method("getDelta", &LossHuberWrapper::getDelta)
+  ;
+
   class_<LossBinomialWrapper> ("LossBinomial")
     .derives<LossWrapper> ("Loss")
     .constructor ()
@@ -1689,6 +1787,8 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor<SEXP, SEXP, SEXP> ()
   ;
+
+  // function("findOptimalLossConstant", &findOptimalLossConstant);
 }
 
 
@@ -1731,11 +1831,26 @@ protected:
 //' ResponseRegr$new(target_name, response, weights)
 //' }
 //'
+//' @example
+//'
+//' response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
+//' response_regr$getResponse()
+//' response_regr$getTargetName()
+//'
 //' @export ResponseRegr
 class ResponseRegrWrapper : public ResponseWrapper
 {
 public:
+<<<<<<< HEAD
   ResponseRegrWrapper (std::vector<std::string> target_name, arma::mat response)
+=======
+
+  ResponseRegrWrapper () {
+    Rcpp::stop("Cannot initialize empty response object. See `?ResponseRegr` for help.");
+  }
+
+  ResponseRegrWrapper (std::string target_name, arma::mat response)
+>>>>>>> master
   {
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response);
   }
@@ -1755,14 +1870,30 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' ResponseBinaryClassif$new(target_name, response)
-//' ResponseBinaryClassif$new(target_name, response, weights)
+//' ResponseBinaryClassif$new(target_name, pos_class, response)
+//' ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 //' }
+//'
+//' @example
+//'
+//' response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
+//' response_binary$getResponse()
+//' response_binary$getPrediction()
+//' response_binary$getPredictionTransform() # Applies sigmoid to prediction scores
+//' response_binary$getPredictionResponse()  # Categorizes depending on the transformed predictions
+//' response_binary$getTargetName()
+//' response_binary$setThreshold(0.7)
+//' response_binary$getThreshold()
+//' response_binary$getPositiveClass()
 //'
 //' @export ResponseBinaryClassif
 class ResponseBinaryClassifWrapper : public ResponseWrapper
 {
 public:
+
+  ResponseBinaryClassifWrapper () {
+    Rcpp::stop("Cannot initialize empty response object. See `?ResponseBinaryClassif` for help.");
+  }
 
   ResponseBinaryClassifWrapper (std::string target_name, std::string pos_class, std::vector<std::string> response)
   {
@@ -1887,16 +2018,28 @@ RCPP_MODULE (response_module)
   class_<ResponseRegrWrapper> ("ResponseRegr")
     .derives<ResponseWrapper> ("Response")
 
+<<<<<<< HEAD
     .constructor<std::vector<std::string>, arma::mat> ()
     .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
 
+=======
+    .constructor ()
+    .constructor<std::string, arma::mat> ()
+    .constructor<std::string, arma::mat, arma::mat> ()
+>>>>>>> master
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
     .derives<ResponseWrapper> ("Response")
 
+<<<<<<< HEAD
     .constructor<std::vector<std::string>, arma::mat> ()
     .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
+=======
+    .constructor ()
+    .constructor<std::string, std::string, std::vector<std::string>> ()
+    .constructor<std::string, std::string, std::vector<std::string>, arma::mat> ()
+>>>>>>> master
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
@@ -1979,12 +2122,6 @@ protected:
 //' }
 //' }
 //'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_iteration_logger.html}.
-//'
 //' @section Fields:
 //'   This class doesn't contain public fields.
 //'
@@ -2035,7 +2172,7 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break)
+//' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, patience)
 //' }
 //'
 //' @section Arguments:
@@ -2090,10 +2227,6 @@ public:
 //'    function. If this is just a value (like for the AUC) then the value is
 //'    returned.
 //'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_inbag_risk_logger.html}.
-//'
 //' @section Fields:
 //'   This class doesn't contain public fields.
 //'
@@ -2106,7 +2239,7 @@ public:
 //' log_bin = LossBinomial$new()
 //'
 //' # Define logger:
-//' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05)
+//' log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05, 5)
 //'
 //' # Summarize logger:
 //' log_inbag_risk$summarizeLogger()
@@ -2120,12 +2253,13 @@ private:
   bool use_as_stopper;
 
 public:
-  LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break)
+  LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& used_loss, double eps_for_break,
+    unsigned int patience)
     : eps_for_break ( eps_for_break ),
       use_as_stopper ( use_as_stopper)
   {
     logger_id = logger_id0;
-    sh_ptr_logger = std::make_shared<logger::LoggerInbagRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break);
+    sh_ptr_logger = std::make_shared<logger::LoggerInbagRisk>(logger_id, use_as_stopper, used_loss.getLoss(), eps_for_break, patience);
   }
 
   void summarizeLogger ()
@@ -2218,10 +2352,6 @@ public:
 //'    value for \eqn{risk_temp} and therefore the average equals the loss
 //'    function. If this is just a value (like for the AUC) then the value is
 //'    returned.
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_oob_risk_logger.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -2339,12 +2469,6 @@ public:
 //' }
 //' }
 //'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classlogger_1_1_time_logger.html}.
-//'
 //' @section Fields:
 //'   This class doesn't contain public fields.
 //'
@@ -2407,12 +2531,6 @@ public:
 //' \preformatted{
 //' LoggerList$new()
 //' }
-//'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classloggerlist_1_1_logger_list.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -2517,7 +2635,7 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
-    .constructor<std::string, bool, LossWrapper&, double> ()
+    .constructor<std::string, bool, LossWrapper&, double, unsigned int> ()
     .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger, "Summarize logger")
   ;
 
@@ -2574,12 +2692,6 @@ protected:
 //' OptimizerCoordinateDescent$new()
 //' }
 //'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
-//'
 //' @examples
 //'
 //' # Define optimizer:
@@ -2613,12 +2725,6 @@ public:
 //' \preformatted{
 //' OptimizerCoordinateDescentLineSearch$new()
 //' }
-//'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classoptimizer_1_1_greedy_optimizer.html}.
 //'
 //' @examples
 //'
@@ -2710,12 +2816,6 @@ RCPP_MODULE(optimizer_module)
 //'   base-learner.
 //' }
 //' }
-//'
-//' @section Details:
-//'
-//'   This class is a wrapper around the pure \code{C++} implementation. To see
-//'   the functionality of the \code{C++} class visit
-//'   \url{https://schalkdaniel.github.io/compboost/cpp_man/html/classcboost_1_1_compboost.html}.
 //'
 //' @section Fields:
 //'   This class doesn't contain public fields.
@@ -2987,5 +3087,6 @@ RCPP_MODULE (compboost_module)
     .method("getRiskVector", &CompboostWrapper::getRiskVector, "Get the risk vector.")
   ;
 }
+
 
 #endif // COMPBOOST_MODULES_CPP_
