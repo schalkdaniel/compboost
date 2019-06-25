@@ -1841,16 +1841,11 @@ protected:
 class ResponseRegrWrapper : public ResponseWrapper
 {
 public:
-<<<<<<< HEAD
-  ResponseRegrWrapper (std::vector<std::string> target_name, arma::mat response)
-=======
-
   ResponseRegrWrapper () {
     Rcpp::stop("Cannot initialize empty response object. See `?ResponseRegr` for help.");
   }
 
-  ResponseRegrWrapper (std::string target_name, arma::mat response)
->>>>>>> master
+  ResponseRegrWrapper (std::vector<std::string> target_name, arma::mat response)
   {
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response);
   }
@@ -2018,28 +2013,20 @@ RCPP_MODULE (response_module)
   class_<ResponseRegrWrapper> ("ResponseRegr")
     .derives<ResponseWrapper> ("Response")
 
-<<<<<<< HEAD
     .constructor<std::vector<std::string>, arma::mat> ()
     .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
 
-=======
-    .constructor ()
-    .constructor<std::string, arma::mat> ()
-    .constructor<std::string, arma::mat, arma::mat> ()
->>>>>>> master
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
     .derives<ResponseWrapper> ("Response")
 
-<<<<<<< HEAD
-    .constructor<std::vector<std::string>, arma::mat> ()
-    .constructor<std::vector<std::string>, arma::mat, arma::mat> ()
-=======
     .constructor ()
-    .constructor<std::string, std::string, std::vector<std::string>> ()
-    .constructor<std::string, std::string, std::vector<std::string>, arma::mat> ()
->>>>>>> master
+    .constructor<std::string, std::string, std::vector<std::string> > ()
+    .constructor<std::string, std::string, std::vector<std::string>, arma::mat > ()
+
+
+
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")

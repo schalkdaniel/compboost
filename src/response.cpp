@@ -204,7 +204,7 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string& _target_name, c
   helper::checkForBinaryClassif(_response);
   class_table = helper::tableResponse(_response);
   response = helper::stringVecToBinaryVec(_response, _pos_class);
-  target_name = _target_name;
+  target_name[0] = _target_name;
   pos_class = _pos_class;
   task_id = "binary_classif"; // set parent
   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
@@ -220,7 +220,7 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string& _target_name, c
   class_table = helper::tableResponse(_response);
   response = helper::stringVecToBinaryVec(_response, _pos_class);
   helper::checkMatrixDim(response, _weights);
-  target_name = _target_name;
+  target_name[0] = _target_name;
   pos_class = _pos_class;
   weights = _weights;
   use_weights = true;
