@@ -54,6 +54,47 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
 {
   std::map<double, std::shared_ptr<blearner::Baselearner>> best_blearner_map;
 
+  /* ****************************************************************************************
+   * OLD SEQUENTIAL LOOP:
+   */
+
+  // Use ordinary sequential loop if just one thread should be used. This saves the costs
+  // of distributing data etc. and results in a significant speed up:
+  if (num_threads == 1) {
+    double ssq_temp;
+    double ssq_best = std::numeric_limits<double>::infinity();
+
+    std::shared_ptr<blearner::Baselearner> blearner_temp;
+    std::shared_ptr<blearner::Baselearner> blearner_best;
+
+    for (auto& it : my_blearner_factory_map) {
+
+      // Paste string identifier for new base-learner:
+      std::string id = "(" + iteration_id + ") " + it.second->getBaselearnerType();
+
+      // Create new base-learner out of the actual factory (just the
+      // pointer is overwritten):
+      blearner_temp = it.second->createBaselearner(id);
+      blearner_temp->train(sh_ptr_response->getPseudoResiduals());
+      ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
+
+      // Check if SSE of new temporary base-learner is smaller then SSE of the best
+      // base-learner. If so, assign the temporary base-learner with the best
+      // base-learner (This is always triggered within the first iteration since
+      // ssq_best is declared as infinity):
+      if (ssq_temp < ssq_best) {
+        ssq_best = ssq_temp;
+        // // Deep copy since the temporary base-learner is deleted every time which
+        // // will also deletes the data for the best base-learner if we don't copy
+        // // the whole data of the object:
+        // blearner_best = blearner_temp->clone();
+        blearner_best = blearner_temp;
+      }
+    }
+    return blearner_best;
+  }
+  /* **************************************************************************************** */
+
   #pragma omp parallel num_threads(num_threads) default(none) shared(iteration_id, sh_ptr_response, my_blearner_factory_map, best_blearner_map)
   {
     // private per core:
@@ -105,42 +146,6 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
       [](decltype(best_blearner_map)::value_type& l, decltype(best_blearner_map)::value_type& r) -> bool { return l.first < r.first; });
     return it->second;
   }
-
-  /* ****************************************************************************************
-   * OLD SEQUENTIAL LOOP:
-   *
-  double ssq_temp;
-  double ssq_best = std::numeric_limits<double>::infinity();
-
-  std::shared_ptr<blearner::Baselearner> blearner_temp;
-  std::shared_ptr<blearner::Baselearner> blearner_best;
-
-  for (auto& it : my_blearner_factory_map) {
-
-    // Paste string identifier for new base-learner:
-    std::string id = "(" + iteration_id + ") " + it.second->getBaselearnerType();
-
-    // Create new base-learner out of the actual factory (just the
-    // pointer is overwritten):
-    blearner_temp = it.second->createBaselearner(id);
-    blearner_temp->train(sh_ptr_response->getPseudoResiduals());
-    ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
-
-    // Check if SSE of new temporary base-learner is smaller then SSE of the best
-    // base-learner. If so, assign the temporary base-learner with the best
-    // base-learner (This is always triggered within the first iteration since
-    // ssq_best is declared as infinity):
-    if (ssq_temp < ssq_best) {
-      ssq_best = ssq_temp;
-      // // Deep copy since the temporary base-learner is deleted every time which
-      // // will also deletes the data for the best base-learner if we don't copy
-      // // the whole data of the object:
-      // blearner_best = blearner_temp->clone();
-      blearner_best = blearner_temp;
-    }
-  }
-  return blearner_best;
-  **************************************************************************************** */
 }
 
 void OptimizerCoordinateDescent::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,
