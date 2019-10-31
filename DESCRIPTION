@@ -40,7 +40,8 @@ Suggests:
   rmarkdown,
   titanic,
   mlr,
-  gridExtra
+  gridExtra,
+  ggrepel
 RcppModules:
   baselearner_module,
   compboost_module,
