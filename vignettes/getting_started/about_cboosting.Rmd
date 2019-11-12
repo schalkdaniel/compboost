@@ -19,6 +19,8 @@ The ordinary way of finding good base-learners is done by a greedy search. There
 <img src="cboost_gif_bright.svg" width="70%">
 </center>
 -->
+![](cboost_gif_bright.svg)
+
 The illustration above uses three base-learners $b_1$, $b_2$, and $b_3$. You can think of each base-learner as a wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more frequently than another base-learner, it indicates that this base-learner (or feature) is more important. To get a sparser model in terms of selected features there is also a learning rate $\beta$ to shrink the parameter in each iteration. The learning rate corresponds to the step size used in gradient descent. The three models within each iteration of the illustration are:
 $$
 \begin{align}
