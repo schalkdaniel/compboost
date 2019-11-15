@@ -57,47 +57,30 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
     Rcpp::stop("Could not train without any registered base-learner.");
   }
 
-  arma::mat blearner_pred_temp;
-
-  bool stop_the_algorithm = false;
+  // Bool to indicate whether the stop criteria (stopc) is reached or not:
+  bool is_stopc_reached = false;
   unsigned int k = 1;
 
   // Main Algorithm. While the stop criteria isn't fulfilled, run the
   // algorithm:
-  while (! stop_the_algorithm) {
+  while (! is_stopc_reached) {
 
     actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
 
     sh_ptr_response->setActualIteration(actual_iteration);
     sh_ptr_response->updatePseudoResiduals(sh_ptr_loss);
 
-    // Cast integer k to string for baselearner identifier:
-    std::string temp_string = std::to_string(k);
-    std::shared_ptr<blearner::Baselearner> sh_ptr_blearner_selected = sh_ptr_optimizer->findBestBaselearner(temp_string,
-      sh_ptr_response, used_baselearner_list.getMap());
+    sh_ptr_optimizer->optimize(actual_iteration, learning_rate, sh_ptr_loss, sh_ptr_response, blearner_track,
+      used_baselearner_list);
 
-    // Prediction is needed more often, use a temp vector to avoid multiple computations:
-    blearner_pred_temp = sh_ptr_blearner_selected->predict();
-
-    sh_ptr_optimizer->calculateStepSize(sh_ptr_loss, sh_ptr_response, blearner_pred_temp);
-
-    // Insert new base-learner to vector of selected base-learner. The parameter are estimated here, hence
-    // the contribution to the old parameter is the estimated parameter times the learning rate times
-    // the step size. Therefore we have to pass the step size which changes in each iteration:
-    blearner_track.insertBaselearner(sh_ptr_blearner_selected, sh_ptr_optimizer->getStepSize(actual_iteration));
-    sh_ptr_response->updatePrediction(learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration), blearner_pred_temp);
-
-    // Log the current step:
-    //   The last term has to be the prediction or anything like that. This is
-    //   important to track the risk (inbag or oob)!!!!
-    logger_list->logCurrent(actual_iteration, sh_ptr_response, sh_ptr_blearner_selected, learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration));
+    logger_list->logCurrent(actual_iteration, sh_ptr_response, blearner_track.getBaselearnerVector().back(), learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration));
 
     // Calculate and log risk:
     risk.push_back(sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss));
 
     // Get status of the algorithm (is the stopping criteria reached?). The negation here
     // seems a bit weird, but it makes the while loop easier to read:
-    stop_the_algorithm = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
+    is_stopc_reached = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
 
     if (helper::checkTracePrinter(actual_iteration, trace)) logger_list->printLoggerStatus(risk.back());
     k += 1;
