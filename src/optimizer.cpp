@@ -148,6 +148,12 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
   }
 }
 
+arma::mat OptimizerCoordinateDescent::calculateUpdate (const double& learning_rate, const double& step_size,
+  const arma::mat& blearner_pred) const
+{
+  return learning_rate * step_size * blearner_pred;
+}
+
 void OptimizerCoordinateDescent::optimize (const unsigned int& actual_iteration, const double& learning_rate, const std::shared_ptr<loss::Loss> sh_ptr_loss, const std::shared_ptr<response::Response> sh_ptr_response,
   blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& blearner_list)
 {
@@ -164,7 +170,7 @@ void OptimizerCoordinateDescent::optimize (const unsigned int& actual_iteration,
   // the contribution to the old parameter is the estimated parameter times the learning rate times
   // the step size. Therefore we have to pass the step size which changes in each iteration:
   blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
-  sh_ptr_response->updatePrediction(learning_rate, getStepSize(actual_iteration), blearner_pred_temp);
+  sh_ptr_response->updatePrediction(calculateUpdate(learning_rate, getStepSize(actual_iteration), blearner_pred_temp));
 }
 
 void OptimizerCoordinateDescent::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,

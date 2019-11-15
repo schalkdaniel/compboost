@@ -51,6 +51,7 @@ class Optimizer
 
     virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
       std::shared_ptr<response::Response>, const blearner_factory_map&) const = 0;
+    virtual arma::mat calculateUpdate (const double&, const double&, const arma::mat&) const = 0;
     virtual void optimize (const unsigned int&, const double&, const std::shared_ptr<loss::Loss>, const std::shared_ptr<response::Response>,
       blearnertrack::BaselearnerTrack&, const blearnerlist::BaselearnerFactoryList&) = 0;
 
@@ -85,6 +86,7 @@ class OptimizerCoordinateDescent : public Optimizer
 
     std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
       const blearner_factory_map&) const;
+    arma::mat calculateUpdate (const double&, const double&, const arma::mat&) const;
     void optimize (const unsigned int&, const double&, const std::shared_ptr<loss::Loss>, const std::shared_ptr<response::Response>,
       blearnertrack::BaselearnerTrack&, const blearnerlist::BaselearnerFactoryList&);
 

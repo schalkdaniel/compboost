@@ -68,6 +68,7 @@ public:
   void checkLossCompatibility (std::shared_ptr<loss::Loss>) const;
 
   void updatePseudoResiduals (std::shared_ptr<loss::Loss>);
+  void updatePrediction (const arma::mat&);
   void updatePrediction (const double&, const double&, const arma::mat&);
 
   void constantInitialization (std::shared_ptr<loss::Loss>);
