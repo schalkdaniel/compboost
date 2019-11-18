@@ -96,7 +96,8 @@ std::pair<std::vector<std::string>, arma::mat> LoggerList::getLoggerData () cons
 }
 
 void LoggerList::logCurrent (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   // Think about how to implement this the best way. I think the computations
   // e.g. for the risk should be done within the logger object. If so, the
@@ -111,7 +112,7 @@ void LoggerList::logCurrent (const unsigned int& current_iteration, std::shared_
   // data specified by initializing the logger list.
   for (logger_map::iterator it = log_list.begin(); it != log_list.end(); ++it) {
     it->second->logStep(current_iteration, sh_ptr_response, sh_ptr_blearner,
-      learning_rate, step_size);
+      learning_rate, step_size, sh_ptr_optimizer);
   }
 }
 // Print logger:
@@ -133,19 +134,19 @@ void LoggerList::printLoggerStatus (const double& current_risk) const
 
 void LoggerList::prepareForRetraining (const unsigned int& new_max_iters)
 {
-  bool iters_in_list = false;
+  bool has_iteration_logger = false;
   for (auto& it : log_list) {
     it.second->is_a_stopper = false;
     if (it.second->getLoggerType() == "iteration") {
       std::static_pointer_cast<logger::LoggerIteration>(it.second)->updateMaxIterations(new_max_iters);
       it.second->is_a_stopper = true;
-      iters_in_list = true;
+      has_iteration_logger = true;
     }
     if (it.second->getLoggerType() == "time") {
       std::static_pointer_cast<logger::LoggerTime>(it.second)->reInitializeTime();
     }
   }
-  if (! iters_in_list) {
+  if (! has_iteration_logger) {
     std::shared_ptr<logger::Logger> new_logger = std::make_shared<logger::LoggerIteration>("iters_re", true, new_max_iters);
     log_list.insert(std::pair<std::string, std::shared_ptr<logger::Logger>>("_iteration", new_logger));
   }

@@ -27,6 +27,7 @@
 
 #include "logger.h"
 #include "response.h"
+#include "optimizer.h"
 
 typedef std::map<std::string, std::shared_ptr<logger::Logger>> logger_map;
 
@@ -70,7 +71,8 @@ public:
   // Log the current step (structure <iteration, actual time, actual risk>).
   // This is given to the instantiated logger:
   void logCurrent (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
+    std::shared_ptr<optimizer::Optimizer>);
 
   // Print the logger status:
   void printLoggerStatus (const double&) const;

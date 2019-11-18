@@ -50,6 +50,7 @@
 #include "loss.h"
 #include "baselearner.h"
 #include "response.h"
+#include "optimizer.h"
 
 namespace logger
 {
@@ -82,7 +83,8 @@ public:
 
   /// Log current step of compboost iteration dependent on the child class
   virtual void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&) = 0;
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
+    std::shared_ptr<optimizer::Optimizer>) = 0;
 
   /// Class dependent check if the stopping criteria is fulfilled
   virtual bool reachedStopCriteria () = 0;
@@ -145,7 +147,8 @@ public:
 
   /// Log current step of compboost iteration of class `LoggerIteration`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
+    std::shared_ptr<optimizer::Optimizer>);
 
   /// Stop criteria is fulfilled if the current iteration exceed `max_iteration`
   bool reachedStopCriteria ();
@@ -201,7 +204,8 @@ public:
 
   /// Log current step of compboost iteration for class `LoggerInbagRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
+    std::shared_ptr<optimizer::Optimizer>);
 
   /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria ();
@@ -270,7 +274,8 @@ public:
 
   /// Log current step of compboost iteration for class `LoggerOobRisk`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
+    std::shared_ptr<optimizer::Optimizer>);
 
   /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
   bool reachedStopCriteria ();
@@ -330,7 +335,8 @@ public:
 
   /// Log current step of compboost iteration for class `LoggerTime`
   void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&);
+    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
+    std::shared_ptr<optimizer::Optimizer>);
 
   /// Stop criteria is fulfilled if the passed time exceeds `max_time`
   bool reachedStopCriteria ();

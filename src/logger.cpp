@@ -79,7 +79,8 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
  */
 
 void LoggerIteration::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   iterations.push_back(current_iteration);
 }
@@ -226,7 +227,8 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
  */
 
 void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   // Calculate empirical risk. Calculateion of the temporary vector ensures
   // // that stuff like auc logging is possible:
@@ -394,7 +396,8 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
  */
 
 void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   if (current_iteration == 1) {
     sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
@@ -413,7 +416,7 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
 
     // Predict this data using the selected baselearner:
     arma::mat temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
-    sh_ptr_oob_response->updatePrediction(learning_rate, step_size, temp_oob_prediction);
+    sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
   }
 
 
@@ -591,7 +594,8 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
  */
 
 void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size)
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   if (current_time.size() == 0) {
     init_time = std::chrono::steady_clock::now();

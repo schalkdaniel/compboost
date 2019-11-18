@@ -73,7 +73,8 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
     sh_ptr_optimizer->optimize(actual_iteration, learning_rate, sh_ptr_loss, sh_ptr_response, blearner_track,
       used_baselearner_list);
 
-    logger_list->logCurrent(actual_iteration, sh_ptr_response, blearner_track.getBaselearnerVector().back(), learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration));
+    logger_list->logCurrent(actual_iteration, sh_ptr_response, blearner_track.getBaselearnerVector().back(),
+      learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration), sh_ptr_optimizer);
 
     // Calculate and log risk:
     risk.push_back(sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss));
