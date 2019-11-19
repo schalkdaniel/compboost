@@ -31,11 +31,11 @@ namespace cboost {
 Compboost::Compboost () {}
 
 Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const double& learning_rate,
-  const bool& stop_if_all_stopper_fulfilled, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
+  const bool& is_global_stopper, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList blearner_list)
   : sh_ptr_response ( sh_ptr_response ),
     learning_rate ( learning_rate ),
-    stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
+    is_global_stopper ( is_global_stopper ),
     sh_ptr_optimizer ( sh_ptr_optimizer ),
     sh_ptr_loss ( sh_ptr_loss ),
     blearner_list ( blearner_list )
@@ -81,7 +81,7 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
 
     // Get status of the algorithm (is the stopping criteria reached?). The negation here
     // seems a bit weird, but it makes the while loop easier to read:
-    is_stopc_reached = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
+    is_stopc_reached = ! logger_list->getStopperStatus(is_global_stopper);
 
     if (helper::checkTracePrinter(current_iter, trace)) logger_list->printLoggerStatus(risk.back());
     k += 1;
@@ -119,12 +119,12 @@ void Compboost::trainCompboost (const unsigned int& trace)
               << risk.back() << std::endl << std::endl;
 
   // Set flag if model is trained:
-  model_is_trained = true;
+  is_trained = true;
 }
 
 void Compboost::continueTraining (const unsigned int& trace)
 {
-  if (! model_is_trained) {
+  if (! is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
   if (current_iter != blearner_track.getBaselearnerVector().size()) {
@@ -268,9 +268,9 @@ void Compboost::summarizeCompboost () const
 {
   Rcpp::Rcout << "Compboost object with:" << std::endl;
   Rcpp::Rcout << "\t- Learning Rate: " << learning_rate << std::endl;
-  Rcpp::Rcout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
+  Rcpp::Rcout << "\t- Are all logger used as stopper: " << is_global_stopper << std::endl;
 
-  if (model_is_trained) {
+  if (is_trained) {
     Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.getBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
     Rcpp::Rcout << "\t- Actual state is at iteration " << current_iter << std::endl;
     // Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;

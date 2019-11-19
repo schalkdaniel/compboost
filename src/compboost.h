@@ -76,14 +76,14 @@ private:
 
   std::shared_ptr<response::Response> sh_ptr_response;
   double learning_rate;
-  bool stop_if_all_stopper_fulfilled;
+  bool is_global_stopper;
   std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
   std::shared_ptr<loss::Loss> sh_ptr_loss;
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
   blearnerlist::BaselearnerFactoryList blearner_list;
 
   std::vector<double> risk;
-  bool model_is_trained = false;
+  bool is_trained = false;
   unsigned int current_iter;
   blearnertrack::BaselearnerTrack blearner_track;
 
