@@ -293,9 +293,6 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
 
 arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, const double& range_max, const std::string& feat_name)
 {
-  arma::uword idx_min = newdata.index_min();
-  arma::uword idx_max = newdata.index_max();
-
   arma::mat temp = newdata;
 
   arma::uvec idx_lower = arma::find(temp < range_min);
