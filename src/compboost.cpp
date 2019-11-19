@@ -128,8 +128,8 @@ void Compboost::continueTraining (const unsigned int& trace)
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
   if (current_iter != blearner_track.getBaselearnerVector().size()) {
-    unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
-    setToIteration(max_iteration, -1);
+    unsigned int iter_max = blearner_track.getBaselearnerVector().size();
+    setToIteration(iter_max, -1);
   }
   train(trace, sh_ptr_loggerlist);
 
@@ -236,13 +236,13 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 // Set model to an given iteration. The predictions and everything is then done at this iteration:
 void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace)
 {
-  unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
+  unsigned int iter_max = blearner_track.getBaselearnerVector().size();
 
   // Set parameter:
-  if (k > max_iteration) {
-    unsigned int iteration_diff = k - max_iteration;
-    Rcpp::Rcout << "\nYou have already trained " << std::to_string(max_iteration) << " iterations.\n"
-                <<"Train " << std::to_string(iteration_diff) << " additional iterations."
+  if (k > iter_max) {
+    unsigned int iter_diff = k - iter_max;
+    Rcpp::Rcout << "\nYou have already trained " << std::to_string(iter_max) << " iterations.\n"
+                <<"Train " << std::to_string(iter_diff) << " additional iterations."
                 << std::endl << std::endl;
 
     sh_ptr_loggerlist->prepareForRetraining(k);
