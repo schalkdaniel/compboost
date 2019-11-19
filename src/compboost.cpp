@@ -32,13 +32,13 @@ Compboost::Compboost () {}
 
 Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const double& learning_rate,
   const bool& stop_if_all_stopper_fulfilled, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList used_baselearner_list)
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList blearner_list)
   : sh_ptr_response ( sh_ptr_response ),
     learning_rate ( learning_rate ),
     stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
     sh_ptr_optimizer ( sh_ptr_optimizer ),
     sh_ptr_loss ( sh_ptr_loss ),
-    used_baselearner_list ( used_baselearner_list )
+    blearner_list ( blearner_list )
 {
   sh_ptr_response->constantInitialization(sh_ptr_loss);
   sh_ptr_response->initializePrediction();
@@ -53,7 +53,7 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
 void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::LoggerList> logger_list)
 {
 
-  if (used_baselearner_list.getMap().size() == 0) {
+  if (blearner_list.getMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
 
@@ -71,7 +71,7 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
     sh_ptr_response->updatePseudoResiduals(sh_ptr_loss);
 
     sh_ptr_optimizer->optimize(actual_iteration, learning_rate, sh_ptr_loss, sh_ptr_response, blearner_track,
-      used_baselearner_list);
+      blearner_list);
 
     logger_list->logCurrent(actual_iteration, sh_ptr_response, blearner_track.getBaselearnerVector().back(),
       learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration), sh_ptr_optimizer);
@@ -186,7 +186,7 @@ arma::vec Compboost::predict () const
   // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
     std::string sel_factory = it.first;
-    pred += used_baselearner_list.getMap().find(sel_factory)->second->getData() * it.second;
+    pred += blearner_list.getMap().find(sel_factory)->second->getData() * it.second;
     // pred += train_data_map.find(sel_factory)->second * it.second;
   }
   return pred;
@@ -215,7 +215,7 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
     std::string sel_factory = it.first;
 
     // Find the element with key 'hat'
-    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = used_baselearner_list.getMap().find(sel_factory)->second;
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = blearner_list.getMap().find(sel_factory)->second;
 
     // Select newdata corresponding to selected facotry object:
     std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;

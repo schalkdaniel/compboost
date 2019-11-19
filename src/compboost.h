@@ -74,22 +74,18 @@ class Compboost
 
 private:
 
-  std::vector<double> risk;
-
-  // Expand learning_rate to vector:
-  double learning_rate;
-
-  bool stop_if_all_stopper_fulfilled;
-  bool model_is_trained = false;
-
-  unsigned int actual_iteration;
-
   std::shared_ptr<response::Response> sh_ptr_response;
-  blearnertrack::BaselearnerTrack blearner_track;
+  double learning_rate;
+  bool stop_if_all_stopper_fulfilled;
   std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
   std::shared_ptr<loss::Loss> sh_ptr_loss;
-  blearnerlist::BaselearnerFactoryList used_baselearner_list;
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
+  blearnerlist::BaselearnerFactoryList blearner_list;
+
+  std::vector<double> risk;
+  bool model_is_trained = false;
+  unsigned int actual_iteration;
+  blearnertrack::BaselearnerTrack blearner_track;
 
 public:
 
