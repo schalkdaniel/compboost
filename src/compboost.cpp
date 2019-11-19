@@ -65,16 +65,16 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
   // algorithm:
   while (! is_stopc_reached) {
 
-    actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
+    current_iter = blearner_track.getBaselearnerVector().size() + 1;
 
-    sh_ptr_response->setActualIteration(actual_iteration);
+    sh_ptr_response->setActualIteration(current_iter);
     sh_ptr_response->updatePseudoResiduals(sh_ptr_loss);
 
-    sh_ptr_optimizer->optimize(actual_iteration, learning_rate, sh_ptr_loss, sh_ptr_response, blearner_track,
+    sh_ptr_optimizer->optimize(current_iter, learning_rate, sh_ptr_loss, sh_ptr_response, blearner_track,
       blearner_list);
 
-    logger_list->logCurrent(actual_iteration, sh_ptr_response, blearner_track.getBaselearnerVector().back(),
-      learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration), sh_ptr_optimizer);
+    logger_list->logCurrent(current_iter, sh_ptr_response, blearner_track.getBaselearnerVector().back(),
+      learning_rate, sh_ptr_optimizer->getStepSize(current_iter), sh_ptr_optimizer);
 
     // Calculate and log risk:
     risk.push_back(sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss));
@@ -83,7 +83,7 @@ void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::Lo
     // seems a bit weird, but it makes the while loop easier to read:
     is_stopc_reached = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
 
-    if (helper::checkTracePrinter(actual_iteration, trace)) logger_list->printLoggerStatus(risk.back());
+    if (helper::checkTracePrinter(current_iter, trace)) logger_list->printLoggerStatus(risk.back());
     k += 1;
   }
 
@@ -112,7 +112,7 @@ void Compboost::trainCompboost (const unsigned int& trace)
   auto t2 = std::chrono::high_resolution_clock::now();
 
   // After training call printer for a status:
-  Rcpp::Rcout << "Train " << std::to_string(actual_iteration) << " iterations in "
+  Rcpp::Rcout << "Train " << std::to_string(current_iter) << " iterations in "
               << std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count()
               << " Seconds." << std::endl;
   Rcpp::Rcout << "Final risk based on the train set: " << std::setprecision(2)
@@ -127,14 +127,14 @@ void Compboost::continueTraining (const unsigned int& trace)
   if (! model_is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
-  if (actual_iteration != blearner_track.getBaselearnerVector().size()) {
+  if (current_iter != blearner_track.getBaselearnerVector().size()) {
     unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
     setToIteration(max_iteration, -1);
   }
   train(trace, sh_ptr_loggerlist);
 
   // Update actual state:
-  actual_iteration = blearner_track.getBaselearnerVector().size();
+  current_iter = blearner_track.getBaselearnerVector().size();
 }
 
 arma::vec Compboost::getPrediction (const bool& as_response) const
@@ -156,7 +156,7 @@ std::vector<std::string> Compboost::getSelectedBaselearner () const
 {
   std::vector<std::string> selected_blearner_names;
 
-  for (unsigned int i = 0; i < actual_iteration; i++) {
+  for (unsigned int i = 0; i < current_iter; i++) {
     selected_blearner_names.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + "_" + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
   }
   return selected_blearner_names;
@@ -251,7 +251,7 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
 
   blearner_track.setToIteration(k);
   sh_ptr_response->setActualPredictionScores(predict(), k);
-  actual_iteration = k;
+  current_iter = k;
 }
 
 arma::mat Compboost::getOffset() const
@@ -272,7 +272,7 @@ void Compboost::summarizeCompboost () const
 
   if (model_is_trained) {
     Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.getBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
-    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_iteration << std::endl;
+    Rcpp::Rcout << "\t- Actual state is at iteration " << current_iter << std::endl;
     // Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
   }
   Rcpp::Rcout << std::endl;

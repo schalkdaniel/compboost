@@ -84,7 +84,7 @@ private:
 
   std::vector<double> risk;
   bool model_is_trained = false;
-  unsigned int actual_iteration;
+  unsigned int current_iter;
   blearnertrack::BaselearnerTrack blearner_track;
 
 public:
