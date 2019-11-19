@@ -59,6 +59,6 @@ InMemoryData::InMemoryData (const arma::mat& raw_data, const std::string& data_i
 void InMemoryData::setData (const arma::mat& transformed_data) { data_mat = transformed_data; }
 arma::mat InMemoryData::getData () const { return data_mat; }
 
-InMemoryData::~InMemoryData () {};
+InMemoryData::~InMemoryData () {}
 
 } // namespace data
