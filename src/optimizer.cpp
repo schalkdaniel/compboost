@@ -148,6 +148,31 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
   }
 }
 
+arma::mat OptimizerCoordinateDescent::calculateUpdate (const double& learning_rate, const double& step_size,
+  const arma::mat& blearner_pred) const
+{
+  return learning_rate * step_size * blearner_pred;
+}
+
+void OptimizerCoordinateDescent::optimize (const unsigned int& actual_iteration, const double& learning_rate, const std::shared_ptr<loss::Loss> sh_ptr_loss, const std::shared_ptr<response::Response> sh_ptr_response,
+  blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& blearner_list)
+{
+  std::string temp_string = std::to_string(actual_iteration);
+  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner_selected = findBestBaselearner(temp_string,
+    sh_ptr_response, blearner_list.getMap());
+
+  // Prediction is needed more often, use a temp vector to avoid multiple computations:
+  arma::mat blearner_pred_temp = sh_ptr_blearner_selected->predict();
+
+  calculateStepSize(sh_ptr_loss, sh_ptr_response, blearner_pred_temp);
+
+  // Insert new base-learner to vector of selected base-learner. The parameter are estimated here, hence
+  // the contribution to the old parameter is the estimated parameter times the learning rate times
+  // the step size. Therefore we have to pass the step size which changes in each iteration:
+  blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
+  sh_ptr_response->updatePrediction(calculateUpdate(learning_rate, getStepSize(actual_iteration), blearner_pred_temp));
+}
+
 void OptimizerCoordinateDescent::calculateStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, std::shared_ptr<response::Response> sh_ptr_response,
   const arma::vec& baselearner_prediction)
 {

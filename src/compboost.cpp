@@ -31,14 +31,14 @@ namespace cboost {
 Compboost::Compboost () {}
 
 Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const double& learning_rate,
-  const bool& stop_if_all_stopper_fulfilled, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList used_baselearner_list)
+  const bool& is_global_stopper, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist0, blearnerlist::BaselearnerFactoryList blearner_list)
   : sh_ptr_response ( sh_ptr_response ),
     learning_rate ( learning_rate ),
-    stop_if_all_stopper_fulfilled ( stop_if_all_stopper_fulfilled ),
+    is_global_stopper ( is_global_stopper ),
     sh_ptr_optimizer ( sh_ptr_optimizer ),
     sh_ptr_loss ( sh_ptr_loss ),
-    used_baselearner_list ( used_baselearner_list )
+    blearner_list ( blearner_list )
 {
   sh_ptr_response->constantInitialization(sh_ptr_loss);
   sh_ptr_response->initializePrediction();
@@ -53,53 +53,37 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
 void Compboost::train (const unsigned int& trace, std::shared_ptr<loggerlist::LoggerList> logger_list)
 {
 
-  if (used_baselearner_list.getMap().size() == 0) {
+  if (blearner_list.getMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
 
-  arma::mat blearner_pred_temp;
-
-  bool stop_the_algorithm = false;
+  // Bool to indicate whether the stop criteria (stopc) is reached or not:
+  bool is_stopc_reached = false;
   unsigned int k = 1;
 
   // Main Algorithm. While the stop criteria isn't fulfilled, run the
   // algorithm:
-  while (! stop_the_algorithm) {
+  while (! is_stopc_reached) {
 
-    actual_iteration = blearner_track.getBaselearnerVector().size() + 1;
+    current_iter = blearner_track.getBaselearnerVector().size() + 1;
 
-    sh_ptr_response->setActualIteration(actual_iteration);
+    sh_ptr_response->setActualIteration(current_iter);
     sh_ptr_response->updatePseudoResiduals(sh_ptr_loss);
 
-    // Cast integer k to string for baselearner identifier:
-    std::string temp_string = std::to_string(k);
-    std::shared_ptr<blearner::Baselearner> sh_ptr_blearner_selected = sh_ptr_optimizer->findBestBaselearner(temp_string,
-      sh_ptr_response, used_baselearner_list.getMap());
+    sh_ptr_optimizer->optimize(current_iter, learning_rate, sh_ptr_loss, sh_ptr_response, blearner_track,
+      blearner_list);
 
-    // Prediction is needed more often, use a temp vector to avoid multiple computations:
-    blearner_pred_temp = sh_ptr_blearner_selected->predict();
-
-    sh_ptr_optimizer->calculateStepSize(sh_ptr_loss, sh_ptr_response, blearner_pred_temp);
-
-    // Insert new base-learner to vector of selected base-learner. The parameter are estimated here, hence
-    // the contribution to the old parameter is the estimated parameter times the learning rate times
-    // the step size. Therefore we have to pass the step size which changes in each iteration:
-    blearner_track.insertBaselearner(sh_ptr_blearner_selected, sh_ptr_optimizer->getStepSize(actual_iteration));
-    sh_ptr_response->updatePrediction(learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration), blearner_pred_temp);
-
-    // Log the current step:
-    //   The last term has to be the prediction or anything like that. This is
-    //   important to track the risk (inbag or oob)!!!!
-    logger_list->logCurrent(actual_iteration, sh_ptr_response, sh_ptr_blearner_selected, learning_rate, sh_ptr_optimizer->getStepSize(actual_iteration));
+    logger_list->logCurrent(current_iter, sh_ptr_response, blearner_track.getBaselearnerVector().back(),
+      learning_rate, sh_ptr_optimizer->getStepSize(current_iter), sh_ptr_optimizer);
 
     // Calculate and log risk:
     risk.push_back(sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss));
 
     // Get status of the algorithm (is the stopping criteria reached?). The negation here
     // seems a bit weird, but it makes the while loop easier to read:
-    stop_the_algorithm = ! logger_list->getStopperStatus(stop_if_all_stopper_fulfilled);
+    is_stopc_reached = ! logger_list->getStopperStatus(is_global_stopper);
 
-    if (helper::checkTracePrinter(actual_iteration, trace)) logger_list->printLoggerStatus(risk.back());
+    if (helper::checkTracePrinter(current_iter, trace)) logger_list->printLoggerStatus(risk.back());
     k += 1;
   }
 
@@ -128,29 +112,29 @@ void Compboost::trainCompboost (const unsigned int& trace)
   auto t2 = std::chrono::high_resolution_clock::now();
 
   // After training call printer for a status:
-  Rcpp::Rcout << "Train " << std::to_string(actual_iteration) << " iterations in "
+  Rcpp::Rcout << "Train " << std::to_string(current_iter) << " iterations in "
               << std::chrono::duration_cast<std::chrono::seconds>(t2 - t1).count()
               << " Seconds." << std::endl;
   Rcpp::Rcout << "Final risk based on the train set: " << std::setprecision(2)
               << risk.back() << std::endl << std::endl;
 
   // Set flag if model is trained:
-  model_is_trained = true;
+  is_trained = true;
 }
 
 void Compboost::continueTraining (const unsigned int& trace)
 {
-  if (! model_is_trained) {
+  if (! is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
-  if (actual_iteration != blearner_track.getBaselearnerVector().size()) {
-    unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
-    setToIteration(max_iteration, -1);
+  if (current_iter != blearner_track.getBaselearnerVector().size()) {
+    unsigned int iter_max = blearner_track.getBaselearnerVector().size();
+    setToIteration(iter_max, -1);
   }
   train(trace, sh_ptr_loggerlist);
 
   // Update actual state:
-  actual_iteration = blearner_track.getBaselearnerVector().size();
+  current_iter = blearner_track.getBaselearnerVector().size();
 }
 
 arma::vec Compboost::getPrediction (const bool& as_response) const
@@ -172,7 +156,7 @@ std::vector<std::string> Compboost::getSelectedBaselearner () const
 {
   std::vector<std::string> selected_blearner_names;
 
-  for (unsigned int i = 0; i < actual_iteration; i++) {
+  for (unsigned int i = 0; i < current_iter; i++) {
     selected_blearner_names.push_back(blearner_track.getBaselearnerVector()[i]->getDataIdentifier() + "_" + blearner_track.getBaselearnerVector()[i]->getBaselearnerType());
   }
   return selected_blearner_names;
@@ -202,7 +186,7 @@ arma::vec Compboost::predict () const
   // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
     std::string sel_factory = it.first;
-    pred += used_baselearner_list.getMap().find(sel_factory)->second->getData() * it.second;
+    pred += blearner_list.getMap().find(sel_factory)->second->getData() * it.second;
     // pred += train_data_map.find(sel_factory)->second * it.second;
   }
   return pred;
@@ -231,7 +215,7 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
     std::string sel_factory = it.first;
 
     // Find the element with key 'hat'
-    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = used_baselearner_list.getMap().find(sel_factory)->second;
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = blearner_list.getMap().find(sel_factory)->second;
 
     // Select newdata corresponding to selected facotry object:
     std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;
@@ -252,13 +236,13 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 // Set model to an given iteration. The predictions and everything is then done at this iteration:
 void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace)
 {
-  unsigned int max_iteration = blearner_track.getBaselearnerVector().size();
+  unsigned int iter_max = blearner_track.getBaselearnerVector().size();
 
   // Set parameter:
-  if (k > max_iteration) {
-    unsigned int iteration_diff = k - max_iteration;
-    Rcpp::Rcout << "\nYou have already trained " << std::to_string(max_iteration) << " iterations.\n"
-                <<"Train " << std::to_string(iteration_diff) << " additional iterations."
+  if (k > iter_max) {
+    unsigned int iter_diff = k - iter_max;
+    Rcpp::Rcout << "\nYou have already trained " << std::to_string(iter_max) << " iterations.\n"
+                <<"Train " << std::to_string(iter_diff) << " additional iterations."
                 << std::endl << std::endl;
 
     sh_ptr_loggerlist->prepareForRetraining(k);
@@ -267,7 +251,7 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
 
   blearner_track.setToIteration(k);
   sh_ptr_response->setActualPredictionScores(predict(), k);
-  actual_iteration = k;
+  current_iter = k;
 }
 
 arma::mat Compboost::getOffset() const
@@ -284,11 +268,11 @@ void Compboost::summarizeCompboost () const
 {
   Rcpp::Rcout << "Compboost object with:" << std::endl;
   Rcpp::Rcout << "\t- Learning Rate: " << learning_rate << std::endl;
-  Rcpp::Rcout << "\t- Are all logger used as stopper: " << stop_if_all_stopper_fulfilled << std::endl;
+  Rcpp::Rcout << "\t- Are all logger used as stopper: " << is_global_stopper << std::endl;
 
-  if (model_is_trained) {
+  if (is_trained) {
     Rcpp::Rcout << "\t- Model is already trained with " << blearner_track.getBaselearnerVector().size() << " iterations/fitted baselearner" << std::endl;
-    Rcpp::Rcout << "\t- Actual state is at iteration " << actual_iteration << std::endl;
+    Rcpp::Rcout << "\t- Actual state is at iteration " << current_iter << std::endl;
     // Rcpp::Rcout << "\t- Loss optimal initialization: " << std::fixed << std::setprecision(2) << initialization << std::endl;
   }
   Rcpp::Rcout << std::endl;

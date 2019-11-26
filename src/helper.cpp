@@ -183,14 +183,6 @@ arma::vec stringVecToBinaryVec(const std::vector<std::string>& response, const s
   return out;
 }
 
-std::map<std::string, unsigned int> table (const std::vector<std::string>& response)
-{
-  std::map<std::string, unsigned int> out;
-  for (unsigned int i = 0; i < response.size(); i++) {
-    out[response[i]] += 1;
-  }
-}
-
 void checkForBinaryClassif (const std::vector<std::string>& response)
 {
   std::map<std::string, unsigned int> class_table = helper::tableResponse(response);
@@ -228,7 +220,7 @@ bool checkTracePrinter (const unsigned int& k, const unsigned int& trace)
     }
   }
   return print_trace;
-};
+}
 
 double matrixQuantile (const arma::mat& X, const double& quantile)
 {

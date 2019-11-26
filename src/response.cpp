@@ -65,6 +65,11 @@ void Response::updatePseudoResiduals (std::shared_ptr<loss::Loss> sh_ptr_loss)
   }
 }
 
+void Response::updatePrediction (const arma::mat& update)
+{
+  prediction_scores += update;
+}
+
 void Response::updatePrediction (const double& learning_rate, const double& step_size, const arma::mat& update)
 {
   prediction_scores += learning_rate * step_size * update;

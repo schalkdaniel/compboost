@@ -30,6 +30,7 @@
 
 #include "baselearner.h"
 #include "baselearner_factory_list.h"
+#include "baselearner_track.h"
 #include "loss.h"
 #include "line_search.h"
 #include "helper.h"
@@ -50,6 +51,9 @@ class Optimizer
 
     virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
       std::shared_ptr<response::Response>, const blearner_factory_map&) const = 0;
+    virtual arma::mat calculateUpdate (const double&, const double&, const arma::mat&) const = 0;
+    virtual void optimize (const unsigned int&, const double&, const std::shared_ptr<loss::Loss>, const std::shared_ptr<response::Response>,
+      blearnertrack::BaselearnerTrack&, const blearnerlist::BaselearnerFactoryList&) = 0;
 
     // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
     virtual void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&) = 0;
@@ -82,14 +86,15 @@ class OptimizerCoordinateDescent : public Optimizer
 
     std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
       const blearner_factory_map&) const;
+    arma::mat calculateUpdate (const double&, const double&, const arma::mat&) const;
+    void optimize (const unsigned int&, const double&, const std::shared_ptr<loss::Loss>, const std::shared_ptr<response::Response>,
+      blearnertrack::BaselearnerTrack&, const blearnerlist::BaselearnerFactoryList&);
 
     void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
     std::vector<double> getStepSize () const;
     double getStepSize (const unsigned int&) const;
 };
 
-// Coordinate Descent with line search:
-// -------------------------------------------
 class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
 {
   public:
