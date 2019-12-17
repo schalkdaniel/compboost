@@ -238,12 +238,12 @@ double matrixQuantile (const arma::mat& X, const double& quantile)
 
 arma::SpMat<unsigned int> binaryMat (const arma::Row<unsigned int>& classes)
 {
-  const unsigned int n_levels = arma::max(vec);
-  const unsigned int n_obs = vec.size();
+  const unsigned int n_levels = arma::max(classes);
+  const unsigned int n_obs = classes.size();
 
   const arma::Row<unsigned int> ones(n_obs, arma::fill::ones);
 
-  arma::umat indices = arma::join_cols(arma::cumsum(ones) - 1, vec);
+  arma::umat indices = arma::join_cols(arma::cumsum(ones) - 1, classes);
   arma::SpMat<unsigned int> sp_out(indices, ones);
 
   return sp_out;
