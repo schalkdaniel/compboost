@@ -40,7 +40,7 @@ void checkForBinaryClassif (const std::vector<std::string>&);
 void checkMatrixDim (const arma::mat&, const arma::mat&);
 bool checkTracePrinter (const unsigned int&, const unsigned int&);
 double matrixQuantile (const arma::mat&, const double&);
-arma::SpMat<unsigned int> (const arma::Row<unsigned int>&);
+arma::SpMat<unsigned int> binaryMat (const arma::Row<unsigned int>&);
 } // namespace helper
 
 # endif // HELPER_H_
