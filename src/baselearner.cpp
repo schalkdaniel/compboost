@@ -333,12 +333,77 @@ arma::mat BaselearnerPSpline::predict () const
  */
 arma::mat BaselearnerPSpline::predict (std::shared_ptr<data::Data> newdata) const
 {
-  return instantiateData(newdata->getData()) * parameter;
+  arma::vec knots = sh_ptr_data->knots;
+
+  // check if the new data matrix contains value which are out of range:
+  double range_min = knots[degree];                   // minimal value from original data
+  double range_max = knots[n_knots + degree + 1];     // maximal value from original data
+
+  arma::mat temp = splines::filterKnotRange(newdata->getData(), range_min, range_max, sh_ptr_data->getDataIdentifier());
+
+  // Data object has to be created prior! That means that sh_ptr_data must have
+  // initialized knots, and penalty matrix!
+  return splines::createSplineBasis (temp, degree, sh_ptr_data->knots) * parameter;
+
+  // return instantiateData(newdata->getData()) * parameter;
 }
 
 
 /// Destructor
 BaselearnerPSpline::~BaselearnerPSpline () {}
+
+
+// BaselearnerCategorical:
+// -----------------------
+
+BaselearnerCategorical::BaselearnerCategorical (std::shared_ptr<data::Data> data, const std::string& identifier,
+  const double& learning_rate, const double& penalty, const unsigned int& iters)
+  : learning_rate ( learning_rate ),
+    penalty ( penalty ),
+    iters ( iters )
+{
+  // Called from parent class 'Baselearner':
+  Baselearner::setData(data);
+  Baselearner::setIdentifier(identifier);
+}
+
+// Copy member:
+Baselearner* BaselearnerCategorical::clone ()
+{
+  Baselearner* newbl = new BaselearnerCategorical(*this);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->sh_ptr_data);
+
+  return newbl;
+}
+
+arma::mat BaselearnerCategorical::instantiateData (const arma::mat& newdata) const
+{
+  arma::Row<unsigned int> temp = arma::conv_to<arma::Row<unsigned int>>::from(newdata);
+  arma::mat out (helper::binaryMat(temp));
+  return out;
+}
+
+// Train the learner:
+void BaselearnerCategorical::train (const arma::mat& response)
+{
+  parameter = coodesc::coordinateDescent(response, this->sh_ptr_data->sparse_data_mat, this->penalty, this->learning_rate, this->iters);
+}
+
+// Predict the learner:
+arma::mat BaselearnerCategorical::predict () const
+{
+  return sh_ptr_data->sparse_data_mat * parameter;
+}
+arma::mat BaselearnerCategorical::predict (std::shared_ptr<data::Data> newdata) const
+{
+  arma::Row<unsigned int> temp = arma::conv_to<arma::Row<unsigned int>>::from(newdata->getData());
+  return helper::binaryMat(temp) * parameter;
+}
+
+// Destructor:
+BaselearnerCategorical::~BaselearnerCategorical () {}
+
+
 
 
 // BaselearnerCustom:

@@ -220,6 +220,51 @@ NULL
 #' @export BaselearnerPSpline
 NULL
 
+#' Base-learner factory to do fit categorical features
+#'
+#' \code{BaselearnerCategorical} takes a categorical feature and fits it using a L1 penalty.
+#'
+#' @format \code{\link{S4}} object.
+#' @name BaselearnerCategorical
+#'
+#' @section Usage:
+#' \preformatted{
+#' BaselearnerCategorical$new(data_source, data_target, list(learning_rate, penalty, iters))
+#' }
+#'
+#' @section Arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{Data} Object]}{
+#'   Data object which contains the source data.
+#' }
+#' \item{\code{data_target} [\code{Data} Object]}{
+#'   Data object which gets the transformed source data.
+#' }
+#' \item{\code{learning_rate} [\code{numeric(1)}]}{
+#'   Learning rate of coordinate descent.
+#' }
+#' \item{\code{penalty} [\code{numeric(1)}]}{
+#'   L1 penalty for the fitting process.
+#' }
+#' \item{\code{iters} [\code{integer(1)}]}{
+#'   Number of iterations of coordinate descent.
+#' }
+#' }
+#'
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modeling.}
+#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+#'   factory. The argument has to be a matrix with one column.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @export BaselearnerCategorical
+NULL
+
 #' Create custom base-learner factory by using R functions.
 #'
 #' \code{BaselearnerCustom} creates a custom base-learner factory by
@@ -835,7 +880,7 @@ NULL
 #' ResponseRegr$new(target_name, response, weights)
 #' }
 #'
-#' @example
+#' @examples
 #'
 #' response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
 #' response_regr$getResponse()
@@ -858,7 +903,7 @@ NULL
 #' ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 #' }
 #'
-#' @example
+#' @examples
 #'
 #' response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
 #' response_binary$getResponse()

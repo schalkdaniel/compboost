@@ -314,6 +314,107 @@ arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) 
   return out;
 }
 
+
+// BaselearnerCategorical:
+// -----------------------
+
+/**
+ * \brief Default constructor of class `PSplineCategoricalFactory`
+ *
+ * The constructor creates the binary design matrix as sparse matrix. The factory also stores
+ * the learning rate and penalty term since the base-learner uses an coordinate descent
+ * search strategy with L1 penalty.
+ *
+ * \param blearner_type0 `std::string` Name of the baselearner type (setted by
+ *   the Rcpp Wrapper classes in `compboost_modules.cpp`)
+ * \param data_source `std::shared_ptr<data::Data>` Source of the data
+ * \param data_target `std::shared_ptr<data::Data>` Object to store the transformed data source
+ * \param learning_rate `double` Coordinate descent learning rate.
+ * \param penalty `double` L1 penalty term.
+ * \param iters `unsigned int` Maximal numbers of iterations.
+ */
+
+BaselearnerCategoricalFactory::BaselearnerCategoricalFactory (const std::string& blearner_type0,
+  std::shared_ptr<data::Data> data_source0, std::shared_ptr<data::Data> data_target0,
+  const double& learning_rate, const double& penalty, const unsigned int& iters)
+  : learning_rate ( learning_rate ),
+    penalty ( penalty ),
+    iters ( iters )
+{
+  blearner_type = blearner_type0;
+  // Set data, data identifier and the data_mat (dense at this stage)
+  data_source = data_source0;
+  data_target = data_target0;
+
+  // Make sure that the data identifier is setted correctly:
+  data_target->setDataIdentifier(data_source->getDataIdentifier());
+  arma::Row<unsigned int> temp = arma::conv_to<arma::Row<unsigned int>>::from(data_source->getData());
+  data_target->sparse_data_mat = helper::binaryMat(temp);
+}
+
+/**
+ * \brief Create new `BaselearnerCategorical` object
+ *
+ * \param identifier `std::string` identifier of that specific baselearner object
+ */
+std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalFactory::createBaselearner (const std::string& identifier)
+{
+  // Create new categorical baselearner. This one will be returned by the
+  // factory:
+  std::shared_ptr<blearner::Baselearner>  sh_ptr_blearner = std::make_shared<blearner::BaselearnerCategorical>(data_target, identifier,
+    learning_rate, penalty, iters);
+  sh_ptr_blearner->setBaselearnerType(blearner_type);
+
+  return sh_ptr_blearner;
+}
+
+/**
+ * \brief Data getter which always returns an arma::mat
+ *
+ * This function is important to have a unified interface to access the data
+ * matrices. Especially for predicting we have to get the data of each factory
+ * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
+ * this function should only be used to get temporary matrices which are deleted
+ * when they run out of scope to reduce memory load. Also note that there is a
+ * dispatch with the getData() function of the Data objects which are mostly
+ * called internally.
+ *
+ * \returns `arma::mat` of data used for modelling a single base-learner
+ */
+arma::mat BaselearnerCategoricalFactory::getData () const
+{
+  arma::mat out (data_target->sparse_data_mat);
+  return out;
+}
+
+/**
+ * \brief Instantiate data matrix (design matrix)
+ *
+ * This function is ment to create the design matrix which is then stored
+ * within the data object. This should be done just once and then reused all
+ * the time.
+ *
+ * Note that this function sets the `data_mat` object of the data object!
+ *
+ * \param newdata `arma::mat` Input data which is transformed to the design matrix
+ *
+ * \returns `arma::mat` of transformed data
+ */
+arma::mat BaselearnerCategoricalFactory::instantiateData (const arma::mat& newdata) const
+{
+  arma::Row<unsigned int> temp = arma::conv_to<arma::Row<unsigned int>>::from(newdata);
+  arma::mat out (helper::binaryMat(temp));
+  return out;
+}
+
+
+
+
+
+
+
+
+
 // BaselearnerCustom:
 // -----------------------
 

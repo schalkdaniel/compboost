@@ -18,30 +18,18 @@
 //
 // =========================================================================== #
 
-#ifndef HELPER_H_
-#define HELPER_H_
+#ifndef COORDINATE_DESCENT_H_
+#define COORDINATE_DESCENT_H_
 
 #include <RcppArmadillo.h>
-#include <sstream>
-#include <string>
-#include <vector>
 
-namespace helper
+namespace coodesc
 {
 
-bool stringInNames (std::string, std::vector<std::string>);
-Rcpp::List argHandler (Rcpp::List, Rcpp::List, bool);
-double calculateSumOfSquaredError (const arma::mat&, const arma::mat&);
-arma::mat sigmoid (const arma::mat&);
-std::map<std::string, unsigned int> tableResponse (const std::vector<std::string>&);
-arma::vec stringVecToBinaryVec(const std::vector<std::string>&, const std::string&);
-arma::mat transformToBinaryResponse (const arma::mat&, const double&, const double&, const double&);
-void checkForBinaryClassif (const std::vector<std::string>&);
-void checkMatrixDim (const arma::mat&, const arma::mat&);
-bool checkTracePrinter (const unsigned int&, const unsigned int&);
-double matrixQuantile (const arma::mat&, const double&);
-arma::sp_mat binaryMat (const arma::Row<unsigned int>&);
+arma::sp_mat subsetSparseCols (const arma::sp_mat&, const unsigned int&);
+arma::mat subsetRows (const arma::mat&, const unsigned int&);
+arma::colvec coordinateDescent (const arma::mat&, const arma::sp_mat&, const double&, const double&, const unsigned int&);
 
-} // namespace helper
+} // namespace coodesc
 
-# endif // HELPER_H_
+# endif // COORDINATE_DESCENT_H_

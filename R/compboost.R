@@ -193,6 +193,7 @@
 #'       \describe{
 #'         \item{\code{quantile}}{[\code{numeric(1)}]\cr
 #'           Quantile that is boosted.
+#'         }
 #'       }
 #'
 #'     \item
@@ -200,6 +201,7 @@
 #'       \describe{
 #'         \item{\code{delta}}{[\code{numeric(1)}]\cr
 #'           Defining the interval [-d,d] around 0 for quadratic approximation.
+#'         }
 #'       }
 #'
 #'     \item

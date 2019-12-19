@@ -28,7 +28,7 @@
 #include "data.h"
 #include "response.h"
 #include "splines.h"
-
+#include "coordinate_descent.h"
 
 namespace blearner {
 
@@ -189,6 +189,58 @@ public:
   ~BaselearnerPSpline ();
 
 };
+
+
+// BaselearnerCategorical:
+// --------------------------
+
+class BaselearnerCategorical : public Baselearner
+{
+private:
+
+  /// Learning rate used to optimize parameter:
+  const double learning_rate;
+
+  /// Penalty term used to select/shrink features:
+  const double penalty;
+
+  /// Iteration used for optimization:
+  const unsigned int iters;
+
+  // /// Hashmap of levels:
+  // const std::map<unsigned int, std::string>;
+
+public:
+
+  /// Default constructor:
+  BaselearnerCategorical (std::shared_ptr<data::Data>, const std::string&, const double&,
+    const double&, const unsigned int&);
+
+  // /// Constructor when passing a list of levels:
+  // BaselearnerCategorical (std::shared_ptr<data::Data>, const std::string&, const double&,
+  //   const double&, const unsigned int&, const std::map<unsigned int, std::string>);
+
+  /// Clean copy of baselearner
+  Baselearner* clone();
+
+  /// Instatiate data matrix (design matrix)
+  arma::mat instantiateData (const arma::mat&) const;
+
+  /// Train base-learner
+  void train (const arma::mat&);
+
+  /// Predict on training data
+  arma::mat predict () const;
+
+  /// Predict on newdata
+  arma::mat predict (std::shared_ptr<data::Data>) const;
+
+  /// Destructor
+  ~BaselearnerCategorical ();
+};
+
+
+
 
 // BaselearnerCustom:
 // -----------------------

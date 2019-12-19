@@ -450,6 +450,92 @@ public:
   }
 };
 
+
+//' Base-learner factory to do fit categorical features
+//'
+//' \code{BaselearnerCategorical} takes a categorical feature and fits it using a L1 penalty.
+//'
+//' @format \code{\link{S4}} object.
+//' @name BaselearnerCategorical
+//'
+//' @section Usage:
+//' \preformatted{
+//' BaselearnerCategorical$new(data_source, data_target, list(learning_rate, penalty, iters))
+//' }
+//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{data_source} [\code{Data} Object]}{
+//'   Data object which contains the source data.
+//' }
+//' \item{\code{data_target} [\code{Data} Object]}{
+//'   Data object which gets the transformed source data.
+//' }
+//' \item{\code{learning_rate} [\code{numeric(1)}]}{
+//'   Learning rate of coordinate descent.
+//' }
+//' \item{\code{penalty} [\code{numeric(1)}]}{
+//'   L1 penalty for the fitting process.
+//' }
+//' \item{\code{iters} [\code{integer(1)}]}{
+//'   Number of iterations of coordinate descent.
+//' }
+//' }
+//'
+//' @section Fields:
+//'   This class doesn't contain public fields.
+//'
+//' @section Methods:
+//' \describe{
+//' \item{\code{getData()}}{Get the data matrix of the target data which is used
+//'   for modeling.}
+//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+//'   factory. The argument has to be a matrix with one column.}
+//' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+//' }
+//' @export BaselearnerCategorical
+class BaselearnerCategoricalFactoryWrapper : public BaselearnerFactoryWrapper {
+private:
+  Rcpp::List internal_arg_list = Rcpp::List::create(
+    Rcpp::Named("learning_rate") = 0.1,
+    Rcpp::Named("penalty") = 2,
+    Rcpp::Named("iters") = 1000
+  );
+
+public:
+
+  BaselearnerCategoricalFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    Rcpp::List arg_list)
+  {
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
+
+    std::string blearner_type_temp = "categorical";
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalFactory>(blearner_type_temp, data_source.getDataObj(),
+       data_target.getDataObj(), internal_arg_list["learning_rate"], internal_arg_list["penalty"],
+       internal_arg_list["iters"]);
+
+  }
+
+  BaselearnerCategoricalFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
+    const std::string& blearner_type, Rcpp::List arg_list)
+  {
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalFactory>(blearner_type, data_source.getDataObj(),
+       data_target.getDataObj(), internal_arg_list["learning_rate"], internal_arg_list["penalty"],
+       internal_arg_list["iters"]);
+  }
+
+  void summarizeFactory ()
+  {
+    // We need to converse the SEXP from the element to an integer:
+    Rcpp::Rcout << "No summarize method implemented" << std::endl;
+  }
+};
+
+
+
 //' Create custom base-learner factory by using R functions.
 //'
 //' \code{BaselearnerCustom} creates a custom base-learner factory by
@@ -752,6 +838,16 @@ RCPP_MODULE (baselearner_factory_module)
 
     .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
+
+  class_<BaselearnerCategoricalFactoryWrapper> ("BaselearnerCategorical")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<DataWrapper&, DataWrapper&, Rcpp::List> ()
+    .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
+
+    .method("summarizeFactory", &BaselearnerCategoricalFactoryWrapper::summarizeFactory, "Summarize Factory")
+  ;
+
+
 
   class_<BaselearnerCustomFactoryWrapper> ("BaselearnerCustom")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
@@ -1441,7 +1537,7 @@ protected:
 //' ResponseRegr$new(target_name, response, weights)
 //' }
 //'
-//' @example
+//' @examples
 //'
 //' response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
 //' response_regr$getResponse()
@@ -1480,7 +1576,7 @@ public:
 //' ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 //' }
 //'
-//' @example
+//' @examples
 //'
 //' response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
 //' response_binary$getResponse()

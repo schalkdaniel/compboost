@@ -187,6 +187,112 @@ cboost$plotBlearnerTraces(value = 1, n_legend = 5L)
 }
 }
 
+\section{Details}{
+
+  \strong{Loss}\cr
+  Available choices for the loss are:
+	 \itemize{
+    \item
+      \code{LossQuadratic} (Regression)
+
+    \item
+      \code{LossAbsolute} (Regression)
+
+    \item
+      \code{LossQuantile} (Regression)
+      \describe{
+        \item{\code{quantile}}{[\code{numeric(1)}]\cr
+          Quantile that is boosted.
+        }
+      }
+
+    \item
+      \code{LossHuber} (Regression)
+      \describe{
+        \item{\code{delta}}{[\code{numeric(1)}]\cr
+          Defining the interval [-d,d] around 0 for quadratic approximation.
+        }
+      }
+
+    \item
+      \code{LossBinomial} (Binary Classification)
+
+    \item
+      \code{LossCustom} (Custom)
+
+  }
+  (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}))
+
+  \strong{Logger}\cr
+  Available choices for the logger are:
+  \itemize{
+    \item
+      \code{LoggerIteration}: Logs the current iteration. Additional arguments:
+      \describe{
+        \item{\code{max_iterations} [\code{integer(1)}]}{
+          Maximal number of iterations.
+        }
+      }
+
+    \item
+      \code{LoggerTime}: Logs the elapsed time. Additional arguments:
+      \describe{
+        \item{\code{max_time} [\code{integer(1)}]}{
+          Maximal time for the computation.
+        }
+        \item{\code{time_unit} [\code{character(1)}]}{
+          Character to specify the time unit. Possible choices are \code{minutes}, \code{seconds}, or \code{microseconds}.
+        }
+      }
+
+    \item
+      \code{LoggerInbagRisk}:
+      \describe{
+        \item{\code{used_loss} [\code{S4 Loss}]}{
+          Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
+          details for possible choices.
+        }
+        \item{\code{eps_for_break} [\code{numeric(1)}]}{
+          This argument is used if the logger is also used as stopper. If the relative improvement
+          of the logged inbag risk falls below this boundary, then the stopper breaks the algorithm.
+        }
+        \item{\code{patience} [\code{integer(1)}]}{
+          Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
+        }
+      }
+
+    \item
+      \code{LoggerOobRisk}:
+      \describe{
+        \item{\code{used_loss} [\code{S4 Loss}]}{
+          Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
+          details for possible choices.
+        }
+        \item{\code{eps_for_break} [\code{numeric(1)}]}{
+          This argument is used if the logger is also used as stopper. If the relative improvement
+          of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
+        }
+        \item{\code{oob_data} [\code{list}]}{
+          A list which contains data source objects which corresponds to the source data of each registered factory.
+          The source data objects should contain the out of bag data. This data is then used to calculate the
+          new predictions in each iteration.
+        }
+        \item{\code{oob_response} [\code{vector}]}{
+          Vector which contains the response for the out of bag data given within \code{oob_data}.
+        }
+        \item{\code{patience} [\code{integer(1)}]}{
+          Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
+        }
+      }
+    }
+
+  \strong{Note}:
+  \itemize{
+    \item
+      Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}.
+  }
+}
+
 \section{Fields}{
 
 \describe{

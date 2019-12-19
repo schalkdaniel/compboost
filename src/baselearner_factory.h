@@ -49,6 +49,7 @@
 #include "baselearner.h"
 #include "data.h"
 #include "splines.h"
+#include "helper.h"
 
 namespace blearnerfactory {
 
@@ -156,6 +157,45 @@ public:
   /// Instantiate the design matrix
   arma::mat instantiateData (const arma::mat&) const;
 };
+
+
+
+// BaselearnerCategoricalFactory:
+// ------------------------------------
+
+class BaselearnerCategoricalFactory : public BaselearnerFactory
+{
+private:
+
+  /// Learning rate used to optimize parameter:
+  const double learning_rate;
+
+  /// Penalty term used to select/shrink features:
+  const double penalty;
+
+  /// Iteration used for optimization:
+  const unsigned int iters;
+
+  // /// Hashmap of levels:
+  // const std::map<unsigned int, std::string>;
+
+public:
+  /// Default constructor of class `PSplineBleanrerFactory`
+  BaselearnerCategoricalFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
+    const double&, const double&, const unsigned int&);
+
+  /// Create new `BaselearnerPSpline` object
+  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
+
+  /// Get data used for modelling
+  arma::mat getData() const;
+
+  /// Instantiate the design matrix
+  arma::mat instantiateData (const arma::mat&) const;
+};
+
+
+
 
 // BaselearnerCustomFactory:
 // -----------------------------
