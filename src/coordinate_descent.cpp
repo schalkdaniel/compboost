@@ -44,14 +44,14 @@ arma::sp_mat subsetSparseCols (const arma::sp_mat& X, const unsigned int& colnr)
  *
  * \param X `arma::sp_mat`
  *
- * \param colnr `colnr`
+ * \param colnr `rownr`
  *
- * \returns `arma::sp_mat`
+ * \returns `arma::mat`
  */
-arma::mat subsetRows (const arma::mat& X, const unsigned int& rownr)
+arma::colvec subsetRows (const arma::colvec& X, const unsigned int& rownr)
 {
-  arma::mat Y = X;
-  Y.shed_col(rownr);
+  arma::colvec Y = X;
+  Y.shed_row(rownr);
   return Y;
 }
 
@@ -79,6 +79,7 @@ arma::colvec coordinateDescent (const arma::mat& yr, const arma::sp_mat& Xr, con
   arma::colvec resid = yr - X * w;
   double r = arma::as_scalar(arma::trans(resid) * resid);
   double r_prime;
+
   for (unsigned int i = 0; i < itern; i++){
     objectives[i] = r;
 

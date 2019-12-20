@@ -27,7 +27,7 @@ namespace coodesc
 {
 
 arma::sp_mat subsetSparseCols (const arma::sp_mat&, const unsigned int&);
-arma::mat subsetRows (const arma::mat&, const unsigned int&);
+arma::colvec subsetRows (const arma::colvec&, const unsigned int&);
 arma::colvec coordinateDescent (const arma::mat&, const arma::sp_mat&, const double&, const double&, const unsigned int&);
 
 } // namespace coodesc
