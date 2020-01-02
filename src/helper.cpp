@@ -237,15 +237,15 @@ double matrixQuantile (const arma::mat& X, const double& quantile)
 }
 
 // Classes must start with 1!
-arma::sp_mat binaryMat (const arma::Row<unsigned int>& classes)
+arma::sp_mat binaryMat (const arma::Row<unsigned int>& classes, const unsigned int& n_classes)
 {
-  const unsigned int n = classes.size();
+  const unsigned int n_rows = classes.size();
 
-  const arma::Row<double> ones (n, arma::fill::ones);
-  const arma::Row<unsigned int> ones_int (n, arma::fill::ones);
+  const arma::Row<double> ones (n_rows, arma::fill::ones);
+  const arma::Row<unsigned int> ones_int (n_rows, arma::fill::ones);
 
   arma::umat indices = arma::join_cols(arma::cumsum(ones_int) - 1, classes - 1);
-  arma::sp_mat sp_out(indices, ones);
+  arma::sp_mat sp_out(indices, ones, n_rows, n_classes);
 
   return sp_out;
 }

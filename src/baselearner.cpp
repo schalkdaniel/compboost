@@ -357,10 +357,11 @@ BaselearnerPSpline::~BaselearnerPSpline () {}
 // -----------------------
 
 BaselearnerCategorical::BaselearnerCategorical (std::shared_ptr<data::Data> data, const std::string& identifier,
-  const double& learning_rate, const double& penalty, const unsigned int& iters)
+  const double& learning_rate, const double& penalty, const unsigned int& iters, const unsigned int& n_classes)
   : learning_rate ( learning_rate ),
     penalty ( penalty ),
-    iters ( iters )
+    iters ( iters ),
+    n_classes ( n_classes )
 {
   // Called from parent class 'Baselearner':
   Baselearner::setData(data);
@@ -379,7 +380,7 @@ Baselearner* BaselearnerCategorical::clone ()
 arma::mat BaselearnerCategorical::instantiateData (const arma::mat& newdata) const
 {
   arma::Row<unsigned int> temp = arma::conv_to<arma::Row<unsigned int>>::from(newdata);
-  arma::mat out (helper::binaryMat(temp));
+  arma::mat out (helper::binaryMat(temp, n_classes));
   return out;
 }
 
@@ -397,7 +398,7 @@ arma::mat BaselearnerCategorical::predict () const
 arma::mat BaselearnerCategorical::predict (std::shared_ptr<data::Data> newdata) const
 {
   arma::Row<unsigned int> temp = arma::conv_to<arma::Row<unsigned int>>::from(newdata->getData());
-  return helper::binaryMat(temp) * parameter;
+  return helper::binaryMat(temp, n_classes) * parameter;
 }
 
 // Destructor:

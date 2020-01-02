@@ -176,13 +176,21 @@ private:
   /// Iteration used for optimization:
   const unsigned int iters;
 
+  /// Number of classes, required to always create data matrix with correct dimensions:
+  unsigned int n_classes;
+
   // /// Hashmap of levels:
   // const std::map<unsigned int, std::string>;
 
 public:
   /// Default constructor of class `PSplineBleanrerFactory`
   BaselearnerCategoricalFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
+    const double&, const double&, const unsigned int&, const unsigned int&);
+
+  /// Default constructor of class `PSplineBleanrerFactory`
+  BaselearnerCategoricalFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     const double&, const double&, const unsigned int&);
+
 
   /// Create new `BaselearnerPSpline` object
   std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);

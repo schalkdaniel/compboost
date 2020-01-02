@@ -207,6 +207,9 @@ private:
   /// Iteration used for optimization:
   const unsigned int iters;
 
+  /// Number of classes, required to always create data matrix with correct dimensions:
+  const unsigned int n_classes;
+
   // /// Hashmap of levels:
   // const std::map<unsigned int, std::string>;
 
@@ -214,7 +217,7 @@ public:
 
   /// Default constructor:
   BaselearnerCategorical (std::shared_ptr<data::Data>, const std::string&, const double&,
-    const double&, const unsigned int&);
+    const double&, const unsigned int&, const unsigned int&);
 
   // /// Constructor when passing a list of levels:
   // BaselearnerCategorical (std::shared_ptr<data::Data>, const std::string&, const double&,
