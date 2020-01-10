@@ -99,28 +99,28 @@
 #'
 #' \strong{For cboost$addBaselearner()}:
 #' \describe{
-#' \item{\code{feature}}{[\code{character()}]\cr
-#'   Vector of column names that are used as input data matrix for a single base-learner. Note that not
-#'   every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
-#' }
-#' \item{\code{id}}{[\code{character(1)}]\cr
-#'   Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
-#' }
-#' \item{\code{bl_factory}}{[\code{S4 Factory}]\cr
-#'   Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
-#'   for possible choices.
-#' }
-#' \item{\code{data_source}}{[\code{S4 Data}]\cr
-#'   Data source object. Just in memory data objects are supported at the moment.
-#' }
-#' \item{\code{data_target}}{[\code{S4 Data}]\cr
-#'   Data target object. Just in memory data objects are supported at the moment.
-#' }
-#' \item{}{\code{...}\cr
-#'   Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-#'   \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
-#'   of the \code{S4} classes.
-#' }
+#'   \item{\code{feature}}{[\code{character()}]\cr
+#'     Vector of column names that are used as input data matrix for a single base-learner. Note that not
+#'     every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
+#'   }
+#'   \item{\code{id}}{[\code{character(1)}]\cr
+#'     Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
+#'   }
+#'   \item{\code{bl_factory}}{[\code{S4 Factory}]\cr
+#'     Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
+#'     for possible choices.
+#'   }
+#'   \item{\code{data_source}}{[\code{S4 Data}]\cr
+#'     Data source object. Just in memory data objects are supported at the moment.
+#'   }
+#'   \item{\code{data_target}}{[\code{S4 Data}]\cr
+#'     Data target object. Just in memory data objects are supported at the moment.
+#'   }
+#'   \item{}{\code{...}\cr
+#'     Further arguments passed to the constructor of the \code{S4 Factory} class specified in
+#'     \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
+#'     of the \code{S4} classes.
+#'   }
 #' }
 #'
 #' \strong{For cboost$train()}:
@@ -193,6 +193,7 @@
 #'       \describe{
 #'         \item{\code{quantile}}{[\code{numeric(1)}]\cr
 #'           Quantile that is boosted.
+#'         }
 #'       }
 #'
 #'     \item
@@ -200,6 +201,7 @@
 #'       \describe{
 #'         \item{\code{delta}}{[\code{numeric(1)}]\cr
 #'           Defining the interval [-d,d] around 0 for quadratic approximation.
+#'         }
 #'       }
 #'
 #'     \item

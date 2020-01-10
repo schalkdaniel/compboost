@@ -835,7 +835,7 @@ NULL
 #' ResponseRegr$new(target_name, response, weights)
 #' }
 #'
-#' @examples
+#' @example
 #'
 #' response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
 #' response_regr$getResponse()
@@ -858,7 +858,7 @@ NULL
 #' ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 #' }
 #'
-#' @examples
+#' @example
 #'
 #' response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
 #' response_binary$getResponse()
