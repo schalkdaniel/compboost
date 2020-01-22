@@ -11,10 +11,11 @@ Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboos
 Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost)
+[![Dependencies](https://tinyverse.netlify.com/badge/compboost)](https://cran.r-project.org/package=compboost)
 [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
-[Documentation](https://danielschalk.com/compboost/) | [Contributors](CONTRIBUTORS.md)
-| [Release Notes](NEWS.md)
+[Documentation](https://danielschalk.com/compboost/) |
+[Contributors](CONTRIBUTORS.md) | [Release Notes](NEWS.md)
 
 ## Overview
 
@@ -53,8 +54,7 @@ devtools::install_github("schalkdaniel/compboost")
 The examples are rendered using <code>compboost 0.1.1</code>.
 
 The fastest way to train a `Compboost` model is to use the wrapper
-functions `boostLinear()` or
-`boostSplines()`:
+functions `boostLinear()` or `boostSplines()`:
 
 ``` r
 cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
@@ -163,6 +163,34 @@ cboost$train(3000)
 #> 
 #> You have already trained 1000 iterations.
 #> Train 2000 additional iterations.
+#> 
+#> 1050/3000   risk = 0.64  
+#> 1125/3000   risk = 0.64  
+#> 1200/3000   risk = 0.64  
+#> 1275/3000   risk = 0.64  
+#> 1350/3000   risk = 0.64  
+#> 1425/3000   risk = 0.64  
+#> 1500/3000   risk = 0.64  
+#> 1575/3000   risk = 0.64  
+#> 1650/3000   risk = 0.64  
+#> 1725/3000   risk = 0.64  
+#> 1800/3000   risk = 0.64  
+#> 1875/3000   risk = 0.64  
+#> 1950/3000   risk = 0.64  
+#> 2025/3000   risk = 0.64  
+#> 2100/3000   risk = 0.64  
+#> 2175/3000   risk = 0.64  
+#> 2250/3000   risk = 0.64  
+#> 2325/3000   risk = 0.64  
+#> 2400/3000   risk = 0.64  
+#> 2475/3000   risk = 0.64  
+#> 2550/3000   risk = 0.64  
+#> 2625/3000   risk = 0.64  
+#> 2700/3000   risk = 0.64  
+#> 2775/3000   risk = 0.64  
+#> 2850/3000   risk = 0.64  
+#> 2925/3000   risk = 0.64  
+#> 3000/3000   risk = 0.64
 
 cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
   ggthemes::theme_tufte() +
@@ -205,8 +233,8 @@ To cite `compboost` in publications, please use:
 
 ### On your local machine
 
-In order to test the package functionality you can use devtools to test
-the package on your local machine:
+In order to test the pacakge functionality you can use devtools to test
+the pacakge on your local machine:
 
 ``` r
 devtools::test()
