@@ -217,7 +217,7 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
     // Find the element with key 'hat'
     std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = blearner_list.getMap().find(sel_factory)->second;
 
-    // Select newdata corresponding to selected facotry object:
+    // Select newdata corresponding to selected factory object:
     std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;
     it_newdata = data_map.find(sel_factory_obj->getDataIdentifier());
 
