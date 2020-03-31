@@ -296,10 +296,15 @@ arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
  *
  * \param response `arma::vec` Response variable of the training.
  */
-void BaselearnerPSpline::train (const arma::mat& response)
-{
+void BaselearnerPSpline::train (const arma::mat& response) {
   if (use_sparse_matrices) {
-    parameter = sh_ptr_data->XtX_inv * (sh_ptr_data->sparse_data_mat * response);
+    if (sh_ptr_data->bin_use_binning) {
+      arma::vec temp_weight(1, arma::fill::ones);
+      arma::mat temp = binning::binnedSparseMatMultResponse(sh_ptr_data->sparse_data_mat, response, sh_ptr_data->bin_index_vec, temp_weight);
+      parameter = sh_ptr_data->XtX_inv * temp;
+    } else {
+      parameter = sh_ptr_data->XtX_inv * (sh_ptr_data->sparse_data_mat * response);
+    }
   } else {
     parameter = sh_ptr_data->XtX_inv * sh_ptr_data->data_mat.t() * response;
   }
@@ -314,10 +319,14 @@ arma::mat BaselearnerPSpline::predict () const
 {
   // arma::mat out;
   if (use_sparse_matrices) {
-    // Trick to speed up things. Try to avoid transposing the sparse matrix. The
-    // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
-    // slower than that one:
-    return (parameter.t() * sh_ptr_data->sparse_data_mat).t();
+    if (sh_ptr_data->bin_use_binning) {
+      return binning::binnedSparsePrediction(sh_ptr_data->sparse_data_mat, parameter, sh_ptr_data->bin_index_vec);
+    } else {
+      // Trick to speed up things. Try to avoid transposing the sparse matrix. The
+      // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
+      // slower than that one:
+      return (parameter.t() * sh_ptr_data->sparse_data_mat).t();
+    }
   } else {
     return sh_ptr_data->data_mat * parameter;
   }

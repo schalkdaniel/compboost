@@ -408,7 +408,8 @@ private:
     Rcpp::Named("degree") = 3,
     Rcpp::Named("n_knots") = 20,
     Rcpp::Named("penalty") = 2,
-    Rcpp::Named("differences") = 2
+    Rcpp::Named("differences") = 2,
+    Rcpp::Named("use_binning") = false
   );
 
 public:
@@ -425,7 +426,7 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
        data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
-       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
+       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE, internal_arg_list["use_binning"]);
 
   }
 
@@ -436,7 +437,7 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
-      internal_arg_list["penalty"], internal_arg_list["differences"], TRUE);
+      internal_arg_list["penalty"], internal_arg_list["differences"], TRUE, internal_arg_list["use_binning"]);
   }
 
   void summarizeFactory ()

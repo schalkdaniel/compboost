@@ -66,6 +66,12 @@ public:
   /// Generally we calculate \f$X^T X\f$ once and reuse this in every iteration.
   arma::mat XtX_inv;
 
+  /// Flag if binning should be used:
+  bool bin_use_binning = false;
+
+  /// In case of binning we store the vector of indexes here:
+  arma::uvec bin_index_vec;
+
   // Member functions:
   Data ();
 
