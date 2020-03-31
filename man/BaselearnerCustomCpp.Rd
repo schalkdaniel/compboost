@@ -4,7 +4,9 @@
 \alias{BaselearnerCustomCpp}
 \title{Create custom cpp base-learner factory by using cpp functions and external
 pointer.}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 \code{BaselearnerCustomCpp} creates a custom base-learner factory by
   setting custom \code{C++} functions. This factory object can be registered

@@ -3,7 +3,9 @@
 \name{LoggerOobRisk}
 \alias{LoggerOobRisk}
 \title{Logger class to log the out of bag risk}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This class logs the out of bag risk for a specific loss function. It is
 also possible to use custom losses to log performance measures. For details

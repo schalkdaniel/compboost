@@ -3,7 +3,9 @@
 \name{LossBinomial}
 \alias{LossBinomial}
 \title{0-1 Loss for binary classification derived of the binomial distribution}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This loss can be used for binary classification. The coding we have chosen
 here acts on

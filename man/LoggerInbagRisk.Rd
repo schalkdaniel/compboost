@@ -3,7 +3,9 @@
 \name{LoggerInbagRisk}
 \alias{LoggerInbagRisk}
 \title{Logger class to log the inbag risk}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This class logs the inbag risk for a specific loss function. It is also
 possible to use custom losses to log performance measures. For details

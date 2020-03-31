@@ -3,7 +3,9 @@
 \name{Compboost_internal}
 \alias{Compboost_internal}
 \title{Main Compboost Class}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This class collects all parts such as the factory list or the used logger
 and passes them to \code{C++}. On the \code{C++} side is then the main

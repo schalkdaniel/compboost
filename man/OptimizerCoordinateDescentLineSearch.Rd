@@ -3,7 +3,9 @@
 \name{OptimizerCoordinateDescentLineSearch}
 \alias{OptimizerCoordinateDescentLineSearch}
 \title{Coordinate Descent with line search}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This class defines a new object which is used to conduct Coordinate Descent with line search.
 The optimizer just calculates for each base-learner the sum of squared error and returns

@@ -3,7 +3,9 @@
 \name{BaselearnerPolynomial}
 \alias{BaselearnerPolynomial}
 \title{Base-learner factory for polynomial regression}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 \code{BaselearnerPolynomial} creates a polynomial base-learner factory
  object which can be registered within a base-learner list and then used

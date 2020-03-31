@@ -3,7 +3,9 @@
 \name{InMemoryData}
 \alias{InMemoryData}
 \title{In memory data class to store data in RAM}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 \code{InMemoryData} creates an data object which can be used as source or
 target object within the base-learner factories of \code{compboost}. The

@@ -3,7 +3,9 @@
 \name{BaselearnerCustom}
 \alias{BaselearnerCustom}
 \title{Create custom base-learner factory by using R functions.}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 \code{BaselearnerCustom} creates a custom base-learner factory by
   setting custom \code{R} functions. This factory object can be registered

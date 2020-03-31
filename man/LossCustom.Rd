@@ -3,7 +3,9 @@
 \name{LossCustom}
 \alias{LossCustom}
 \title{Create LossCustom by using R functions.}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 \code{LossCustom} creates a custom loss by using
 \code{Rcpp::Function} to set \code{R} functions.

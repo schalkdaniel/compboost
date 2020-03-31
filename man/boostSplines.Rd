@@ -4,11 +4,23 @@
 \alias{boostSplines}
 \title{Wrapper to boost general additive models for each feature.}
 \usage{
-boostSplines(data, target, optimizer = OptimizerCoordinateDescent$new(),
-  loss, learning_rate = 0.05, iterations = 100, trace = -1,
-  degree = 3, n_knots = 20, penalty = 2, differences = 2,
-  data_source = InMemoryData, data_target = InMemoryData,
-  oob_fraction = NULL)
+boostSplines(
+  data,
+  target,
+  optimizer = OptimizerCoordinateDescent$new(),
+  loss,
+  learning_rate = 0.05,
+  iterations = 100,
+  trace = -1,
+  degree = 3,
+  n_knots = 20,
+  penalty = 2,
+  differences = 2,
+  data_source = InMemoryData,
+  data_target = InMemoryData,
+  oob_fraction = NULL,
+  use_binning = FALSE
+)
 }
 \arguments{
 \item{data}{[\code{data.frame}]\cr
@@ -61,6 +73,9 @@ just in memory training is supported.}
 
 \item{oob_fraction}{[\code{numeric(1)}]\cr
 Fraction of how much data we want to use to track the out of bag risk.}
+
+\item{use_binning}{[\code{logical(1)}]\cr
+Use binning to build design matrices. Saves time and memory (default is FALSE).}
 }
 \value{
 A model of the \code{Compboost} class. This model is an \code{R6} object
