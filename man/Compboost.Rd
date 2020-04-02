@@ -3,7 +3,9 @@
 \name{Compboost}
 \alias{Compboost}
 \title{Compboost API}
-\format{\code{\link{R6Class}} object.}
+\format{
+\code{\link{R6Class}} object.
+}
 \description{
 \code{Compboost} wraps the \code{S4} class system exposed by \code{Rcpp} to make defining
 objects, adding objects, the training, calculating predictions, and plotting much easier.

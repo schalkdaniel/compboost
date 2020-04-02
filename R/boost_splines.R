@@ -48,6 +48,8 @@
 #'   just in memory training is supported.
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data we want to use to track the out of bag risk.
+#' @param use_binning [\code{logical(1)}]\cr
+#'   Use binning to build design matrices. Saves time and memory (default is FALSE).
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -60,7 +62,8 @@
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
-  penalty = 2, differences = 2, data_source = InMemoryData, data_target = InMemoryData, oob_fraction = NULL)
+  penalty = 2, differences = 2, data_source = InMemoryData, data_target = InMemoryData,
+  oob_fraction = NULL, use_binning = FALSE)
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction)
@@ -71,7 +74,8 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
       model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source, data_target,
-        degree = degree, n_knots = n_knots, penalty = penalty, differences = differences)
+        degree = degree, n_knots = n_knots, penalty = penalty, differences = differences,
+        use_binning = use_binning)
     } else {
       model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
         degree = 1, intercept = FALSE)

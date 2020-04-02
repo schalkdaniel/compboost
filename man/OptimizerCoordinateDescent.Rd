@@ -3,7 +3,9 @@
 \name{OptimizerCoordinateDescent}
 \alias{OptimizerCoordinateDescent}
 \title{Coordinate Descent}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This class defines a new object for the greedy optimizer. The optimizer
 just calculates for each base-learner the sum of squared errors and returns

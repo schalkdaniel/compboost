@@ -28,7 +28,7 @@
 #include "data.h"
 #include "response.h"
 #include "splines.h"
-
+#include "binning.h"
 
 namespace blearner {
 
@@ -172,10 +172,10 @@ public:
   /// Clean copy of baselearner
   Baselearner* clone ();
 
-  /// Instatiate data matrix (design matrix)
+  /// Instantiate data matrix (design matrix)
   arma::mat instantiateData (const arma::mat&) const;
 
-  /// Trianing of a baselearner
+  /// Training of a baselearner
   void train (const arma::mat&);
 
   /// Predict on training data

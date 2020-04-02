@@ -18,20 +18,27 @@
 //
 // =========================================================================== #
 
-#ifndef SPLINE_H_
-#define SPLINE_H_
+#ifndef BINNING_H_
+#define BINNING_H_
 
+#include <iostream>
 #include <RcppArmadillo.h>
+#include <cmath>
 
-namespace splines {
+namespace binning {
 
-arma::mat penaltyMat (const unsigned int&, const unsigned int&);
-unsigned int findSpan (const double&, const arma::vec&);
-arma::vec createKnots (const arma::vec&, const unsigned int&,const unsigned int&);
-arma::mat createSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
-arma::sp_mat createSparseSplineBasis (const arma::vec&, const unsigned int&, const arma::vec&);
-arma::mat filterKnotRange (const arma::mat&, const double&, const double&, const std::string&);
+// Calculate binned vector and index vector:
+arma::vec binVectorCustom (const arma::vec&, const unsigned int);
+arma::vec binVector (const arma::vec&);
+arma::uvec calculateIndexVector (const arma::vec&, const arma::vec&);
 
-} // namespace splines
+// Matrix multiplication on binned vectors:
+arma::mat binnedMatMult (const arma::mat&, const arma::uvec&, const arma::vec&);
+arma::mat binnedMatMultResponse (const arma::mat&, const arma::vec&, const arma::uvec&, const arma::vec&);
+arma::mat binnedSparseMatMult (const arma::sp_mat&, const arma::uvec&, const arma::vec&);
+arma::mat binnedSparseMatMultResponse (const arma::sp_mat&, const arma::vec&, const arma::uvec&, const arma::vec&);
+arma::mat binnedSparsePrediction (const arma::sp_mat&, const arma::mat&, const arma::uvec&);
 
-# endif // SPLINE_H_
+} // namespace binning
+
+# endif // BINNING_H_

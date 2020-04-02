@@ -3,7 +3,9 @@
 \name{LossQuantile}
 \alias{LossQuantile}
 \title{Quantile loss for regression tasks.}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 }

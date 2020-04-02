@@ -3,7 +3,9 @@
 \name{LoggerIteration}
 \alias{LoggerIteration}
 \title{Logger class to log the current iteration}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 Logger class to log the current iteration
 }

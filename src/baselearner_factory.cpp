@@ -183,17 +183,20 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
  *   polynomial form.
  * \param differences `unsigned int` Number of differences used for the
  *   penalty matrix.
+ * \param use_sparse_matrices `bool` Use sparse matrices for data storage.
+ * \param use_binning `bool` Use binning to improve runtime performance and reduce memory load.
  */
 
 BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearner_type0,
   std::shared_ptr<data::Data> data_source0, std::shared_ptr<data::Data> data_target0, const unsigned int& degree,
   const unsigned int& n_knots, const double& penalty, const unsigned int& differences,
-  const bool& use_sparse_matrices)
+  const bool use_sparse_matrices, const bool use_binning)
   : degree ( degree ),
     n_knots ( n_knots ),
     penalty ( penalty ),
     differences ( differences ),
-    use_sparse_matrices ( use_sparse_matrices )
+    use_sparse_matrices ( use_sparse_matrices ),
+    use_binning ( use_binning )
 {
   blearner_type = blearner_type0;
   // Set data, data identifier and the data_mat (dense at this stage)
@@ -204,12 +207,20 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearne
   // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
   try {
     if (data_source->getData().n_cols > 1) {
-      Rcpp::stop("Given data should have just one column.");
+      Rcpp::stop("Given data should just have one column.");
     }
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
   } catch (...) {
     ::Rf_error( "c++ exception (unknown reason)" );
+  }
+
+  // Prepare for binning:
+  data_target->bin_use_binning = use_binning;
+  if (use_binning) {
+    arma::colvec binned_vector = binning::binVector(data_source->getData());
+    data_target->bin_index_vec = binning::calculateIndexVector(data_source->getData(), binned_vector);
+    data_source->setData(binned_vector);
   }
   // Initialize knots:
   data_target->knots = splines::createKnots(data_source->getData(), n_knots, degree);
@@ -227,8 +238,16 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearne
   //     affects how the training in baselearner.cpp is done. Nevertheless, this speed up things dramatically.
   if (use_sparse_matrices) {
     data_target->sparse_data_mat = splines::createSparseSplineBasis (data_source->getData(), degree, data_target->knots).t();
-    data_target->XtX_inv = arma::inv(data_target->sparse_data_mat * data_target->sparse_data_mat.t() + penalty * data_target->penalty_mat);
+
+    if (use_binning) {
+      arma::vec temp_weight(1, arma::fill::ones);
+      arma::mat temp_xtx = binning::binnedSparseMatMult(data_target->sparse_data_mat, data_target->bin_index_vec, temp_weight);
+      data_target->XtX_inv = arma::inv(temp_xtx + penalty * data_target->penalty_mat);
+    } else {
+      data_target->XtX_inv = arma::inv(data_target->sparse_data_mat * data_target->sparse_data_mat.t() + penalty * data_target->penalty_mat);
+    }
   } else {
+    // The use of dense matrix does not makes any sense here, so delete in further releases!
     data_target->setData(instantiateData(data_source->getData()));
     data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
   }

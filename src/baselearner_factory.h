@@ -49,6 +49,7 @@
 #include "baselearner.h"
 #include "data.h"
 #include "splines.h"
+#include "binning.h"
 
 namespace blearnerfactory {
 
@@ -140,12 +141,16 @@ private:
   /// Flag if sparse matrices should be used:
   const bool use_sparse_matrices;
 
+  // Member used for binning:
+  const bool use_binning;
+
+
 public:
 
   /// Default constructor of class `PSplineBleanrerFactory`
   BaselearnerPSplineFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     const unsigned int&, const unsigned int&, const double&,
-    const unsigned int&, const bool&);
+    const unsigned int&, const bool, const bool);
 
   /// Create new `BaselearnerPSpline` object
   std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);

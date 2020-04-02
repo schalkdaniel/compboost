@@ -3,7 +3,9 @@
 \name{LossCustomCpp}
 \alias{LossCustomCpp}
 \title{Create custom cpp losses by using cpp functions and external pointer.}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 \code{LossCustomCpp} creates a custom loss by using
 \code{Rcpp::XPtr} to set \code{C++} functions.

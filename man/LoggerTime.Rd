@@ -3,7 +3,9 @@
 \name{LoggerTime}
 \alias{LoggerTime}
 \title{Logger class to log the elapsed time}
-\format{\code{\link{S4}} object.}
+\format{
+\code{\link{S4}} object.
+}
 \description{
 This class just logs the elapsed time. This should be very handy if one
 wants to run the algorithm for just 2 hours and see how far he comes within
