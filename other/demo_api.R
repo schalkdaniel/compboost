@@ -1,4 +1,5 @@
 devtools::load_all()
+library(mboost)
 
 mydata = na.omit(hflights::hflights)
 mydata = rbind(mydata, mydata, mydata)
@@ -15,6 +16,12 @@ time1 = proc.time() - time1
 time2 = proc.time()
 cboost2 = boostSplines(data = mydata, target = "DepDelay", loss = LossQuadratic$new(), iterations = 1000L, learning_rate = 0.1, use_binning = TRUE, trace = 250L)
 time2 = proc.time() - time2
+
+form = as.formula(paste0("DepDelay ~ ", paste(paste0("bbs(", names(mydata)[names(mydata) != "DepDelay"], ", degree = 3, knots = 20)"), sep = "", collapse = " + ")))
+
+time3 = proc.time()
+mod_mboost = mboost(form, data = mydata, control = boost_control(mstop = 1000L))
+time3 = proc.time() - time3
 
 gg1 = cboost1$plotBlearnerTraces()
 gg1_feat = cboost1$plot("Distance_spline", iters = c(125, 250, 500, 750, 1000))
@@ -43,6 +50,7 @@ plt_data = data.frame(
 
 library(ggplot2)
 
+gg =
 ggplot(plt_data, aes(x = method, y = memory, fill = method)) +
   geom_bar(stat = "identity") +
   geom_text(aes(y = 0, label = paste0(round(runtime, 2), " Sek.")), color = "white", vjust = -1, size = 7) +
@@ -52,3 +60,28 @@ ggplot(plt_data, aes(x = method, y = memory, fill = method)) +
   ylab("Memory in MB") +
   xlab("") +
   theme_minimal()
+
+ggsave(gg, filename = "gg_binning.png", height = 4, width = 7)
+
+
+
+
+
+src = "
+arma::SpMat<unsigned int> dummyMat(const arma::Row<unsigned int>& classes)
+{
+  arma::Mat<unsigned int> locations(2, classes.size(), arma::fill::zeros);
+  locations.row(0) = arma::linspace<arma::Row<unsigned int>>(0, classes.size() - 1, classes.size());
+  locations.row(1) = classes;
+
+  arma::Col<unsigned int> values(classes.size(), arma::fill::ones);
+  arma::SpMat<unsigned int> binary_mat(locations, values);
+
+  return binary_mat;
+}
+"
+
+Rcpp::cppFunction(code = src, depends = "RcppArmadillo")
+
+cls = sample(seq_len(5), 10, replace = TRUE)
+dummyMat(cls - 1)
