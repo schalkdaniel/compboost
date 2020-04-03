@@ -230,7 +230,7 @@ public:
 
 };
 
-// BaselearnerCustom:
+// BaselearnerCustomCpp:
 // -----------------------
 
 // This is a  bit tricky. The key is that we store the cpp functions as
