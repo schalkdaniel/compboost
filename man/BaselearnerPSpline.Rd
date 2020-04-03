@@ -14,43 +14,46 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
+baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
   differences))
 }
 }
 
-\section{Arguments}{
+\section{arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{
-  Data object which contains the source data.
+\item{\code{data_source} [\code{data} object]}{
+  data object which contains the source data.
 }
-\item{\code{data_target} [\code{Data} Object]}{
-  Data object which gets the transformed source data.
+\item{\code{data_target} [\code{data} object]}{
+  data object which gets the transformed source data.
 }
 \item{\code{degree} [\code{integer(1)}]}{
-  Degree of the spline functions to interpolate the knots.
+  degree of the spline functions to interpolate the knots.
 }
 \item{\code{n_knots} [\code{integer(1)}]}{
-  Number of \strong{inner knots}. To prevent weird behavior on the edges
+  number of \strong{inner knots}. to prevent weird behavior on the edges
   the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 }
 \item{\code{penalty} [\code{numeric(1)}]}{
-  Positive numeric value to specify the penalty parameter. Setting the
-  penalty to 0 ordinary B-splines are used for the fitting.
+  positive numeric value to specify the penalty parameter. setting the
+  penalty to 0 ordinary b-splines are used for the fitting.
 }
 \item{\code{differences} [\code{integer(1)}]}{
-  The number of differences which are penalized. A higher value leads to
+  the number of differences which are penalized. a higher value leads to
   smoother curves.
+}
+\item{\code{use_binning} [\code{logical(1)}]}{
+  Indicator if feature should be discretized first (default is \code{FALSE}).
 }
 }
 }
 
 \section{Details}{
 
-  The data matrix of the source data is restricted to have just one column.
-  The spline bases are created for this single feature. Multidimensional
-  splines are not supported at the moment.
+  If \code{use_binning = TRUE} the original feature is discretized to on an equidistant grid on
+  \eqn{[\min(x),\max(x)]} with \eqn{\sqrt{n}} points. The fitting is then done by
+  using weights per new data point.
 }
 
 \section{Fields}{
