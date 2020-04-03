@@ -1,5 +1,8 @@
 # Release Notes
 
+- **03.04.2020** \
+  Binning can now be used for spline base-learner to reduce memory load and increase runtime performance. See `?compboost::BaselearnerPSpline`.
+
 - **12.04.2019** \
   The Huber loss is now available for training.
 
