@@ -31,7 +31,7 @@ To access the raw results you need to load the registry:
 loadRegistry("benchmark/runtime/benchmark_files")
 ```
 
-After preprocessing the raw data are stored into a `data.frame` where
+After preprocessing, the raw data is stored into a `data.frame` where
 each row represents a job with instances like the elapsed time and the
 dimension of the simulated data:
 
@@ -57,12 +57,12 @@ to execute the algorithm with the corresponding specification.
 
 ### Increasing Number of Iterations
 
-While increasing the number of iterations we fixed the number of
-observations at 2000, and the number of feature at 1000. Under this
+While increasing the number of iterations, we fixed the number of
+observations at 2000 and the number of feature at 1000. Under this
 configuration we achieve a 15 times faster fitting process with
 `compboost` compared to `mboost` in boosting linear base-learner.
 Nevertheless, `glmboost` is faster due to the internal structure of
-`glmboost`, which is due to that all base-learners can be fitted in one
+`glmboost`, which is due to the fact that all base-learners can be fitted in one
 matrix multiplication. But this approach is not suitable for `compboost`
 since it does not fit into the object-oriented system we provide. This
 is due to the flexibility in specifying ordinary base-learner
@@ -79,10 +79,9 @@ observations. This behavior is described above.
 
 ### Increasing Number of Base-Learner
 
-For increasing the number of base-learners we get a equal behavior as
-for increasing the number of iterations. Nevertheless, with `mboost` it
-was not able to conduct the boosting on 4000 features while `compboost`
-it was. For this experiments we fix the number of observations at 2000
+For increasing the number of base-learners, we get an equal behavior for increasing the number of iterations. Nevertheless, with `mboost` it
+was not able to conduct the boosting on 4000 features while with `compboost`
+it was. For this experiment we fix the number of observations at 2000
 and the number of iterations at
 1500.
 
@@ -95,9 +94,9 @@ the number of observations affects the allocated memory as well as the
 size of the internal matrix multiplications.
 
 For a smaller number of observations, `compboost` definitely outperforms
-`mboost`. The relative runtime behavior decreases with increasing the
+`mboost`. The relative runtime behavior decreases when increasing the
 number of observations. This is due to the size of the matrix
-multiplications which gets more weight then the whole boiler code, like
+multiplications which gets more weight than the whole boiler code, like
 initializing base-learner, which is very fast with `compboost`. For that
 reason and the reason that matrix multiplication is also not that slow
 in `R`, `mboost` comes closer to the performance of
@@ -107,10 +106,10 @@ in `R`, `mboost` comes closer to the performance of
 
 ## Memory Benchmark
 
-For the memory benchmark every second was measured how much RAM was
+For the memory benchmark every second measured how much RAM was
 used. This curve is then plotted for each algorithm.
 
-In the case of the spline base-learner, `compboost` and `mboost` uses
+In the case of the spline base-learner, `compboost` and `mboost` use
 sparse matrices, which significantly reduces computing time and memory
 requirements. In general, `compboost` is efficient here too. A small
 exception is `glmboost`, which can also save memory due to its special

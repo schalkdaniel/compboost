@@ -66,7 +66,7 @@ page](https://danielschalk.com/compboost/articles/getting_started/use_case.html)
 
 <!--
 
-To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
+To be as flexible as possible one should use the `R6` API to define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
 
 
 ```r
@@ -203,7 +203,7 @@ cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
 
 ## Benchmark
 
-To get an idea of the performance of compboost, we have conduct a small
+To get an idea of the performance of compboost, we have conducted a small
 benchmark in which compboost is compared with mboost. For this purpose,
 the runtime behavior and memory consumption of the two packages were
 compared. The results of the benchmark can be read
