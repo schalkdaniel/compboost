@@ -28,16 +28,16 @@
 namespace binning {
 
 // Calculate binned vector and index vector:
-arma::vec binVectorCustom (const arma::vec&, const unsigned int);
-arma::vec binVector (const arma::vec&);
+arma::vec  binVectorCustom      (const arma::vec&, const unsigned int);
+arma::vec  binVector            (const arma::vec&);
 arma::uvec calculateIndexVector (const arma::vec&, const arma::vec&);
 
 // Matrix multiplication on binned vectors:
-arma::mat binnedMatMult (const arma::mat&, const arma::uvec&, const arma::vec&);
-arma::mat binnedMatMultResponse (const arma::mat&, const arma::vec&, const arma::uvec&, const arma::vec&);
-arma::mat binnedSparseMatMult (const arma::sp_mat&, const arma::uvec&, const arma::vec&);
-arma::mat binnedSparseMatMultResponse (const arma::sp_mat&, const arma::vec&, const arma::uvec&, const arma::vec&);
-arma::mat binnedSparsePrediction (const arma::sp_mat&, const arma::mat&, const arma::uvec&);
+arma::mat binnedMatMult                (const arma::mat&, const arma::uvec&, const arma::vec&);
+arma::mat binnedMatMultResponse        (const arma::mat&, const arma::vec&, const arma::uvec&, const arma::vec&);
+arma::mat binnedSparseMatMult          (const arma::sp_mat&, const arma::uvec&, const arma::vec&);
+arma::mat binnedSparseMatMultResponse  (const arma::sp_mat&, const arma::vec&, const arma::uvec&, const arma::vec&);
+arma::mat binnedSparsePrediction       (const arma::sp_mat&, const arma::mat&, const arma::uvec&);
 
 } // namespace binning
 
