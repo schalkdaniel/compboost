@@ -25,44 +25,28 @@
 
 #include "baselearner_factory.h"
 
-// Define the type for the list (because we are lazy :))
 typedef std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>> blearner_factory_map;
 
 namespace blearnerlist
 {
 
-// Later we will create one static object of this class. This is a workaround
-// to register new factorys from R.
-
 class BaselearnerFactoryList
 {
 private:
-
-  // Main list object:
-  blearner_factory_map my_factory_map;
+  blearner_factory_map _factory_map;
 
 public:
-
   BaselearnerFactoryList ();
 
-  // Functions to register a baselearner factory and print all registered
-  // factories:
-  void registerBaselearnerFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>);
-  void printRegisteredFactories () const;
+  // Getter/Setter
+  blearner_factory_map                            getMap ()                    const;
+  std::pair<std::vector<std::string>, arma::mat>  getModelFrame ()             const;
+  std::vector<std::string>                        getRegisteredFactoryNames () const;
 
-  // Get the actual map:
-  blearner_factory_map getMap () const;
-
-  // Clear all elements wich are registered:
-  void clearMap();
-
-  // Get the data used for modelling:
-  std::pair<std::vector<std::string>, arma::mat> getModelFrame () const;
-
-  // Get names of registered factories:
-  std::vector<std::string> getRegisteredFactoryNames () const;
-
-  // ~BaselearnerFactoryList () {Rcpp::Rcout << "Destroy BaselearnerFactoryList!" << std::endl; }
+  // Other member functions
+  void registerBaselearnerFactory (const std::string, const std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+  void printRegisteredFactories   () const;
+  void clearMap                   ();
 };
 
 } // namespace blearnerlist
