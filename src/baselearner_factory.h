@@ -59,30 +59,24 @@ namespace blearnerfactory {
 
 class BaselearnerFactory
 {
-public:
+protected:
+  const std::string                  _blearner_type;
+  const std::shared_ptr<data::Data>  _sh_ptr_data_source;
 
+public:
   BaselearnerFactory (const std::string, const std::shared_ptr<data::Data>);
 
-  // Create new baselearner with id:
-  virtual std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&) = 0;
+  // Virtual methods
+  virtual arma::mat                               instantiateData (const arma::mat&) const = 0;
+  virtual arma::mat                               getData()                          const = 0;
+  virtual std::shared_ptr<blearner::Baselearner>  createBaselearner ()                     = 0;
 
-  // Getter for data, data identifier and the baselearner type:
-  // arma::mat getData () const;
-  std::string getDataIdentifier () const;
-  std::string getBaselearnerType () const;
-
-  virtual arma::mat instantiateData (const arma::mat&) const = 0;
-  virtual arma::mat getData() const = 0;
+  // Getter/Setter
+  std::string getDataIdentifier   () const;
+  std::string getBaselearnerType  () const;
 
   // Destructor:
   virtual ~BaselearnerFactory ();
-
-protected:
-
-  // Minimal functionality every baselearner should have:
-  const std::string blearner_type;
-  const std::shared_ptr<data::Data> data_source;
-
 };
 
 // -------------------------------------------------------------------------- //
@@ -95,135 +89,76 @@ protected:
 class BaselearnerPolynomialFactory : public BaselearnerFactory
 {
 private:
-
-  const unsigned int degree;
-  bool intercept;
-  std::shared_ptr<data::Data> data_target;
+  const unsigned int           _degree;
+  const bool                   _intercept;
+  std::shared_ptr<data::Data>  _sh_ptr_data_target;
 
 public:
+  BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
+    std::shared_ptr<data::Data>, const unsigned int, const bool);
 
-  BaselearnerPolynomialFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>, const unsigned int&,
-    const bool&);
+  arma::mat                               instantiateData (const arma::mat&) const;
+  arma::mat                               getData()                          const;
+  std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+};
 
-  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
 
-  /// Get data used for modeling
-  arma::mat getData() const;
+// BaselearnerPSplineFactory:
+// -----------------------------
 
-  arma::mat instantiateData (const arma::mat&) const;
+class BaselearnerPSplineFactory : public BaselearnerFactory
+{
+private:
+  std::shared_ptr<data::PSplineData> _sh_ptr_psdata;
+
+public:
+  BaselearnerPSplineFactory (const std::string, std::shared_ptr<data::Data>, const unsigned int,
+    const unsigned int, const double, const unsigned int, const bool, const unsigned int, const std::string);
+
+  arma::mat                               instantiateData (const arma::mat&) const;
+  arma::mat                               getData()                          const;
+  std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
 
 
 // BaselearnerCategoricalBinaryFactory:
 // -----------------------------------------
 
-/**
- * \class BaselearnerCategoricalBinaryFactory
- *
- * \brief Factory to create `BaselearnerCategoricalBinaryFactory` objects
- *
- */
 class BaselearnerCategoricalBinaryFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::CategoricalBinaryData> data_target_cat;
+  std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
 
 public:
+  BaselearnerCategoricalBinaryFactory (const std::string, std::shared_ptr<data::Data>);
 
-  /// Default constructor of class `BaselearnerCategoricalBinaryFactory`
-  BaselearnerCategoricalBinaryFactory (const std::string&, std::shared_ptr<data::Data>);
-
-  /// Create new `BaselearnerCategoricalBinaryFactory` object
-  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
-
-  /// Get data used for modelling
-  arma::mat getData() const;
-
-  /// Instantiate the design matrix
-  arma::mat instantiateData (const arma::mat&) const;
+  arma::mat                               instantiateData (const arma::mat&) const;
+  arma::mat                               getData()                          const;
+  std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
 
-
-
-// BaselearnerPSplineFactory:
-// -----------------------------
-
-/**
- * \class BaselearnerPSplineFactory
- *
- * \brief Factory to create `PSplineBlearner` objects
- *
- */
-class BaselearnerPSplineFactory : public BaselearnerFactory
-{
-private:
-  // std::shared_ptr<data::Data> data_target;
-  std::shared_ptr<data::PSplineData> sh_ptr_psdata;
-
-  /// Degree of splines
-  // const unsigned int degree;
-
-  /// Number of inner knots
-  // const unsigned int n_knots;
-
-  /// Regularization parameter
-  // const double penalty;
-
-  /// Order of differences used for penalty matrix
-  // const unsigned int differences;
-
-  /// Flag if sparse matrices should be used:
-  // const bool use_sparse_matrices;
-
-  // Member used for binning:
-  // const bool use_binning;
-
-  // Order of binning:
-  // const unsigned int bin_root;
-
-public:
-
-  /// Default constructor of class `PSplineBleanerFactory`
-  BaselearnerPSplineFactory (const std::string, std::shared_ptr<data::Data>, const unsigned int,
-    const unsigned int, const double, const unsigned int, const bool, const unsigned int, const std::string);
-
-  /// Create new `BaselearnerPSpline` object
-  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
-
-  /// Get data used for modelling
-  arma::mat getData() const;
-
-  /// Instantiate the design matrix
-  arma::mat instantiateData (const arma::mat&) const;
-};
 
 // BaselearnerCustomFactory:
 // -----------------------------
 
-// This class stores the R functions:
-
 class BaselearnerCustomFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::Data> data_target;
+  const std::shared_ptr<data::Data> _sh_ptr_data_target;
 
-  Rcpp::Function instantiateDataFun;
-  Rcpp::Function trainFun;
-  Rcpp::Function predictFun;
-  Rcpp::Function extractParameter;
+  const Rcpp::Function _instantiateDataFun;
+  const Rcpp::Function _trainFun;
+  const Rcpp::Function _predictFun;
+  const Rcpp::Function _extractParameter;
 
 public:
 
-  BaselearnerCustomFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
+  BaselearnerCustomFactory (const std::string, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     Rcpp::Function, Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
-  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
-
-  /// Get data used for modelling
-  arma::mat getData() const;
-
-  arma::mat instantiateData (const arma::mat&) const;
-
+  arma::mat                               instantiateData (const arma::mat&) const;
+  arma::mat                               getData()                          const;
+  std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
 
 // BaselearnerCustomCppFactory:
@@ -234,25 +169,19 @@ typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
 class BaselearnerCustomCppFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::Data> data_target;
+  const std::shared_ptr<data::Data> _sh_ptr_data_target;
 
-  // Cpp functions for a custom baselearner:
-  SEXP instantiateDataFun;
-  SEXP trainFun;
-  SEXP predictFun;
+  const SEXP _instantiateDataFun;
+  const SEXP _trainFun;
+  const SEXP _predictFun;
 
 public:
-
-  BaselearnerCustomCppFactory (const std::string&, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
+  BaselearnerCustomCppFactory (const std::string, std::shared_ptr<data::Data>, std::shared_ptr<data::Data>,
     SEXP, SEXP, SEXP);
 
-  std::shared_ptr<blearner::Baselearner> createBaselearner (const std::string&);
-
-  /// Get data used for modelling
-  arma::mat getData() const;
-
-  arma::mat instantiateData (const arma::mat&) const;
-
+  arma::mat                               instantiateData (const arma::mat&) const;
+  arma::mat                               getData()                          const;
+  std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
 
 } // namespace blearnerfactory
