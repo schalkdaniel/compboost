@@ -59,19 +59,12 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string bl
     // Store centered x values for faster computation:
     _sh_ptr_data_target->setData(arma::pow(data_source->getData(), _degree));
 
-    unsigned int p = 1;
-    if (_intercept) p = 2;
-    arma::mat temp_mat(1, p, arma::fill::zeros);
+    arma::mat temp_mat(1, 2, arma::fill::zeros);
 
     if (_intercept) {
       temp_mat(0,0) = arma::as_scalar(arma::mean(_sh_ptr_data_target->getData()));
     }
-    const double slope = arma::as_scalar(arma::sum(arma::pow(_sh_ptr_data_target->getData() - temp_mat(0,0), 2)));
-    if (_intercept) {
-      temp_mat(0,1) = slope;
-    } else {
-      temp_mat(0,0) = slope;
-    }
+    temp_mat(0,1) = arma::as_scalar(arma::sum(arma::pow(_sh_ptr_data_target->getData() - temp_mat(0,0), 2)));
     _sh_ptr_data_target->XtX_inv = temp_mat;
   } else {
     _sh_ptr_data_target->setData(instantiateData(data_source->getData()));
