@@ -1,5 +1,13 @@
 # Release Notes
 
+- **24.04.2020** \
+  It is now possible to choose between to solvers for fitting the base-learner. The two options are the Cholesky 
+  decomposition and to use the inverse.
+
+- **15.04.2020** \
+  A new base-learner `BaselearnerCategoricalBinary` is now available. This base-learner reduces the memory load and inproves
+  the runtime.
+
 - **03.04.2020** \
   Binning can now be used for spline base-learner to reduce memory load and increase runtime performance. See `?compboost::BaselearnerPSpline`.
 
