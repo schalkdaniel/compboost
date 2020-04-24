@@ -18,16 +18,12 @@
 //
 // =========================================================================== #
 
-// Doxygen index page:
-
 /*! \mainpage Framework for COMPonentwise BOOSTing
  *
  * \section intro_sec Introduction
  *
  * This manual should give an overview about the structure and functionality
- * of the `compboost` `C++` classes. To get an insight into the underlying
- * theory check out the `compboost` vignettes:
- *
+ * of the `compboost` `C++` classes.
  *
  * \section install_sec Installation
  *
@@ -50,8 +46,6 @@
  * ```
  * devtools::install_github("schalkdaniel/compboost")
  * ```
- *
- *
  */
 
 #ifndef COMPBOOST_H_
@@ -67,61 +61,47 @@
 
 namespace cboost {
 
-// Main class:
-
 class Compboost
 {
 
 private:
+  const double  _learning_rate;
+  const bool    _is_global_stopper;
 
-  std::shared_ptr<response::Response> sh_ptr_response;
-  double learning_rate;
-  bool is_global_stopper;
-  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
-  std::shared_ptr<loss::Loss> sh_ptr_loss;
-  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
-  blearnerlist::BaselearnerFactoryList blearner_list;
+  const std::shared_ptr<response::Response>      _sh_ptr_response;
+  const std::shared_ptr<optimizer::Optimizer>    _sh_ptr_optimizer;
+  const std::shared_ptr<loss::Loss>              _sh_ptr_loss;
+  const std::shared_ptr<loggerlist::LoggerList>  _sh_ptr_loggerlist;
 
-  std::vector<double> risk;
-  bool is_trained = false;
-  unsigned int current_iter;
-  blearnertrack::BaselearnerTrack blearner_track;
+  bool                 _is_trained = false;
+  unsigned int         _current_iter;
+  std::vector<double>  _risk;
+
+  const blearnerlist::BaselearnerFactoryList     _factory_list;
+  blearnertrack::BaselearnerTrack                _blearner_track;
 
 public:
-
-  Compboost ();
-
   Compboost (std::shared_ptr<response::Response>, const double&, const bool&, std::shared_ptr<optimizer::Optimizer>, std::shared_ptr<loss::Loss>,
     std::shared_ptr<loggerlist::LoggerList>, blearnerlist::BaselearnerFactoryList);
 
-  // Basic train function used by trainCompbost and continueTraining:
-  void train (const unsigned int&, std::shared_ptr<loggerlist::LoggerList>);
+  // Getter/Setter
+  arma::vec                                       getPrediction (const bool&)                    const;
+  std::map<std::string, arma::mat>                getParameter ()                                const;
+  std::vector<std::string>                        getSelectedBaselearner ()                      const;
+  std::shared_ptr<loggerlist::LoggerList>         getLoggerList ()                               const;
+  std::map<std::string, arma::mat>                getParameterOfIteration (const unsigned int&)  const;
+  std::pair<std::vector<std::string>, arma::mat>  getParameterMatrix ()                          const;
+  arma::mat                                       getOffset ()                                   const;
+  std::vector<double>                             getRiskVector ()                               const;
 
-  // Initial training:
-  void trainCompboost (const unsigned int&);
-
-  // Retraining after initial training:
-  void continueTraining (const unsigned int&);
-
-  arma::vec getPrediction (const bool&) const;
-
-  std::map<std::string, arma::mat> getParameter () const;
-  std::vector<std::string> getSelectedBaselearner () const;
-
-  std::shared_ptr<loggerlist::LoggerList> getLoggerList () const;
-  std::map<std::string, arma::mat> getParameterOfIteration (const unsigned int&) const;
-
-  std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
-
-  arma::vec predict () const;
-  arma::vec predict (std::map<std::string, std::shared_ptr<data::Data>>, const bool&) const;
-
-  void setToIteration (const unsigned int&, const unsigned int&);
-
-  arma::mat getOffset () const;
-  std::vector<double> getRiskVector () const;
-
-  void summarizeCompboost () const;
+  // Other member functions
+  void       train              (const unsigned int, const std::shared_ptr<loggerlist::LoggerList>);
+  void       trainCompboost     (const unsigned int);
+  void       continueTraining   (const unsigned int);
+  arma::vec  predict            () const;
+  arma::vec  predict            (std::map<std::string, std::shared_ptr<data::Data>>, const bool&) const;
+  void       setToIteration     (const unsigned int&, const unsigned int&);
+  void       summarizeCompboost () const;
 
   // Destructor:
   ~Compboost ();
