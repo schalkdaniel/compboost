@@ -25,7 +25,7 @@ calculateFeatEffectData = function (cboost_obj, bl_list, blearner_name, iters, f
       warning("Requested base-learner plus feature was first selected at iteration ", iter_min)
     }
   }
-  feat_name = bl_list[[blearner_name]]$target$getIdentifier()
+  feat_name = bl_list[[blearner_name]]$factory$getFeatureName()
 
   checkmate::assertNumeric(x = cboost_obj$data[[feat_name]], min.len = 2, null.ok = FALSE)
   checkmate::assertNumeric(from, lower =  min(cboost_obj$data[[feat_name]]), upper = max(cboost_obj$data[[feat_name]]), len = 1, null.ok = TRUE)
@@ -87,7 +87,7 @@ plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, 
     idx_rugs = seq_len(nrow(cboost_obj$data))
   }
 
-  feat_name = bl_list[[blearner_name]]$target$getIdentifier()
+  feat_name = bl_list[[blearner_name]]$factory$getFeatureName()
   from = min(df_plot$feature)
   to = max(df_plot$feature)
 

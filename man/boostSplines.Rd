@@ -19,7 +19,7 @@ boostSplines(
   data_source = InMemoryData,
   data_target = InMemoryData,
   oob_fraction = NULL,
-  use_binning = FALSE
+  bin_root = 0
 )
 }
 \arguments{
@@ -74,8 +74,10 @@ just in memory training is supported.}
 \item{oob_fraction}{[\code{numeric(1)}]\cr
 Fraction of how much data we want to use to track the out of bag risk.}
 
-\item{use_binning}{[\code{logical(1)}]\cr
-Use binning to build design matrices. Saves time and memory (default is FALSE).}
+\item{bin_root}{[\code{integer(1)}+]\cr
+If set to a value greater than zero, binning is applied and reduces the number of used
+x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+to set \code{bin_root = 2}.}
 }
 \value{
 A model of the \code{Compboost} class. This model is an \code{R6} object

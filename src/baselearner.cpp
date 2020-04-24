@@ -35,69 +35,14 @@ void Baselearner::copyMembers (const arma::mat& parameter0,
   sh_ptr_data = sh_ptr_data0;
 }
 
-// Set the data pointer:
-void Baselearner::setData (std::shared_ptr<data::Data> data)
-{
-  sh_ptr_data = data;
-}
+void Baselearner::setData (std::shared_ptr<data::Data> data) { sh_ptr_data = data; }
+arma::mat Baselearner::getParameter () const { return parameter; }
+void Baselearner::setIdentifier (const std::string& id) { blearner_identifier = id; }
+std::string Baselearner::getIdentifier () const { return blearner_identifier; }
+void Baselearner::setBaselearnerType (const std::string& blearner_type0) { blearner_type = blearner_type0; }
+std::string Baselearner::getBaselearnerType () const { return blearner_type; }
 
-// // Get the data on which data pointer points:
-// arma::mat Baselearner::getData () const
-// {
-//   return sh_ptr_data->getData();
-// }
-
-// Get the data identifier:
-std::string Baselearner::getDataIdentifier () const
-{
-  return sh_ptr_data->getDataIdentifier();
-}
-
-// Get the parameter obtained by training:
-arma::mat Baselearner::getParameter () const
-{
-  return parameter;
-}
-
-// Predict function. This one calls the virtual function with the data pointer:
-// arma::mat Baselearner::predict ()
-// {
-//   return predict(*sh_ptr_data);
-// }
-
-// Function to set the identifier (should be unique over all baselearner):
-void Baselearner::setIdentifier (const std::string& id0)
-{
-  blearner_identifier = id0;
-}
-
-// Get the identifier:
-std::string Baselearner::getIdentifier () const
-{
-  return blearner_identifier;
-}
-
-// Function to set the baselearner type:
-void Baselearner::setBaselearnerType (const std::string& blearner_type0)
-{
-  blearner_type = blearner_type0;
-}
-
-// Get the baselearner type:
-std::string Baselearner::getBaselearnerType () const
-{
-  return blearner_type;
-}
-
-// Destructor:
-Baselearner::~Baselearner ()
-{
-  // Rcpp::Rcout << "Call Baselearner Destructor" << std::endl;
-
-  // delete blearner_type;
-  // delete sh_ptr_data;
-  // delete data_identifier_ptr;
-}
+Baselearner::~Baselearner () { }
 
 // -------------------------------------------------------------------------- //
 // Baselearner implementations:
@@ -189,11 +134,15 @@ arma::mat BaselearnerPolynomial::predict (std::shared_ptr<data::Data> newdata) c
 {
   return instantiateData(newdata->getData()) * parameter;
 }
+std::string BaselearnerPolynomial::getDataIdentifier () const
+{
+  return sh_ptr_data->getDataIdentifier();
+}
 
 // Destructor:
 BaselearnerPolynomial::~BaselearnerPolynomial () {}
 
-// PSplienBlearner:
+// BaselearnerPSpline:
 // ----------------------
 
 /**
@@ -233,17 +182,11 @@ BaselearnerPolynomial::~BaselearnerPolynomial () {}
  *   penalty matrix.
  */
 
-BaselearnerPSpline::BaselearnerPSpline (std::shared_ptr<data::Data> data, const std::string& identifier,
-  const unsigned int& degree, const unsigned int& n_knots, const double& penalty,
-  const unsigned int& differences, const bool& use_sparse_matrices)
-  : degree ( degree ),
-    n_knots ( n_knots ),
-    penalty ( penalty ),
-    differences ( differences ),
-    use_sparse_matrices ( use_sparse_matrices )
+BaselearnerPSpline::BaselearnerPSpline (std::shared_ptr<data::PSplineData> sh_ptr_psdata, const std::string& identifier)
+  : sh_ptr_psdata ( sh_ptr_psdata )
 {
   // Called from parent class 'Baselearner':
-  Baselearner::setData(data);
+  // Baselearner::setData(data);
   Baselearner::setIdentifier(identifier);
 }
 
@@ -276,17 +219,17 @@ Baselearner* BaselearnerPSpline::clone ()
 arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
 {
 
-  arma::vec knots = sh_ptr_data->knots;
+  // arma::vec knots = sh_ptr_data->knots;
 
   // check if the new data matrix contains value which are out of range:
-  double range_min = knots[degree];                   // minimal value from original data
-  double range_max = knots[n_knots + degree + 1];     // maximal value from original data
+  //double range_min = knots[degree];                   // minimal value from original data
+  //double range_max = knots[n_knots + degree + 1];     // maximal value from original data
 
-  arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, sh_ptr_data->getDataIdentifier());
-
+  //arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, sh_ptr_data->getDataIdentifier());
+  arma::mat temp = sh_ptr_psdata->filterKnotRange(newdata);
   // Data object has to be created prior! That means that sh_ptr_data must have
   // initialized knots, and penalty matrix!
-  return splines::createSplineBasis (temp, degree, sh_ptr_data->knots);
+  return splines::createSplineBasis (temp, sh_ptr_psdata->degree, sh_ptr_psdata->getKnots());
 }
 
 /**
@@ -297,17 +240,16 @@ arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
  * \param response `arma::vec` Response variable of the training.
  */
 void BaselearnerPSpline::train (const arma::mat& response) {
-  if (use_sparse_matrices) {
-    if (sh_ptr_data->bin_use_binning) {
-      arma::vec temp_weight(1, arma::fill::ones);
-      arma::mat temp = binning::binnedSparseMatMultResponse(sh_ptr_data->sparse_data_mat, response, sh_ptr_data->bin_index_vec, temp_weight);
-      parameter = sh_ptr_data->XtX_inv * temp;
-    } else {
-      parameter = sh_ptr_data->XtX_inv * (sh_ptr_data->sparse_data_mat * response);
-    }
+
+  arma::mat temp;
+
+  if (sh_ptr_psdata->usesBinning()) {
+    arma::vec temp_weight(1, arma::fill::ones);
+    temp = binning::binnedSparseMatMultResponse(sh_ptr_psdata->sparse_data_mat, response, sh_ptr_psdata->bin_idx, temp_weight);
   } else {
-    parameter = sh_ptr_data->XtX_inv * sh_ptr_data->data_mat.t() * response;
+    temp = sh_ptr_psdata->sparse_data_mat * response;
   }
+  parameter = helper::cboostSolver(sh_ptr_psdata->getCachedMat(), temp);
 }
 
 /**
@@ -318,17 +260,17 @@ void BaselearnerPSpline::train (const arma::mat& response) {
 arma::mat BaselearnerPSpline::predict () const
 {
   // arma::mat out;
-  if (use_sparse_matrices) {
-    if (sh_ptr_data->bin_use_binning) {
-      return binning::binnedSparsePrediction(sh_ptr_data->sparse_data_mat, parameter, sh_ptr_data->bin_index_vec);
+  if (sh_ptr_psdata->usesSparseMatrix()) {
+    if (sh_ptr_psdata->usesBinning()) {
+      return binning::binnedSparsePrediction(sh_ptr_psdata->sparse_data_mat, parameter, sh_ptr_psdata->bin_idx);
     } else {
       // Trick to speed up things. Try to avoid transposing the sparse matrix. The
       // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
       // slower than that one:
-      return (parameter.t() * sh_ptr_data->sparse_data_mat).t();
+      return (parameter.t() * sh_ptr_psdata->sparse_data_mat).t();
     }
   } else {
-    return sh_ptr_data->data_mat * parameter;
+    return sh_ptr_psdata->data_mat * parameter;
   }
   // return out;
 }
@@ -345,9 +287,87 @@ arma::mat BaselearnerPSpline::predict (std::shared_ptr<data::Data> newdata) cons
   return instantiateData(newdata->getData()) * parameter;
 }
 
+std::string BaselearnerPSpline::getDataIdentifier () const
+{
+  return sh_ptr_psdata->getDataIdentifier();
+}
 
 /// Destructor
 BaselearnerPSpline::~BaselearnerPSpline () {}
+
+
+
+// BaselearnerCategoricalBinary:
+// -------------------------------
+
+BaselearnerCategoricalBinary::BaselearnerCategoricalBinary (std::shared_ptr<data::CategoricalBinaryData> data, const std::string& identifier)
+{
+  // Called from parent class 'Baselearner':
+  // Baselearner::setData(data);
+  Baselearner::setIdentifier(identifier);
+
+  // Additionally, cast the data object to the categorical one to reuse it later:
+  sh_ptr_bcdata = data;
+}
+
+// Copy member:
+Baselearner* BaselearnerCategoricalBinary::clone ()
+{
+  Baselearner* newbl = new BaselearnerCategoricalBinary(*this);
+  newbl->copyMembers(this->parameter, this->blearner_identifier, this->sh_ptr_data);
+
+  return newbl;
+}
+
+// Transform data. This is done twice since it makes the prediction
+// of the whole compboost object so much easier:
+arma::mat BaselearnerCategoricalBinary::instantiateData (const arma::mat& newdata) const
+{
+  return newdata;
+}
+
+// Train the learner:
+void BaselearnerCategoricalBinary::train (const arma::mat& response)
+{
+  // Calculate sum manually due to the idx format:
+  double sum_response = 0;
+  for (unsigned int i = 0; i < sh_ptr_bcdata->idx.size() - 1; i++) {
+    sum_response += response(sh_ptr_bcdata->idx(i), 0);
+  }
+  arma::mat param_temp(1,1);
+  param_temp(0,0) = sh_ptr_bcdata->xtx_inv_scalar * sum_response;
+  parameter = param_temp;
+  // parameter(0,0) = sh_ptr_data_cat->xtx_inv_scalar * sum_response;
+}
+
+// Predict the learner:
+arma::mat BaselearnerCategoricalBinary::predict () const
+{
+  // arma::mat temp(sh_ptr_data_cat->n_obs, 1, arma::fill::zeros);
+  // double param_double = arma::as_scalar(parameter);
+
+  // for (unsigned int i = 0; i < sh_ptr_data_cat->idx.size(); i++) {
+  //   temp(i,0) = param_double;
+  // }
+  // return temp;
+  arma::mat out = helper::predictBinaryIndex(sh_ptr_bcdata->idx, arma::as_scalar(parameter));
+  return out;
+}
+arma::mat BaselearnerCategoricalBinary::predict (std::shared_ptr<data::Data> newdata) const
+{
+  return newdata->getData() * parameter;
+}
+
+std::string BaselearnerCategoricalBinary::getDataIdentifier () const
+{
+  return sh_ptr_bcdata->getDataIdentifier();
+}
+
+
+// Destructor:
+BaselearnerCategoricalBinary::~BaselearnerCategoricalBinary () {}
+
+
 
 
 // BaselearnerCustom:
@@ -406,6 +426,13 @@ arma::mat BaselearnerCustom::predict (std::shared_ptr<data::Data> newdata) const
   Rcpp::NumericMatrix out = predictFun(model, instantiateData(newdata->getData()));
   return Rcpp::as<arma::mat>(out);
 }
+
+std::string BaselearnerCustom::getDataIdentifier () const
+{
+  return sh_ptr_data->getDataIdentifier();
+}
+
+
 
 // Destructor:
 BaselearnerCustom::~BaselearnerCustom () {}
@@ -471,7 +498,10 @@ arma::mat BaselearnerCustomCpp::predict (std::shared_ptr<data::Data> newdata) co
   arma::mat temp_mat = instantiateData(newdata->getData());
   return predictFun (temp_mat, parameter);
 }
-
+std::string BaselearnerCustomCpp::getDataIdentifier () const
+{
+  return sh_ptr_data->getDataIdentifier();
+}
 // Destructor:
 BaselearnerCustomCpp::~BaselearnerCustomCpp () {}
 

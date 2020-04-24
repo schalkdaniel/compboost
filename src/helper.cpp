@@ -49,6 +49,21 @@ bool stringInNames (std::string str, std::vector<std::string> names)
 }
 
 
+void assertChoice (const std::string x, const std::vector<std::string>& choices)
+{
+  if (! stringInNames(x, choices)) {
+    std::string msg = "Must be element of set {";
+    for (unsigned int i = 0; i < choices.size(); i++) {
+      if (i+1 < choices.size()) {
+        msg += "'" + choices.at(i) + "',";
+      } else {
+        msg += "'" + choices.at(i) + "'";
+      }
+    }
+    throw std::out_of_range(msg + "}, but is '" + x + "'.'");
+  }
+}
+
 /**
  * \brief Check and set list arguments
  *
@@ -247,6 +262,57 @@ arma::SpMat<unsigned int> binaryMat (const arma::Row<unsigned int>& classes)
   arma::SpMat<unsigned int> sp_out(indices, ones);
 
   return sp_out;
+}
+
+arma::uvec binaryToIndex (const arma::mat& x)
+{
+  std::vector<unsigned int> idx;
+  unsigned int k = 0;
+  for (unsigned int i = 0; i < x.size(); i++) {
+    if (x(k) != 0) idx.push_back(k);
+    k += 1;
+  }
+  idx.push_back(x.size());
+
+  return arma::conv_to<arma::uvec>::from(idx);
+}
+
+arma::uvec binaryToIndex (const arma::sp_mat& x)
+{
+  arma::uvec idx(x.n_nonzero + 1, arma::fill::zeros);
+  for (unsigned int i = 0; i < x.n_nonzero; i++) {
+    idx(i) = x.row_indices[i];
+  }
+  idx(x.n_nonzero) = x.size();
+
+  return idx;
+}
+
+arma::mat predictBinaryIndex (const arma::uvec& idx, const double value)
+{
+  unsigned int n_idx = idx.size() - 1;
+  arma::mat out(idx(n_idx), 1, arma::fill::zeros);
+  for (unsigned int i = 0; i < n_idx; i++) {
+    out(idx(i)) = value;
+  }
+  return out;
+}
+
+void getMatStatus (const arma::mat& X, const std::string message)
+{
+  std::cout << message << "ncol = " << X.n_cols << " nrows = " << X.n_rows << std::endl;
+}
+
+arma::mat solveCholesky (const arma::mat& U, const arma::mat& y)
+{
+  arma::mat out =  arma::solve(arma::trimatl(U.t()), y, arma::solve_opts::fast);
+  return arma::solve(arma::trimatu(U), out, arma::solve_opts::fast);
+}
+
+arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, const arma::mat& y)
+{
+  if (mat_cache.first == "cholesky") return solveCholesky(mat_cache.second, y);
+  if (mat_cache.first == "inverse") return mat_cache.second * y;
 }
 
 } // namespace helper

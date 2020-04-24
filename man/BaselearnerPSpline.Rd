@@ -14,7 +14,7 @@
 \section{Usage}{
 
 \preformatted{
-baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
+BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
   differences))
 }
 }
@@ -43,15 +43,17 @@ baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
   the number of differences which are penalized. a higher value leads to
   smoother curves.
 }
-\item{\code{use_binning} [\code{logical(1)}]}{
-  Indicator if feature should be discretized first (default is \code{FALSE}).
+\item{\code{bin_root} [\code{integer(1)}]}{
+  If set to a value greater than zero, binning is applied and reduces the number of used
+  x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+  to set \code{bin_root = 2}.
 }
 }
 }
 
 \section{Details}{
 
-  If \code{use_binning = TRUE} the original feature is discretized to on an equidistant grid on
+  If \code{bin_root > 0} the original feature is discretized to on an equidistant grid on
   \eqn{[\min(x),\max(x)]} with \eqn{\sqrt{n}} points. The fitting is then done by
   using weights per new data point.
 }

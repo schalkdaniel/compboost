@@ -133,9 +133,20 @@ public:
     sh_ptr_data = std::make_shared<data::InMemoryData>(data_mat, data_identifier);
   }
 
+  InMemoryDataWrapper (arma::mat data_mat, std::string data_identifier, bool use_sparse)
+  {
+    // data_mat = data0;
+    sh_ptr_data = std::make_shared<data::InMemoryData>(data_mat, data_identifier, use_sparse);
+  }
+
   arma::mat getData () const
   {
-    return sh_ptr_data->getData();
+    if (sh_ptr_data->usesSparseMatrix()) {
+      arma::mat out(sh_ptr_data->sparse_data_mat);
+      return out;
+    } else {
+      return sh_ptr_data->getData();
+    }
   }
 
   std::string getIdentifier () const
@@ -161,6 +172,7 @@ RCPP_MODULE (data_module)
     .constructor ()
     // .constructor<Rcpp::NumericVector, std::string> ()
     .constructor<arma::mat, std::string> ()
+    .constructor<arma::mat, std::string, bool> ()
 
     .method("getData",       &InMemoryDataWrapper::getData, "Get data")
     .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
@@ -185,6 +197,8 @@ public:
   std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
   arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
+
+  std::string getFeatureName () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
 
 protected:
   std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory;
@@ -322,6 +336,7 @@ public:
   }
 };
 
+
 //' Base-learner factory to do non-parametric B or P-spline regression
 //'
 //' \code{BaselearnerPSpline} creates a spline base-learner factory
@@ -333,7 +348,7 @@ public:
 //'
 //' @section Usage:
 //' \preformatted{
-//' baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
+//' BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
 //'   differences))
 //' }
 //'
@@ -360,13 +375,15 @@ public:
 //'   the number of differences which are penalized. a higher value leads to
 //'   smoother curves.
 //' }
-//' \item{\code{use_binning} [\code{logical(1)}]}{
-//'   Indicator if feature should be discretized first (default is \code{FALSE}).
+//' \item{\code{bin_root} [\code{integer(1)}]}{
+//'   If set to a value greater than zero, binning is applied and reduces the number of used
+//'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+//'   to set \code{bin_root = 2}.
 //' }
 //' }
 //'
 //' @section Details:
-//'   If \code{use_binning = TRUE} the original feature is discretized to on an equidistant grid on
+//'   If \code{bin_root > 0} the original feature is discretized to on an equidistant grid on
 //'   \eqn{[\min(x),\max(x)]} with \eqn{\sqrt{n}} points. The fitting is then done by
 //'   using weights per new data point.
 //'
@@ -412,15 +429,15 @@ private:
     Rcpp::Named("n_knots") = 20,
     Rcpp::Named("penalty") = 2,
     Rcpp::Named("differences") = 2,
-    Rcpp::Named("use_binning") = false
+    Rcpp::Named("bin_root") = 0,
+    Rcpp::Named("cache_type") = "inverse"
   );
 
 public:
 
-  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    Rcpp::List arg_list)
+  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target, Rcpp::List arg_list)
   {
-    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
 
     // We need to converse the SEXP from the element to an integer:
     int degree = internal_arg_list["degree"];
@@ -428,19 +445,17 @@ public:
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
-       data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
-       internal_arg_list["penalty"], internal_arg_list["differences"], TRUE, internal_arg_list["use_binning"]);
-
+      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["differences"], true,
+      internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
   }
 
-  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target,
-    const std::string& blearner_type, Rcpp::List arg_list)
+  BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, DataWrapper& data_target, const std::string& blearner_type, Rcpp::List arg_list)
   {
-    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
-      data_target.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"],
-      internal_arg_list["penalty"], internal_arg_list["differences"], TRUE, internal_arg_list["use_binning"]);
+      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["differences"], true,
+      internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
   }
 
   void summarizeFactory ()
@@ -451,6 +466,91 @@ public:
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
     Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
+  }
+};
+
+
+
+
+//' Base-learner factory for categorical feature on a binary base-learner basis
+//'
+//' \code{BaselearnerCategoricalBinary} can be used to estimate effects of one category of a categorical
+//' feature. The base-learner gets the data as index vector of the observations assigned to the group.
+//' For example, if the vector is (a, a, b, b, a, b), then the index vector is (1, 2, 5) for group a.
+//' This reduces memory load and fasten the fitting process.
+//'
+//' @format \code{\link{S4}} object.
+//' @name BaselearnerCategoricalBinary
+//'
+//' @section Usage:
+//' \preformatted{
+//' BaselearnerCategoricalBinary$new(data_source, data_target, list(n_obs))
+//' }
+//'
+//' @section arguments:
+//' \describe{
+//' \item{\code{data_source} [\code{data} object]}{
+//'   data object which contains the source data.
+//' }
+//' \item{\code{data_target} [\code{data} object]}{
+//'   data object which gets the transformed source data.
+//' }
+//' }
+//'
+//' @section Fields:
+//'   This class doesn't contain public fields.
+//'
+//' @section Methods:
+//' \describe{
+//' \item{\code{getData()}}{Get the data matrix of the target data which is used
+//'   for modeling.}
+//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+//'   factory. The argument has to be a matrix with one column. In case of the categorical
+//'   binary base-learner this is the index of non-zero elements concatinated with the
+//'   number of observations. This helps to fully reconstruct the original feature by using less memory. This also speed up computation time.}
+//' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+//' }
+//' @examples
+//' # Sample data:
+//' x = sample(c(0,1), 20, TRUE)
+//' data_mat = cbind(x)
+//'
+//' # Create new data object:
+//' data_source = InMemoryData$new(data_mat, "my_data_name")
+//'
+//' # Create new linear base-learner:
+//' cat_factory = BaselearnerCategoricalBinary$new(data_source)
+//'
+//' # Get the transformed data as stored for internal use:
+//' cat_factory$getData()
+//'
+//' # Summarize factory:
+//' cat_factory$summarizeFactory()
+//'
+//' # Transform data manually:
+//' cat_factory$transformData(x)
+//'
+//' @export BaselearnerCategoricalBinary
+class BaselearnerCategoricalBinaryFactoryWrapper : public BaselearnerFactoryWrapper
+{
+
+public:
+
+  BaselearnerCategoricalBinaryFactoryWrapper (DataWrapper& data_source)
+  {
+    std::string blearner_type_temp = "category_" + data_source.getDataObj()->getDataIdentifier();
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blearner_type_temp, data_source.getDataObj());
+  }
+
+  BaselearnerCategoricalBinaryFactoryWrapper (DataWrapper& data_source, const std::string& blearner_type)
+  {
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blearner_type, data_source.getDataObj());
+  }
+
+  void summarizeFactory ()
+  {
+    Rcpp::Rcout << "Categorical factory of category " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
   }
 };
 
@@ -737,8 +837,9 @@ RCPP_MODULE (baselearner_factory_module)
   class_<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor ("Create BaselearnerFactory class")
 
-    .method("getData",       &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
-    .method("transformData", &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
+    .method("getData",        &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
+    .method("transformData",  &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
+    .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature used for the base-learner")
   ;
 
   class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
@@ -747,6 +848,14 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, DataWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
+  ;
+
+ class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<DataWrapper&> ()
+    .constructor<DataWrapper&,  std::string> ()
+
+    .method("summarizeFactory", &BaselearnerCategoricalBinaryFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")

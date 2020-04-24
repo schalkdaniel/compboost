@@ -640,7 +640,6 @@ Compboost = R6::R6Class("Compboost",
       return (gg)
     },
     plotInbagVsOobRisk = function () {
-
       checkModelPlotAvailability(self)
 
       inbag_trace = self$getInbagRisk()
@@ -718,16 +717,33 @@ Compboost = R6::R6Class("Compboost",
 
         cat_feat_id = paste(feature, lvl, id_fac, sep = "_")
 
-        private$addSingleNumericBl(data_columns = as.matrix(as.integer(data_column == lvl)),
-          feature = paste(feature, lvl, sep = "_"), id_fac = id_fac,
-          id = cat_feat_id, bl_factory, data_source, data_target, ...)
+        if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalBinary") {
+          private$bl_list[[cat_feat_id]] = list()
+          if (data_source@.Data == "Rcpp_InMemoryData") {
+            # If data source is InMemoryData use the sparse option to reduce memory load:
+            private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"), TRUE)
+          } else {
+            private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"))
+          }
 
-        # This is important because of:
-        #   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
-        #      data objects correctly in a unique way.
-        #   2. The feature itself should not be named with the level. Instead of that we just want the
-        #      feature name of the categorical variable, such as cat_feature (important for predictions).
-        private$bl_list[[cat_feat_id]]$feature = feature
+          private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
+          private$bl_list[[cat_feat_id]]$factory = bl_factory$new(private$bl_list[[cat_feat_id]]$source, paste0(lvl, "_", id_fac))
+
+          self$bl_factory_list$registerFactory(private$bl_list[[cat_feat_id]]$factory)
+          private$bl_list[[cat_feat_id]]$source = NULL
+
+        } else {
+          private$addSingleNumericBl(data_columns = as.matrix(as.integer(data_column == lvl)),
+            feature = paste(feature, lvl, sep = "_"), id_fac = id_fac, id = cat_feat_id,
+            bl_factory, data_source, data_target, ...)
+
+          # This is important because of:
+          #   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
+          #      data objects correctly in a unique way.
+          #   2. The feature itself should not be named with the level. Instead of that we just want the
+          #      feature name of the categorical variable, such as cat_feature (important for predictions).
+          private$bl_list[[cat_feat_id]]$feature = feature
+        }
       }
     }
   )

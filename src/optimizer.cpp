@@ -78,6 +78,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
       blearner_temp->train(sh_ptr_response->getPseudoResiduals());
       ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
 
+
       // Check if SSE of new temporary base-learner is smaller then SSE of the best
       // base-learner. If so, assign the temporary base-learner with the best
       // base-learner (This is always triggered within the first iteration since
@@ -163,7 +164,6 @@ void OptimizerCoordinateDescent::optimize (const unsigned int& actual_iteration,
 
   // Prediction is needed more often, use a temp vector to avoid multiple computations:
   arma::mat blearner_pred_temp = sh_ptr_blearner_selected->predict();
-
   calculateStepSize(sh_ptr_loss, sh_ptr_response, blearner_pred_temp);
 
   // Insert new base-learner to vector of selected base-learner. The parameter are estimated here, hence

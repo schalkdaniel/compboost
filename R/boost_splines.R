@@ -48,8 +48,15 @@
 #'   just in memory training is supported.
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data we want to use to track the out of bag risk.
-#' @param use_binning [\code{logical(1)}]\cr
-#'   Use binning to build design matrices. Saves time and memory (default is FALSE).
+#' @param bin_root [\code{integer(1)}+]\cr
+#'   If set to a value greater than zero, binning is applied and reduces the number of used
+#'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+#'   to set \code{bin_root = 2}.
+#' @param cache_type [\code{character(1)}+]\cr
+#'   String to indicate what method should be used to estimate the parameter in each iteration.
+#'   Default is \code{cache_type = "cholesky"} which computes the Cholesky decomposition,
+#'   caches it, and reuses the matrix over and over again. The other option is to use
+#'   \code{cache_type = "inverse"} which does the same but caches the inverse.
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -63,7 +70,7 @@
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, differences = 2, data_source = InMemoryData, data_target = InMemoryData,
-  oob_fraction = NULL, use_binning = FALSE)
+  oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction)
@@ -75,7 +82,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
     if (is.numeric(data[[feat]])) {
       model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source, data_target,
         degree = degree, n_knots = n_knots, penalty = penalty, differences = differences,
-        use_binning = use_binning)
+        bin_root = bin_root, cache_type = cache_type)
     } else {
       model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
         degree = 1, intercept = FALSE)

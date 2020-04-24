@@ -35,9 +35,10 @@ namespace binning
  * \returns `arma::vec` Vector of discretized x.
  */
 
-arma::vec binVectorCustom (const arma::vec& x, const unsigned int n_bins)
+arma::vec binVectorCustom (const arma::vec& x, const unsigned int bin_root)
 {
   // TODO: Check if n_bins is set correctly
+  const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
   return arma::linspace(arma::min(x), arma::max(x), n_bins);
 }
 
@@ -57,8 +58,7 @@ arma::vec binVectorCustom (const arma::vec& x, const unsigned int n_bins)
 
 arma::vec binVector (const arma::vec& x)
 {
-  const unsigned int n_bins = std::floor(std::sqrt(x.size()));
-  return binVectorCustom(x, n_bins);
+  return binVectorCustom(x, 2);
 }
 
 

@@ -65,7 +65,7 @@ public:
   // arma::mat getData () const;
 
   // Get data identifier stored within the data object:
-  std::string getDataIdentifier () const;
+  virtual std::string getDataIdentifier () const = 0;
 
   // Set and get identifier of a specific baselearner (this is unique):
   void setIdentifier (const std::string&);
@@ -119,10 +119,12 @@ public:
   void train (const arma::mat&);
   arma::mat predict () const;
   arma::mat predict (std::shared_ptr<data::Data>) const;
+  std::string getDataIdentifier () const;
 
   ~BaselearnerPolynomial ();
 
 };
+
 
 // BaselearnerPSpline:
 // -----------------------
@@ -132,14 +134,14 @@ public:
  *
  * \brief P-Spline Baselearner
  *
- * This class implements the P-Spline baselearners. We have used de Boors
+ * This class implements the P-Spline base-learners. We have used de Boors
  * algorithm (from the Nurbs Book) to create the basis. The penalty parameter
  * can be specified directly or by using the degrees of freedom. If you are
- * using the degrees of freedom insteat of the penalty parameter, then this is
+ * using the degrees of freedom instead of the penalty parameter, then this is
  * transformed to a penalty parameter using the Demmler-Reinsch
  * Orthogonalization.
  *
- * Please note, that this baselearner is just the dummy object. The most
+ * Please note, that this base-learner is just the dummy object. The most
  * functionality is done while creating the data target which contains the
  * most object which are used here.
  *
@@ -150,24 +152,25 @@ class BaselearnerPSpline : public Baselearner
 private:
 
   /// Degree of polynomial functions as base models
-  unsigned int degree;
+  // unsigned int degree;
 
   /// Number of inner knots
-  unsigned int n_knots;
+  // unsigned int n_knots;
 
   /// Penalty parameter
-  double penalty;
+  // double penalty;
 
   /// Differences of penalty matrix
-  unsigned int differences;
+  // unsigned int differences;
 
   /// Flag if sparse matrices should be used:
-  const bool use_sparse_matrices;
+  //const bool use_sparse_matrices;
+
+  std::shared_ptr<data::PSplineData> sh_ptr_psdata;
 
 public:
   /// Default constructor of `BaselearnerPSpline` class
-  BaselearnerPSpline (std::shared_ptr<data::Data>, const std::string&, const unsigned int&,
-    const unsigned int&, const double&, const unsigned int&, const bool&);
+  BaselearnerPSpline (std::shared_ptr<data::PSplineData>, const std::string&);
 
   /// Clean copy of baselearner
   Baselearner* clone ();
@@ -184,11 +187,39 @@ public:
   /// Predict on newdata
   arma::mat predict (std::shared_ptr<data::Data>) const;
 
+  std::string getDataIdentifier () const;
 
   /// Destructor
   ~BaselearnerPSpline ();
 
 };
+
+
+// BaselearnerCategoricalBinary:
+// ------------------------------------
+
+
+class BaselearnerCategoricalBinary: public Baselearner
+{
+public:
+  // (data pointer, data identifier, baselearner identifier, degree)
+  BaselearnerCategoricalBinary (std::shared_ptr<data::CategoricalBinaryData>, const std::string&);
+
+  Baselearner* clone ();
+
+  // arma::mat instantiateData ();
+  arma::mat instantiateData (const arma::mat&) const;
+
+  void train (const arma::mat&);
+  arma::mat predict () const;
+  arma::mat predict (std::shared_ptr<data::Data>) const;
+  std::string getDataIdentifier () const;
+
+  std::shared_ptr<data::CategoricalBinaryData> sh_ptr_bcdata;
+
+  ~BaselearnerCategoricalBinary ();
+};
+
 
 // BaselearnerCustom:
 // -----------------------
@@ -225,6 +256,7 @@ public:
   void train (const arma::mat&);
   arma::mat predict () const;
   arma::mat predict (std::shared_ptr<data::Data>) const;
+  std::string getDataIdentifier () const;
 
   ~BaselearnerCustom ();
 
@@ -270,6 +302,7 @@ public:
   void train (const arma::mat&);
   arma::mat predict () const;
   arma::mat predict (std::shared_ptr<data::Data>) const;
+  std::string getDataIdentifier () const;
 
   ~BaselearnerCustomCpp ();
 };

@@ -22,14 +22,19 @@
 #define HELPER_H_
 
 #include <RcppArmadillo.h>
+#include <stdexcept>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <memory>
+
+#include "data.h"
 
 namespace helper
 {
 
 bool stringInNames (std::string, std::vector<std::string>);
+void assertChoice (const std::string, const std::vector<std::string>&);
 Rcpp::List argHandler (Rcpp::List, Rcpp::List, bool);
 double calculateSumOfSquaredError (const arma::mat&, const arma::mat&);
 arma::mat sigmoid (const arma::mat&);
@@ -41,6 +46,12 @@ void checkMatrixDim (const arma::mat&, const arma::mat&);
 bool checkTracePrinter (const unsigned int&, const unsigned int&);
 double matrixQuantile (const arma::mat&, const double&);
 arma::SpMat<unsigned int> binaryMat (const arma::Row<unsigned int>&);
+arma::uvec binaryToIndex (const arma::mat&);
+arma::uvec binaryToIndex (const arma::sp_mat&);
+arma::mat predictBinaryIndex (const arma::uvec&, const double);
+void getMatStatus (const arma::mat&, const std::string);
+arma::mat solveCholesky (const arma::mat&, const arma::mat&);
+arma::mat cboostSolver (const std::pair<std::string, arma::mat>&, const arma::mat&);
 } // namespace helper
 
 # endif // HELPER_H_
