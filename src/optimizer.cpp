@@ -74,7 +74,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
 
       // Create new base-learner out of the actual factory (just the
       // pointer is overwritten):
-      blearner_temp = it.second->createBaselearner(id);
+      blearner_temp = it.second->createBaselearner();
       blearner_temp->train(sh_ptr_response->getPseudoResiduals());
       ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
 
@@ -116,7 +116,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
 
       // Create new base-learner out of the actual factory (just the
       // pointer is overwritten):
-      blearner_temp = it_factory_pair->second->createBaselearner(id);
+      blearner_temp = it_factory_pair->second->createBaselearner();
       blearner_temp->train(sh_ptr_response->getPseudoResiduals());
       ssq_temp = helper::calculateSumOfSquaredError(sh_ptr_response->getPseudoResiduals(), blearner_temp->predict());
 
