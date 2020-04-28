@@ -30,7 +30,7 @@ LoggerList::LoggerList () {}
 void LoggerList::registerLogger (std::shared_ptr<logger::Logger> logger)
 {
   log_list.insert(std::pair<std::string, std::shared_ptr<logger::Logger>>(logger->getLoggerId(), logger));
-  if (logger->getIfLoggerIsStopper()) {
+  if (logger->isStopper()) {
     sum_of_stopper += 1;
   }
 }
@@ -136,10 +136,10 @@ void LoggerList::prepareForRetraining (const unsigned int& new_max_iters)
 {
   bool has_iteration_logger = false;
   for (auto& it_logger : log_list) {
-    it_logger.second->is_a_stopper = false;
+    it_logger.second->setIsStopper(false);
     if (it_logger.second->getLoggerType() == "iteration") {
       std::static_pointer_cast<logger::LoggerIteration>(it_logger.second)->updateMaxIterations(new_max_iters);
-      it_logger.second->is_a_stopper = true;
+      it_logger.second->setIsStopper(true);
       has_iteration_logger = true;
     }
     if (it_logger.second->getLoggerType() == "time") {

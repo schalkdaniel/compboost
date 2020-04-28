@@ -28,9 +28,8 @@
 
 namespace linesearch {
 
-double calculateRisk (const double&, std::shared_ptr<loss::Loss>, const arma::vec&, const arma::vec&, const arma::vec&);
-double findOptimalStepSize (std::shared_ptr<loss::Loss>, const arma::vec&, const arma::vec&, const arma::vec&,
-  const double& = 0., const double& = 100);
+double calculateRisk       (const double, const std::shared_ptr<loss::Loss>, const arma::vec&, const arma::vec&, const arma::vec&);
+double findOptimalStepSize (const std::shared_ptr<loss::Loss>, const arma::vec&, const arma::vec&, const arma::vec&, const double = 0., const double = 100);
 
 } // namespace linesearch
 
