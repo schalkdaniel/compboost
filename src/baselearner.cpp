@@ -50,14 +50,16 @@ BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, c
 
 void BaselearnerPolynomial::train (const arma::mat& response)
 {
-  if (_sh_ptr_data->getData().n_cols == 1) {
+  if (_sh_ptr_data->getDenseData().n_cols == 1) {
     double y_mean = 0;
     if (_intercept) {
       y_mean = arma::as_scalar(arma::accu(response) / response.size());
     }
 
-    double slope = arma::as_scalar(arma::sum((_sh_ptr_data->getData() - _sh_ptr_data->XtX_inv(0,0)) % (response - y_mean)) / arma::as_scalar(_sh_ptr_data->XtX_inv(0,1)));
-    double intercept = y_mean - slope * _sh_ptr_data->XtX_inv(0,0);
+    arma::mat xtx_inv = _sh_ptr_data->getCacheMat();
+
+    double slope = arma::as_scalar(arma::sum((_sh_ptr_data->getDenseData() - xtx_inv(0,0)) % (response - y_mean)) / arma::as_scalar(xtx_inv(0,1)));
+    double intercept = y_mean - slope * xtx_inv(0,0);
 
     if (_intercept) {
       arma::mat out(2,1);
@@ -70,26 +72,27 @@ void BaselearnerPolynomial::train (const arma::mat& response)
       _parameter = slope;
     }
   } else {
-    _parameter = _sh_ptr_data->XtX_inv * _sh_ptr_data->getData().t() * response;
+    _parameter = helper::cboostSolver(_sh_ptr_data->getCache(), _sh_ptr_data->getDenseData().t() * response);
+    // _parameter = _sh_ptr_data->XtX_inv * _sh_ptr_data->getDenseData().t() * response;
   }
 }
 
 arma::mat BaselearnerPolynomial::predict () const
 {
-  if (_sh_ptr_data->getData().n_cols == 1) {
+  if (_sh_ptr_data->getDenseData().n_cols == 1) {
     if (_intercept) {
-      return _parameter(0) + _sh_ptr_data->getData() * _parameter(1);
+      return _parameter(0) + _sh_ptr_data->getDenseData() * _parameter(1);
     } else {
-      return _sh_ptr_data->getData() * _parameter;
+      return _sh_ptr_data->getDenseData() * _parameter;
     }
   } else {
-    return _sh_ptr_data->getData() * _parameter;
+    return _sh_ptr_data->getDenseData() * _parameter;
   }
 }
 
 arma::mat BaselearnerPolynomial::predict (std::shared_ptr<data::Data> newdata) const
 {
-  return instantiateData(newdata->getData()) * _parameter;
+  return instantiateData(newdata->getDenseData()) * _parameter;
 }
 
 arma::mat BaselearnerPolynomial::instantiateData (const arma::mat& newdata) const
@@ -153,22 +156,22 @@ void BaselearnerPSpline::train (const arma::mat& response)
 
   if (_sh_ptr_psdata->usesBinning()) {
     arma::vec temp_weight(1, arma::fill::ones);
-    temp = binning::binnedSparseMatMultResponse(_sh_ptr_psdata->sparse_data_mat, response, _sh_ptr_psdata->bin_idx, temp_weight);
+    temp = binning::binnedSparseMatMultResponse(_sh_ptr_psdata->getSparseData(), response, _sh_ptr_psdata->getBinningIndex(), temp_weight);
   } else {
-    temp = _sh_ptr_psdata->sparse_data_mat * response;
+    temp = _sh_ptr_psdata->getSparseData() * response;
   }
-  _parameter = helper::cboostSolver(_sh_ptr_psdata->getCachedMat(), temp);
+  _parameter = helper::cboostSolver(_sh_ptr_psdata->getCache(), temp);
 }
 
 arma::mat BaselearnerPSpline::predict () const
 {
   if (_sh_ptr_psdata->usesBinning()) {
-    return binning::binnedSparsePrediction(_sh_ptr_psdata->sparse_data_mat, _parameter, _sh_ptr_psdata->bin_idx);
+    return binning::binnedSparsePrediction(_sh_ptr_psdata->getSparseData(), _parameter, _sh_ptr_psdata->getBinningIndex());
   } else {
     // Trick to speed up things. Try to avoid transposing the sparse matrix. The
     // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
     // slower than that one:
-    return (_parameter.t() * _sh_ptr_psdata->sparse_data_mat).t();
+    return (_parameter.t() * _sh_ptr_psdata->getSparseData()).t();
   }
 }
 
@@ -180,7 +183,7 @@ arma::mat BaselearnerPSpline::predict (std::shared_ptr<data::Data> newdata) cons
 arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
 {
   arma::mat temp = _sh_ptr_psdata->filterKnotRange(newdata);
-  return splines::createSplineBasis (temp, _sh_ptr_psdata->degree, _sh_ptr_psdata->getKnots());
+  return splines::createSplineBasis (temp, _sh_ptr_psdata->getDegree(), _sh_ptr_psdata->getKnots());
 }
 
 std::string BaselearnerPSpline::getDataIdentifier () const
@@ -206,22 +209,22 @@ void BaselearnerCategoricalBinary::train (const arma::mat& response)
 {
   // Calculate sum manually due to the idx format:
   double sum_response = 0;
-  for (unsigned int i = 0; i < _sh_ptr_bcdata->idx.size() - 1; i++) {
-    sum_response += response(_sh_ptr_bcdata->idx(i), 0);
+  for (unsigned int i = 0; i < _sh_ptr_bcdata->getIndex().size() - 1; i++) {
+    sum_response += response(_sh_ptr_bcdata->getIndex(i), 0);
   }
   arma::mat param_temp(1,1);
-  param_temp(0,0) = _sh_ptr_bcdata->xtx_inv_scalar * sum_response;
+  param_temp(0,0) = _sh_ptr_bcdata->getXtxScalar() * sum_response;
   _parameter = param_temp;
 }
 
 arma::mat BaselearnerCategoricalBinary::predict () const
 {
-  return helper::predictBinaryIndex(_sh_ptr_bcdata->idx, arma::as_scalar(_parameter));
+  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), arma::as_scalar(_parameter));
 }
 
 arma::mat BaselearnerCategoricalBinary::predict (std::shared_ptr<data::Data> newdata) const
 {
-  return newdata->getData() * _parameter;
+  return newdata->getDenseData() * _parameter;
 }
 
 arma::mat BaselearnerCategoricalBinary::instantiateData (const arma::mat& newdata) const
@@ -236,8 +239,6 @@ std::string BaselearnerCategoricalBinary::getDataIdentifier () const
 
 /// Destructor:
 BaselearnerCategoricalBinary::~BaselearnerCategoricalBinary () {}
-
-
 
 
 // BaselearnerCustom:
@@ -268,7 +269,7 @@ arma::mat BaselearnerCustom::predict () const
 
 arma::mat BaselearnerCustom::predict (std::shared_ptr<data::Data> newdata) const
 {
-  Rcpp::NumericMatrix out = _predictFun(_model, instantiateData(newdata->getData()));
+  Rcpp::NumericMatrix out = _predictFun(_model, instantiateData(newdata->getDenseData()));
   return Rcpp::as<arma::mat>(out);
 }
 

@@ -75,29 +75,28 @@ test_that("Baselearner factory printer works", {
 
   expect_silent({ data_source    = InMemoryData$new(X_hp, "hp") })
   expect_silent({ data_source_sp = InMemoryData$new(X_hp_sp, "hp") })
-  expect_silent({ data_target    = InMemoryData$new() })
 
-  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source, data_target,
+  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source,
     list(degree = 1, intercept = FALSE)) })
   expect_output({ linear_factory_hp_printer = show(linear_factory_hp) })
   expect_equal(linear_factory_hp_printer, "BaselearnerPolynomialPrinter")
 
-  expect_silent({ quad_factory_hp = BaselearnerPolynomial$new(data_source, data_target,
+  expect_silent({ quad_factory_hp = BaselearnerPolynomial$new(data_source,
     list(degree = 2, intercept = FALSE)) })
   expect_output({ quad_factory_hp_printer = show(quad_factory_hp) })
   expect_equal(quad_factory_hp_printer, "BaselearnerPolynomialPrinter")
 
-  expect_silent({ cubic_factory_hp = BaselearnerPolynomial$new(data_source, data_target,
+  expect_silent({ cubic_factory_hp = BaselearnerPolynomial$new(data_source,
     list(degree = 3, intercept = FALSE)) })
   expect_output({ cubic_factory_hp_printer = show(cubic_factory_hp) })
   expect_equal(cubic_factory_hp_printer, "BaselearnerPolynomialPrinter")
 
-  expect_silent({ poly_factory_hp = BaselearnerPolynomial$new(data_source, data_target,
+  expect_silent({ poly_factory_hp = BaselearnerPolynomial$new(data_source,
     list(degree = 4, intercept = FALSE)) })
   expect_output({ poly_factory_hp_printer = show(poly_factory_hp) })
   expect_equal(poly_factory_hp_printer, "BaselearnerPolynomialPrinter")
 
-  expect_silent({ spline_factory = BaselearnerPSpline$new(data_source_sp, data_target,
+  expect_silent({ spline_factory = BaselearnerPSpline$new(data_source_sp,
     list(degree = 3, n_knots = 5, penalty = 2.5, differences = 2)) })
   expect_output({ spline_printer = show(spline_factory) })
   expect_equal(spline_printer, "BaselearnerPSplinePrinter")
@@ -117,7 +116,7 @@ test_that("Baselearner factory printer works", {
   }
 
   expect_silent({
-    custom_factory = BaselearnerCustom$new(data_source, data_target,
+    custom_factory = BaselearnerCustom$new(data_source,
       list(instantiate_fun = instantiateData, train_fun = trainFun,
         predict_fun = predictFun, param_fun = extractParameter))
   })
@@ -126,7 +125,7 @@ test_that("Baselearner factory printer works", {
   expect_equal(custom_factory_printer, "BaselearnerCustomPrinter")
   expect_output(Rcpp::sourceCpp(code = getCustomCppExample()))
   expect_silent({
-    custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+    custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
       list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
         predict_ptr = predictFunSetter()))
   })
@@ -204,20 +203,16 @@ test_that("Compboost printer works", {
   expect_silent({ data_source_hp = InMemoryData$new(X_hp, "hp") })
   expect_silent({ data_source_wt = InMemoryData$new(X_wt, "wt") })
 
-  expect_silent({ data_target_hp1 = InMemoryData$new() })
-  expect_silent({ data_target_hp2 = InMemoryData$new() })
-  expect_silent({ data_target_wt  = InMemoryData$new() })
-
   eval_oob_test = list(data_source_hp, data_source_wt)
 
   learning_rate = 0.05
   iter_max = 500
 
-  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
+  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt,
+  expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
+  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 2, intercept = FALSE)) })
   expect_silent({ factory_list = BlearnerFactoryList$new() })
 

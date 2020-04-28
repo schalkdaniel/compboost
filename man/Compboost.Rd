@@ -24,8 +24,7 @@ cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(
 
 cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 
-cbboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData,
-  data_target = InMemoryData, ...)
+cbboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 
 cbboost$train(iteration = 100, trace = -1)
 
@@ -121,9 +120,6 @@ cboost$plotBlearnerTraces(value = 1, n_legend = 5L)
   }
   \item{\code{data_source}}{[\code{S4 Data}]\cr
     Data source object. Just in memory data objects are supported at the moment.
-  }
-  \item{\code{data_target}}{[\code{S4 Data}]\cr
-    Data target object. Just in memory data objects are supported at the moment.
   }
   \item{}{\code{...}\cr
     Further arguments passed to the constructor of the \code{S4 Factory} class specified in

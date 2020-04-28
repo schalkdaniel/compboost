@@ -8,21 +8,17 @@ test_that("factory list works", {
   X_hp = as.matrix(df[["hp"]], ncol = 1)
   X_wt = as.matrix(df[["wt"]], ncol = 1)
   X_wt = cbind(1, X_wt)
-  
+
   expect_silent({ data_source_hp = InMemoryData$new(X_hp, "hp") })
   expect_silent({ data_source_wt = InMemoryData$new(X_wt, "wt") })
-  
-  expect_silent({ data_target1 = InMemoryData$new() })
-  expect_silent({ data_target2 = InMemoryData$new() })
-  expect_silent({ data_target3 = InMemoryData$new() })
-  expect_silent({ data_target4 = InMemoryData$new() })
-  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target1, 
+
+  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target2, 
+  expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target3, 
+  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 2, intercept = FALSE)) })
-  expect_silent({ pow5_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target4, 
+  expect_silent({ pow5_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 5, intercept = FALSE)) })
   expect_silent({ factory_list = BlearnerFactoryList$new() })
   expect_silent(factory_list$registerFactory(linear_factory_hp))

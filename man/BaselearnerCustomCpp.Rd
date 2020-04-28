@@ -15,7 +15,7 @@ pointer.}
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
+BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
   train_ptr, predict_ptr))
 }
 }
@@ -25,9 +25,6 @@ BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
 \describe{
 \item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
-}
-\item{\code{data_target} [\code{Data} Object]}{
-  Data object which gets the transformed source data.
 }
 \item{\code{instantiate_ptr} [\code{externalptr}]}{
   External pointer to the \code{C++} instantiate data function.
@@ -71,13 +68,12 @@ y = 2 + 3 * 1:10
 
 # Create new data object:
 data_source = InMemoryData$new(data_mat, "my_data_name")
-data_target = InMemoryData$new()
 
 # Source the external pointer exposed by using XPtr:
 Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 
 # Create new linear base-learner:
-custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
     predict_ptr = predictFunSetter()))
 

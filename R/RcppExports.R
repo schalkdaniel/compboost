@@ -73,17 +73,14 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerPolynomial$new(data_source, data_target, list(degree, intercept))
-#' BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, intercept))
+#' BaselearnerPolynomial$new(data_source, list(degree, intercept))
+#' BaselearnerPolynomial$new(data_source, blearner_type, list(degree, intercept))
 #' }
 #'
 #' @section Arguments:
 #' \describe{
 #' \item{\code{data_source} [\code{Data} Object]}{
 #'   Data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{Data} Object]}{
-#'   Data object which gets the transformed source data.
 #' }
 #' \item{\code{degree} [\code{integer(1)}]}{
 #'   This argument is used for transforming the source data. Each element is
@@ -116,13 +113,11 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target1 = InMemoryData$new()
-#' data_target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
+#' lin_factory = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 2, intercept = FALSE))
-#' lin_factory_int = BaselearnerPolynomial$new(data_source, data_target2,
+#' lin_factory_int = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Get the transformed data:
@@ -150,7 +145,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerPSpline$new(data_source, data_target, list(degree, n_knots, penalty,
+#' BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
 #'   differences))
 #' }
 #'
@@ -158,9 +153,6 @@ NULL
 #' \describe{
 #' \item{\code{data_source} [\code{data} object]}{
 #'   data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{data} object]}{
-#'   data object which gets the transformed source data.
 #' }
 #' \item{\code{degree} [\code{integer(1)}]}{
 #'   degree of the spline functions to interpolate the knots.
@@ -207,10 +199,9 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target = InMemoryData$new()
 #'
 #' # Create new linear base-learner:
-#' spline_factory = BaselearnerPSpline$new(data_source, data_target,
+#' spline_factory = BaselearnerPSpline$new(data_source,
 #'   list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
 #'
 #' # Get the transformed data:
@@ -237,16 +228,13 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCategoricalBinary$new(data_source, data_target, list(n_obs))
+#' BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 #' }
 #'
 #' @section arguments:
 #' \describe{
 #' \item{\code{data_source} [\code{data} object]}{
 #'   data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{data} object]}{
-#'   data object which gets the transformed source data.
 #' }
 #' }
 #'
@@ -297,7 +285,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
+#' BaselearnerCustom$new(data_source, list(instantiate_fun,
 #'   train_fun, predict_fun, param_fun))
 #' }
 #'
@@ -305,9 +293,6 @@ NULL
 #' \describe{
 #' \item{\code{data_source} [\code{Data} Object]}{
 #'   Data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{Data} Object]}{
-#'   Data object which gets the transformed source data.
 #' }
 #' \item{\code{instantiate_fun} [\code{function}]}{
 #'   \code{R} function to transform the source data. For details see the
@@ -367,7 +352,6 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target = InMemoryData$new()
 #'
 #' instantiateDataFun = function (X) {
 #'   return(X)
@@ -384,7 +368,7 @@ NULL
 #' }
 #'
 #' # Create new custom linear base-learner factory:
-#' custom_lin_factory = BaselearnerCustom$new(data_source, data_target,
+#' custom_lin_factory = BaselearnerCustom$new(data_source,
 #'   list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
 #'     predict_fun = predictFun, param_fun = extractParameter))
 #'
@@ -412,7 +396,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
+#' BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
 #'   train_ptr, predict_ptr))
 #' }
 #'
@@ -420,9 +404,6 @@ NULL
 #' \describe{
 #' \item{\code{data_source} [\code{Data} Object]}{
 #'   Data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{Data} Object]}{
-#'   Data object which gets the transformed source data.
 #' }
 #' \item{\code{instantiate_ptr} [\code{externalptr}]}{
 #'   External pointer to the \code{C++} instantiate data function.
@@ -458,13 +439,12 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target = InMemoryData$new()
 #'
 #' # Source the external pointer exposed by using XPtr:
 #' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 #'
 #' # Create new linear base-learner:
-#' custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+#' custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
 #'   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
 #'     predict_ptr = predictFunSetter()))
 #'
@@ -517,12 +497,10 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target1 = InMemoryData$new()
-#' data_target2 = InMemoryData$new()
 #'
-#' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
+#' lin_factory = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 1, intercept = TRUE))
-#' poly_factory = BaselearnerPolynomial$new(data_source, data_target2,
+#' poly_factory = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Create new base-learner list:
@@ -1433,11 +1411,6 @@ NULL
 #' data_source_hp = InMemoryData$new(X_hp, "hp")
 #' data_source_wt = InMemoryData$new(X_wt, "wt")
 #'
-#' data_target_hp1 = InMemoryData$new()
-#' data_target_hp2 = InMemoryData$new()
-#' data_target_wt1 = InMemoryData$new()
-#' data_target_wt2 = InMemoryData$new()
-#'
 #' # List for oob logging:
 #' oob_data = list(data_source_hp, data_source_wt)
 #'
@@ -1445,13 +1418,13 @@ NULL
 #' test_data = oob_data
 #'
 #' # Factories:
-#' linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
+#' linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
 #'   list(degree = 1, intercept = TRUE))
-#' linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt1,
+#' linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
 #'   list(degree = 1, intercept = TRUE))
-#' quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
+#' quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
 #'   list(degree = 2, intercept = TRUE))
-#' spline_factory_wt = BaselearnerPSpline$new(data_source_wt, data_target_wt2,
+#' spline_factory_wt = BaselearnerPSpline$new(data_source_wt,
 #'   list(degree = 3, n_knots = 10, penalty = 2, differences = 2))
 #'
 #' # Create new factory list:

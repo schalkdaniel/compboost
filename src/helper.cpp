@@ -20,8 +20,16 @@
 
 #include "helper.h"
 
+bool _DEBUG_PRINT = false;
+
 namespace helper
 {
+
+void debugPrint (const std::string msg)
+{
+  if (_DEBUG_PRINT) { std::cout << msg << std::endl; }
+}
+
 /**
  * \brief Check if a string occurs within a string vector
  *
@@ -298,9 +306,15 @@ arma::mat predictBinaryIndex (const arma::uvec& idx, const double value)
   return out;
 }
 
-void getMatStatus (const arma::mat& X, const std::string message)
+std::string getMatStatus (const arma::mat& X)
 {
-  std::cout << message << "ncol = " << X.n_cols << " nrows = " << X.n_rows << std::endl;
+  std::string msg = "ncol = " + std::to_string(X.n_cols) + " nrows = " + std::to_string(X.n_rows);
+  return msg;
+}
+
+void printMatStatus (const arma::mat& X, const std::string message)
+{
+  std::cout << message << getMatStatus(X) << std::endl;
 }
 
 arma::mat solveCholesky (const arma::mat& U, const arma::mat& y)
@@ -313,6 +327,12 @@ arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, cons
 {
   if (mat_cache.first == "cholesky") return solveCholesky(mat_cache.second, y);
   if (mat_cache.first == "inverse") return mat_cache.second * y;
+}
+
+template<typename SH_PTR>
+inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)
+{
+  return sh_ptr.use_count();
 }
 
 } // namespace helper

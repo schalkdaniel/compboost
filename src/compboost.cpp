@@ -118,17 +118,22 @@ void Compboost::trainCompboost (const unsigned int trace)
 
 void Compboost::continueTraining (const unsigned int trace)
 {
+  helper::debugPrint("From 'Compboost::continueTraining':");
   if (! _is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
   }
+  helper::debugPrint("| > Check if new base-learner needs to be trained");
   if (_current_iter != _blearner_track.getBaselearnerVector().size()) {
     unsigned int iter_max = _blearner_track.getBaselearnerVector().size();
     setToIteration(iter_max, -1);
   }
+  helper::debugPrint("| > Train new base-learner");
   train(trace, _sh_ptr_loggerlist);
 
   // Update actual state:
   _current_iter = _blearner_track.getBaselearnerVector().size();
+  helper::debugPrint("| > Update iteration");
+  helper::debugPrint("Finished 'Compboost::continueTraining'");
 }
 
 arma::vec Compboost::getPrediction (const bool& as_response) const
@@ -173,14 +178,20 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::getParameterMatrix () 
 
 arma::vec Compboost::predict () const
 {
+  helper::debugPrint("From 'Compboost::predict()'");
+
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
+  helper::debugPrint("| > Calculate initial prediction");
   arma::mat pred = _sh_ptr_response->calculateInitialPrediction(_sh_ptr_response->getResponse());
 
   // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
     std::string sel_factory = it.first;
-    pred += _factory_list.getMap().find(sel_factory)->second->getData() * it.second;
+    helper::debugPrint("| > data_trafo:" + helper::getMatStatus(_factory_list.getMap().find(sel_factory)->second->getData()));
+    helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it.second));
+    pred += _factory_list.getMap().find(sel_factory)->second->calculateLinearPredictor(it.second);
   }
+  helper::debugPrint("Finished 'Compboost::predict()'");
   return pred;
 }
 
@@ -190,12 +201,14 @@ arma::vec Compboost::predict () const
 // corresponding parameter.
 arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>> data_map, const bool& as_response) const
 {
+  helper::debugPrint("From 'Compboost::predict(std::map, bool)'");
   // IMPROVE THIS FUNCTION!!! See:
   // https://github.com/schalkdaniel/compboost/issues/206
 
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
 
   arma::mat pred(data_map.begin()->second->getData().n_rows, _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
+  helper::debugPrint("| > Calculate initial prediction");
   pred = _sh_ptr_response->calculateInitialPrediction(pred);
 
   // Idea is simply to calculate the vector matrix product of parameter and
@@ -216,6 +229,8 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
     // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
     if (it_newdata != data_map.end()) {
       arma::mat data_trafo = sel_factory_obj->instantiateData(it_newdata->second->getData());
+      helper::debugPrint("| > data_trafo:" + helper::getMatStatus(data_trafo));
+      helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it.second));
       pred += data_trafo * it.second;
     }
   }
@@ -227,8 +242,10 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 
 void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace)
 {
+  helper::debugPrint("From 'Compboost::setToIteration'");
   unsigned int iter_max = _blearner_track.getBaselearnerVector().size();
 
+  helper::debugPrint("| > Check if new base-learner needs to be trained");
   if (k > iter_max) {
     unsigned int iter_diff = k - iter_max;
     Rcpp::Rcout << "\nYou have already trained " << std::to_string(iter_max) << " iterations.\n"
@@ -238,10 +255,12 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
     _sh_ptr_loggerlist->prepareForRetraining(k);
     continueTraining(trace);
   }
-
+  helper::debugPrint("| > Set base-learner track to the new iteration");
   _blearner_track.setToIteration(k);
+  helper::debugPrint("| > Set new prediction scores by calling predict()");
   _sh_ptr_response->setActualPredictionScores(predict(), k);
   _current_iter = k;
+  helper::debugPrint("Finished 'Compboost::setToIteration'");
 }
 
 arma::mat Compboost::getOffset() const
