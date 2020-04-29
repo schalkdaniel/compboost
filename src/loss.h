@@ -103,10 +103,10 @@ public:
 // Forward declaring lossoptim:
 namespace lossoptim
 {
-  double findOptimalLossConstant (const arma::mat&, const std::shared_ptr< const loss::Loss>,
-    const double&, const double&);
+  double findOptimalLossConstant (const arma::mat&, const std::shared_ptr<const loss::Loss>&,
+    const double, const double);
   double findOptimalWeightedLossConstant (const arma::mat&, const arma::mat&,
-    const std::shared_ptr< const loss::Loss>, const double&, const double&);
+    const std::shared_ptr<const loss::Loss>&, const double, const double);
 }
 
 

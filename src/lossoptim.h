@@ -31,13 +31,13 @@
 namespace lossoptim
 {
 
-double calculateRiskForConstant (const double&, const arma::mat&, const std::shared_ptr<const loss::Loss>);
-double calculateWeightedRiskForConstant (const double&, const arma::mat&, const arma::mat&, const std::shared_ptr<const loss::Loss>);
+double calculateRiskForConstant          (const double, const arma::mat&, const std::shared_ptr<const loss::Loss>&);
+double calculateWeightedRiskForConstant  (const double, const arma::mat&, const arma::mat&, const std::shared_ptr<const loss::Loss>&);
 
-double findOptimalLossConstant (const arma::mat&, const std::shared_ptr<const loss::Loss>,
-  const double& = -std::numeric_limits<double>::infinity(), const double& = std::numeric_limits<double>::infinity());
-double findOptimalWeightedLossConstant (const arma::mat&, const arma::mat&, const std::shared_ptr<const loss::Loss>,
-  const double& = -std::numeric_limits<double>::infinity(), const double& = std::numeric_limits<double>::infinity());
+double findOptimalLossConstant (const arma::mat&, const std::shared_ptr<const loss::Loss>&,
+  const double = -std::numeric_limits<double>::infinity(), const double = std::numeric_limits<double>::infinity());
+double findOptimalWeightedLossConstant (const arma::mat&, const arma::mat&, const std::shared_ptr<const loss::Loss>&,
+  const double = -std::numeric_limits<double>::infinity(), const double = std::numeric_limits<double>::infinity());
 
 } // namespace lossoptim
 

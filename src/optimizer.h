@@ -16,7 +16,7 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef OPTIMIZER_H_
 #define OPTIMIZER_H_
@@ -47,26 +47,32 @@ namespace optimizer {
 
 class Optimizer
 {
-  public:
+protected:
+  // blearner_factory_map my_blearner_factory_map;
+  std::vector<double> _step_sizes;
+  const unsigned int  _num_threads = 1;
 
-    virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&,
-      std::shared_ptr<response::Response>, const blearner_factory_map&) const = 0;
-    virtual arma::mat calculateUpdate (const double&, const double&, const arma::mat&) const = 0;
-    virtual void optimize (const unsigned int&, const double&, const std::shared_ptr<loss::Loss>, const std::shared_ptr<response::Response>,
-      blearnertrack::BaselearnerTrack&, const blearnerlist::BaselearnerFactoryList&) = 0;
+  Optimizer ();
+  Optimizer (const unsigned int);
 
-    // loss, target, model_prediction, base_learner_prediction (prediction of newly selected base-learner)
-    virtual void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&) = 0;
-    virtual std::vector<double> getStepSize () const = 0;
-    virtual double getStepSize (const unsigned int&) const = 0;
+public:
+  // Virtual methods
+  virtual double              getStepSize  (const unsigned int) const = 0;
+  virtual std::vector<double> getStepSize  ()                   const = 0;
 
-    virtual ~Optimizer ();
+  virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
+    const std::shared_ptr<response::Response>&, const blearner_factory_map&) const = 0;
 
-  protected:
+  virtual void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
+    const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
+    const blearnerlist::BaselearnerFactoryList&) = 0;
 
-    blearner_factory_map my_blearner_factory_map;
-    std::vector<double> step_sizes;
+  virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&) const = 0;
+  virtual void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&) = 0;
 
+
+  // Destructor
+  virtual ~Optimizer ();
 };
 
 // -------------------------------------------------------------------------- //
@@ -75,36 +81,39 @@ class Optimizer
 
 // Coordinate Descent:
 // -------------------------------------------
+
 class OptimizerCoordinateDescent : public Optimizer
 {
-  public:
+public:
+  OptimizerCoordinateDescent ();
+  OptimizerCoordinateDescent (const unsigned int);
 
-    unsigned int num_threads = 1;
+  double              getStepSize  (const unsigned int) const;
+  std::vector<double> getStepSize  ()                   const;
 
-    OptimizerCoordinateDescent ();
-    OptimizerCoordinateDescent (const unsigned int&);
+  std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
+    const std::shared_ptr<response::Response>&, const blearner_factory_map&) const;
 
-    std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string&, std::shared_ptr<response::Response>,
-      const blearner_factory_map&) const;
-    arma::mat calculateUpdate (const double&, const double&, const arma::mat&) const;
-    void optimize (const unsigned int&, const double&, const std::shared_ptr<loss::Loss>, const std::shared_ptr<response::Response>,
-      blearnertrack::BaselearnerTrack&, const blearnerlist::BaselearnerFactoryList&);
+  void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
+    const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
+    const blearnerlist::BaselearnerFactoryList&);
 
-    void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
-    std::vector<double> getStepSize () const;
-    double getStepSize (const unsigned int&) const;
+  arma::mat calculateUpdate   (const double, const double, const arma::mat&) const;
+  void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
 };
 
 class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
 {
-  public:
-    // No special initialization necessary:
-    OptimizerCoordinateDescentLineSearch ();
-    OptimizerCoordinateDescentLineSearch (const unsigned int&);
+public:
+  OptimizerCoordinateDescentLineSearch ();
+  OptimizerCoordinateDescentLineSearch (const unsigned int);
 
-    void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
-    std::vector<double> getStepSize () const;
-    double getStepSize (const unsigned int&) const;
+  void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
+
+  double              getStepSize (const unsigned int) const;
+  std::vector<double> getStepSize ()                   const;
+
+  void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
 };
 
 } // namespace optimizer

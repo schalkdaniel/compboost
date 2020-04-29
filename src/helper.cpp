@@ -325,8 +325,12 @@ arma::mat solveCholesky (const arma::mat& U, const arma::mat& y)
 
 arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, const arma::mat& y)
 {
-  if (mat_cache.first == "cholesky") return solveCholesky(mat_cache.second, y);
-  if (mat_cache.first == "inverse") return mat_cache.second * y;
+  if (mat_cache.first == "cholesky") { return solveCholesky(mat_cache.second, y); }
+
+  // To avoid compilation warnings we use the 'inverse' option as default if no
+  // other option matches:
+
+  /* if (mat_cache.first == "inverse")  {*/ return mat_cache.second * y; //}
 }
 
 template<typename SH_PTR>
