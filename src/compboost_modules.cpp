@@ -960,7 +960,7 @@ public:
 
   unsigned int getNumberOfRegisteredFactories ()
   {
-    return obj.getMap().size();
+    return obj.getFactoryMap().size();
   }
 
   std::vector<std::string> getRegisteredFactoryNames ()
@@ -1156,7 +1156,7 @@ public:
   LossQuantileWrapper (double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(quantile); }
   LossQuantileWrapper (double custom_offset, double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(custom_offset, quantile); }
 
-  double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->quantile; }
+  double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->getQuantile(); }
 };
 
 
@@ -1215,7 +1215,7 @@ public:
   LossHuberWrapper (double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(delta); }
   LossHuberWrapper (double custom_offset, double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(custom_offset, delta); }
 
-  double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->delta; }
+  double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->getDelta(); }
 };
 
 //' 0-1 Loss for binary classification derived of the binomial distribution
@@ -2181,13 +2181,13 @@ public:
 
   unsigned int getNumberOfRegisteredLogger ()
   {
-    return sh_ptr_loggerlist->getMap().size();
+    return sh_ptr_loggerlist->getLoggerMap().size();
   }
 
   std::vector<std::string> getNamesOfRegisteredLogger ()
   {
     std::vector<std::string> out;
-    for (auto& it : sh_ptr_loggerlist->getMap()) {
+    for (auto& it : sh_ptr_loggerlist->getLoggerMap()) {
       out.push_back(it.first);
     }
     return out;

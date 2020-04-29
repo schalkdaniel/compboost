@@ -160,7 +160,7 @@ void OptimizerCoordinateDescent::optimize (const unsigned int& actual_iteration,
 {
   std::string temp_string = std::to_string(actual_iteration);
   std::shared_ptr<blearner::Baselearner> sh_ptr_blearner_selected = findBestBaselearner(temp_string,
-    sh_ptr_response, blearner_list.getMap());
+    sh_ptr_response, blearner_list.getFactoryMap());
 
   // Prediction is needed more often, use a temp vector to avoid multiple computations:
   arma::mat blearner_pred_temp = sh_ptr_blearner_selected->predict();

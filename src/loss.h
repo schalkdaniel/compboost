@@ -46,77 +46,78 @@
 namespace loss
 {
 
+// Loss specific helper:
+// ------------------------------------
+
+arma::mat doubleToMat (const double);
+
 // Parent class:
-// -----------------------
+// ------------------------------------
 
 /**
  * \class Loss
  *
  * \brief Abstract loss class
  *
- * This class defines the minimal requirements of every loss class. Note that
- * the custom offset uses two members. The initial idea of assigning `NAN` to
- * the `custom_offset` fails.
+ * This class defines the minimal functionality.
  *
  */
 class Loss : public std::enable_shared_from_this<Loss>
 {
+protected:
+  const std::string _task_id;
+  const arma::mat   _custom_offset;
+  const bool        _use_custom_offset = false;
+
+  Loss (const std::string);
+  Loss (const std::string, const arma::mat&);
+
 public:
-  /// Get the task id
-  std::string getTaskId () const;
+  // Virtual functions
+  virtual arma::mat loss     (const arma::mat&, const arma::mat&) const = 0;
+  virtual arma::mat gradient (const arma::mat&, const arma::mat&) const = 0;
 
-  /// Specific loss function
-  virtual arma::mat definedLoss (const arma::mat&, const arma::mat&) const = 0;
-  arma::mat weightedLoss (const arma::mat&, const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  virtual arma::mat definedGradient (const arma::mat&, const arma::mat&) const = 0;
-  arma::mat weightedGradient (const arma::mat&, const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  virtual arma::mat constantInitializer (const arma::mat&) const = 0;
+  virtual arma::mat constantInitializer         (const arma::mat&)                   const = 0;
   virtual arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const = 0;
 
-  double calculateEmpiricalRisk (const arma::mat&, const arma::mat&) const;
+  // Setter/Getter
+  std::string getTaskId () const;
+
+  // Other member functions
+  arma::mat weightedLoss     (const arma::mat&, const arma::mat&, const arma::mat&) const;
+  arma::mat weightedGradient (const arma::mat&, const arma::mat&, const arma::mat&) const;
+
+  double calculateEmpiricalRisk         (const arma::mat&, const arma::mat&)                   const;
   double calculateWeightedEmpiricalRisk (const arma::mat&, const arma::mat&, const arma::mat&) const;
 
-  arma::mat calculatePseudoResiduals (const arma::mat&, const arma::mat&) const;
+  arma::mat calculatePseudoResiduals         (const arma::mat&, const arma::mat&)                   const;
   arma::mat calculateWeightedPseudoResiduals (const arma::mat&, const arma::mat&, const arma::mat&) const;
 
+  // Destructor
   virtual ~Loss ();
-
-protected:
-  /// The id of the task, e.g. regression or binary classification
-  std::string task_id;
-
-  /// Custom offset:
-  arma::mat custom_offset;
-
-  /// Tag if a custom offset is used
-  bool use_custom_offset = false;
 };
 
 } // namespace loss
 
 
-
 // Forward declaring lossoptim:
 namespace lossoptim
 {
-  double findOptimalLossConstant (const arma::mat&, const std::shared_ptr< const loss::Loss>, const double&, const double&);
-  double findOptimalWeightedLossConstant (const arma::mat&, const arma::mat&, const std::shared_ptr< const loss::Loss>, const double&, const double&);
+  double findOptimalLossConstant (const arma::mat&, const std::shared_ptr< const loss::Loss>,
+    const double&, const double&);
+  double findOptimalWeightedLossConstant (const arma::mat&, const arma::mat&,
+    const std::shared_ptr< const loss::Loss>, const double&, const double&);
 }
-
 
 
 namespace loss
 {
 
 // -------------------------------------------------------------------------- //
-// Loss implementations as child classes:
+// Loss implementations
 // -------------------------------------------------------------------------- //
 
-// LossQuadratic loss:
+// LossQuadratic:
 // -----------------------
 
 /**
@@ -144,25 +145,17 @@ namespace loss
 class LossQuadratic : public Loss
 {
 public:
-
-  /// Default Constructor
   LossQuadratic ();
+  LossQuadratic (const double);
 
-  /// Constructor to initialize custom offset
-  LossQuadratic (const double&);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
-// LossAbsolute loss:
+// LossAbsolute:
 // -----------------------
 
 /**
@@ -188,71 +181,58 @@ public:
 class LossAbsolute : public Loss
 {
 public:
-
-  /// Default Constructor
   LossAbsolute ();
+  LossAbsolute (const double);
 
-  /// Constructor to initialize custom offset
-  LossAbsolute (const double&);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
 
+// LossQuantile
+// -----------------------
 
 class LossQuantile : public Loss
 {
+private:
+  const double _quantile;
+
 public:
+  LossQuantile (const double);
+  LossQuantile (const double, const double);
 
-  double quantile;
+  double getQuantile () const;
 
-  /// Default Constructor
-  LossQuantile (const double&);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Constructor to initialize custom offset
-  LossQuantile (const double&, const double&);
-
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
+
+// LossHuber
+// -----------------------
 
 
 class LossHuber : public Loss
 {
+private:
+  const double _delta;
+
 public:
+  LossHuber (const double);
+  LossHuber (const double, const double);
 
-  double delta;
+  double getDelta () const;
 
-  /// Default Constructor
-  LossHuber (const double&);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Constructor to initialize custom offset
-  LossHuber (const double&, const double&);
-
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
@@ -294,22 +274,13 @@ public:
 class LossBinomial : public Loss
 {
 public:
-
-
-  /// Default Constructor
   LossBinomial ();
+  LossBinomial (const double);
 
-  /// Constructor to initialize custom offset
-  LossBinomial (const double&);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 
@@ -319,51 +290,34 @@ public:
 /**
  * \class LossCustom
  *
- * \brief With this loss it is possible to define custom functions out of `R`
+ * \brief Loss to define custom functions out of `R`
  *
- * This one is a special one. It allows to use a custom loss predefined in R.
- * The convenience here comes from the 'Rcpp::Function' class and the use of
- * a special constructor which defines the three needed functions.
+ * This special loss allows to use a custom loss predefined in R.
+ * The use of the 'Rcpp::Function' class and a special constructor
+ * allows it to define the functions required for the loss.
  *
- * **Note** that there is one conversion step. There is no predefined conversion
- * from `Rcpp::Function` (which acts as SEXP) to a `arma::mat`. But it is
- * possible by using `Rcpp::NumericVector`. Therefore the custom functions
- * returns a `Rcpp::NumericVector` which then is able to be converted to a
- * `arma::mat`.
- *
- * **Also Note:** This class doesn't have a constructor to initialize a
- * custom offset. Because this is not necessary here since the user can
- * define a custom offset within the `initFun` function.
+ * **Note:** This class does not have a constructor to initialize a
+ * custom offset. This is not necessary since the user can
+ * define the custom offset within the `initFun` function.
  *
  */
 class LossCustom : public Loss
 {
 private:
-
-  /// `R` loss function
-  Rcpp::Function lossFun;
-
-  /// `R` gradient of loss function
-  Rcpp::Function gradientFun;
-
-  /// `R` constant initializer of empirical risk
-  Rcpp::Function initFun;
+  const Rcpp::Function _lossFun;
+  const Rcpp::Function _gradientFun;
+  const Rcpp::Function _initFun;
 
 public:
+  LossCustom (const Rcpp::Function&, const Rcpp::Function&, const Rcpp::Function&);
 
-  /// Default constructor
-  LossCustom (Rcpp::Function, Rcpp::Function, Rcpp::Function);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
+
 
 // Custom loss:
 // -----------------------
@@ -371,50 +325,36 @@ public:
 /**
 * \class LossCustomCpp
 *
-* \brief With this loss it is possible to define custom functions in `C++`
+* \brief With this loss it is possible to set custom `C++` functions
 *
-* This one is a special one. It allows to use a custom loss programmed in `C++`.
-* The key is to use external pointer to set the corresponding functions. The
-* big advantage of this is to provide a (not too complicated) method to define
-* custom `C++` losses without recompiling compboost.
+* This loss allows to use a custom loss programmed in `C++`. The key is to
+* use external pointers to set the corresponding functions. The advantage of
+* this procedure is to provide a  method to define custom `C++` losses without
+* recompiling `compboost`.
 *
-* **Note:** This class doesn't have a constructor to initialize a
-* custom offset. Because this is not necessary here since the user can
+* **Note:** This class does not have a constructor to initialize a
+* custom offset. This is not necessary  since the user can
 * define a custom offset within the `initFun` function.
 *
 */
-
-typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
-typedef arma::mat (*gradFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
-typedef double (*constInitFunPtr) (const arma::mat& true_value);
+typedef arma::mat (*lossFunPtr)      (const arma::mat& true_value, const arma::mat& prediction);
+typedef arma::mat (*gradFunPtr)      (const arma::mat& true_value, const arma::mat& prediction);
+typedef double    (*constInitFunPtr) (const arma::mat& true_value);
 
 class LossCustomCpp : public Loss
 {
 private:
-
-  /// Pointer to `C++` function to define the loss
-  lossFunPtr lossFun;
-
-  /// Pointer to `C++` function to define the gradient of the loss function
-  gradFunPtr gradFun;
-
-  /// Pointer to `C++` function to initialize the model
-  constInitFunPtr constInitFun;
+  lossFunPtr      _lossFun;
+  gradFunPtr      _gradFun;
+  constInitFunPtr _constInitFun;
 
 public:
+  LossCustomCpp (const SEXP&, const SEXP&, const SEXP&);
 
-  /// Default constructor to set pointer (`Rcpp`s `XPtr` class) out of
-  /// external pointer wrapped by SEXP
-  LossCustomCpp (SEXP, SEXP, SEXP);
+  arma::mat loss     (const arma::mat&, const arma::mat&) const;
+  arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
-  /// Specific loss function
-  arma::mat definedLoss (const arma::mat&, const arma::mat&) const;
-
-  /// Gradient of loss functions for pseudo residuals
-  arma::mat definedGradient (const arma::mat&, const arma::mat&) const;
-
-  /// Constant initialization of the empirical risk
-  arma::mat constantInitializer (const arma::mat&) const;
+  arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
 };
 

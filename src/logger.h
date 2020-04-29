@@ -31,9 +31,9 @@
  *  criteria (e.g. maximal number of iterations + a given amount of time),
  *  but also to log while training (e.g. the inbag or oob risk).
  *
- *  The logger are collected by the `LoggerList` class. Basicall, that class
- *  takes as much logger as you like and logs every step. This can be used
- *  to log different risks for different loss functions. Just create two
+ *  The logger are collected by the `LoggerList` class. The `LoggerList` class
+ *  takes an arbitrary number of logger to indicate when to stop. This can be used,
+ *  for example, to log different risks for different loss functions. Just create two
  *  inbag or oob risk logger with a different loss.
  *
  */
@@ -62,19 +62,17 @@ namespace logger
 /**
  * \class Logger
  *
- * \brief Abstract logger class with minimal requirements to all logger
+ * \brief Abstract logger with minimal functionality each logger has
  *
- * This class is meant to define some minimal functionality any logger must
+ * This class defines the minimal functionality each logger must
  * have! The key of the logger is nut only the logging of the process, but also
- * to be able to define a logger as stopper to force an early stopping if one
- * or all of the used logger have reached a stopping criteria. This is more
- * explained within the child classes.
+ * to be used as stopper for early stopping if one or all of the used logger
+ * have reached the stopping criteria.
  *
- * **Note** that this minimal functionality mentioned above differs for every
+ * **Note** this minimal functionality mentioned above differs for every
  * class and is explained within the specific class documentation.
  *
  */
-
 class Logger
 {
 private:
@@ -108,6 +106,7 @@ public:
 
 };
 
+
 // -------------------------------------------------------------------------- //
 // Logger implementations:
 // -------------------------------------------------------------------------- //
@@ -115,15 +114,12 @@ public:
 /**
  * \class LoggerIteration
  *
- * \brief Logger class to log the current iteration
+ * \brief Logger to log the current iteration
  *
- * This class seems to be useless, but it gives more control about the algorithm
- * and doesn't violate the idea of object programming here. Additionally, it is
- * quite convenient to have this class instead of tracking the iteration at any
- * stage of the fitting within the compboost object as another vector.
+ * The `LoggerIteration` tracks the current iteration and can be used to stop the
+ * algorithm after a pre-defined number of iteration is reached.
  *
  */
-
 class LoggerIteration : public Logger
 {
 private:
@@ -145,21 +141,21 @@ public:
   void updateMaxIterations (const unsigned int&);
 };
 
+
 // InbagRisk:
 // -----------------------
 
 /**
  * \class LoggerInbagRisk
  *
- * \brief Logger class to log the inbag risk
+ * \brief Logger to log the inbag risk
  *
- * This class loggs the inbag risk for a specific loss function. It is possible
- * to define more than one inbag risk logger (e.g. for 2 different loss
+ * This class tracks the inbag risk for a specific loss function. It is possible
+ * to define more than one risk logger (e.g. for 2 different loss
  * functions). For details about logging and stopping see the description of the
  * `logStep()` function.
  *
  */
-
 class LoggerInbagRisk : public Logger
 {
 private:
@@ -184,16 +180,17 @@ public:
   std::string  printLoggerStatus   () const;
 };
 
+
 // OobRisk:
 // -----------------------
 
 /**
  * \class LoggerOobRisk
  *
- * \brief Logger class to log the out of bag risk
+ * \brief Logger to log the out of bag risk
  *
- * This class loggs the out of bag risk for a specific loss function and a map
- * of new data. It is possible to define more than one inbag risk logger
+ * This class tracks the out of bag risk for a specific loss function and a map
+ * of new data. It is possible to define more than one risk logger
  * (e.g. for 2 different loss functions). For details about logging and
  * stopping see the description of the `logStep()` function.
  *
@@ -227,21 +224,21 @@ public:
   std::string  printLoggerStatus   () const;
 };
 
+
 // LoggerTime:
 // -----------------------
 
 /**
  * \class LoggerTime
  *
- * \brief Logger class to log the ellapsed time
+ * \brief Logger to log the elapsed time
  *
- * This class just loggs the ellapsed time. This sould be very handy if one
- * wants to run the algorithm for just 2 hours and see how far he comes within
- * that time. There are three time units available for logging:
+ * This class tracks the elapsed time. This is very handy since
+ * it allows to stop the algorithm, e.g., after one hour of training.
+ * There are three time units available for logging:
  *   - minutes
  *   - seconds
  *   - microseconds
- *
  */
 class LoggerTime : public Logger
 {

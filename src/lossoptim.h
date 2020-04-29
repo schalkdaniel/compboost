@@ -16,7 +16,7 @@
 // MIT License for more details. You should have received a copy of
 // the MIT License along with compboost.
 //
-// =========================================================================== #
+// ========================================================================== //
 
 #ifndef LOSSOPTIM_H_
 #define LOSSOPTIM_H_

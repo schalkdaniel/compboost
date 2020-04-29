@@ -49,7 +49,7 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
 void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist)
 {
 
-  if (_factory_list.getMap().size() == 0) {
+  if (_factory_list.getFactoryMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
 
@@ -187,9 +187,9 @@ arma::vec Compboost::predict () const
   // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
     std::string sel_factory = it.first;
-    helper::debugPrint("| > data_trafo:" + helper::getMatStatus(_factory_list.getMap().find(sel_factory)->second->getData()));
+    helper::debugPrint("| > data_trafo:" + helper::getMatStatus(_factory_list.getFactoryMap().find(sel_factory)->second->getData()));
     helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it.second));
-    pred += _factory_list.getMap().find(sel_factory)->second->calculateLinearPredictor(it.second);
+    pred += _factory_list.getFactoryMap().find(sel_factory)->second->calculateLinearPredictor(it.second);
   }
   helper::debugPrint("Finished 'Compboost::predict()'");
   return pred;
@@ -220,7 +220,7 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
     std::string sel_factory = it.first;
 
     // Find the element with key 'hat'
-    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = _factory_list.getMap().find(sel_factory)->second;
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = _factory_list.getFactoryMap().find(sel_factory)->second;
 
     // Select newdata corresponding to selected factory object:
     std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;

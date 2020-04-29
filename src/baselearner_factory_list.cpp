@@ -53,7 +53,7 @@ void BaselearnerFactoryList::printRegisteredFactories () const
   }
 }
 
-blearner_factory_map BaselearnerFactoryList::getMap () const
+blearner_factory_map BaselearnerFactoryList::getFactoryMap () const
 {
   return _factory_map;
 }

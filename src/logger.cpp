@@ -227,11 +227,6 @@ void LoggerInbagRisk::logStep (const unsigned int current_iteration, const std::
   const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
   const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
-  // Calculate empirical risk. Calculation of the temporary vector ensures
-  // // that stuff like auc logging is possible:
-  // arma::vec loss_vec_temp = sh_ptr_loss->definedLoss(response, prediction);
-  // double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
-
   double temp_risk = sh_ptr_response->calculateEmpiricalRisk(_sh_ptr_loss);
 
   _inbag_risk.push_back(temp_risk);

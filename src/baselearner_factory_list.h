@@ -39,7 +39,7 @@ public:
   BaselearnerFactoryList ();
 
   // Getter/Setter
-  blearner_factory_map                            getMap ()                    const;
+  blearner_factory_map                            getFactoryMap ()             const;
   std::pair<std::vector<std::string>, arma::mat>  getModelFrame ()             const;
   std::vector<std::string>                        getRegisteredFactoryNames () const;
 

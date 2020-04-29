@@ -43,7 +43,7 @@ namespace linesearch {
 double calculateRisk (const double step_size, const std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
   const arma::vec& baselearner_prediction)
 {
-  return arma::accu(sh_ptr_loss->definedLoss(target, model_prediction + step_size * baselearner_prediction)) / model_prediction.size();
+  return arma::accu(sh_ptr_loss->loss(target, model_prediction + step_size * baselearner_prediction)) / model_prediction.size();
 }
 
 /**
