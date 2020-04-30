@@ -1,5 +1,11 @@
 # Release Notes
 
+- **30.04.2020** \
+  Refactoring core code basis:
+      - Working just with protected/private class member and corresponding setter and getter.
+      - Consistent naming convention of class member.
+      - Simplification of constructing classes by using a more flexible class inheritance structure.
+
 - **03.04.2020** \
   Binning can now be used for spline base-learner to reduce memory load and increase runtime performance. See `?compboost::BaselearnerPSpline`.
 

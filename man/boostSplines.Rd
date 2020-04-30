@@ -17,7 +17,6 @@ boostSplines(
   penalty = 2,
   differences = 2,
   data_source = InMemoryData,
-  data_target = InMemoryData,
   oob_fraction = NULL,
   bin_root = 0,
   cache_type = "inverse"
@@ -65,10 +64,6 @@ The higher the penalty, the higher the smoothness.}
 Number of differences that are used for penalization. The higher the difference, the higher the smoothness.}
 
 \item{data_source}{[\code{S4 Data}]\cr
-Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-just in memory training is supported.}
-
-\item{data_target}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
