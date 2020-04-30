@@ -1590,7 +1590,7 @@ public:
 
   double getThreshold () const
   {
-    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->threshold;
+    return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->getThreshold();
   }
   void setThreshold (double thresh)
   {

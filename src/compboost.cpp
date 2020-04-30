@@ -62,7 +62,7 @@ void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlis
 
     _current_iter = _blearner_track.getBaselearnerVector().size() + 1;
 
-    _sh_ptr_response->setActualIteration(_current_iter);
+    _sh_ptr_response->setIteration(_current_iter);
     _sh_ptr_response->updatePseudoResiduals(_sh_ptr_loss);
     _sh_ptr_optimizer->optimize(_current_iter, _learning_rate, _sh_ptr_loss, _sh_ptr_response,
       _blearner_track, _factory_list);
@@ -258,20 +258,13 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
   helper::debugPrint("| > Set base-learner track to the new iteration");
   _blearner_track.setToIteration(k);
   helper::debugPrint("| > Set new prediction scores by calling predict()");
-  _sh_ptr_response->setActualPredictionScores(predict(), k);
+  _sh_ptr_response->setPredictionScores(predict(), k);
   _current_iter = k;
   helper::debugPrint("Finished 'Compboost::setToIteration'");
 }
 
-arma::mat Compboost::getOffset() const
-{
-  return _sh_ptr_response->getInitialization();
-}
-
-std::vector<double> Compboost::getRiskVector () const
-{
-  return _risk;
-}
+arma::mat Compboost::getOffset() const { return _sh_ptr_response->getInitialization(); }
+std::vector<double> Compboost::getRiskVector () const { return _risk; }
 
 void Compboost::summarizeCompboost () const
 {
