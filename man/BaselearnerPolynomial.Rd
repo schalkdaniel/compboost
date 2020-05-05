@@ -14,8 +14,8 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerPolynomial$new(data_source, data_target, list(degree, intercept))
-BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, intercept))
+BaselearnerPolynomial$new(data_source, list(degree, intercept))
+BaselearnerPolynomial$new(data_source, blearner_type, list(degree, intercept))
 }
 }
 
@@ -24,9 +24,6 @@ BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, 
 \describe{
 \item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
-}
-\item{\code{data_target} [\code{Data} Object]}{
-  Data object which gets the transformed source data.
 }
 \item{\code{degree} [\code{integer(1)}]}{
   This argument is used for transforming the source data. Each element is
@@ -66,13 +63,11 @@ data_mat = cbind(1:10)
 
 # Create new data object:
 data_source = InMemoryData$new(data_mat, "my_data_name")
-data_target1 = InMemoryData$new()
-data_target2 = InMemoryData$new()
 
 # Create new linear base-learner factory:
-lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
+lin_factory = BaselearnerPolynomial$new(data_source,
   list(degree = 2, intercept = FALSE))
-lin_factory_int = BaselearnerPolynomial$new(data_source, data_target2,
+lin_factory_int = BaselearnerPolynomial$new(data_source,
   list(degree = 2, intercept = TRUE))
 
 # Get the transformed data:

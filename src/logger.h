@@ -31,9 +31,9 @@
  *  criteria (e.g. maximal number of iterations + a given amount of time),
  *  but also to log while training (e.g. the inbag or oob risk).
  *
- *  The logger are collected by the `LoggerList` class. Basicall, that class
- *  takes as much logger as you like and logs every step. This can be used
- *  to log different risks for different loss functions. Just create two
+ *  The logger are collected by the `LoggerList` class. The `LoggerList` class
+ *  takes an arbitrary number of logger to indicate when to stop. This can be used,
+ *  for example, to log different risks for different loss functions. Just create two
  *  inbag or oob risk logger with a different loss.
  *
  */
@@ -62,56 +62,50 @@ namespace logger
 /**
  * \class Logger
  *
- * \brief Abstract logger class with minimal requirements to all logger
+ * \brief Abstract logger with minimal functionality each logger has
  *
- * This class is meant to define some minimal functionality any logger must
+ * This class defines the minimal functionality each logger must
  * have! The key of the logger is nut only the logging of the process, but also
- * to be able to define a logger as stopper to force an early stopping if one
- * or all of the used logger have reached a stopping criteria. This is more
- * explained within the child classes.
+ * to be used as stopper for early stopping if one or all of the used logger
+ * have reached the stopping criteria.
  *
- * **Note** that this minimal functionality mentioned above differs for every
+ * **Note** this minimal functionality mentioned above differs for every
  * class and is explained within the specific class documentation.
  *
  */
-
 class Logger
 {
-public:
-  /// Tag if the logger is used as stopper
-  bool is_a_stopper;
-
-  /// Log current step of compboost iteration dependent on the child class
-  virtual void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
-    std::shared_ptr<optimizer::Optimizer>) = 0;
-
-  /// Class dependent check if the stopping criteria is fulfilled
-  virtual bool reachedStopCriteria () = 0;
-
-  /// Return the data stored within the logger
-  virtual arma::vec getLoggedData () const = 0;
-
-  /// Clear the logger data
-  virtual void clearLoggerData () = 0;
-
-  /// Print status of current iteration into the console
-  virtual std::string printLoggerStatus () const = 0;
-
-  /// Get logger identifier:
-  std::string getLoggerId () const;
-  std::string getLoggerType () const;
-
-  /// Just a getter if the logger is also used as stopper
-  bool getIfLoggerIsStopper () const;
-
-  virtual
-    ~Logger ();
+private:
+  std::string _logger_type;
+  std::string _logger_id;
 
 protected:
-  std::string logger_type;
-  std::string logger_id;
+  bool _is_stopper = false;
+  Logger (const bool, const std::string, const std::string);
+
+public:
+  // Virtual functions:
+  virtual void logStep (const unsigned int, const std::shared_ptr<response::Response>,
+    const std::shared_ptr<blearner::Baselearner>, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>) = 0;
+
+  virtual bool         reachedStopCriteria ()       = 0;
+  virtual arma::vec    getLoggedData       () const = 0;
+  virtual void         clearLoggerData     ()       = 0;
+  virtual std::string  printLoggerStatus   () const = 0;
+
+  // Setter/Getter
+  void setIsStopper (const bool);
+
+  std::string getLoggerId   () const;
+  std::string getLoggerType () const;
+  bool        isStopper     () const;
+
+  // Destructor
+  virtual ~Logger ();
+
 };
+
 
 // -------------------------------------------------------------------------- //
 // Logger implementations:
@@ -120,51 +114,33 @@ protected:
 /**
  * \class LoggerIteration
  *
- * \brief Logger class to log the current iteration
+ * \brief Logger to log the current iteration
  *
- * This class seems to be useless, but it gives more control about the algorithm
- * and doesn't violate the idea of object programming here. Additionally, it is
- * quite convenient to have this class instead of tracking the iteration at any
- * stage of the fitting within the compboost object as another vector.
+ * The `LoggerIteration` tracks the current iteration and can be used to stop the
+ * algorithm after a pre-defined number of iteration is reached.
  *
  */
-
 class LoggerIteration : public Logger
 {
 private:
-
-  /// Maximal number of iterations (only interesting if used as stopper)
-  unsigned int max_iterations;
-
-  /// Vector to log the iterations
-  std::vector<unsigned int> iterations;
-
+  unsigned int              _max_iterations;
+  std::vector<unsigned int> _iterations;
 
 public:
+  LoggerIteration (const std::string, const bool, const unsigned int);
 
-  /// Default constructor of class `LoggerIteration`
-  LoggerIteration (const std::string&, const bool&, const unsigned int&);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
+    const std::shared_ptr<blearner::Baselearner>, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>);
 
-  /// Log current step of compboost iteration of class `LoggerIteration`
-  void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
-    std::shared_ptr<optimizer::Optimizer>);
+  bool         reachedStopCriteria ();
+  arma::vec    getLoggedData       () const;
+  void         clearLoggerData     ();
+  std::string  printLoggerStatus   () const;
 
-  /// Stop criteria is fulfilled if the current iteration exceed `max_iteration`
-  bool reachedStopCriteria ();
-
-  /// Return the data stored within the iteration logger
-  arma::vec getLoggedData () const;
-
-  /// Clear the logger data
-  void clearLoggerData ();
-
-  /// Print status of current iteration into the console
-  std::string printLoggerStatus () const;
-
-  /// Update maximal iteration:
   void updateMaxIterations (const unsigned int&);
 };
+
 
 // InbagRisk:
 // -----------------------
@@ -172,54 +148,38 @@ public:
 /**
  * \class LoggerInbagRisk
  *
- * \brief Logger class to log the inbag risk
+ * \brief Logger to log the inbag risk
  *
- * This class loggs the inbag risk for a specific loss function. It is possible
- * to define more than one inbag risk logger (e.g. for 2 different loss
+ * This class tracks the inbag risk for a specific loss function. It is possible
+ * to define more than one risk logger (e.g. for 2 different loss
  * functions). For details about logging and stopping see the description of the
  * `logStep()` function.
  *
  */
-
 class LoggerInbagRisk : public Logger
 {
 private:
+  const std::shared_ptr<loss::Loss> _sh_ptr_loss;
+  std::vector<double>               _inbag_risk;
 
-  /// Used loss. **Note** that you can specify a different loss than the loss used for training
-  std::shared_ptr<loss::Loss> sh_ptr_loss;
-
-  /// Vector of inbag risk for every iteration
-  std::vector<double> tracked_inbag_risk;
-
-  /// Stopping criteria, stop if \f$(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}\f$
-  double eps_for_break;
-  unsigned int patience = 5;
-  unsigned int count_patience = 0;
-
+  const double       _eps_for_break;
+  const unsigned int _patience = 5;
+  unsigned int       _count_patience = 0;
 
 public:
+  LoggerInbagRisk (const std::string, const bool, const std::shared_ptr<loss::Loss>, const double, const unsigned int);
 
-  /// Default constructor
-  LoggerInbagRisk (const std::string&, const bool&, std::shared_ptr<loss::Loss>, const double&, const unsigned int&);
 
-  /// Log current step of compboost iteration for class `LoggerInbagRisk`
-  void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
-    std::shared_ptr<optimizer::Optimizer>);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
+    const std::shared_ptr<blearner::Baselearner>, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>);
 
-  /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
-  bool reachedStopCriteria ();
-
-  /// Return the data stored within the logger
-  arma::vec getLoggedData () const;
-
-  /// Clear the logger data
-  void clearLoggerData ();
-
-  /// Print status of current iteration into the console
-  std::string printLoggerStatus () const;
-
+  bool         reachedStopCriteria ();
+  arma::vec    getLoggedData       () const;
+  void         clearLoggerData     ();
+  std::string  printLoggerStatus   () const;
 };
+
 
 // OobRisk:
 // -----------------------
@@ -227,69 +187,43 @@ public:
 /**
  * \class LoggerOobRisk
  *
- * \brief Logger class to log the out of bag risk
+ * \brief Logger to log the out of bag risk
  *
- * This class loggs the out of bag risk for a specific loss function and a map
- * of new data. It is possible to define more than one inbag risk logger
+ * This class tracks the out of bag risk for a specific loss function and a map
+ * of new data. It is possible to define more than one risk logger
  * (e.g. for 2 different loss functions). For details about logging and
  * stopping see the description of the `logStep()` function.
  *
  */
-
 class LoggerOobRisk : public Logger
 {
 private:
+  const std::shared_ptr<loss::Loss> _sh_ptr_loss;
+  std::vector<double>               _oob_risk;
 
-  /// Used loss. **Note** that you can specify a different loss than the loss used for training
-  std::shared_ptr<loss::Loss> sh_ptr_loss;
+  const double       _eps_for_break;
+  const unsigned int _patience = 5;
+  unsigned int       _count_patience = 0;
 
-  /// Vector of OOB risk for every iteration
-  std::vector<double> tracked_oob_risk;
+  arma::mat _oob_prediction;
 
-  /// Stopping criteria, stop if \f$(\mathrm{risk}_{i-1} - \mathrm{risk}_i) / \mathrm{risk}_{i-1} < \mathrm{eps\_for\_break}\f$
-  double eps_for_break;
-  unsigned int patience = 5;
-  unsigned int count_patience = 0;
-
-  /// OOB prediction which is internally done in every iteration
-  arma::mat oob_prediction;
-
-  /// The OOB data provided by the user
-  std::map<std::string, std::shared_ptr<data::Data>> oob_data;
-
-  /* This is part of the memory saving version (see logger.cpp)
-   * /// Transformed oob data for predicting on the oob set:
-   * std::map<std::string, arma::mat> oob_data_transformed;
-   */
-
-  /// The response variable which corresponds to the given OOB data
-  std::shared_ptr<response::Response> sh_ptr_oob_response;
-
+  std::map<std::string, std::shared_ptr<data::Data>>  _oob_data;
+  const std::shared_ptr<response::Response>           _sh_ptr_oob_response;
 
 public:
+  LoggerOobRisk (const std::string, const bool, const std::shared_ptr<loss::Loss>, const double, const unsigned int,
+    const std::map<std::string, std::shared_ptr<data::Data>>, const std::shared_ptr<response::Response>);
 
-  /// Default constructor
-  LoggerOobRisk (const std::string&, const bool&, std::shared_ptr<loss::Loss>, const double&, const unsigned int&,
-    std::map<std::string, std::shared_ptr<data::Data>>, std::shared_ptr<response::Response>);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
+    const std::shared_ptr<blearner::Baselearner>, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>);
 
-  /// Log current step of compboost iteration for class `LoggerOobRisk`
-  void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
-    std::shared_ptr<optimizer::Optimizer>);
-
-  /// Stop criteria is fulfilled if the relative improvement falls below `eps_for_break`
-  bool reachedStopCriteria ();
-
-  /// Return the data stored within the logger
-  arma::vec getLoggedData () const;
-
-  /// Clear the logger data
-  void clearLoggerData ();
-
-  /// Print status of current iteration into the console
-  std::string printLoggerStatus () const;
-
+  bool         reachedStopCriteria ();
+  arma::vec    getLoggedData       () const;
+  void         clearLoggerData     ();
+  std::string  printLoggerStatus   () const;
 };
+
 
 // LoggerTime:
 // -----------------------
@@ -297,58 +231,36 @@ public:
 /**
  * \class LoggerTime
  *
- * \brief Logger class to log the ellapsed time
+ * \brief Logger to log the elapsed time
  *
- * This class just loggs the ellapsed time. This sould be very handy if one
- * wants to run the algorithm for just 2 hours and see how far he comes within
- * that time. There are three time units available for logging:
+ * This class tracks the elapsed time. This is very handy since
+ * it allows to stop the algorithm, e.g., after one hour of training.
+ * There are three time units available for logging:
  *   - minutes
  *   - seconds
  *   - microseconds
- *
  */
-
 class LoggerTime : public Logger
 {
 private:
+  std::chrono::steady_clock::time_point _init_time;
+  std::vector<unsigned int>             _current_time;
+  unsigned int                          _retrain_drift = 0;
 
-  /// Initial time, important to get the actual elapsed time
-  std::chrono::steady_clock::time_point init_time;
-
-  /// Vector of elapsed time at each iteration
-  std::vector<unsigned int> current_time;
-
-  /// Stopping criteria, stop if \f$\mathrm{current_time} > \mathrm{max_time}\f$
-  unsigned int max_time;
-
-  /// The unit for time measuring, allowed are `minutes`, `seconds` and `microseconds`
-  std::string time_unit;
-
-  /// Drift that is added to runtime to be able to proper stop time for retraining
-  unsigned int retrain_drift = 0;
-
+  const unsigned int _max_time;
+  const std::string  _time_unit;
 
 public:
+  LoggerTime (const std::string, const bool, const unsigned int, const std::string);
 
-  /// Default constructor of class `LoggerTime`
-  LoggerTime (const std::string&, const bool&, const unsigned int&, const std::string&);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
+    const std::shared_ptr<blearner::Baselearner>, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>);
 
-  /// Log current step of compboost iteration for class `LoggerTime`
-  void logStep (const unsigned int&, std::shared_ptr<response::Response>,
-    std::shared_ptr<blearner::Baselearner>, const double&, const double&,
-    std::shared_ptr<optimizer::Optimizer>);
-
-  /// Stop criteria is fulfilled if the passed time exceeds `max_time`
-  bool reachedStopCriteria ();
-
-  /// Return the data stored within the logger
-  arma::vec getLoggedData () const;
-
-  /// Clear the logger data
-  void clearLoggerData();
-
-  /// Print status of current iteration into the console
-  std::string printLoggerStatus () const;
+  bool         reachedStopCriteria ();
+  arma::vec    getLoggedData       () const;
+  void         clearLoggerData     ();
+  std::string  printLoggerStatus   () const;
 
   void reInitializeTime();
 

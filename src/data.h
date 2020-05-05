@@ -35,68 +35,44 @@ namespace data
 
 class Data
 {
-protected:
+private:
+  const std::string   _data_identifier  = "";
+  const bool          _use_sparse       = false;
 
-  std::string data_identifier = "";
-  bool use_sparse = false;
+  arma::mat     _data_mat         = arma::mat (1, 1, arma::fill::zeros);
+  arma::sp_mat  _sparse_data_mat;
+
+  std::pair<std::string, arma::mat> _mat_cache;
+
+  // Private functions
+  void setCacheCholesky (const arma::mat&);
+  void setCacheInverse  (const arma::mat&);
+  void setCacheIdentity (const arma::mat&);
+
+protected:
+  Data (const std::string);
+  Data (const std::string, const arma::mat&);
+  Data (const std::string, const arma::sp_mat&);
 
 public:
-  Data(const std::string);
-
-
-  // Declare the data stuff public that every class can access the data
-  // it needs:
-
-  // Initialize with zeros and null pointer. Idea: The real data object which is
-  // used for modelling is stored in the data_mat. This should only be the case
-  // for the data target. The data source gets a pointer to e.g. the column of
-  // a data.frame:
-
-  /// Dense matrix for design matrix (accessed by getData and setData and directly)
-  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
-
-  /// Sparse matrix for design matrix (directly accessible)
-  arma::sp_mat sparse_data_mat;
-
-  // Some spline specific data stuff (of course they can be used for other
-  // classes to):
-
-  /// This is way to speed up the algorithm (nicked from the mboost guys)
-  /// Generally we calculate \f$X^T X\f$ once and reuse this in every iteration.
-  arma::mat XtX_inv;
-  std::pair<std::string, arma::mat> mat_cache;
-
-  /// String to indicate what is used in the mat cache, is it the inverse or
-  /// the Cholesky decomposition (default):
-  // const std::string cache_type = "cholesky";
-
-  /// Flag if binning should be used:
-  //bool bin_use_binning = false;
-
-  /// In case of binning we store the vector of indexes here:
-  //arma::uvec bin_index_vec;
-
-  // Member functions:
-  Data ();
-
-  /// Set the main data (design matrix)
-  virtual void setData (const arma::mat&) = 0;
-  void setSparseData (const arma::sp_mat&);
-
-  /// Get the design matrix
+  // Virtual functions
   virtual arma::mat getData () const = 0;
 
-  void setCache (const std::string, const arma::mat&);
-  void setCacheCholesky (const arma::mat&);
-  void setCacheInverse (const arma::mat&);
-  std::pair<std::string, arma::mat> getCachedMat () const;
+  // Getter/Setter
+  std::string                       getDataIdentifier () const;
+  std::pair<std::string, arma::mat> getCache          () const;
+  std::string                       getCacheType      () const;
+  arma::mat                         getCacheMat       () const;
+  arma::mat                         getDenseData      () const;
+  arma::sp_mat                      getSparseData     () const;
+  bool                              usesSparseMatrix  () const;
 
-  void setDataIdentifier (const std::string&);
-  std::string getDataIdentifier () const;
-  bool usesSparseMatrix () const;
+  void setDenseData   (const arma::mat&);
+  void setSparseData  (const arma::sp_mat&);
+  void setCache       (const std::string, const arma::mat&);
 
-  virtual
-    ~Data () {};
+  // Destructor
+  virtual ~Data () {};
 };
 
 
@@ -107,101 +83,90 @@ public:
 // InMemoryData:
 // -----------------------
 
-// This one does nothing special, just takes the data and use the transformed
-// one as train data.
-
 class InMemoryData : public Data
 {
 public:
+  InMemoryData (const std::string);
+  InMemoryData (const std::string, const arma::mat&);
+  InMemoryData (const std::string, const arma::sp_mat&);
 
-  // Empty constructor for data target
-  InMemoryData ();
-
-  // Classical way via data matrix:
-  InMemoryData (const arma::mat&, const std::string&);
-
-  // Define sparse matrix:
-  InMemoryData (const arma::mat&, const std::string&, const bool);
-
-  void setData (const arma::mat&);
+  // void setData (const arma::mat&);
   arma::mat getData() const;
 
+  // Destructor
   ~InMemoryData ();
 };
 
-class CategoricalBinaryData : public Data
-{
-public:
-  CategoricalBinaryData (const arma::uvec&);
 
-  /// The index is a special format to save the binary data. For a feature (0, 1, 0, 0, 1) we
-  /// save the locations (in C++ counting) as (1, 4) and the length of the vector (5) in one
-  /// concatinated vector (1, 4, 5):
-  arma::uvec idx;
-  double xtx_inv_scalar;
-
-  void setData (const arma::mat&);
-  arma::mat getData () const;
-  /// Get the idx without the last element which represents the number of observations:
-
-  ~CategoricalBinaryData ();
-};
+// BinnedData:
+// ------------------------------
 
 class BinnedData : public Data
 {
-public:
-  BinnedData (const std::string);
-  BinnedData (const std::string, const unsigned int);
-
-  /// In case of binning we store the vector of indexes here:
-  arma::uvec bin_idx;
-
-  // Order of binning:
-  const unsigned int bin_root = 1;
-
-  bool usesBinning () const;
-  void setIndexVector (const arma::vec&, const arma::vec&);
-  void setData (const arma::mat&);
-  arma::mat getData () const;
-
 private:
-  // Member used for binning:
-  const bool use_binning = false;
+  const arma::uvec    _bin_idx;
+  const bool          _use_binning = false;
+  const unsigned int  _bin_root = 1;
 
+protected:
+  BinnedData (const std::string);
+  BinnedData (const std::string, const unsigned int, const arma::vec&, const arma::vec&);
+
+public:
+  arma::mat  getData         () const;
+  arma::uvec getBinningIndex () const;
+  bool       usesBinning     () const;
+
+  //void setIndexVector (const arma::vec&, const arma::vec&);
+  //void setData        (const arma::mat&);
 };
+
+
+// PSplineData:
+// -------------------------------
 
 class PSplineData : public BinnedData
 {
 private:
-  const arma::mat _knots;
-  const double _range_min;
-  const double _range_max;
-
+  const unsigned int  _degree;
+  const arma::mat     _knots;
+  const arma::mat     _penalty_mat;
+  const double        _range_min;
+  const double        _range_max;
 
 public:
-  PSplineData (const unsigned int, const arma::mat&, const arma::mat&);
-  PSplineData (const std::string, const unsigned int, const arma::mat&, const arma::mat&);
-  PSplineData (const std::string, const unsigned int, const arma::mat&, const arma::mat&,  const unsigned int);
+  PSplineData (const std::string, const unsigned int, const arma::mat&,
+    const arma::mat&);
+  PSplineData (const std::string, const unsigned int, const arma::mat&,
+    const arma::mat&, const unsigned int, const arma::vec&, const arma::vec&);
 
-  /// Degree of splines
-  const unsigned int degree;
-
-  /// Penalty matrix (directly accessible)
-  arma::mat penalty_mat;
-
-  /// Number of :inner knots
-  // const unsigned int n_knots;
-
-  /// Regularization parameter
-  //const double penalty;
-
-  /// Order of differences used for penalty matrix
-  //const unsigned int differences;
-
-  arma::mat filterKnotRange(const arma::mat&) const;
-  arma::mat getKnots () const;
+  arma::mat    filterKnotRange (const arma::mat&) const;
+  arma::mat    getKnots        ()                 const;
+  arma::mat    getPenaltyMat   ()                 const;
+  unsigned int getDegree       ()                 const;
 };
 
+
+// CategoricalBinaryData:
+// ----------------------------
+
+class CategoricalBinaryData : public Data
+{
+private:
+  const arma::uvec  _idx;
+  const double      _xtx_inv_scalar;
+
+public:
+  CategoricalBinaryData (const std::string, const arma::uvec&);
+
+  arma::mat    getData      ()                   const;
+  arma::uvec   getIndex     ()                   const;
+  unsigned int getIndex     (const unsigned int) const;
+  double       getXtxScalar ()                   const;
+
+  // Destructor
+  ~CategoricalBinaryData ();
+};
 
 
 } // namespace data

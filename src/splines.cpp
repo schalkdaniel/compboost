@@ -27,24 +27,22 @@ namespace splines
  * \brief Calculating penalty matrix
  *
  * This function calculates the penalty matrix for a given number of
- * parameters (`nparams`) and a given number of differences (`differences`).
+ * parameters (`nparams`) and a given order of differences (`differences`).
  *
- * \param nparams `unsigned int` Number of params which should be penalized.
- *   This also pretend the number of rows and columns.
+ * \param nparams `unsigned int` Number of params to penalize.
  *
  * \param differences `unsigned int` Number of penalized differences.
  *
- * \returns `arma::sp_mat` Sparse penalty matrix used for p splines.
+ * \returns `arma::mat` Penalty matrix used for p splines.
  */
-
-arma::mat penaltyMat (const unsigned int& nparams, const unsigned int& differences)
+arma::mat penaltyMat (const unsigned int nparams, const unsigned int differences)
 {
   // Create frame for sparse difference matrix:
   arma::mat diffs(0, nparams);
   for (unsigned int i = 0; i < nparams - 1; i++) {
     arma::mat insert(1, nparams, arma::fill::zeros);
-    insert[i] = -1;
-    insert[i + 1] = 1;
+    insert(i) = -1;
+    insert(i + 1) = 1;
     diffs = arma::join_cols(diffs, insert);
   }
 
@@ -62,31 +60,30 @@ arma::mat penaltyMat (const unsigned int& nparams, const unsigned int& differenc
 /**
  * \brief Binary search to find index of given point within knots
  *
- * This small functions search for the position of `x` within the
- * `knots` and returns the smalles index for which x >= knots[i].
+ * This  function searches for the position of `x` within the
+ * `knots` and returns the smallest index for which x >= knots(i).
  *
  * Note that this function returns the `C++` index which starts
  * with `0` and ends with `n-1`.
  *
  * \param x `double` Point to search for position in knots.
- * \param knots `arma::vec` Vector of knots. It's the users responsibility to
- *   pass a **SORTED** vector.
+ * \param knots `arma::vec` Sorted vector of knots. Note that no sorting is
+ *   done, the user has to pass a sorted vector.
  *
- * \returns `unsigned int` of position of `x` in `knots`.
+ * \returns `unsigned int` Position of `x` in `knots`.
  */
-
-unsigned int findSpan (const double& x, const arma::vec& knots)
+unsigned int findSpan (const double x, const arma::vec& knots)
 {
   // Special case which the algorithm can't handle:
-  if (x < knots[1]) { return 0; }
-  if (x == knots[knots.size() - 1]) { return knots.size() - 1; }
+  if (x < knots(1)) { return 0; }
+  if (x == knots(knots.size() - 1)) { return knots.size() - 1; }
 
   unsigned int low = 0;
   unsigned int high = knots.size() - 1;
   unsigned int mid = std::round( (low + high) / 2 );
 
-  while (x < knots[mid] || x >= knots[mid + 1]) {
-    if (x < knots[mid]) {
+  while (x < knots(mid) || x >= knots(mid + 1)) {
+    if (x < knots(mid)) {
       high = mid;
     } else {
       low = mid;
@@ -109,9 +106,8 @@ unsigned int findSpan (const double& x, const arma::vec& knots)
  *
  * \returns `arma::vec` of knots.
  */
-
-arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
-  const unsigned int& degree)
+arma::vec createKnots (const arma::vec& values, const unsigned int n_knots,
+  const unsigned int degree)
 {
   // Expand inner knots to avoid ugly issues on the edges:
   arma::vec knots(n_knots + 2 * (degree + 1), arma::fill::zeros);
@@ -123,25 +119,25 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
 
   // Inner knots:
   for (unsigned int i = 0; i < n_knots + 1; i++) {
-    knots[degree + i] = inner_knot_min + i * knot_range;
+    knots(degree + i) = inner_knot_min + i * knot_range;
   }
-  knots[degree + n_knots + 1] = inner_knot_max;
+  knots(degree + n_knots + 1) = inner_knot_max;
 
   // Lower and upper 'boundary knots'
   for (unsigned int i = 0; i < degree; i++) {
     // Lower:
-    knots[i] = inner_knot_min - (degree - i) * knot_range;
+    knots(i) = inner_knot_min - (degree - i) * knot_range;
     // Upper:
-    knots[degree + n_knots + i + 2] = inner_knot_max + (i + 1) * knot_range;
+    knots(degree + n_knots + i + 2) = inner_knot_max + (i + 1) * knot_range;
   }
 
   return knots;
 }
 
 /**
- * \brief Transformation from a vector of input points to matrix of basis
+ * \brief Basis transformation
  *
- * This functions takes a vector of points and create a matrix of
+ * This functions takes a vector of points and creates the matrix of
  * basis functions. Each row contains the basis of the corresponding value
  * in `values`.
  *
@@ -151,8 +147,7 @@ arma::vec createKnots (const arma::vec& values, const unsigned int& n_knots,
  *
  * \returns `sp_mat` sparse matrix of base functions.
  */
-
-arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree,
+arma::mat createSplineBasis (const arma::vec& values, const unsigned int degree,
   const arma::vec& knots)
 {
   unsigned int n_cols =  knots.size() - (degree + 1);
@@ -179,7 +174,7 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree
 
     // Output for basis functions. Here we have the non-zero entries:
     arma::rowvec N(degree + 1, arma::fill::zeros);
-    N[0] = 1.0;
+    N(0) = 1.0;
 
     arma::vec left(degree + 1, arma::fill::zeros);
     arma::vec right(degree + 1, arma::fill::zeros);
@@ -190,17 +185,17 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree
     // De Boors algorithm to recursive find base in a triangle scheme:
     for (unsigned int j = 1; j <= degree; j++) {
 
-      left[j]  = x - knots[idx + 1 - j];
-      right[j] = knots[idx + j] - x;
+      left(j)  = x - knots(idx + 1 - j);
+      right(j) = knots(idx + j) - x;
 
       saved = 0;
 
       for (unsigned int r = 0; r < j; r++) {
-        temp  = N[r] / (right[r + 1] + left[j - r]);
-        N[r]  = saved + right[r + 1] * temp;
-        saved = left[j - r] * temp;
+        temp  = N(r) / (right(r + 1) + left(j - r));
+        N(r)  = saved + right(r + 1) * temp;
+        saved = left(j - r) * temp;
       }
-      N[j] = saved;
+      N(j) = saved;
     }
     spline_basis(actual_row, arma::span(idx - degree, idx)) = N;
   }
@@ -224,8 +219,7 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int& degree
  *
  * \returns `arma::sp_mat` sparse matrix of base functions.
  */
-
-arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned int& degree,
+arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned int degree,
   const arma::vec& knots)
 {
   // Allocate memory for index matrix and values of the sparse matrix:
@@ -252,7 +246,7 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
 
     // Output for basis functions. Here we have the non-zero entries:
     arma::rowvec N(degree + 1, arma::fill::zeros);
-    N[0] = 1.0;
+    N(0) = 1.0;
 
     arma::vec left(degree + 1, arma::fill::zeros);
     arma::vec right(degree + 1, arma::fill::zeros);
@@ -263,17 +257,17 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
     // De Boors algorithm to recursive find base in a triangle scheme:
     for (unsigned int j = 1; j <= degree; j++) {
 
-      left[j]  = x - knots[idx + 1 - j];
-      right[j] = knots[idx + j] - x;
+      left(j)  = x - knots(idx + 1 - j);
+      right(j) = knots(idx + j) - x;
 
       saved = 0;
 
       for (unsigned int r = 0; r < j; r++) {
-        temp  = N[r] / (right[r + 1] + left[j - r]);
-        N[r]  = saved + right[r + 1] * temp;
-        saved = left[j - r] * temp;
+        temp  = N(r) / (right(r + 1) + left(j - r));
+        N(r)  = saved + right(r + 1) * temp;
+        saved = left(j - r) * temp;
       }
-      N[j] = saved;
+      N(j) = saved;
     }
     // Fill variables needed to define the sparse matrix:
     for (unsigned int i = 0; i < N.size(); i++) {
@@ -291,7 +285,7 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
   return out;
 }
 
-arma::mat filterKnotRange (const arma::mat& newdata, const double& range_min, const double& range_max)
+arma::mat filterKnotRange (const arma::mat& newdata, const double range_min, const double range_max)
 {
   arma::mat temp = newdata;
 

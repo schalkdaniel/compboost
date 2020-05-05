@@ -43,9 +43,6 @@
 #' @param data_source [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param data_target [\code{S4 Data}]\cr
-#'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-#'   just in memory training is supported.
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data we want to use to track the out of bag risk.
 #' @param bin_root [\code{integer(1)}+]\cr
@@ -69,7 +66,7 @@
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
-  penalty = 2, differences = 2, data_source = InMemoryData, data_target = InMemoryData,
+  penalty = 2, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
@@ -80,11 +77,11 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   # Issue:
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source, data_target,
+      model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
         degree = degree, n_knots = n_knots, penalty = penalty, differences = differences,
         bin_root = bin_root, cache_type = cache_type)
     } else {
-      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
+      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
         degree = 1, intercept = FALSE)
     }
   }

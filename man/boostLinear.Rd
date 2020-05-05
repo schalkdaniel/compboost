@@ -14,7 +14,6 @@ boostLinear(
   trace = -1,
   intercept = TRUE,
   data_source = InMemoryData,
-  data_target = InMemoryData,
   oob_fraction = NULL
 )
 }
@@ -50,10 +49,6 @@ Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
 \item{data_source}{[\code{S4 Data}]\cr
-Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-just in memory training is supported.}
-
-\item{data_target}{[\code{S4 Data}]\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 

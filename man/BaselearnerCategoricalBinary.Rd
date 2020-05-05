@@ -15,7 +15,7 @@ This reduces memory load and fasten the fitting process.
 \section{Usage}{
 
 \preformatted{
-BaselearnerCategoricalBinary$new(data_source, data_target, list(n_obs))
+BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 }
 }
 
@@ -24,9 +24,6 @@ BaselearnerCategoricalBinary$new(data_source, data_target, list(n_obs))
 \describe{
 \item{\code{data_source} [\code{data} object]}{
   data object which contains the source data.
-}
-\item{\code{data_target} [\code{data} object]}{
-  data object which gets the transformed source data.
 }
 }
 }

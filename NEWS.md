@@ -1,5 +1,12 @@
 # Release Notes
 
+
+- **30.04.2020** \
+  Refactoring core code basis:
+      - Working just with protected/private class member and corresponding setter and getter.
+      - Consistent naming convention of class member.
+      - Simplification of constructing classes by using a more flexible class inheritance structure.
+
 - **24.04.2020** \
   It is now possible to choose between to solvers for fitting the base-learner. The two options are the Cholesky 
   decomposition and to use the inverse.

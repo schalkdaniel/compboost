@@ -29,47 +29,29 @@ namespace blearnertrack
 
 class BaselearnerTrack
 {
-  private:
+private:
+  double                                               _learning_rate;
+  std::vector<std::shared_ptr<blearner::Baselearner>>  _blearner_vector;
+  std::map<std::string, arma::mat>                     _parameter_map;
+  std::vector<double>                                  _step_sizes;
 
-    // Vector of selected baselearner:
-    std::vector<std::shared_ptr<blearner::Baselearner>> blearner_vector;
+public:
+  BaselearnerTrack ();
+  BaselearnerTrack (double);
 
-    // Parameter map. The first element contains the baselearner type and the
-    // second element the parameter. This one will be updated in every
-    // iteration:
-    std::map<std::string, arma::mat> my_parameter_map;
+  // Getter/Setter
+  std::vector<std::shared_ptr<blearner::Baselearner>>  getBaselearnerVector             () const;
+  std::map<std::string, arma::mat>                     getParameterMap                  () const;
+  std::pair<std::vector<std::string>, arma::mat>       getParameterMatrix               () const;
+  std::map<std::string, arma::mat>                     getEstimatedParameterOfIteration (const unsigned int&) const;
 
-    double learning_rate;
-    std::vector<double> step_sizes;
+  // Other member functions
+  void insertBaselearner (std::shared_ptr<blearner::Baselearner>, const double& step_size);
+  void clearBaselearnerVector ();
+  void setToIteration (const unsigned int&);
 
-  public:
-
-    BaselearnerTrack ();
-    BaselearnerTrack (double);
-
-    // Insert a baselearner into vector and update parameter:
-    void insertBaselearner (std::shared_ptr<blearner::Baselearner>, const double& step_size);
-
-    // Return the vector of baselearner:
-    std::vector<std::shared_ptr<blearner::Baselearner>> getBaselearnerVector () const;
-
-    // Return so far estimated parameter map:
-    std::map<std::string, arma::mat> getParameterMap () const;
-
-    // Clear the vector of baselearner:
-    void clearBaselearnerVector ();
-
-    // Estimate parameter for specific iteration:
-    std::map<std::string, arma::mat> getEstimatedParameterOfIteration (const unsigned int&) const;
-
-    // Returns a matrix of parameters for every iteration:
-    std::pair<std::vector<std::string>, arma::mat> getParameterMatrix () const;
-
-    // Set parameter map to a given iteration:
-    void setToIteration (const unsigned int&);
-
-    // Destructor:
-    ~BaselearnerTrack ();
+  // Destructor:
+  ~BaselearnerTrack ();
 };
 
 } // namespace blearnertrack

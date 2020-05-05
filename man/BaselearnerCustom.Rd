@@ -14,7 +14,7 @@
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
+BaselearnerCustom$new(data_source, list(instantiate_fun,
   train_fun, predict_fun, param_fun))
 }
 }
@@ -24,9 +24,6 @@ BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
 \describe{
 \item{\code{data_source} [\code{Data} Object]}{
   Data object which contains the source data.
-}
-\item{\code{data_target} [\code{Data} Object]}{
-  Data object which gets the transformed source data.
 }
 \item{\code{instantiate_fun} [\code{function}]}{
   \code{R} function to transform the source data. For details see the
@@ -94,7 +91,6 @@ y = 2 + 3 * 1:10
 
 # Create new data object:
 data_source = InMemoryData$new(data_mat, "my_data_name")
-data_target = InMemoryData$new()
 
 instantiateDataFun = function (X) {
   return(X)
@@ -111,7 +107,7 @@ extractParameter = function (model) {
 }
 
 # Create new custom linear base-learner factory:
-custom_lin_factory = BaselearnerCustom$new(data_source, data_target,
+custom_lin_factory = BaselearnerCustom$new(data_source,
   list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
     predict_fun = predictFun, param_fun = extractParameter))
 

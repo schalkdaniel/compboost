@@ -27,9 +27,17 @@ namespace logger
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
 
-std::string Logger::getLoggerId () const { return logger_id; }
-std::string Logger::getLoggerType () const { return logger_type; }
-bool Logger::getIfLoggerIsStopper () const { return is_a_stopper; }
+Logger::Logger (const bool is_stopper, const std::string logger_type, const std::string logger_id)
+  : _is_stopper  ( is_stopper ),
+    _logger_type ( logger_type ),
+    _logger_id   ( logger_id )
+{ }
+
+void Logger::setIsStopper (const bool is_stopper) { _is_stopper = is_stopper; }
+
+std::string Logger::getLoggerId   () const { return _logger_id; }
+std::string Logger::getLoggerType () const { return _logger_type; }
+bool        Logger::isStopper     () const { return _is_stopper; }
 
 Logger::~Logger () {}
 
@@ -53,14 +61,11 @@ Logger::~Logger () {}
  *
  */
 
-LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_a_stopper0,
-  const unsigned int& max_iterations)
-  : max_iterations ( max_iterations )
-{
-  is_a_stopper = is_a_stopper0;
-  logger_id = logger_id0;
-  logger_type = "iteration";
-}
+LoggerIteration::LoggerIteration (const std::string logger_id, const bool is_stopper,
+  const unsigned int max_iterations)
+  : Logger::Logger  ( is_stopper, "iteration", logger_id),
+    _max_iterations ( max_iterations )
+{ }
 
 /**
  * \brief Log current step of compboost iteration of class `LoggerIteration`
@@ -77,12 +82,11 @@ LoggerIteration::LoggerIteration (const std::string& logger_id0, const bool& is_
  * \param learning_rate `double` lerning rate of the `current_iteration`
  *
  */
-
-void LoggerIteration::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
-  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerIteration::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
-  iterations.push_back(current_iteration);
+  _iterations.push_back(current_iteration);
 }
 
 /**
@@ -98,8 +102,8 @@ bool LoggerIteration::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
-  if (is_a_stopper) {
-    if (max_iterations <= iterations.back()) {
+  if (_is_stopper) {
+    if (_max_iterations <= _iterations.back()) {
       stop_criteria_is_reached = true;
     }
   }
@@ -117,11 +121,10 @@ bool LoggerIteration::reachedStopCriteria ()
  *
  * \return `arma::vec` of iterations.
  */
-
 arma::vec LoggerIteration::getLoggedData () const
 {
   // Cast integer vector to double:
-  std::vector<double> iterations_double (iterations.begin(), iterations.end());
+  std::vector<double> iterations_double (_iterations.begin(), _iterations.end());
 
   arma::vec out (iterations_double);
   return out;
@@ -134,10 +137,9 @@ arma::vec LoggerIteration::getLoggedData () const
  * the model. If we don't clear the data, the new iterations are just pasted at
  * the end of the existing vectors which couses some troubles.
  */
-
 void LoggerIteration::clearLoggerData ()
 {
-  iterations.clear();
+  _iterations.clear();
 }
 
 /**
@@ -149,19 +151,18 @@ void LoggerIteration::clearLoggerData ()
  *
  * \returns `std::string` which includes the log of the current iteration
  */
-
 std::string LoggerIteration::printLoggerStatus () const
 {
-  std::string max_iters = std::to_string(max_iterations);
+  std::string max_iters = std::to_string(_max_iterations);
   std::stringstream ss;
-  ss << std::setw(2 * max_iters.size() + 1) << std::to_string(iterations.back()) + "/" + max_iters;
+  ss << std::setw(2 * max_iters.size() + 1) << std::to_string(_iterations.back()) + "/" + max_iters;
 
   return ss.str();
 }
 
 void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
 {
-  max_iterations = new_max_iter;
+  _max_iterations = new_max_iter;
 }
 
 
@@ -172,22 +173,20 @@ void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
 /**
  * \brief Default constructor of class `LoggerInbagRisk`
  *
- * \param logger_id0 `std::string` unique identifier of the logger
- * \param is_a_stopper0 `bool` specify if the logger should be used as stopper
+ * \param logger_id `std::string` unique identifier of the logger
+ * \param is_stopper `bool` specify if the logger should be used as stopper
  * \param sh_ptr_loss `Loss*` used loss to calculate the empirical risk (this
  *   can differ from the one used while training the model)
  * \param eps_for_break `double` sets value of the stopping criteria`
  */
 
-LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_a_stopper0, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  const double& eps_for_break, const unsigned int& patience)
-  : sh_ptr_loss ( sh_ptr_loss ),
-    eps_for_break ( eps_for_break ),
-    patience ( patience )
+LoggerInbagRisk::LoggerInbagRisk (const std::string logger_id, const bool is_stopper, const std::shared_ptr<loss::Loss> sh_ptr_loss,
+  const double eps_for_break, const unsigned int patience)
+  :  Logger::Logger  ( is_stopper, "inbag_risk", logger_id),
+    _sh_ptr_loss     ( sh_ptr_loss ),
+    _eps_for_break   ( eps_for_break ),
+    _patience        ( patience )
 {
-  is_a_stopper = is_a_stopper0;
-  logger_id = logger_id0;
-  logger_type = "inbag_risk";
 }
 
 /**
@@ -216,28 +215,21 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string& logger_id0, const bool& is_
  *    returned.
  *
  * \param current_iteration `unsigned int` of current iteration
- * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at
+ * \param sh_ptr_response `std::shared_ptr<response::Response>` of the given response used for training
+ * \param sh_ptr_blearner `std::shared_ptr<Baselearner>` pointer to the selected baselearner in
  *   iteration `current_iteration`
- * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
- *   iteration `current_iteration`
- * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
+ * \param step_size `double` step size of the iteration
+ * \param sh_ptr_optimizer `std::shared_ptr<optimizer::Optimizer>` optimizer used to find the best base-learner
  *
  */
-
-void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
-  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerInbagRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
-  // Calculate empirical risk. Calculateion of the temporary vector ensures
-  // // that stuff like auc logging is possible:
-  // arma::vec loss_vec_temp = sh_ptr_loss->definedLoss(response, prediction);
-  // double temp_risk = arma::accu(loss_vec_temp) / loss_vec_temp.size();
+  double temp_risk = sh_ptr_response->calculateEmpiricalRisk(_sh_ptr_loss);
 
-  double temp_risk = sh_ptr_response->calculateEmpiricalRisk(sh_ptr_loss);
-
-  tracked_inbag_risk.push_back(temp_risk);
+  _inbag_risk.push_back(temp_risk);
 }
 
 /**
@@ -255,41 +247,39 @@ void LoggerInbagRisk::logStep (const unsigned int& current_iteration, std::share
  * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
-
 bool LoggerInbagRisk::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
-  if (is_a_stopper) {
-    if (tracked_inbag_risk.size() > 1) {
+  if (_is_stopper) {
+    if (_inbag_risk.size() > 1) {
       // We need to subtract -2 and -1 since c++ start counting by 0 while size
       // returns the actual number of elements, so if just one element exists
       // size returns 1 but we want to access 0:
-      double inbag_eps = tracked_inbag_risk[tracked_inbag_risk.size() - 2] - tracked_inbag_risk[tracked_inbag_risk.size() - 1];
-      inbag_eps = inbag_eps / tracked_inbag_risk[tracked_inbag_risk.size() - 2];
+      double inbag_eps = _inbag_risk[_inbag_risk.size() - 2] - _inbag_risk[_inbag_risk.size() - 1];
+      inbag_eps = inbag_eps / _inbag_risk[_inbag_risk.size() - 2];
 
-      if (inbag_eps <= eps_for_break) {
-        count_patience += 1;
+      if (inbag_eps <= _eps_for_break) {
+        _count_patience += 1;
       } else {
-        count_patience = 0;
+        _count_patience = 0;
       }
-      if (count_patience == patience) stop_criteria_is_reached = true;
+      if (_count_patience == _patience) { stop_criteria_is_reached = true; }
     }
   }
   return stop_criteria_is_reached;
 }
 
 /**
- * \brief Return the data stored within the OOB risk logger
+ * \brief Return the data stored within the inbag risk logger
  *
- * This function returns the logged OOB risk.
+ * This function returns the logged inbag risk.
  *
- * \return `arma::vec` of elapsed time
+ * \return `arma::vec` of inbag risk
  */
-
 arma::vec LoggerInbagRisk::getLoggedData () const
 {
-  arma::vec out (tracked_inbag_risk);
+  arma::vec out (_inbag_risk);
   return out;
 }
 
@@ -300,10 +290,9 @@ arma::vec LoggerInbagRisk::getLoggedData () const
  * the model. If we don't clear the data, the new iterations are just pasted at
  * the end of the existing vectors which couses some troubles.
  */
-
 void LoggerInbagRisk::clearLoggerData ()
 {
-  tracked_inbag_risk.clear();
+  _inbag_risk.clear();
 }
 
 /**
@@ -319,44 +308,36 @@ void LoggerInbagRisk::clearLoggerData ()
 std::string LoggerInbagRisk::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << logger_id << " = " << std::setprecision(2) << tracked_inbag_risk.back();
+  ss << Logger::getLoggerId() << " = " << std::setprecision(2) << _inbag_risk.back();
 
   return ss.str();
 }
 
 
-
-
-
 // OobRisk:
 // -----------------------
-
 
 /**
  * \brief Default constructor of `LoggerOobRisk`
  *
- * \param logger_id0 `std::string` unique identifier of the logger
- * \param is_a_stopper0 `bool` to set if the logger should be used as stopper
- * \param sh_ptr_loss `Loss*` which is used to calculate the empirical risk (this
- *   can differ from the loss used while trining the model)
- * \param eps_for_break `double` sets value of the stopping criteria
- * \param oob_data `std::map<std::string, std::shared_ptr<data::Data>>` the new data
- * \param oob_response `arma::vec` response of the new data
+ * \param logger_id `std::string` unique identifier of the logger
+ * \param is_stopper `bool` specify if the logger should be used as stopper
+ * \param sh_ptr_loss `Loss*` used loss to calculate the empirical risk (this
+ *   can differ from the one used while training the model)
+ * \param eps_for_break `double` sets value of the stopping criteria`
  */
 
-LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_stopper0, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  const double& eps_for_break, const unsigned int& patience, std::map<std::string, std::shared_ptr<data::Data>> oob_data,
+LoggerOobRisk::LoggerOobRisk (const std::string logger_id, const bool is_stopper,
+  const std::shared_ptr<loss::Loss> sh_ptr_loss, const double eps_for_break,
+  const unsigned int patience, const std::map<std::string, std::shared_ptr<data::Data>> oob_data,
   std::shared_ptr<response::Response> oob_response)
-  : sh_ptr_loss ( sh_ptr_loss ),
-    eps_for_break ( eps_for_break ),
-    patience ( patience ),
-    oob_data ( oob_data ),
-    sh_ptr_oob_response ( oob_response )
-{
-  is_a_stopper = is_a_stopper0;
-  logger_id = logger_id0;
-  logger_type = "oob_risk";
-}
+  : Logger::Logger       ( is_stopper, "inbag_risk", logger_id),
+    _sh_ptr_loss         ( sh_ptr_loss ),
+    _eps_for_break       ( eps_for_break ),
+    _patience            ( patience ),
+    _oob_data            ( oob_data ),
+    _sh_ptr_oob_response ( oob_response )
+{ }
 
 /**
  * \brief Log current step of compboost iteration for class `LoggerOobRisk`
@@ -385,23 +366,21 @@ LoggerOobRisk::LoggerOobRisk (const std::string& logger_id0, const bool& is_a_st
  *    returned.
  *
  * \param current_iteration `unsigned int` of current iteration
- * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at
+ * \param sh_ptr_response `std::shared_ptr<response::Response>` of the given response used for training
+ * \param sh_ptr_blearner `std::shared_ptr<Baselearner>` pointer to the selected baselearner in
  *   iteration `current_iteration`
- * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
- *   iteration `current_iteration`
- * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
+ * \param step_size `double` step size of the iteration
+ * \param sh_ptr_optimizer `std::shared_ptr<optimizer::Optimizer>` optimizer used to find the best base-learner
  *
  */
-
-void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
-  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   if (current_iteration == 1) {
-    sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
-    sh_ptr_oob_response->initializePrediction();
+    _sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
+    _sh_ptr_oob_response->initializePrediction();
   }
 
   std::string blearner_id = sh_ptr_blearner->getDataIdentifier();
@@ -410,42 +389,16 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
   // baselearner of feature x_7, then get the data of feature x_7:
 
   // Check, whether the data object is present or not:
-  std::map<std::string, std::shared_ptr<data::Data>>::iterator it_oob_data = oob_data.find(blearner_id);
-  if (it_oob_data != oob_data.end()) {
+  std::map<std::string, std::shared_ptr<data::Data>>::iterator it_oob_data = _oob_data.find(blearner_id);
+  if (it_oob_data != _oob_data.end()) {
     std::shared_ptr<data::Data> oob_blearner_data = it_oob_data->second;
 
     // Predict this data using the selected baselearner:
     arma::mat temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
-    sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
+    _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
   }
-
-
-  /* *****************************************************************************************************************************
-   *
-   * This should reduce (theoretically) computation time but increases memory usage (also the code does not work correctly yet)
-   *
-   * arma::mat mat_temp;
-   *
-   * // Check if transformed oob dataset already exists in map. If not, insert the transformed matrix:
-   * if (oob_data_transformed.find(blearner_id) == oob_data_transformed.end()) {
-   *
-   *   mat_temp = sh_ptr_blearner->instantiateData(oob_data.find(blearner_id)->second->getData());
-   *   oob_data_transformed.insert(std::pair<std::string, arma::mat>(blearner_id, mat_temp));
-   * }
-   *
-   * /////// Get data of corresponding selected baselearner. E.g. iteration 100 linear
-   * /////// baselearner of feature x_7, then get the data of feature x_7:
-   * /////// std::shared_ptr<data::Data> oob_blearner_data = oob_data.find(sh_ptr_blearner->getDataIdentifier())->second;
-   * /////
-   * /////// Predict this data using the selected baselearner:
-   * /////// arma::vec temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
-   *
-   * Cumulate prediction and shrink by learning rate:
-   * oob_prediction += learning_rate * step_size * oob_data_transformed.find(blearner_id)->second * sh_ptr_blearner->getParameter();
-   ****************************************************************************************************************************** */
-
-  double temp_risk = sh_ptr_oob_response->calculateEmpiricalRisk(sh_ptr_loss);
-  tracked_oob_risk.push_back(temp_risk);
+  double temp_risk = _sh_ptr_oob_response->calculateEmpiricalRisk(_sh_ptr_loss);
+  _oob_risk.push_back(temp_risk);
 }
 
 /**
@@ -464,25 +417,24 @@ void LoggerOobRisk::logStep (const unsigned int& current_iteration, std::shared_
  * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
-
 bool LoggerOobRisk::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
-  if (is_a_stopper) {
-    if (tracked_oob_risk.size() > 1) {
+  if (_is_stopper) {
+    if (_oob_risk.size() > 1) {
       // We need to subtract -2 and -1 since c++ start counting by 0 while size
       // returns the actual number of elements, so if just one element exists
       // size returns 1 but we want to access 0:
-      double oob_eps = tracked_oob_risk[tracked_oob_risk.size() - 2] - tracked_oob_risk[tracked_oob_risk.size() - 1];
-      oob_eps = oob_eps / tracked_oob_risk[tracked_oob_risk.size() - 2];
+      double oob_eps = _oob_risk[_oob_risk.size() - 2] - _oob_risk[_oob_risk.size() - 1];
+      oob_eps = oob_eps / _oob_risk[_oob_risk.size() - 2];
 
-      if (oob_eps <= eps_for_break) {
-        count_patience += 1;
+      if (oob_eps <= _eps_for_break) {
+        _count_patience += 1;
       } else {
-        count_patience = 0;
+        _count_patience = 0;
       }
-      if (count_patience == patience) stop_criteria_is_reached = true;
+      if (_count_patience == _patience) { stop_criteria_is_reached = true; }
     }
   }
   return stop_criteria_is_reached;
@@ -493,12 +445,11 @@ bool LoggerOobRisk::reachedStopCriteria ()
  *
  * This function returns the logged OOB risk.
  *
- * \return `arma::vec` of elapsed out of bag risk
+ * \return `arma::vec` of out of bag risk
  */
-
 arma::vec LoggerOobRisk::getLoggedData () const
 {
-  arma::vec out (tracked_oob_risk);
+  arma::vec out (_oob_risk);
   return out;
 }
 
@@ -511,7 +462,7 @@ arma::vec LoggerOobRisk::getLoggedData () const
  */
 void LoggerOobRisk::clearLoggerData ()
 {
-  tracked_oob_risk.clear();
+  _oob_risk.clear();
 }
 
 /**
@@ -523,11 +474,10 @@ void LoggerOobRisk::clearLoggerData ()
  *
  * \returns `std::string` which includes the log of the current iteration
  */
-
 std::string LoggerOobRisk::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << logger_id << " = " << std::setprecision(2) << tracked_oob_risk.back();
+  ss << Logger::getLoggerId() << " = " << std::setprecision(2) << _oob_risk.back();
 
   return ss.str();
 }
@@ -542,38 +492,41 @@ std::string LoggerOobRisk::printLoggerStatus () const
 /**
  * \brief Default constructor of class `LoggerTime`
  *
- * \param logger_id0 `std::string` unique identifier of the logger
- * \param is_a_stopper0 `bool` which specifies if the logger is used as stopper
+ * \param logger_id `std::string` unique identifier of the logger
+ * \param is_stopper `bool` which specifies if the logger is used as stopper
  * \param max_time `unsigned int` maximal time for training (just used if logger
  *   is a stopper)
  * \param time_unit `std::string` of the unit used for measuring, allowed are
  *   `minutes`, `seconds` and `microseconds`
  */
 
-LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0, const unsigned int& max_time,
-  const std::string& time_unit)
-  : max_time ( max_time ),
-    time_unit ( time_unit )
+LoggerTime::LoggerTime (const std::string logger_id, const bool is_stopper,
+  const unsigned int max_time, const std::string time_unit)
+  : Logger::Logger ( is_stopper, "time", logger_id),
+    _max_time      ( max_time ),
+    _time_unit     ( time_unit )
 {
   // This is necessary to prevent the program from segfolds... whyever???
   // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
   try {
+    std::vector<std::string> choices{ "minutes", "seconds", "microseconds" };
+    helper::assertChoice(_time_unit, choices);
+    // ************************************************************
+    // Old check:
     // Puh, that's ugly. :)
-    if (time_unit != "minutes" ) {
-      if (time_unit != "seconds") {
-        if (time_unit != "microseconds") {
-          Rcpp::stop("Time unit has to be one of 'microseconds', 'seconds' or 'minutes'.");
-        }
-      }
-    }
+    // if (_time_unit != "minutes" ) {
+    //   if (_time_unit != "seconds") {
+    //     if (_time_unit != "microseconds") {
+    //       Rcpp::stop("Time unit has to be one of 'microseconds', 'seconds' or 'minutes'.");
+    //     }
+    //   }
+    // }
+    // ************************************************************
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
   } catch (...) {
     ::Rf_error( "c++ exception (unknown reason)" );
   }
-  is_a_stopper = is_a_stopper0;
-  logger_id = logger_id0;
-  logger_type = "time";
 }
 
 /**
@@ -583,34 +536,32 @@ LoggerTime::LoggerTime (const std::string& logger_id0, const bool& is_a_stopper0
  * current iteration.
  *
  * \param current_iteration `unsigned int` of current iteration
- * \param response `arma::vec` of the given response used for training
- * \param prediction `arma::vec` actual prediction of the boosting model at
+ * \param sh_ptr_response `std::shared_ptr<response::Response>` of the given response used for training
+ * \param sh_ptr_blearner `std::shared_ptr<Baselearner>` pointer to the selected baselearner in
  *   iteration `current_iteration`
- * \param sh_ptr_blearner `Baselearner*` pointer to the selected baselearner in
- *   iteration `current_iteration`
- * \param offset `double` of the overall offset of the training
  * \param learning_rate `double` lerning rate of the `current_iteration`
+ * \param step_size `double` step size of the iteration
+ * \param sh_ptr_optimizer `std::shared_ptr<optimizer::Optimizer>` optimizer used to find the best base-learner
  *
  */
-
-void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr<response::Response> sh_ptr_response,
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& learning_rate, const double& step_size,
-  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerTime::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
-  if (current_time.size() == 0) {
-    init_time = std::chrono::steady_clock::now();
+  if (_current_time.size() == 0) {
+    _init_time = std::chrono::steady_clock::now();
   }
   unsigned int interim_time;
-  if (time_unit == "minutes") {
-    interim_time = std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - init_time).count();
+  if (_time_unit == "minutes") {
+    interim_time = std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - _init_time).count();
   }
-  if (time_unit == "seconds") {
-    interim_time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - init_time).count();
+  if (_time_unit == "seconds") {
+    interim_time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _init_time).count();
   }
-  if (time_unit == "microseconds") {
-    interim_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - init_time).count();
+  if (_time_unit == "microseconds") {
+    interim_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - _init_time).count();
   }
-  current_time.push_back(interim_time + retrain_drift);
+  _current_time.push_back(interim_time + _retrain_drift);
 }
 
 /**
@@ -625,13 +576,12 @@ void LoggerTime::logStep (const unsigned int& current_iteration, std::shared_ptr
  * \returns `bool` which tells if the stopping criteria is reached or not
  *   (if the logger isn't a stopper then this is always false)
  */
-
 bool LoggerTime::reachedStopCriteria ()
 {
   bool stop_criteria_is_reached = false;
 
-  if (is_a_stopper) {
-    if (current_time.back() >= max_time) {
+  if (_is_stopper) {
+    if (_current_time.back() >= _max_time) {
       stop_criteria_is_reached = true;
     }
   }
@@ -649,11 +599,10 @@ bool LoggerTime::reachedStopCriteria ()
  *
  * \return `arma::vec` of elapsed time
  */
-
 arma::vec LoggerTime::getLoggedData () const
 {
   // Cast integer vector to double:
-  std::vector<double> time_double (current_time.begin(), current_time.end());
+  std::vector<double> time_double (_current_time.begin(), _current_time.end());
 
   arma::vec out (time_double);
   return out;
@@ -666,10 +615,9 @@ arma::vec LoggerTime::getLoggedData () const
  * the model. If we don't clear the data, the new iterations are just pasted at
  * the end of the existing vectors which couses some troubles.
  */
-
 void LoggerTime::clearLoggerData ()
 {
-  current_time.clear();
+  _current_time.clear();
 }
 
 /**
@@ -681,19 +629,18 @@ void LoggerTime::clearLoggerData ()
  *
  * \returns `std::string` which includes the log of the current iteration
  */
-
 std::string LoggerTime::printLoggerStatus () const
 {
   std::stringstream ss;
-  ss << logger_id << " = " << std::setprecision(2) << current_time.back();
+  ss << Logger::getLoggerId() << " = " << std::setprecision(2) << _current_time.back();
 
   return ss.str();
 }
 
 void LoggerTime::reInitializeTime ()
 {
-  init_time = std::chrono::steady_clock::now();
-  retrain_drift += current_time.back();
+  _init_time = std::chrono::steady_clock::now();
+  _retrain_drift += _current_time.back();
 }
 
 } // namespace logger

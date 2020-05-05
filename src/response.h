@@ -24,7 +24,7 @@
 #include "RcppArmadillo.h"
 #include "loss.h"
 #include "helper.h"
-#include "tensors.h"
+// #include "tensors.h"
 
 namespace response
 {
@@ -36,54 +36,60 @@ namespace response
 class Response
 {
 protected:
-  std::string target_name;
-  std::string task_id;
-  arma::mat response;
-  arma::mat weights;
-  arma::mat initialization;
-  arma::mat pseudo_residuals;
-  arma::mat prediction_scores;
+  const std::string _target_name;
+  const std::string _task_id;
+  const bool        _use_weights = false;
 
-  unsigned int actual_iteration = 0;
-  bool is_initialization_initialized = false;
-  bool is_model_initialized = false;
+  arma::mat _response;
+  arma::mat _weights;
+  arma::mat _initialization;
+
+  arma::mat _pseudo_residuals;
+  arma::mat _prediction_scores;
+
+  unsigned int _iteration = 0;
+  bool         _is_initialized = false;
+  bool         _is_model_initialized = false;
+
+  Response (const std::string, const std::string, const arma::mat&);
+  Response (const std::string, const std::string, const arma::mat&, const arma::mat&);
 
 public:
-
   Response ();
 
-  void setActualIteration (const unsigned int&);
-  void setActualPredictionScores (const arma::mat&, const unsigned int&);
-
-  std::string getTargetName () const;
-  std::string getTaskIdentifier () const;
-  arma::mat getResponse () const;
-  arma::mat getWeights () const;
-  arma::mat getInitialization () const;
-  arma::mat getPseudoResiduals () const;
-  arma::mat getPredictionScores () const;
-
-  bool use_weights = false;
-
-  void checkLossCompatibility (std::shared_ptr<loss::Loss>) const;
-
-  void updatePseudoResiduals (std::shared_ptr<loss::Loss>);
-  void updatePrediction (const arma::mat&);
-  void updatePrediction (const double&, const double&, const arma::mat&);
-
-  void constantInitialization (std::shared_ptr<loss::Loss>);
-  void constantInitialization (const arma::mat&);
+  // Virtual methods
+  virtual void      initializePrediction       ()                       = 0;
+  virtual void      filter                     (const arma::uvec&)      = 0;
   virtual arma::mat calculateInitialPrediction (const arma::mat&) const = 0;
-  virtual void initializePrediction () = 0;
-  arma::mat getPredictionTransform () const;
-  virtual arma::mat getPredictionTransform (const arma::mat&) const = 0;
-  arma::mat getPredictionResponse () const;
-  virtual arma::mat getPredictionResponse (const arma::mat&) const = 0;
+  virtual arma::mat getPredictionTransform     (const arma::mat&) const = 0;
+  virtual arma::mat getPredictionResponse      (const arma::mat&) const = 0;
 
-  double calculateEmpiricalRisk (std::shared_ptr<loss::Loss>) const;
 
-  virtual void filter (const arma::uvec&) = 0;
+  // Setter/Getter
+  void setIteration        (const unsigned int);
+  void setPredictionScores (const arma::mat&, const unsigned int);
 
+  std::string getTargetName          () const;
+  std::string getTaskIdentifier      () const;
+  arma::mat   getResponse            () const;
+  arma::mat   getWeights             () const;
+  arma::mat   getInitialization      () const;
+  arma::mat   getPseudoResiduals     () const;
+  arma::mat   getPredictionScores    () const;
+  arma::mat   getPredictionTransform () const;
+  arma::mat   getPredictionResponse  () const;
+
+  // Other methods
+  void checkLossCompatibility (const std::shared_ptr<loss::Loss>&) const;
+  void updatePseudoResiduals  (const std::shared_ptr<loss::Loss>&);
+  void updatePrediction       (const arma::mat&);
+  void updatePrediction       (const double, const double, const arma::mat&);
+  void constantInitialization (const std::shared_ptr<loss::Loss>&);
+  void constantInitialization (const arma::mat&);
+
+  double calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>&) const;
+
+  // Destructor
   virtual ~Response () { };
 };
 
@@ -92,59 +98,67 @@ public:
 // Response implementations:
 // -------------------------------------------------------------------------- //
 
+// ResponseRegression
+// ------------------------------------
+
 class ResponseRegr : public Response
 {
-
 public:
-  ResponseRegr (const std::string&, const arma::mat&);
-  ResponseRegr (const std::string&, const arma::mat&, const arma::mat&);
+  ResponseRegr (const std::string, const arma::mat&);
+  ResponseRegr (const std::string, const arma::mat&, const arma::mat&);
 
+  void      initializePrediction       ();
+  void      filter                     (const arma::uvec&);
   arma::mat calculateInitialPrediction (const arma::mat&) const;
-  void initializePrediction ();
-  arma::mat getPredictionTransform (const arma::mat&) const;
-  arma::mat getPredictionResponse (const arma::mat&) const;
-  void filter (const arma::uvec&);
+  arma::mat getPredictionTransform     (const arma::mat&) const;
+  arma::mat getPredictionResponse      (const arma::mat&) const;
 };
+
+
+// ResponseBinaryClassif
+// ------------------------------------
 
 class ResponseBinaryClassif : public Response
 {
+private:
+  double                                    _threshold = 0.5;
+  const std::string                         _pos_class;
+  const std::map<std::string, unsigned int> _class_table;
+
 public:
-  double threshold = 0.5;
-  std::string pos_class;
-  std::map<std::string, unsigned int> class_table;
+  ResponseBinaryClassif (const std::string, const std::string, const std::vector<std::string>&);
+  ResponseBinaryClassif (const std::string, const std::string, const std::vector<std::string>&, const arma::mat&);
 
-  ResponseBinaryClassif (const std::string&, const std::string&, const std::vector<std::string>&);
-  ResponseBinaryClassif (const std::string&, const std::string&, const std::vector<std::string>&, const arma::mat&);
-
+  void      initializePrediction       ();
+  void      filter                     (const arma::uvec&);
   arma::mat calculateInitialPrediction (const arma::mat&) const;
-  void initializePrediction ();
-  arma::mat getPredictionTransform (const arma::mat&) const;
-  arma::mat getPredictionResponse (const arma::mat&) const;
-  std::string getPositiveClass () const;
-  std::map<std::string, unsigned int> getClassTable () const;
+  arma::mat getPredictionTransform     (const arma::mat&) const;
+  arma::mat getPredictionResponse      (const arma::mat&) const;
 
-  void filter (const arma::uvec&);
-  void setThreshold (const double&);
+  void                                setThreshold     (const double);
+  double                              getThreshold     () const;
+  std::string                         getPositiveClass () const;
+  std::map<std::string, unsigned int> getClassTable    () const;
 };
 
 // -----------------------------------------------------------------------------------------------------------------
-class ResponseFDA : public Response
-{
-
-public:
-  arma::mat grid;
-  arma::mat trapez_weights;
-
-  ResponseFDA (const std::string&, const arma::mat&, const arma::mat&);
-  ResponseFDA (const std::string&, const arma::mat&, const arma::mat&, const arma::mat&);
-
-  arma::mat calculateInitialPrediction (const arma::mat&) const;
-  void initializePrediction ();
-  void updatePseudoResiduals (std::shared_ptr<loss::Loss>);
-  arma::mat getPredictionTransform (const arma::mat&) const;
-  arma::mat getPredictionResponse (const arma::mat&) const;
-  void filter (const arma::uvec&);
-};
+// class ResponseFDA : public Response
+// {
+//
+// public:
+//   arma::mat grid;
+//   arma::mat trapez_weights;
+//
+//   ResponseFDA (const std::string&, const arma::mat&, const arma::mat&);
+//   ResponseFDA (const std::string&, const arma::mat&, const arma::mat&, const arma::mat&);
+//
+//   arma::mat calculateInitialPrediction (const arma::mat&) const;
+//   void initializePrediction ();
+//   void updatePseudoResiduals (std::shared_ptr<loss::Loss>);
+//   arma::mat getPredictionTransform (const arma::mat&) const;
+//   arma::mat getPredictionResponse (const arma::mat&) const;
+//   void filter (const arma::uvec&);
+// };
 
 
 } // namespace response

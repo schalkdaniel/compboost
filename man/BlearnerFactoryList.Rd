@@ -46,12 +46,10 @@ data_mat = cbind(1:10)
 
 # Create new data object:
 data_source = InMemoryData$new(data_mat, "my_data_name")
-data_target1 = InMemoryData$new()
-data_target2 = InMemoryData$new()
 
-lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
+lin_factory = BaselearnerPolynomial$new(data_source,
   list(degree = 1, intercept = TRUE))
-poly_factory = BaselearnerPolynomial$new(data_source, data_target2,
+poly_factory = BaselearnerPolynomial$new(data_source,
   list(degree = 2, intercept = TRUE))
 
 # Create new base-learner list:

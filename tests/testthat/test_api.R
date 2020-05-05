@@ -331,7 +331,8 @@ test_that("training with binomial loss works", {
   hp_classes = ifelse(mtcars$hp > 150, 1, -1)
   mtcars$hp_cat = factor(hp_classes, levels = c(1, -1))
 
-  expect_warning({ bin_loss = LossBinomial$new(2) })
+  expect_error({ bin_loss = LossBinomial$new(2) })
+  expect_silent({ bin_loss = LossBinomial$new() })
 
   expect_silent({
     cboost = Compboost$new(mtcars, "hp_cat", loss = bin_loss)

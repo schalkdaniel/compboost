@@ -40,10 +40,10 @@ namespace linesearch {
  *
  * \returns `double` Risk evaluated at the given step size
  */
-double calculateRisk (const double& step_size, std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
+double calculateRisk (const double step_size, const std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
   const arma::vec& baselearner_prediction)
 {
-  return arma::accu(sh_ptr_loss->definedLoss(target, model_prediction + step_size * baselearner_prediction)) / model_prediction.size();
+  return arma::accu(sh_ptr_loss->loss(target, model_prediction + step_size * baselearner_prediction)) / model_prediction.size();
 }
 
 /**
@@ -63,8 +63,8 @@ double calculateRisk (const double& step_size, std::shared_ptr<loss::Loss> sh_pt
  *
  * \returns `double` Optimal step size.
  */
-double findOptimalStepSize (std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
-  const arma::vec& baselearner_prediction, const double& lower_bound, const double& upper_bound)
+double findOptimalStepSize (const std::shared_ptr<loss::Loss> sh_ptr_loss, const arma::vec& target, const arma::vec& model_prediction,
+  const arma::vec& baselearner_prediction, const double lower_bound, const double upper_bound)
 {
   boost::uintmax_t max_iter = 500;
   // boost::math::tools::eps_tolerance<double> tol(30);
