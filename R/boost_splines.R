@@ -1,6 +1,6 @@
 #' Wrapper to boost general additive models for each feature.
 #'
-#' This wrapper function automatically initialize the model by adding all numerical
+#' This wrapper function automatically initializes the model by adding all numerical
 #' features as spline base-learner. Categorical features are dummy encoded and inserted
 #' using another linear base-learners without intercept. The function \code{boostSplines}
 #' does also train the model.

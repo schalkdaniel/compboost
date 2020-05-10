@@ -1,6 +1,6 @@
 #' Wrapper to boost linear models for each feature.
 #'
-#' This wrapper function automatically initialize the model by adding all numerical
+#' This wrapper function automatically initializes the model by adding all numerical
 #' features as linear base-learner. Categorical features are dummy encoded and inserted
 #' using another linear base-learners without intercept. The function \code{boostLinear}
 #' does also train the model.
@@ -14,7 +14,7 @@
 #' @param data [\code{data.frame}]\cr
 #'   A data frame containing the data.
 #' @param target [\code{character(1)} or \code{Response} class]\cr
-#'   Character value containing the target variable or Response object. Note that the loss must match the
+#'   Character value containing the target variable or response object. Note that the loss must match the
 #'   data type of the target.
 #' @param optimizer [\code{S4 Optimizer}]\cr
 #'   An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
