@@ -214,24 +214,25 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
   // Idea is simply to calculate the vector matrix product of parameter and
   // newdata. The problem here is that the newdata comes as raw data and has
   // to be transformed first:
-  for (auto& it : parameter_map) {
+  for (auto& it_pair_param : parameter_map) {
 
     // Name of current feature:
-    std::string sel_factory = it.first;
+    std::string factory_id = it_pair_param.first;
 
     // Find the element with key 'hat'
-    std::shared_ptr<blearnerfactory::BaselearnerFactory> sel_factory_obj = _factory_list.getFactoryMap().find(sel_factory)->second;
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner_factory = _factory_list.getFactoryMap().find(factory_id)->second;
 
     // Select newdata corresponding to selected factory object:
     std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;
-    it_newdata = data_map.find(sel_factory_obj->getDataIdentifier());
+    it_newdata = data_map.find(blearner_factory->getDataIdentifier());
 
     // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
     if (it_newdata != data_map.end()) {
-      arma::mat data_trafo = sel_factory_obj->instantiateData(it_newdata->second->getData());
-      helper::debugPrint("| > data_trafo:" + helper::getMatStatus(data_trafo));
-      helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it.second));
-      pred += data_trafo * it.second;
+      // arma::mat data_trafo = blearner_factory->instantiateData(it_newdata->second->getData());
+      // helper::debugPrint("| > data_trafo:" + helper::getMatStatus(data_trafo));
+      // helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it_pair_param.second));
+      //pred += data_trafo * it.second;
+      pred += blearner_factory->calculateLinearPredictor(it_pair_param.second, it_newdata->second);
     }
   }
   if (as_response) {

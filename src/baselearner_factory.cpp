@@ -104,6 +104,12 @@ arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::ma
   return BaselearnerPolynomialFactory::getData() * param;
 }
 
+arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
 std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_data_target, _degree, _intercept);
@@ -191,6 +197,13 @@ arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& 
   return (param.t() * _sh_ptr_psdata->getSparseData()).t();
 }
 
+arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
+
 std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerPSpline>(_blearner_type, _sh_ptr_psdata);
@@ -241,6 +254,14 @@ arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const a
   return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), arma::as_scalar(param));
 }
 
+arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  // FIX FIX FIX, when having the appropriate structure for categorical data fix this to
+  // set elements of the raw data == class to parameter:
+  return param;
+}
+
+
 arma::mat BaselearnerCategoricalBinaryFactory::instantiateData (const arma::mat& newdata) const
 {
   return newdata;
@@ -277,6 +298,12 @@ arma::mat BaselearnerCustomFactory::getData () const
 arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   return _sh_ptr_data_target->getData() * param;
+}
+
+arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
 }
 
 arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) const
@@ -316,6 +343,13 @@ arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat
 {
   return _sh_ptr_data_target->getData() * param;
 }
+
+arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
 
 arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata) const
 {

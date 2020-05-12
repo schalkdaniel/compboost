@@ -40,7 +40,7 @@ Baselearner::~Baselearner () { }
 // BaselearnerPolynomial:
 // -----------------------
 
-BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, const std::shared_ptr<data::Data> data,
+BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, const std::shared_ptr<data::Data>& data,
   const unsigned int degree, const bool intercept)
   : Baselearner ( blearner_type ),
     _sh_ptr_data ( data ),
@@ -90,7 +90,7 @@ arma::mat BaselearnerPolynomial::predict () const
   }
 }
 
-arma::mat BaselearnerPolynomial::predict (std::shared_ptr<data::Data> newdata) const
+arma::mat BaselearnerPolynomial::predict (const std::shared_ptr<data::Data>& newdata) const
 {
   return instantiateData(newdata->getDenseData()) * _parameter;
 }
@@ -145,7 +145,7 @@ BaselearnerPolynomial::~BaselearnerPolynomial () {}
  * \param blearner_type `std::string` The base-learner type, usually set by the factory.
  * \param sh_ptr_psdata `std::shared_ptr<data::PSplineData>` Data container.
  */
-BaselearnerPSpline::BaselearnerPSpline (const std::string blearner_type, const std::shared_ptr<data::PSplineData> sh_ptr_psdata)
+BaselearnerPSpline::BaselearnerPSpline (const std::string blearner_type, const std::shared_ptr<data::PSplineData>& sh_ptr_psdata)
   : Baselearner   ( blearner_type ),
     _sh_ptr_psdata ( sh_ptr_psdata )
 { }
@@ -175,7 +175,7 @@ arma::mat BaselearnerPSpline::predict () const
   }
 }
 
-arma::mat BaselearnerPSpline::predict (std::shared_ptr<data::Data> newdata) const
+arma::mat BaselearnerPSpline::predict (const std::shared_ptr<data::Data>& newdata) const
 {
   return instantiateData(newdata->getData()) * _parameter;
 }
@@ -195,13 +195,49 @@ std::string BaselearnerPSpline::getDataIdentifier () const
 BaselearnerPSpline::~BaselearnerPSpline () {}
 
 
+// BaselearnerCategoricalRidge:
+// ---------------------------------------
+
+BaselearnerCategoricalRidge::BaselearnerCategoricalRidge (const std::string blearner_type,
+  const std::shared_ptr<data::CategoricalData>& data)
+  : Baselearner   ( blearner_type ),
+    _sh_ptr_cdata ( data )
+{ }
+
+void BaselearnerCategoricalRidge::train (const arma::mat& response)
+{
+  _parameter = _sh_ptr_cdata->getCache().second % (_sh_ptr_cdata->getSparseData() * response);
+}
+
+arma::mat BaselearnerCategoricalRidge::predict () const
+{
+  return (_parameter.t() * _sh_ptr_cdata->getSparseData()).t();
+}
+
+arma::mat BaselearnerCategoricalRidge::predict (const std::shared_ptr<data::Data>& newdata) const
+{
+  std::shared_ptr<data::CategoricalDataRaw> sh_ptr_cdata_raw = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
+  return _sh_ptr_cdata->dictionaryInsert(sh_ptr_cdata_raw->getRawData(), _parameter);
+}
+
+arma::mat BaselearnerCategoricalRidge::instantiateData (const arma::mat& newdata) const
+{
+  return newdata;
+}
+
+std::string BaselearnerCategoricalRidge::getDataIdentifier () const
+{
+  return _sh_ptr_cdata->getDataIdentifier();
+}
+
+BaselearnerCategoricalRidge::~BaselearnerCategoricalRidge () {}
 
 // BaselearnerCategoricalBinary:
 // -------------------------------
 
 BaselearnerCategoricalBinary::BaselearnerCategoricalBinary (const std::string blearner_type,
-  const std::shared_ptr<data::CategoricalBinaryData> data)
-  : Baselearner   ( blearner_type ),
+  const std::shared_ptr<data::CategoricalBinaryData>& data)
+  : Baselearner    ( blearner_type ),
     _sh_ptr_bcdata ( data )
 { }
 
@@ -222,7 +258,7 @@ arma::mat BaselearnerCategoricalBinary::predict () const
   return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), arma::as_scalar(_parameter));
 }
 
-arma::mat BaselearnerCategoricalBinary::predict (std::shared_ptr<data::Data> newdata) const
+arma::mat BaselearnerCategoricalBinary::predict (const std::shared_ptr<data::Data>& newdata) const
 {
   return newdata->getDenseData() * _parameter;
 }
@@ -244,7 +280,7 @@ BaselearnerCategoricalBinary::~BaselearnerCategoricalBinary () {}
 // BaselearnerCustom:
 // -----------------------
 
-BaselearnerCustom::BaselearnerCustom (const std::string blearner_type, const std::shared_ptr<data::Data> data,
+BaselearnerCustom::BaselearnerCustom (const std::string blearner_type, const std::shared_ptr<data::Data>& data,
   Rcpp::Function instantiateDataFun, Rcpp::Function trainFun, Rcpp::Function predictFun,
   Rcpp::Function extractParameter)
   : Baselearner        ( blearner_type ),
@@ -267,7 +303,7 @@ arma::mat BaselearnerCustom::predict () const
   return Rcpp::as<arma::mat>(out);
 }
 
-arma::mat BaselearnerCustom::predict (std::shared_ptr<data::Data> newdata) const
+arma::mat BaselearnerCustom::predict (const std::shared_ptr<data::Data>& newdata) const
 {
   Rcpp::NumericMatrix out = _predictFun(_model, instantiateData(newdata->getDenseData()));
   return Rcpp::as<arma::mat>(out);
@@ -291,7 +327,7 @@ BaselearnerCustom::~BaselearnerCustom () {}
 // BaselearnerCustomCpp:
 // -----------------------
 
-BaselearnerCustomCpp::BaselearnerCustomCpp (const std::string blearner_type, const std::shared_ptr<data::Data> data,
+BaselearnerCustomCpp::BaselearnerCustomCpp (const std::string blearner_type, const std::shared_ptr<data::Data>& data,
   SEXP instantiateDataFun0, SEXP trainFun0, SEXP predictFun0)
   : Baselearner ( blearner_type ),
     _sh_ptr_data ( data )
@@ -316,7 +352,7 @@ arma::mat BaselearnerCustomCpp::predict () const
   return _predictFun (_sh_ptr_data->getData(), _parameter);
 }
 
-arma::mat BaselearnerCustomCpp::predict (std::shared_ptr<data::Data> newdata) const
+arma::mat BaselearnerCustomCpp::predict (const std::shared_ptr<data::Data>& newdata) const
 {
   arma::mat temp_mat = instantiateData(newdata->getData());
   return _predictFun (temp_mat, _parameter);
