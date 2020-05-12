@@ -64,6 +64,7 @@ protected:
   const std::shared_ptr<data::Data>  _sh_ptr_data_source;
 
 public:
+  BaselearnerFactory (const std::string);
   BaselearnerFactory (const std::string, const std::shared_ptr<data::Data>);
 
   // Virtual methods
@@ -120,6 +121,27 @@ private:
 public:
   BaselearnerPSplineFactory (const std::string, std::shared_ptr<data::Data>, const unsigned int,
     const unsigned int, const double, const unsigned int, const bool, const unsigned int, const std::string);
+
+  arma::mat  instantiateData          (const arma::mat&) const;
+  arma::mat  getData                  ()                 const;
+  arma::mat  calculateLinearPredictor (const arma::mat&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+
+  std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+};
+
+
+// BaselearnerCategoricalRidgeFactory:
+// ------------------------------------------------
+
+class BaselearnerCategoricalRidgeFactory : public BaselearnerFactory
+{
+private:
+  std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
+
+public:
+  BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalData>&);
+  BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalData>&, const double);
 
   arma::mat  instantiateData          (const arma::mat&) const;
   arma::mat  getData                  ()                 const;

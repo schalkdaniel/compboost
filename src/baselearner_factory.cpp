@@ -26,6 +26,8 @@ namespace blearnerfactory {
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
+BaselearnerFactory::BaselearnerFactory (const std::string blearner_type) : _blearner_type ( blearner_type ) {}
+
 BaselearnerFactory::BaselearnerFactory (const std::string blearner_type, std::shared_ptr<data::Data> data_source)
   : _blearner_type      ( blearner_type ),
     _sh_ptr_data_source ( data_source )
@@ -207,6 +209,60 @@ arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& 
 std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerPSpline>(_blearner_type, _sh_ptr_psdata);
+}
+
+
+// BaselearnerCategoricalRidgeFactory:
+// -------------------------------------------
+
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
+  std::shared_ptr<data::CategoricalData>& cdata_source)
+  : BaselearnerFactory ( blearner_type ),
+    _sh_ptr_cdata      ( cdata_source )
+{
+  // TODO: Throw exception if data object is not categorical!
+  _sh_ptr_cdata->initRidgeData();
+}
+
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
+  std::shared_ptr<data::CategoricalData>& cdata_source, const double df)
+  : BaselearnerFactory ( blearner_type ),
+    _sh_ptr_cdata      ( cdata_source )
+{
+  // TODO: Throw exception if data object is not categorical!
+  _sh_ptr_cdata->initRidgeData(df);
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::instantiateData (const arma::mat& newdata) const
+{
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::getData () const
+{
+  return _sh_ptr_cdata->getData();
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  arma::urowvec classes = _sh_ptr_cdata->getClasses();
+  arma::mat out(classes.n_rows, param.n_cols, arma::fill::zeros);
+  for (unsigned int i = 0; i < classes.n_rows; i++) {
+    out.row(i) = param.row(classes(i));
+  }
+  return out;
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
+  return _sh_ptr_cdata->dictionaryInsert(classes, param);
+}
+
+std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::createBaselearner ()
+{
+  return std::make_shared<blearner::BaselearnerCategoricalRidge>(_blearner_type, _sh_ptr_cdata);
 }
 
 

@@ -193,6 +193,11 @@ map_dict CategoricalData::getDictionary () const
   return _dictionary;
 }
 
+arma::urowvec CategoricalData::getClasses () const
+{
+  return _classes;
+}
+
 void CategoricalData::initRidgeData (const double df)
 {
   _df = df;

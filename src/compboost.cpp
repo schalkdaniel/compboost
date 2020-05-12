@@ -228,10 +228,6 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 
     // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
     if (it_newdata != data_map.end()) {
-      // arma::mat data_trafo = blearner_factory->instantiateData(it_newdata->second->getData());
-      // helper::debugPrint("| > data_trafo:" + helper::getMatStatus(data_trafo));
-      // helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it_pair_param.second));
-      //pred += data_trafo * it.second;
       pred += blearner_factory->calculateLinearPredictor(it_pair_param.second, it_newdata->second);
     }
   }

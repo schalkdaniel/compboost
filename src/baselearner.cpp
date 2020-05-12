@@ -222,7 +222,8 @@ arma::mat BaselearnerCategoricalRidge::predict (const std::shared_ptr<data::Data
 
 arma::mat BaselearnerCategoricalRidge::instantiateData (const arma::mat& newdata) const
 {
-  return newdata;
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
 }
 
 std::string BaselearnerCategoricalRidge::getDataIdentifier () const

@@ -165,8 +165,9 @@ private:
 public:
   CategoricalData (const std::string, const std::vector<std::string>&);
 
-  arma::mat  getData()       const;
-  map_dict   getDictionary() const;
+  arma::mat     getData       () const;
+  map_dict      getDictionary () const;
+  arma::urowvec getClasses    () const;
 
   void       initRidgeData    (const double);
   void       initRidgeData    ();

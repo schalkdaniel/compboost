@@ -62,6 +62,12 @@
 #' @export InMemoryData
 NULL
 
+#' @export CategoricalData
+NULL
+
+#' @export CategoricalDataRaw
+NULL
+
 #' Base-learner factory for polynomial regression
 #'
 #' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
@@ -214,6 +220,46 @@ NULL
 #' spline_factory$transformData(data_mat)
 #'
 #' @export BaselearnerPSpline
+NULL
+
+#' Base-learner factory for categorical feature using Ridge penalty
+#'
+#' \code{BaselearnerCategoricalRidge} can be used to estimate effects of  categorical
+#' features. The categories are included as in the linear model by using a binary matrix.
+#' The Ridge penalty enables unbiased feature selection by setting the penalty corresponding
+#' to degree of freedoms.
+#'
+#' @format \code{\link{S4}} object.
+#' @name BaselearnerCategoricalRidge
+#'
+#' @section Usage:
+#' \preformatted{
+#' BaselearnerCategoricalRidge$new(data_source, list(df))
+#' }
+#'
+#' @section arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{data} object]}{
+#'   data object which contains the source data.
+#' }
+#' }
+#'
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modeling.}
+#' \item{\code{transformData(X)}}{This class does is not allowed to transform data. This is due to the internal structure.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' x = sample(c(0,1), 20, TRUE)
+#' data_mat = cbind(x)
+#'
+#' @export BaselearnerCategoricalBinary
 NULL
 
 #' Base-learner factory for categorical feature on a binary base-learner basis
