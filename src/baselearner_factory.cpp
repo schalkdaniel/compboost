@@ -33,7 +33,13 @@ BaselearnerFactory::BaselearnerFactory (const std::string blearner_type, std::sh
     _sh_ptr_data_source ( data_source )
 { }
 
-std::string BaselearnerFactory::getDataIdentifier () const { return _sh_ptr_data_source->getDataIdentifier(); }
+std::string BaselearnerFactory::getDataIdentifier () const
+{
+  if (_sh_ptr_data_source.use_count() == 0) {
+    throw std::logic_error("Data source is not initialized");
+  }
+  return _sh_ptr_data_source->getDataIdentifier();
+}
 std::string BaselearnerFactory::getBaselearnerType() const { return _blearner_type; }
 
 /// Destructor
@@ -265,6 +271,7 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::creat
   return std::make_shared<blearner::BaselearnerCategoricalRidge>(_blearner_type, _sh_ptr_cdata);
 }
 
+std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { return _sh_ptr_cdata->getDataIdentifier(); }
 
 // BaselearnerCategoricalBinary:
 // ----------------------------------

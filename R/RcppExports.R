@@ -259,7 +259,7 @@ NULL
 #' x = sample(c(0,1), 20, TRUE)
 #' data_mat = cbind(x)
 #'
-#' @export BaselearnerCategoricalBinary
+#' @export BaselearnerCategoricalRidge
 NULL
 
 #' Base-learner factory for categorical feature on a binary base-learner basis

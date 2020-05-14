@@ -179,6 +179,7 @@ CategoricalData::CategoricalData (const std::string data_identifier, const std::
     }
     temp_classes(i) = int_class;
   }
+  _classes = temp_classes;
 }
 
 arma::mat CategoricalData::getData () const
@@ -250,6 +251,7 @@ CategoricalDataRaw::CategoricalDataRaw (const std::string data_identifier, const
 { }
 
 arma::mat CategoricalDataRaw::getData () const {
+  throw std::logic_error("Raw categorical data does not contain a numerical representation, call '$getRawData()' instead");
   // 1 x 1 dummy  matrix:
   return Data::getDenseData();
 }

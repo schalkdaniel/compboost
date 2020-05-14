@@ -143,21 +143,30 @@ public:
 };
 
 //' @export CategoricalData
+
+namespace {
+  std::shared_ptr<data::CategoricalData> vecToData (Rcpp::StringVector classes, std::string data_identifier) {
+    std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
+    return std::make_shared<data::CategoricalData>(data_identifier, str_classes);
+  }
+}
+
 class CategoricalDataWrapper : public DataWrapper
 {
 
 private:
-  std::shared_ptr<data::CategoricalData>_sh_ptr_cdata;
+  std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
 
 public:
 
   CategoricalDataWrapper (Rcpp::StringVector classes, std::string data_identifier)
+  //  : _sh_ptr_cdata ( vecToData(classes, data_identifier) )
   {
     std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
     _sh_ptr_cdata = std::make_shared<data::CategoricalData>(data_identifier, str_classes);
   }
 
-  std::shared_ptr<data::CategoricalData> getCDataPtr () { return _sh_ptr_cdata; }
+  std::shared_ptr<data::CategoricalData> getCDataPtr () const { return _sh_ptr_cdata; }
 
   arma::mat getData () const
   {
@@ -168,13 +177,18 @@ public:
   {
     return _sh_ptr_cdata->getDataIdentifier();
   }
+
+  std::map<std::string, unsigned int> getDictionary () const
+  {
+    return _sh_ptr_cdata->getDictionary();
+  }
 };
 
 //' @export CategoricalDataRaw
 class CategoricalDataRawWrapper : public DataWrapper
 {
 private:
-  std::shared_ptr<data::CategoricalDataRaw>_sh_ptr_rawcdata;
+  std::shared_ptr<data::CategoricalDataRaw> _sh_ptr_rawcdata;
 
 public:
 
@@ -184,7 +198,7 @@ public:
     _sh_ptr_rawcdata = std::make_shared<data::CategoricalDataRaw>(data_identifier, str_classes);
   }
 
-  std::shared_ptr<data::CategoricalDataRaw> getCDataRawPtr () { return _sh_ptr_rawcdata; }
+  std::shared_ptr<data::CategoricalDataRaw> getCDataRawPtr () const { return _sh_ptr_rawcdata; }
 
   arma::mat getData () const
   {
@@ -195,6 +209,11 @@ public:
   {
     return _sh_ptr_rawcdata->getDataIdentifier();
   }
+
+  std::vector<std::string> getRawData () const
+  {
+    return _sh_ptr_rawcdata->getRawData();
+  }
 };
 
 
@@ -202,6 +221,8 @@ public:
 
 
 RCPP_EXPOSED_CLASS(DataWrapper)
+RCPP_EXPOSED_CLASS(CategoricalDataWrapper)
+RCPP_EXPOSED_CLASS(CategoricalDataRawWrapper)
 RCPP_MODULE (data_module)
 {
   using namespace Rcpp;
@@ -229,6 +250,7 @@ RCPP_MODULE (data_module)
 
     .method("getData",       &CategoricalDataWrapper::getData, "Get data")
     .method("getIdentifier", &CategoricalDataWrapper::getIdentifier, "Get the data identifier")
+    .method("getDictionary", &CategoricalDataWrapper::getDictionary, "Get the encoding of the feature")
   ;
 
   class_<CategoricalDataRawWrapper> ("CategoricalDataRaw")
@@ -237,6 +259,7 @@ RCPP_MODULE (data_module)
     .constructor<Rcpp::StringVector, std::string> ()
 
     .method("getData",       &CategoricalDataRawWrapper::getData, "Get data")
+    .method("getRawData",    &CategoricalDataRawWrapper::getRawData, "Get raw data")
     .method("getIdentifier", &CategoricalDataRawWrapper::getIdentifier, "Get the data identifier")
   ;
 
@@ -562,27 +585,37 @@ public:
 //' x = sample(c(0,1), 20, TRUE)
 //' data_mat = cbind(x)
 //'
-//' @export BaselearnerCategoricalBinary
+//' @export BaselearnerCategoricalRidge
 class BaselearnerCategoricalRidgeFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
-    Rcpp::Named("df") = 0
+    Rcpp::Named("df") = .0
   );
 
 public:
   BaselearnerCategoricalRidgeFactoryWrapper (CategoricalDataWrapper& cdata_source, Rcpp::List arg_list)
+//  BaselearnerCategoricalRidgeFactoryWrapper (CategoricalDataWrapper& cdata_source)
   {
-    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
     std::string blearner_type_temp = cdata_source.getCDataPtr()->getDataIdentifier();
-    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type_temp, cdata_source.getCDataPtr(), internal_arg_list["df"]);
+
+//    Rcpp::Rcout << "typeid(blearner_type_temp): " << typeid(blearner_type_temp).name() << std::endl;
+//    Rcpp::Rcout << "typeid(CdataPtr): " << typeid(cdata_source.getCDataPtr()).name() << std::endl;
+//    Rcpp::Rcout << "typeid(internal_arg_list['df']): " << typeid(Rcpp::as<double>(internal_arg_list["df"])).name() << std::endl;
+
+    std::shared_ptr<data::CategoricalData> temp = cdata_source.getCDataPtr();
+
+//    blearnerfactory::BaselearnerFactory* bla = new blearnerfactory::BaselearnerCategoricalRidgeFactory(blearner_type_temp, temp, Rcpp::as<double>(internal_arg_list["df"]));
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type_temp, temp, internal_arg_list["df"]);
   }
 
-  BaselearnerCategoricalRidgeFactoryWrapper (CategoricalDataWrapper& cdata_source, const std::string blearner_type, Rcpp::List arg_list)
+  BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataWrapper& cdata_source, std::string blearner_type, Rcpp::List arg_list)
   {
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
-    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type, cdata_source.getCDataPtr(), internal_arg_list["df"]);
-  }
+    std::shared_ptr<data::CategoricalData> temp = cdata_source.getCDataPtr();
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type, temp, internal_arg_list["df"]);
+}
 
   void summarizeFactory ()
   {
@@ -956,6 +989,14 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
+  ;
+
+ class_<BaselearnerCategoricalRidgeFactoryWrapper> ("BaselearnerCategoricalRidge")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<CategoricalDataWrapper&, Rcpp::List> ()
+    .constructor<const CategoricalDataWrapper&, std::string, Rcpp::List> ()
+
+    .method("summarizeFactory", &BaselearnerCategoricalRidgeFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
  class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")

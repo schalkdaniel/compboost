@@ -73,10 +73,10 @@ public:
   virtual arma::mat  calculateLinearPredictor (const arma::mat&) const = 0;
   virtual arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const = 0;
 
+  virtual std::string getDataIdentifier   () const;
   virtual std::shared_ptr<blearner::Baselearner>  createBaselearner () = 0;
 
   // Getter/Setter
-  std::string getDataIdentifier   () const;
   std::string getBaselearnerType  () const;
 
   // Destructor:
@@ -149,6 +149,8 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+  std::string getDataIdentifier () const;
+
 };
 
 
