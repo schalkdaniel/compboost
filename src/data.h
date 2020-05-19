@@ -26,6 +26,8 @@
 #include "splines.h"
 #include "helper.h"
 
+#include <vector>
+
 namespace data
 {
 
@@ -144,6 +146,48 @@ public:
   arma::mat    getKnots        ()                 const;
   arma::mat    getPenaltyMat   ()                 const;
   unsigned int getDegree       ()                 const;
+};
+
+
+// CategoricalData:
+// ----------------------------
+
+typedef std::map<std::string, unsigned int> map_dict;
+class CategoricalData : public Data
+{
+private:
+  map_dict       _dictionary;
+  arma::urowvec  _classes;
+
+  double  _df = 0;
+  bool    _is_used_as_target = false;
+
+public:
+  CategoricalData (const std::string, const std::vector<std::string>&);
+
+  arma::mat     getData       () const;
+  map_dict      getDictionary () const;
+  arma::urowvec getClasses    () const;
+
+  void       initRidgeData    (const double);
+  void       initRidgeData    ();
+  arma::mat  dictionaryInsert (const std::vector<std::string>&, const arma::vec&) const;
+};
+
+
+// CategoricalDataRaw:
+// ----------------------------
+
+class CategoricalDataRaw : public Data
+{
+private:
+  std::vector<std::string> _raw_data;
+
+public:
+  CategoricalDataRaw (const std::string, const std::vector<std::string>&);
+
+  arma::mat                getData    () const;
+  std::vector<std::string> getRawData () const;
 };
 
 

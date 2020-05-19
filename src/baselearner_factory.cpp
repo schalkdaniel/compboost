@@ -26,12 +26,20 @@ namespace blearnerfactory {
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
+BaselearnerFactory::BaselearnerFactory (const std::string blearner_type) : _blearner_type ( blearner_type ) {}
+
 BaselearnerFactory::BaselearnerFactory (const std::string blearner_type, std::shared_ptr<data::Data> data_source)
   : _blearner_type      ( blearner_type ),
     _sh_ptr_data_source ( data_source )
 { }
 
-std::string BaselearnerFactory::getDataIdentifier () const { return _sh_ptr_data_source->getDataIdentifier(); }
+std::string BaselearnerFactory::getDataIdentifier () const
+{
+  if (_sh_ptr_data_source.use_count() == 0) {
+    throw std::logic_error("Data source is not initialized");
+  }
+  return _sh_ptr_data_source->getDataIdentifier();
+}
 std::string BaselearnerFactory::getBaselearnerType() const { return _blearner_type; }
 
 /// Destructor
@@ -102,6 +110,12 @@ arma::mat BaselearnerPolynomialFactory::getData () const
 arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   return BaselearnerPolynomialFactory::getData() * param;
+}
+
+arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
 }
 
 std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
@@ -191,11 +205,73 @@ arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& 
   return (param.t() * _sh_ptr_psdata->getSparseData()).t();
 }
 
+arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
+
 std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerPSpline>(_blearner_type, _sh_ptr_psdata);
 }
 
+
+// BaselearnerCategoricalRidgeFactory:
+// -------------------------------------------
+
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
+  std::shared_ptr<data::CategoricalData>& cdata_source)
+  : BaselearnerFactory ( blearner_type ),
+    _sh_ptr_cdata      ( cdata_source )
+{
+  // TODO: Throw exception if data object is not categorical!
+  _sh_ptr_cdata->initRidgeData();
+}
+
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
+  std::shared_ptr<data::CategoricalData>& cdata_source, const double df)
+  : BaselearnerFactory ( blearner_type ),
+    _sh_ptr_cdata      ( cdata_source )
+{
+  // TODO: Throw exception if data object is not categorical!
+  _sh_ptr_cdata->initRidgeData(df);
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::instantiateData (const arma::mat& newdata) const
+{
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::getData () const
+{
+  return _sh_ptr_cdata->getData();
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  arma::urowvec classes = _sh_ptr_cdata->getClasses();
+  arma::mat out(classes.n_rows, param.n_cols, arma::fill::zeros);
+  for (unsigned int i = 0; i < classes.n_rows; i++) {
+    out.row(i) = param.row(classes(i));
+  }
+  return out;
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
+  return _sh_ptr_cdata->dictionaryInsert(classes, param);
+}
+
+std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::createBaselearner ()
+{
+  return std::make_shared<blearner::BaselearnerCategoricalRidge>(_blearner_type, _sh_ptr_cdata);
+}
+
+std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { return _sh_ptr_cdata->getDataIdentifier(); }
 
 // BaselearnerCategoricalBinary:
 // ----------------------------------
@@ -241,6 +317,14 @@ arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const a
   return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), arma::as_scalar(param));
 }
 
+arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  // FIX FIX FIX, when having the appropriate structure for categorical data fix this to
+  // set elements of the raw data == class to parameter:
+  return param;
+}
+
+
 arma::mat BaselearnerCategoricalBinaryFactory::instantiateData (const arma::mat& newdata) const
 {
   return newdata;
@@ -277,6 +361,12 @@ arma::mat BaselearnerCustomFactory::getData () const
 arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   return _sh_ptr_data_target->getData() * param;
+}
+
+arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
 }
 
 arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) const
@@ -316,6 +406,13 @@ arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat
 {
   return _sh_ptr_data_target->getData() * param;
 }
+
+arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
 
 arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata) const
 {

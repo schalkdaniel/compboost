@@ -79,8 +79,8 @@ arma::mat Data::getDenseData () const
   }
 }
 
-arma::sp_mat Data::getSparseData () const { return _sparse_data_mat; }
-bool Data::usesSparseMatrix () const { return _use_sparse; }
+arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
+bool         Data::usesSparseMatrix () const { return _use_sparse; }
 
 
 // -------------------------------------------------------------------------- //
@@ -153,6 +153,110 @@ arma::mat    PSplineData::getKnots        () const { return _knots; }
 arma::mat    PSplineData::getPenaltyMat   () const { return _penalty_mat; }
 unsigned int PSplineData::getDegree       () const { return _degree; }
 
+
+// CategoricalData:
+// ---------------------------------
+
+typedef std::map<std::string, unsigned int> map_dict;
+
+CategoricalData::CategoricalData (const std::string data_identifier, const std::vector<std::string>& chr_classes)
+  : Data ( data_identifier )
+{
+  std::string        chr_class;
+  unsigned int       int_class;
+  arma::urowvec      temp_classes(chr_classes.size(), arma::fill::zeros);
+  map_dict::iterator it;
+
+
+  for (unsigned int i = 0; i < chr_classes.size(); i++) {
+    chr_class = chr_classes.at(i);
+    it = _dictionary.find(chr_class);
+    if (it == _dictionary.end()) {
+      int_class = _dictionary.size();
+      _dictionary.insert(std::pair<std::string, unsigned int>(chr_class, int_class));
+    } else {
+      int_class = it->second;
+    }
+    temp_classes(i) = int_class;
+  }
+  _classes = temp_classes;
+}
+
+arma::mat CategoricalData::getData () const
+{
+  // No conversion from urowvec -> mat, therefore, convert to std::vector and then to mat:
+  std::vector<unsigned int> temp = arma::conv_to<std::vector<unsigned int>>::from(_classes);
+  return arma::conv_to<arma::mat>::from(temp);
+}
+
+map_dict CategoricalData::getDictionary () const
+{
+  return _dictionary;
+}
+
+arma::urowvec CategoricalData::getClasses () const
+{
+  return _classes;
+}
+
+void CategoricalData::initRidgeData (const double df)
+{
+  _df = df;
+  unsigned int   nrows = _classes.n_cols;
+
+  arma::urowvec  row_idx = arma::linspace<arma::urowvec>(0, nrows-1, nrows);
+  arma::vec      fill(nrows, arma::fill::ones);
+
+  // Initialize sparse data matrix as (transposed) binary matrix (p x n).
+  // Switching row_idx and col_idx gives the transposed p x n matrix:
+  arma::umat locations = arma::join_cols(_classes, row_idx);
+  Data::setSparseData(arma::sp_mat(locations, fill));
+
+  double penalty;
+  if (df == 0) {
+    penalty = 0;
+  } else {
+    penalty = Data::getSparseData().n_rows / df - 1;
+  }
+  arma::vec temp_XtX_inv = 1 / (arma::diagvec(Data::getSparseData() * Data::getSparseData().t()) + penalty);
+  Data::setCache("identity", temp_XtX_inv);
+
+  _is_used_as_target = true;
+}
+
+void CategoricalData::initRidgeData ()
+{
+  initRidgeData(0);
+}
+
+arma::mat CategoricalData::dictionaryInsert (const std::vector<std::string>& classes, const arma::vec& insertion) const
+{
+  arma::mat out(classes.size(), insertion.n_cols, arma::fill::zeros);
+  for (unsigned int i = 0; i < classes.size(); i++) {
+    auto it = _dictionary.find(classes.at(i));
+    if (it != _dictionary.end()) {
+      out.row(i) = insertion.row(it->second);
+    }
+  }
+  return out;
+}
+
+
+// CategoricalDataRaw:
+// ---------------------------------
+
+CategoricalDataRaw::CategoricalDataRaw (const std::string data_identifier, const std::vector<std::string>& raw_data)
+  : Data      ( data_identifier ),
+    _raw_data ( raw_data )
+{ }
+
+arma::mat CategoricalDataRaw::getData () const {
+  throw std::logic_error("Raw categorical data does not contain a numerical representation, call '$getRawData()' instead");
+  // 1 x 1 dummy  matrix:
+  return Data::getDenseData();
+}
+
+std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; };
 
 // CategoricalBinaryData:
 // ---------------------------------

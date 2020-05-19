@@ -142,9 +142,87 @@ public:
   }
 };
 
+//' @export CategoricalData
+
+namespace {
+  std::shared_ptr<data::CategoricalData> vecToData (Rcpp::StringVector classes, std::string data_identifier) {
+    std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
+    return std::make_shared<data::CategoricalData>(data_identifier, str_classes);
+  }
+}
+
+class CategoricalDataWrapper : public DataWrapper
+{
+
+private:
+  std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
+
+public:
+
+  CategoricalDataWrapper (Rcpp::StringVector classes, std::string data_identifier)
+  //  : _sh_ptr_cdata ( vecToData(classes, data_identifier) )
+  {
+    std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
+    _sh_ptr_cdata = std::make_shared<data::CategoricalData>(data_identifier, str_classes);
+  }
+
+  std::shared_ptr<data::CategoricalData> getCDataPtr () const { return _sh_ptr_cdata; }
+
+  arma::mat getData () const
+  {
+    return _sh_ptr_cdata->getData();
+  }
+
+  std::string getIdentifier () const
+  {
+    return _sh_ptr_cdata->getDataIdentifier();
+  }
+
+  std::map<std::string, unsigned int> getDictionary () const
+  {
+    return _sh_ptr_cdata->getDictionary();
+  }
+};
+
+//' @export CategoricalDataRaw
+class CategoricalDataRawWrapper : public DataWrapper
+{
+private:
+  std::shared_ptr<data::CategoricalDataRaw> _sh_ptr_rawcdata;
+
+public:
+
+  CategoricalDataRawWrapper (Rcpp::StringVector classes, std::string data_identifier)
+  {
+    std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
+    _sh_ptr_rawcdata = std::make_shared<data::CategoricalDataRaw>(data_identifier, str_classes);
+  }
+
+  std::shared_ptr<data::CategoricalDataRaw> getCDataRawPtr () const { return _sh_ptr_rawcdata; }
+
+  arma::mat getData () const
+  {
+    return _sh_ptr_rawcdata->getData();
+  }
+
+  std::string getIdentifier () const
+  {
+    return _sh_ptr_rawcdata->getDataIdentifier();
+  }
+
+  std::vector<std::string> getRawData () const
+  {
+    return _sh_ptr_rawcdata->getRawData();
+  }
+};
+
+
+
 
 
 RCPP_EXPOSED_CLASS(DataWrapper)
+RCPP_EXPOSED_CLASS(CategoricalDataWrapper)
+RCPP_EXPOSED_CLASS(CategoricalDataRawWrapper)
 RCPP_MODULE (data_module)
 {
   using namespace Rcpp;
@@ -164,6 +242,28 @@ RCPP_MODULE (data_module)
     .method("getData",       &InMemoryDataWrapper::getData, "Get data")
     .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
   ;
+
+  class_<CategoricalDataWrapper> ("CategoricalData")
+    .derives<DataWrapper> ("Data")
+
+    .constructor<Rcpp::StringVector, std::string> ()
+
+    .method("getData",       &CategoricalDataWrapper::getData, "Get data")
+    .method("getIdentifier", &CategoricalDataWrapper::getIdentifier, "Get the data identifier")
+    .method("getDictionary", &CategoricalDataWrapper::getDictionary, "Get the encoding of the feature")
+  ;
+
+  class_<CategoricalDataRawWrapper> ("CategoricalDataRaw")
+    .derives<DataWrapper> ("Data")
+
+    .constructor<Rcpp::StringVector, std::string> ()
+
+    .method("getData",       &CategoricalDataRawWrapper::getData, "Get data")
+    .method("getRawData",    &CategoricalDataRawWrapper::getRawData, "Get raw data")
+    .method("getIdentifier", &CategoricalDataRawWrapper::getIdentifier, "Get the data identifier")
+  ;
+
+
 }
 
 
@@ -448,6 +548,80 @@ public:
 };
 
 
+//' Base-learner factory for categorical feature using Ridge penalty
+//'
+//' \code{BaselearnerCategoricalRidge} can be used to estimate effects of  categorical
+//' features. The categories are included as in the linear model by using a binary matrix.
+//' The Ridge penalty enables unbiased feature selection by setting the penalty corresponding
+//' to degree of freedoms.
+//'
+//' @format \code{\link{S4}} object.
+//' @name BaselearnerCategoricalRidge
+//'
+//' @section Usage:
+//' \preformatted{
+//' BaselearnerCategoricalRidge$new(data_source, list(df))
+//' }
+//'
+//' @section arguments:
+//' \describe{
+//' \item{\code{data_source} [\code{data} object]}{
+//'   data object which contains the source data.
+//' }
+//' }
+//'
+//' @section Fields:
+//'   This class doesn't contain public fields.
+//'
+//' @section Methods:
+//' \describe{
+//' \item{\code{getData()}}{Get the data matrix of the target data which is used
+//'   for modeling.}
+//' \item{\code{transformData(X)}}{This class does is not allowed to transform data. This is due to the internal structure.}
+//' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+//' }
+//' @examples
+//' # Sample data:
+//' x = sample(c(0,1), 20, TRUE)
+//' data_mat = cbind(x)
+//'
+//' @export BaselearnerCategoricalRidge
+class BaselearnerCategoricalRidgeFactoryWrapper : public BaselearnerFactoryWrapper
+{
+private:
+  Rcpp::List internal_arg_list = Rcpp::List::create(
+    Rcpp::Named("df") = .0
+  );
+
+public:
+  BaselearnerCategoricalRidgeFactoryWrapper (CategoricalDataWrapper& cdata_source, Rcpp::List arg_list)
+//  BaselearnerCategoricalRidgeFactoryWrapper (CategoricalDataWrapper& cdata_source)
+  {
+    std::string blearner_type_temp = cdata_source.getCDataPtr()->getDataIdentifier();
+
+//    Rcpp::Rcout << "typeid(blearner_type_temp): " << typeid(blearner_type_temp).name() << std::endl;
+//    Rcpp::Rcout << "typeid(CdataPtr): " << typeid(cdata_source.getCDataPtr()).name() << std::endl;
+//    Rcpp::Rcout << "typeid(internal_arg_list['df']): " << typeid(Rcpp::as<double>(internal_arg_list["df"])).name() << std::endl;
+
+    std::shared_ptr<data::CategoricalData> temp = cdata_source.getCDataPtr();
+
+//    blearnerfactory::BaselearnerFactory* bla = new blearnerfactory::BaselearnerCategoricalRidgeFactory(blearner_type_temp, temp, Rcpp::as<double>(internal_arg_list["df"]));
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type_temp, temp, internal_arg_list["df"]);
+  }
+
+  BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataWrapper& cdata_source, std::string blearner_type, Rcpp::List arg_list)
+  {
+    internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
+    std::shared_ptr<data::CategoricalData> temp = cdata_source.getCDataPtr();
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type, temp, internal_arg_list["df"]);
+}
+
+  void summarizeFactory ()
+  {
+    Rcpp::Rcout << "Categorical base-learner of category " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+  }
+};
 
 
 //' Base-learner factory for categorical feature on a binary base-learner basis
@@ -815,6 +989,14 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
+  ;
+
+ class_<BaselearnerCategoricalRidgeFactoryWrapper> ("BaselearnerCategoricalRidge")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<CategoricalDataWrapper&, Rcpp::List> ()
+    .constructor<const CategoricalDataWrapper&, std::string, Rcpp::List> ()
+
+    .method("summarizeFactory", &BaselearnerCategoricalRidgeFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
  class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")
