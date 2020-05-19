@@ -160,10 +160,12 @@ public:
 class BaselearnerCategoricalBinaryFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
+  const std::string _class;
+  const std::shared_ptr<data::CategoricalData>       _sh_ptr_cdata;
+  const std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
 
 public:
-  BaselearnerCategoricalBinaryFactory (const std::string, std::shared_ptr<data::Data>);
+  BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
 
   arma::mat  instantiateData          (const arma::mat&) const;
   arma::mat  getData                  ()                 const;
@@ -171,6 +173,7 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+  std::string getDataIdentifier () const;
 };
 
 

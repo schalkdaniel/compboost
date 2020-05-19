@@ -259,53 +259,6 @@ double matrixQuantile (const arma::mat& X, const double& quantile)
   }
 }
 
-arma::SpMat<unsigned int> binaryMat (const arma::Row<unsigned int>& classes)
-{
-  const unsigned int n_levels = arma::max(classes);
-  const unsigned int n_obs = classes.size();
-
-  const arma::Row<unsigned int> ones(n_obs, arma::fill::ones);
-
-  arma::umat indices = arma::join_cols(arma::cumsum(ones) - 1, classes);
-  arma::SpMat<unsigned int> sp_out(indices, ones);
-
-  return sp_out;
-}
-
-arma::uvec binaryToIndex (const arma::mat& x)
-{
-  std::vector<unsigned int> idx;
-  unsigned int k = 0;
-  for (unsigned int i = 0; i < x.size(); i++) {
-    if (x(k) != 0) idx.push_back(k);
-    k += 1;
-  }
-  idx.push_back(x.size());
-
-  return arma::conv_to<arma::uvec>::from(idx);
-}
-
-arma::uvec binaryToIndex (const arma::sp_mat& x)
-{
-  arma::uvec idx(x.n_nonzero + 1, arma::fill::zeros);
-  for (unsigned int i = 0; i < x.n_nonzero; i++) {
-    idx(i) = x.row_indices[i];
-  }
-  idx(x.n_nonzero) = x.size();
-
-  return idx;
-}
-
-arma::mat predictBinaryIndex (const arma::uvec& idx, const double value)
-{
-  unsigned int n_idx = idx.size() - 1;
-  arma::mat out(idx(n_idx), 1, arma::fill::zeros);
-  for (unsigned int i = 0; i < n_idx; i++) {
-    out(idx(i)) = value;
-  }
-  return out;
-}
-
 std::string getMatStatus (const arma::mat& X)
 {
   std::string msg = "ncol = " + std::to_string(X.n_cols) + " nrows = " + std::to_string(X.n_rows);
@@ -333,10 +286,19 @@ arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, cons
   /* if (mat_cache.first == "inverse")  {*/ return mat_cache.second * y; //}
 }
 
-template<typename SH_PTR>
-inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)
-{
-  return sh_ptr.use_count();
-}
+// template<typename SH_PTR>
+// inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)
+// {
+//   return sh_ptr.use_count();
+// }
+
+// arma::mat predictBinaryIndex (const arma::uvec& idx, const unsigned int nobs, const double value)
+// {
+//   arma::mat out(nobs, 1, arma::fill::zeros);
+//   for (unsigned int i = 0; i < idx.size(); i++) {
+//     out(idx(i)) = value;
+//   }
+//   return out;
+// }
 
 } // namespace helper

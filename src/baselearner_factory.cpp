@@ -36,7 +36,7 @@ BaselearnerFactory::BaselearnerFactory (const std::string blearner_type, std::sh
 std::string BaselearnerFactory::getDataIdentifier () const
 {
   if (_sh_ptr_data_source.use_count() == 0) {
-    throw std::logic_error("Data source is not initialized");
+    throw std::logic_error("Data source is not initialized or 'getDataIdentifier()' is not implemented");
   }
   return _sh_ptr_data_source->getDataIdentifier();
 }
@@ -226,7 +226,6 @@ BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const st
   : BaselearnerFactory ( blearner_type ),
     _sh_ptr_cdata      ( cdata_source )
 {
-  // TODO: Throw exception if data object is not categorical!
   _sh_ptr_cdata->initRidgeData();
 }
 
@@ -276,31 +275,13 @@ std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { ret
 // BaselearnerCategoricalBinary:
 // ----------------------------------
 
-BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const std::string blearner_type,
-  std::shared_ptr<data::Data> data_source)
-  : BaselearnerFactory ( blearner_type, data_source )
-{
-  // This is necessary to prevent the program from segfolds... whyever???
-  // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
-  try {
-    if (data_source->getData().n_cols > 1) {
-      Rcpp::stop("Given data should just have one column.");
-    }
-  } catch ( std::exception &ex ) {
-    forward_exception_to_r( ex );
-  } catch (...) {
-    ::Rf_error( "c++ exception (unknown reason)" );
-  }
-  // In the binary case, the matrix XtX_inv is just the inverse of the length of non-zero elements.
-  // This is automatically set in the constructor:
-  arma::uvec idx;
-  if (data_source->usesSparseMatrix()) {
-    idx = helper::binaryToIndex(data_source->getSparseData());
-  } else {
-    idx = helper::binaryToIndex(data_source->getData());
-  }
-  _sh_ptr_bcdata = std::make_shared<data::CategoricalBinaryData> (data_source->getDataIdentifier(), idx);
-}
+BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const std::string blearner_type, const std::string cls,
+  const std::shared_ptr<data::CategoricalData>& cdata_source)
+  : BaselearnerFactory ( blearner_type ),
+    _class             ( cls ),
+    _sh_ptr_cdata      ( cdata_source ),
+    _sh_ptr_bcdata     ( std::make_shared<data::CategoricalBinaryData>(cdata_source->getDataIdentifier(), cls, cdata_source) )
+{ }
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalBinaryFactory::createBaselearner ()
 {
@@ -309,26 +290,35 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalBinaryFactory::crea
 
 arma::mat BaselearnerCategoricalBinaryFactory::getData () const
 {
-  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), 1);
+  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), _sh_ptr_bcdata->getNObs(), 1);
 }
 
 arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param) const
 {
-  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), arma::as_scalar(param));
+  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), _sh_ptr_bcdata->getNObs(), arma::as_scalar(param));
 }
 
 arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
 {
-  // FIX FIX FIX, when having the appropriate structure for categorical data fix this to
-  // set elements of the raw data == class to parameter:
-  return param;
-}
+  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
 
+  unsigned int nobs = classes.size();
+  arma::mat out(nobs, 1, arma::fill::zeros);
+
+  for (unsigned int i = 0; i < nobs; i++) {
+    if (classes.at(i) == _sh_ptr_bcdata->getCategory())
+      out(i) = arma::as_scalar(param);
+  }
+  return out;
+}
 
 arma::mat BaselearnerCategoricalBinaryFactory::instantiateData (const arma::mat& newdata) const
 {
-  return newdata;
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
 }
+
+std::string BaselearnerCategoricalBinaryFactory::getDataIdentifier () const { return _sh_ptr_bcdata->getDataIdentifier(); }
 
 
 // BaselearnerCustom:

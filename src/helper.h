@@ -52,18 +52,29 @@ void       checkMatrixDim            (const arma::mat&, const arma::mat&);
 bool       checkTracePrinter         (const unsigned int&, const unsigned int&);
 double     matrixQuantile            (const arma::mat&, const double&);
 
-arma::SpMat<unsigned int>  binaryMat          (const arma::Row<unsigned int>&);
-arma::uvec                 binaryToIndex      (const arma::mat&);
-arma::uvec                 binaryToIndex      (const arma::sp_mat&);
-arma::mat                  predictBinaryIndex (const arma::uvec&, const double);
-
 std::string getMatStatus    (const arma::mat&);
 void        printMatStatus  (const arma::mat&, const std::string);
 arma::mat   solveCholesky   (const arma::mat&, const arma::mat&);
 arma::mat   cboostSolver    (const std::pair<std::string, arma::mat>&, const arma::mat&);
 
+// template<typename SH_PTR>
+// inline unsigned int countSharedPointer (const SH_PTR&);
 template<typename SH_PTR>
-inline unsigned int countSharedPointer (const SH_PTR&);
+inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)
+{
+  return sh_ptr.use_count();
+}
+
+// inline arma::mat predictBinaryIndex (const arma::uvec&, const unsigned int, const double);
+inline arma::mat predictBinaryIndex (const arma::uvec& idx, const unsigned int nobs, const double value)
+{
+  arma::mat out(nobs, 1, arma::fill::zeros);
+  for (unsigned int i = 0; i < idx.size(); i++) {
+    out(idx(i)) = value;
+  }
+  return out;
+}
+
 
 } // namespace helper
 

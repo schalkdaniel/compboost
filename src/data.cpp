@@ -199,6 +199,16 @@ arma::urowvec CategoricalData::getClasses () const
   return _classes;
 }
 
+arma::uvec CategoricalData::getIdxOfClass (const unsigned int cls) const
+{
+  return arma::find(_classes == cls);
+}
+
+arma::uvec CategoricalData::getIdxOfClass (const std::string cls) const
+{
+  return arma::find(_classes == this->classStringToInt(cls));
+}
+
 void CategoricalData::initRidgeData (const double df)
 {
   _df = df;
@@ -241,6 +251,14 @@ arma::mat CategoricalData::dictionaryInsert (const std::vector<std::string>& cla
   return out;
 }
 
+unsigned int CategoricalData::classStringToInt (const std::string cls) const
+{
+  auto dict_entry = _dictionary.find(cls);
+  if (dict_entry == _dictionary.end()) {
+    throw std::logic_error("Key is not present in dictionary");
+  }
+  return dict_entry->second;
+}
 
 // CategoricalDataRaw:
 // ---------------------------------
@@ -261,18 +279,28 @@ std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_d
 // CategoricalBinaryData:
 // ---------------------------------
 
-CategoricalBinaryData::CategoricalBinaryData (const std::string data_identifier, const arma::uvec& idx)
+CategoricalBinaryData::CategoricalBinaryData (const std::string data_identifier, const std::string cls, const std::shared_ptr<data::CategoricalData>& sh_ptr_cdata)
   : Data            ( data_identifier ),
-    _idx            ( idx ),
-    _xtx_inv_scalar ( 1 / (double)(idx.size()-1) )
-{ }
+    _idx            ( sh_ptr_cdata->getIdxOfClass(cls) ),
+    _nobs           ( sh_ptr_cdata->getClasses().size() ),
+    _xtx_inv_scalar ( 1 / (double)(_idx.size()-1) ),
+    _category       ( cls )
+{
+  std::vector<std::string> keys;
+  std::map<std::string, unsigned int> dict = sh_ptr_cdata->getDictionary();
+  for (auto it = dict.begin(); it != dict.end(); ++it) {
+    keys.push_back(it->first);
+  }
+  helper::assertChoice(cls, keys);
+}
 
 arma::mat    CategoricalBinaryData::getData      () const { return Data::getDenseData(); }
 arma::uvec   CategoricalBinaryData::getIndex     () const { return _idx; }
 unsigned int CategoricalBinaryData::getIndex     (const unsigned int i) const { return _idx(i); }
 double       CategoricalBinaryData::getXtxScalar () const { return _xtx_inv_scalar; }
+std::string  CategoricalBinaryData::getCategory  () const { return _category; }
+unsigned int CategoricalBinaryData::getNObs      () const { return _nobs; }
 
 CategoricalBinaryData::~CategoricalBinaryData () {}
-
 
 } // namespace data
