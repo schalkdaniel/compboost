@@ -168,10 +168,13 @@ public:
   arma::mat     getData       () const;
   map_dict      getDictionary () const;
   arma::urowvec getClasses    () const;
+  arma::uvec    getIdxOfClass (const unsigned int) const;
+  arma::uvec    getIdxOfClass (const std::string)  const;
 
-  void       initRidgeData    (const double);
-  void       initRidgeData    ();
-  arma::mat  dictionaryInsert (const std::vector<std::string>&, const arma::vec&) const;
+  void         initRidgeData    (const double);
+  void         initRidgeData    ();
+  arma::mat    dictionaryInsert (const std::vector<std::string>&, const arma::vec&) const;
+  unsigned int classStringToInt (const std::string) const;
 };
 
 
@@ -197,16 +200,20 @@ public:
 class CategoricalBinaryData : public Data
 {
 private:
-  const arma::uvec  _idx;
-  const double      _xtx_inv_scalar;
+  arma::uvec          _idx;
+  const unsigned int  _nobs;
+  const double        _xtx_inv_scalar;
+  const std::string   _category;
 
 public:
-  CategoricalBinaryData (const std::string, const arma::uvec&);
+  CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
 
   arma::mat    getData      ()                   const;
   arma::uvec   getIndex     ()                   const;
   unsigned int getIndex     (const unsigned int) const;
   double       getXtxScalar ()                   const;
+  std::string  getCategory  ()                   const;
+  unsigned int getNObs      ()                   const;
 
   // Destructor
   ~CategoricalBinaryData ();

@@ -246,8 +246,9 @@ void BaselearnerCategoricalBinary::train (const arma::mat& response)
 {
   // Calculate sum manually due to the idx format:
   double sum_response = 0;
-  for (unsigned int i = 0; i < _sh_ptr_bcdata->getIndex().size() - 1; i++) {
-    sum_response += response(_sh_ptr_bcdata->getIndex(i), 0);
+  arma::uvec idx = _sh_ptr_bcdata->getIndex();
+  for (unsigned int i = 0; i < idx.size(); i++) {
+    sum_response += response(idx(i), 0);
   }
   arma::mat param_temp(1,1);
   param_temp(0,0) = _sh_ptr_bcdata->getXtxScalar() * sum_response;
@@ -256,17 +257,27 @@ void BaselearnerCategoricalBinary::train (const arma::mat& response)
 
 arma::mat BaselearnerCategoricalBinary::predict () const
 {
-  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), arma::as_scalar(_parameter));
+  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), _sh_ptr_bcdata->getNObs(), arma::as_scalar(_parameter));
 }
 
 arma::mat BaselearnerCategoricalBinary::predict (const std::shared_ptr<data::Data>& newdata) const
 {
-  return newdata->getDenseData() * _parameter;
+  std::shared_ptr<data::CategoricalDataRaw> sh_ptr_cdata_raw = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
+
+  unsigned int nobs = sh_ptr_cdata_raw->getRawData().size();
+  arma::mat out(nobs, 1, arma::fill::zeros);
+
+  for (unsigned int i = 0; i < nobs; i++) {
+    if (sh_ptr_cdata_raw->getRawData().at(i) == _sh_ptr_bcdata->getCategory())
+      out(i) = arma::as_scalar(_parameter);
+  }
+  return out;
 }
 
 arma::mat BaselearnerCategoricalBinary::instantiateData (const arma::mat& newdata) const
 {
-  return newdata;
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
 }
 
 std::string BaselearnerCategoricalBinary::getDataIdentifier () const
