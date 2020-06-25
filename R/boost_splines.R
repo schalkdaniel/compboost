@@ -38,6 +38,8 @@
 #' @param penalty [\code{numeric(1)}]\cr
 #'   Penalty term for p-splines. If the penalty equals 0, then ordinary b-splines are fitted.
 #'   The higher the penalty, the higher the smoothness.
+#' @param df [\code{numeric(1)}]\cr
+#'   Degrees of freedom of the whole spline. It is important to set the same amount of degrees of freedom to be able to compare different base-learner.
 #' @param differences [\code{integer(1)}]\cr
 #'   Number of differences that are used for penalization. The higher the difference, the higher the smoothness.
 #' @param data_source [\code{S4 Data}]\cr
@@ -66,7 +68,7 @@
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
-  penalty = 2, differences = 2, data_source = InMemoryData,
+  penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
@@ -78,7 +80,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
       model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
-        degree = degree, n_knots = n_knots, penalty = penalty, differences = differences,
+        degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
         bin_root = bin_root, cache_type = cache_type)
     } else {
       model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,

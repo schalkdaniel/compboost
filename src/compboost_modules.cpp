@@ -430,7 +430,7 @@ public:
 //' @section Usage:
 //' \preformatted{
 //' BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
-//'   differences))
+//'   differences, df))
 //' }
 //'
 //' @section arguments:
@@ -505,6 +505,7 @@ private:
     Rcpp::Named("degree") = 3,
     Rcpp::Named("n_knots") = 20,
     Rcpp::Named("penalty") = 2,
+    Rcpp::Named("df") = 0,
     Rcpp::Named("differences") = 2,
     Rcpp::Named("bin_root") = 0,
     Rcpp::Named("cache_type") = "inverse"
@@ -522,7 +523,7 @@ public:
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
-      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["differences"], true,
+      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["df"], internal_arg_list["differences"], true,
       internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
   }
 
@@ -531,7 +532,7 @@ public:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
-      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["differences"], true,
+      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["df"], internal_arg_list["differences"], true,
       internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
   }
 
