@@ -93,7 +93,7 @@ plotFeatEffect = function (cboost_obj, bl_list, blearner_name, iters, from, to, 
 
   gg = gg +
     ggplot2::geom_line() +
-    ggplot2::geom_rug(data = cboost_obj$data[idx_rugs,], ggplot2::aes_string(x = feat_name), inherit.aes = FALSE,
+    ggplot2::geom_rug(data = cboost_obj$data[idx_rugs,,drop=FALSE], ggplot2::aes_string(x = feat_name), inherit.aes = FALSE,
       alpha = 0.8) +
     ggplot2::xlab(feat_name) +
     ggplot2::xlim(from, to) +

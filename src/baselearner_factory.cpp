@@ -150,7 +150,7 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBasel
  */
 BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner_type,
   std::shared_ptr<data::Data> data_source, const unsigned int degree, const unsigned int n_knots,
-  const double penalty, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root,
+  const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root,
   const std::string cache_type)
   : BaselearnerFactory ( blearner_type, data_source )
 {
@@ -186,7 +186,13 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
   } else {
     temp_xtx = _sh_ptr_psdata->getSparseData() * _sh_ptr_psdata->getSparseData().t();
   }
-  _sh_ptr_psdata->setCache(cache_type, temp_xtx + penalty * penalty_mat);
+  double used_penalty;
+  if (df > 0) {
+    used_penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
+  } else {
+    used_penalty = penalty;
+  }
+  _sh_ptr_psdata->setCache(cache_type, temp_xtx + used_penalty * penalty_mat);
 }
 
 arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) const
