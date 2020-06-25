@@ -50,7 +50,7 @@ OptimizerCoordinateDescent::OptimizerCoordinateDescent (const unsigned int num_t
   _step_sizes.assign(1, 1.0);
 }
 
-std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBaselearner (const std::string iteration_id,
+std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBaselearner (std::string iteration_id,
   const std::shared_ptr<response::Response>& sh_ptr_response, const blearner_factory_map& factory_map) const
 {
   std::map<double, std::shared_ptr<blearner::Baselearner>> best_blearner_map;

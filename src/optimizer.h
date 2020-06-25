@@ -60,7 +60,7 @@ public:
   virtual double              getStepSize  (const unsigned int) const = 0;
   virtual std::vector<double> getStepSize  ()                   const = 0;
 
-  virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
+  virtual std::shared_ptr<blearner::Baselearner> findBestBaselearner (std::string,
     const std::shared_ptr<response::Response>&, const blearner_factory_map&) const = 0;
 
   virtual void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
