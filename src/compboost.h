@@ -77,7 +77,7 @@ private:
   unsigned int         _current_iter;
   std::vector<double>  _risk;
 
-  const blearnerlist::BaselearnerFactoryList     _factory_list;
+  blearnerlist::BaselearnerFactoryList     _factory_list;
   blearnertrack::BaselearnerTrack                _blearner_track;
 
 public:
