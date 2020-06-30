@@ -15,7 +15,7 @@
 
 \preformatted{
 BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
-  differences))
+  differences, df))
 }
 }
 

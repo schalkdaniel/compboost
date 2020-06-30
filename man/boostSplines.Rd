@@ -15,6 +15,7 @@ boostSplines(
   degree = 3,
   n_knots = 20,
   penalty = 2,
+  df = 0,
   differences = 2,
   data_source = InMemoryData,
   oob_fraction = NULL,
@@ -59,6 +60,9 @@ the polynomial degree.}
 \item{penalty}{[\code{numeric(1)}]\cr
 Penalty term for p-splines. If the penalty equals 0, then ordinary b-splines are fitted.
 The higher the penalty, the higher the smoothness.}
+
+\item{df}{[\code{numeric(1)}]\cr
+Degrees of freedom of the whole spline. It is important to set the same amount of degrees of freedom to be able to compare different base-learner.}
 
 \item{differences}{[\code{integer(1)}]\cr
 Number of differences that are used for penalization. The higher the difference, the higher the smoothness.}
