@@ -39,7 +39,7 @@ class DataWrapper
 {
 public:
   DataWrapper () {}
-  std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
+  virtual std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
   virtual ~DataWrapper () {}
 
 protected:
@@ -136,6 +136,7 @@ public:
     return sh_ptr_data->getDenseData();
   }
 
+
   std::string getIdentifier () const
   {
     return sh_ptr_data->getDataIdentifier();
@@ -165,6 +166,7 @@ public:
     _sh_ptr_cdata = std::make_shared<data::CategoricalData>(data_identifier, str_classes);
   }
 
+  std::shared_ptr<data::Data> getDataObj () { return _sh_ptr_cdata; }
   std::shared_ptr<data::CategoricalData> getCDataObj () const { return _sh_ptr_cdata; }
 
   arma::mat getData () const
@@ -198,6 +200,7 @@ public:
   }
 
   std::shared_ptr<data::CategoricalDataRaw> getCDataRawPtr () const { return _sh_ptr_rawcdata; }
+  std::shared_ptr<data::Data> getDataObj () { return _sh_ptr_rawcdata; }
 
   arma::mat getData () const
   {

@@ -385,6 +385,7 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
 
   std::string blearner_id = sh_ptr_blearner->getDataIdentifier();
 
+
   // Get data of corresponding selected baselearner. E.g. iteration 100 linear
   // baselearner of feature x_7, then get the data of feature x_7:
 

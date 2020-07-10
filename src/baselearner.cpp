@@ -262,13 +262,16 @@ arma::mat BaselearnerCategoricalBinary::predict () const
 
 arma::mat BaselearnerCategoricalBinary::predict (const std::shared_ptr<data::Data>& newdata) const
 {
+
   std::shared_ptr<data::CategoricalDataRaw> sh_ptr_cdata_raw = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
 
-  unsigned int nobs = sh_ptr_cdata_raw->getRawData().size();
+  std::vector<std::string> data_raw = sh_ptr_cdata_raw->getRawData();
+  unsigned int nobs = data_raw.size();
   arma::mat out(nobs, 1, arma::fill::zeros);
 
+
   for (unsigned int i = 0; i < nobs; i++) {
-    if (sh_ptr_cdata_raw->getRawData().at(i) == _sh_ptr_bcdata->getCategory())
+    if (data_raw.at(i) == _sh_ptr_bcdata->getCategory())
       out(i) = arma::as_scalar(_parameter);
   }
   return out;
