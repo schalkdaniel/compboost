@@ -129,6 +129,12 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::getParameterMat
   return out_pair;
 }
 
+void BaselearnerTrack::setParameterMap (std::map<std::string, arma::mat> new_parameter_map)
+{
+  _parameter_map = new_parameter_map;
+}
+
+
 void BaselearnerTrack::insertBaselearner (std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double& step_size)
 {
   _blearner_vector.push_back(sh_ptr_blearner);
@@ -145,7 +151,6 @@ void BaselearnerTrack::insertBaselearner (std::shared_ptr<blearner::Baselearner>
 
   // Check if this is the first parameter entry:
   if (it == _parameter_map.end()) {
-
     // If this is the first entry, initialize it with zeros:
     arma::mat init_parameter(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
     _parameter_map.insert(std::pair<std::string, arma::mat>(insert_id, init_parameter));

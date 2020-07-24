@@ -67,7 +67,8 @@ public:
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
     const blearnerlist::BaselearnerFactoryList&) = 0;
 
-  virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&) const = 0;
+  virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&,
+    const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const = 0;
   virtual void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&) = 0;
 
 
@@ -98,7 +99,8 @@ public:
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
     const blearnerlist::BaselearnerFactoryList&);
 
-  arma::mat calculateUpdate   (const double, const double, const arma::mat&) const;
+  arma::mat calculateUpdate   (const double, const double, const arma::mat&,
+    const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const;
   void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
 };
 
@@ -112,9 +114,55 @@ public:
 
   double              getStepSize (const unsigned int) const;
   std::vector<double> getStepSize ()                   const;
-
-  void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
 };
+
+
+
+// Accelerated Gradient Boosting:
+// -----------------------------------------------------------
+
+class OptimizerAGBM: public Optimizer
+{
+private:
+  const double _momentum;
+  arma::mat    _pred_momentum;
+  arma::mat    _pred_aggr;
+  arma::mat    _pr_corr;
+
+  std::map<std::string, arma::mat> _aggr_parameter_map;
+  blearnertrack::BaselearnerTrack  _momentum_blearnertrack;
+
+public:
+  OptimizerAGBM ();
+  OptimizerAGBM (const double);
+  OptimizerAGBM (const double, const unsigned int);
+
+  std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
+    const std::shared_ptr<response::Response>&, const blearner_factory_map&) const;
+  std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
+    const arma::mat&, const blearner_factory_map&) const;
+
+  void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
+    const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
+    const blearnerlist::BaselearnerFactoryList&);
+
+  arma::mat calculateUpdate   (const double, const double, const arma::mat&,
+    const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const;
+
+  void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
+
+  double              getStepSize (const unsigned int) const;
+  std::vector<double> getStepSize ()                   const;
+  std::map<std::string, arma::mat> getMomentumParameter () const;
+  std::vector<std::string> getSelectedMomentumBaselearner () const;
+
+  void updateAggrParameter (std::shared_ptr<blearner::Baselearner>&, double, double, blearnertrack::BaselearnerTrack&);
+};
+
+
+
+
+
 
 } // namespace optimizer
 
