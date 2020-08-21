@@ -2503,7 +2503,7 @@ public:
 };
 
 
-//' @export OptimizerCoordinateDescentLineSearch
+//' @export OptimizerAGBM
 class OptimizerAGBM: public OptimizerWrapper
 {
 public:

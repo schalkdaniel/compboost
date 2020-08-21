@@ -1357,7 +1357,7 @@ NULL
 #' @export OptimizerCoordinateDescentLineSearch
 NULL
 
-#' @export OptimizerCoordinateDescentLineSearch
+#' @export OptimizerAGBM
 NULL
 
 #' Main Compboost Class
