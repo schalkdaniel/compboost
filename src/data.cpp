@@ -82,6 +82,10 @@ arma::mat Data::getDenseData () const
 arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
 
+void Data::serialize (const std::string str) const
+{
+  std::cout << str << std::endl;
+}
 
 // -------------------------------------------------------------------------- //
 // Data implementations:
@@ -110,7 +114,7 @@ InMemoryData::~InMemoryData () {}
 
 // BinnedData:
 // ------------------------------
-BinnedData::BinnedData (const std::string data_identifier)
+BinnedData::BinnedDataq(const std::string data_identifier)
   : Data ( data_identifier )
 { }
 

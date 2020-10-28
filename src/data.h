@@ -28,6 +28,18 @@
 
 #include <vector>
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
+
 namespace data
 {
 
@@ -72,6 +84,8 @@ public:
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
+
+  void serialize(const std::string) const ;
 
   // Destructor
   virtual ~Data () {};
