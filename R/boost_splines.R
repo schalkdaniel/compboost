@@ -38,18 +38,24 @@
 #' @param penalty [\code{numeric(1)}]\cr
 #'   Penalty term for p-splines. If the penalty equals 0, then ordinary b-splines are fitted.
 #'   The higher the penalty, the higher the smoothness.
+#' @param df [\code{numeric(1)}]\cr
+#'   Degrees of freedom of the whole spline. It is important to set the same amount of degrees of freedom to be able to compare different base-learner.
 #' @param differences [\code{integer(1)}]\cr
 #'   Number of differences that are used for penalization. The higher the difference, the higher the smoothness.
 #' @param data_source [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param data_target [\code{S4 Data}]\cr
-#'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-#'   just in memory training is supported.
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data we want to use to track the out of bag risk.
-#' @param use_binning [\code{logical(1)}]\cr
-#'   Use binning to build design matrices. Saves time and memory (default is FALSE).
+#' @param bin_root [\code{integer(1)}+]\cr
+#'   If set to a value greater than zero, binning is applied and reduces the number of used
+#'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+#'   to set \code{bin_root = 2}.
+#' @param cache_type [\code{character(1)}+]\cr
+#'   String to indicate what method should be used to estimate the parameter in each iteration.
+#'   Default is \code{cache_type = "cholesky"} which computes the Cholesky decomposition,
+#'   caches it, and reuses the matrix over and over again. The other option is to use
+#'   \code{cache_type = "inverse"} which does the same but caches the inverse.
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -62,8 +68,8 @@
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
-  penalty = 2, differences = 2, data_source = InMemoryData, data_target = InMemoryData,
-  oob_fraction = NULL, use_binning = FALSE)
+  penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
+  oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction)
@@ -73,11 +79,11 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   # Issue:
   for(feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source, data_target,
-        degree = degree, n_knots = n_knots, penalty = penalty, differences = differences,
-        use_binning = use_binning)
+      model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
+        degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
+        bin_root = bin_root, cache_type = cache_type)
     } else {
-      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
+      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
         degree = 1, intercept = FALSE)
     }
   }

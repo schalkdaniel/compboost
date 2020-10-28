@@ -18,8 +18,7 @@
 #'
 #' cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 #'
-#' cbboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData,
-#'   data_target = InMemoryData, ...)
+#' cbboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 #'
 #' cbboost$train(iteration = 100, trace = -1)
 #'
@@ -112,9 +111,6 @@
 #'   }
 #'   \item{\code{data_source}}{[\code{S4 Data}]\cr
 #'     Data source object. Just in memory data objects are supported at the moment.
-#'   }
-#'   \item{\code{data_target}}{[\code{S4 Data}]\cr
-#'     Data target object. Just in memory data objects are supported at the moment.
 #'   }
 #'   \item{}{\code{...}\cr
 #'     Further arguments passed to the constructor of the \code{S4 Factory} class specified in
@@ -444,7 +440,7 @@ Compboost = R6::R6Class("Compboost",
         return(0)
       }
     },
-    addBaselearner = function(feature, id, bl_factory, data_source = InMemoryData, data_target = InMemoryData, ...) {
+    addBaselearner = function(feature, id, bl_factory, data_source = InMemoryData, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
       }
@@ -461,9 +457,9 @@ Compboost = R6::R6Class("Compboost",
       id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
 
       if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
-        private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+        private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
       }	else {
-        private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, data_target, ...)
+        private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
       }
     },
     train = function(iteration = 100, trace = -1) {
@@ -640,7 +636,6 @@ Compboost = R6::R6Class("Compboost",
       return (gg)
     },
     plotInbagVsOobRisk = function () {
-
       checkModelPlotAvailability(self)
 
       inbag_trace = self$getInbagRisk()
@@ -695,19 +690,18 @@ Compboost = R6::R6Class("Compboost",
           oob.response = self$response_oob)
       }
     },
-    addSingleNumericBl = function(data_columns, feature, id_fac, id, bl_factory, data_source, data_target, ...) {
+    addSingleNumericBl = function(data_columns, feature, id_fac, id, bl_factory, data_source, ...) {
 
       private$bl_list[[id]] = list()
       private$bl_list[[id]]$source = data_source$new(as.matrix(data_columns), paste(feature, collapse = "_"))
       private$bl_list[[id]]$feature = feature
-      private$bl_list[[id]]$target = data_target$new()
-      private$bl_list[[id]]$factory = bl_factory$new(private$bl_list[[id]]$source, private$bl_list[[id]]$target, id_fac, list(...))
+      private$bl_list[[id]]$factory = bl_factory$new(private$bl_list[[id]]$source, id_fac, list(...))
 
       self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)
       private$bl_list[[id]]$source = NULL
 
     },
-    addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, data_target, ...) {
+    addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, ...) {
 
       lvls = unlist(unique(data_column))
 
@@ -718,16 +712,33 @@ Compboost = R6::R6Class("Compboost",
 
         cat_feat_id = paste(feature, lvl, id_fac, sep = "_")
 
-        private$addSingleNumericBl(data_columns = as.matrix(as.integer(data_column == lvl)),
-          feature = paste(feature, lvl, sep = "_"), id_fac = id_fac,
-          id = cat_feat_id, bl_factory, data_source, data_target, ...)
+        if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalBinary") {
+          private$bl_list[[cat_feat_id]] = list()
+          if (data_source@.Data == "Rcpp_InMemoryData") {
+            # If data source is InMemoryData use the sparse option to reduce memory load:
+            private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"), TRUE)
+          } else {
+            private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"))
+          }
 
-        # This is important because of:
-        #   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
-        #      data objects correctly in a unique way.
-        #   2. The feature itself should not be named with the level. Instead of that we just want the
-        #      feature name of the categorical variable, such as cat_feature (important for predictions).
-        private$bl_list[[cat_feat_id]]$feature = feature
+          private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
+          private$bl_list[[cat_feat_id]]$factory = bl_factory$new(private$bl_list[[cat_feat_id]]$source, paste0(lvl, "_", id_fac))
+
+          self$bl_factory_list$registerFactory(private$bl_list[[cat_feat_id]]$factory)
+          private$bl_list[[cat_feat_id]]$source = NULL
+
+        } else {
+          private$addSingleNumericBl(data_columns = as.matrix(as.integer(data_column == lvl)),
+            feature = paste(feature, lvl, sep = "_"), id_fac = id_fac, id = cat_feat_id,
+            bl_factory, data_source, ...)
+
+          # This is important because of:
+          #   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
+          #      data objects correctly in a unique way.
+          #   2. The feature itself should not be named with the level. Instead of that we just want the
+          #      feature name of the categorical variable, such as cat_feature (important for predictions).
+          private$bl_list[[cat_feat_id]]$feature = feature
+        }
       }
     }
   )

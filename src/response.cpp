@@ -29,147 +29,148 @@ namespace response
 
 Response::Response () {}
 
+Response::Response (const std::string target_name, const std::string task_id,
+  const arma::mat& response)
+  : _target_name       ( target_name ),
+    _task_id           ( task_id ),
+    _response          ( response ),
+    _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
+    _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) )
+{ }
 
-void Response::setActualIteration (const unsigned int& actual_iter) { actual_iteration = actual_iter; }
-void Response::setActualPredictionScores (const arma::mat& new_prediction_scores, const unsigned int& actual_iter)
+Response::Response (const std::string target_name, const std::string task_id,
+  const arma::mat& response, const arma::mat& weights)
+  : _target_name       ( target_name ),
+    _task_id           ( task_id ),
+    _response          ( response ),
+    _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
+    _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
+    _weights           ( weights ),
+    _use_weights       ( true )
+{ }
+
+void Response::setIteration (const unsigned int iter) { _iteration = iter; }
+
+void Response::setPredictionScores (const arma::mat& scores, const unsigned int iter)
 {
-  prediction_scores = new_prediction_scores;
-  actual_iteration = actual_iter;
+  _prediction_scores = scores;
+  _iteration = iter;
 }
 
-std::string Response::getTargetName () const { return target_name; }
-std::string Response::getTaskIdentifier () const { return task_id; }
-arma::mat Response::getResponse () const { return response; }
-arma::mat Response::getWeights () const { return weights; }
-arma::mat Response::getInitialization () const { return initialization; }
-arma::mat Response::getPseudoResiduals () const { return pseudo_residuals; }
-arma::mat Response::getPredictionScores () const { return prediction_scores; }
+std::string Response::getTargetName       () const { return _target_name; }
+std::string Response::getTaskIdentifier   () const { return _task_id; }
+arma::mat   Response::getResponse         () const { return _response; }
+arma::mat   Response::getWeights          () const { return _weights; }
+arma::mat   Response::getInitialization   () const { return _initialization; }
+arma::mat   Response::getPseudoResiduals  () const { return _pseudo_residuals; }
+arma::mat   Response::getPredictionScores () const { return _prediction_scores; }
 
 
-void Response::checkLossCompatibility (std::shared_ptr<loss::Loss> sh_ptr_loss) const
+void Response::checkLossCompatibility (const std::shared_ptr<loss::Loss>& sh_ptr_loss) const
 {
-  if ((task_id != sh_ptr_loss->getTaskId()) && (sh_ptr_loss->getTaskId() != "custom")) {
-    std::string error_msg = "Loss task '" + sh_ptr_loss->getTaskId() + "' is not compatible with the response class task '" + task_id + "'.";
+  if ((_task_id != sh_ptr_loss->getTaskId()) && (sh_ptr_loss->getTaskId() != "custom")) {
+    std::string error_msg = "Loss task '" + sh_ptr_loss->getTaskId() + "' is not compatible with the response class task '" + _task_id + "'.";
     Rcpp::stop(error_msg);
   }
 }
 
 
-void Response::updatePseudoResiduals (std::shared_ptr<loss::Loss> sh_ptr_loss)
+void Response::updatePseudoResiduals (const std::shared_ptr<loss::Loss>& sh_ptr_loss)
 {
   checkLossCompatibility(sh_ptr_loss);
-  if (use_weights) {
-    pseudo_residuals = sh_ptr_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
+  if (_use_weights) {
+    _pseudo_residuals = sh_ptr_loss->calculateWeightedPseudoResiduals(_response, _prediction_scores, _weights);
   } else {
-    pseudo_residuals = sh_ptr_loss->calculatePseudoResiduals(response, prediction_scores);
+    _pseudo_residuals = sh_ptr_loss->calculatePseudoResiduals(_response, _prediction_scores);
   }
 }
 
 void Response::updatePrediction (const arma::mat& update)
 {
-  prediction_scores += update;
+  _prediction_scores += update;
 }
 
-void Response::updatePrediction (const double& learning_rate, const double& step_size, const arma::mat& update)
+void Response::updatePrediction (const double learning_rate, const double step_size, const arma::mat& update)
 {
-  prediction_scores += learning_rate * step_size * update;
+  _prediction_scores += learning_rate * step_size * update;
 }
 
 
-void Response::constantInitialization (std::shared_ptr<loss::Loss> sh_ptr_loss)
+void Response::constantInitialization (const std::shared_ptr<loss::Loss>& sh_ptr_loss)
 {
   checkLossCompatibility(sh_ptr_loss);
 
-  if (! is_initialization_initialized) {
-    if (use_weights) {
-      initialization = sh_ptr_loss->weightedConstantInitializer(response, weights);
+  if (! _is_initialized) {
+    if (_use_weights) {
+      _initialization = sh_ptr_loss->weightedConstantInitializer(_response, _weights);
     } else {
-      initialization = sh_ptr_loss->constantInitializer(response);
+      _initialization = sh_ptr_loss->constantInitializer(_response);
     }
-    is_initialization_initialized = true;
+    _is_initialized = true;
   } else {
-    Rcpp::stop("Constant initialization is already initialized.");
+    Rcpp::stop("Response is already initialized");
   }
 }
 
 void Response::constantInitialization (const arma::mat& init_mat)
 {
-  if (! is_initialization_initialized) {
-    initialization = init_mat;
-    is_initialization_initialized = true;
+  if (! _is_initialized) {
+    _initialization = init_mat;
+    _is_initialized = true;
   } else {
-    Rcpp::stop("Constant initialization is already initialized.");
+    Rcpp::stop("Response is already initialized");
   }
 }
 
 
-double Response::calculateEmpiricalRisk (std::shared_ptr<loss::Loss> sh_ptr_loss) const
+double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_ptr_loss) const
 {
   checkLossCompatibility(sh_ptr_loss);
-  if (use_weights) {
-    return sh_ptr_loss->calculateWeightedEmpiricalRisk(response, getPredictionTransform(), weights);
+  if (_use_weights) {
+    return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, getPredictionTransform(), _weights);
   } else {
-    return sh_ptr_loss->calculateEmpiricalRisk(response, getPredictionTransform());
+    return sh_ptr_loss->calculateEmpiricalRisk(_response, getPredictionTransform());
   }
 }
 
-arma::mat Response::getPredictionTransform () const
-{
-  return getPredictionTransform(prediction_scores);
-}
-
-arma::mat Response::getPredictionResponse () const
-{
-  return getPredictionResponse(prediction_scores);
-}
+arma::mat Response::getPredictionTransform () const { return getPredictionTransform(_prediction_scores); }
+arma::mat Response::getPredictionResponse  () const { return getPredictionResponse(_prediction_scores); }
 
 // -------------------------------------------------------------------------- //
 // Response implementations:
 // -------------------------------------------------------------------------- //
 
-// Regression
+// ResponseRegression
+// ------------------------------------
 
-ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0)
-{
-  target_name = target_name0;
-  response = response0;
-  task_id = "regression"; // set parent
-  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
-  prediction_scores = temp_mat; // set parent
-  pseudo_residuals = temp_mat;  // set parent
-}
+ResponseRegr::ResponseRegr (const std::string target_name, const arma::mat& response)
+  : Response::Response ( target_name, "regression", response )
+{ }
 
-ResponseRegr::ResponseRegr (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0)
+ResponseRegr::ResponseRegr (const std::string target_name, const arma::mat& response, const arma::mat& weights)
+  : Response::Response ( target_name, "regression", response, weights )
 {
-  helper::checkMatrixDim(response0, weights0);
-  target_name = target_name0;
-  response = response0;
-  weights = weights0;
-  use_weights = true;
-  task_id = "regression"; // set parent
-  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
-  prediction_scores = temp_mat; // set parent
-  pseudo_residuals = temp_mat;  // set parent
+  helper::checkMatrixDim(response, weights);
 }
 
 arma::mat ResponseRegr::calculateInitialPrediction (const arma::mat& response) const
 {
   arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
 
-  if (! is_initialization_initialized) {
+  if (! _is_initialized) {
      Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
   // Use just first element to correctly use .fill:
-  init.fill(initialization[0]);
+  init.fill(_initialization[0]);
   return init;
 }
 
 void ResponseRegr::initializePrediction ()
 {
-  if (is_initialization_initialized) {
-    if (! is_model_initialized) {
-      prediction_scores = calculateInitialPrediction(response);
-      is_model_initialized = true;
+  if (_is_initialized) {
+    if (! _is_model_initialized) {
+      _prediction_scores = calculateInitialPrediction(_response);
+      _is_model_initialized = true;
     } else {
       Rcpp::stop("Prediction is already initialized.");
     }
@@ -191,69 +192,58 @@ arma::mat ResponseRegr::getPredictionResponse (const arma::mat& pred_scores) con
 
 void ResponseRegr::filter (const arma::uvec& idx)
 {
-  response = response.elem(idx);
-  if (use_weights) {
-    weights = weights.elem(idx);
+  _response = _response.elem(idx);
+  if (_use_weights) {
+    _weights = _weights.elem(idx);
   }
-  pseudo_residuals = pseudo_residuals.elem(idx);
-  prediction_scores = prediction_scores.elem(idx);
+  _pseudo_residuals  = _pseudo_residuals.elem(idx);
+  _prediction_scores = _prediction_scores.elem(idx);
 }
 
-// Binary Classification
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& _target_name, const std::string& _pos_class, const std::vector<std::string>& _response)
+// ResponseBinaryClassif
+// ------------------------------------
+
+ResponseBinaryClassif::ResponseBinaryClassif (const std::string target_name, const std::string pos_class, const std::vector<std::string>& response)
+  : Response::Response ( target_name, "binary_classif", helper::stringVecToBinaryVec(response, pos_class) ),
+    _class_table ( helper::tableResponse(response) ),
+    _pos_class   ( pos_class )
 {
-  helper::checkForBinaryClassif(_response);
-  class_table = helper::tableResponse(_response);
-  response = helper::stringVecToBinaryVec(_response, _pos_class);
-  target_name = _target_name;
-  pos_class = _pos_class;
-  task_id = "binary_classif"; // set parent
-  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
-  prediction_scores = temp_mat; // set parent
-  pseudo_residuals = temp_mat;  // set parent
+  helper::checkForBinaryClassif(response);
 }
 
-ResponseBinaryClassif::ResponseBinaryClassif (const std::string& _target_name, const std::string& _pos_class, const std::vector<std::string>& _response, const arma::mat& _weights)
+ResponseBinaryClassif::ResponseBinaryClassif (const std::string target_name, const std::string pos_class, const std::vector<std::string>& response, const arma::mat& weights)
+  : Response::Response ( target_name, "binary_classif", helper::stringVecToBinaryVec(response, pos_class), weights ),
+    _class_table ( helper::tableResponse(response) ),
+    _pos_class   ( pos_class )
 {
-
-  helper::checkForBinaryClassif(_response);
-  class_table = helper::tableResponse(_response);
-  response = helper::stringVecToBinaryVec(_response, _pos_class);
-  helper::checkMatrixDim(response, _weights);
-  target_name = _target_name;
-  pos_class = _pos_class;
-  weights = _weights;
-  use_weights = true;
-  task_id = "binary_classif"; // set parent
-  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
-  prediction_scores = temp_mat; // set parent
-  pseudo_residuals = temp_mat;  // set parent
+  helper::checkForBinaryClassif(response);
+  helper::checkMatrixDim(_response, weights);
 }
 
 arma::mat ResponseBinaryClassif::calculateInitialPrediction (const arma::mat& response) const
 {
   arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
 
-  if (! is_initialization_initialized) {
+  if (! _is_initialized) {
      Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
   // Use just first element to correctly use .fill:
-  init.fill(initialization[0]);
+  init.fill(_initialization[0]);
   return init;
 }
 
 void ResponseBinaryClassif::initializePrediction ()
 {
-  if (is_initialization_initialized) {
-    if (! is_model_initialized) {
-      prediction_scores = calculateInitialPrediction(response);
-      is_model_initialized = true;
+  if (_is_initialized) {
+    if (! _is_model_initialized) {
+      _prediction_scores = calculateInitialPrediction(_response);
+      _is_model_initialized = true;
     } else {
       Rcpp::stop("Prediction is already initialized.");
     }
   } else {
-    Rcpp::stop("Initialize constant initialization first by calling 'constantInitialization()'.");
+    Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
 }
 
@@ -264,115 +254,118 @@ arma::mat ResponseBinaryClassif::getPredictionTransform (const arma::mat& pred_s
 
 arma::mat ResponseBinaryClassif::getPredictionResponse (const arma::mat& pred_scores) const
 {
-  return helper::transformToBinaryResponse(getPredictionTransform(pred_scores), threshold, 1, -1);
+  return helper::transformToBinaryResponse(getPredictionTransform(pred_scores), _threshold, 1, -1);
 }
 
-std::string ResponseBinaryClassif::getPositiveClass () const { return pos_class; }
-std::map<std::string, unsigned int> ResponseBinaryClassif::getClassTable () const { return class_table; }
+std::string ResponseBinaryClassif::getPositiveClass () const { return _pos_class; }
+std::map<std::string, unsigned int> ResponseBinaryClassif::getClassTable () const { return _class_table; }
 
 void ResponseBinaryClassif::filter (const arma::uvec& idx)
 {
-  response = response.elem(idx);
-  if (use_weights) {
-    weights = weights.elem(idx);
+  _response = _response.elem(idx);
+  if (_use_weights) {
+    _weights = _weights.elem(idx);
   }
-  pseudo_residuals = pseudo_residuals.elem(idx);
-  prediction_scores = prediction_scores.elem(idx);
+  _pseudo_residuals  = _pseudo_residuals.elem(idx);
+  _prediction_scores = _prediction_scores.elem(idx);
 }
 
-void ResponseBinaryClassif::setThreshold (const double& new_thresh)
+void ResponseBinaryClassif::setThreshold (const double new_thresh)
 {
   if ((new_thresh < 0) || (new_thresh > 1)) {
-    Rcpp::stop("Threshold must be element of [0,1]");
+    Rcpp::stop("Threshold must be in [0,1]");
   }
-  threshold = new_thresh;
+  _threshold = new_thresh;
 }
+
+double ResponseBinaryClassif::getThreshold () const { return _threshold; }
 
 // Functional Data Response
+// ------------------------------------
 
-ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& grid0)
-{
-  target_name = target_name0;
-  response = response0;
-  task_id = "regression"; // set parent
-  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
-  prediction_scores = temp_mat; // set parent
-  pseudo_residuals = temp_mat;  // set parent
-  // FDA specifics
-  grid = grid0;
-  arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
-  weights = temp_mat_1;
-  trapez_weights = tensors::trapezWeights(grid0);
-}
-
-ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
-{
-  helper::checkMatrixDim(response0, weights0);
-  target_name = target_name0;
-  response = response0;
-  weights = weights0;
-  task_id = "regression"; // set parent
-  arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
-  prediction_scores = temp_mat; // set parent
-  pseudo_residuals = temp_mat;  // set parent
-  // FDA specifics
-  grid = grid0;
-  trapez_weights = tensors::trapezWeights(grid0);
-}
-
-arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const
-{
-  arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
-
-  if (! is_initialization_initialized) {
-    Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
-  }
-  // Use just first element to correctly use .fill:
-  init.fill(initialization[0]);
-  return init;
-}
-
-void ResponseFDA::initializePrediction ()
-{
-  if (is_initialization_initialized) {
-    if (! is_model_initialized) {
-      prediction_scores = calculateInitialPrediction(response);
-      is_model_initialized = true;
-    } else {
-      Rcpp::stop("Prediction is already initialized.");
-    }
-  } else {
-    Rcpp::stop("Initialize constant initialization first by calling 'constantInitialization()'.");
-  }
-}
-
-void ResponseFDA::updatePseudoResiduals (std::shared_ptr<loss::Loss> sh_ptr_loss)
-{
-  checkLossCompatibility(sh_ptr_loss);
-  weights = weights.each_row() % trapez_weights.t();
-  pseudo_residuals = sh_ptr_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
-}
-
-
-arma::mat ResponseFDA::getPredictionTransform (const arma::mat& pred_scores) const
-{
-  // No transformation is done in regression
-  return pred_scores;
-}
-
-arma::mat ResponseFDA::getPredictionResponse (const arma::mat& pred_scores) const
-{
-  return pred_scores;
-}
-
-void ResponseFDA::filter (const arma::uvec& idx)
-{
-  response = response.elem(idx);
-  if (use_weights) {
-    weights = weights.elem(idx);
-  }
-  pseudo_residuals = pseudo_residuals.elem(idx);
-  prediction_scores = prediction_scores.elem(idx);
-}
+// ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& grid0)
+// {
+//   target_name = target_name0;
+//   response = response0;
+//   task_id = "regression"; // set parent
+//   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+//   prediction_scores = temp_mat; // set parent
+//   pseudo_residuals = temp_mat;  // set parent
+//   // FDA specifics
+//   grid = grid0;
+//   arma::mat temp_mat_1(response.n_rows, response.n_cols, arma::fill::ones);
+//   weights = temp_mat_1;
+//   trapez_weights = tensors::trapezWeights(grid0);
+// }
+//
+// ResponseFDA::ResponseFDA (const std::string& target_name0, const arma::mat& response0, const arma::mat& weights0, const arma::mat& grid0)
+// {
+//   helper::checkMatrixDim(response0, weights0);
+//   target_name = target_name0;
+//   response = response0;
+//   weights = weights0;
+//   task_id = "regression"; // set parent
+//   arma::mat temp_mat(response.n_rows, response.n_cols, arma::fill::zeros);
+//   prediction_scores = temp_mat; // set parent
+//   pseudo_residuals = temp_mat;  // set parent
+//   // FDA specifics
+//   grid = grid0;
+//   trapez_weights = tensors::trapezWeights(grid0);
+// }
+//
+// arma::mat ResponseFDA::calculateInitialPrediction (const arma::mat& response) const
+// {
+//   arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+//
+//   if (! _is_initialized) {
+//     Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+//   }
+//   // Use just first element to correctly use .fill:
+//   init.fill(initialization[0]);
+//   return init;
+// }
+//
+// void ResponseFDA::initializePrediction ()
+// {
+//   if (_is_initialized) {
+//     if (! _is_model_initialized) {
+//       prediction_scores = calculateInitialPrediction(response);
+//       _is_model_initialized = true;
+//     } else {
+//       Rcpp::stop("Prediction is already initialized.");
+//     }
+//   } else {
+//     Rcpp::stop("Initialize constant initialization first by calling 'constantInitialization()'.");
+//   }
+// }
+//
+// void ResponseFDA::updatePseudoResiduals (std::shared_ptr<loss::Loss> sh_ptr_loss)
+// {
+//   checkLossCompatibility(sh_ptr_loss);
+//   weights = weights.each_row() % trapez_weights.t();
+//   pseudo_residuals = sh_ptr_loss->calculateWeightedPseudoResiduals(response, prediction_scores, weights);
+// }
+//
+//
+// arma::mat ResponseFDA::getPredictionTransform (const arma::mat& pred_scores) const
+// {
+//   // No transformation is done in regression
+//   return pred_scores;
+// }
+//
+// arma::mat ResponseFDA::getPredictionResponse (const arma::mat& pred_scores) const
+// {
+//   return pred_scores;
+// }
+//
+// void ResponseFDA::filter (const arma::uvec& idx)
+// {
+//   response = response.elem(idx);
+//   if (_use_weights) {
+//     weights = weights.elem(idx);
+//   }
+//   pseudo_residuals = pseudo_residuals.elem(idx);
+//   prediction_scores = prediction_scores.elem(idx);
+// }
 
 } // namespace response

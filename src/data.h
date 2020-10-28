@@ -22,6 +22,11 @@
 #define DATA_H_
 
 #include "RcppArmadillo.h"
+#include "binning.h"
+#include "splines.h"
+#include "helper.h"
+
+#include <vector>
 
 namespace data
 {
@@ -32,62 +37,44 @@ namespace data
 
 class Data
 {
-protected:
+private:
+  const std::string   _data_identifier  = "";
+  const bool          _use_sparse       = false;
 
-  std::string data_identifier = "";
-  std::string data_type = "ordinary";
+  arma::mat     _data_mat         = arma::mat (1, 1, arma::fill::zeros);
+  arma::sp_mat  _sparse_data_mat;
+
+  std::pair<std::string, arma::mat> _mat_cache;
+
+  // Private functions
+  void setCacheCholesky (const arma::mat&);
+  void setCacheInverse  (const arma::mat&);
+  void setCacheIdentity (const arma::mat&);
+
+protected:
+  Data (const std::string);
+  Data (const std::string, const arma::mat&);
+  Data (const std::string, const arma::sp_mat&);
 
 public:
-
-  // Declare the data stuff public that every class can access the data
-  // it needs:
-
-  // Initialize with zeros and null pointer. Idea: The real data object which is
-  // used for modelling is stored in the data_mat. This should only be the case
-  // for the data target. The data source gets a pointer to e.g. the column of
-  // a data.frame:
-
-  /// Dense matrix for design matrix (accessed by getData and setData and directly)
-  arma::mat data_mat = arma::mat (1, 1, arma::fill::zeros);
-
-  /// Sparse matrix for design matrix (directly accessible)
-  arma::sp_mat sparse_data_mat;
-
-  // Some spline specific data stuff (of course they can be used for other
-  // classes to):
-
-  /// Penalty matrix (directly accessible)
-  arma::mat penalty_mat;
-
-  /// Vector of knots (directly accessible)
-  arma::vec knots;
-
-  /// This is way to speed up the algorithm (nicked from the mboost guys)
-  /// Generally we calculate \f$X^T X\f$ once and reuse this in every iteration.
-  arma::mat XtX_inv;
-
-  /// Flag if binning should be used:
-  bool bin_use_binning = false;
-
-  /// In case of binning we store the vector of indexes here:
-  arma::uvec bin_index_vec;
-
-  // Member functions:
-  Data ();
-
-  /// Set the main data (design matrix)
-  virtual void setData (const arma::mat&) = 0;
-
-  /// Get the design matrix
+  // Virtual functions
   virtual arma::mat getData () const = 0;
 
-  void setDataIdentifier (const std::string&);
-  std::string getDataIdentifier () const;
+  // Getter/Setter
+  std::string                       getDataIdentifier () const;
+  std::pair<std::string, arma::mat> getCache          () const;
+  std::string                       getCacheType      () const;
+  arma::mat                         getCacheMat       () const;
+  arma::mat                         getDenseData      () const;
+  arma::sp_mat                      getSparseData     () const;
+  bool                              usesSparseMatrix  () const;
 
-  void setDataType (const std::string&);
+  void setDenseData   (const arma::mat&);
+  void setSparseData  (const arma::sp_mat&);
+  void setCache       (const std::string, const arma::mat&);
 
-  virtual
-    ~Data () {};
+  // Destructor
+  virtual ~Data () {};
 };
 
 
@@ -98,27 +85,140 @@ public:
 // InMemoryData:
 // -----------------------
 
-// This one does nothing special, just takes the data and use the transformed
-// one as train data.
-
 class InMemoryData : public Data
 {
 public:
+  InMemoryData (const std::string);
+  InMemoryData (const std::string, const arma::mat&);
+  InMemoryData (const std::string, const arma::sp_mat&);
 
-  // Empty constructor for data target
-  InMemoryData ();
-
-  // // Colvec to refer directly to R vectors or data frame columns:
-  // InMemoryData (const arma::vec&, const std::string&);
-
-  // Classical way via data matrix:
-  InMemoryData (const arma::mat&, const std::string&);
-
-  void setData (const arma::mat&);
+  // void setData (const arma::mat&);
   arma::mat getData() const;
 
+  // Destructor
   ~InMemoryData ();
 };
+
+
+// BinnedData:
+// ------------------------------
+
+class BinnedData : public Data
+{
+private:
+  const arma::uvec    _bin_idx;
+  const bool          _use_binning = false;
+  const unsigned int  _bin_root = 1;
+
+protected:
+  BinnedData (const std::string);
+  BinnedData (const std::string, const unsigned int, const arma::vec&, const arma::vec&);
+
+public:
+  arma::mat  getData         () const;
+  arma::uvec getBinningIndex () const;
+  bool       usesBinning     () const;
+
+  //void setIndexVector (const arma::vec&, const arma::vec&);
+  //void setData        (const arma::mat&);
+};
+
+
+// PSplineData:
+// -------------------------------
+
+class PSplineData : public BinnedData
+{
+private:
+  const unsigned int  _degree;
+  const arma::mat     _knots;
+  const arma::mat     _penalty_mat;
+  const double        _range_min;
+  const double        _range_max;
+
+public:
+  PSplineData (const std::string, const unsigned int, const arma::mat&,
+    const arma::mat&);
+  PSplineData (const std::string, const unsigned int, const arma::mat&,
+    const arma::mat&, const unsigned int, const arma::vec&, const arma::vec&);
+
+  arma::mat    filterKnotRange (const arma::mat&) const;
+  arma::mat    getKnots        ()                 const;
+  arma::mat    getPenaltyMat   ()                 const;
+  unsigned int getDegree       ()                 const;
+};
+
+
+// CategoricalData:
+// ----------------------------
+
+typedef std::map<std::string, unsigned int> map_dict;
+class CategoricalData : public Data
+{
+private:
+  map_dict       _dictionary;
+  arma::urowvec  _classes;
+
+  double  _df = 0;
+  bool    _is_used_as_target = false;
+
+public:
+  CategoricalData (const std::string, const std::vector<std::string>&);
+
+  arma::mat     getData       () const;
+  map_dict      getDictionary () const;
+  arma::urowvec getClasses    () const;
+  arma::uvec    getIdxOfClass (const unsigned int) const;
+  arma::uvec    getIdxOfClass (const std::string)  const;
+
+  void         initRidgeData    (const double);
+  void         initRidgeData    ();
+  arma::mat    dictionaryInsert (const std::vector<std::string>&, const arma::vec&) const;
+  unsigned int classStringToInt (const std::string) const;
+};
+
+
+// CategoricalDataRaw:
+// ----------------------------
+
+class CategoricalDataRaw : public Data
+{
+private:
+  std::vector<std::string> _raw_data;
+
+public:
+  CategoricalDataRaw (const std::string, const std::vector<std::string>&);
+
+  arma::mat                getData    () const;
+  std::vector<std::string> getRawData () const;
+};
+
+
+// CategoricalBinaryData:
+// ----------------------------
+
+class CategoricalBinaryData : public Data
+{
+private:
+  arma::uvec          _idx;
+  const unsigned int  _nobs;
+  const double        _xtx_inv_scalar;
+  const std::string   _category;
+
+public:
+  CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
+
+  arma::mat    getData      ()                   const;
+  arma::uvec   getIndex     ()                   const;
+  unsigned int getIndex     (const unsigned int) const;
+  double       getXtxScalar ()                   const;
+  std::string  getCategory  ()                   const;
+  unsigned int getNObs      ()                   const;
+
+  // Destructor
+  ~CategoricalBinaryData ();
+};
+
 
 } // namespace data
 

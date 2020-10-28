@@ -26,34 +26,23 @@ namespace blearnerfactory {
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
-// arma::mat BaselearnerFactory::getData () const
-// {
-//   return data_target->getData();
-// }
+BaselearnerFactory::BaselearnerFactory (const std::string blearner_type) : _blearner_type ( blearner_type ) {}
+
+BaselearnerFactory::BaselearnerFactory (const std::string blearner_type, std::shared_ptr<data::Data> data_source)
+  : _blearner_type      ( blearner_type ),
+    _sh_ptr_data_source ( data_source )
+{ }
 
 std::string BaselearnerFactory::getDataIdentifier () const
 {
-  return data_target->getDataIdentifier();
+  if (_sh_ptr_data_source.use_count() == 0) {
+    throw std::logic_error("Data source is not initialized or 'getDataIdentifier()' is not implemented");
+  }
+  return _sh_ptr_data_source->getDataIdentifier();
 }
+std::string BaselearnerFactory::getBaselearnerType() const { return _blearner_type; }
 
-std::string BaselearnerFactory::getBaselearnerType() const
-{
-  return blearner_type;
-}
-
-void BaselearnerFactory::initializeDataObjects (std::shared_ptr<data::Data> data_source0,
-  std::shared_ptr<data::Data> data_target0)
-{
-  data_source = data_source0;
-  data_target = data_target0;
-
-  // Make sure that the data identifier is setted correctly:
-  data_target->setDataIdentifier(data_source->getDataIdentifier());
-
-  // Get the data of the source, transform it and write it into the target:
-  data_target->setData(instantiateData(data_source->getData()));
-}
-
+/// Destructor
 BaselearnerFactory::~BaselearnerFactory () {}
 
 // -------------------------------------------------------------------------- //
@@ -63,102 +52,76 @@ BaselearnerFactory::~BaselearnerFactory () {}
 // BaselearnerPolynomial:
 // -----------------------
 
-BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string& blearner_type0,
-  std::shared_ptr<data::Data> data_source0, std::shared_ptr<data::Data> data_target0, const unsigned int& degree,
-  const bool& intercept)
-  : degree ( degree ),
-    intercept ( intercept )
+BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string blearner_type,
+  std::shared_ptr<data::Data> data_source, const unsigned int degree, const bool intercept)
+  : BaselearnerFactory ( blearner_type, data_source ),
+    _degree            ( degree ),
+    _intercept         ( intercept )
 {
-  blearner_type = blearner_type0;
+  arma::mat   temp_data_mat;
+  arma::mat   temp_xtx;
+  std::string cache_type;
 
-  data_source = data_source0;
-  data_target = data_target0;
-
-  // Make sure that the data identifier is setted correctly:
-  data_target->setDataIdentifier(data_source->getDataIdentifier());
-
-  // Prepare computation of intercept and slope of an ordinary linear regression:
   if (data_source->getData().n_cols == 1) {
-    // Store centered x values for faster computation:
-    data_target->setData(arma::pow(data_source->getData(), degree));
-
-    // Hack to store some properties which are reused over and over again:
+    temp_data_mat = arma::pow(data_source->getDenseData(), _degree);
     arma::mat temp_mat(1, 2, arma::fill::zeros);
 
-    if (intercept) {
-      temp_mat(0,0) = arma::as_scalar(arma::mean(data_target->getData()));
+    if (_intercept) {
+      temp_mat(0,0) = arma::as_scalar(arma::mean(temp_data_mat));
     }
-    temp_mat(0,1) = arma::as_scalar(arma::sum(arma::pow(data_target->getData() - temp_mat(0,0), 2)));
-    data_target->XtX_inv = temp_mat;
-
+    temp_mat(0,1) = arma::as_scalar(arma::sum(arma::pow(temp_data_mat - temp_mat(0,0), 2)));
+    temp_xtx      = temp_mat;
+    cache_type    = "identity";
   } else {
-    // Get the data of the source, transform it and write it into the target:
-    data_target->setData(instantiateData(data_source->getData()));
-    data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData());
+    temp_data_mat = instantiateData(data_source->getDenseData());
+    temp_xtx      = temp_data_mat.t() * temp_data_mat;
+    cache_type    = "inverse";
   }
-
-  // blearner_type = blearner_type + " with degree " + std::to_string(degree);
+  _sh_ptr_data_target = std::make_shared<data::InMemoryData>(data_source->getDataIdentifier(), temp_data_mat);
+  _sh_ptr_data_target->setCache(cache_type, temp_xtx);
 }
 
-std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner (const std::string& identifier)
-{
-  std::shared_ptr<blearner::Baselearner>  sh_ptr_blearner = std::make_shared<blearner::BaselearnerPolynomial>(data_target, identifier, degree, intercept);
-  sh_ptr_blearner->setBaselearnerType(blearner_type);
-
-  // // Check if the data is already set. If not, run 'instantiateData' from the
-  // // baselearner:
-  // if (! is_data_instantiated) {
-  //   data = sh_ptr_blearner->instantiateData();
-  //
-  //   is_data_instantiated = true;
-  //
-  //   // update baselearner type:
-  //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
-  // }
-  return sh_ptr_blearner;
-}
-
-/**
- * \brief Data getter which always returns an arma::mat
- *
- * This function is important to have a unified interface to access the data
- * matrices. Especially for predicting we have to get the data of each factory
- * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
- * this function should only be used to get temporary matrices which are deleted
- * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly
- * called internally.
- *
- * \returns `arma::mat` of data used for modelling a single base-learner
- */
-arma::mat BaselearnerPolynomialFactory::getData () const
-{
-  // In the case of p = 1 we have to treat the getData() function differently
-  // due to the saved and already transformed data without intercept. This
-  // is annoying but improves performance of the fitting process.
-  if (data_target->getData().n_cols == 1) {
-    if (intercept) {
-      return instantiateData(arma::pow(data_target->getData(), 1/degree));
-    } else {
-      return data_target->getData();
-    }
-  } else {
-    return data_target->getData();
-  }
-}
-
-// Transform data. This is done twice since it makes the prediction
-// of the whole compboost object so much easier:
 arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdata) const
 {
-  arma::mat temp = arma::pow(newdata, degree);
-  if (intercept) {
+  arma::mat temp = arma::pow(newdata, _degree);
+  if (_intercept) {
     arma::mat temp_intercept(temp.n_rows, 1, arma::fill::ones);
     temp = join_rows(temp_intercept, temp);
   }
   return temp;
 }
 
+arma::mat BaselearnerPolynomialFactory::getData () const
+{
+  // In the case of p = 1 we have to treat the getData() function differently
+  // due to the saved and already transformed data without intercept. This
+  // is annoying but improves performance of the fitting process.
+  if (_sh_ptr_data_target->getData().n_cols == 1) {
+    if (_intercept) {
+      return instantiateData(arma::pow(_sh_ptr_data_target->getDenseData(), 1/(double)_degree));
+    } else {
+      return _sh_ptr_data_target->getDenseData();
+    }
+  } else {
+    return _sh_ptr_data_target->getDenseData();
+  }
+}
+
+arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  return BaselearnerPolynomialFactory::getData() * param;
+}
+
+arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
+std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
+{
+  return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_data_target, _degree, _intercept);
+}
 
 
 // BaselearnerPSpline:
@@ -167,42 +130,30 @@ arma::mat BaselearnerPolynomialFactory::instantiateData (const arma::mat& newdat
 /**
  * \brief Default constructor of class `PSplineBleanrerFactory`
  *
- * The PSpline constructor has some important tasks which are:
+ * The P-Spline constructor has some important tasks which are:
  *   - Set the knots
- *   - Initialize the data (knots must be setted prior)
+ *   - Initialize the spline base (knots must be setted prior)
  *   - Compute and store penalty matrix
  *
- * \param blearner_type0 `std::string` Name of the baselearner type (setted by
+ * \param blearner_type `std::string` Name of the baselearner type (setted by
  *   the Rcpp Wrapper classes in `compboost_modules.cpp`)
  * \param data_source `std::shared_ptr<data::Data>` Source of the data
- * \param data_target `std::shared_ptr<data::Data>` Object to store the transformed data source
  * \param degree `unsigned int` Polynomial degree of the splines
- * \param n_knots `unsigned int` Number of inner knots used
- * \param penalty `double` Regularization parameter `penalty = 0` yields
+ * \param n_knots `unsigned int` Number of inner knots
+ * \param penalty `double` Regularization parameter `penalty = 0` gives
  *   b splines while a bigger penalty forces the splines into a global
- *   polynomial form.
+ *   polynomial form
  * \param differences `unsigned int` Number of differences used for the
- *   penalty matrix.
- * \param use_sparse_matrices `bool` Use sparse matrices for data storage.
- * \param use_binning `bool` Use binning to improve runtime performance and reduce memory load.
+ *   penalty matrix
+ * \param use_sparse_matrices `bool` Use sparse matrices for data storage
+ * \param use_binning `bool` Use binning to improve runtime performance and reduce memory load
  */
-
-BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearner_type0,
-  std::shared_ptr<data::Data> data_source0, std::shared_ptr<data::Data> data_target0, const unsigned int& degree,
-  const unsigned int& n_knots, const double& penalty, const unsigned int& differences,
-  const bool use_sparse_matrices, const bool use_binning)
-  : degree ( degree ),
-    n_knots ( n_knots ),
-    penalty ( penalty ),
-    differences ( differences ),
-    use_sparse_matrices ( use_sparse_matrices ),
-    use_binning ( use_binning )
+BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner_type,
+  std::shared_ptr<data::Data> data_source, const unsigned int degree, const unsigned int n_knots,
+  const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root,
+  const std::string cache_type)
+  : BaselearnerFactory ( blearner_type, data_source )
 {
-  blearner_type = blearner_type0;
-  // Set data, data identifier and the data_mat (dense at this stage)
-  data_source = data_source0;
-  data_target = data_target0;
-
   // This is necessary to prevent the program from segfolds... whyever???
   // Copied from: http://lists.r-forge.r-project.org/pipermail/rcpp-devel/2012-November/004796.html
   try {
@@ -212,237 +163,256 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string& blearne
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
   } catch (...) {
-    ::Rf_error( "c++ exception (unknown reason)" );
+    ::Rf_error( "c++ exception (unknown reason) in constructor of BaselearnerPSplineFactory" );
   }
+  const arma::mat knots       = splines::createKnots(data_source->getDenseData(), n_knots, degree);
+  const arma::mat penalty_mat = splines::penaltyMat(n_knots + (degree + 1), differences);
 
-  // Prepare for binning:
-  data_target->bin_use_binning = use_binning;
-  if (use_binning) {
-    arma::colvec binned_vector = binning::binVector(data_source->getData());
-    data_target->bin_index_vec = binning::calculateIndexVector(data_source->getData(), binned_vector);
-    data_source->setData(binned_vector);
+  if (bin_root == 0) { // don't use binning
+    _sh_ptr_psdata = std::make_shared<data::PSplineData>(data_source->getDataIdentifier(), degree, knots, penalty_mat);
+  } else {             // use binning
+    arma::colvec bins = binning::binVectorCustom(data_source->getData(), bin_root);
+    _sh_ptr_psdata    = std::make_shared<data::PSplineData>(data_source->getDataIdentifier(), degree, knots, penalty_mat, bin_root, data_source->getDenseData(), bins);
+    data_source->setDenseData(bins);
   }
-  // Initialize knots:
-  data_target->knots = splines::createKnots(data_source->getData(), n_knots, degree);
+  arma::mat     temp_xtx;
+  arma::sp_mat  temp      = splines::createSparseSplineBasis (data_source->getDenseData(), degree, knots).t();
 
-  // Additionally set the penalty matrix:
-  data_target->penalty_mat = splines::penaltyMat(n_knots + (degree + 1), differences);
+  _sh_ptr_psdata->setSparseData(temp);
 
-  // Make sure that the data identifier is setted correctly:
-  data_target->setDataIdentifier(data_source->getDataIdentifier());
-
-  // Get the data of the source, transform it and write it into the target. This needs some explanations:
-  //   - If we use sparse matrices we want to store the sparse matrix into the sparse data matrix member of
-  //     the data object. This also requires to adopt getData() for that purpose.
-  //   - To get some (very) nice speed ups we store the transposed matrix not the standard one. This also
-  //     affects how the training in baselearner.cpp is done. Nevertheless, this speed up things dramatically.
-  if (use_sparse_matrices) {
-    data_target->sparse_data_mat = splines::createSparseSplineBasis (data_source->getData(), degree, data_target->knots).t();
-
-    if (use_binning) {
-      arma::vec temp_weight(1, arma::fill::ones);
-      arma::mat temp_xtx = binning::binnedSparseMatMult(data_target->sparse_data_mat, data_target->bin_index_vec, temp_weight);
-      data_target->XtX_inv = arma::inv(temp_xtx + penalty * data_target->penalty_mat);
-    } else {
-      data_target->XtX_inv = arma::inv(data_target->sparse_data_mat * data_target->sparse_data_mat.t() + penalty * data_target->penalty_mat);
-    }
+  if (_sh_ptr_psdata->usesBinning()) {
+    arma::vec temp_weight(1, arma::fill::ones);
+    temp_xtx = binning::binnedSparseMatMult(_sh_ptr_psdata->getSparseData(), _sh_ptr_psdata->getBinningIndex(), temp_weight);
   } else {
-    // The use of dense matrix does not makes any sense here, so delete in further releases!
-    data_target->setData(instantiateData(data_source->getData()));
-    data_target->XtX_inv = arma::inv(data_target->getData().t() * data_target->getData() + penalty * data_target->penalty_mat);
+    temp_xtx = _sh_ptr_psdata->getSparseData() * _sh_ptr_psdata->getSparseData().t();
   }
-}
-
-/**
- * \brief Create new `BaselearnerPSpline` object
- *
- * \param identifier `std::string` identifier of that specific baselearner object
- */
-std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselearner (const std::string& identifier)
-{
-  // Create new polynomial baselearner. This one will be returned by the
-  // factory:
-  std::shared_ptr<blearner::Baselearner>  sh_ptr_blearner = std::make_shared<blearner::BaselearnerPSpline>(data_target, identifier, degree,
-    n_knots, penalty, differences, use_sparse_matrices);
-  sh_ptr_blearner->setBaselearnerType(blearner_type);
-
-  // // Check if the data is already set. If not, run 'instantiateData' from the
-  // // baselearner:
-  // if (! is_data_instantiated) {
-  //   data = sh_ptr_blearner->instantiateData();
-  //
-  //   is_data_instantiated = true;
-  //
-  //   // update baselearner type:
-  //   blearner_type = blearner_type + " with degree " + std::to_string(degree);
-  // }
-  return sh_ptr_blearner;
-}
-
-/**
- * \brief Data getter which always returns an arma::mat
- *
- * This function is important to have a unified interface to access the data
- * matrices. Especially for predicting we have to get the data of each factory
- * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
- * this function should only be used to get temporary matrices which are deleted
- * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly
- * called internally.
- *
- * \returns `arma::mat` of data used for modelling a single base-learner
- */
-arma::mat BaselearnerPSplineFactory::getData () const
-{
-  if (use_sparse_matrices) {
-    // std::cout << "Use sparse matrices" << std::endl;
-    arma::mat out (data_target->sparse_data_mat.t());
-    return out;
+  double used_penalty;
+  if (df > 0) {
+    used_penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
   } else {
-    // std::cout << "Use dense matrices" << std::endl;
-    return data_target->getData();
+    used_penalty = penalty;
   }
+  _sh_ptr_psdata->setCache(cache_type, temp_xtx + used_penalty * penalty_mat);
 }
 
-/**
- * \brief Instantiate data matrix (design matrix)
- *
- * This function is ment to create the design matrix which is then stored
- * within the data object. This should be done just once and then reused all
- * the time.
- *
- * Note that this function sets the `data_mat` object of the data object!
- *
- * \param newdata `arma::mat` Input data which is transformed to the design matrix
- *
- * \returns `arma::mat` of transformed data
- */
 arma::mat BaselearnerPSplineFactory::instantiateData (const arma::mat& newdata) const
 {
-  arma::vec knots = data_target->knots;
+  arma::mat temp = _sh_ptr_psdata->filterKnotRange(newdata);
+  return splines::createSplineBasis (temp, _sh_ptr_psdata->getDegree(), _sh_ptr_psdata->getKnots());
+}
 
-  // check if the new data matrix contains value which are out of range:
-  double range_min = knots[degree];                   // minimal value from original data
-  double range_max = knots[n_knots + degree + 1];     // maximal value from original data
+arma::mat BaselearnerPSplineFactory::getData () const
+{
+  return _sh_ptr_psdata->getDenseData();
+}
 
-  arma::mat temp = splines::filterKnotRange(newdata, range_min, range_max, data_target->getDataIdentifier());
+arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  return (param.t() * _sh_ptr_psdata->getSparseData()).t();
+}
 
-  // Data object has to be created prior! That means that data_ptr must have
-  // initialized knots, and penalty matrix!
-  arma::mat out = splines::createSplineBasis (temp, degree, data_target->knots);
+arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
+
+std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselearner ()
+{
+  return std::make_shared<blearner::BaselearnerPSpline>(_blearner_type, _sh_ptr_psdata);
+}
+
+
+// BaselearnerCategoricalRidgeFactory:
+// -------------------------------------------
+
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
+  std::shared_ptr<data::CategoricalData>& cdata_source)
+  : BaselearnerFactory ( blearner_type ),
+    _sh_ptr_cdata      ( cdata_source )
+{
+  _sh_ptr_cdata->initRidgeData();
+}
+
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
+  std::shared_ptr<data::CategoricalData>& cdata_source, const double df)
+  : BaselearnerFactory ( blearner_type ),
+    _sh_ptr_cdata      ( cdata_source )
+{
+  // TODO: Throw exception if data object is not categorical!
+  _sh_ptr_cdata->initRidgeData(df);
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::instantiateData (const arma::mat& newdata) const
+{
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::getData () const
+{
+  return _sh_ptr_cdata->getData();
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  arma::urowvec classes = _sh_ptr_cdata->getClasses();
+  arma::mat out(classes.n_rows, param.n_cols, arma::fill::zeros);
+  for (unsigned int i = 0; i < classes.n_rows; i++) {
+    out.row(i) = param.row(classes(i));
+  }
   return out;
 }
+
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
+  return _sh_ptr_cdata->dictionaryInsert(classes, param);
+}
+
+std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::createBaselearner ()
+{
+  return std::make_shared<blearner::BaselearnerCategoricalRidge>(_blearner_type, _sh_ptr_cdata);
+}
+
+std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { return _sh_ptr_cdata->getDataIdentifier(); }
+
+// BaselearnerCategoricalBinary:
+// ----------------------------------
+
+BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const std::string blearner_type, const std::string cls,
+  const std::shared_ptr<data::CategoricalData>& cdata_source)
+  : BaselearnerFactory ( blearner_type ),
+    _class             ( cls ),
+    _sh_ptr_cdata      ( cdata_source ),
+    _sh_ptr_bcdata     ( std::make_shared<data::CategoricalBinaryData>(cdata_source->getDataIdentifier(), cls, cdata_source) )
+{ }
+
+std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalBinaryFactory::createBaselearner ()
+{
+  return std::make_shared<blearner::BaselearnerCategoricalBinary>(_blearner_type, _sh_ptr_bcdata);
+}
+
+arma::mat BaselearnerCategoricalBinaryFactory::getData () const
+{
+  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), _sh_ptr_bcdata->getNObs(), 1);
+}
+
+arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), _sh_ptr_bcdata->getNObs(), arma::as_scalar(param));
+}
+
+arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
+
+  unsigned int nobs = classes.size();
+  arma::mat out(nobs, 1, arma::fill::zeros);
+
+  for (unsigned int i = 0; i < nobs; i++) {
+    if (classes.at(i) == _sh_ptr_bcdata->getCategory())
+      out(i) = arma::as_scalar(param);
+  }
+  return out;
+}
+
+arma::mat BaselearnerCategoricalBinaryFactory::instantiateData (const arma::mat& newdata) const
+{
+  throw std::logic_error("Categorical base-learner do not instantiate data!");
+  return arma::mat(1, 1, arma::fill::zeros);
+}
+
+std::string BaselearnerCategoricalBinaryFactory::getDataIdentifier () const { return _sh_ptr_bcdata->getDataIdentifier(); }
+
 
 // BaselearnerCustom:
 // -----------------------
 
-BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string& blearner_type0,
-  std::shared_ptr<data::Data> data_source, std::shared_ptr<data::Data> data_target, Rcpp::Function instantiateDataFun,
-  Rcpp::Function trainFun, Rcpp::Function predictFun, Rcpp::Function extractParameter)
-  : instantiateDataFun ( instantiateDataFun ),
-    trainFun ( trainFun ),
-    predictFun ( predictFun ),
-    extractParameter ( extractParameter )
+BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string blearner_type,
+  const std::shared_ptr<data::Data> data_source, const Rcpp::Function instantiateDataFun,
+  const Rcpp::Function trainFun, const Rcpp::Function predictFun, const Rcpp::Function extractParameter)
+  : BaselearnerFactory   ( blearner_type, data_source ),
+    _sh_ptr_data_target  ( std::make_shared<data::InMemoryData>(data_source->getDataIdentifier()) ),
+    _instantiateDataFun  ( instantiateDataFun ),
+    _trainFun            ( trainFun ),
+    _predictFun          ( predictFun ),
+    _extractParameter    ( extractParameter )
 {
-  blearner_type = blearner_type0;
-  initializeDataObjects(data_source, data_target);
+  _sh_ptr_data_target->setDenseData(instantiateData(data_source->getData()));
 }
 
-std::shared_ptr<blearner::Baselearner> BaselearnerCustomFactory::createBaselearner (const std::string &identifier)
+std::shared_ptr<blearner::Baselearner> BaselearnerCustomFactory::createBaselearner ()
 {
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner = std::make_shared<blearner::BaselearnerCustom>(data_target, identifier,
-    instantiateDataFun, trainFun, predictFun, extractParameter);
-  sh_ptr_blearner->setBaselearnerType(blearner_type);
-
-  // // Check if the data is already set. If not, run 'instantiateData' from the
-  // // baselearner:
-  // if (! is_data_instantiated) {
-  //   data = sh_ptr_blearner->instantiateData();
-  //
-  //   is_data_instantiated = true;
-  // }
-  return sh_ptr_blearner;
+  return std::make_shared<blearner::BaselearnerCustom>(_blearner_type, _sh_ptr_data_target,
+    _instantiateDataFun, _trainFun, _predictFun, _extractParameter);
 }
 
-/**
- * \brief Data getter which always returns an arma::mat
- *
- * This function is important to have a unified interface to access the data
- * matrices. Especially for predicting we have to get the data of each factory
- * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
- * this function should only be used to get temporary matrices which are deleted
- * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly
- * called internally.
- *
- * \returns `arma::mat` of data used for modelling a single base-learner
- */
 arma::mat BaselearnerCustomFactory::getData () const
 {
-  return data_target->getData();
+  return _sh_ptr_data_target->getData();
 }
 
-// Transform data. This is done twice since it makes the prediction
-// of the whole compboost object so much easier:
+arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  return _sh_ptr_data_target->getData() * param;
+}
+
+arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
 arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) const
 {
-  Rcpp::NumericMatrix out = instantiateDataFun(newdata);
+  Rcpp::NumericMatrix out = _instantiateDataFun(newdata);
   return Rcpp::as<arma::mat>(out);
 }
+
 
 // BaselearnerCustomCpp:
 // -----------------------
 
-BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string& blearner_type0,
-  std::shared_ptr<data::Data> data_source, std::shared_ptr<data::Data> data_target, SEXP instantiateDataFun,
-  SEXP trainFun, SEXP predictFun)
-  : instantiateDataFun ( instantiateDataFun ),
-    trainFun ( trainFun ),
-    predictFun ( predictFun )
+BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string blearner_type,
+  const std::shared_ptr<data::Data> data_source, const SEXP instantiateDataFun, const SEXP trainFun,
+  const SEXP predictFun)
+  : BaselearnerFactory   ( blearner_type, data_source ),
+    _sh_ptr_data_target  ( std::make_shared<data::InMemoryData>(data_source->getDataIdentifier()) ),
+    _instantiateDataFun  ( instantiateDataFun ),
+    _trainFun            ( trainFun ),
+    _predictFun          ( predictFun )
 {
-  blearner_type = blearner_type0;
-  initializeDataObjects(data_source, data_target);
+  _sh_ptr_data_target->setDenseData(instantiateData(data_source->getData()));
 }
 
-std::shared_ptr<blearner::Baselearner> BaselearnerCustomCppFactory::createBaselearner (const std::string& identifier)
+std::shared_ptr<blearner::Baselearner> BaselearnerCustomCppFactory::createBaselearner ()
 {
-  std::shared_ptr<blearner::Baselearner> sh_ptr_blearner = std::make_shared<blearner::BaselearnerCustomCpp>(data_target, identifier,
-    instantiateDataFun, trainFun, predictFun);
-  sh_ptr_blearner->setBaselearnerType(blearner_type);
-
-  // // Check if the data is already set. If not, run 'instantiateData' from the
-  // // baselearner:
-  // if (! is_data_instantiated) {
-  //   data = sh_ptr_blearner->instantiateData();
-  //
-  //   is_data_instantiated = true;
-  // }
-  return sh_ptr_blearner;
+  return std::make_shared<blearner::BaselearnerCustomCpp>(_blearner_type, _sh_ptr_data_target,
+    _instantiateDataFun, _trainFun, _predictFun);
 }
 
-/**
- * \brief Data getter which always returns an arma::mat
- *
- * This function is important to have a unified interface to access the data
- * matrices. Especially for predicting we have to get the data of each factory
- * as dense matrix. This is a huge drawback in terms of memory usage. Therefore,
- * this function should only be used to get temporary matrices which are deleted
- * when they run out of scope to reduce memory load. Also note that there is a
- * dispatch with the getData() function of the Data objects which are mostly
- * called internally.
- *
- * \returns `arma::mat` of data used for modelling a single base-learner
- */
 arma::mat BaselearnerCustomCppFactory::getData () const
 {
-  return data_target->getData();
+  return _sh_ptr_data_target->getData();
 }
 
-// Transform data. This is done twice since it makes the prediction
-// of the whole compboost object so much easier:
+arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param) const
+{
+  return _sh_ptr_data_target->getData() * param;
+}
+
+arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+{
+  arma::mat temp = newdata->getDenseData();
+  return this->instantiateData(temp) * param;
+}
+
+
 arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata) const
 {
-  Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (instantiateDataFun);
+  Rcpp::XPtr<instantiateDataFunPtr> myTempInstantiation (_instantiateDataFun);
   instantiateDataFunPtr instantiateDataFun0 = *myTempInstantiation;
 
   return instantiateDataFun0(newdata);

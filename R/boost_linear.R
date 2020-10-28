@@ -36,9 +36,6 @@
 #' @param data_source [\code{S4 Data}]\cr
 #'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 #'   just in memory training is supported.
-#' @param data_target [\code{S4 Data}]\cr
-#'   Uninitialized \code{S4 Data} object which is used to store the data. At the moment
-#'   just in memory training is supported.
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data are used to track the out of bag risk.
 #' @examples
@@ -53,7 +50,7 @@
 #' @export
 boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
 	learning_rate = 0.05, iterations = 100, trace = -1, intercept = TRUE,
-	data_source = InMemoryData, data_target = InMemoryData, oob_fraction = NULL)
+	data_source = InMemoryData, oob_fraction = NULL)
 {
 	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
 		learning_rate = learning_rate, oob_fraction = oob_fraction)
@@ -61,10 +58,10 @@ boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(
 
 	for (feat in features) {
 		if (is.numeric(data[[feat]])) {
-			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data_source, data_target,
+			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data_source,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source, data_target,
+			model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
 				degree = 1, intercept = FALSE)
 		}
 	}

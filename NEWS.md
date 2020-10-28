@@ -1,5 +1,20 @@
 # Release Notes
 
+
+- **30.04.2020** \
+  Refactoring core code basis:
+      - Working just with protected/private class member and corresponding setter and getter.
+      - Consistent naming convention of class member.
+      - Simplification of constructing classes by using a more flexible class inheritance structure.
+
+- **24.04.2020** \
+  It is now possible to choose between to solvers for fitting the base-learner. The two options are the Cholesky 
+  decomposition and to use the inverse.
+
+- **15.04.2020** \
+  A new base-learner `BaselearnerCategoricalBinary` is now available. This base-learner reduces the memory load and inproves
+  the runtime.
+
 - **03.04.2020** \
   Binning can now be used for spline base-learner to reduce memory load and increase runtime performance. See `?compboost::BaselearnerPSpline`.
 

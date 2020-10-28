@@ -17,17 +17,20 @@
 // the MIT License along with compboost.
 //
 // =========================================================================== #
-#ifndef TENSORS_H_
-#define TENSORS_H_
 
-#include "RcppArmadillo.h"
+#ifndef DEMMLER_REINSCH_H_
+#define DEMMLER_REINSCH_H_
 
-namespace tensors
-{
-arma::mat rowWiseKronecker (const arma::mat&, const arma::mat&);
-arma::mat penaltySumKronecker (const arma::mat&, const arma::mat&);
-arma::vec trapezWeights (const arma::vec&);
-std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat&, const arma::mat&, const arma::mat&);
-} // namespace tensors
+#include <RcppArmadillo.h>
+#include <boost/math/tools/toms748_solve.hpp>
+#include <functional>
 
-# endif // SPLINE_H_
+namespace dro {
+
+double calculateDegreesOfFreedom (const double, const arma::vec&, const double);
+double findLambdaWithToms748 (const arma::vec&, const double, const double = 0., const double = 1e15);
+double demmlerReinsch (const arma::mat&, const arma::mat&, const double);
+
+} // namespace dro
+
+#endif // DEMMLER_REINSCH_H_

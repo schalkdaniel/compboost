@@ -111,11 +111,6 @@ response = ResponseBinaryClassif$new("mpg_cat", "high", df[["mpg_cat"]])
 data_source_hp = InMemoryData$new(X_hp, "hp")
 data_source_wt = InMemoryData$new(X_wt, "wt")
 
-data_target_hp1 = InMemoryData$new()
-data_target_hp2 = InMemoryData$new()
-data_target_wt1 = InMemoryData$new()
-data_target_wt2 = InMemoryData$new()
-
 # List for oob logging:
 oob_data = list(data_source_hp, data_source_wt)
 
@@ -123,13 +118,13 @@ oob_data = list(data_source_hp, data_source_wt)
 test_data = oob_data
 
 # Factories:
-linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
+linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
   list(degree = 1, intercept = TRUE))
-linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt1,
+linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
   list(degree = 1, intercept = TRUE))
-quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
+quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
   list(degree = 2, intercept = TRUE))
-spline_factory_wt = BaselearnerPSpline$new(data_source_wt, data_target_wt2,
+spline_factory_wt = BaselearnerPSpline$new(data_source_wt,
   list(degree = 3, n_knots = 10, penalty = 2, differences = 2))
 
 # Create new factory list:

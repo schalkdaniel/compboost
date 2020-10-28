@@ -20,8 +20,16 @@
 
 #include "helper.h"
 
+bool _DEBUG_PRINT = false;
+
 namespace helper
 {
+
+void debugPrint (const std::string msg)
+{
+  if (_DEBUG_PRINT) { std::cout << msg << std::endl; }
+}
+
 /**
  * \brief Check if a string occurs within a string vector
  *
@@ -48,6 +56,21 @@ bool stringInNames (std::string str, std::vector<std::string> names)
   return string_in_names;
 }
 
+
+void assertChoice (const std::string x, const std::vector<std::string>& choices)
+{
+  if (! stringInNames(x, choices)) {
+    std::string msg = "Must be element of set {";
+    for (unsigned int i = 0; i < choices.size(); i++) {
+      if (i+1 < choices.size()) {
+        msg += "'" + choices.at(i) + "',";
+      } else {
+        msg += "'" + choices.at(i) + "'";
+      }
+    }
+    throw std::out_of_range(msg + "}, but is '" + x + "'.'");
+  }
+}
 
 /**
  * \brief Check and set list arguments
@@ -236,17 +259,46 @@ double matrixQuantile (const arma::mat& X, const double& quantile)
   }
 }
 
-arma::SpMat<unsigned int> binaryMat (const arma::Row<unsigned int>& classes)
+std::string getMatStatus (const arma::mat& X)
 {
-  const unsigned int n_levels = arma::max(classes);
-  const unsigned int n_obs = classes.size();
-
-  const arma::Row<unsigned int> ones(n_obs, arma::fill::ones);
-
-  arma::umat indices = arma::join_cols(arma::cumsum(ones) - 1, classes);
-  arma::SpMat<unsigned int> sp_out(indices, ones);
-
-  return sp_out;
+  std::string msg = "ncol = " + std::to_string(X.n_cols) + " nrows = " + std::to_string(X.n_rows);
+  return msg;
 }
+
+void printMatStatus (const arma::mat& X, const std::string message)
+{
+  std::cout << message << getMatStatus(X) << std::endl;
+}
+
+arma::mat solveCholesky (const arma::mat& U, const arma::mat& y)
+{
+  arma::mat out =  arma::solve(arma::trimatl(U.t()), y, arma::solve_opts::fast);
+  return arma::solve(arma::trimatu(U), out, arma::solve_opts::fast);
+}
+
+arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, const arma::mat& y)
+{
+  if (mat_cache.first == "cholesky") { return solveCholesky(mat_cache.second, y); }
+
+  // To avoid compilation warnings we use the 'inverse' option as default if no
+  // other option matches:
+
+  /* if (mat_cache.first == "inverse")  {*/ return mat_cache.second * y; //}
+}
+
+// template<typename SH_PTR>
+// inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)
+// {
+//   return sh_ptr.use_count();
+// }
+
+// arma::mat predictBinaryIndex (const arma::uvec& idx, const unsigned int nobs, const double value)
+// {
+//   arma::mat out(nobs, 1, arma::fill::zeros);
+//   for (unsigned int i = 0; i < idx.size(); i++) {
+//     out(idx(i)) = value;
+//   }
+//   return out;
+// }
 
 } // namespace helper

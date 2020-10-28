@@ -34,10 +34,10 @@ namespace binning
  *
  * \returns `arma::vec` Vector of discretized x.
  */
-
-arma::vec binVectorCustom (const arma::vec& x, const unsigned int n_bins)
+arma::vec binVectorCustom (const arma::vec& x, const unsigned int bin_root)
 {
   // TODO: Check if n_bins is set correctly
+  const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
   return arma::linspace(arma::min(x), arma::max(x), n_bins);
 }
 
@@ -54,13 +54,10 @@ arma::vec binVectorCustom (const arma::vec& x, const unsigned int n_bins)
  *
  * \returns `arma::vec` Vector of discretized x.
  */
-
 arma::vec binVector (const arma::vec& x)
 {
-  const unsigned int n_bins = std::floor(std::sqrt(x.size()));
-  return binVectorCustom(x, n_bins);
+  return binVectorCustom(x, 2);
 }
-
 
 
 /**
@@ -74,7 +71,6 @@ arma::vec binVector (const arma::vec& x)
  *
  * \returns `arma::uvec' Index vector.
  */
-
 arma::uvec calculateIndexVector (const arma::vec& x, const arma::vec& x_bins)
 {
   arma::uvec idx(x.size(), arma::fill::zeros);
@@ -87,7 +83,6 @@ arma::uvec calculateIndexVector (const arma::vec& x, const arma::vec& x_bins)
   }
   return idx;
 }
-
 
 
 /**
@@ -107,7 +102,6 @@ arma::uvec calculateIndexVector (const arma::vec& x, const arma::vec& x_bins)
  *
  * \returns `arma::mat` Matrix Product $X^TWX$.
  */
-
 arma::mat binnedMatMult (const arma::mat& X, const arma::uvec& k, const arma::vec& w)
 {
   unsigned int n = k.size();
@@ -127,7 +121,6 @@ arma::mat binnedMatMult (const arma::mat& X, const arma::uvec& k, const arma::ve
   }
   return arma::trans(X.each_col() % wcum) * X;
 }
-
 
 
 /**
@@ -159,7 +152,6 @@ arma::mat binnedMatMultResponse (const arma::mat& X, const arma::vec& y,  const 
   arma::rowvec wcum(X.n_rows, arma::fill::zeros);
 
   if ( (w.size() == 1) && (w(0) == 1) ) {
-    // std::cout << "Weight of size 1:" << std::endl;
     for (unsigned int i = 0; i < n; i++) {
        ind = k(i);
        wcum(ind) += y(i);
@@ -172,7 +164,6 @@ arma::mat binnedMatMultResponse (const arma::mat& X, const arma::vec& y,  const 
   }
   return wcum * X;
 }
-
 
 
 /**
@@ -192,7 +183,6 @@ arma::mat binnedMatMultResponse (const arma::mat& X, const arma::vec& y,  const 
  *
  * \returns `arma::mat` Matrix Product $X^TWX$.
  */
-
 arma::mat binnedSparseMatMult (const arma::sp_mat& X, const arma::uvec& k, const arma::vec& w)
 {
   const unsigned int n = k.size();
@@ -221,7 +211,6 @@ arma::mat binnedSparseMatMult (const arma::sp_mat& X, const arma::uvec& k, const
 }
 
 
-
 /**
  * Calculating sparse binned matrix product for response term
  *
@@ -242,7 +231,6 @@ arma::mat binnedSparseMatMult (const arma::sp_mat& X, const arma::uvec& k, const
  *
  * \return `arma::mat` Matrix Product $X^TWX$.
  */
-
 arma::mat binnedSparseMatMultResponse (const arma::sp_mat& X, const arma::vec& y,  const arma::uvec& k, const arma::vec& w)
 {
   unsigned int n = k.size();
@@ -251,7 +239,6 @@ arma::mat binnedSparseMatMultResponse (const arma::sp_mat& X, const arma::vec& y
   arma::colvec wcum(X.n_cols, arma::fill::zeros);
 
   if ( (w.size() == 1) && (w(0) == 1) ) {
-    // std::cout << "Weight of size 1:" << std::endl;
     for (unsigned int i = 0; i < n; i++) {
        ind = k(i);
        wcum(ind) += y(i);

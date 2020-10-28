@@ -14,8 +14,8 @@
 \section{Usage}{
 
 \preformatted{
-baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
-  differences))
+BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
+  differences, df))
 }
 }
 
@@ -24,9 +24,6 @@ baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
 \describe{
 \item{\code{data_source} [\code{data} object]}{
   data object which contains the source data.
-}
-\item{\code{data_target} [\code{data} object]}{
-  data object which gets the transformed source data.
 }
 \item{\code{degree} [\code{integer(1)}]}{
   degree of the spline functions to interpolate the knots.
@@ -43,15 +40,17 @@ baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
   the number of differences which are penalized. a higher value leads to
   smoother curves.
 }
-\item{\code{use_binning} [\code{logical(1)}]}{
-  Indicator if feature should be discretized first (default is \code{FALSE}).
+\item{\code{bin_root} [\code{integer(1)}]}{
+  If set to a value greater than zero, binning is applied and reduces the number of used
+  x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+  to set \code{bin_root = 2}.
 }
 }
 }
 
 \section{Details}{
 
-  If \code{use_binning = TRUE} the original feature is discretized to on an equidistant grid on
+  If \code{bin_root > 0} the original feature is discretized to on an equidistant grid on
   \eqn{[\min(x),\max(x)]} with \eqn{\sqrt{n}} points. The fitting is then done by
   using weights per new data point.
 }
@@ -79,10 +78,9 @@ y = sin(1:10)
 
 # Create new data object:
 data_source = InMemoryData$new(data_mat, "my_data_name")
-data_target = InMemoryData$new()
 
 # Create new linear base-learner:
-spline_factory = BaselearnerPSpline$new(data_source, data_target,
+spline_factory = BaselearnerPSpline$new(data_source,
   list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
 
 # Get the transformed data:

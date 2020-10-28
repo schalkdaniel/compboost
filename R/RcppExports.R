@@ -62,6 +62,12 @@
 #' @export InMemoryData
 NULL
 
+#' @export CategoricalData
+NULL
+
+#' @export CategoricalDataRaw
+NULL
+
 #' Base-learner factory for polynomial regression
 #'
 #' \code{BaselearnerPolynomial} creates a polynomial base-learner factory
@@ -73,17 +79,14 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerPolynomial$new(data_source, data_target, list(degree, intercept))
-#' BaselearnerPolynomial$new(data_source, data_target, blearner_type, list(degree, intercept))
+#' BaselearnerPolynomial$new(data_source, list(degree, intercept))
+#' BaselearnerPolynomial$new(data_source, blearner_type, list(degree, intercept))
 #' }
 #'
 #' @section Arguments:
 #' \describe{
 #' \item{\code{data_source} [\code{Data} Object]}{
 #'   Data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{Data} Object]}{
-#'   Data object which gets the transformed source data.
 #' }
 #' \item{\code{degree} [\code{integer(1)}]}{
 #'   This argument is used for transforming the source data. Each element is
@@ -116,13 +119,11 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target1 = InMemoryData$new()
-#' data_target2 = InMemoryData$new()
 #'
 #' # Create new linear base-learner factory:
-#' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
+#' lin_factory = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 2, intercept = FALSE))
-#' lin_factory_int = BaselearnerPolynomial$new(data_source, data_target2,
+#' lin_factory_int = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Get the transformed data:
@@ -150,17 +151,14 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' baselearnerpspline$new(data_source, data_target, list(degree, n_knots, penalty,
-#'   differences))
+#' BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
+#'   differences, df))
 #' }
 #'
 #' @section arguments:
 #' \describe{
 #' \item{\code{data_source} [\code{data} object]}{
 #'   data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{data} object]}{
-#'   data object which gets the transformed source data.
 #' }
 #' \item{\code{degree} [\code{integer(1)}]}{
 #'   degree of the spline functions to interpolate the knots.
@@ -177,13 +175,15 @@ NULL
 #'   the number of differences which are penalized. a higher value leads to
 #'   smoother curves.
 #' }
-#' \item{\code{use_binning} [\code{logical(1)}]}{
-#'   Indicator if feature should be discretized first (default is \code{FALSE}).
+#' \item{\code{bin_root} [\code{integer(1)}]}{
+#'   If set to a value greater than zero, binning is applied and reduces the number of used
+#'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
+#'   to set \code{bin_root = 2}.
 #' }
 #' }
 #'
 #' @section Details:
-#'   If \code{use_binning = TRUE} the original feature is discretized to on an equidistant grid on
+#'   If \code{bin_root > 0} the original feature is discretized to on an equidistant grid on
 #'   \eqn{[\min(x),\max(x)]} with \eqn{\sqrt{n}} points. The fitting is then done by
 #'   using weights per new data point.
 #'
@@ -205,10 +205,9 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target = InMemoryData$new()
 #'
 #' # Create new linear base-learner:
-#' spline_factory = BaselearnerPSpline$new(data_source, data_target,
+#' spline_factory = BaselearnerPSpline$new(data_source,
 #'   list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
 #'
 #' # Get the transformed data:
@@ -223,6 +222,104 @@ NULL
 #' @export BaselearnerPSpline
 NULL
 
+#' Base-learner factory for categorical feature using Ridge penalty
+#'
+#' \code{BaselearnerCategoricalRidge} can be used to estimate effects of  categorical
+#' features. The categories are included as in the linear model by using a binary matrix.
+#' The Ridge penalty enables unbiased feature selection by setting the penalty corresponding
+#' to degree of freedoms.
+#'
+#' @format \code{\link{S4}} object.
+#' @name BaselearnerCategoricalRidge
+#'
+#' @section Usage:
+#' \preformatted{
+#' BaselearnerCategoricalRidge$new(data_source, list(df))
+#' }
+#'
+#' @section arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{data} object]}{
+#'   data object which contains the source data.
+#' }
+#' }
+#'
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modeling.}
+#' \item{\code{transformData(X)}}{This class does is not allowed to transform data. This is due to the internal structure.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' x = sample(c(0,1), 20, TRUE)
+#' data_mat = cbind(x)
+#'
+#' @export BaselearnerCategoricalRidge
+NULL
+
+#' Base-learner factory for categorical feature on a binary base-learner basis
+#'
+#' \code{BaselearnerCategoricalBinary} can be used to estimate effects of one category of a categorical
+#' feature. The base-learner gets the data as index vector of the observations assigned to the group.
+#' For example, if the vector is (a, a, b, b, a, b), then the index vector is (1, 2, 5) for group a.
+#' This reduces memory load and fasten the fitting process.
+#'
+#' @format \code{\link{S4}} object.
+#' @name BaselearnerCategoricalBinary
+#'
+#' @section Usage:
+#' \preformatted{
+#' BaselearnerCategoricalBinary$new(data_source, list(n_obs))
+#' }
+#'
+#' @section arguments:
+#' \describe{
+#' \item{\code{data_source} [\code{data} object]}{
+#'   data object which contains the source data.
+#' }
+#' }
+#'
+#' @section Fields:
+#'   This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' \describe{
+#' \item{\code{getData()}}{Get the data matrix of the target data which is used
+#'   for modeling.}
+#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
+#'   factory. The argument has to be a matrix with one column. In case of the categorical
+#'   binary base-learner this is the index of non-zero elements concatinated with the
+#'   number of observations. This helps to fully reconstruct the original feature by using less memory. This also speed up computation time.}
+#' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+#' }
+#' @examples
+#' # Sample data:
+#' x = sample(c(0,1), 20, TRUE)
+#' data_mat = cbind(x)
+#'
+#' # Create new data object:
+#' data_source = InMemoryData$new(data_mat, "my_data_name")
+#'
+#' # Create new linear base-learner:
+#' cat_factory = BaselearnerCategoricalBinary$new(data_source)
+#'
+#' # Get the transformed data as stored for internal use:
+#' cat_factory$getData()
+#'
+#' # Summarize factory:
+#' cat_factory$summarizeFactory()
+#'
+#' # Transform data manually:
+#' cat_factory$transformData(x)
+#'
+#' @export BaselearnerCategoricalBinary
+NULL
+
 #' Create custom base-learner factory by using R functions.
 #'
 #' \code{BaselearnerCustom} creates a custom base-learner factory by
@@ -234,7 +331,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustom$new(data_source, data_target, list(instantiate_fun,
+#' BaselearnerCustom$new(data_source, list(instantiate_fun,
 #'   train_fun, predict_fun, param_fun))
 #' }
 #'
@@ -242,9 +339,6 @@ NULL
 #' \describe{
 #' \item{\code{data_source} [\code{Data} Object]}{
 #'   Data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{Data} Object]}{
-#'   Data object which gets the transformed source data.
 #' }
 #' \item{\code{instantiate_fun} [\code{function}]}{
 #'   \code{R} function to transform the source data. For details see the
@@ -304,7 +398,6 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target = InMemoryData$new()
 #'
 #' instantiateDataFun = function (X) {
 #'   return(X)
@@ -321,7 +414,7 @@ NULL
 #' }
 #'
 #' # Create new custom linear base-learner factory:
-#' custom_lin_factory = BaselearnerCustom$new(data_source, data_target,
+#' custom_lin_factory = BaselearnerCustom$new(data_source,
 #'   list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
 #'     predict_fun = predictFun, param_fun = extractParameter))
 #'
@@ -349,7 +442,7 @@ NULL
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustomCpp$new(data_source, data_target, list(instantiate_ptr,
+#' BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
 #'   train_ptr, predict_ptr))
 #' }
 #'
@@ -357,9 +450,6 @@ NULL
 #' \describe{
 #' \item{\code{data_source} [\code{Data} Object]}{
 #'   Data object which contains the source data.
-#' }
-#' \item{\code{data_target} [\code{Data} Object]}{
-#'   Data object which gets the transformed source data.
 #' }
 #' \item{\code{instantiate_ptr} [\code{externalptr}]}{
 #'   External pointer to the \code{C++} instantiate data function.
@@ -395,13 +485,12 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target = InMemoryData$new()
 #'
 #' # Source the external pointer exposed by using XPtr:
 #' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 #'
 #' # Create new linear base-learner:
-#' custom_cpp_factory = BaselearnerCustomCpp$new(data_source, data_target,
+#' custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
 #'   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
 #'     predict_ptr = predictFunSetter()))
 #'
@@ -454,12 +543,10 @@ NULL
 #'
 #' # Create new data object:
 #' data_source = InMemoryData$new(data_mat, "my_data_name")
-#' data_target1 = InMemoryData$new()
-#' data_target2 = InMemoryData$new()
 #'
-#' lin_factory = BaselearnerPolynomial$new(data_source, data_target1,
+#' lin_factory = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 1, intercept = TRUE))
-#' poly_factory = BaselearnerPolynomial$new(data_source, data_target2,
+#' poly_factory = BaselearnerPolynomial$new(data_source,
 #'   list(degree = 2, intercept = TRUE))
 #'
 #' # Create new base-learner list:
@@ -1370,11 +1457,6 @@ NULL
 #' data_source_hp = InMemoryData$new(X_hp, "hp")
 #' data_source_wt = InMemoryData$new(X_wt, "wt")
 #'
-#' data_target_hp1 = InMemoryData$new()
-#' data_target_hp2 = InMemoryData$new()
-#' data_target_wt1 = InMemoryData$new()
-#' data_target_wt2 = InMemoryData$new()
-#'
 #' # List for oob logging:
 #' oob_data = list(data_source_hp, data_source_wt)
 #'
@@ -1382,13 +1464,13 @@ NULL
 #' test_data = oob_data
 #'
 #' # Factories:
-#' linear_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp1,
+#' linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
 #'   list(degree = 1, intercept = TRUE))
-#' linear_factory_wt = BaselearnerPolynomial$new(data_source_wt, data_target_wt1,
+#' linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
 #'   list(degree = 1, intercept = TRUE))
-#' quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp, data_target_hp2,
+#' quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
 #'   list(degree = 2, intercept = TRUE))
-#' spline_factory_wt = BaselearnerPSpline$new(data_source_wt, data_target_wt2,
+#' spline_factory_wt = BaselearnerPSpline$new(data_source_wt,
 #'   list(degree = 3, n_knots = 10, penalty = 2, differences = 2))
 #'
 #' # Create new factory list:
