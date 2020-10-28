@@ -36,23 +36,11 @@ Data::Data (const std::string data_identifier, const arma::sp_mat& sparse_data_m
     _sparse_data_mat ( sparse_data_mat )
 { }
 
-void Data::setCacheCholesky (const arma::mat& xtx)
-{
-  _mat_cache = std::make_pair("cholesky", arma::chol(xtx));
-}
-
-void Data::setCacheInverse (const arma::mat& xtx)
-{
-  _mat_cache = std::make_pair("inverse", arma::inv(xtx));
-}
-
-void Data::setCacheIdentity (const arma::mat& X)
-{
-  _mat_cache = std::make_pair("identity", X);
-}
-
-void Data::setDenseData  (const arma::mat& X)    { _data_mat = X; }
-void Data::setSparseData (const arma::sp_mat& X) { _sparse_data_mat = X; }
+void Data::setCacheCholesky (const arma::mat& xtx)  { _mat_cache = std::make_pair("cholesky", arma::chol(xtx)); }
+void Data::setCacheInverse  (const arma::mat& xtx)  { _mat_cache = std::make_pair("inverse", arma::inv(xtx)); }
+void Data::setCacheIdentity (const arma::mat& X)    { _mat_cache = std::make_pair("identity", X); }
+void Data::setDenseData     (const arma::mat& X)    { _data_mat = X; }
+void Data::setSparseData    (const arma::sp_mat& X) { _sparse_data_mat = X; }
 
 void Data::setCache (const std::string cache_type, const arma::mat& xtx)
 {
