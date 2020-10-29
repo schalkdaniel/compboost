@@ -50,6 +50,7 @@ private:
   void setCacheCholesky (const arma::mat&);
   void setCacheInverse  (const arma::mat&);
   void setCacheIdentity (const arma::mat&);
+  void serialize(Archive& ar, const unsigned int version) {};
 
 protected:
   Data (const std::string);
@@ -109,6 +110,7 @@ private:
   const arma::uvec    _bin_idx;
   const bool          _use_binning = false;
   const unsigned int  _bin_root = 1;
+  void serialize(Archive& ar, const unsigned int version) {};
 
 protected:
   BinnedData (const std::string);
@@ -135,6 +137,7 @@ private:
   const arma::mat     _penalty_mat;
   const double        _range_min;
   const double        _range_max;
+  void serialize(Archive& ar, const unsigned int version) {};
 
 public:
   PSplineData (const std::string, const unsigned int, const arma::mat&,
@@ -161,6 +164,7 @@ private:
 
   double  _df = 0;
   bool    _is_used_as_target = false;
+  void serialize(Archive& ar, const unsigned int version) {};
 
 public:
   CategoricalData (const std::string, const std::vector<std::string>&);
@@ -185,6 +189,7 @@ class CategoricalDataRaw : public Data
 {
 private:
   std::vector<std::string> _raw_data;
+  void serialize(Archive& ar, const unsigned int version) {};
 
 public:
   CategoricalDataRaw (const std::string, const std::vector<std::string>&);
@@ -204,6 +209,7 @@ private:
   const unsigned int  _nobs;
   const double        _xtx_inv_scalar;
   const std::string   _category;
+  void serialize(Archive& ar, const unsigned int version) {};
 
 public:
   CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
