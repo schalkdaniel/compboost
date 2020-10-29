@@ -39,6 +39,7 @@ class DataWrapper
 {
 public:
   DataWrapper () {}
+  void serialize (const std::string str) { sh_ptr_data->serialize(str); }
   virtual std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
   virtual ~DataWrapper () {}
 
@@ -231,6 +232,7 @@ RCPP_MODULE (data_module)
 
   class_<DataWrapper> ("Data")
     .constructor ("Create Data class")
+    .method("serialize", &DataWrapper::serialize, "Test serialization of data object")
   ;
 
   class_<InMemoryDataWrapper> ("InMemoryData")
