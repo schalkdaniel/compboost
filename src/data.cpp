@@ -407,12 +407,11 @@ unsigned int CategoricalData::classStringToInt (const std::string cls) const
 }
 template <class Archive>
 void CategoricalData::serialize(Archive& ar, const unsigned int version) {
-
+ 
+ ar & _dictionary;
  ar & _classes;
  ar & _df;
  ar & _is_used_as_target;
-
-
 
 }
 
