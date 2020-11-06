@@ -20,6 +20,121 @@
 
 #include "data.h"
 
+BOOST_SERIALIZATION_SPLIT_FREE(arma::mat)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::mat &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::mat &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
+BOOST_SERIALIZATION_SPLIT_FREE(arma::sp_mat)
+
+namespace boost { 
+namespace serialization {
+
+    template<class Archive>
+    void save(Archive & ar, const arma::sp_mat &t, unsigned) {
+        ar & t.n_rows;
+        ar & t.n_cols;
+        for (auto it = t.begin(); it != t.end(); ++it) {
+            ar & it.row() & it.col() & *it;
+        }
+    }
+
+    template<class Archive>
+    void load(Archive & ar, arma::sp_mat &t, unsigned) {
+        uint64_t r, c;
+        ar & r;
+        ar & c;
+        t.set_size(r, c);
+        for (auto it = t.begin(); it != t.end(); ++it) {
+            double v;
+            ar & r & c & v;
+            t(r, c) = v;
+        }
+    }
+}}
+
+BOOST_SERIALIZATION_SPLIT_FREE(arma::uvec)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::uvec &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::uvec &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
+BOOST_SERIALIZATION_SPLIT_FREE(arma::urowvec)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::urowvec &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::urowvec &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
 namespace data
 {
 
@@ -82,10 +197,16 @@ arma::mat Data::getDenseData () const
 arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
 
-void Data::serialize (const std::string str) const
-{
-  std::cout << str << std::endl;
+template <class Archive>
+void Data::serialize(Archive& ar, const unsigned int version) {
+
+    ar & const_cast<int &>(_data_identifier); 
+    ar & const_cast<int &>(_use_sparse);
+    ar & _data_mat; 
+    ar & _sparse_data_mat;
+    ar & _mat_cache;
 }
+
 
 // -------------------------------------------------------------------------- //
 // Data implementations:
@@ -114,7 +235,7 @@ InMemoryData::~InMemoryData () {}
 
 // BinnedData:
 // ------------------------------
-BinnedData::BinnedDataq(const std::string data_identifier)
+BinnedData::BinnedData(const std::string data_identifier)
   : Data ( data_identifier )
 { }
 
@@ -128,6 +249,15 @@ BinnedData::BinnedData (const std::string data_identifier, const unsigned int bi
 arma::mat  BinnedData::getData         () const { return Data::getDenseData(); }
 arma::uvec BinnedData::getBinningIndex () const { return _bin_idx; }
 bool       BinnedData::usesBinning     () const { return _use_binning; }
+
+template <class Archive>
+void BinnedData::serialize(Archive& ar, const unsigned int version) {
+
+ ar & const_cast<arma::uvec &>(_bin_idx);
+ ar & const_cast<bool &>(_use_binning);
+ ar & const_cast<unsigned int &>(_bin_root);
+
+}
 
 
 // PSplineData:
@@ -156,6 +286,18 @@ arma::mat    PSplineData::filterKnotRange (const arma::mat& x) const { return sp
 arma::mat    PSplineData::getKnots        () const { return _knots; }
 arma::mat    PSplineData::getPenaltyMat   () const { return _penalty_mat; }
 unsigned int PSplineData::getDegree       () const { return _degree; }
+
+template <class Archive>
+void PSplineData::serialize(Archive& ar, const unsigned int version) {
+
+ ar & const_cast<unsigned int &>(_degree);
+ ar & const_cast<arma::mat &>(_knots);
+ ar & const_cast<arma::mat &>(_penalty_mat);
+ ar & const_cast<double &>(_range_min);
+ ar & const_cast<double &>(_range_max);
+
+
+}
 
 
 // CategoricalData:
@@ -263,6 +405,17 @@ unsigned int CategoricalData::classStringToInt (const std::string cls) const
   }
   return dict_entry->second;
 }
+template <class Archive>
+void CategoricalData::serialize(Archive& ar, const unsigned int version) {
+
+ ar & _classes;
+ ar & _df;
+ ar & _is_used_as_target;
+
+
+
+}
+
 
 // CategoricalDataRaw:
 // ---------------------------------
@@ -279,6 +432,15 @@ arma::mat CategoricalDataRaw::getData () const {
 }
 
 std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; };
+
+template <class Archive>
+void CategoricalDataRaw::serialize(Archive& ar, const unsigned int version) {
+
+  ar & _raw_data;
+
+
+}
+
 
 // CategoricalBinaryData:
 // ---------------------------------
@@ -306,5 +468,18 @@ std::string  CategoricalBinaryData::getCategory  () const { return _category; }
 unsigned int CategoricalBinaryData::getNObs      () const { return _nobs; }
 
 CategoricalBinaryData::~CategoricalBinaryData () {}
+
+template <class Archive>
+void CategoricalBinaryData::serialize(Archive& ar, const unsigned int version) {
+
+
+  ar & _idx;
+  ar & const_cast<unsigned int &>(_nobs);
+  ar & const_cast<double &>(_xtx_inv_scalar);
+  ar & const_cast<std::string &>(_category);
+
+
+}
+
 
 } // namespace data

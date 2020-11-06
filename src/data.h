@@ -62,7 +62,6 @@ private:
   void setCacheCholesky (const arma::mat&);
   void setCacheInverse  (const arma::mat&);
   void setCacheIdentity (const arma::mat&);
-  void serialize(Archive& ar, const unsigned int version) {};
 
 protected:
   Data (const std::string);
@@ -85,10 +84,10 @@ public:
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
-
-  void serialize(const std::string) const ;
-
-  // Destructor
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int); //const am Ende -- guck mal doesnt change anythin about the class
+    // Destructor
   virtual ~Data () {};
 };
 
@@ -124,7 +123,6 @@ private:
   const arma::uvec    _bin_idx;
   const bool          _use_binning = false;
   const unsigned int  _bin_root = 1;
-  void serialize(Archive& ar, const unsigned int version) {};
 
 protected:
   BinnedData (const std::string);
@@ -134,7 +132,9 @@ public:
   arma::mat  getData         () const;
   arma::uvec getBinningIndex () const;
   bool       usesBinning     () const;
-
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
   //void setIndexVector (const arma::vec&, const arma::vec&);
   //void setData        (const arma::mat&);
 };
@@ -151,7 +151,6 @@ private:
   const arma::mat     _penalty_mat;
   const double        _range_min;
   const double        _range_max;
-  void serialize(Archive& ar, const unsigned int version) {};
 
 public:
   PSplineData (const std::string, const unsigned int, const arma::mat&,
@@ -163,6 +162,9 @@ public:
   arma::mat    getKnots        ()                 const;
   arma::mat    getPenaltyMat   ()                 const;
   unsigned int getDegree       ()                 const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -178,7 +180,6 @@ private:
 
   double  _df = 0;
   bool    _is_used_as_target = false;
-  void serialize(Archive& ar, const unsigned int version) {};
 
 public:
   CategoricalData (const std::string, const std::vector<std::string>&);
@@ -193,6 +194,9 @@ public:
   void         initRidgeData    ();
   arma::mat    dictionaryInsert (const std::vector<std::string>&, const arma::vec&) const;
   unsigned int classStringToInt (const std::string) const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -203,13 +207,16 @@ class CategoricalDataRaw : public Data
 {
 private:
   std::vector<std::string> _raw_data;
-  void serialize(Archive& ar, const unsigned int version) {};
+
 
 public:
   CategoricalDataRaw (const std::string, const std::vector<std::string>&);
 
   arma::mat                getData    () const;
   std::vector<std::string> getRawData () const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -223,7 +230,7 @@ private:
   const unsigned int  _nobs;
   const double        _xtx_inv_scalar;
   const std::string   _category;
-  void serialize(Archive& ar, const unsigned int version) {};
+
 
 public:
   CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
@@ -234,6 +241,9 @@ public:
   double       getXtxScalar ()                   const;
   std::string  getCategory  ()                   const;
   unsigned int getNObs      ()                   const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   // Destructor
   ~CategoricalBinaryData ();
