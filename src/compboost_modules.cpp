@@ -39,7 +39,7 @@ class DataWrapper
 {
 public:
   DataWrapper () {}
-  void serialize (const std::string str) { sh_ptr_data->serialize(str); }
+  void serialize (const std::string str) { std::cout << str << std::endl; }
   virtual std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
   virtual ~DataWrapper () {}
 
