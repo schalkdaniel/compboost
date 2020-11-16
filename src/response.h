@@ -26,6 +26,18 @@
 #include "helper.h"
 // #include "tensors.h"
 
+
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
 namespace response
 {
 
@@ -88,6 +100,9 @@ public:
   void constantInitialization (const arma::mat&);
 
   double calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>&) const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   // Destructor
   virtual ~Response () { };
@@ -139,6 +154,9 @@ public:
   double                              getThreshold     () const;
   std::string                         getPositiveClass () const;
   std::map<std::string, unsigned int> getClassTable    () const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 // -----------------------------------------------------------------------------------------------------------------

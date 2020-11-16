@@ -20,6 +20,121 @@
 
 #include "logger.h"
 
+BOOST_SERIALIZATION_SPLIT_FREE(arma::mat)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::mat &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::mat &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
+BOOST_SERIALIZATION_SPLIT_FREE(arma::sp_mat)
+
+namespace boost { 
+namespace serialization {
+
+    template<class Archive>
+    void save(Archive & ar, const arma::sp_mat &t, unsigned) {
+        ar & t.n_rows;
+        ar & t.n_cols;
+        for (auto it = t.begin(); it != t.end(); ++it) {
+            ar & it.row() & it.col() & *it;
+        }
+    }
+
+    template<class Archive>
+    void load(Archive & ar, arma::sp_mat &t, unsigned) {
+        uint64_t r, c;
+        ar & r;
+        ar & c;
+        t.set_size(r, c);
+        for (auto it = t.begin(); it != t.end(); ++it) {
+            double v;
+            ar & r & c & v;
+            t(r, c) = v;
+        }
+    }
+}}
+
+BOOST_SERIALIZATION_SPLIT_FREE(arma::uvec)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::uvec &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::uvec &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
+BOOST_SERIALIZATION_SPLIT_FREE(arma::urowvec)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::urowvec &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::urowvec &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
 namespace logger
 {
 
@@ -38,6 +153,12 @@ void Logger::setIsStopper (const bool is_stopper) { _is_stopper = is_stopper; }
 std::string Logger::getLoggerId   () const { return _logger_id; }
 std::string Logger::getLoggerType () const { return _logger_type; }
 bool        Logger::isStopper     () const { return _is_stopper; }
+
+template <class Archive>
+void Logger::serialize(Archive& ar, const unsigned int version) {
+  ar & _logger_type;
+  ar & _logger_id;
+}
 
 Logger::~Logger () {}
 
@@ -165,6 +286,11 @@ void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
   _max_iterations = new_max_iter;
 }
 
+template <class Archive>
+void LoggerIteration::serialize(Archive& ar, const unsigned int version) {
+  ar & _max_iterations;
+  ar & _iterations;
+}
 
 
 // InbagRisk:
@@ -312,6 +438,16 @@ std::string LoggerInbagRisk::printLoggerStatus () const
 
   return ss.str();
 }
+
+template <class Archive>
+void LoggerInbagRisk::serialize(Archive& ar, const unsigned int version) {
+  ar & const_cast<std::shared_ptr<loss::Loss> &>(_sh_ptr_loss);
+  ar & _inbag_risk;
+  ar & const_cast<double &>(_eps_for_break);
+  ar & const_cast<unsigned int &>(_patience);
+  ar & _count_patience;
+}
+
 
 
 // OobRisk:
@@ -483,8 +619,18 @@ std::string LoggerOobRisk::printLoggerStatus () const
   return ss.str();
 }
 
+template <class Archive>
+void LoggerOobRisk::serialize(Archive& ar, const unsigned int version) {
+  ar & const_cast<std::shared_ptr<loss::Loss> &>(_sh_ptr_loss);
+  ar & _oob_risk;
+  ar & const_cast<double &>(_eps_for_break);
+  ar & const_cast<unsigned int &>(_patience);
+  ar & _count_patience;
+  ar & _oob_prediction;
+  ar & _oob_data;
+  ar & const_cast<std::shared_ptr<response::Response> &>(_sh_ptr_oob_response);
 
-
+}
 
 
 // LoggerTime:
@@ -642,6 +788,15 @@ void LoggerTime::reInitializeTime ()
 {
   _init_time = std::chrono::steady_clock::now();
   _retrain_drift += _current_time.back();
+}
+
+template <class Archive>
+void LoggerTime::serialize(Archive& ar, const unsigned int version) {
+  ar & _init_time;
+  ar & _current_time;
+  ar & _retrain_drift;
+  ar & const_cast<unsigned int &>(_max_time);
+  ar & const_cast<std::string &>(_time_unit);
 }
 
 } // namespace logger

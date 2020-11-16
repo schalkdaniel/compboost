@@ -52,6 +52,17 @@
 #include "response.h"
 #include "optimizer.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
 namespace logger
 {
 
@@ -100,6 +111,10 @@ public:
   std::string getLoggerId   () const;
   std::string getLoggerType () const;
   bool        isStopper     () const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
+
 
   // Destructor
   virtual ~Logger ();
@@ -139,6 +154,9 @@ public:
   std::string  printLoggerStatus   () const;
 
   void updateMaxIterations (const unsigned int&);
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -178,6 +196,9 @@ public:
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -222,6 +243,9 @@ public:
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -263,7 +287,9 @@ public:
   std::string  printLoggerStatus   () const;
 
   void reInitializeTime();
-
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 } // namespace logger

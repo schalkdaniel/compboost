@@ -20,6 +20,35 @@
 
 #include "response.h"
 
+BOOST_SERIALIZATION_SPLIT_FREE(arma::mat)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::mat &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::mat &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
 namespace response
 {
 
@@ -136,6 +165,21 @@ double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_p
 arma::mat Response::getPredictionTransform () const { return getPredictionTransform(_prediction_scores); }
 arma::mat Response::getPredictionResponse  () const { return getPredictionResponse(_prediction_scores); }
 
+template <class Archive>
+void Response::serialize(Archive& ar, const unsigned int version) {
+  ar & const_cast<std::string &>(_target_name); 
+  ar & const_cast<std::string &>(_task_id); 
+  ar & const_cast<bool &>(_use_weights); 
+  ar & _response; 
+  ar & _weights;
+  ar & _initialization;
+  ar & _pseudo_residuals;
+  ar & _prediction_scores;
+  ar & _iteration;
+  ar & _is_initialized;
+  ar & _is_model_initialized; 
+}
+
 // -------------------------------------------------------------------------- //
 // Response implementations:
 // -------------------------------------------------------------------------- //
@@ -199,6 +243,7 @@ void ResponseRegr::filter (const arma::uvec& idx)
   _pseudo_residuals  = _pseudo_residuals.elem(idx);
   _prediction_scores = _prediction_scores.elem(idx);
 }
+
 
 
 // ResponseBinaryClassif
@@ -279,6 +324,15 @@ void ResponseBinaryClassif::setThreshold (const double new_thresh)
 }
 
 double ResponseBinaryClassif::getThreshold () const { return _threshold; }
+
+template <class Archive>
+void ResponseBinaryClassif::serialize(Archive& ar, const unsigned int version) {
+  ar & _threshold;
+  ar & const_cast<std::string &>(_pos_class);
+  ar & _class_table;
+
+}
+
 
 // Functional Data Response
 // ------------------------------------
