@@ -2513,6 +2513,11 @@ public:
   OptimizerAGBM (double momentum, unsigned int num_threads) {
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, num_threads);
   }
+  OptimizerAGBM (double momentum, unsigned int acc_iters, unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, acc_iters, num_threads);
+  }
+
+
   std::map<std::string, arma::mat> getMomentumParameter ()
   {
     std::map<std::string, arma::mat> param_map = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getMomentumParameter();
@@ -2522,6 +2527,15 @@ public:
   {
     std::vector<std::string> out  = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getSelectedMomentumBaselearner();
     return out;
+  }
+  Rcpp::List getParameterMatrix () const
+  {
+    std::pair<std::vector<std::string>, arma::mat> out_pair = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getParameterMatrix();
+
+    return Rcpp::List::create(
+      Rcpp::Named("parameter_names")   = out_pair.first,
+      Rcpp::Named("parameter_matrix")  = out_pair.second
+    );
   }
   std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
@@ -2553,9 +2567,11 @@ RCPP_MODULE(optimizer_module)
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor <double> ()
     .constructor <double, unsigned int> ()
+    .constructor <double, unsigned int, unsigned int> ()
     .method("getMomentumParameter", &OptimizerAGBM::getMomentumParameter, "Get the parameter estimated in the momentum sequence")
     .method("getSelectedMomentumBaselearner", &OptimizerAGBM::getSelectedMomentumBaselearner, "Get selected base-learner of the momentum sequence")
     .method("getStepSize", &OptimizerAGBM::getStepSize, "Get vector of step sizes")
+    .method("getParameterMatrix", &OptimizerAGBM::getParameterMatrix, "Get parameter matrix")
   ;
 }
 

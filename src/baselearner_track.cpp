@@ -94,7 +94,7 @@ std::pair<std::vector<std::string>, arma::mat> BaselearnerTrack::getParameterMat
     std::string insert_id = _blearner_vector[i]->getDataIdentifier() + "_" + _blearner_vector[i]->getBaselearnerType();
 
     // Prune parameter by multiplying it with the learning rate:
-    arma::mat parameter_temp = _learning_rate * _blearner_vector[i]->getParameter();
+    arma::mat parameter_temp = _learning_rate * _step_sizes.at(i) * _blearner_vector[i]->getParameter();
 
     // Accumulating parameter. If there is a nan, then this will be ignored and
     // the non  nan entries are summed up:

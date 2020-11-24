@@ -244,6 +244,14 @@ OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int num_thre
   _step_sizes.assign(1, 1.0);
 }
 
+OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int acc_iters, const unsigned int num_threads)
+  : Optimizer::Optimizer ( num_threads ),
+    _momentum            ( momentum ),
+    _acc_iters           ( acc_iters )
+{
+  _step_sizes.assign(1, 1.0);
+}
+
 std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::string iteration_id,
     const std::shared_ptr<response::Response>& sh_ptr_response, const blearner_factory_map& factory_map) const
 {
@@ -354,13 +362,16 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
   blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
   arma::mat prediction_scores = sh_ptr_response->getPredictionScores();
+  double weight_param = 2.0 / ((double)actual_iteration + 1.0);
   if (actual_iteration == 1) {
     _pred_momentum = prediction_scores;
     _pred_aggr     = _pred_momentum;
+  } else {
+    _pred_aggr = (1 - weight_param) * sh_ptr_response->getPredictionScores() + weight_param * _pred_momentum;
+
   }
 
   std::string temp_string;
-  double weight_param = 2.0 / ((double)actual_iteration + 1.0);
   arma::mat pr_aggr = sh_ptr_loss->calculatePseudoResiduals(sh_ptr_response->getResponse(), _pred_aggr);
 
   // Find best base-learner w.r.t. pr_aggr
@@ -385,13 +396,15 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
 
   // Update momentum model
   double lr_mom  = _momentum * learning_rate / weight_param;
+  if (actual_iteration > _acc_iters) lr_mom = 0;
+
   //std::cout << "Momentum param from optimize: " << sh_ptr_blearner_mom->getDataIdentifier() << lr_mom * sh_ptr_blearner_mom->getParameter();
   _pred_momentum = _pred_momentum + lr_mom * sh_ptr_blearner_mom->predict();
   //std::cout << "Insert momentum blearner";
   _momentum_blearnertrack.insertBaselearner(sh_ptr_blearner_mom, lr_mom);
 
   // Aggregate:
-  _pred_aggr = (1 - weight_param) * sh_ptr_response->getPredictionScores() + weight_param * _pred_momentum;
+  //_pred_aggr = (1 - weight_param) * sh_ptr_response->getPredictionScores() + weight_param * _pred_momentum;
 
   updateAggrParameter(sh_ptr_blearner_selected, learning_rate, weight_param, blearner_track);
   //for (auto ita = _aggr_parameter_map.begin(); ita != _aggr_parameter_map.end(); ++ita) {
@@ -459,6 +472,10 @@ std::vector<std::string> OptimizerAGBM::getSelectedMomentumBaselearner () const
   }
   return out;
 }
+
+
+std::pair<std::vector<std::string>, arma::mat> OptimizerAGBM::getParameterMatrix () const { return _momentum_blearnertrack.getParameterMatrix(); }
+
 
 void OptimizerAGBM::updateAggrParameter (std::shared_ptr<blearner::Baselearner>& sh_ptr_bl_new, double learning_rate, double weight_parameter, blearnertrack::BaselearnerTrack& blearner_track)
 {

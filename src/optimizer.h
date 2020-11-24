@@ -124,18 +124,20 @@ public:
 class OptimizerAGBM: public Optimizer
 {
 private:
-  const double _momentum;
-  arma::mat    _pred_momentum;
-  arma::mat    _pred_aggr;
-  arma::mat    _pr_corr;
+  const double       _momentum;
+  arma::mat          _pred_momentum;
+  arma::mat          _pred_aggr;
+  arma::mat          _pr_corr;
+  const unsigned int _acc_iters = INFINITY;
 
   std::map<std::string, arma::mat> _aggr_parameter_map;
-  blearnertrack::BaselearnerTrack  _momentum_blearnertrack;
+  blearnertrack::BaselearnerTrack  _momentum_blearnertrack = blearnertrack::BaselearnerTrack(1.0);
 
 public:
   OptimizerAGBM ();
   OptimizerAGBM (const double);
   OptimizerAGBM (const double, const unsigned int);
+  OptimizerAGBM (const double, const unsigned int, const unsigned int);
 
   std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
     const std::shared_ptr<response::Response>&, const blearner_factory_map&) const;
@@ -151,10 +153,11 @@ public:
 
   void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
 
-  double              getStepSize (const unsigned int) const;
-  std::vector<double> getStepSize ()                   const;
-  std::map<std::string, arma::mat> getMomentumParameter () const;
-  std::vector<std::string> getSelectedMomentumBaselearner () const;
+  double                                         getStepSize (const unsigned int)  const;
+  std::vector<double>                            getStepSize ()                    const;
+  std::map<std::string, arma::mat>               getMomentumParameter ()           const;
+  std::vector<std::string>                       getSelectedMomentumBaselearner () const;
+  std::pair<std::vector<std::string>, arma::mat> getParameterMatrix ()             const;
 
   void updateAggrParameter (std::shared_ptr<blearner::Baselearner>&, double, double, blearnertrack::BaselearnerTrack&);
 };
