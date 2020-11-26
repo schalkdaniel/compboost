@@ -20,6 +20,8 @@
 
 #include "baselearner.h"
 
+
+
 namespace blearner {
 
 // -------------------------------------------------------------------------- //
@@ -108,6 +110,10 @@ arma::mat BaselearnerPolynomial::instantiateData (const arma::mat& newdata) cons
 std::string BaselearnerPolynomial::getDataIdentifier () const
 {
   return _sh_ptr_data->getDataIdentifier();
+}
+
+void BaselearnerPolynomial::serialize(Archive& ar, const unsigned int version) {
+
 }
 
 // Destructor:
@@ -231,6 +237,10 @@ std::string BaselearnerCategoricalRidge::getDataIdentifier () const
   return _sh_ptr_cdata->getDataIdentifier();
 }
 
+void BaselearnerCategoricalRidge::serialize(Archive& ar, const unsigned int version) {
+
+}
+
 BaselearnerCategoricalRidge::~BaselearnerCategoricalRidge () {}
 
 // BaselearnerCategoricalBinary:
@@ -287,9 +297,11 @@ std::string BaselearnerCategoricalBinary::getDataIdentifier () const
 {
   return _sh_ptr_bcdata->getDataIdentifier();
 }
+void BaselearnerCategoricalBinary::serialize(Archive& ar, const unsigned int version) {
 
+}
 /// Destructor:
-BaselearnerCategoricalBinary::~BaselearnerCategoricalBinary () {}
+::~BaselearnerCategoricalBinary () {}
 
 
 // BaselearnerCustom:
@@ -335,6 +347,9 @@ std::string BaselearnerCustom::getDataIdentifier () const
   return _sh_ptr_data->getDataIdentifier();
 }
 
+void BaselearnerCustom::serialize(Archive& ar, const unsigned int version) {
+
+}
 /// Destructor:
 BaselearnerCustom::~BaselearnerCustom () {}
 
@@ -383,6 +398,9 @@ std::string BaselearnerCustomCpp::getDataIdentifier () const
   return _sh_ptr_data->getDataIdentifier();
 }
 
+void BaselearnerCustomCpp::serialize(Archive& ar, const unsigned int version) {
+
+}
 /// Destructor:
 BaselearnerCustomCpp::~BaselearnerCustomCpp () {}
 

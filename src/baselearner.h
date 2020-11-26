@@ -30,6 +30,18 @@
 #include "splines.h"
 #include "binning.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
+
 namespace blearner {
 
 // -------------------------------------------------------------------------- //
@@ -55,6 +67,9 @@ public:
   // Getter/Setter
   arma::mat    getParameter        () const;
   std::string  getBaselearnerType  () const;
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   // Destructor
   virtual ~Baselearner ();
@@ -82,6 +97,10 @@ public:
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
   arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   ~BaselearnerPolynomial ();
 };
@@ -112,6 +131,10 @@ public:
   arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
+
   ~BaselearnerPSpline ();
 };
 
@@ -132,6 +155,10 @@ public:
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
   arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   ~BaselearnerCategoricalRidge ();
 
@@ -154,6 +181,10 @@ public:
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
   arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   ~BaselearnerCategoricalBinary ();
 };
@@ -184,6 +215,10 @@ public:
   arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
+
   ~BaselearnerCustom ();
 };
 
@@ -212,6 +247,10 @@ public:
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
   arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
+  
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   ~BaselearnerCustomCpp ();
 };

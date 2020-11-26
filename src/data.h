@@ -56,7 +56,7 @@ private:
   arma::mat     _data_mat         = arma::mat (1, 1, arma::fill::zeros);
   arma::sp_mat  _sparse_data_mat;
 
-  std:: <std::string, arma::mat> _mat_cache;
+  std::pair<std::string, arma::mat> _mat_cache;
 
   // Private functions
   void setCacheCholesky (const arma::mat&);
