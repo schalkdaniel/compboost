@@ -52,6 +52,18 @@
 #include "binning.h"
 #include "demmler_reinsch.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
+
 namespace blearnerfactory {
 
 // -------------------------------------------------------------------------- //
@@ -79,6 +91,11 @@ public:
 
   // Getter/Setter
   std::string getBaselearnerType  () const;
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
+
 
   // Destructor:
   virtual ~BaselearnerFactory ();
@@ -108,6 +125,10 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -129,6 +150,10 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -152,6 +177,9 @@ public:
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
 
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -175,6 +203,10 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 
@@ -202,6 +234,10 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 // BaselearnerCustomCppFactory:
@@ -228,6 +264,10 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 };
 
 } // namespace blearnerfactory

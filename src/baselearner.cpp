@@ -21,6 +21,35 @@
 #include "baselearner.h"
 
 
+BOOST_SERIALIZATION_SPLIT_FREE(arma::mat)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::mat &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::mat &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
 
 namespace blearner {
 
@@ -32,6 +61,15 @@ Baselearner::Baselearner (const std::string blearner_type) : _blearner_type ( bl
 
 arma::mat    Baselearner::getParameter        () const { return _parameter; }
 std::string  Baselearner::getBaselearnerType  () const { return _blearner_type; }
+
+template <class Archive>
+void Baselearner::serialize(Archive& ar, const unsigned int version) {
+
+    ar & _parameter;
+    ar & const_cast<int &>(_blearner_type); 
+
+}
+
 
 Baselearner::~Baselearner () { }
 
@@ -112,9 +150,15 @@ std::string BaselearnerPolynomial::getDataIdentifier () const
   return _sh_ptr_data->getDataIdentifier();
 }
 
+template <class Archive>
 void BaselearnerPolynomial::serialize(Archive& ar, const unsigned int version) {
+    
+    ar & const_cast<std::shared_ptr<data::Data> &>(_sh_ptr_data); 
+    ar & const_cast<unsigned int &>(_degree); 
+    ar & const_cast<bool &>(_intercept); 
 
 }
+
 
 // Destructor:
 BaselearnerPolynomial::~BaselearnerPolynomial () {}
@@ -197,6 +241,12 @@ std::string BaselearnerPSpline::getDataIdentifier () const
   return _sh_ptr_psdata->getDataIdentifier();
 }
 
+template <class Archive>
+void BaselearnerPSpline::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::PSplineData> &>(_sh_ptr_psdata);
+}
+
 /// Destructor
 BaselearnerPSpline::~BaselearnerPSpline () {}
 
@@ -237,9 +287,12 @@ std::string BaselearnerCategoricalRidge::getDataIdentifier () const
   return _sh_ptr_cdata->getDataIdentifier();
 }
 
-void BaselearnerCategoricalRidge::serialize(Archive& ar, const unsigned int version) {
-
+template <class Archive>
+void BaselearnerCategoricalRidge::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::CategoricalData> &>(_sh_ptr_cdata);
 }
+
 
 BaselearnerCategoricalRidge::~BaselearnerCategoricalRidge () {}
 
@@ -297,11 +350,15 @@ std::string BaselearnerCategoricalBinary::getDataIdentifier () const
 {
   return _sh_ptr_bcdata->getDataIdentifier();
 }
-void BaselearnerCategoricalBinary::serialize(Archive& ar, const unsigned int version) {
 
+template <class Archive>
+void BaselearnerCategoricalBinary::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::CategoricalBinaryData> &>(_sh_ptr_bcdata);
 }
+
 /// Destructor:
-::~BaselearnerCategoricalBinary () {}
+BaselearnerCategoricalBinary::~BaselearnerCategoricalBinary () {}
 
 
 // BaselearnerCustom:
@@ -347,9 +404,17 @@ std::string BaselearnerCustom::getDataIdentifier () const
   return _sh_ptr_data->getDataIdentifier();
 }
 
-void BaselearnerCustom::serialize(Archive& ar, const unsigned int version) {
-
+template <class Archive>
+void BaselearnerCustom::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::Data> &>(_sh_ptr_data);
+    ar & _model;
+    ar & const_cast<Rcpp::Function &>(_instantiateDataFun);
+    ar & const_cast<Rcpp::Function &>(_trainFun);
+    ar & const_cast<Rcpp::Function &>(_predictFun);
+    ar & const_cast<Rcpp::Function &>(_extractParameter);
 }
+
 /// Destructor:
 BaselearnerCustom::~BaselearnerCustom () {}
 
@@ -398,9 +463,15 @@ std::string BaselearnerCustomCpp::getDataIdentifier () const
   return _sh_ptr_data->getDataIdentifier();
 }
 
-void BaselearnerCustomCpp::serialize(Archive& ar, const unsigned int version) {
-
+template <class Archive>
+void BaselearnerCustomCpp::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::Data> &>(_sh_ptr_data);
+    ar & _instantiateDataFun;
+    ar & _trainFun;
+    ar & _predictFun;
 }
+
 /// Destructor:
 BaselearnerCustomCpp::~BaselearnerCustomCpp () {}
 

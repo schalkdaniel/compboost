@@ -79,6 +79,14 @@ arma::mat Loss::calculateWeightedPseudoResiduals (const arma::mat& true_value, c
   return -weightedGradient(true_value, prediction, weights);
 }
 
+template <class Archive>
+void Loss::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<std::string  &>(_task_id); 
+  ar & const_cast<arma::mat &>(_custom_offset);
+  ar & const_cast<bool &>(_use_custom_offset);
+}
+
 // Destructor
 Loss::~Loss () { }
 
@@ -294,6 +302,14 @@ arma::mat LossQuantile::weightedConstantInitializer (const arma::mat& true_value
   return LossQuantile::constantInitializer(true_value);
 }
 
+template <class Archive>
+void LossQuantile::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<double  &>(_quantile); 
+}
+
+
+
 
 // LossHuber:
 // -----------------------
@@ -381,6 +397,12 @@ arma::mat LossHuber::weightedConstantInitializer (const arma::mat& true_value, c
   out_mat.fill(out);
 
   return out_mat;
+}
+
+template <class Archive>
+void LossHuber::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<double  &>(_delta); 
 }
 
 
@@ -520,6 +542,15 @@ arma::mat LossCustom::weightedConstantInitializer (const arma::mat& true_value, 
   return LossCustom::constantInitializer(true_value);
 }
 
+template <class Archive>
+void LossCustom::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<Rcpp::Function  &>(_lossFun); 
+  ar & const_cast<Rcpp::Function  &>(_gradientFun); 
+  ar & const_cast<Rcpp::Function  &>(_initFun); 
+}
+
+
 // LossCustomCpp:
 // -----------------------
 
@@ -580,6 +611,14 @@ arma::mat LossCustomCpp::weightedConstantInitializer (const arma::mat& true_valu
 {
   Rcpp::warning("Custom cpp loss does not have a weighted offset implementation. Using unweighted initializer.");
   return constantInitializer(true_value);
+}
+
+template <class Archive>
+void LossCustomCpp::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & _lossFun;
+  ar & _gradFun; 
+  ar & _constInitFun; 
 }
 
 } // namespace loss

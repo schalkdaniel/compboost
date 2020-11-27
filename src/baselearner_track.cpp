@@ -20,6 +20,35 @@
 
 #include "baselearner_track.h"
 
+BOOST_SERIALIZATION_SPLIT_FREE(arma::mat)
+
+//namespace for the Arma matrices
+  namespace boost { 
+  namespace serialization {
+
+  template<class Archive>
+  void save(Archive & ar, const arma::mat &t, unsigned int version)
+  {
+    ar & t.n_rows;
+    ar & t.n_cols;
+    const double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+
+  template<class Archive>
+  void load(Archive & ar, arma::mat &t, unsigned int version)
+  {
+    int rows, cols;
+    ar & rows;
+    ar & cols;
+    t.set_size(rows, cols);
+    double *data = t.memptr();
+    for(int K=0; K<t.n_elem; ++K)
+        ar & data[K];
+  }
+  } } 
+
 namespace blearnertrack
 {
 
@@ -167,6 +196,15 @@ void BaselearnerTrack::setToIteration (const unsigned int& k)
     Rcpp::stop ("You can't set the crrent iteration higher then the maximal trained iterations.");
   }
   _parameter_map = getEstimatedParameterOfIteration(k);
+}
+
+template <class Archive>
+void BaselearnerTrack::serialize(Archive& ar, const unsigned int version) {
+
+    ar & _learning_rate; 
+    ar & _blearner_vector;
+    ar & _parameter_map; 
+    ar & _step_sizes;
 }
 
 BaselearnerTrack::~BaselearnerTrack ()

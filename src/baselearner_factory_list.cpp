@@ -96,4 +96,10 @@ std::vector<std::string> BaselearnerFactoryList::getRegisteredFactoryNames () co
   return factory_names;
 }
 
+template <class Archive>
+void BaselearnerFactoryList::serialize(Archive& ar, const unsigned int version) {
+
+    ar & _factory_map; 
+}
+
 } // namespace blearnerlist

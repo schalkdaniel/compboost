@@ -67,6 +67,7 @@ public:
   // Getter/Setter
   arma::mat    getParameter        () const;
   std::string  getBaselearnerType  () const;
+  
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int);

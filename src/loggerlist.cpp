@@ -133,6 +133,13 @@ void LoggerList::clearLoggerData ()
   }
 }
 
+template <class Archive>
+void LoggerList::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & _logger_list;
+  ar & _sum_of_stopper; 
+}
+
 LoggerList::~LoggerList () {}
 
 } // namespace loggerlist

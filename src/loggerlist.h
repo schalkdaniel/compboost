@@ -30,6 +30,17 @@
 #include "response.h"
 #include "optimizer.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
 typedef std::map<std::string, std::shared_ptr<logger::Logger>>  logger_map;
 typedef std::pair<std::string, std::shared_ptr<logger::Logger>> logger_pair;
 typedef std::pair<std::vector<std::string>, arma::mat>          logger_data;
@@ -63,6 +74,10 @@ public:
   void prepareForRetraining  (const unsigned int);
   void clearMap              ();
   void clearLoggerData       ();
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   // Destructor
   ~LoggerList ();

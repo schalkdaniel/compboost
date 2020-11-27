@@ -29,6 +29,13 @@ namespace optimizer {
 Optimizer::Optimizer () { };
 Optimizer::Optimizer (const unsigned int num_threads) : _num_threads ( num_threads ) { }
 
+template <class Archive>
+void Optimizer::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & _step_sizes;     
+    ar & const_cast<std::vector<double> &>(_step_sizes); 
+}
+
 // Destructor:
 Optimizer::~Optimizer () { }
 
@@ -189,6 +196,7 @@ double OptimizerCoordinateDescent::getStepSize (const unsigned int actual_iterat
 {
   return 1;
 }
+
 
 
 // OptimizerCoordinateDescentLineSearch:

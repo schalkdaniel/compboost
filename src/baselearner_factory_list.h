@@ -25,6 +25,17 @@
 
 #include "baselearner_factory.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
 typedef std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>> blearner_factory_map;
 
 namespace blearnerlist
@@ -47,6 +58,10 @@ public:
   void registerBaselearnerFactory (const std::string, const std::shared_ptr<blearnerfactory::BaselearnerFactory>);
   void printRegisteredFactories   () const;
   void clearMap                   ();
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int); 
 };
 
 } // namespace blearnerlist

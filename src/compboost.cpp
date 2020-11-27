@@ -276,6 +276,22 @@ void Compboost::summarizeCompboost () const
   Rcpp::Rcout << std::endl;
 }
 
+template <class Archive>
+void Compboost::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<double &>(_learning_rate); 
+    ar & const_cast<bool &>(_is_global_stopper);
+    ar & const_cast<std::shared_ptr<response::Response> &>(_sh_ptr_response);
+    ar & const_cast<std::shared_ptr<optimizer::Optimizer> &>(_sh_ptr_optimizer);
+    ar & const_cast<std::shared_ptr<loss::Loss> &>(_sh_ptr_loss);
+    ar & const_cast<std::shared_ptr<loggerlist::LoggerList> &>(_sh_ptr_loggerlist);
+    ar & _is_trained; 
+    ar & _current_iter;
+    ar & _risk;
+    ar & _factory_list;
+    ar & _blearner_track;
+}
+
 // Destructor:
 Compboost::~Compboost () {}
 

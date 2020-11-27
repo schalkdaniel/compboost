@@ -42,6 +42,14 @@ std::string BaselearnerFactory::getDataIdentifier () const
 }
 std::string BaselearnerFactory::getBaselearnerType() const { return _blearner_type; }
 
+template <class Archive>
+void BaselearnerFactory::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<std::string &>(_blearner_type);
+  ar & const_cast<std::shared_ptr<data::Data>  &>(_sh_ptr_data_source);
+}
+
+
 /// Destructor
 BaselearnerFactory::~BaselearnerFactory () {}
 
@@ -121,6 +129,14 @@ arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::ma
 std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_data_target, _degree, _intercept);
+}
+
+template <class Archive>
+void BaselearnerPolynomialFactory::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<unsigned int &>(_degree);
+  ar & const_cast<bool &>(_intercept);
+  ar & _sh_ptr_data_target;
 }
 
 
@@ -223,7 +239,11 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselear
   return std::make_shared<blearner::BaselearnerPSpline>(_blearner_type, _sh_ptr_psdata);
 }
 
-
+template <class Archive>
+void BaselearnerPSplineFactory::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::PSplineData> &>(_sh_ptr_psdata);
+}
 // BaselearnerCategoricalRidgeFactory:
 // -------------------------------------------
 
@@ -278,6 +298,12 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::creat
 
 std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { return _sh_ptr_cdata->getDataIdentifier(); }
 
+template <class Archive>
+void BaselearnerCategoricalRidgeFactory::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & _sh_ptr_cdata;
+}
+
 // BaselearnerCategoricalBinary:
 // ----------------------------------
 
@@ -326,6 +352,13 @@ arma::mat BaselearnerCategoricalBinaryFactory::instantiateData (const arma::mat&
 
 std::string BaselearnerCategoricalBinaryFactory::getDataIdentifier () const { return _sh_ptr_bcdata->getDataIdentifier(); }
 
+template <class Archive>
+void BaselearnerCategoricalBinaryFactory::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::string &>(_class);
+    ar & const_cast<std::shared_ptr<data::CategoricalData> &>(_sh_ptr_cdata);
+    ar & const_cast<std::shared_ptr<data::CategoricalBinaryData> &>(_sh_ptr_bcdata);
+}
 
 // BaselearnerCustom:
 // -----------------------
@@ -369,6 +402,16 @@ arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) c
 {
   Rcpp::NumericMatrix out = _instantiateDataFun(newdata);
   return Rcpp::as<arma::mat>(out);
+}
+
+template <class Archive>
+void BaselearnerCustomFactory::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::Data> &>(_sh_ptr_data_target);
+    ar & const_cast<Rcpp::Function &>(_instantiateDataFun);
+    ar & const_cast<Rcpp::Function &>(_trainFun);
+    ar & const_cast<Rcpp::Function &>(_predictFun);
+    ar & const_cast<Rcpp::Function &>(_extractParameter);
 }
 
 
@@ -417,5 +460,14 @@ arma::mat BaselearnerCustomCppFactory::instantiateData (const arma::mat& newdata
 
   return instantiateDataFun0(newdata);
 }
+
+template <class Archive>
+void BaselearnerCustomCppFactory::serialize(Archive& ar, const unsigned int version) 
+{
+    ar & const_cast<std::shared_ptr<data::Data> &>(_sh_ptr_data_target);
+    ar & const_cast<SEXP &>(_instantiateDataFun);
+    ar & const_cast<SEXP &>(_predictFun);
+}
+
 
 } // namespace blearnerfactory

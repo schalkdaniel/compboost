@@ -84,6 +84,7 @@ public:
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
+  
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int); //const am Ende -- guck mal doesnt change anythin about the class
@@ -132,6 +133,7 @@ public:
   arma::mat  getData         () const;
   arma::uvec getBinningIndex () const;
   bool       usesBinning     () const;
+
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int);
@@ -162,6 +164,7 @@ public:
   arma::mat    getKnots        ()                 const;
   arma::mat    getPenaltyMat   ()                 const;
   unsigned int getDegree       ()                 const;
+
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int);
@@ -194,6 +197,7 @@ public:
   void         initRidgeData    ();
   arma::mat    dictionaryInsert (const std::vector<std::string>&, const arma::vec&) const;
   unsigned int classStringToInt (const std::string) const;
+
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int);
@@ -214,6 +218,7 @@ public:
 
   arma::mat                getData    () const;
   std::vector<std::string> getRawData () const;
+
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int);
@@ -241,6 +246,7 @@ public:
   double       getXtxScalar ()                   const;
   std::string  getCategory  ()                   const;
   unsigned int getNObs      ()                   const;
+  
   friend class boost::serialization::access;
   template <class Archive>
   void serialize(Archive&, const unsigned int);

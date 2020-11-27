@@ -251,12 +251,11 @@ arma::uvec BinnedData::getBinningIndex () const { return _bin_idx; }
 bool       BinnedData::usesBinning     () const { return _use_binning; }
 
 template <class Archive>
-void BinnedData::serialize(Archive& ar, const unsigned int version) {
-
- ar & const_cast<arma::uvec &>(_bin_idx);
- ar & const_cast<bool &>(_use_binning);
- ar & const_cast<unsigned int &>(_bin_root);
-
+void BinnedData::serialize(Archive& ar, const unsigned int version) 
+{
+  ar & const_cast<arma::uvec &>(_bin_idx);
+  ar & const_cast<bool &>(_use_binning);
+  ar & const_cast<unsigned int &>(_bin_root);
 }
 
 

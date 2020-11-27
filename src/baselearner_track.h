@@ -24,6 +24,18 @@
 #include "baselearner.h"
 #include "baselearner_factory_list.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
+
 namespace blearnertrack
 {
 
@@ -49,6 +61,10 @@ public:
   void insertBaselearner (std::shared_ptr<blearner::Baselearner>, const double& step_size);
   void clearBaselearnerVector ();
   void setToIteration (const unsigned int&);
+
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
 
   // Destructor:
   ~BaselearnerTrack ();

@@ -39,6 +39,18 @@
 #include <omp.h>
 #endif
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/assume_abstract.hpp>
+#include <boost/serialization/serialization.hpp>
+#include <boost/serialization/split_member.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/void_cast_fwd.hpp>
+#include <boost/serialization/binary_object.hpp>
+
+
 namespace optimizer {
 
 // -------------------------------------------------------------------------- //
@@ -70,7 +82,9 @@ public:
   virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&) const = 0;
   virtual void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&) = 0;
 
-
+  friend class boost::serialization::access;
+  template <class Archive>
+  void serialize(Archive&, const unsigned int);
   // Destructor
   virtual ~Optimizer ();
 };
@@ -113,8 +127,9 @@ public:
   double              getStepSize (const unsigned int) const;
   std::vector<double> getStepSize ()                   const;
 
-  void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);
+  void calculateStepSize (std::shared_ptr<loss::Loss>, std::shared_ptr<response::Response>, const arma::vec&);  
 };
+
 
 } // namespace optimizer
 
