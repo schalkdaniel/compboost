@@ -368,7 +368,6 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
     _pred_aggr     = _pred_momentum;
   } else {
     _pred_aggr = (1 - weight_param) * sh_ptr_response->getPredictionScores() + weight_param * _pred_momentum;
-
   }
 
   std::string temp_string;
@@ -380,7 +379,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
   blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
   sh_ptr_response->updatePrediction(-prediction_scores + _pred_aggr + learning_rate * sh_ptr_blearner_selected->predict());
 
-      //Do the same for corrected pseudo residuals
+  //Do the same for corrected pseudo residuals
   if (actual_iteration == 1) {
     _pr_corr = pr_aggr;
   } else {

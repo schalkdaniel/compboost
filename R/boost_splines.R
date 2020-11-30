@@ -56,6 +56,11 @@
 #'   Default is \code{cache_type = "cholesky"} which computes the Cholesky decomposition,
 #'   caches it, and reuses the matrix over and over again. The other option is to use
 #'   \code{cache_type = "inverse"} which does the same but caches the inverse.
+#' @param stop_args [\code{list(2)}]\cr
+#'   List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+#'   from setting `oob_fraction`.
+#' @param df_cat [\code{numeric(1)}]\cr
+#'   Degrees of freedom of the categorical base-learner.
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -69,10 +74,11 @@
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
-  oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
+  oob_fraction = NULL, bin_root = 0, cache_type = "inverse", stop_args = list(),
+  df_cat = 1)
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
-    learning_rate = learning_rate, oob_fraction = oob_fraction)
+    learning_rate = learning_rate, oob_fraction = oob_fraction, stop_args)
   features = setdiff(colnames(data), model$response$getTargetName())
 
   # This loop could be replaced with foreach???
@@ -83,8 +89,10 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
         degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
         bin_root = bin_root, cache_type = cache_type)
     } else {
-      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
-        degree = 1, intercept = FALSE)
+      checkmate::assertNumeric(df_cat, len = 1L, lower = 1)
+      if (length(unique(feat)) > df_cat) stop("Categorical degree of freedom must be smaller than the number of classes (here <", length(unique(feat)), ")")
+      model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source,
+        df = df_cat)
     }
   }
   model$train(iterations, trace)

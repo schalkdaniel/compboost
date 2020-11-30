@@ -207,7 +207,7 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
 
-  arma::mat pred(data_map.begin()->second->getData().n_rows, _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
+  arma::mat pred(data_map.begin()->second->nrow(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
   helper::debugPrint("| > Calculate initial prediction");
   pred = _sh_ptr_response->calculateInitialPrediction(pred);
 
