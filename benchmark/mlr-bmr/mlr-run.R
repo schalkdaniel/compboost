@@ -1,3 +1,9 @@
+if (FALSE) {
+  devtools::install("~/repos/compboost")
+  install.packages(c("mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines", "paradox", "xgboost", "ranger", "mboost", "mlr3oml"))
+  remotes::install_github("mlr-org/mlr3extralearners")
+}
+
 library(mlr3)
 library(mlr3tuning)
 library(mlr3learners)
@@ -6,8 +12,7 @@ library(mlr3pipelines)
 library(paradox)
 
 base_dir = here::here()
-bm_dir = paste0(base_dir, "/bm-scripts/benchmark/")
-if (FALSE) devtools::install("~/repos/compboost")
+bm_dir = paste0(base_dir, "/benchmark/mlr-bmr/")
 
 library(R6)
 source(paste0(bm_dir, "classifCompboost.R"))
@@ -16,7 +21,7 @@ source(paste0(bm_dir, "classifCompboost.R"))
 ### Benchmark:
 ### ==========================================
 
-test = TRUE
+test = FALSE
 if (test) {
   n_evals = 1L
   resampling_inner = rsmp("holdout")
@@ -42,7 +47,15 @@ if (test) tasks = tasks[[1]]
 time = proc.time()
 bmr = benchmark(design)
 time = proc.time() - time
-bmr$aggregate()
+# bmr$aggregate()
+
+cat("\n\n>> FINISHED BENCHMARK\n\n")
+
+time
+
+n_rda = sum(grepl(".Rda", list.files()))
+file_name = paste0("bmr", n_rda + 1, ".Rda")
+save(bmr, file = file_name)
+#load("bmr.Rda")
 
 
-save(bmr, file = "bmr.Rda")

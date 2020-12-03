@@ -6,7 +6,7 @@ ps_xgboost = function (task, id) {
     params = list(
       ParamDbl$new(paste0(id, ".ps_xgboost.eta"), lower = 0.001,upper = 0.5),
       ParamInt$new(paste0(id, ".ps_xgboost.max_depth"), lower = 1L, upper = 20L),
-      ParamInt$new(paste0(id, ".ps_xgboost.nrounds"), lower = 100L, upper = 5000L),
+      ParamInt$new(paste0(id, ".ps_xgboost.nrounds"), lower = 20L, upper = 5000L),
       ParamDbl$new(paste0(id, ".ps_xgboost.colsample_bytree"), lower = 0.1, upper = 1),
       ParamDbl$new(paste0(id, ".ps_xgboost.subsample"), lower = 0.3, upper = 1)
     )
@@ -46,9 +46,20 @@ ps_gamboost = function (task, id) {
 }
 
 ps_ranger = function (task, id) {
+  nfeat = length(task$feature_names)
+  ncols = task$ncol
+  if (nfeat > 0) {
+    mtry_upper = nfeat
+  } else {
+    if (ncols > 0) {
+      mtry_upper = ncols
+    } else {
+      stop("Either length(feature_names) or ncols must be at least 1")
+    }
+  }
   ParamSet$new(
     params = list(
-      ParamInt$new(id = paste0(id, ".mtry"), lower = 1L, upper = length(task$feature_names)),
+      ParamInt$new(id = paste0(id, ".mtry"), lower = 1L, upper = mtry_upper),
       ParamInt$new(id = paste0(id, ".max.depth"), lower = 0, upper = 50),
       ParamInt$new(id = paste0(id, ".min.node.size"), lower = 1L, upper = 100L)
     )

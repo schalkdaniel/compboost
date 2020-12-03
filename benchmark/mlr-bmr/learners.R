@@ -31,12 +31,12 @@ learners = list(
   lrn_cboost_bin1,
   lrn_cboost_bin2,
   lrn_xgboost,
-  lrn_gamboost,
+#  lrn_gamboost,
   lrn_rpart,
   lrn_ranger)
 
 learners = lapply(learners, function (l) {
-  l$encapsulate = c(train = "evaluate")
+  l$encapsulate = c(train = "evaluate", predict = "evaluate")
   l$fallback = lrn("classif.featureless")
 
   if (l$id == "ps_xgboost") l = po("encode", method = "one-hot") %>>% l
