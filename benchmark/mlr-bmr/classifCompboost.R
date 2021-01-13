@@ -61,6 +61,9 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       } else {
         stop_args = list()
       }
+
+      out = list()
+
       if (self$param_set$values$silent) {
         nuisance = capture.output({
           cboost = compboost::boostSplines(data = task$data(), target = task$target_names,
@@ -69,6 +72,23 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
             learning_rate = self$param_set$values$learning_rate,
             oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args,
             bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+
+          out$cboost = cboost
+
+          ### Restart:
+          if (self$param_set$values$optimizer == "nesterov") {
+            stop_args_new = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break,
+              oob_offset = cboost$response_oob$getPrediction())
+
+            cboost_restart = compboost::boostSplines(data = task$data(), target = task$target_names,
+              iterations = self$param_set$values$mstop, optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
+              loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
+              learning_rate = self$param_set$values$learning_rate,
+              oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args_new,
+              bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+
+            out$cboost_restart = cboost_restart
+          }
         })
       } else {
         cboost = compboost::boostSplines(data = task$data(), target = task$target_names,
@@ -77,24 +97,49 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           learning_rate = self$param_set$values$learning_rate,
           oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args,
           bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+
+        out$cboost = cboost
+
+        ### Restart:
+        if (self$param_set$values$optimizer == "nesterov") {
+          stop_args_new = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break,
+            oob_offset = cboost$response_oob$getPrediction())
+
+          cboost_restart = compboost::boostSplines(data = task$data(), target = task$target_names,
+            iterations = self$param_set$values$mstop, optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
+            loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
+            learning_rate = self$param_set$values$learning_rate,
+            oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args_new,
+            bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+
+          out$cboost_restart = cboost_restart
+        }
       }
-      cboost
+      return (out)
     },
 
     .predict = function(task) {
       #browser()
       newdata = task$data(cols = task$feature_names)
 
-      probs = self$model$predict(newdata, as_response = TRUE)
-      pos = self$model$response$getPositiveClass()
-      neg = setdiff(names(self$model$response$getClassTable()), pos)
+      if (self$param_set$values$optimizer == "nesterov") {
+        lin_pred = self$model$cboost$predict(newdata)
+        lin_pred = lin_pred + self$model$cboost_restart$predict(newdata)
+
+        probs = 1 / (1 + exp(-lin_pred))
+      } else {
+        probs = self$model$cboost$predict(newdata, as_response = TRUE)
+      }
+
+      pos = self$model$cboost$response$getPositiveClass()
+      neg = setdiff(names(self$model$cboost$response$getClassTable()), pos)
       pmat = matrix(c(probs, 1 - probs), ncol = 2L, nrow = length(probs))
       colnames(pmat) = c(pos, neg)
       if (self$predict_type == "prob") {
         list(prob = pmat)
       }
       if (self$predict_type == "response") {
-        list(response = ifelse(probs > self$model$response$getThreshold(), pos, neg))
+        list(response = ifelse(probs > self$model$cboost$response$getThreshold(), pos, neg))
       } else {
         list(prob = pmat)
       }
@@ -103,3 +148,17 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
 )
 
 mlr_learners$add("classif.compboost", LearnerClassifCompboost)
+
+
+#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")
+#lr2 = lrn("classif.compboost", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")
+#tk = tsk("sonar")
+
+#design = benchmark_grid(
+  #tasks = tsk("sonar"),
+  #learners = list(lr1, lr2),
+  #resamplings = rsmp("cv", folds = 3)
+#)
+
+#bmr = benchmark(design)
+#bmr$aggregate(msr("classif.auc"))

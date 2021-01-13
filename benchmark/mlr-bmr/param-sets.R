@@ -29,7 +29,7 @@ ps_cboost_nesterov = function (task, id) {
       ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10L),
       ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10L),
       ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
-      ParamFct$new(id = paste0(id, ".optimizer"), levels = c("cod", "nesterov")),
+      #ParamFct$new(id = paste0(id, ".optimizer"), levels = c("cod", "nesterov")),
       ParamDbl$new(id = paste0(id, ".momentum"), lower = 0.000001, upper = 0.01)
     )
   )
