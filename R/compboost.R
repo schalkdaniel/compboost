@@ -435,7 +435,9 @@ Compboost = R6::R6Class("Compboost",
       self$bl_factory_list = BlearnerFactoryList$new()
 
       # Check and set stop args:
-      if (length(stop_args) > 0) {
+      scount = 0
+      if (! is.null(stop_args$oob_offset)) scount = 1
+      if (length(stop_args) > scount) {
         for (nm in c("patience", "eps_for_break")) {
           if (! nm %in% names(stop_args)) stop("Cannot find ", nm, " in 'stop_args'")
         }
@@ -703,9 +705,27 @@ Compboost = R6::R6Class("Compboost",
         self$stop_if_all_stoppers_fulfilled, self$bl_factory_list, self$loss, private$logger_list, self$optimizer)
     },
     addOobLogger = function () {
-
       if (! is.null(self$oob_fraction)) {
-        if (length(self$stop_args) > 0) {
+        scount = 0
+        if (! is.null(self$stop_args$oob_offset)) {
+          if (class(self$loss) == "Rcpp_LossQuadratic") {
+            l = LossQuadratic$new(self$stop_args$oob_offset, TRUE)
+            scount = 1
+          } else {
+            l = self$loss
+          }
+
+          if (class(self$loss) == "Rcpp_LossBinomial") {
+            l = LossBinomial$new(self$stop_args$oob_offset, TRUE)
+            scount = 1
+          } else {
+            l = self$loss
+          }
+        } else {
+          l = self$loss
+        }
+
+        if (length(self$stop_args) > scount) {
           use_as_stopper = TRUE
           patience = self$stop_args$patience
           eps_for_break = self$stop_args$eps_for_break
@@ -715,7 +735,7 @@ Compboost = R6::R6Class("Compboost",
           eps_for_break = 0
         }
         self$addLogger(logger = LoggerOobRisk, use_as_stopper = use_as_stopper, logger_id = "oob_risk",
-          used.loss = self$loss, eps.for.break = eps_for_break, patience = patience, oob_data = self$prepareData(self$data_oob),
+          used.loss = l, eps.for.break = eps_for_break, patience = patience, oob_data = self$prepareData(self$data_oob),
           oob.response = self$response_oob)
       }
     },

@@ -361,6 +361,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::
 void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double learning_rate, const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
   blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
+
   arma::mat prediction_scores = sh_ptr_response->getPredictionScores();
   double weight_param = 2.0 / ((double)actual_iteration + 1.0);
   if (actual_iteration == 1) {
@@ -368,6 +369,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
     _pred_aggr     = _pred_momentum;
   } else {
     _pred_aggr = (1 - weight_param) * sh_ptr_response->getPredictionScores() + weight_param * _pred_momentum;
+    updateAggrParameter(weight_param, blearner_track);
   }
 
   std::string temp_string;
@@ -376,7 +378,17 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
   // Find best base-learner w.r.t. pr_aggr
   temp_string = std::to_string(actual_iteration);
   auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, pr_aggr, factory_list.getFactoryMap());
+
+  // Update g by calculating g = (1 - theta) f + theta * h
+  //updateAggrParameter(sh_ptr_blearner_selected, learning_rate, weight_param, blearner_track);
+
+  //blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
+  // Parameter map in bleanrer_track representates the f sequence. After updating the aggregated parameter, the parameter in blearner_track corresponds to g and therefore after inserting the base-learner to f since f = g + bl:
   blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
+
+  std::string insert_id = sh_ptr_blearner_selected->getDataIdentifier() + "_" + sh_ptr_blearner_selected->getBaselearnerType();
+  _bl_unique_id.push_back(insert_id);
+
   sh_ptr_response->updatePrediction(-prediction_scores + _pred_aggr + learning_rate * sh_ptr_blearner_selected->predict());
 
   //Do the same for corrected pseudo residuals
@@ -391,21 +403,27 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
   auto sh_ptr_blearner_mom = findBestBaselearner(temp_string, _pr_corr, factory_list.getFactoryMap());
   //_momentum_blearner.push_back(sh_ptr_blearner_mom);
 
-    std::string insert_id = sh_ptr_blearner_mom->getDataIdentifier() + "_" + sh_ptr_blearner_mom->getBaselearnerType();
-
   // Update momentum model
-  double lr_mom  = _momentum * learning_rate / weight_param;
-  if (actual_iteration > _acc_iters) lr_mom = 0;
+  double lr_mom;
+  if (actual_iteration > _acc_iters) {
+    lr_mom = 0;
+    weight_param = 0;
+  } else {
+    lr_mom = _momentum * learning_rate / weight_param;
+  }
 
   //std::cout << "Momentum param from optimize: " << sh_ptr_blearner_mom->getDataIdentifier() << lr_mom * sh_ptr_blearner_mom->getParameter();
   _pred_momentum = _pred_momentum + lr_mom * sh_ptr_blearner_mom->predict();
   //std::cout << "Insert momentum blearner";
   _momentum_blearnertrack.insertBaselearner(sh_ptr_blearner_mom, lr_mom);
 
+  insert_id = sh_ptr_blearner_mom->getDataIdentifier() + "_" + sh_ptr_blearner_mom->getBaselearnerType();
+  _bl_unique_id.push_back(insert_id);
+  //
   // Aggregate:
   //_pred_aggr = (1 - weight_param) * sh_ptr_response->getPredictionScores() + weight_param * _pred_momentum;
 
-  updateAggrParameter(sh_ptr_blearner_selected, learning_rate, weight_param, blearner_track);
+  //updateAggrParameter(sh_ptr_blearner_selected, learning_rate, weight_param, blearner_track);
   //for (auto ita = _aggr_parameter_map.begin(); ita != _aggr_parameter_map.end(); ++ita) {
     //std::cout << ita->first << ita->second << std::endl;
   //}
@@ -425,7 +443,13 @@ arma::mat OptimizerAGBM::calculateUpdate (const double learning_rate, const doub
   }
 
   double weight_param = 2.0 / ((double)m + 1.0);
-  double lr_momentum  = _momentum * learning_rate / weight_param;
+  double lr_mom;
+  if (m > _acc_iters) {
+    lr_mom = 0;
+    weight_param = 0;
+  } else {
+    lr_mom = _momentum * learning_rate / weight_param;
+  }
 
   // Predict test data for last momentum base-learner. Check, whether the data object is present or not:
   std::string data_id = momentum_blearner->getDataIdentifier();
@@ -435,7 +459,7 @@ arma::mat OptimizerAGBM::calculateUpdate (const double learning_rate, const doub
 
     // Predict this data using the selected baselearner:
     arma::mat temp_oob_prediction = momentum_blearner->predict(oob_blearner_data);
-    sh_ptr_oob_response->setPredictionScoresTemp2(sh_ptr_oob_response->getPredictionScoresTemp2() + lr_momentum * temp_oob_prediction);
+    sh_ptr_oob_response->setPredictionScoresTemp2(sh_ptr_oob_response->getPredictionScoresTemp2() + lr_mom * temp_oob_prediction);
   }
 
   arma::mat aggr_pred = (1 - weight_param) * pred_scores + weight_param * sh_ptr_oob_response->getPredictionScoresTemp2();
@@ -476,11 +500,54 @@ std::vector<std::string> OptimizerAGBM::getSelectedMomentumBaselearner () const
 std::pair<std::vector<std::string>, arma::mat> OptimizerAGBM::getParameterMatrix () const { return _momentum_blearnertrack.getParameterMatrix(); }
 
 
-void OptimizerAGBM::updateAggrParameter (std::shared_ptr<blearner::Baselearner>& sh_ptr_bl_new, double learning_rate, double weight_parameter, blearnertrack::BaselearnerTrack& blearner_track)
+//void OptimizerAGBM::updateAggrParameter (std::shared_ptr<blearner::Baselearner>& sh_ptr_bl_new, double learning_rate, double weight_parameter, blearnertrack::BaselearnerTrack& blearner_track)
+void OptimizerAGBM::updateAggrParameter (double weight_parameter, blearnertrack::BaselearnerTrack& blearner_track)
 {
+
+  auto _mom_parameter_map = _momentum_blearnertrack.getParameterMap();
+  if (blearner_track.getBaselearnerVector().size() > 1) {
+
+    // Just unique values of selected base-learner ids:
+    std::sort( _bl_unique_id.begin(), _bl_unique_id.end() );
+    _bl_unique_id.erase( std::unique( _bl_unique_id.begin(), _bl_unique_id.end() ), _bl_unique_id.end() );
+
+    for (const auto& id: _bl_unique_id) {
+      arma::mat hupdate;
+      arma::mat fupdate;
+
+      auto f_param_map = blearner_track.getParameterMap();
+      if (f_param_map.find(id) == f_param_map.end()) {
+        hupdate = _mom_parameter_map.find(id)->second;
+        fupdate = arma::mat(hupdate.n_rows, hupdate.n_cols, arma::fill::zeros);
+      } else {
+        fupdate = f_param_map.find(id)->second;
+      }
+
+      if (_mom_parameter_map.find(id) == _mom_parameter_map.end()) {
+        hupdate = arma::mat(fupdate.n_rows, fupdate.n_cols, arma::fill::zeros);
+      } else {
+        hupdate = _mom_parameter_map.find(id)->second;
+      }
+      _aggr_parameter_map[ id ] = weight_parameter * hupdate + (1 - weight_parameter) * fupdate;
+    }
+    blearner_track.setParameterMap(_aggr_parameter_map);
+  }
+
+  //std::string insert_id = sh_ptr_bl_new->getDataIdentifier() + "_" + sh_ptr_bl_new->getBaselearnerType();
+  //_bl_unique_id.push_back(insert_id);
+
+  //std::map<std::string, arma::mat>::iterator it;
+  //for (it = _mom_parameter_map.begin(); it != _mom_parameter_map.end(); ++it) {
+    //it->second = it->second * weight_parameter;
+    //insert_id  = it->first;
+    //_bl_unique_id.push_back(insert_id);
+  //}
+
+  /*
   // Add new base-learner to g to get f:
   // ------------------------------------------------
   std::string insert_id = sh_ptr_bl_new->getDataIdentifier() + "_" + sh_ptr_bl_new->getBaselearnerType();
+  _bl_unique_id.push_back(insert_id);
 
   // Check if the baselearner is the first one. If so, the parameter
   // has to be instantiated with a zero matrix:
@@ -502,13 +569,16 @@ void OptimizerAGBM::updateAggrParameter (std::shared_ptr<blearner::Baselearner>&
   _aggr_parameter_map[ insert_id ] = parameter_temp + _aggr_parameter_map.find(insert_id)->second;
 
   blearner_track.setParameterMap(_aggr_parameter_map);
+   */
 
+  /*
   // Shrink h and add to f:
   // ------------------------------------------------
-  auto _mom_parameter_map = _momentum_blearnertrack.getParameterMap();
   for (it = _mom_parameter_map.begin(); it != _mom_parameter_map.end(); ++it) {
     //it->second = it->second * weight_parameter;
     insert_id  = it->first;
+    _bl_unique_id.push_back(insert_id);
+  }
 
     // Check if the baselearner in h is the first one. If so, the parameter
     // has to be instantiated with a zero matrix:
@@ -524,12 +594,12 @@ void OptimizerAGBM::updateAggrParameter (std::shared_ptr<blearner::Baselearner>&
       // If this is the first entry, initialize it with zeros:
       arma::mat init_parameter(parameter_temp.n_rows, parameter_temp.n_cols, arma::fill::zeros);
       _aggr_parameter_map.insert(std::pair<std::string, arma::mat>(insert_id, init_parameter));
-
     }
     // Accumulating parameter. If there is a nan, then this will be ignored and
     // the non nan entries are summed up:
-    _aggr_parameter_map[ insert_id ] = weight_parameter * parameter_temp + (1 - weight_parameter) * _aggr_parameter_map.find(insert_id)->second;
+    //_aggr_parameter_map[ insert_id ] = weight_parameter * parameter_temp + (1 - weight_parameter) * _aggr_parameter_map.find(insert_id)->second;
   }
+  */
 }
 
 

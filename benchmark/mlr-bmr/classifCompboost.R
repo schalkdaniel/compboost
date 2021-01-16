@@ -35,7 +35,6 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         predict_types = c("response", "prob"),
         param_set = ps,
         properties = c("twoclass")
-        #man = "mlr3extralearners::mlr_learners_classif.gamboost"
       )
     }
   ),
@@ -63,9 +62,11 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       }
 
       out = list()
+      seed = sample(seq_len(1e6), 1)
 
       if (self$param_set$values$silent) {
         nuisance = capture.output({
+          set.seed(seed)
           cboost = compboost::boostSplines(data = task$data(), target = task$target_names,
             iterations = self$param_set$values$mstop, optimizer = optimizer,
             loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
@@ -80,17 +81,24 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
             stop_args_new = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break,
               oob_offset = cboost$response_oob$getPrediction())
 
+            set.seed(seed)
             cboost_restart = compboost::boostSplines(data = task$data(), target = task$target_names,
               iterations = self$param_set$values$mstop, optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
-              loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
+              loss = compboost::LossBinomial$new(cboost$response$getPrediction(), TRUE), df = self$param_set$values$df,
               learning_rate = self$param_set$values$learning_rate,
               oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args_new,
               bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+
+            if (any(all.equal(cboost_restart$data, cboost$data) != TRUE)) stop("Train data is not equal")
+            if (any(all.equal(cboost_restart$oob_data, cboost$oob_data) != TRUE)) stop("Test data is not equal")
+
 
             out$cboost_restart = cboost_restart
           }
         })
       } else {
+        #browser()
+        set.seed(seed)
         cboost = compboost::boostSplines(data = task$data(), target = task$target_names,
           iterations = self$param_set$values$mstop, optimizer = optimizer,
           loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
@@ -105,9 +113,10 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           stop_args_new = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break,
             oob_offset = cboost$response_oob$getPrediction())
 
+          set.seed(seed)
           cboost_restart = compboost::boostSplines(data = task$data(), target = task$target_names,
             iterations = self$param_set$values$mstop, optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
-            loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
+            loss = compboost::LossBinomial$new(cboost$response$getPrediction(), TRUE), df = self$param_set$values$df,
             learning_rate = self$param_set$values$learning_rate,
             oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args_new,
             bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
@@ -146,13 +155,20 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
     }
   )
 )
-
 mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 
 
-#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")
-#lr2 = lrn("classif.compboost", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")
-#tk = tsk("sonar")
+#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")#, silent = FALSE)
+#lr2 = lrn("classif.compboost", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")#, silent = FALSE)
+
+#lr1$train(tsk("sonar"))
+#lr2$train(tsk("sonar"))
+
+#p1 = lr1$predict(tsk("sonar"))
+#p2 = lr2$predict(tsk("sonar"))
+
+#p1
+#p2
 
 #design = benchmark_grid(
   #tasks = tsk("sonar"),
@@ -161,4 +177,4 @@ mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 #)
 
 #bmr = benchmark(design)
-#bmr$aggregate(msr("classif.auc"))
+#bmr$aggregate(msrs(c("classif.auc", "classif.ce")))

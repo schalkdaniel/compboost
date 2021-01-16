@@ -124,11 +124,12 @@ public:
 class OptimizerAGBM: public Optimizer
 {
 private:
-  const double       _momentum;
-  arma::mat          _pred_momentum;
-  arma::mat          _pred_aggr;
-  arma::mat          _pr_corr;
-  const unsigned int _acc_iters = INFINITY;
+  const double             _momentum;
+  arma::mat                _pred_momentum;
+  arma::mat                _pred_aggr;
+  arma::mat                _pr_corr;
+  const unsigned int       _acc_iters = INFINITY;
+  std::vector<std::string> _bl_unique_id;
 
   std::map<std::string, arma::mat> _aggr_parameter_map;
   blearnertrack::BaselearnerTrack  _momentum_blearnertrack = blearnertrack::BaselearnerTrack(1.0);
@@ -159,7 +160,8 @@ public:
   std::vector<std::string>                       getSelectedMomentumBaselearner () const;
   std::pair<std::vector<std::string>, arma::mat> getParameterMatrix ()             const;
 
-  void updateAggrParameter (std::shared_ptr<blearner::Baselearner>&, double, double, blearnertrack::BaselearnerTrack&);
+  //void updateAggrParameter (std::shared_ptr<blearner::Baselearner>&, double, double, blearnertrack::BaselearnerTrack&);
+  void updateAggrParameter (double, blearnertrack::BaselearnerTrack&);
 };
 
 

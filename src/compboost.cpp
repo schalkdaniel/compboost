@@ -209,7 +209,9 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 
   arma::mat pred(data_map.begin()->second->nrow(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
   helper::debugPrint("| > Calculate initial prediction");
-  pred = _sh_ptr_response->calculateInitialPrediction(pred);
+  if (_sh_ptr_response->getInitialization().n_rows == 1) {
+    pred = _sh_ptr_response->calculateInitialPrediction(pred);
+  }
 
   // Idea is simply to calculate the vector matrix product of parameter and
   // newdata. The problem here is that the newdata comes as raw data and has

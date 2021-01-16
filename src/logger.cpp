@@ -379,7 +379,7 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
   const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
 {
   if (current_iteration == 1) {
-    _sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
+    _sh_ptr_oob_response->constantInitialization(_sh_ptr_loss);
     _sh_ptr_oob_response->initializePrediction();
   }
 
