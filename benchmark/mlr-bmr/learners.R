@@ -1,23 +1,26 @@
 ## Learners:
 ## ---------------------
 
+ncores = 20L
+oob_frac = 0.4
+
 ### Classification
 
-classif_lrn_cboost1 = lrn("classif.compboost", id = "ps_cboost1", oob_fraction = 0.5,
-  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = 4L,
+classif_lrn_cboost1 = lrn("classif.compboost", id = "ps_cboost1", oob_fraction = oob_frac,
+  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
   predict_type = "prob", patience = 5L)
 
 classif_lrn_cboost2 = lrn("classif.compboost", id = "ps_cboost_nesterov1",
-  oob_fraction = 0.5, use_stopper = TRUE, silent = TRUE, mstop = 5000,
-  ncores = 4L,  predict_type = "prob", patience = 5L)
+  oob_fraction = oob_frac, use_stopper = TRUE, silent = TRUE, mstop = 5000,
+  ncores = ncores,  predict_type = "prob", patience = 5L, optimizer = "nesterov")
 
-classif_lrn_cboost_bin1 = lrn("classif.compboost", id = "ps_cboost2", oob_fraction = 0.5,
-  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = 4L,
+classif_lrn_cboost_bin1 = lrn("classif.compboost", id = "ps_cboost2", oob_fraction = oob_frac,
+  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
   predict_type = "prob", patience = 5L, bin_root = 2L)
 
 classif_lrn_cboost_bin2 = lrn("classif.compboost", id = "ps_cboost_nesterov2",
-  oob_fraction = 0.5, use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = 4L,
-  predict_type = "prob", patience = 5L, bin_root = 2L)
+  oob_fraction = 0.4, use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
+  predict_type = "prob", patience = 5L, bin_root = 2L, optimizer = "nesterov")
 
 classif_lrn_xgboost = lrn("classif.xgboost", id = "ps_xgboost", predict_type = "prob")
 
@@ -49,20 +52,20 @@ learners_classif = lapply(learners_classif, function (l) {
 
 ### Regression
 
-regr_lrn_cboost1 = lrn("regr.compboost", id = "ps_cboost1", oob_fraction = 0.5,
-  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = 4L, patience = 5L)
+regr_lrn_cboost1 = lrn("regr.compboost", id = "ps_cboost1", oob_fraction = oob_frac,
+  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores, patience = 5L)
 
 regr_lrn_cboost2 = lrn("regr.compboost", id = "ps_cboost_nesterov1",
-  oob_fraction = 0.5, use_stopper = TRUE, silent = TRUE, mstop = 5000,
-  ncores = 4L, patience = 5L)
+  oob_fraction = oob_frac, use_stopper = TRUE, silent = TRUE, mstop = 5000,
+  ncores = ncores, patience = 5L, optimizer = "nesterov")
 
-regr_lrn_cboost_bin1 = lrn("regr.compboost", id = "ps_cboost2", oob_fraction = 0.5,
-  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = 4L,
+regr_lrn_cboost_bin1 = lrn("regr.compboost", id = "ps_cboost2", oob_fraction = oob_frac,
+  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
   patience = 5L, bin_root = 2L)
 
 regr_lrn_cboost_bin2 = lrn("regr.compboost", id = "ps_cboost_nesterov2",
-  oob_fraction = 0.5, use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = 4L,
-  patience = 5L, bin_root = 2L)
+  oob_fraction = oob_frac, use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
+  patience = 5L, bin_root = 2L, optimizer = "nesterov")
 
 regr_lrn_xgboost = lrn("regr.xgboost", id = "ps_xgboost")
 
