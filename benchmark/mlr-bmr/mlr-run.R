@@ -80,13 +80,16 @@ for (i in seq_along(designs_classif)) {
   cat("\n\n>> FINISHED BENCHMARK\n\n")
 
   cat("\n>> Aggregate results and store:")
-  bmr_aggr = lapply(as.data.table(bmr_classif)$learner, function (b) b$tuning_results)
+  bmr_tune_res = lapply(as.data.table(bmr_classif)$learner, function (b) b$tuning_result)
+  bmr_aggr = bmr_classif$aggregate(msrs(c("classif.auc", "classif.ce")))[,-2]
+
+  bmr_res = list(bmr_tune_res, bmr_aggr)
 
   print(time)
   bm_file = paste0(bm_dir, "res-results/bmr-classif-", i, "-", dt, ".Rda")
-  save(bmr_aggr, file = bm_file)
+  save(bmr_res, file = bm_file)
   cat(paste0("\n>> ", Sys.time(), ": Save ", bm_file, "\n\n"))
-  rm(bmr_classif)
+  rm(bmr_classif, bmr_tune_res, bmr_aggr, bmr_res)
 }
 
 cat(paste0("\n>> ", Sys.time(), ": REGRESSION BENCHMARK:\n"))
