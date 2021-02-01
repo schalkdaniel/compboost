@@ -67,12 +67,18 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       if (self$param_set$values$silent) {
         nuisance = capture.output({
           set.seed(seed)
-          cboost = compboost::boostSplines(data = task$data(), target = task$target_names,
-            iterations = self$param_set$values$mstop, optimizer = optimizer,
-            loss = compboost::LossBinomial$new(), df = self$param_set$values$df,
+          cboost = compboost::boostSplines(
+            data = task$data(),
+            target = task$target_names,
+            iterations = self$param_set$values$mstop,
+            optimizer = optimizer,
+            loss = compboost::LossBinomial$new(),
+            df = self$param_set$values$df,
             learning_rate = self$param_set$values$learning_rate,
-            oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args,
-            bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+            oob_fraction = self$param_set$values$oob_fraction,
+            stop_args = stop_args,
+            bin_root = self$param_set$values$bin_root,
+            df_cat = self$param_set$values$df_cat)
 
           out$cboost = cboost
 
@@ -82,12 +88,18 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
               oob_offset = cboost$response_oob$getPrediction())
 
             set.seed(seed)
-            cboost_restart = compboost::boostSplines(data = task$data(), target = task$target_names,
-              iterations = self$param_set$values$mstop, optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
-              loss = compboost::LossBinomial$new(cboost$response$getPrediction(), TRUE), df = self$param_set$values$df,
+            cboost_restart = compboost::boostSplines(
+              data = task$data(),
+              target = task$target_names,
+              iterations = self$param_set$values$mstop - length(cboost$getSelectedBaselearner()),
+              optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
+              loss = compboost::LossBinomial$new(cboost$response$getPrediction(), TRUE),
+              df = self$param_set$values$df,
               learning_rate = self$param_set$values$learning_rate,
-              oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args_new,
-              bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
+              oob_fraction = self$param_set$values$oob_fraction,
+              stop_args = stop_args_new,
+              bin_root = self$param_set$values$bin_root,
+              df_cat = self$param_set$values$df_cat)
 
             if (any(all.equal(cboost_restart$data, cboost$data) != TRUE)) stop("Train data is not equal")
             if (any(all.equal(cboost_restart$oob_data, cboost$oob_data) != TRUE)) stop("Test data is not equal")

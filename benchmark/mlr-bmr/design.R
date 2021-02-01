@@ -40,8 +40,11 @@ updateDesign = function (design) {
   for (i in seq_len(nrow(design))) {
     cat(i, "/", nrow(design), "\n")
     cl = stringr::str_remove(design$learner[[i]]$id, "encode.")
-    if (grepl("ps_cboost", cl)) cl = "ps_cboost"
-    if (grepl("ps_cboost_nesterov", cl)) cl = "ps_cboost_nesterov"
+    if (grepl("ps_cboost_nesterov", cl)) {
+      cl = "ps_cboost_nesterov"
+    } else {
+      if (grepl("ps_cboost", cl)) cl = "ps_cboost"
+    }
 
     ps = do.call(cl, list(task = robustify$train(design$task[[i]])[[1]], id = design$learner[[i]]$id))
 

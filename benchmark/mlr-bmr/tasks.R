@@ -79,7 +79,7 @@ task_crime = TaskRegr$new(id = "crime", backend = crime, target = target)
 # Wine:
 wine = read.csv("uci-data/winequality-red.csv", sep = ";")
 target = "quality"
-task_wine = TaskRegr$new(id = "crime", backend = wine, target = target)
+task_wine = TaskRegr$new(id = "wine", backend = wine, target = target)
 
 # Housing:
 task_housing = tsk("boston_housing")
