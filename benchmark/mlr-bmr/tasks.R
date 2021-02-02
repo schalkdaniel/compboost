@@ -56,16 +56,6 @@ tasks_classif[["spam"]] = task_spam
 tasks_classif[["advert"]] = task_adv
 
 
-#ll = lapply(tasks, function (t) {
-  #pfac = sum(t$feature_types$type %in% c("factor", "character"))
-  #id = t$id
-  #tid = readr::parse_number(id)
-  #idn = strsplit(x = strsplit(x = id, split = ": ")[[1]][2], split = " [(]")[[1]][1]
-  #data.frame(name = idn, id = tid, n = t$nrow, pnum = t$ncol - pfac, pfac = pfac)
-#})
-
-#knitr::kable(do.call(rbind, unname(ll)), format = "latex")
-
 
 ### Regression
 
@@ -79,7 +69,7 @@ task_crime = TaskRegr$new(id = "crime", backend = crime, target = target)
 # Wine:
 wine = read.csv("uci-data/winequality-red.csv", sep = ";")
 target = "quality"
-task_wine = TaskRegr$new(id = "crime", backend = wine, target = target)
+task_wine = TaskRegr$new(id = "wine", backend = wine, target = target)
 
 # Housing:
 task_housing = tsk("boston_housing")
@@ -90,3 +80,39 @@ tasks_regr = list()
 tasks_regr[["crime"]] = task_crime
 tasks_regr[["wine"]] = task_wine
 tasks_regr[["housing"]] = task_housing
+
+
+
+### Summarize:
+
+ll = lapply(tasks_classif, function (t) {
+  pfac = sum(t$feature_types$type %in% c("factor", "character"))
+  id = t$id
+  if (grepl(":", id)) {
+    tid = readr::parse_number(id)
+    idn = strsplit(x = strsplit(x = id, split = ": ")[[1]][2], split = " [(]")[[1]][1]
+    data.frame(name = idn, id = tid, n = t$nrow, pnum = t$ncol - pfac, pfac = pfac)
+  } else {
+    idn = id
+    data.frame(name = id, id = NA, n = t$nrow, pnum = t$ncol - pfac, pfac = pfac)
+  }
+})
+
+knitr::kable(do.call(rbind, unname(ll)), format = "latex")
+
+
+ll = lapply(tasks_regr, function (t) {
+  pfac = sum(t$feature_types$type %in% c("factor", "character"))
+  id = t$id
+  if (grepl(":", id)) {
+    tid = readr::parse_number(id)
+    idn = strsplit(x = strsplit(x = id, split = ": ")[[1]][2], split = " [(]")[[1]][1]
+    data.frame(name = idn, id = tid, n = t$nrow, pnum = t$ncol - pfac, pfac = pfac)
+  } else {
+    idn = id
+    data.frame(name = id, id = NA, n = t$nrow, pnum = t$ncol - pfac, pfac = pfac)
+  }
+})
+
+knitr::kable(do.call(rbind, unname(ll)), format = "latex")
+
