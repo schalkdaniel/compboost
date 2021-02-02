@@ -1,25 +1,26 @@
 ## Learners:
 ## ---------------------
 
-ncores = 20L
+ncores = 5L
 oob_frac = 0.4
+mstop = 20000L
 
 ### Classification
 
 classif_lrn_cboost1 = lrn("classif.compboost", id = "ps_cboost1", oob_fraction = oob_frac,
-  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
+  use_stopper = TRUE, silent = TRUE, mstop = mstop, ncores = ncores,
   predict_type = "prob", patience = 5L)
 
 classif_lrn_cboost2 = lrn("classif.compboost", id = "ps_cboost_nesterov1",
-  oob_fraction = oob_frac, use_stopper = TRUE, silent = TRUE, mstop = 5000,
+  oob_fraction = oob_frac, use_stopper = TRUE, silent = TRUE, mstop = mstop,
   ncores = ncores,  predict_type = "prob", patience = 5L, optimizer = "nesterov")
 
 classif_lrn_cboost_bin1 = lrn("classif.compboost", id = "ps_cboost2", oob_fraction = oob_frac,
-  use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
+  use_stopper = TRUE, silent = TRUE, mstop = mstop, ncores = ncores,
   predict_type = "prob", patience = 5L, bin_root = 2L)
 
 classif_lrn_cboost_bin2 = lrn("classif.compboost", id = "ps_cboost_nesterov2",
-  oob_fraction = 0.4, use_stopper = TRUE, silent = TRUE, mstop = 5000, ncores = ncores,
+  oob_fraction = 0.4, use_stopper = TRUE, silent = TRUE, mstop = mstop, ncores = ncores,
   predict_type = "prob", patience = 5L, bin_root = 2L, optimizer = "nesterov")
 
 classif_lrn_xgboost = lrn("classif.xgboost", id = "ps_xgboost", predict_type = "prob")
