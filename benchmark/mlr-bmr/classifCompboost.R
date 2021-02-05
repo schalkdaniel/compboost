@@ -63,10 +63,11 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
 
       out = list()
       seed = sample(seq_len(1e6), 1)
+      #browser()
 
       if (self$param_set$values$silent) {
         nuisance = capture.output({
-          set.seed(seed)
+         set.seed(seed)
           cboost = compboost::boostSplines(
             data = task$data(),
             target = task$target_names,
@@ -80,7 +81,10 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
             bin_root = self$param_set$values$bin_root,
             df_cat = self$param_set$values$df_cat)
 
+
           out$cboost = cboost
+          iters = length(cboost$getSelectedBaselearner())
+          self$param_set$values$mstop_es1 = iters
 
           ### Restart:
           if (self$param_set$values$optimizer == "nesterov") {
@@ -91,7 +95,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
             cboost_restart = compboost::boostSplines(
               data = task$data(),
               target = task$target_names,
-              iterations = self$param_set$values$mstop - length(cboost$getSelectedBaselearner()),
+              iterations = self$param_set$values$mstop - iters,
               optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
               loss = compboost::LossBinomial$new(cboost$response$getPrediction(), TRUE),
               df = self$param_set$values$df,
@@ -106,6 +110,8 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
 
 
             out$cboost_restart = cboost_restart
+            iters = iters + length(cboost_restart$getSelectedBaselearner())
+            self$param_set$values$mstop_es2 = iters
           }
         })
       } else {
@@ -170,8 +176,8 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
 mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 
 
-#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")#, silent = FALSE)
-#lr2 = lrn("classif.compboost", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, predict_type = "prob")#, silent = FALSE)
+#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob", mstop = 10000L)#, silent = FALSE)
+#lr2 = lrn("classif.compboost", use_stopper = TRUE, eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob", mstop = 10000L)#, silent = FALSE)
 
 #lr1$train(tsk("sonar"))
 #lr2$train(tsk("sonar"))
@@ -188,5 +194,7 @@ mlr_learners$add("classif.compboost", LearnerClassifCompboost)
   #resamplings = rsmp("cv", folds = 3)
 #)
 
-#bmr = benchmark(design)
+#bmr = benchmark(design, store_models = TRUE)
 #bmr$aggregate(msrs(c("classif.auc", "classif.ce")))
+
+

@@ -77,18 +77,38 @@ for (i in seq_along(designs_classif)) {
   bmr_classif  = benchmark(designs_classif[[i]], store_models = TRUE)
   time = proc.time() - time
   sink()
-  cat("\n\n>> FINISHED BENCHMARK\n\n")
+  cat("\n\n>> Finish benchmark")
+  print(time)
 
   cat("\n>> Aggregate results and store:")
-  bmr_tune_res = lapply(as.data.table(bmr_classif)$learner, function (b) b$tuning_result)
-  bmr_aggr = bmr_classif$aggregate(msrs(c("classif.auc", "classif.ce")))[,-2]
+  lrners = as.data.table(bmr_classif)$learner
+  bmr_tune_res = lapply(lrners, function (b) b$tuning_result)
+  bmr_aggr = bmr_classif$aggregate(msrs(c("classif.auc", "classif.ce", "time_train", "classif.bbrier")))[,-2]
+
+  iters = sapply(lrners, function (l) {
+    iters = NA
+    iters_restart = NA
+    if(grepl(pattern = "cboost", l$id)) {
+      b = l$model$learner$model
+      nms = names(b)
+      b = b[[nms[grepl(pattern = "ps_cboost", x = nms)]]]$model
+      if ("cboost" %in% names(b)) {
+        iters = length(b$cboost$getSelectedBaselearner())
+      }
+      if ("cboost_restart" %in% names(b)) {
+        iters_restart = iters + length(b$cboost_restart$getSelectedBaselearner())
+      }
+    }
+    return (c(iters = iters, iters_restart = iters_restart))
+  })
+  bmr_aggr = cbind(bmr_aggr, t(iters))
 
   bmr_res = list(bmr_tune_res, bmr_aggr)
 
-  print(time)
   bm_file = paste0(bm_dir, "res-results/bmr-classif-", i, "-", dt, ".Rda")
   save(bmr_res, file = bm_file)
   cat(paste0("\n>> ", Sys.time(), ": Save ", bm_file, "\n\n"))
+
   rm(bmr_classif, bmr_tune_res, bmr_aggr, bmr_res)
 }
 
@@ -101,15 +121,23 @@ for (i in seq_along(designs_regr)) {
 
   sink(logfile)
   time = proc.time()
-  bmr_regr  = benchmark(designs_regr[[1]], store_models = TRUE)
   time = proc.time() - time
-  cat("\n\n>> ", Sys.time(), ": Finish benchmark\n\n")
+  bmr_regr  = benchmark(designs_regr[[1]], store_models = TRUE)
   sink()
+  print(time)
+  cat("\n\n>> ", Sys.time(), ": Finish benchmark")
+
+  cat("\n>> Aggregate results and store:")
+  bmr_tune_res = lapply(as.data.table(bmr_regr)$learner, function (b) b$tuning_result)
+  bmr_aggr = bmr_classif$aggregate(msrs(c("regr.mse", "regr.mae", "time_train", "regr.rsq")))[,-2]
+
+  bmr_res = list(bmr_tune_res, bmr_aggr)
 
   print(time)
   bm_file = paste0(bm_dir, "res-results/bmr-regr-", i, "-", dt, ".Rda")
-  save(bmr_regr, file = bm_file)
+  save(bmr_res, file = bm_file)
   cat("\n\n>> ", Sys.time(), ": Save ", bm_file, "\n\n")
-  rm(bmr_regr)
+
+  rm(bmr_regr, bmr_tune_res, bmr_aggr, bmr_res)
 }
 

@@ -1,0 +1,275 @@
+INFO  [14:17:38.036] [mlr3]  Benchmark with 21 resampling iterations 
+INFO  [14:17:38.042] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:17:38.199] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:38.221] Evaluating 1 configuration(s) 
+INFO  [14:17:38.353] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:38.359] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:38.597] [mlr3]  Finished benchmark 
+INFO  [14:17:38.670] Result of batch 1: 
+INFO  [14:17:38.672]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc                                uhash 
+INFO  [14:17:38.672]                 72      0.3884                19         0.5 55a960fc-a4f4-41ee-938c-090f1c6bced9 
+INFO  [14:17:38.734] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:38.735] Result: 
+INFO  [14:17:38.737]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth learner_param_vals  x_domain classif.auc 
+INFO  [14:17:38.737]                 72      0.3884                19         <list[16]> <list[3]>         0.5 
+INFO  [14:17:39.113] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:17:39.341] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:39.355] Evaluating 1 configuration(s) 
+INFO  [14:17:39.564] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:39.571] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:39.837] [mlr3]  Finished benchmark 
+INFO  [14:17:39.935] Result of batch 1: 
+INFO  [14:17:39.937]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc                                uhash 
+INFO  [14:17:39.937]               3                  15                      65      0.8338 4c75e4d7-5247-4d77-851a-d9ed08008c26 
+INFO  [14:17:39.996] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:39.997] Result: 
+INFO  [14:17:39.999]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size learner_param_vals  x_domain classif.auc 
+INFO  [14:17:39.999]               3                  15                      65         <list[15]> <list[3]>      0.8338 
+INFO  [14:17:40.479] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:17:40.911] Starting to optimize 5 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:40.932] Evaluating 1 configuration(s) 
+INFO  [14:17:41.396] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:41.415] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:42.738] [mlr3]  Finished benchmark 
+INFO  [14:17:42.988] Result of batch 1: 
+INFO  [14:17:42.990]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth encode.ps_xgboost.ps_xgboost.nrounds encode.ps_xgboost.ps_xgboost.colsample_bytree encode.ps_xgboost.ps_xgboost.subsample classif.auc                                uhash 
+INFO  [14:17:42.990]                            0.4696                                     11                                 1999                                        0.6843                                  0.548      0.7066 8bb09f1d-dbe6-4efb-be81-1dacd1b75efb 
+INFO  [14:17:43.159] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:43.161] Result: 
+INFO  [14:17:43.163]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth encode.ps_xgboost.ps_xgboost.nrounds encode.ps_xgboost.ps_xgboost.colsample_bytree encode.ps_xgboost.ps_xgboost.subsample learner_param_vals  x_domain classif.auc 
+INFO  [14:17:43.163]                            0.4696                                     11                                 1999                                        0.6843                                  0.548         <list[19]> <list[5]>      0.7066 
+INFO  [14:17:45.048] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:17:45.276] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:45.295] Evaluating 1 configuration(s) 
+INFO  [14:17:45.475] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:45.485] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:45.829] [mlr3]  Finished benchmark 
+INFO  [14:17:45.921] Result of batch 1: 
+INFO  [14:17:45.923]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.momentum classif.auc                                uhash 
+INFO  [14:17:45.923]                   9.643                      7.197                            0.4319                     0.001563         0.5 c51f9366-418d-4f10-bb0d-52fbda936f9e 
+INFO  [14:17:45.968] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:45.969] Result: 
+INFO  [14:17:45.971]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.momentum learner_param_vals  x_domain classif.auc 
+INFO  [14:17:45.971]                   9.643                      7.197                            0.4319                     0.001563         <list[23]> <list[4]>         0.5 
+INFO  [14:17:46.533] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:17:46.991] Starting to optimize 5 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:47.010] Evaluating 1 configuration(s) 
+INFO  [14:17:47.488] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:47.495] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:48.833] [mlr3]  Finished benchmark 
+INFO  [14:17:49.081] Result of batch 1: 
+INFO  [14:17:49.083]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth encode.ps_xgboost.ps_xgboost.nrounds encode.ps_xgboost.ps_xgboost.colsample_bytree encode.ps_xgboost.ps_xgboost.subsample classif.auc                                uhash 
+INFO  [14:17:49.083]                            0.3463                                     13                                 2026                                        0.9509                                 0.9083      0.7756 11547c79-42ca-4f52-a5ce-41f3e60d7b59 
+INFO  [14:17:49.754] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:49.755] Result: 
+INFO  [14:17:49.756]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth encode.ps_xgboost.ps_xgboost.nrounds encode.ps_xgboost.ps_xgboost.colsample_bytree encode.ps_xgboost.ps_xgboost.subsample learner_param_vals  x_domain classif.auc 
+INFO  [14:17:49.756]                            0.3463                                     13                                 2026                                        0.9509                                 0.9083         <list[19]> <list[5]>      0.7756 
+INFO  [14:17:51.452] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:17:51.645] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:51.664] Evaluating 1 configuration(s) 
+INFO  [14:17:51.793] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:51.800] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:52.059] [mlr3]  Finished benchmark 
+INFO  [14:17:52.159] Result of batch 1: 
+INFO  [14:17:52.161]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.momentum classif.auc                                uhash 
+INFO  [14:17:52.161]                    7.11                      4.332                            0.3294                     0.008966         0.5 c7d650ad-7913-4e22-957b-cfb4a60c650d 
+INFO  [14:17:52.205] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:52.207] Result: 
+INFO  [14:17:52.220]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.momentum learner_param_vals  x_domain classif.auc 
+INFO  [14:17:52.220]                    7.11                      4.332                            0.3294                     0.008966         <list[24]> <list[4]>         0.5 
+INFO  [14:17:52.623] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:17:52.758] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:52.773] Evaluating 1 configuration(s) 
+INFO  [14:17:52.901] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:52.907] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:53.096] [mlr3]  Finished benchmark 
+INFO  [14:17:53.178] Result of batch 1: 
+INFO  [14:17:53.179]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc                                uhash 
+INFO  [14:17:53.179]                 79      0.6555                15         0.5 8f44abc8-23a1-4f0a-a805-da515df2ede4 
+INFO  [14:17:53.217] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:53.218] Result: 
+INFO  [14:17:53.220]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth learner_param_vals  x_domain classif.auc 
+INFO  [14:17:53.220]                 79      0.6555                15         <list[16]> <list[3]>         0.5 
+INFO  [14:17:53.531] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:17:53.666] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:53.681] Evaluating 1 configuration(s) 
+INFO  [14:17:53.813] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:53.819] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:55.105] [mlr3]  Finished benchmark 
+INFO  [14:17:55.181] Result of batch 1: 
+INFO  [14:17:55.183]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc                                uhash 
+INFO  [14:17:55.183]          7.184             2.517                  0.01165         0.5 ff29274c-1e27-4c7f-9a70-5210d79f9361 
+INFO  [14:17:55.225] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:55.226] Result: 
+INFO  [14:17:55.228]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate learner_param_vals  x_domain classif.auc 
+INFO  [14:17:55.228]          7.184             2.517                  0.01165         <list[21]> <list[3]>         0.5 
+INFO  [14:17:55.787] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:17:55.935] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:55.950] Evaluating 1 configuration(s) 
+INFO  [14:17:56.087] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:56.093] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:17:56.343] [mlr3]  Finished benchmark 
+INFO  [14:17:56.435] Result of batch 1: 
+INFO  [14:17:56.437]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate classif.auc                                uhash 
+INFO  [14:17:56.437]          7.743             3.331                   0.2112         0.5 a70afeab-609b-4936-b71d-43eab4c072b0 
+INFO  [14:17:56.479] Finished optimizing after 1 evaluation(s) 
+INFO  [14:17:56.480] Result: 
+INFO  [14:17:56.482]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate learner_param_vals  x_domain classif.auc 
+INFO  [14:17:56.482]          7.743             3.331                   0.2112         <list[22]> <list[3]>         0.5 
+INFO  [14:17:58.203] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:17:58.359] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:17:58.373] Evaluating 1 configuration(s) 
+INFO  [14:17:58.500] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:17:58.507] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:18:24.842] [mlr3]  Finished benchmark 
+INFO  [14:18:24.918] Result of batch 1: 
+INFO  [14:18:24.920]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate classif.auc                                uhash 
+INFO  [14:18:24.920]          2.055             5.745                   0.4581         0.5 416db094-2ad2-42fe-a2c7-4db2aefdb530 
+INFO  [14:18:24.978] Finished optimizing after 1 evaluation(s) 
+INFO  [14:18:24.979] Result: 
+INFO  [14:18:24.980]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate learner_param_vals  x_domain classif.auc 
+INFO  [14:18:24.980]          2.055             5.745                   0.4581         <list[22]> <list[3]>         0.5 
+INFO  [14:18:26.262] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:18:26.456] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:18:26.475] Evaluating 1 configuration(s) 
+INFO  [14:18:26.633] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:18:26.639] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:18:26.910] [mlr3]  Finished benchmark 
+INFO  [14:18:26.999] Result of batch 1: 
+INFO  [14:18:27.001]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc                                uhash 
+INFO  [14:18:27.001]               8                  45                      11      0.7928 d5cbb7a3-1721-43b1-9576-e767d9d3ed34 
+INFO  [14:18:27.075] Finished optimizing after 1 evaluation(s) 
+INFO  [14:18:27.076] Result: 
+INFO  [14:18:27.078]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size learner_param_vals  x_domain classif.auc 
+INFO  [14:18:27.078]               8                  45                      11         <list[15]> <list[3]>      0.7928 
+INFO  [14:18:27.529] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:18:27.712] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:18:27.724] Evaluating 1 configuration(s) 
+INFO  [14:18:27.888] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:18:27.898] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:18:28.118] [mlr3]  Finished benchmark 
+INFO  [14:18:28.225] Result of batch 1: 
+INFO  [14:18:28.226]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc                                uhash 
+INFO  [14:18:28.226]               8                  21                      71      0.7863 7d17faca-4fff-4fbe-b204-a782869f4f8e 
+INFO  [14:18:28.278] Finished optimizing after 1 evaluation(s) 
+INFO  [14:18:28.279] Result: 
+INFO  [14:18:28.280]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size learner_param_vals  x_domain classif.auc 
+INFO  [14:18:28.280]               8                  21                      71         <list[15]> <list[3]>      0.7863 
+INFO  [14:18:28.701] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:18:29.071] Starting to optimize 5 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:18:29.092] Evaluating 1 configuration(s) 
+INFO  [14:18:29.491] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:18:29.497] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:18:31.738] [mlr3]  Finished benchmark 
+INFO  [14:18:31.968] Result of batch 1: 
+INFO  [14:18:31.970]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth encode.ps_xgboost.ps_xgboost.nrounds encode.ps_xgboost.ps_xgboost.colsample_bytree encode.ps_xgboost.ps_xgboost.subsample classif.auc                                uhash 
+INFO  [14:18:31.970]                            0.3789                                     19                                 4580                                        0.5267                                 0.6815      0.7341 a1a2a7be-981c-4b20-985f-fada7d88f494 
+INFO  [14:18:32.093] Finished optimizing after 1 evaluation(s) 
+INFO  [14:18:32.094] Result: 
+INFO  [14:18:32.096]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth encode.ps_xgboost.ps_xgboost.nrounds encode.ps_xgboost.ps_xgboost.colsample_bytree encode.ps_xgboost.ps_xgboost.subsample learner_param_vals  x_domain classif.auc 
+INFO  [14:18:32.096]                            0.3789                                     19                                 4580                                        0.5267                                 0.6815         <list[19]> <list[5]>      0.7341 
+INFO  [14:18:34.998] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:18:35.214] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:18:35.229] Evaluating 1 configuration(s) 
+INFO  [14:18:35.360] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:18:35.367] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:02.980] [mlr3]  Finished benchmark 
+INFO  [14:19:03.055] Result of batch 1: 
+INFO  [14:19:03.057]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc                                uhash 
+INFO  [14:19:03.057]          3.238             5.162                   0.1283         0.5 01868f3b-1a38-43be-836a-fb6dc6299ef2 
+INFO  [14:19:03.133] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:03.135] Result: 
+INFO  [14:19:03.137]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate learner_param_vals  x_domain classif.auc 
+INFO  [14:19:03.137]          3.238             5.162                   0.1283         <list[21]> <list[3]>         0.5 
+INFO  [14:19:04.098] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:19:04.225] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:04.256] Evaluating 1 configuration(s) 
+INFO  [14:19:04.379] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:04.385] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:04.608] [mlr3]  Finished benchmark 
+INFO  [14:19:04.676] Result of batch 1: 
+INFO  [14:19:04.678]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc                                uhash 
+INFO  [14:19:04.678]                 77      0.4074                 2         0.5 36c19e5f-e1d2-4842-bdfb-c84b64c36d4a 
+INFO  [14:19:04.716] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:04.717] Result: 
+INFO  [14:19:04.718]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth learner_param_vals  x_domain classif.auc 
+INFO  [14:19:04.718]                 77      0.4074                 2         <list[16]> <list[3]>         0.5 
+INFO  [14:19:05.044] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:19:05.203] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:05.217] Evaluating 1 configuration(s) 
+INFO  [14:19:05.384] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:05.390] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:06.779] [mlr3]  Finished benchmark 
+INFO  [14:19:06.868] Result of batch 1: 
+INFO  [14:19:06.870]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc                                uhash 
+INFO  [14:19:06.870]          3.481             2.773                   0.4897         0.5 609fd8db-efd6-4663-bb01-e77c7586561c 
+INFO  [14:19:06.910] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:06.911] Result: 
+INFO  [14:19:06.912]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate learner_param_vals  x_domain classif.auc 
+INFO  [14:19:06.912]          3.481             2.773                   0.4897         <list[21]> <list[3]>         0.5 
+INFO  [14:19:07.617] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:19:07.780] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:07.798] Evaluating 1 configuration(s) 
+INFO  [14:19:07.955] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:07.960] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:08.291] [mlr3]  Finished benchmark 
+INFO  [14:19:08.385] Result of batch 1: 
+INFO  [14:19:08.387]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.momentum classif.auc                                uhash 
+INFO  [14:19:08.387]                   9.718                      2.186                            0.1559                     0.001992         0.5 d525da20-5223-431e-a39f-b9ac840a90a6 
+INFO  [14:19:08.430] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:08.431] Result: 
+INFO  [14:19:08.432]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.momentum learner_param_vals  x_domain classif.auc 
+INFO  [14:19:08.432]                   9.718                      2.186                            0.1559                     0.001992         <list[23]> <list[4]>         0.5 
+INFO  [14:19:09.289] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [14:19:09.470] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:09.489] Evaluating 1 configuration(s) 
+INFO  [14:19:09.663] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:09.669] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:09.985] [mlr3]  Finished benchmark 
+INFO  [14:19:10.079] Result of batch 1: 
+INFO  [14:19:10.081]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.momentum classif.auc                                uhash 
+INFO  [14:19:10.081]                   8.442                      3.878                            0.1722                     0.009019         0.5 bc8b70ff-0b48-419c-b960-6447a7fa476b 
+INFO  [14:19:10.132] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:10.133] Result: 
+INFO  [14:19:10.135]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.momentum learner_param_vals  x_domain classif.auc 
+INFO  [14:19:10.135]                   8.442                      3.878                            0.1722                     0.009019         <list[24]> <list[4]>         0.5 
+INFO  [14:19:10.693] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [14:19:10.830] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:10.893] Evaluating 1 configuration(s) 
+INFO  [14:19:11.054] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:11.061] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:11.374] [mlr3]  Finished benchmark 
+INFO  [14:19:11.455] Result of batch 1: 
+INFO  [14:19:11.456]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.momentum classif.auc                                uhash 
+INFO  [14:19:11.456]                   6.279                      2.316                           0.06207                     0.004473         0.5 cca8139f-38ac-400b-bcc3-c95a5061f8c0 
+INFO  [14:19:11.502] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:11.503] Result: 
+INFO  [14:19:11.505]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.momentum learner_param_vals  x_domain classif.auc 
+INFO  [14:19:11.505]                   6.279                      2.316                           0.06207                     0.004473         <list[23]> <list[4]>         0.5 
+INFO  [14:19:12.056] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:19:12.193] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:12.208] Evaluating 1 configuration(s) 
+INFO  [14:19:12.370] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:12.376] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:12.774] [mlr3]  Finished benchmark 
+INFO  [14:19:12.853] Result of batch 1: 
+INFO  [14:19:12.855]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate classif.auc                                uhash 
+INFO  [14:19:12.855]          3.263             9.996                  0.08068         0.5 aaddf13d-fbb4-4fbd-ae73-d91d6a4c21aa 
+INFO  [14:19:12.899] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:12.900] Result: 
+INFO  [14:19:12.902]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate learner_param_vals  x_domain classif.auc 
+INFO  [14:19:12.902]          3.263             9.996                  0.08068         <list[22]> <list[3]>         0.5 
+INFO  [14:19:41.580] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [14:19:41.723] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [14:19:41.759] Evaluating 1 configuration(s) 
+INFO  [14:19:41.911] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [14:19:41.917] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/1) 
+INFO  [14:19:42.236] [mlr3]  Finished benchmark 
+INFO  [14:19:42.317] Result of batch 1: 
+INFO  [14:19:42.319]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.momentum classif.auc                                uhash 
+INFO  [14:19:42.319]                   4.757                      6.174                            0.4006                      0.00131         0.5 a3e45c6f-0fae-4898-b8fb-a3baf4da6d79 
+INFO  [14:19:42.385] Finished optimizing after 1 evaluation(s) 
+INFO  [14:19:42.387] Result: 
+INFO  [14:19:42.389]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.momentum learner_param_vals  x_domain classif.auc 
+INFO  [14:19:42.389]                   4.757                      6.174                            0.4006                      0.00131         <list[24]> <list[4]>         0.5 
+INFO  [14:19:42.954] [mlr3]  Finished benchmark 

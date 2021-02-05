@@ -712,15 +712,14 @@ Compboost = R6::R6Class("Compboost",
             l = LossQuadratic$new(self$stop_args$oob_offset, TRUE)
             scount = 1
           } else {
-            l = self$loss
+            if (class(self$loss) == "Rcpp_LossBinomial") {
+              l = LossBinomial$new(self$stop_args$oob_offset, TRUE)
+              scount = 1
+            } else {
+              l = self$loss
+            }
           }
 
-          if (class(self$loss) == "Rcpp_LossBinomial") {
-            l = LossBinomial$new(self$stop_args$oob_offset, TRUE)
-            scount = 1
-          } else {
-            l = self$loss
-          }
         } else {
           l = self$loss
         }
