@@ -37,7 +37,7 @@ learners_classif = list(
   classif_lrn_cboost_bin1,
   classif_lrn_cboost_bin2,
   classif_lrn_xgboost,
-  #classif_lrn_gamboost,
+  classif_lrn_gamboost,
   classif_lrn_rpart,
   classif_lrn_ranger)
 
@@ -82,7 +82,7 @@ learners_regr = list(
   regr_lrn_cboost_bin1,
   regr_lrn_cboost_bin2,
   regr_lrn_xgboost,
-  #regr_lrn_gamboost,
+  regr_lrn_gamboost,
   regr_lrn_rpart,
   regr_lrn_ranger)
 

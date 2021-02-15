@@ -18,7 +18,6 @@ LearnerRegrCompboost = R6Class("LearnerRegrCompboost",
           ParamLgl$new(id = "use_stopper", default = FALSE),
           ParamInt$new(id = "patience", default = 5, lower = 1),
           ParamDbl$new(id = "eps_for_break", default = 0),
-          ParamLgl$new(id = "silent", default = TRUE),
           ParamDbl$new(id = "bin_root", default = 0, lower = 0, upper = 4),
           ParamDbl$new(id = "df_cat", default = 1, lower = 1)
         )
@@ -40,7 +39,6 @@ LearnerRegrCompboost = R6Class("LearnerRegrCompboost",
 
   private = list(
     .train = function(task) {
-
 
       #browser()
       pdefaults = self$param_set$default
@@ -65,82 +63,45 @@ LearnerRegrCompboost = R6Class("LearnerRegrCompboost",
       out = list()
       seed = sample(seq_len(1e6), 1)
 
-      if (self$param_set$values$silent) {
+      nuisance = capture.output({
+        set.seed(seed)
+        cboost = compboost::boostSplines(
+          data = task$data(),
+          target = task$target_names,
+          iterations = self$param_set$values$mstop,
+          optimizer = optimizer,
+          loss = compboost::LossQuadratic$new(),
+          df = self$param_set$values$df,
+          learning_rate = self$param_set$values$learning_rate,
+          oob_fraction = self$param_set$values$oob_fraction,
+          stop_args = stop_args,
+          bin_root = self$param_set$values$bin_root,
+          df_cat = self$param_set$values$df_cat)
 
-        nuisance = capture.output({
-          set.seed(seed)
-          cboost = compboost::boostSplines(
-            data = task$data(),
-            target = task$target_names,
-            iterations = self$param_set$values$mstop,
-            optimizer = optimizer,
-            loss = compboost::LossQuadratic$new(),
-            df = self$param_set$values$df,
-            learning_rate = self$param_set$values$learning_rate,
-            oob_fraction = self$param_set$values$oob_fraction,
-            stop_args = stop_args,
-            bin_root = self$param_set$values$bin_root,
-            df_cat = self$param_set$values$df_cat)
+        out$cboost = cboost
+        iters = length(cboost$getSelectedBaselearner())
 
-          out$cboost = cboost
+        ### Restart:
+        if (self$param_set$values$optimizer == "nesterov") {
+          iters_remaining = self$param_set$values$mstop - iters
 
-          #browser()
-
-          ### Restart:
-          if (self$param_set$values$optimizer == "nesterov") {
-            stop_args_new = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break,
-              oob_offset = cboost$response_oob$getPrediction())
-
+          if (iters_remaining > 0) {
             set.seed(seed)
             cboost_restart = compboost::boostSplines(
               data = task$data(),
               target = task$target_names,
-              iterations = self$param_set$values$mstop - length(cboost$getSelectedBaselearner()),
+              iterations = iters_remaining,
               optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
-              loss = compboost::LossQuadratic$new(cboost$response$getPrediction(), TRUE),
+              loss = compboost::LossQuadratic$new(cboost$predict(task$data()), TRUE),
               df = self$param_set$values$df,
               learning_rate = self$param_set$values$learning_rate,
-              oob_fraction = self$param_set$values$oob_fraction,
-              stop_args = stop_args_new,
               bin_root = self$param_set$values$bin_root,
               df_cat = self$param_set$values$df_cat)
 
-            if (any(all.equal(cboost_restart$data, cboost$data) != TRUE)) stop("Train data is not equal")
-            if (any(all.equal(cboost_restart$oob_data, cboost$oob_data) != TRUE)) stop("Test data is not equal")
-
             out$cboost_restart = cboost_restart
           }
-        })
-      } else {
-        set.seed(seed)
-        cboost = compboost::boostSplines(data = task$data(), target = task$target_names,
-          iterations = self$param_set$values$mstop, optimizer = optimizer,
-          loss = compboost::LossQuadratic$new(), df = self$param_set$values$df,
-          learning_rate = self$param_set$values$learning_rate,
-          oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args,
-          bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
-
-        out$cboost = cboost
-
-        ### Restart:
-        if (self$param_set$values$optimizer == "nesterov") {
-          stop_args_new = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break,
-            oob_offset = cboost$response_oob$getPrediction())
-
-          set.seed(seed)
-          cboost_restart = compboost::boostSplines(data = task$data(), target = task$target_names,
-            iterations = self$param_set$values$mstop, optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
-            loss = compboost::LossQuadratic$new(cboost$predict(), TRUE), df = self$param_set$values$df,
-            learning_rate = self$param_set$values$learning_rate,
-            oob_fraction = self$param_set$values$oob_fraction, stop_args = stop_args_new,
-            bin_root = self$param_set$values$bin_root, df_cat = self$param_set$values$df_cat)
-
-          if (any(all.equal(cboost_restart$data, cboost$data) != TRUE)) stop("Train data is not equal")
-          if (any(all.equal(cboost_restart$oob_data, cboost$oob_data) != TRUE)) stop("Test data is not equal")
-
-          out$cboost_restart = cboost_restart
         }
-      }
+      })
       return (out)
     },
 
@@ -161,22 +122,19 @@ LearnerRegrCompboost = R6Class("LearnerRegrCompboost",
   )
 )
 
-mlr_learners$add("regr.compboost", LearnerRegrCompboost)
+mlr_learners$add("regr.ocmpboost", LearnerRegrCompboost)
 
 
 
 #lr1 = lrn("regr.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, mstop = 5000L)
-#lr2 = lrn("regr.compboost", use_stopper = TRUE, eps_for_break = 0, patience = 5, oob_fraction = 0.3, mstop = 5000L)
-#
-#lpo1 = robustify %>>% lr1
-#lpo2 = robustify %>>% lr2
-#
-#lpo1$train(tasks_regr[["crime"]])
-#lpo2$train(tasks_regr[["crime"]])
-#
-#p1 = lpo1$predict(tasks_regr[["crime"]])
-#p2 = lpo2$predict(tasks_regr[["crime"]])
-#
+#lr2 = lrn("regr.compboost", mstop = 5000L)
+
+#lr1$train(tsk("mtcars"))
+#lr2$train(tsk("mtcars"))
+
+#p1 = lpo1$predict(tsk("mtcars"))
+#p2 = lpo2$predict(tsk("mtcars"))
+
 #p1
 #p2
 #
