@@ -1,0 +1,510 @@
+INFO  [11:42:52.005] [mlr3]  Benchmark with 8 resampling iterations 
+INFO  [11:42:52.011] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:52.174] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:42:52.192] Evaluating 1 configuration(s) 
+INFO  [11:42:52.343] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:42:52.349] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:57.560] [mlr3]  Finished benchmark 
+INFO  [11:42:57.687] Result of batch 1: 
+INFO  [11:42:57.689]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:42:57.689]          7.527             9.579                   0.2039             7607 
+INFO  [11:42:57.689]  classif.auc                                uhash 
+INFO  [11:42:57.689]       0.9407 2b3e76f0-be5a-4a41-abbb-c9a42d76f29b 
+INFO  [11:42:57.695] Evaluating 1 configuration(s) 
+INFO  [11:42:57.857] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:42:57.867] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:58.623] [mlr3]  Finished benchmark 
+INFO  [11:42:58.738] Result of batch 2: 
+INFO  [11:42:58.741]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:42:58.741]          7.433             8.128                   0.3321             1431 
+INFO  [11:42:58.741]  classif.auc                                uhash 
+INFO  [11:42:58.741]       0.9532 86da4834-3435-48a3-9a99-ca6a51d3fbe7 
+INFO  [11:42:58.749] Evaluating 1 configuration(s) 
+INFO  [11:42:58.891] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:42:58.897] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:06.010] [mlr3]  Finished benchmark 
+INFO  [11:43:06.106] Result of batch 3: 
+INFO  [11:43:06.108]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:06.108]          7.672             6.272                   0.4216             8780 
+INFO  [11:43:06.108]  classif.auc                                uhash 
+INFO  [11:43:06.108]       0.9337 d0fc34a6-16ce-4828-9714-891053657ae1 
+INFO  [11:43:06.114] Evaluating 1 configuration(s) 
+INFO  [11:43:06.284] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:06.291] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:13.038] [mlr3]  Finished benchmark 
+INFO  [11:43:13.155] Result of batch 4: 
+INFO  [11:43:13.157]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:13.157]          2.298             9.141                    0.436             8319 
+INFO  [11:43:13.157]  classif.auc                                uhash 
+INFO  [11:43:13.157]       0.9681 bf30154d-8358-4bff-ab98-8c932121589f 
+INFO  [11:43:13.164] Evaluating 1 configuration(s) 
+INFO  [11:43:13.339] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:13.346] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:18.690] [mlr3]  Finished benchmark 
+INFO  [11:43:18.835] Result of batch 5: 
+INFO  [11:43:18.837]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:18.837]          5.712             9.238                   0.1058             5766 
+INFO  [11:43:18.837]  classif.auc                                uhash 
+INFO  [11:43:18.837]       0.9578 f927473b-5089-44e5-accd-edf48ab17233 
+INFO  [11:43:18.891] Finished optimizing after 5 evaluation(s) 
+INFO  [11:43:18.892] Result: 
+INFO  [11:43:18.894]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:18.894]          2.298             9.141                    0.436             8319 
+INFO  [11:43:18.894]  learner_param_vals  x_domain classif.auc 
+INFO  [11:43:18.894]          <list[17]> <list[4]>      0.9681 
+INFO  [11:43:29.188] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:29.479] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:43:29.496] Evaluating 1 configuration(s) 
+INFO  [11:43:29.732] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:29.739] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:30.217] [mlr3]  Finished benchmark 
+INFO  [11:43:30.347] Result of batch 1: 
+INFO  [11:43:30.349]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc 
+INFO  [11:43:30.349]               7                  47                      96       0.927 
+INFO  [11:43:30.349]                                 uhash 
+INFO  [11:43:30.349]  4eb6c517-ceec-4241-9e63-2a8bbe1693d6 
+INFO  [11:43:30.353] Evaluating 1 configuration(s) 
+INFO  [11:43:30.563] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:30.569] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:31.023] [mlr3]  Finished benchmark 
+INFO  [11:43:31.151] Result of batch 2: 
+INFO  [11:43:31.153]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc 
+INFO  [11:43:31.153]              11                  41                       3      0.9291 
+INFO  [11:43:31.153]                                 uhash 
+INFO  [11:43:31.153]  b16f52ac-6fdb-4342-a1c6-4d11427eeba0 
+INFO  [11:43:31.157] Evaluating 1 configuration(s) 
+INFO  [11:43:31.373] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:31.380] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:31.918] [mlr3]  Finished benchmark 
+INFO  [11:43:32.044] Result of batch 3: 
+INFO  [11:43:32.045]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc 
+INFO  [11:43:32.045]               9                   8                      19       0.931 
+INFO  [11:43:32.045]                                 uhash 
+INFO  [11:43:32.045]  b180fcd4-b71b-4be8-a681-a1d06c0f35d4 
+INFO  [11:43:32.050] Evaluating 1 configuration(s) 
+INFO  [11:43:32.298] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:32.306] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:32.930] [mlr3]  Finished benchmark 
+INFO  [11:43:33.030] Result of batch 4: 
+INFO  [11:43:33.032]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc 
+INFO  [11:43:33.032]              14                  37                      73       0.926 
+INFO  [11:43:33.032]                                 uhash 
+INFO  [11:43:33.032]  73330efd-acf2-4316-9110-a7c82b24f092 
+INFO  [11:43:33.047] Evaluating 1 configuration(s) 
+INFO  [11:43:33.271] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:33.282] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:33.703] [mlr3]  Finished benchmark 
+INFO  [11:43:33.841] Result of batch 5: 
+INFO  [11:43:33.843]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size classif.auc 
+INFO  [11:43:33.843]               6                  31                      96       0.927 
+INFO  [11:43:33.843]                                 uhash 
+INFO  [11:43:33.843]  aa09ac87-56ac-47b3-bb47-bb363a0ff52f 
+INFO  [11:43:33.900] Finished optimizing after 5 evaluation(s) 
+INFO  [11:43:33.901] Result: 
+INFO  [11:43:33.902]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size learner_param_vals 
+INFO  [11:43:33.902]               9                   8                      19         <list[15]> 
+INFO  [11:43:33.902]   x_domain classif.auc 
+INFO  [11:43:33.902]  <list[3]>       0.931 
+INFO  [11:43:34.580] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:35.033] Starting to optimize 5 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:43:35.069] Evaluating 1 configuration(s) 
+INFO  [11:43:35.594] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:35.604] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:39.100] [mlr3]  Finished benchmark 
+INFO  [11:43:39.376] Result of batch 1: 
+INFO  [11:43:39.379]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth 
+INFO  [11:43:39.379]                            0.3616                                     10 
+INFO  [11:43:39.379]  encode.ps_xgboost.ps_xgboost.nrounds 
+INFO  [11:43:39.379]                                  4877 
+INFO  [11:43:39.379]  encode.ps_xgboost.ps_xgboost.colsample_bytree 
+INFO  [11:43:39.379]                                         0.1005 
+INFO  [11:43:39.379]  encode.ps_xgboost.ps_xgboost.subsample classif.auc 
+INFO  [11:43:39.379]                                  0.6621      0.9033 
+INFO  [11:43:39.379]                                 uhash 
+INFO  [11:43:39.379]  a6456d32-ea8f-4be3-b240-3eb455dd3c2d 
+INFO  [11:43:39.388] Evaluating 1 configuration(s) 
+INFO  [11:43:39.915] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:39.927] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:42.323] [mlr3]  Finished benchmark 
+INFO  [11:43:42.598] Result of batch 2: 
+INFO  [11:43:42.601]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth 
+INFO  [11:43:42.601]                            0.0632                                      1 
+INFO  [11:43:42.601]  encode.ps_xgboost.ps_xgboost.nrounds 
+INFO  [11:43:42.601]                                  3086 
+INFO  [11:43:42.601]  encode.ps_xgboost.ps_xgboost.colsample_bytree 
+INFO  [11:43:42.601]                                         0.2262 
+INFO  [11:43:42.601]  encode.ps_xgboost.ps_xgboost.subsample classif.auc 
+INFO  [11:43:42.601]                                   0.989      0.9333 
+INFO  [11:43:42.601]                                 uhash 
+INFO  [11:43:42.601]  81248171-dae7-4592-a0f8-4c08ff028fad 
+INFO  [11:43:42.611] Evaluating 1 configuration(s) 
+INFO  [11:43:43.146] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:43.159] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:46.083] [mlr3]  Finished benchmark 
+INFO  [11:43:46.351] Result of batch 3: 
+INFO  [11:43:46.353]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth 
+INFO  [11:43:46.353]                            0.4649                                     14 
+INFO  [11:43:46.353]  encode.ps_xgboost.ps_xgboost.nrounds 
+INFO  [11:43:46.353]                                  3690 
+INFO  [11:43:46.353]  encode.ps_xgboost.ps_xgboost.colsample_bytree 
+INFO  [11:43:46.353]                                         0.6712 
+INFO  [11:43:46.353]  encode.ps_xgboost.ps_xgboost.subsample classif.auc 
+INFO  [11:43:46.353]                                   0.792      0.9251 
+INFO  [11:43:46.353]                                 uhash 
+INFO  [11:43:46.353]  c7dfa493-2b1a-41c7-883a-d28bf3003620 
+INFO  [11:43:46.370] Evaluating 1 configuration(s) 
+INFO  [11:43:46.937] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:46.943] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:48.385] [mlr3]  Finished benchmark 
+INFO  [11:43:48.654] Result of batch 4: 
+INFO  [11:43:48.656]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth 
+INFO  [11:43:48.656]                            0.4098                                      4 
+INFO  [11:43:48.656]  encode.ps_xgboost.ps_xgboost.nrounds 
+INFO  [11:43:48.656]                                  1168 
+INFO  [11:43:48.656]  encode.ps_xgboost.ps_xgboost.colsample_bytree 
+INFO  [11:43:48.656]                                         0.8888 
+INFO  [11:43:48.656]  encode.ps_xgboost.ps_xgboost.subsample classif.auc 
+INFO  [11:43:48.656]                                  0.7737      0.9254 
+INFO  [11:43:48.656]                                 uhash 
+INFO  [11:43:48.656]  fd644583-2896-44ac-b948-9c657a409d4f 
+INFO  [11:43:48.662] Evaluating 1 configuration(s) 
+INFO  [11:43:49.242] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:49.249] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.encode.ps_xgboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:52.356] [mlr3]  Finished benchmark 
+INFO  [11:43:52.855] Result of batch 5: 
+INFO  [11:43:52.857]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth 
+INFO  [11:43:52.857]                            0.2862                                      7 
+INFO  [11:43:52.857]  encode.ps_xgboost.ps_xgboost.nrounds 
+INFO  [11:43:52.857]                                  3549 
+INFO  [11:43:52.857]  encode.ps_xgboost.ps_xgboost.colsample_bytree 
+INFO  [11:43:52.857]                                         0.7931 
+INFO  [11:43:52.857]  encode.ps_xgboost.ps_xgboost.subsample classif.auc 
+INFO  [11:43:52.857]                                  0.4213      0.9094 
+INFO  [11:43:52.857]                                 uhash 
+INFO  [11:43:52.857]  367ac3da-676b-4f37-9045-8f75f99e6582 
+INFO  [11:43:52.996] Finished optimizing after 5 evaluation(s) 
+INFO  [11:43:52.997] Result: 
+INFO  [11:43:52.999]  encode.ps_xgboost.ps_xgboost.eta encode.ps_xgboost.ps_xgboost.max_depth 
+INFO  [11:43:52.999]                            0.0632                                      1 
+INFO  [11:43:52.999]  encode.ps_xgboost.ps_xgboost.nrounds 
+INFO  [11:43:52.999]                                  3086 
+INFO  [11:43:52.999]  encode.ps_xgboost.ps_xgboost.colsample_bytree 
+INFO  [11:43:52.999]                                         0.2262 
+INFO  [11:43:52.999]  encode.ps_xgboost.ps_xgboost.subsample learner_param_vals  x_domain 
+INFO  [11:43:52.999]                                   0.989         <list[19]> <list[5]> 
+INFO  [11:43:52.999]  classif.auc 
+INFO  [11:43:52.999]       0.9333 
+INFO  [11:43:56.016] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:56.212] Starting to optimize 4 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:43:56.232] Evaluating 1 configuration(s) 
+INFO  [11:43:56.377] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:56.384] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:58.410] [mlr3]  Finished benchmark 
+INFO  [11:43:58.532] Result of batch 1: 
+INFO  [11:43:58.534]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate ps_cboost2.mstop 
+INFO  [11:43:58.534]          3.286             9.894                   0.1013             4279 
+INFO  [11:43:58.534]  classif.auc                                uhash 
+INFO  [11:43:58.534]       0.9114 268d765e-f497-4fa5-bcf5-973dae7b05f4 
+INFO  [11:43:58.541] Evaluating 1 configuration(s) 
+INFO  [11:43:58.727] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:58.734] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:59.126] [mlr3]  Finished benchmark 
+INFO  [11:43:59.228] Result of batch 2: 
+INFO  [11:43:59.230]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate ps_cboost2.mstop 
+INFO  [11:43:59.230]          8.577             4.698                   0.2149              375 
+INFO  [11:43:59.230]  classif.auc                                uhash 
+INFO  [11:43:59.230]       0.9213 2da6d076-4244-4cdc-984e-c231a7783d3c 
+INFO  [11:43:59.237] Evaluating 1 configuration(s) 
+INFO  [11:43:59.393] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:43:59.399] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:01.919] [mlr3]  Finished benchmark 
+INFO  [11:44:02.058] Result of batch 3: 
+INFO  [11:44:02.060]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate ps_cboost2.mstop 
+INFO  [11:44:02.060]          6.016              5.41                  0.06586             4909 
+INFO  [11:44:02.060]  classif.auc                                uhash 
+INFO  [11:44:02.060]       0.9065 29bb0e3e-ad0e-4cf1-8c76-387f72664174 
+INFO  [11:44:02.067] Evaluating 1 configuration(s) 
+INFO  [11:44:02.227] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:02.234] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:05.609] [mlr3]  Finished benchmark 
+INFO  [11:44:05.728] Result of batch 4: 
+INFO  [11:44:05.731]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate ps_cboost2.mstop 
+INFO  [11:44:05.731]          4.172             7.112                   0.4388             5734 
+INFO  [11:44:05.731]  classif.auc                                uhash 
+INFO  [11:44:05.731]       0.8896 89192d39-cf2e-44d8-bee9-6b80d8d24bd7 
+INFO  [11:44:05.738] Evaluating 1 configuration(s) 
+INFO  [11:44:05.903] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:05.910] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:14.679] [mlr3]  Finished benchmark 
+INFO  [11:44:14.783] Result of batch 5: 
+INFO  [11:44:14.785]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate ps_cboost2.mstop 
+INFO  [11:44:14.785]           9.46             9.073                  0.07618             9641 
+INFO  [11:44:14.785]  classif.auc                                uhash 
+INFO  [11:44:14.785]       0.9058 aae6a960-a264-4d05-97e4-46642f1ed2d4 
+INFO  [11:44:14.844] Finished optimizing after 5 evaluation(s) 
+INFO  [11:44:14.845] Result: 
+INFO  [11:44:14.847]  ps_cboost2.df ps_cboost2.df_cat ps_cboost2.learning_rate ps_cboost2.mstop 
+INFO  [11:44:14.847]          8.577             4.698                   0.2149              375 
+INFO  [11:44:14.847]  learner_param_vals  x_domain classif.auc 
+INFO  [11:44:14.847]          <list[19]> <list[4]>      0.9213 
+INFO  [11:44:15.447] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:15.643] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:44:15.662] Evaluating 1 configuration(s) 
+INFO  [11:44:15.801] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:15.807] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:16.100] [mlr3]  Finished benchmark 
+INFO  [11:44:16.180] Result of batch 1: 
+INFO  [11:44:16.183]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc 
+INFO  [11:44:16.183]                  6      0.4646                22         0.5 
+INFO  [11:44:16.183]                                 uhash 
+INFO  [11:44:16.183]  1094987a-d267-4952-83d5-5093d2868d16 
+INFO  [11:44:16.189] Evaluating 1 configuration(s) 
+INFO  [11:44:16.337] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:16.343] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:16.648] [mlr3]  Finished benchmark 
+INFO  [11:44:16.732] Result of batch 2: 
+INFO  [11:44:16.734]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc 
+INFO  [11:44:16.734]                 30      0.7129                13         0.5 
+INFO  [11:44:16.734]                                 uhash 
+INFO  [11:44:16.734]  842e3b17-84ee-45ac-83d5-99d5e6f9c163 
+INFO  [11:44:16.738] Evaluating 1 configuration(s) 
+INFO  [11:44:16.875] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:16.881] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:17.170] [mlr3]  Finished benchmark 
+INFO  [11:44:17.263] Result of batch 3: 
+INFO  [11:44:17.265]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc 
+INFO  [11:44:17.265]                100      0.6588                17         0.5 
+INFO  [11:44:17.265]                                 uhash 
+INFO  [11:44:17.265]  7c466c6f-601d-4254-addd-a26f19aa8ed5 
+INFO  [11:44:17.269] Evaluating 1 configuration(s) 
+INFO  [11:44:17.392] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:17.399] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:17.701] [mlr3]  Finished benchmark 
+INFO  [11:44:17.792] Result of batch 4: 
+INFO  [11:44:17.794]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc 
+INFO  [11:44:17.794]                  8      0.1127                25      0.7136 
+INFO  [11:44:17.794]                                 uhash 
+INFO  [11:44:17.794]  8ae1f15e-e2d9-4e71-9b91-6b244bac2d1f 
+INFO  [11:44:17.799] Evaluating 1 configuration(s) 
+INFO  [11:44:17.939] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:17.945] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_rpart' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:18.234] [mlr3]  Finished benchmark 
+INFO  [11:44:18.313] Result of batch 5: 
+INFO  [11:44:18.315]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth classif.auc 
+INFO  [11:44:18.315]                 95      0.7509                24         0.5 
+INFO  [11:44:18.315]                                 uhash 
+INFO  [11:44:18.315]  9420e31a-b932-467a-afb2-6e8dbb490fea 
+INFO  [11:44:18.367] Finished optimizing after 5 evaluation(s) 
+INFO  [11:44:18.369] Result: 
+INFO  [11:44:18.371]  ps_rpart.minsplit ps_rpart.cp ps_rpart.maxdepth learner_param_vals  x_domain 
+INFO  [11:44:18.371]                  8      0.1127                25         <list[16]> <list[3]> 
+INFO  [11:44:18.371]  classif.auc 
+INFO  [11:44:18.371]       0.7136 
+INFO  [11:44:18.783] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:18.934] Starting to optimize 6 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:44:18.960] Evaluating 1 configuration(s) 
+INFO  [11:44:19.106] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:19.113] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:20.918] [mlr3]  Finished benchmark 
+INFO  [11:44:20.997] Result of batch 1: 
+INFO  [11:44:20.999]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat 
+INFO  [11:44:20.999]                   7.459                      8.455 
+INFO  [11:44:20.999]  ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.oob_fraction 
+INFO  [11:44:20.999]                             0.3089                           0.3537 
+INFO  [11:44:20.999]  ps_cboost_nesterov2.mstop ps_cboost_nesterov2.momentum classif.auc 
+INFO  [11:44:20.999]                       2451                      0.03035      0.9495 
+INFO  [11:44:20.999]                                 uhash 
+INFO  [11:44:20.999]  3fc962c2-a471-42df-bae7-569359d5a96a 
+INFO  [11:44:21.005] Evaluating 1 configuration(s) 
+INFO  [11:44:21.146] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:21.152] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:25.240] [mlr3]  Finished benchmark 
+INFO  [11:44:25.356] Result of batch 2: 
+INFO  [11:44:25.358]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat 
+INFO  [11:44:25.358]                   5.683                      4.441 
+INFO  [11:44:25.358]  ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.oob_fraction 
+INFO  [11:44:25.358]                             0.2322                           0.3803 
+INFO  [11:44:25.358]  ps_cboost_nesterov2.mstop ps_cboost_nesterov2.momentum classif.auc 
+INFO  [11:44:25.358]                       8947                      0.09996      0.9729 
+INFO  [11:44:25.358]                                 uhash 
+INFO  [11:44:25.358]  d13365e1-7b60-4b86-934a-a3dae82dabbe 
+INFO  [11:44:25.364] Evaluating 1 configuration(s) 
+INFO  [11:44:25.514] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:25.529] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:26.303] [mlr3]  Finished benchmark 
+INFO  [11:44:26.387] Result of batch 3: 
+INFO  [11:44:26.389]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat 
+INFO  [11:44:26.389]                   6.571                      4.696 
+INFO  [11:44:26.389]  ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.oob_fraction 
+INFO  [11:44:26.389]                             0.3211                           0.2868 
+INFO  [11:44:26.389]  ps_cboost_nesterov2.mstop ps_cboost_nesterov2.momentum classif.auc 
+INFO  [11:44:26.389]                       1887                      0.01611      0.8848 
+INFO  [11:44:26.389]                                 uhash 
+INFO  [11:44:26.389]  fe7ee0df-6c25-4b9e-843c-4c4d54f49153 
+INFO  [11:44:26.395] Evaluating 1 configuration(s) 
+INFO  [11:44:26.549] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:26.555] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:27.291] [mlr3]  Finished benchmark 
+INFO  [11:44:27.380] Result of batch 4: 
+INFO  [11:44:27.383]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat 
+INFO  [11:44:27.383]                   9.137                       3.57 
+INFO  [11:44:27.383]  ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.oob_fraction 
+INFO  [11:44:27.383]                             0.4306                           0.4959 
+INFO  [11:44:27.383]  ps_cboost_nesterov2.mstop ps_cboost_nesterov2.momentum classif.auc 
+INFO  [11:44:27.383]                       2012                      0.03443      0.8528 
+INFO  [11:44:27.383]                                 uhash 
+INFO  [11:44:27.383]  c8da63f7-f8c1-4986-8a85-c3240a2fc473 
+INFO  [11:44:27.390] Evaluating 1 configuration(s) 
+INFO  [11:44:27.582] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:27.589] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov2' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:30.977] [mlr3]  Finished benchmark 
+INFO  [11:44:31.095] Result of batch 5: 
+INFO  [11:44:31.097]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat 
+INFO  [11:44:31.097]                   4.054                      4.533 
+INFO  [11:44:31.097]  ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.oob_fraction 
+INFO  [11:44:31.097]                             0.4873                           0.2668 
+INFO  [11:44:31.097]  ps_cboost_nesterov2.mstop ps_cboost_nesterov2.momentum classif.auc 
+INFO  [11:44:31.097]                       8406                      0.03412      0.9386 
+INFO  [11:44:31.097]                                 uhash 
+INFO  [11:44:31.097]  c99741da-da07-4055-a895-858203a48806 
+INFO  [11:44:31.138] Finished optimizing after 5 evaluation(s) 
+INFO  [11:44:31.139] Result: 
+INFO  [11:44:31.141]  ps_cboost_nesterov2.df ps_cboost_nesterov2.df_cat 
+INFO  [11:44:31.141]                   5.683                      4.441 
+INFO  [11:44:31.141]  ps_cboost_nesterov2.learning_rate ps_cboost_nesterov2.oob_fraction 
+INFO  [11:44:31.141]                             0.2322                           0.3803 
+INFO  [11:44:31.141]  ps_cboost_nesterov2.mstop ps_cboost_nesterov2.momentum learner_param_vals 
+INFO  [11:44:31.141]                       8947                      0.09996         <list[23]> 
+INFO  [11:44:31.141]   x_domain classif.auc 
+INFO  [11:44:31.141]  <list[6]>      0.9729 
+INFO  [11:44:35.520] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:35.732] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:44:35.746] Evaluating 1 configuration(s) 
+INFO  [11:44:35.899] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:35.906] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:57.112] [mlr3]  Finished benchmark 
+INFO  [11:44:57.191] Result of batch 1: 
+INFO  [11:44:57.203]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [11:44:57.203]                   7              6335         0.3532      0.8738 
+INFO  [11:44:57.203]                                 uhash 
+INFO  [11:44:57.203]  50f4ed1d-383f-48df-89de-1896d4c235f4 
+INFO  [11:44:57.207] Evaluating 1 configuration(s) 
+INFO  [11:44:57.336] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:44:57.343] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:16.038] [mlr3]  Finished benchmark 
+INFO  [11:45:16.125] Result of batch 2: 
+INFO  [11:45:16.127]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [11:45:16.127]                   6              6569         0.1166      0.8888 
+INFO  [11:45:16.127]                                 uhash 
+INFO  [11:45:16.127]  0fa88b68-50d0-4083-9c9d-51398b370f02 
+INFO  [11:45:16.131] Evaluating 1 configuration(s) 
+INFO  [11:45:16.263] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:45:16.269] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:29.985] [mlr3]  Finished benchmark 
+INFO  [11:45:30.070] Result of batch 3: 
+INFO  [11:45:30.072]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [11:45:30.072]                   9              4754         0.3518      0.8599 
+INFO  [11:45:30.072]                                 uhash 
+INFO  [11:45:30.072]  85a4645c-a452-4611-89bb-aaae72495f41 
+INFO  [11:45:30.077] Evaluating 1 configuration(s) 
+INFO  [11:45:30.220] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:45:30.227] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:52.208] [mlr3]  Finished benchmark 
+INFO  [11:45:52.294] Result of batch 4: 
+INFO  [11:45:52.296]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [11:45:52.296]                   4              7501          0.474      0.8968 
+INFO  [11:45:52.296]                                 uhash 
+INFO  [11:45:52.296]  fb57eba4-295f-445b-806f-81e8268b82d4 
+INFO  [11:45:52.300] Evaluating 1 configuration(s) 
+INFO  [11:45:52.438] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:45:52.444] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:53.553] [mlr3]  Finished benchmark 
+INFO  [11:45:53.643] Result of batch 5: 
+INFO  [11:45:53.645]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [11:45:53.645]                   7               186         0.1251      0.9591 
+INFO  [11:45:53.645]                                 uhash 
+INFO  [11:45:53.645]  ab1b02aa-3d92-4ae1-8367-cff69ff29d5c 
+INFO  [11:45:53.691] Finished optimizing after 5 evaluation(s) 
+INFO  [11:45:53.692] Result: 
+INFO  [11:45:53.693]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu learner_param_vals 
+INFO  [11:45:53.693]                   7               186         0.1251         <list[15]> 
+INFO  [11:45:53.693]   x_domain classif.auc 
+INFO  [11:45:53.693]  <list[3]>      0.9591 
+INFO  [11:45:54.862] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1.tuned' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:55.016] Starting to optimize 6 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [11:45:55.070] Evaluating 1 configuration(s) 
+INFO  [11:45:55.249] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:45:55.258] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:59.325] [mlr3]  Finished benchmark 
+INFO  [11:45:59.416] Result of batch 1: 
+INFO  [11:45:59.418]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat 
+INFO  [11:45:59.418]                   4.955                      4.997 
+INFO  [11:45:59.418]  ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.oob_fraction 
+INFO  [11:45:59.418]                             0.2318                           0.2952 
+INFO  [11:45:59.418]  ps_cboost_nesterov1.mstop ps_cboost_nesterov1.momentum classif.auc 
+INFO  [11:45:59.418]                       3284                      0.04547      0.9647 
+INFO  [11:45:59.418]                                 uhash 
+INFO  [11:45:59.418]  a9982a43-6541-463d-a7a7-4e5b089e86de 
+INFO  [11:45:59.425] Evaluating 1 configuration(s) 
+INFO  [11:45:59.577] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:45:59.583] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:00.238] [mlr3]  Finished benchmark 
+INFO  [11:46:00.336] Result of batch 2: 
+INFO  [11:46:00.339]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat 
+INFO  [11:46:00.339]                   3.777                      9.057 
+INFO  [11:46:00.339]  ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.oob_fraction 
+INFO  [11:46:00.339]                              0.283                           0.4564 
+INFO  [11:46:00.339]  ps_cboost_nesterov1.mstop ps_cboost_nesterov1.momentum classif.auc 
+INFO  [11:46:00.339]                        587                      0.03597      0.9308 
+INFO  [11:46:00.339]                                 uhash 
+INFO  [11:46:00.339]  07f2bdac-b530-4a47-933c-d98b797b5792 
+INFO  [11:46:00.347] Evaluating 1 configuration(s) 
+INFO  [11:46:00.497] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:46:00.503] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:02.135] [mlr3]  Finished benchmark 
+INFO  [11:46:02.236] Result of batch 3: 
+INFO  [11:46:02.238]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat 
+INFO  [11:46:02.238]                   7.438                      5.227 
+INFO  [11:46:02.238]  ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.oob_fraction 
+INFO  [11:46:02.238]                             0.1984                           0.3446 
+INFO  [11:46:02.238]  ps_cboost_nesterov1.mstop ps_cboost_nesterov1.momentum classif.auc 
+INFO  [11:46:02.238]                       2814                      0.08219      0.8299 
+INFO  [11:46:02.238]                                 uhash 
+INFO  [11:46:02.238]  62cc9a13-b128-4550-983e-92794f8c4177 
+INFO  [11:46:02.273] Evaluating 1 configuration(s) 
+INFO  [11:46:02.413] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:46:02.419] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:04.357] [mlr3]  Finished benchmark 
+INFO  [11:46:04.454] Result of batch 4: 
+INFO  [11:46:04.457]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat 
+INFO  [11:46:04.457]                   5.063                      5.687 
+INFO  [11:46:04.457]  ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.oob_fraction 
+INFO  [11:46:04.457]                            0.01225                           0.2421 
+INFO  [11:46:04.457]  ps_cboost_nesterov1.mstop ps_cboost_nesterov1.momentum classif.auc 
+INFO  [11:46:04.457]                       3117                     0.007047      0.8426 
+INFO  [11:46:04.457]                                 uhash 
+INFO  [11:46:04.457]  7beb0eb9-ac85-4fcb-baf2-7e8ea4d7b991 
+INFO  [11:46:04.464] Evaluating 1 configuration(s) 
+INFO  [11:46:04.635] [mlr3]  Benchmark with 1 resampling iterations 
+INFO  [11:46:04.642] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 4534: analcatdata_halloffame (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:05.269] [mlr3]  Finished benchmark 
+INFO  [11:46:05.382] Result of batch 5: 
+INFO  [11:46:05.384]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat 
+INFO  [11:46:05.384]                   3.862                      6.664 
+INFO  [11:46:05.384]  ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.oob_fraction 
+INFO  [11:46:05.384]                             0.2339                           0.4153 
+INFO  [11:46:05.384]  ps_cboost_nesterov1.mstop ps_cboost_nesterov1.momentum classif.auc 
+INFO  [11:46:05.384]                        494                      0.02839      0.9455 
+INFO  [11:46:05.384]                                 uhash 
+INFO  [11:46:05.384]  52330298-d167-4bec-b030-a327cdd81265 
+INFO  [11:46:05.442] Finished optimizing after 5 evaluation(s) 
+INFO  [11:46:05.443] Result: 
+INFO  [11:46:05.445]  ps_cboost_nesterov1.df ps_cboost_nesterov1.df_cat 
+INFO  [11:46:05.445]                   4.955                      4.997 
+INFO  [11:46:05.445]  ps_cboost_nesterov1.learning_rate ps_cboost_nesterov1.oob_fraction 
+INFO  [11:46:05.445]                             0.2318                           0.2952 
+INFO  [11:46:05.445]  ps_cboost_nesterov1.mstop ps_cboost_nesterov1.momentum learner_param_vals 
+INFO  [11:46:05.445]                       3284                      0.04547         <list[22]> 
+INFO  [11:46:05.445]   x_domain classif.auc 
+INFO  [11:46:05.445]  <list[6]>      0.9647 
+INFO  [11:46:10.457] [mlr3]  Finished benchmark 

@@ -122,7 +122,7 @@ LearnerRegrCompboost = R6Class("LearnerRegrCompboost",
   )
 )
 
-mlr_learners$add("regr.ocmpboost", LearnerRegrCompboost)
+mlr_learners$add("regr.compboost", LearnerRegrCompboost)
 
 
 
