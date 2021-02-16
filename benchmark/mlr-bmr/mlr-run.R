@@ -23,23 +23,34 @@ source(paste0(bm_dir, "regrCompboost.R"))
 ### Benchmark:
 ### ==========================================
 
-test = FALSE
-if (test) {
-  n_evals = 1L
+bm_test = TRUE
+bm_small = FALSE
+bm_full = FALSE
+
+if (bm_test) {
+  n_evals = 5L
   resampling_inner = rsmp("holdout")
   resampling_outer = rsmp("holdout")
-} else {
+}
+if (bm_small) {
+  n_evals = 50L
+  resampling_inner = rsmp("cv", folds = 3)
+  resampling_outer = rsmp("cv", folds = 3)
+}
+if (bm_full) {
   n_evals = 100L
   resampling_inner = rsmp("cv", folds = 3)
   resampling_outer = rsmp("cv", folds = 5)
 }
+
+
 measure_classif = msr("classif.auc")
 measure_regr = msr("regr.mse")
 
 source(paste0(bm_dir, "tasks.R"))
-if (FALSE) {
-  tasks_classif = tasks_classif[[1]]
-  tasks_regr = tasks_regr[[1]]
+if (bm_test) {
+  tasks_classif = tasks_classif[1:2]
+  tasks_regr = tasks_regr[1:2]
 }
 source(paste0(bm_dir, "param-sets.R"))
 source(paste0(bm_dir, "learners.R"))

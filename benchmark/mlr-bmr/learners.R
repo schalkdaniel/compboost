@@ -2,14 +2,10 @@
 ## ---------------------
 
 ncores = 5L
-oob_frac = 0.4
-mstop = 20000L
 
 ### Classification
 
-classif_lrn_cboost1 = lrn("classif.compboost", id = "ps_cboost1", oob_fraction = oob_frac,
-  use_stopper = TRUE, silent = TRUE, mstop = mstop, ncores = ncores,
-  predict_type = "prob", patience = 5L)
+classif_lrn_cboost1 = lrn("classif.compboost", id = "ps_cboost1",  ncores = ncores, predict_type = "prob")
 
 classif_lrn_cboost2 = lrn("classif.compboost", id = "ps_cboost_nesterov1",
   oob_fraction = oob_frac, use_stopper = TRUE, silent = TRUE, mstop = mstop,

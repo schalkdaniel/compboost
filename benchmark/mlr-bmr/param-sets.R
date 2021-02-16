@@ -17,7 +17,8 @@ ps_cboost = function (task, id) {
     params = list(
       ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10L),
       ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10L),
-      ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5)
+      ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
+      ParamInt$new(id = paste0(id, ".mstop"), lower = 100, upper = 10000)
       #ParamFct$new(id = "classif.compboost.optimizer", levels = c("cod", "nesterov")),
       #ParamDbl$new(id = "classif.compboost.momentum", lower = 0.000001, upper = 0.01)
     )
@@ -29,8 +30,10 @@ ps_cboost_nesterov = function (task, id) {
       ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10L),
       ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10L),
       ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
+      ParamDbl$new(id = paste0(id, ".oob_fraction"), lower = 0.2, upper = 0.5),
+      ParamDbl$new(id = paste0(id, ".mstop"), lower = 100, upper = 10000)
       #ParamFct$new(id = paste0(id, ".optimizer"), levels = c("cod", "nesterov")),
-      ParamDbl$new(id = paste0(id, ".momentum"), lower = 0.000001, upper = 0.01)
+      ParamDbl$new(id = paste0(id, ".momentum"), lower = 0.000001, upper = 0.1)
     )
   )
 }
