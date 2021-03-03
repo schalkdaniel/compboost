@@ -12,7 +12,7 @@ classif_lrn_cboost2 = lrn("classif.compboost", id = "ps_cboost_nesterov1",
   optimizer = "nesterov")
 
 classif_lrn_cboost_bin1 = lrn("classif.compboost", id = "ps_cboost2",
-  ncores = ncores, predict_type = "prob", patience = 5L, bin_root = 2L)
+  ncores = ncores, predict_type = "prob", bin_root = 2L)
 
 classif_lrn_cboost_bin2 = lrn("classif.compboost", id = "ps_cboost_nesterov2",
   use_stopper = TRUE, ncores = ncores, predict_type = "prob", patience = 5L,
