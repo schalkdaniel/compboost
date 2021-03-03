@@ -23,7 +23,7 @@ BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 
 \describe{
 \item{\code{data_source} [\code{data} object]}{
-  data object which contains the source data.
+  data object of class \code{CategoricalData} which contains the source data.
 }
 }
 }
@@ -48,22 +48,18 @@ BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 
 \examples{
 # Sample data:
-x = sample(c(0,1), 20, TRUE)
-data_mat = cbind(x)
+x = sample(c("pos","neg"), 20, TRUE)
 
 # Create new data object:
-data_source = InMemoryData$new(data_mat, "my_data_name")
+data_source = CategoricalData$new(x, "pos")
 
 # Create new linear base-learner:
-cat_factory = BaselearnerCategoricalBinary$new(data_source)
+cat_factory = BaselearnerCategoricalBinary$new(data_source, "pos")
 
 # Get the transformed data as stored for internal use:
 cat_factory$getData()
 
 # Summarize factory:
 cat_factory$summarizeFactory()
-
-# Transform data manually:
-cat_factory$transformData(x)
 
 }
