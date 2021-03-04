@@ -20,7 +20,9 @@ boostSplines(
   data_source = InMemoryData,
   oob_fraction = NULL,
   bin_root = 0,
-  cache_type = "inverse"
+  cache_type = "inverse",
+  stop_args = list(),
+  df_cat = 1
 )
 }
 \arguments{
@@ -84,6 +86,13 @@ String to indicate what method should be used to estimate the parameter in each 
 Default is \code{cache_type = "cholesky"} which computes the Cholesky decomposition,
 caches it, and reuses the matrix over and over again. The other option is to use
 \code{cache_type = "inverse"} which does the same but caches the inverse.}
+
+\item{stop_args}{[\code{list(2)}]\cr
+List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+from setting `oob_fraction`.}
+
+\item{df_cat}{[\code{numeric(1)}]\cr
+Degrees of freedom of the categorical base-learner.}
 }
 \value{
 A model of the \code{Compboost} class. This model is an \code{R6} object

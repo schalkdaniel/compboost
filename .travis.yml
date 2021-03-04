@@ -17,6 +17,9 @@ r_github_packages:
 
 warnings_are_errors: true
 
+before_install:
+  - sudo apt-get install libharfbuzz-dev libfribidi-dev
+
 after_success:
   - Rscript -e 'covr::coveralls()'
 

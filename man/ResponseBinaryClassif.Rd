@@ -18,3 +18,16 @@ ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 }
 }
 
+\examples{
+
+response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
+response_binary$getResponse()
+response_binary$getPrediction()
+response_binary$getPredictionTransform() # Applies sigmoid to prediction scores
+response_binary$getPredictionResponse()  # Categorizes depending on the transformed predictions
+response_binary$getTargetName()
+response_binary$setThreshold(0.7)
+response_binary$getThreshold()
+response_binary$getPositiveClass()
+
+}

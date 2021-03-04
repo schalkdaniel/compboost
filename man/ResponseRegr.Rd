@@ -18,3 +18,10 @@ ResponseRegr$new(target_name, response, weights)
 }
 }
 
+\examples{
+
+response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
+response_regr$getResponse()
+response_regr$getTargetName()
+
+}

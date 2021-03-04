@@ -143,6 +143,51 @@ public:
   }
 };
 
+//' Data class for character variables
+//'
+//' \code{CategoricalData} creates an data object which can be used as source
+//' object to instantiate categorical base learner.
+//'
+//' @format \code{\link{S4}} object.
+//' @name CategoricalData
+//'
+//' @section Usage:
+//' \preformatted{
+//' CategoricalData$new(x, data_identifier)
+//' }
+//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{x} [\code{character}]}{
+//'   Character vector containing the classes.
+//' }
+//' \item{\code{data_identifier} [\code{character(1)}]}{
+//'   The name for the data specified in \code{data_mat}. Note that it is
+//'   important to have the same data names for train and evaluation data.
+//' }
+//' }
+//'
+//' @section Fields:
+//'   This class doesn't contain public fields.
+//'
+//' @section Methods:
+//' \describe{
+//' \item{\code{getData()}}{Get numerical representation of the data.}
+//' \item{\code{getIdentifier()}}{Get data identifier.}
+//' \item{\code{getDictionary()}}{Get internal encoding to map numerical encoding to raw data.}
+//' }
+//' @examples
+//' # Sample data:
+//' x = sample(c("one","two", "three"), 20, TRUE)
+//'
+//' # Create new data object:
+//' data_obj = CategoricalData$new(x, "cat")
+//'
+//' # Get data and identifier:
+//' data_obj$getData()
+//' data_obj$getIdentifier()
+//' data_obj$getDictionary()
+//'
 //' @export CategoricalData
 
 namespace {
@@ -185,6 +230,51 @@ public:
   }
 };
 
+//' Data class for character variables
+//'
+//' \code{CategoricalDataRaw} creates an data object which can be used as source
+//' object to instantiate categorical base learner. In contrast to \code{CategoricalData}
+//' the data are stored as raw categorical vector.
+//'
+//' @format \code{\link{S4}} object.
+//' @name CategoricalDataRaw
+//'
+//' @section Usage:
+//' \preformatted{
+//' CategoricalDataRaw$new(x, data_identifier)
+//' }
+//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{x} [\code{character}]}{
+//'   Character vector containing the classes.
+//' }
+//' \item{\code{data_identifier} [\code{character(1)}]}{
+//'   The name for the data specified in \code{data_mat}. Note that it is
+//'   important to have the same data names for train and evaluation data.
+//' }
+//' }
+//'
+//' @section Fields:
+//'   This class doesn't contain public fields.
+//'
+//' @section Methods:
+//' \describe{
+//' \item{\code{getData()}}{Throws error because no representation is calculated.}
+//' \item{\code{getRawData()}}{Get raw character data.}
+//' \item{\code{getIdentifier()}}{Get data identifier.}
+//' }
+//' @examples
+//' # Sample data:
+//' x = sample(c("one","two", "three"), 20, TRUE)
+//'
+//' # Create new data object:
+//' data_obj = CategoricalDataRaw$new(x, "cat_raw")
+//'
+//' # Get data and identifier:
+//' data_obj$getRawData()
+//' data_obj$getIdentifier()
+//'
 //' @export CategoricalDataRaw
 class CategoricalDataRawWrapper : public DataWrapper
 {
@@ -584,9 +674,12 @@ public:
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
-//' # Sample data:
-//' x = sample(c(0,1), 20, TRUE)
-//' data_mat = cbind(x)
+//' x = sample(c("one","two"), 20, TRUE)
+//' ds = CategoricalData$new(x, "cat")
+//' bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
+//'
+//' bl$getData()
+//' bl$summarizeFactory()
 //'
 //' @export BaselearnerCategoricalRidge
 class BaselearnerCategoricalRidgeFactoryWrapper : public BaselearnerFactoryWrapper
@@ -655,24 +748,12 @@ public:
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
-//' # Sample data:
-//' x = sample(c(0,1), 20, TRUE)
-//' data_mat = cbind(x)
+//' x = sample(c("one","two"), 20, TRUE)
+//' ds = CategoricalData$new(x, "cat")
+//' bl = BaselearnerCategoricalRidge$new(ds, "one")
 //'
-//' # Create new data object:
-//' data_source = InMemoryData$new(data_mat, "my_data_name")
-//'
-//' # Create new linear base-learner:
-//' cat_factory = BaselearnerCategoricalBinary$new(data_source)
-//'
-//' # Get the transformed data as stored for internal use:
-//' cat_factory$getData()
-//'
-//' # Summarize factory:
-//' cat_factory$summarizeFactory()
-//'
-//' # Transform data manually:
-//' cat_factory$transformData(x)
+//' bl$getData()
+//' bl$summarizeFactory()
 //'
 //' @export BaselearnerCategoricalBinary
 class BaselearnerCategoricalBinaryFactoryWrapper : public BaselearnerFactoryWrapper
@@ -1700,7 +1781,7 @@ protected:
 //' ResponseRegr$new(target_name, response, weights)
 //' }
 //'
-//' @example
+//' @examples
 //'
 //' response_regr = ResponseRegr$new("target", cbind(rnorm(10)))
 //' response_regr$getResponse()
@@ -1739,7 +1820,7 @@ public:
 //' ResponseBinaryClassif$new(target_name, pos_class, response, weights)
 //' }
 //'
-//' @example
+//' @examples
 //'
 //' response_binary = ResponseBinaryClassif$new("target", "A", sample(c("A", "B"), 10, TRUE))
 //' response_binary$getResponse()
@@ -2452,8 +2533,15 @@ protected:
 //' @section Usage:
 //' \preformatted{
 //' OptimizerCoordinateDescent$new()
+//' OptimizerCoordinateDescent$new(ncores)
 //' }
-//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
 //' @examples
 //'
 //' # Define optimizer:
@@ -2486,8 +2574,15 @@ public:
 //' @section Usage:
 //' \preformatted{
 //' OptimizerCoordinateDescentLineSearch$new()
+//' OptimizerCoordinateDescentLineSearch$new(ncores)
 //' }
-//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
 //' @examples
 //'
 //' # Define optimizer:
@@ -2507,6 +2602,33 @@ public:
 };
 
 
+//' Nesterov momentum
+//'
+//' This class defines a new object which is used to conduct Nesterovs momentum as optimization technique.
+//'
+//' @format \code{\link{S4}} object.
+//' @name OptimizerAGBM
+//'
+//' @section Usage:
+//' \preformatted{
+//' OptimizerAGBM$new(momentum)
+//' OptimizerAGBM$new(momentum, ncores)
+//' }
+//' @section Arguments:
+//' \describe{
+//' \item{\code{momentum} [\code{numeric(1)}]}{
+//'   Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
+//'   faster but also tends to overfit faster.
+//' }
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
+//' @examples
+//'
+//' optimizer = OptimizerAGBM$new(0.1)
+//'
 //' @export OptimizerAGBM
 class OptimizerAGBM: public OptimizerWrapper
 {

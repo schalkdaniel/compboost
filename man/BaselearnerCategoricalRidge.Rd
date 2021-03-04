@@ -44,8 +44,11 @@ BaselearnerCategoricalRidge$new(data_source, list(df))
 }
 
 \examples{
-# Sample data:
-x = sample(c(0,1), 20, TRUE)
-data_mat = cbind(x)
+x = sample(c("one","two"), 20, TRUE)
+ds = CategoricalData$new(x, "cat")
+bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
+
+bl$getData()
+bl$summarizeFactory()
 
 }
