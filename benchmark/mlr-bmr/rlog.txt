@@ -1,0 +1,1312 @@
+
+Attaching package: ‘mlr3extralearners’
+
+The following objects are masked from ‘package:mlr3’:
+
+    lrn, lrns
+
+Loading required namespace: mlr3oml
+INFO  [18:47:03.571] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1590}
+INFO  [18:47:03.829] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1510}
+INFO  [18:47:03.880] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1497}
+INFO  [18:47:03.922] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1475}
+INFO  [18:47:03.966] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1461}
+INFO  [18:47:04.009] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1468}
+INFO  [18:47:04.054] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1485}
+INFO  [18:47:04.097] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1486}
+INFO  [18:47:04.139] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1487}
+INFO  [18:47:04.183] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1489}
+INFO  [18:47:04.223] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/23517}
+INFO  [18:47:04.266] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/23381}
+INFO  [18:47:04.308] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/4534}
+INFO  [18:47:04.360] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/966}
+INFO  [18:47:04.405] Downloading ARFF {url: https://www.openml.org/data/v1/download/53500/analcatdata_halloffame.arff}
+INFO  [18:47:04.578] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/4538}
+INFO  [18:47:04.620] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/970}
+INFO  [18:47:04.663] Downloading ARFF {url: https://www.openml.org/data/v1/download/53504/analcatdata_authorship.arff}
+INFO  [18:47:04.797] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/4134}
+INFO  [18:47:04.838] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/6332}
+INFO  [18:47:04.880] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40975}
+INFO  [18:47:04.925] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40978}
+INFO  [18:47:04.967] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40979}
+INFO  [18:47:05.005] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40994}
+INFO  [18:47:05.048] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40996}
+INFO  [18:47:05.087] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/41027}
+INFO  [18:47:05.130] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40982}
+INFO  [18:47:05.172] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40983}
+INFO  [18:47:05.215] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40984}
+INFO  [18:47:05.253] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40966}
+INFO  [18:47:05.295] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40701}
+INFO  [18:47:05.332] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40668}
+INFO  [18:47:05.376] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40670}
+INFO  [18:47:05.419] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40923}
+INFO  [18:47:05.461] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40927}
+INFO  [18:47:05.504] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/40499}
+INFO  [18:47:05.548] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1462}
+INFO  [18:47:05.591] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/38}
+INFO  [18:47:05.640] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/39}
+INFO  [18:47:05.684] Downloading ARFF {url: https://www.openml.org/data/v1/download/39/ecoli.arff}
+INFO  [18:47:05.750] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/37}
+INFO  [18:47:05.799] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/37}
+INFO  [18:47:05.843] Downloading ARFF {url: https://www.openml.org/data/v1/download/37/diabetes.arff}
+INFO  [18:47:05.904] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/54}
+INFO  [18:47:05.950] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/55}
+INFO  [18:47:05.996] Downloading ARFF {url: https://www.openml.org/data/v1/download/55/hepatitis.arff}
+INFO  [18:47:06.076] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1480}
+INFO  [18:47:06.120] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/12}
+INFO  [18:47:06.168] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/12}
+INFO  [18:47:06.214] Downloading ARFF {url: https://www.openml.org/data/v1/download/12/mfeat-factors.arff}
+INFO  [18:47:06.604] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/6}
+INFO  [18:47:06.652] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/6}
+INFO  [18:47:06.699] Downloading ARFF {url: https://www.openml.org/data/v1/download/6/letter.arff}
+INFO  [18:47:06.951] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/11}
+INFO  [18:47:07.000] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/11}
+INFO  [18:47:07.046] Downloading ARFF {url: https://www.openml.org/data/v1/download/11/balance-scale.arff}
+INFO  [18:47:07.107] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/31}
+INFO  [18:47:07.156] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/31}
+INFO  [18:47:07.201] Downloading ARFF {url: https://www.openml.org/data/v1/download/31/credit-g.arff}
+INFO  [18:47:07.293] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/28}
+INFO  [18:47:07.342] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/28}
+INFO  [18:47:07.388] Downloading ARFF {url: https://www.openml.org/data/v1/download/28/optdigits.arff}
+INFO  [18:47:07.578] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/29}
+INFO  [18:47:07.625] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/29}
+INFO  [18:47:07.670] Downloading ARFF {url: https://www.openml.org/data/v1/download/29/credit-approval.arff}
+INFO  [18:47:07.732] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/32}
+INFO  [18:47:07.782] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/32}
+INFO  [18:47:07.827] Downloading ARFF {url: https://www.openml.org/data/v1/download/32/pendigits.arff}
+INFO  [18:47:08.048] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/151}
+INFO  [18:47:08.096] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/125}
+INFO  [18:47:08.139] Downloading ARFF {url: https://www.openml.org/data/v1/download/1845/BNG(page-blocks,nominal,295245).arff}
+INFO  [18:47:10.954] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/46}
+INFO  [18:47:10.995] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/44}
+INFO  [18:47:11.039] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/300}
+INFO  [18:47:11.086] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/115}
+INFO  [18:47:11.131] Downloading ARFF {url: https://www.openml.org/data/v1/download/1835/BNG(mfeat-karhunen,nominal,1000000).arff}
+INFO  [18:48:00.272] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/469}
+INFO  [18:48:00.318] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1053}
+INFO  [18:48:00.359] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1050}
+INFO  [18:48:00.406] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1049}
+INFO  [18:48:00.449] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1063}
+INFO  [18:48:00.492] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1478}
+INFO  [18:48:00.535] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1501}
+INFO  [18:48:00.579] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/23}
+INFO  [18:48:00.628] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/23}
+INFO  [18:48:00.675] Downloading ARFF {url: https://www.openml.org/data/v1/download/23/cmc.arff}
+INFO  [18:48:00.782] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/22}
+INFO  [18:48:00.830] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/22}
+INFO  [18:48:00.875] Downloading ARFF {url: https://www.openml.org/data/v1/download/22/mfeat-zernike.arff}
+INFO  [18:48:01.133] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/16}
+INFO  [18:48:01.181] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/16}
+INFO  [18:48:01.225] Downloading ARFF {url: https://www.openml.org/data/v1/download/16/mfeat-karhunen.arff}
+INFO  [18:48:01.478] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/14}
+INFO  [18:48:01.527] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/14}
+INFO  [18:48:01.568] Downloading ARFF {url: https://www.openml.org/data/v1/download/14/mfeat-fourier.arff}
+INFO  [18:48:01.829] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/15}
+INFO  [18:48:01.876] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/15}
+INFO  [18:48:01.922] Downloading ARFF {url: https://www.openml.org/data/v1/download/52350/breast-w.arff}
+INFO  [18:48:01.989] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/18}
+INFO  [18:48:02.037] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/18}
+INFO  [18:48:02.081] Downloading ARFF {url: https://www.openml.org/data/v1/download/18/mfeat-morphological.arff}
+INFO  [18:48:02.152] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/188}
+INFO  [18:48:02.200] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/182}
+INFO  [18:48:02.250] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/307}
+INFO  [18:48:02.300] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/122}
+INFO  [18:48:02.345] Downloading ARFF {url: https://www.openml.org/data/v1/download/1842/BNG(colic,nominal,1000000).arff}
+INFO  [18:48:18.833] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/458}
+INFO  [18:48:18.884] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/554}
+INFO  [18:48:18.927] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1068}
+INFO  [18:48:18.971] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1067}
+INFO  [18:48:19.015] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1464}
+INFO  [18:48:19.058] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/50}
+INFO  [18:48:19.106] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/51}
+INFO  [18:48:19.146] Downloading ARFF {url: https://www.openml.org/data/v1/download/51/heart-h.arff}
+INFO  [18:48:19.222] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/3}
+INFO  [18:48:19.266] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/3}
+INFO  [18:48:19.511] Downloading ARFF {url: https://www.openml.org/data/v1/download/3/kr-vs-kp.arff}
+INFO  [18:48:19.617] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/1494}
+There were 21 warnings (use warnings() to see them)
+1 / 64 
+2 / 64 
+3 / 64 
+4 / 64 
+5 / 64 
+6 / 64 
+7 / 64 
+8 / 64 
+9 / 64 
+10 / 64 
+11 / 64 
+12 / 64 
+13 / 64 
+14 / 64 
+15 / 64 
+16 / 64 
+17 / 64 
+18 / 64 
+19 / 64 
+20 / 64 
+21 / 64 
+22 / 64 
+23 / 64 
+24 / 64 
+25 / 64 
+26 / 64 
+27 / 64 
+28 / 64 
+29 / 64 
+30 / 64 
+31 / 64 
+32 / 64 
+33 / 64 
+34 / 64 
+35 / 64 
+36 / 64 
+37 / 64 
+38 / 64 
+39 / 64 
+40 / 64 
+41 / 64 
+42 / 64 
+43 / 64 
+44 / 64 
+45 / 64 
+46 / 64 
+47 / 64 
+48 / 64 
+49 / 64 
+50 / 64 
+51 / 64 
+52 / 64 
+53 / 64 
+54 / 64 
+55 / 64 
+56 / 64 
+57 / 64 
+58 / 64 
+59 / 64 
+60 / 64 
+61 / 64 
+62 / 64 
+63 / 64 
+64 / 64 
+INFO  [18:48:58.436] Benchmark with 192 resampling iterations 
+INFO  [18:48:58.528] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1.tuned' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:48:58.628] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [18:48:58.651] Evaluating 1 configuration(s) 
+INFO  [18:48:58.797] Benchmark with 3 resampling iterations 
+INFO  [18:48:58.805] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:01.469] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:01.836] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:02.274] Finished benchmark 
+INFO  [18:49:02.491] Result of batch 1: 
+INFO  [18:49:02.496]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:02.496]       2.051681          5.518243               0.06662402   0.8176994 
+INFO  [18:49:02.496]                                 uhash 
+INFO  [18:49:02.496]  ecf04fd1-f070-4a72-9c44-05771653c8e0 
+INFO  [18:49:02.511] Evaluating 1 configuration(s) 
+INFO  [18:49:02.622] Benchmark with 3 resampling iterations 
+INFO  [18:49:02.631] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:03.068] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:03.369] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:03.654] Finished benchmark 
+INFO  [18:49:03.882] Result of batch 2: 
+INFO  [18:49:03.884]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:03.884]       4.173845           5.65536                0.3126641   0.8221521 
+INFO  [18:49:03.884]                                 uhash 
+INFO  [18:49:03.884]  2052b41b-2671-4c52-9b03-6dc0caff1934 
+INFO  [18:49:03.890] Evaluating 1 configuration(s) 
+INFO  [18:49:03.978] Benchmark with 3 resampling iterations 
+INFO  [18:49:03.987] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:05.252] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:06.420] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:06.771] Finished benchmark 
+INFO  [18:49:06.947] Result of batch 3: 
+INFO  [18:49:06.949]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:06.949]       2.662887          6.104112                0.2606853   0.8118559 
+INFO  [18:49:06.949]                                 uhash 
+INFO  [18:49:06.949]  4cc79487-326c-42b7-8559-49aaaadd23a1 
+INFO  [18:49:06.954] Evaluating 1 configuration(s) 
+INFO  [18:49:07.115] Benchmark with 3 resampling iterations 
+INFO  [18:49:07.129] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:07.454] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:07.978] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:08.272] Finished benchmark 
+INFO  [18:49:08.474] Result of batch 4: 
+INFO  [18:49:08.477]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:08.477]       3.165942          9.136093                0.4598889   0.8073057 
+INFO  [18:49:08.477]                                 uhash 
+INFO  [18:49:08.477]  48dec260-73c7-432d-b999-dce4ea9bfe45 
+INFO  [18:49:08.484] Evaluating 1 configuration(s) 
+INFO  [18:49:08.580] Benchmark with 3 resampling iterations 
+INFO  [18:49:08.588] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:09.020] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:09.436] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:10.139] Finished benchmark 
+INFO  [18:49:10.392] Result of batch 5: 
+INFO  [18:49:10.394]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:10.394]       5.175799          5.519295               0.03436691   0.8280146 
+INFO  [18:49:10.394]                                 uhash 
+INFO  [18:49:10.394]  36deb6cd-51de-49bb-a9f8-7d6eec9e27da 
+INFO  [18:49:10.399] Evaluating 1 configuration(s) 
+INFO  [18:49:10.532] Benchmark with 3 resampling iterations 
+INFO  [18:49:10.546] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:11.006] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:11.317] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:11.617] Finished benchmark 
+INFO  [18:49:12.350] Result of batch 6: 
+INFO  [18:49:12.352]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:12.352]       3.825566          8.807116                0.4554272   0.8169652 
+INFO  [18:49:12.352]                                 uhash 
+INFO  [18:49:12.352]  1f7ea28f-1359-4fd1-ac74-a540ae6e9489 
+INFO  [18:49:12.357] Evaluating 1 configuration(s) 
+INFO  [18:49:12.433] Benchmark with 3 resampling iterations 
+INFO  [18:49:12.440] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:12.684] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:13.247] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:13.505] Finished benchmark 
+INFO  [18:49:13.653] Result of batch 7: 
+INFO  [18:49:13.655]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:13.655]       8.436991          8.990813                0.3583413    0.763867 
+INFO  [18:49:13.655]                                 uhash 
+INFO  [18:49:13.655]  666c29df-6c40-421e-bf4d-53494aa2ef9b 
+INFO  [18:49:13.660] Evaluating 1 configuration(s) 
+INFO  [18:49:13.748] Benchmark with 3 resampling iterations 
+INFO  [18:49:13.756] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:13.978] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:14.214] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:14.632] Finished benchmark 
+INFO  [18:49:14.764] Result of batch 8: 
+INFO  [18:49:14.766]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:14.766]       4.499905           4.24962                0.2776103    0.822012 
+INFO  [18:49:14.766]                                 uhash 
+INFO  [18:49:14.766]  e235670e-44c4-4efa-a128-5e0633fbe8df 
+INFO  [18:49:14.771] Evaluating 1 configuration(s) 
+INFO  [18:49:14.856] Benchmark with 3 resampling iterations 
+INFO  [18:49:14.864] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:15.105] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:15.473] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:16.044] Finished benchmark 
+INFO  [18:49:16.193] Result of batch 9: 
+INFO  [18:49:16.195]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:16.195]       5.595433          7.115686                0.4419368   0.7803055 
+INFO  [18:49:16.195]                                 uhash 
+INFO  [18:49:16.195]  7b67e1cf-ae6e-4aae-82ab-518ce2eabd7d 
+INFO  [18:49:16.200] Evaluating 1 configuration(s) 
+INFO  [18:49:16.275] Benchmark with 3 resampling iterations 
+INFO  [18:49:16.283] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:16.505] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:16.772] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:17.007] Finished benchmark 
+INFO  [18:49:17.139] Result of batch 10: 
+INFO  [18:49:17.141]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:17.141]       8.327526          8.692605                0.4537621   0.8040794 
+INFO  [18:49:17.141]                                 uhash 
+INFO  [18:49:17.141]  d27a68dc-79c2-43d4-b52d-38b91d27c565 
+INFO  [18:49:17.146] Evaluating 1 configuration(s) 
+INFO  [18:49:17.236] Benchmark with 3 resampling iterations 
+INFO  [18:49:17.244] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:17.482] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:17.715] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:17.996] Finished benchmark 
+INFO  [18:49:18.160] Result of batch 11: 
+INFO  [18:49:18.162]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:18.162]       2.121234          6.366286                0.3823178    0.835028 
+INFO  [18:49:18.162]                                 uhash 
+INFO  [18:49:18.162]  c3ba5502-328b-44b4-bbd8-93e075ea6d1f 
+INFO  [18:49:18.167] Evaluating 1 configuration(s) 
+INFO  [18:49:18.244] Benchmark with 3 resampling iterations 
+INFO  [18:49:18.252] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:18.494] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:18.830] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:19.057] Finished benchmark 
+INFO  [18:49:19.303] Result of batch 12: 
+INFO  [18:49:19.305]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:19.305]       6.011229          5.527244                0.4435759   0.8117975 
+INFO  [18:49:19.305]                                 uhash 
+INFO  [18:49:19.305]  c2c45cb5-1f51-456c-9694-18c8aa2b769c 
+INFO  [18:49:19.309] Evaluating 1 configuration(s) 
+INFO  [18:49:19.385] Benchmark with 3 resampling iterations 
+INFO  [18:49:19.393] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:20.554] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:20.957] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:21.968] Finished benchmark 
+INFO  [18:49:22.153] Result of batch 13: 
+INFO  [18:49:22.157]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:22.157]       5.857482          5.540846               0.01476534   0.8321073 
+INFO  [18:49:22.157]                                 uhash 
+INFO  [18:49:22.157]  17c7b24a-e62e-4682-9df5-e13046e221d8 
+INFO  [18:49:22.165] Evaluating 1 configuration(s) 
+INFO  [18:49:22.246] Benchmark with 3 resampling iterations 
+INFO  [18:49:22.255] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:22.591] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:22.920] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:23.596] Finished benchmark 
+INFO  [18:49:23.733] Result of batch 14: 
+INFO  [18:49:23.735]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:23.735]       2.610775          2.121756                0.2463943   0.8233942 
+INFO  [18:49:23.735]                                 uhash 
+INFO  [18:49:23.735]  af71fcf4-20d2-49a7-a5e9-9ce50341752d 
+INFO  [18:49:23.740] Evaluating 1 configuration(s) 
+INFO  [18:49:23.851] Benchmark with 3 resampling iterations 
+INFO  [18:49:23.859] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:24.579] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:24.832] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:25.108] Finished benchmark 
+INFO  [18:49:25.283] Result of batch 15: 
+INFO  [18:49:25.285]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:25.285]       6.715898          5.982901                0.3763078   0.8006887 
+INFO  [18:49:25.285]                                 uhash 
+INFO  [18:49:25.285]  6fc5a12f-e97f-47ca-9abe-714f32f1cea1 
+INFO  [18:49:25.290] Evaluating 1 configuration(s) 
+INFO  [18:49:25.367] Benchmark with 3 resampling iterations 
+INFO  [18:49:25.375] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:25.762] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:26.931] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:27.207] Finished benchmark 
+INFO  [18:49:27.344] Result of batch 16: 
+INFO  [18:49:27.346]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:27.346]       3.291903          8.656294                0.1289987   0.8055342 
+INFO  [18:49:27.346]                                 uhash 
+INFO  [18:49:27.346]  9cfb4dca-d64c-4c39-bac8-4f601dc6be69 
+INFO  [18:49:27.351] Evaluating 1 configuration(s) 
+INFO  [18:49:27.462] Benchmark with 3 resampling iterations 
+INFO  [18:49:27.470] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:27.842] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:28.108] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:28.394] Finished benchmark 
+INFO  [18:49:28.564] Result of batch 17: 
+INFO  [18:49:28.568]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:28.568]       3.570399           3.74886               0.08751353   0.8291719 
+INFO  [18:49:28.568]                                 uhash 
+INFO  [18:49:28.568]  b3657a99-a89c-4cf7-ac28-ca58d2d0be89 
+INFO  [18:49:28.580] Evaluating 1 configuration(s) 
+INFO  [18:49:28.682] Benchmark with 3 resampling iterations 
+INFO  [18:49:28.696] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:28.946] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:29.290] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:29.791] Finished benchmark 
+INFO  [18:49:30.068] Result of batch 18: 
+INFO  [18:49:30.070]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:30.070]       4.221378          3.695511                0.2814383   0.8312167 
+INFO  [18:49:30.070]                                 uhash 
+INFO  [18:49:30.070]  1e514c24-e8d1-45ce-b85c-25f6b4044169 
+INFO  [18:49:30.075] Evaluating 1 configuration(s) 
+INFO  [18:49:30.153] Benchmark with 3 resampling iterations 
+INFO  [18:49:30.161] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:30.436] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:30.706] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:30.973] Finished benchmark 
+INFO  [18:49:31.140] Result of batch 19: 
+INFO  [18:49:31.142]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:31.142]       5.697822          4.085951                0.4164516   0.8192189 
+INFO  [18:49:31.142]                                 uhash 
+INFO  [18:49:31.142]  9339e1b3-1f8f-42a6-9dc7-a950ff508eaf 
+INFO  [18:49:31.147] Evaluating 1 configuration(s) 
+INFO  [18:49:31.286] Benchmark with 3 resampling iterations 
+INFO  [18:49:31.294] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:31.659] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:32.193] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:32.614] Finished benchmark 
+INFO  [18:49:32.810] Result of batch 20: 
+INFO  [18:49:32.812]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:32.812]       2.639817          9.910891               0.04907378   0.8311258 
+INFO  [18:49:32.812]                                 uhash 
+INFO  [18:49:32.812]  5f6d08ff-ed16-44a0-8026-91e38bafd78a 
+INFO  [18:49:32.817] Evaluating 1 configuration(s) 
+INFO  [18:49:32.895] Benchmark with 3 resampling iterations 
+INFO  [18:49:32.904] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:33.247] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:33.521] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:33.843] Finished benchmark 
+INFO  [18:49:33.997] Result of batch 21: 
+INFO  [18:49:33.999]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:33.999]       5.675311          6.403962                0.2084955   0.8200429 
+INFO  [18:49:33.999]                                 uhash 
+INFO  [18:49:33.999]  f9fc7376-05a8-417e-9430-e55e18b5c78c 
+INFO  [18:49:34.004] Evaluating 1 configuration(s) 
+INFO  [18:49:34.134] Benchmark with 3 resampling iterations 
+INFO  [18:49:34.142] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:34.430] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:34.680] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:35.871] Finished benchmark 
+INFO  [18:49:36.062] Result of batch 22: 
+INFO  [18:49:36.064]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:36.064]       7.703798           4.82008                0.2668138   0.7945736 
+INFO  [18:49:36.064]                                 uhash 
+INFO  [18:49:36.064]  567dcc36-41cb-4a9d-ba26-12059a67eae2 
+INFO  [18:49:36.069] Evaluating 1 configuration(s) 
+INFO  [18:49:36.169] Benchmark with 3 resampling iterations 
+INFO  [18:49:36.182] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:36.627] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:37.193] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:38.058] Finished benchmark 
+INFO  [18:49:38.253] Result of batch 23: 
+INFO  [18:49:38.255]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:38.255]       2.599581          6.844084               0.06397689   0.8222466 
+INFO  [18:49:38.255]                                 uhash 
+INFO  [18:49:38.255]  500cd6d9-b3fe-490c-a4a7-4fcff24783f2 
+INFO  [18:49:38.260] Evaluating 1 configuration(s) 
+INFO  [18:49:38.342] Benchmark with 3 resampling iterations 
+INFO  [18:49:38.350] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:38.656] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:38.962] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:39.348] Finished benchmark 
+INFO  [18:49:39.557] Result of batch 24: 
+INFO  [18:49:39.560]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:39.560]       2.750501          3.604528                0.3620099   0.8163277 
+INFO  [18:49:39.560]                                 uhash 
+INFO  [18:49:39.560]  98b985bb-7ec0-4805-b90f-11fb64ef4fdb 
+INFO  [18:49:39.566] Evaluating 1 configuration(s) 
+INFO  [18:49:39.647] Benchmark with 3 resampling iterations 
+INFO  [18:49:39.656] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:39.988] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:40.304] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:40.590] Finished benchmark 
+INFO  [18:49:40.772] Result of batch 25: 
+INFO  [18:49:40.774]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:40.774]       6.028066          5.066854                0.2074154   0.8131052 
+INFO  [18:49:40.774]                                 uhash 
+INFO  [18:49:40.774]  9456b3e1-21f5-4423-9c8b-ce707c699d40 
+INFO  [18:49:40.780] Evaluating 1 configuration(s) 
+INFO  [18:49:40.915] Benchmark with 3 resampling iterations 
+INFO  [18:49:40.928] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:41.923] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:42.195] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:42.511] Finished benchmark 
+INFO  [18:49:42.721] Result of batch 26: 
+INFO  [18:49:42.723]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:42.723]       2.721523           9.16498                0.4226284   0.8052513 
+INFO  [18:49:42.723]                                 uhash 
+INFO  [18:49:42.723]  1d622d83-1c2c-4d99-9732-2406055cf71c 
+INFO  [18:49:42.728] Evaluating 1 configuration(s) 
+INFO  [18:49:42.810] Benchmark with 3 resampling iterations 
+INFO  [18:49:42.819] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:43.158] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:43.483] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:44.033] Finished benchmark 
+INFO  [18:49:44.209] Result of batch 27: 
+INFO  [18:49:44.211]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:44.211]       6.124615          5.059963                0.3678018   0.8075344 
+INFO  [18:49:44.211]                                 uhash 
+INFO  [18:49:44.211]  35f11a32-1f5b-4ac2-8db4-347e1ae5a129 
+INFO  [18:49:44.219] Evaluating 1 configuration(s) 
+INFO  [18:49:44.332] Benchmark with 3 resampling iterations 
+INFO  [18:49:44.341] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:44.731] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:45.028] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:45.326] Finished benchmark 
+INFO  [18:49:45.502] Result of batch 28: 
+INFO  [18:49:45.504]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:45.504]       9.029821          3.557283                0.3025562   0.7906294 
+INFO  [18:49:45.504]                                 uhash 
+INFO  [18:49:45.504]  68ef9a3d-2055-4721-9b4b-32f49c1ba916 
+INFO  [18:49:45.509] Evaluating 1 configuration(s) 
+INFO  [18:49:45.653] Benchmark with 3 resampling iterations 
+INFO  [18:49:45.662] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:45.975] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:46.332] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:46.629] Finished benchmark 
+INFO  [18:49:46.813] Result of batch 29: 
+INFO  [18:49:46.815]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:46.815]       7.509551          3.805054                0.2361851   0.8080955 
+INFO  [18:49:46.815]                                 uhash 
+INFO  [18:49:46.815]  0d561ce0-19c7-4b33-b37c-85c58428657f 
+INFO  [18:49:46.820] Evaluating 1 configuration(s) 
+INFO  [18:49:46.961] Benchmark with 3 resampling iterations 
+INFO  [18:49:46.970] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:47.375] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:47.930] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:48.242] Finished benchmark 
+INFO  [18:49:48.450] Result of batch 30: 
+INFO  [18:49:48.452]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:48.452]       6.869392          7.804607                0.2974723   0.7845125 
+INFO  [18:49:48.452]                                 uhash 
+INFO  [18:49:48.452]  60139464-f26c-45df-a0bc-06dd7ce19102 
+INFO  [18:49:48.458] Evaluating 1 configuration(s) 
+INFO  [18:49:48.602] Benchmark with 3 resampling iterations 
+INFO  [18:49:48.616] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:49.862] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:50.183] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:50.845] Finished benchmark 
+INFO  [18:49:51.067] Result of batch 31: 
+INFO  [18:49:51.069]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:51.069]       6.462818          7.881535               0.05146024   0.8213782 
+INFO  [18:49:51.069]                                 uhash 
+INFO  [18:49:51.069]  31fa1735-0f88-4867-ad74-c5f36c954956 
+INFO  [18:49:51.075] Evaluating 1 configuration(s) 
+INFO  [18:49:51.159] Benchmark with 3 resampling iterations 
+INFO  [18:49:51.168] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:52.369] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:53.572] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:54.806] Finished benchmark 
+INFO  [18:49:54.997] Result of batch 32: 
+INFO  [18:49:55.000]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:55.000]       4.137353          4.477784              0.003068436   0.8320247 
+INFO  [18:49:55.000]                                 uhash 
+INFO  [18:49:55.000]  0468c7ac-11b4-45dd-86b8-44625b93cabf 
+INFO  [18:49:55.008] Evaluating 1 configuration(s) 
+INFO  [18:49:55.128] Benchmark with 3 resampling iterations 
+INFO  [18:49:55.137] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:55.482] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:55.791] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:56.083] Finished benchmark 
+INFO  [18:49:56.265] Result of batch 33: 
+INFO  [18:49:56.267]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:56.267]       7.879712          6.556862                  0.29119   0.8038429 
+INFO  [18:49:56.267]                                 uhash 
+INFO  [18:49:56.267]  02203d67-28dd-4b74-ad53-8864141effa2 
+INFO  [18:49:56.272] Evaluating 1 configuration(s) 
+INFO  [18:49:56.429] Benchmark with 3 resampling iterations 
+INFO  [18:49:56.438] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:56.753] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:57.062] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:57.353] Finished benchmark 
+INFO  [18:49:57.540] Result of batch 34: 
+INFO  [18:49:57.542]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:57.542]        7.28349          4.933152                0.2488532   0.8092679 
+INFO  [18:49:57.542]                                 uhash 
+INFO  [18:49:57.542]  b85cec1c-2858-4b81-80f5-99db4cd87452 
+INFO  [18:49:57.548] Evaluating 1 configuration(s) 
+INFO  [18:49:57.701] Benchmark with 3 resampling iterations 
+INFO  [18:49:57.710] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:49:58.018] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:49:58.299] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:49:59.612] Finished benchmark 
+INFO  [18:49:59.811] Result of batch 35: 
+INFO  [18:49:59.814]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:49:59.814]       9.577126          9.547339                0.3188037   0.7777122 
+INFO  [18:49:59.814]                                 uhash 
+INFO  [18:49:59.814]  f79d5c05-4264-4545-adf7-d50520acd653 
+INFO  [18:49:59.822] Evaluating 1 configuration(s) 
+INFO  [18:49:59.951] Benchmark with 3 resampling iterations 
+INFO  [18:49:59.959] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:00.628] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:01.072] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:02.269] Finished benchmark 
+INFO  [18:50:02.473] Result of batch 36: 
+INFO  [18:50:02.475]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:02.475]       6.126814           9.11399               0.09902875   0.7893603 
+INFO  [18:50:02.475]                                 uhash 
+INFO  [18:50:02.475]  b9e87c67-7fb4-4137-b8ff-babe9392f2ff 
+INFO  [18:50:02.480] Evaluating 1 configuration(s) 
+INFO  [18:50:02.635] Benchmark with 3 resampling iterations 
+INFO  [18:50:02.648] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:02.949] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:03.583] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:03.912] Finished benchmark 
+INFO  [18:50:04.151] Result of batch 37: 
+INFO  [18:50:04.153]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:04.153]       8.942014          9.466016                0.2381684   0.7913357 
+INFO  [18:50:04.153]                                 uhash 
+INFO  [18:50:04.153]  ba1fb87d-60a4-472e-997e-b26b533be562 
+INFO  [18:50:04.158] Evaluating 1 configuration(s) 
+INFO  [18:50:04.295] Benchmark with 3 resampling iterations 
+INFO  [18:50:04.309] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:04.725] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:05.090] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:05.652] Finished benchmark 
+INFO  [18:50:05.910] Result of batch 38: 
+INFO  [18:50:05.912]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:05.912]       8.956713          8.741348               0.02624721   0.8003222 
+INFO  [18:50:05.912]                                 uhash 
+INFO  [18:50:05.912]  6c699773-2108-4f14-b296-db50a1d3ef34 
+INFO  [18:50:05.917] Evaluating 1 configuration(s) 
+INFO  [18:50:06.059] Benchmark with 3 resampling iterations 
+INFO  [18:50:06.074] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:06.874] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:07.447] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:07.859] Finished benchmark 
+INFO  [18:50:08.102] Result of batch 39: 
+INFO  [18:50:08.104]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:08.104]       8.664488          7.159143               0.02902142   0.8019657 
+INFO  [18:50:08.104]                                 uhash 
+INFO  [18:50:08.104]  610b1046-32bf-418e-a317-4c2ee038460e 
+INFO  [18:50:08.110] Evaluating 1 configuration(s) 
+INFO  [18:50:08.264] Benchmark with 3 resampling iterations 
+INFO  [18:50:08.278] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:08.965] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:09.337] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:09.869] Finished benchmark 
+INFO  [18:50:10.749] Result of batch 40: 
+INFO  [18:50:10.751]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:10.751]       2.165205          8.314893                0.3218484   0.8012012 
+INFO  [18:50:10.751]                                 uhash 
+INFO  [18:50:10.751]  5468a60f-f3f4-4c78-9eb3-415733ec703f 
+INFO  [18:50:10.756] Evaluating 1 configuration(s) 
+INFO  [18:50:10.831] Benchmark with 3 resampling iterations 
+INFO  [18:50:10.838] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:11.102] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:11.354] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:11.570] Finished benchmark 
+INFO  [18:50:11.747] Result of batch 41: 
+INFO  [18:50:11.748]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:11.748]       4.853504          2.552666                0.3162322   0.8086675 
+INFO  [18:50:11.748]                                 uhash 
+INFO  [18:50:11.748]  afc013cf-cb92-453f-a5eb-b566ce54fa37 
+INFO  [18:50:11.753] Evaluating 1 configuration(s) 
+INFO  [18:50:11.829] Benchmark with 3 resampling iterations 
+INFO  [18:50:11.836] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:12.096] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:12.451] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:12.724] Finished benchmark 
+INFO  [18:50:12.853] Result of batch 42: 
+INFO  [18:50:12.854]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:12.854]       8.746238           8.21801                 0.178838   0.7854124 
+INFO  [18:50:12.854]                                 uhash 
+INFO  [18:50:12.854]  a676cae6-3120-447f-bb9f-5e7a85e082d4 
+INFO  [18:50:12.859] Evaluating 1 configuration(s) 
+INFO  [18:50:12.947] Benchmark with 3 resampling iterations 
+INFO  [18:50:12.954] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:13.291] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:13.675] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:13.907] Finished benchmark 
+INFO  [18:50:14.058] Result of batch 43: 
+INFO  [18:50:14.060]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:14.060]        7.02119          9.817212                0.3920155   0.7894043 
+INFO  [18:50:14.060]                                 uhash 
+INFO  [18:50:14.060]  d1700e5f-fde2-468d-a877-f287f9a2f0ee 
+INFO  [18:50:14.064] Evaluating 1 configuration(s) 
+INFO  [18:50:14.138] Benchmark with 3 resampling iterations 
+INFO  [18:50:14.145] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:14.380] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:14.692] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:15.171] Finished benchmark 
+INFO  [18:50:15.322] Result of batch 44: 
+INFO  [18:50:15.324]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:15.324]       4.475196          6.140284                0.3579375   0.8181602 
+INFO  [18:50:15.324]                                 uhash 
+INFO  [18:50:15.324]  d27e7226-ef3f-4599-8938-c99dad4797fc 
+INFO  [18:50:15.329] Evaluating 1 configuration(s) 
+INFO  [18:50:15.439] Benchmark with 3 resampling iterations 
+INFO  [18:50:15.446] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:16.067] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:17.259] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:17.550] Finished benchmark 
+INFO  [18:50:17.700] Result of batch 45: 
+INFO  [18:50:17.702]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:17.702]       4.976029          3.937527                0.3879579   0.7947954 
+INFO  [18:50:17.702]                                 uhash 
+INFO  [18:50:17.702]  8f34d331-2947-4319-8796-ff2012077903 
+INFO  [18:50:17.707] Evaluating 1 configuration(s) 
+INFO  [18:50:17.781] Benchmark with 3 resampling iterations 
+INFO  [18:50:17.789] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:18.056] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:18.377] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:18.623] Finished benchmark 
+INFO  [18:50:18.757] Result of batch 46: 
+INFO  [18:50:18.759]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:18.759]       7.515199          7.869298                0.4059684   0.7893384 
+INFO  [18:50:18.759]                                 uhash 
+INFO  [18:50:18.759]  fa83e907-a949-4458-b48d-2454dfc6eafc 
+INFO  [18:50:18.764] Evaluating 1 configuration(s) 
+INFO  [18:50:18.972] Benchmark with 3 resampling iterations 
+INFO  [18:50:18.988] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:19.305] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:19.542] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:19.831] Finished benchmark 
+INFO  [18:50:20.002] Result of batch 47: 
+INFO  [18:50:20.004]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:20.004]       5.067534          8.356771                0.1590493   0.8185053 
+INFO  [18:50:20.004]                                 uhash 
+INFO  [18:50:20.004]  7e95be2c-4ee3-43ee-a3c3-bb59329e7d61 
+INFO  [18:50:20.009] Evaluating 1 configuration(s) 
+INFO  [18:50:20.085] Benchmark with 3 resampling iterations 
+INFO  [18:50:20.093] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:20.508] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:20.782] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:21.019] Finished benchmark 
+INFO  [18:50:21.189] Result of batch 48: 
+INFO  [18:50:21.191]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:21.191]       5.978171          6.724504                 0.197162   0.8316924 
+INFO  [18:50:21.191]                                 uhash 
+INFO  [18:50:21.191]  cd6b919a-003f-4c53-8c46-c92b8f6fa443 
+INFO  [18:50:21.196] Evaluating 1 configuration(s) 
+INFO  [18:50:21.312] Benchmark with 3 resampling iterations 
+INFO  [18:50:21.320] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:21.822] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:22.102] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:22.470] Finished benchmark 
+INFO  [18:50:22.643] Result of batch 49: 
+INFO  [18:50:22.645]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:22.645]       3.712853          2.118409                0.3416237   0.7913016 
+INFO  [18:50:22.645]                                 uhash 
+INFO  [18:50:22.645]  b39b9bb8-f01a-4368-b9c7-af7018d59a5a 
+INFO  [18:50:22.649] Evaluating 1 configuration(s) 
+INFO  [18:50:22.724] Benchmark with 3 resampling iterations 
+INFO  [18:50:22.732] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:23.026] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:23.307] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:23.627] Finished benchmark 
+INFO  [18:50:23.798] Result of batch 50: 
+INFO  [18:50:23.800]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:23.800]       5.094979          4.269045                 0.167888   0.8107691 
+INFO  [18:50:23.800]                                 uhash 
+INFO  [18:50:23.800]  55460707-a6f8-4c14-8716-8b0a3d497531 
+INFO  [18:50:23.805] Evaluating 1 configuration(s) 
+INFO  [18:50:23.917] Benchmark with 3 resampling iterations 
+INFO  [18:50:23.924] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:24.308] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:24.535] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:24.809] Finished benchmark 
+INFO  [18:50:24.982] Result of batch 51: 
+INFO  [18:50:24.984]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:24.984]       6.694231          2.667855                 0.342482    0.800433 
+INFO  [18:50:24.984]                                 uhash 
+INFO  [18:50:24.984]  dcbb1932-e0a3-4e54-b17b-7f1f4241020e 
+INFO  [18:50:24.989] Evaluating 1 configuration(s) 
+INFO  [18:50:25.067] Benchmark with 3 resampling iterations 
+INFO  [18:50:25.074] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:25.334] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:25.592] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:26.020] Finished benchmark 
+INFO  [18:50:26.289] Result of batch 52: 
+INFO  [18:50:26.291]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:26.291]       6.538336          5.929981                0.2067787    0.812429 
+INFO  [18:50:26.291]                                 uhash 
+INFO  [18:50:26.291]  862d1c68-e663-4aec-99de-41bb54ef65c5 
+INFO  [18:50:26.296] Evaluating 1 configuration(s) 
+INFO  [18:50:26.373] Benchmark with 3 resampling iterations 
+INFO  [18:50:26.381] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:26.795] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:27.125] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:27.380] Finished benchmark 
+INFO  [18:50:27.547] Result of batch 53: 
+INFO  [18:50:27.549]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:27.549]       4.659015          3.217825               0.06966405   0.8198625 
+INFO  [18:50:27.549]                                 uhash 
+INFO  [18:50:27.549]  8b46856f-1d0d-4a26-b70f-af943b85ee27 
+INFO  [18:50:27.554] Evaluating 1 configuration(s) 
+INFO  [18:50:27.675] Benchmark with 3 resampling iterations 
+INFO  [18:50:27.689] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:28.027] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:28.683] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:29.024] Finished benchmark 
+INFO  [18:50:29.210] Result of batch 54: 
+INFO  [18:50:29.213]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:29.213]       3.132062          7.913487                0.1032327   0.8023499 
+INFO  [18:50:29.213]                                 uhash 
+INFO  [18:50:29.213]  c46331b2-5f65-4064-9f14-ea2c09837ea7 
+INFO  [18:50:29.220] Evaluating 1 configuration(s) 
+INFO  [18:50:29.297] Benchmark with 3 resampling iterations 
+INFO  [18:50:29.305] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:29.723] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:30.779] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:31.950] Finished benchmark 
+INFO  [18:50:32.119] Result of batch 55: 
+INFO  [18:50:32.121]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:32.121]       8.262112          8.311134               0.01357938   0.8041412 
+INFO  [18:50:32.121]                                 uhash 
+INFO  [18:50:32.121]  6069b0a7-1ec1-413b-8825-f29d2dc246d2 
+INFO  [18:50:32.126] Evaluating 1 configuration(s) 
+INFO  [18:50:32.281] Benchmark with 3 resampling iterations 
+INFO  [18:50:32.297] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:33.093] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:33.353] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:33.638] Finished benchmark 
+INFO  [18:50:33.825] Result of batch 56: 
+INFO  [18:50:33.827]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:33.827]        2.90585           3.30475                0.2612537   0.8225638 
+INFO  [18:50:33.827]                                 uhash 
+INFO  [18:50:33.827]  647638a4-f88a-404a-b545-9f362e2d96ce 
+INFO  [18:50:33.832] Evaluating 1 configuration(s) 
+INFO  [18:50:33.913] Benchmark with 3 resampling iterations 
+INFO  [18:50:33.935] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:34.203] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:34.478] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:34.896] Finished benchmark 
+INFO  [18:50:35.084] Result of batch 57: 
+INFO  [18:50:35.086]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:35.086]       7.147193          3.746399                0.1552791   0.8093826 
+INFO  [18:50:35.086]                                 uhash 
+INFO  [18:50:35.086]  4bd0c18a-68b2-43b9-8dd3-c9cf57407dd9 
+INFO  [18:50:35.090] Evaluating 1 configuration(s) 
+INFO  [18:50:35.168] Benchmark with 3 resampling iterations 
+INFO  [18:50:35.177] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:35.493] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:35.771] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:36.219] Finished benchmark 
+INFO  [18:50:36.444] Result of batch 58: 
+INFO  [18:50:36.447]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:36.447]       2.883299           8.51322                0.2086898   0.8097308 
+INFO  [18:50:36.447]                                 uhash 
+INFO  [18:50:36.447]  86963378-92c5-49b0-94db-ca062c0c55b8 
+INFO  [18:50:36.454] Evaluating 1 configuration(s) 
+INFO  [18:50:36.540] Benchmark with 3 resampling iterations 
+INFO  [18:50:36.556] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:36.908] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:37.192] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:37.479] Finished benchmark 
+INFO  [18:50:37.681] Result of batch 59: 
+INFO  [18:50:37.683]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:37.683]       6.530223          4.118157                0.3977779   0.7821733 
+INFO  [18:50:37.683]                                 uhash 
+INFO  [18:50:37.683]  b7428c61-6e30-4a79-b3c3-4ff0f9dab14b 
+INFO  [18:50:37.688] Evaluating 1 configuration(s) 
+INFO  [18:50:37.827] Benchmark with 3 resampling iterations 
+INFO  [18:50:37.841] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:38.110] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:38.394] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:38.746] Finished benchmark 
+INFO  [18:50:38.957] Result of batch 60: 
+INFO  [18:50:38.959]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:38.959]        5.58948          7.693095                0.3718302   0.7989432 
+INFO  [18:50:38.959]                                 uhash 
+INFO  [18:50:38.959]  80784e5d-6cd4-4dab-900b-2cd5242bd7e5 
+INFO  [18:50:38.964] Evaluating 1 configuration(s) 
+INFO  [18:50:39.045] Benchmark with 3 resampling iterations 
+INFO  [18:50:39.054] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:39.348] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:39.688] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:39.991] Finished benchmark 
+INFO  [18:50:40.164] Result of batch 61: 
+INFO  [18:50:40.167]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:40.167]       6.218005          4.815832                0.3444403   0.7927056 
+INFO  [18:50:40.167]                                 uhash 
+INFO  [18:50:40.167]  375ed16e-17d2-468f-a007-7d5f362b635d 
+INFO  [18:50:40.174] Evaluating 1 configuration(s) 
+INFO  [18:50:40.286] Benchmark with 3 resampling iterations 
+INFO  [18:50:40.294] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:40.624] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:40.974] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:41.266] Finished benchmark 
+INFO  [18:50:41.438] Result of batch 62: 
+INFO  [18:50:41.440]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:41.440]       8.004554          5.410703                0.3171447   0.7913095 
+INFO  [18:50:41.440]                                 uhash 
+INFO  [18:50:41.440]  29dd9c74-a90f-4a0d-a754-4fa7f4f26226 
+INFO  [18:50:41.446] Evaluating 1 configuration(s) 
+INFO  [18:50:41.584] Benchmark with 3 resampling iterations 
+INFO  [18:50:41.592] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:41.955] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:42.233] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:42.631] Finished benchmark 
+INFO  [18:50:42.815] Result of batch 63: 
+INFO  [18:50:42.816]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:42.816]       4.956058          6.337056                0.2241531   0.7796209 
+INFO  [18:50:42.816]                                 uhash 
+INFO  [18:50:42.816]  2d530efb-701f-4b24-b1f3-d29d9a47ad6a 
+INFO  [18:50:42.822] Evaluating 1 configuration(s) 
+INFO  [18:50:42.961] Benchmark with 3 resampling iterations 
+INFO  [18:50:42.969] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:43.347] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:43.627] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:43.904] Finished benchmark 
+INFO  [18:50:44.101] Result of batch 64: 
+INFO  [18:50:44.103]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:44.103]       7.727481          8.662605                0.3975607   0.7864727 
+INFO  [18:50:44.103]                                 uhash 
+INFO  [18:50:44.103]  6c112f8c-abf7-4d51-91dd-8f1aa10d4898 
+INFO  [18:50:44.108] Evaluating 1 configuration(s) 
+INFO  [18:50:44.239] Benchmark with 3 resampling iterations 
+INFO  [18:50:44.252] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:45.488] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:45.877] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:46.198] Finished benchmark 
+INFO  [18:50:46.412] Result of batch 65: 
+INFO  [18:50:46.414]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:46.414]       4.610359          2.493963               0.09122887    0.792405 
+INFO  [18:50:46.414]                                 uhash 
+INFO  [18:50:46.414]  07ea3aff-4cf9-4b7a-9f19-6058bd2a2f08 
+INFO  [18:50:46.419] Evaluating 1 configuration(s) 
+INFO  [18:50:46.501] Benchmark with 3 resampling iterations 
+INFO  [18:50:46.510] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:46.887] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:47.598] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:48.895] Finished benchmark 
+INFO  [18:50:49.082] Result of batch 66: 
+INFO  [18:50:49.084]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:49.084]       6.436278          4.866837               0.02239982   0.8143157 
+INFO  [18:50:49.084]                                 uhash 
+INFO  [18:50:49.084]  f3869f47-02fd-46a1-aabe-2c46f0e935ff 
+INFO  [18:50:49.092] Evaluating 1 configuration(s) 
+INFO  [18:50:49.207] Benchmark with 3 resampling iterations 
+INFO  [18:50:49.215] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:49.522] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:49.849] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:50.289] Finished benchmark 
+INFO  [18:50:50.470] Result of batch 67: 
+INFO  [18:50:50.489]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:50.489]       6.467361          4.988375                0.1634656   0.7996198 
+INFO  [18:50:50.489]                                 uhash 
+INFO  [18:50:50.489]  6b9ed241-b995-4544-8a7e-63153c2def70 
+INFO  [18:50:50.497] Evaluating 1 configuration(s) 
+INFO  [18:50:50.651] Benchmark with 3 resampling iterations 
+INFO  [18:50:50.660] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:51.071] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:51.482] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:51.864] Finished benchmark 
+INFO  [18:50:52.043] Result of batch 68: 
+INFO  [18:50:52.045]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:52.045]       3.624291           7.54187                0.3614053   0.7690729 
+INFO  [18:50:52.045]                                 uhash 
+INFO  [18:50:52.045]  0b0d431c-656a-48df-a02e-b0ca897f1af7 
+INFO  [18:50:52.067] Evaluating 1 configuration(s) 
+INFO  [18:50:52.202] Benchmark with 3 resampling iterations 
+INFO  [18:50:52.210] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:52.499] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:52.813] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:53.244] Finished benchmark 
+INFO  [18:50:53.442] Result of batch 69: 
+INFO  [18:50:53.445]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:53.445]       8.470418          4.046837                0.4758829   0.7850526 
+INFO  [18:50:53.445]                                 uhash 
+INFO  [18:50:53.445]  8515b002-e1ed-47fb-8986-da28f8eb0e26 
+INFO  [18:50:53.452] Evaluating 1 configuration(s) 
+INFO  [18:50:53.569] Benchmark with 3 resampling iterations 
+INFO  [18:50:53.577] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:53.977] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:54.294] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:54.651] Finished benchmark 
+INFO  [18:50:54.863] Result of batch 70: 
+INFO  [18:50:54.865]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:54.865]       9.334575          2.662243               0.09980485   0.7731338 
+INFO  [18:50:54.865]                                 uhash 
+INFO  [18:50:54.865]  53529ec3-19df-48c2-9282-9dc09ae115fc 
+INFO  [18:50:54.871] Evaluating 1 configuration(s) 
+INFO  [18:50:55.051] Benchmark with 3 resampling iterations 
+INFO  [18:50:55.065] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:55.435] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:55.802] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:56.387] Finished benchmark 
+INFO  [18:50:56.616] Result of batch 71: 
+INFO  [18:50:56.618]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:56.618]       6.367917          8.461935               0.04222417   0.8091853 
+INFO  [18:50:56.618]                                 uhash 
+INFO  [18:50:56.618]  fa5b2d75-0b5f-477b-a8ff-66a8283ce8a9 
+INFO  [18:50:56.623] Evaluating 1 configuration(s) 
+INFO  [18:50:56.763] Benchmark with 3 resampling iterations 
+INFO  [18:50:56.776] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:50:57.933] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:50:58.455] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:50:59.481] Finished benchmark 
+INFO  [18:50:59.711] Result of batch 72: 
+INFO  [18:50:59.713]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:50:59.713]       7.886809          9.743701              0.009591153   0.8092211 
+INFO  [18:50:59.713]                                 uhash 
+INFO  [18:50:59.713]  fe8d6dc7-bee1-41f7-99ef-31fc987047c7 
+INFO  [18:50:59.718] Evaluating 1 configuration(s) 
+INFO  [18:50:59.856] Benchmark with 3 resampling iterations 
+INFO  [18:50:59.869] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:00.168] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:00.520] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:00.832] Finished benchmark 
+INFO  [18:51:01.056] Result of batch 73: 
+INFO  [18:51:01.058]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:01.058]       3.564815          3.807155                0.3548816   0.8027841 
+INFO  [18:51:01.058]                                 uhash 
+INFO  [18:51:01.058]  4017d001-c5af-4afe-98f4-f5a68c7cfc89 
+INFO  [18:51:01.063] Evaluating 1 configuration(s) 
+INFO  [18:51:01.215] Benchmark with 3 resampling iterations 
+INFO  [18:51:01.228] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:01.916] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:02.513] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:02.934] Finished benchmark 
+INFO  [18:51:03.767] Result of batch 74: 
+INFO  [18:51:03.769]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:03.769]       3.380392          5.172828                0.2969911   0.7740892 
+INFO  [18:51:03.769]                                 uhash 
+INFO  [18:51:03.769]  baf19510-ec5d-449d-89d4-ad450909f4a6 
+INFO  [18:51:03.773] Evaluating 1 configuration(s) 
+INFO  [18:51:03.845] Benchmark with 3 resampling iterations 
+INFO  [18:51:03.852] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:04.065] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:04.313] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:04.542] Finished benchmark 
+INFO  [18:51:04.672] Result of batch 75: 
+INFO  [18:51:04.674]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:04.674]        7.78856          9.947651                0.3632476   0.7728656 
+INFO  [18:51:04.674]                                 uhash 
+INFO  [18:51:04.674]  8a739c69-1b82-4d23-a0bd-35716df14fc9 
+INFO  [18:51:04.698] Evaluating 1 configuration(s) 
+INFO  [18:51:04.769] Benchmark with 3 resampling iterations 
+INFO  [18:51:04.776] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:04.991] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:05.332] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:05.576] Finished benchmark 
+INFO  [18:51:05.707] Result of batch 76: 
+INFO  [18:51:05.708]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:05.708]       7.444134          3.524015                 0.293152   0.7636983 
+INFO  [18:51:05.708]                                 uhash 
+INFO  [18:51:05.708]  a6b992bc-4834-4eb8-bab0-f99554066108 
+INFO  [18:51:05.713] Evaluating 1 configuration(s) 
+INFO  [18:51:05.804] Benchmark with 3 resampling iterations 
+INFO  [18:51:05.811] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:06.014] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:06.291] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:06.654] Finished benchmark 
+INFO  [18:51:06.788] Result of batch 77: 
+INFO  [18:51:06.790]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:06.790]       4.418082          2.086062                0.4574138   0.7985022 
+INFO  [18:51:06.790]                                 uhash 
+INFO  [18:51:06.790]  acb00797-337f-4a05-8ab0-9d6deacf4df7 
+INFO  [18:51:06.795] Evaluating 1 configuration(s) 
+INFO  [18:51:06.901] Benchmark with 3 resampling iterations 
+INFO  [18:51:06.908] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:07.163] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:07.404] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:07.644] Finished benchmark 
+INFO  [18:51:07.778] Result of batch 78: 
+INFO  [18:51:07.780]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:07.780]       5.372719          6.212186                0.3419307   0.8013619 
+INFO  [18:51:07.780]                                 uhash 
+INFO  [18:51:07.780]  f85b94de-8cbb-425c-8732-73a88112fc1a 
+INFO  [18:51:07.785] Evaluating 1 configuration(s) 
+INFO  [18:51:07.859] Benchmark with 3 resampling iterations 
+INFO  [18:51:07.866] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:08.365] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:08.732] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:09.012] Finished benchmark 
+INFO  [18:51:09.148] Result of batch 79: 
+INFO  [18:51:09.149]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:09.149]       3.464003          8.268943                0.1488746   0.8072875 
+INFO  [18:51:09.149]                                 uhash 
+INFO  [18:51:09.149]  e68bb39c-5e10-49df-9abd-d56bb1851833 
+INFO  [18:51:09.154] Evaluating 1 configuration(s) 
+INFO  [18:51:09.230] Benchmark with 3 resampling iterations 
+INFO  [18:51:09.237] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:09.472] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:09.692] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:09.923] Finished benchmark 
+INFO  [18:51:10.056] Result of batch 80: 
+INFO  [18:51:10.058]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:10.058]        9.31678          6.648398                0.3749442   0.7907399 
+INFO  [18:51:10.058]                                 uhash 
+INFO  [18:51:10.058]  24da6004-a7bd-4763-a948-8ff1635f1b64 
+INFO  [18:51:10.063] Evaluating 1 configuration(s) 
+INFO  [18:51:10.138] Benchmark with 3 resampling iterations 
+INFO  [18:51:10.145] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:10.465] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:10.683] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:10.924] Finished benchmark 
+INFO  [18:51:11.060] Result of batch 81: 
+INFO  [18:51:11.062]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:11.062]       7.079751           5.26893                0.4409604   0.8029591 
+INFO  [18:51:11.062]                                 uhash 
+INFO  [18:51:11.062]  5e00eaa1-94ed-4b1e-bb12-8a5e939ed09f 
+INFO  [18:51:11.066] Evaluating 1 configuration(s) 
+INFO  [18:51:11.143] Benchmark with 3 resampling iterations 
+INFO  [18:51:11.150] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:11.480] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:11.722] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:11.996] Finished benchmark 
+INFO  [18:51:12.137] Result of batch 82: 
+INFO  [18:51:12.139]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:12.139]       4.837033            3.1471                0.2071349   0.8028273 
+INFO  [18:51:12.139]                                 uhash 
+INFO  [18:51:12.139]  8577464c-b9b2-4c3e-af5d-8a6d06ac240a 
+INFO  [18:51:12.144] Evaluating 1 configuration(s) 
+INFO  [18:51:12.221] Benchmark with 3 resampling iterations 
+INFO  [18:51:12.229] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:12.562] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:12.783] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:13.175] Finished benchmark 
+INFO  [18:51:13.312] Result of batch 83: 
+INFO  [18:51:13.314]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:13.314]       7.106576          2.946847                0.3940256    0.790729 
+INFO  [18:51:13.314]                                 uhash 
+INFO  [18:51:13.314]  175792df-ee64-429d-83c8-5cf03a47b033 
+INFO  [18:51:13.319] Evaluating 1 configuration(s) 
+INFO  [18:51:13.414] Benchmark with 3 resampling iterations 
+INFO  [18:51:13.421] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:13.637] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:13.846] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:14.091] Finished benchmark 
+INFO  [18:51:14.230] Result of batch 84: 
+INFO  [18:51:14.231]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:14.231]       9.132786          8.532641                0.3635076   0.8123908 
+INFO  [18:51:14.231]                                 uhash 
+INFO  [18:51:14.231]  b918c545-d6d2-43dc-a6f8-d2b8a9be1afa 
+INFO  [18:51:14.236] Evaluating 1 configuration(s) 
+INFO  [18:51:14.327] Benchmark with 3 resampling iterations 
+INFO  [18:51:14.335] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:14.574] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:14.953] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:15.204] Finished benchmark 
+INFO  [18:51:15.340] Result of batch 85: 
+INFO  [18:51:15.342]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:15.342]       6.777779          6.364081                0.3720583   0.7726086 
+INFO  [18:51:15.342]                                 uhash 
+INFO  [18:51:15.342]  7c3ceaec-b108-41b0-a8cf-25dfa40a78ec 
+INFO  [18:51:15.347] Evaluating 1 configuration(s) 
+INFO  [18:51:15.470] Benchmark with 3 resampling iterations 
+INFO  [18:51:15.478] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:16.649] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:17.845] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:18.612] Finished benchmark 
+INFO  [18:51:18.749] Result of batch 86: 
+INFO  [18:51:18.751]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:18.751]       2.413906          7.789318              0.003965671   0.8247707 
+INFO  [18:51:18.751]                                 uhash 
+INFO  [18:51:18.751]  c60c2663-2994-416c-a338-1f816faa1778 
+INFO  [18:51:18.756] Evaluating 1 configuration(s) 
+INFO  [18:51:18.881] Benchmark with 3 resampling iterations 
+INFO  [18:51:18.888] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:19.110] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:19.356] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:19.664] Finished benchmark 
+INFO  [18:51:19.802] Result of batch 87: 
+INFO  [18:51:19.804]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:19.804]       4.453768          2.688117                0.1632062   0.8017904 
+INFO  [18:51:19.804]                                 uhash 
+INFO  [18:51:19.804]  57b6a53f-418c-4a61-9b84-9719a0fa1709 
+INFO  [18:51:19.809] Evaluating 1 configuration(s) 
+INFO  [18:51:19.941] Benchmark with 3 resampling iterations 
+INFO  [18:51:19.955] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:20.219] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:20.462] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:20.750] Finished benchmark 
+INFO  [18:51:20.891] Result of batch 88: 
+INFO  [18:51:20.893]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:20.893]        3.95624          5.893756                0.3389777   0.8056573 
+INFO  [18:51:20.893]                                 uhash 
+INFO  [18:51:20.893]  d18c83ae-a1a5-4b05-b04f-f3b33de8ec6d 
+INFO  [18:51:20.897] Evaluating 1 configuration(s) 
+INFO  [18:51:20.999] Benchmark with 3 resampling iterations 
+INFO  [18:51:21.013] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:21.409] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:21.630] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:21.894] Finished benchmark 
+INFO  [18:51:22.031] Result of batch 89: 
+INFO  [18:51:22.032]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:22.032]       7.969945          3.453027                  0.28352   0.7921151 
+INFO  [18:51:22.032]                                 uhash 
+INFO  [18:51:22.032]  f81cd760-1597-4897-ac15-470d603e97cd 
+INFO  [18:51:22.037] Evaluating 1 configuration(s) 
+INFO  [18:51:22.115] Benchmark with 3 resampling iterations 
+INFO  [18:51:22.143] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:22.405] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:22.835] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:23.155] Finished benchmark 
+INFO  [18:51:23.292] Result of batch 90: 
+INFO  [18:51:23.294]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:23.294]       3.649828          6.638442                0.1281084   0.8097389 
+INFO  [18:51:23.294]                                 uhash 
+INFO  [18:51:23.294]  05e75893-261a-4bf9-86f3-9ea2222705ae 
+INFO  [18:51:23.299] Evaluating 1 configuration(s) 
+INFO  [18:51:23.376] Benchmark with 3 resampling iterations 
+INFO  [18:51:23.405] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:23.643] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:23.857] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:24.124] Finished benchmark 
+INFO  [18:51:24.263] Result of batch 91: 
+INFO  [18:51:24.264]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:24.264]       9.678926          9.089646                0.2247399   0.7775752 
+INFO  [18:51:24.264]                                 uhash 
+INFO  [18:51:24.264]  259ce180-b9e4-4c2b-9047-5ee3793e8d8e 
+INFO  [18:51:24.269] Evaluating 1 configuration(s) 
+INFO  [18:51:24.390] Benchmark with 3 resampling iterations 
+INFO  [18:51:24.404] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:24.673] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:25.393] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:25.670] Finished benchmark 
+INFO  [18:51:25.808] Result of batch 92: 
+INFO  [18:51:25.810]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:25.810]       6.187976          7.095292                0.2726423   0.7738414 
+INFO  [18:51:25.810]                                 uhash 
+INFO  [18:51:25.810]  9f47c03e-8860-4bc2-a560-d435653d5839 
+INFO  [18:51:25.815] Evaluating 1 configuration(s) 
+INFO  [18:51:25.934] Benchmark with 3 resampling iterations 
+INFO  [18:51:25.943] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:26.177] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:26.500] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:26.825] Finished benchmark 
+INFO  [18:51:26.963] Result of batch 93: 
+INFO  [18:51:26.965]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:26.965]       8.805834           3.66209                0.1173003   0.7923315 
+INFO  [18:51:26.965]                                 uhash 
+INFO  [18:51:26.965]  88971aae-e30d-4a62-a95d-dcfec305b2e8 
+INFO  [18:51:26.970] Evaluating 1 configuration(s) 
+INFO  [18:51:27.094] Benchmark with 3 resampling iterations 
+INFO  [18:51:27.101] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:27.429] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:27.946] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:28.191] Finished benchmark 
+INFO  [18:51:28.365] Result of batch 94: 
+INFO  [18:51:28.367]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:28.367]       2.218291          8.995232                 0.175282   0.7942925 
+INFO  [18:51:28.367]                                 uhash 
+INFO  [18:51:28.367]  1aa6d203-ed63-4aa2-8eb9-725c208cbbc3 
+INFO  [18:51:28.374] Evaluating 1 configuration(s) 
+INFO  [18:51:28.459] Benchmark with 3 resampling iterations 
+INFO  [18:51:28.466] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:28.735] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:29.429] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:29.658] Finished benchmark 
+INFO  [18:51:29.983] Result of batch 95: 
+INFO  [18:51:29.985]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:29.985]       9.978835          4.450547                0.3176986   0.7667216 
+INFO  [18:51:29.985]                                 uhash 
+INFO  [18:51:29.985]  01bb41c7-f074-4663-838b-cce8296f4e29 
+INFO  [18:51:29.990] Evaluating 1 configuration(s) 
+INFO  [18:51:30.084] Benchmark with 3 resampling iterations 
+INFO  [18:51:30.093] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:30.358] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:31.630] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:32.422] Finished benchmark 
+INFO  [18:51:32.636] Result of batch 96: 
+INFO  [18:51:32.638]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:32.638]       5.774831           7.94948                0.1169146   0.7784141 
+INFO  [18:51:32.638]                                 uhash 
+INFO  [18:51:32.638]  5f8f7642-55c5-41c8-b8a0-2e782ee9afc6 
+INFO  [18:51:32.643] Evaluating 1 configuration(s) 
+INFO  [18:51:32.722] Benchmark with 3 resampling iterations 
+INFO  [18:51:32.730] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:32.993] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:34.246] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:34.480] Finished benchmark 
+INFO  [18:51:34.674] Result of batch 97: 
+INFO  [18:51:34.677]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:34.677]       2.285119          6.652379                0.2062373   0.8061384 
+INFO  [18:51:34.677]                                 uhash 
+INFO  [18:51:34.677]  ad6ab48c-2e30-4e3c-87fc-e9ab77c5a552 
+INFO  [18:51:34.684] Evaluating 1 configuration(s) 
+INFO  [18:51:34.769] Benchmark with 3 resampling iterations 
+INFO  [18:51:34.777] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:35.136] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:35.422] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:35.667] Finished benchmark 
+INFO  [18:51:35.865] Result of batch 98: 
+INFO  [18:51:35.867]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:35.867]       8.143713           4.96302                 0.216612   0.7938163 
+INFO  [18:51:35.867]                                 uhash 
+INFO  [18:51:35.867]  e5540f6b-90df-439c-b440-414a6d2c5dde 
+INFO  [18:51:35.875] Evaluating 1 configuration(s) 
+INFO  [18:51:35.971] Benchmark with 3 resampling iterations 
+INFO  [18:51:35.980] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:36.231] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:36.520] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:36.779] Finished benchmark 
+INFO  [18:51:36.973] Result of batch 99: 
+INFO  [18:51:36.975]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:36.975]       8.548738          2.962776                0.3679356   0.7758768 
+INFO  [18:51:36.975]                                 uhash 
+INFO  [18:51:36.975]  7f2f53d2-d83e-4f34-b016-28150967f2f5 
+INFO  [18:51:36.982] Evaluating 1 configuration(s) 
+INFO  [18:51:37.071] Benchmark with 3 resampling iterations 
+INFO  [18:51:37.079] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:37.452] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:37.855] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 37: diabetes (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:38.102] Finished benchmark 
+INFO  [18:51:38.302] Result of batch 100: 
+INFO  [18:51:38.304]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate classif.auc 
+INFO  [18:51:38.304]       4.253205          2.346792                0.0740107   0.8139301 
+INFO  [18:51:38.304]                                 uhash 
+INFO  [18:51:38.304]  aa7e9969-1ae1-46b4-a73b-624bb17ebb85 
+INFO  [18:51:38.336] Finished optimizing after 100 evaluation(s) 
+INFO  [18:51:38.336] Result: 
+INFO  [18:51:38.338]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate learner_param_vals 
+INFO  [18:51:38.338]       2.121234          6.366286                0.3823178         <list[21]> 
+INFO  [18:51:38.338]   x_domain classif.auc 
+INFO  [18:51:38.338]  <list[3]>    0.835028 
+INFO  [18:51:38.662] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1.tuned' on task 'Task 3: kr-vs-kp (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:38.807] Starting to optimize 3 parameter(s) with '<OptimizerRandomSearch>' and '<TerminatorEvals>' 
+INFO  [18:51:38.824] Evaluating 1 configuration(s) 
+INFO  [18:51:38.902] Benchmark with 3 resampling iterations 
+INFO  [18:51:38.911] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 3: kr-vs-kp (Supervised Classification)' (iter 2/3) 
+INFO  [18:51:39.079] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 3: kr-vs-kp (Supervised Classification)' (iter 1/3) 
+INFO  [18:51:39.301] Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost_nesterov1' on task 'Task 3: kr-vs-kp (Supervised Classification)' (iter 3/3) 
+INFO  [18:51:39.471] Finished benchmark 
+Error in assert_binary(truth, prob = prob, positive = positive, na_value = na_value) : 
+  Assertion on 'truth' failed: Contains missing values (element 1).
+Calls: benchmark ... resolve.list -> signalConditionsASAP -> signalConditions
+Execution halted

@@ -58,7 +58,8 @@ protected:
 
 public:
   // Virtual functions
-  virtual arma::mat getData () const = 0;
+  virtual arma::mat    getData () const = 0;
+  virtual unsigned int nrow    () const = 0;
 
   // Getter/Setter
   std::string                       getDataIdentifier () const;
@@ -72,6 +73,7 @@ public:
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
+
 
   // Destructor
   virtual ~Data () {};
@@ -94,6 +96,7 @@ public:
 
   // void setData (const arma::mat&);
   arma::mat getData() const;
+  unsigned int nrow() const;
 
   // Destructor
   ~InMemoryData ();
@@ -115,9 +118,10 @@ protected:
   BinnedData (const std::string, const unsigned int, const arma::vec&, const arma::vec&);
 
 public:
-  arma::mat  getData         () const;
-  arma::uvec getBinningIndex () const;
-  bool       usesBinning     () const;
+  unsigned int nrow            () const;
+  arma::mat    getData         () const;
+  arma::uvec   getBinningIndex () const;
+  bool         usesBinning     () const;
 
   //void setIndexVector (const arma::vec&, const arma::vec&);
   //void setData        (const arma::mat&);
@@ -165,6 +169,7 @@ private:
 public:
   CategoricalData (const std::string, const std::vector<std::string>&);
 
+  unsigned int  nrow          () const;
   arma::mat     getData       () const;
   map_dict      getDictionary () const;
   arma::urowvec getClasses    () const;
@@ -189,6 +194,7 @@ private:
 public:
   CategoricalDataRaw (const std::string, const std::vector<std::string>&);
 
+  unsigned int             nrow       () const;
   arma::mat                getData    () const;
   std::vector<std::string> getRawData () const;
 };
@@ -208,6 +214,7 @@ private:
 public:
   CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
 
+  unsigned int nrow         ()                   const;
   arma::mat    getData      ()                   const;
   arma::uvec   getIndex     ()                   const;
   unsigned int getIndex     (const unsigned int) const;

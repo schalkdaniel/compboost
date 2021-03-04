@@ -1315,6 +1315,7 @@ class LossQuadraticWrapper : public LossWrapper
 public:
   LossQuadraticWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(); }
   LossQuadraticWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
+  LossQuadraticWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
 };
 
 //' Absolute loss for regression tasks.
@@ -1533,6 +1534,7 @@ class LossBinomialWrapper : public LossWrapper
 public:
   LossBinomialWrapper () { sh_ptr_loss = std::make_shared<loss::LossBinomial>(); }
   LossBinomialWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
+  LossBinomialWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
 };
 
 //' Create LossCustom by using R functions.
@@ -1699,6 +1701,7 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <arma::mat, bool> ()
   ;
 
   class_<LossAbsoluteWrapper> ("LossAbsolute")
@@ -1727,6 +1730,7 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <arma::mat, bool> ()
   ;
 
   class_<LossCustomWrapper> ("LossCustom")
@@ -2589,6 +2593,44 @@ public:
 };
 
 
+//' @export OptimizerAGBM
+class OptimizerAGBM: public OptimizerWrapper
+{
+public:
+  OptimizerAGBM (double momentum) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum);
+  }
+  OptimizerAGBM (double momentum, unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, num_threads);
+  }
+  OptimizerAGBM (double momentum, unsigned int acc_iters, unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, acc_iters, num_threads);
+  }
+
+
+  std::map<std::string, arma::mat> getMomentumParameter ()
+  {
+    std::map<std::string, arma::mat> param_map = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getMomentumParameter();
+    return param_map;
+  }
+  std::vector<std::string> getSelectedMomentumBaselearner ()
+  {
+    std::vector<std::string> out  = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getSelectedMomentumBaselearner();
+    return out;
+  }
+  Rcpp::List getParameterMatrix () const
+  {
+    std::pair<std::vector<std::string>, arma::mat> out_pair = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getParameterMatrix();
+
+    return Rcpp::List::create(
+      Rcpp::Named("parameter_names")   = out_pair.first,
+      Rcpp::Named("parameter_matrix")  = out_pair.second
+    );
+  }
+  std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
+};
+
+
 RCPP_EXPOSED_CLASS(OptimizerWrapper)
 RCPP_MODULE(optimizer_module)
 {
@@ -2609,6 +2651,17 @@ RCPP_MODULE(optimizer_module)
     .constructor ()
     .constructor <unsigned int> ()
     .method("getStepSize", &OptimizerCoordinateDescentLineSearch::getStepSize, "Get vector of step sizes")
+  ;
+
+  class_<OptimizerAGBM> ("OptimizerAGBM")
+    .derives<OptimizerWrapper> ("Optimizer")
+    .constructor <double> ()
+    .constructor <double, unsigned int> ()
+    .constructor <double, unsigned int, unsigned int> ()
+    .method("getMomentumParameter", &OptimizerAGBM::getMomentumParameter, "Get the parameter estimated in the momentum sequence")
+    .method("getSelectedMomentumBaselearner", &OptimizerAGBM::getSelectedMomentumBaselearner, "Get selected base-learner of the momentum sequence")
+    .method("getStepSize", &OptimizerAGBM::getStepSize, "Get vector of step sizes")
+    .method("getParameterMatrix", &OptimizerAGBM::getParameterMatrix, "Get parameter matrix")
   ;
 }
 

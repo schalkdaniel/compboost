@@ -77,8 +77,7 @@ test_that("predict works", {
 
   expect_silent({
   	cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new())
-    cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomial, degree = 1,
-    	intercept = FALSE)
+    cboost$addBaselearner("mpg_cat", "binary", BaselearnerCategoricalBinary)
     cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
     	n_knots = 10, penalty = 2, differences = 2)
   })

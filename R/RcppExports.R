@@ -1443,6 +1443,9 @@ NULL
 #' @export OptimizerCoordinateDescentLineSearch
 NULL
 
+#' @export OptimizerAGBM
+NULL
+
 #' Main Compboost Class
 #'
 #' This class collects all parts such as the factory list or the used logger

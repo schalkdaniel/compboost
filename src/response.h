@@ -46,6 +46,9 @@ protected:
 
   arma::mat _pseudo_residuals;
   arma::mat _prediction_scores;
+  // Buffer for additional stuff like for AGBM:
+  arma::mat _prediction_scores_temp1;
+  arma::mat _prediction_scores_temp2;
 
   unsigned int _iteration = 0;
   bool         _is_initialized = false;
@@ -66,19 +69,22 @@ public:
 
 
   // Setter/Getter
-  void setIteration        (const unsigned int);
-  void setPredictionScores (const arma::mat&, const unsigned int);
+  void setIteration             (const unsigned int);
+  void setPredictionScores      (const arma::mat&, const unsigned int);
+  void setPredictionScoresTemp1 (const arma::mat&);
+  void setPredictionScoresTemp2 (const arma::mat&);
 
-  std::string getTargetName          () const;
-  std::string getTaskIdentifier      () const;
-  arma::mat   getResponse            () const;
-  arma::mat   getWeights             () const;
-  arma::mat   getInitialization      () const;
-  arma::mat   getPseudoResiduals     () const;
-  arma::mat   getPredictionScores    () const;
-  arma::mat   getPredictionTransform () const;
-  arma::mat   getPredictionResponse  () const;
-
+  std::string getTargetName            () const;
+  std::string getTaskIdentifier        () const;
+  arma::mat   getResponse              () const;
+  arma::mat   getWeights               () const;
+  arma::mat   getInitialization        () const;
+  arma::mat   getPseudoResiduals       () const;
+  arma::mat   getPredictionScores      () const;
+  arma::mat   getPredictionTransform   () const;
+  arma::mat   getPredictionResponse    () const;
+  arma::mat   getPredictionScoresTemp1 () const;
+  arma::mat   getPredictionScoresTemp2 () const;
   // Other methods
   void checkLossCompatibility (const std::shared_ptr<loss::Loss>&) const;
   void updatePseudoResiduals  (const std::shared_ptr<loss::Loss>&);

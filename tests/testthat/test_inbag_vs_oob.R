@@ -22,7 +22,7 @@ test_that("Internal oob is the same as the logger", {
   for (feature_name in setdiff(names(df), target_var)) {
     if (feature_name %in% char_vars) {
       cboost$addBaselearner(feature = feature_name, id = "category",
-        bl_factory = BaselearnerPolynomial, intercept = FALSE)
+        bl_factory = BaselearnerCategoricalRidge, df = 1)
     } else {
       cboost$addBaselearner(feature = feature_name, id = "spline",
         bl_factory = BaselearnerPSpline, degree = 3, n_knots = 10)

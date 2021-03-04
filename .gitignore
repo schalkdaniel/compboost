@@ -19,3 +19,4 @@ benchmark/benchmark.R
 /revdep/.cache.rds
 docs
 temp
+benchmark/mlr-bmr/res-results/*
