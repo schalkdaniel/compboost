@@ -25,6 +25,7 @@
 #include <memory>
 #include <map>
 #include <limits>
+#include <math.h>
 
 #include <RcppArmadillo.h>
 
@@ -116,6 +117,29 @@ public:
   std::vector<double> getStepSize ()                   const;
 };
 
+
+class OptimizerCosineAnnealing : public OptimizerCoordinateDescent
+{
+private:
+  const double       _nu_min;
+  const double       _nu_max;
+  const unsigned int _cycles;
+  const unsigned int _anneal_iter_max;
+
+  const unsigned int _iters_per_cycle;
+  unsigned int       _current_iter;
+  unsigned int       _cycle_iter;
+
+public:
+  OptimizerCosineAnnealing ();
+  OptimizerCosineAnnealing (unsigned int);
+  OptimizerCosineAnnealing (const double, const double, const unsigned int, const unsigned int, const unsigned int);
+
+  void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
+
+  double              getStepSize (const unsigned int) const;
+  std::vector<double> getStepSize ()                   const;
+};
 
 
 // Accelerated Gradient Boosting:

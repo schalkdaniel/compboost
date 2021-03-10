@@ -16,21 +16,21 @@ base_dir = here::here()
 bm_dir = paste0(base_dir, "/benchmark/mlr-bmr/")
 
 library(R6)
-source(paste0(bm_dir, "classifCompboost.R"))
-source(paste0(bm_dir, "regrCompboost.R"))
+source(paste0(bm_dir, "learner-src/classifCompboost.R"))
+source(paste0(bm_dir, "learner-src/regrCompboost.R"))
 
 
 ### Benchmark:
 ### ==========================================
 
-bm_test = TRUE
-bm_small = FALSE
+bm_test = FALSE
+bm_small = TRUE
 bm_full = FALSE
 
 if (bm_test) {
-  n_evals = 5L
+  n_evals = 2L
   resampling_inner = rsmp("holdout")
-  resampling_outer = rsmp("holdout")
+  resampling_outer = rsmp("holdout", ratio = 0.9)
 }
 if (bm_small) {
   n_evals = 50L

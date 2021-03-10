@@ -2561,6 +2561,67 @@ public:
   }
 };
 
+//' Coordinate Descent with Cosine Annealing
+//'
+//' This class defines a new object which is used to conduct Coordinate Descent with a
+//' cosine annealing learning rate strategy.
+//'
+//' @format \code{\link{S4}} object.
+//' @name OptimizerCosineAnnealing
+//'
+//' @section Usage:
+//' \preformatted{
+//' OptimizerCosineAnnealing$new()
+//' OptimizerCosineAnnealing$new(ncores)
+//' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles)
+//' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles, ncores)
+//' }
+//' @section Arguments:
+//' \describe{
+//' \item{\code{nu_min} [\code{numeric(1)}]}{
+//'   Minimal learning rate.
+//' }
+//' \item{\code{nu_max} [\code{numeric(1)}]}{
+//'   Maximal learning rate.
+//' }
+//' \item{\code{cycles} [\code{integer(1)}]}{
+//'   Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
+//' }
+//' \item{\code{anneal_iter_max} [\code{integer(1)}]}{
+//'   Maximal number of iters for which annealing is applied. If the iteration is bigger
+//'   than anneal_iter_max, then nu_min is used as fixed learning rate.
+//' }
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
+//' @examples
+//'
+//' # Define optimizer:
+//' optimizer = OptimizerCosineAnnealing$new()
+//'
+//' @export OptimizerCosineAnnealing
+class OptimizerCosineAnnealing : public OptimizerWrapper
+{
+public:
+  OptimizerCosineAnnealing () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>();
+  }
+  OptimizerCosineAnnealing (unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(num_threads);
+  }
+  OptimizerCosineAnnealing (double nu_min, double nu_max, unsigned int cycles, unsigned int anneal_iter_max) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(nu_min, nu_max, cycles, anneal_iter_max, 1);
+  }
+  OptimizerCosineAnnealing (double nu_min, double nu_max, unsigned int cycles, unsigned int anneal_iter_max,
+      unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(nu_min, nu_max, cycles, anneal_iter_max,
+      num_threads);
+  }
+  std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
+};
+
 //' Coordinate Descent with line search
 //'
 //' This class defines a new object which is used to conduct Coordinate Descent with line search.
@@ -2680,6 +2741,15 @@ RCPP_MODULE(optimizer_module)
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
     .constructor <unsigned int> ()
+  ;
+
+  class_<OptimizerCosineAnnealing> ("OptimizerCosineAnnealing")
+    .derives<OptimizerWrapper> ("Optimizer")
+    .constructor ()
+    .constructor <unsigned int> ()
+    .constructor <double, double, unsigned int, unsigned int> ()
+    .constructor <double, double, unsigned int, unsigned int, unsigned int> ()
+    .method("getStepSize", &OptimizerCosineAnnealing::getStepSize, "Get vector of step sizes")
   ;
 
   class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")

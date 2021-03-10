@@ -226,6 +226,79 @@ double OptimizerCoordinateDescentLineSearch::getStepSize (const unsigned int ite
   return _step_sizes[iteration - 1];
 }
 
+// OptimizerCosineAnnealing:
+// ---------------------------------------------------
+
+OptimizerCosineAnnealing::OptimizerCosineAnnealing ()
+  : _nu_min ( 0.01 ),
+    _nu_max ( 0.3 ),
+    _cycles ( 4 ),
+    _anneal_iter_max  ( 1000 ),
+    _iters_per_cycle  ( 250 )
+{
+  _current_iter = 1;
+  _cycle_iter = 1;
+  _step_sizes.clear();
+}
+
+OptimizerCosineAnnealing::OptimizerCosineAnnealing (unsigned int num_threads)
+  : OptimizerCoordinateDescent::OptimizerCoordinateDescent ( num_threads ),
+    _nu_min ( 0.01 ),
+    _nu_max ( 0.3 ),
+    _cycles ( 4 ),
+    _anneal_iter_max  ( 1000 ),
+    _iters_per_cycle  ( 250 )
+{
+  _current_iter = 1;
+  _cycle_iter = 1;
+  _step_sizes.clear();
+}
+
+OptimizerCosineAnnealing::OptimizerCosineAnnealing  (const double nu_min, const double nu_max, const unsigned int cycles,
+    const unsigned int anneal_iter_max, const unsigned int num_threads)
+  : OptimizerCoordinateDescent::OptimizerCoordinateDescent ( num_threads ),
+    _nu_min ( nu_min ),
+    _nu_max ( nu_max ),
+    _cycles ( cycles ),
+    _anneal_iter_max  ( anneal_iter_max ),
+    _iters_per_cycle  ( std::floor(anneal_iter_max / (double)cycles) )
+{
+  _current_iter = 1;
+  _cycle_iter = 1;
+  _step_sizes.clear();
+}
+
+void OptimizerCosineAnnealing::calculateStepSize (const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
+  const arma::vec& baselearner_prediction)
+{
+  if (_current_iter > _anneal_iter_max) {
+    _step_sizes.push_back(_nu_min);
+  } else {
+    if (_cycle_iter == _iters_per_cycle) {
+      _cycle_iter = 1;
+    } else {
+      _cycle_iter += 1;
+    }
+    _step_sizes.push_back(_nu_min + 0.5 * (_nu_max - _nu_min) * (1 + std::cos(M_PI * _cycle_iter / (double)_iters_per_cycle)));
+  }
+  _current_iter += 1;
+}
+
+std::vector<double> OptimizerCosineAnnealing::getStepSize () const
+{
+  return _step_sizes;
+}
+
+double OptimizerCosineAnnealing::getStepSize (const unsigned int iteration) const
+{
+  if (_step_sizes.size() < iteration) {
+    std::string msg = "Requested iteration " + std::to_string(iteration) + " is greater than the already trained iterations " + std::to_string(_step_sizes.size()) +".";
+    Rcpp::stop(msg);
+  }
+  // Subtract 1 since the actual iteration starts counting with 1 and the step sizes with 0:
+  return _step_sizes[iteration - 1];
+}
+
 
 // OptimizerAGBM:
 // ---------------------------------------------------

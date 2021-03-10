@@ -58,7 +58,7 @@ paramExtract = function(param_list, param) {
 files = list.files("res-results", full.names = TRUE)
 files = files[grepl(x = files, pattern = "bmr-classif")]
 
-files = files[grepl(pattern = "Feb-16", x = files)]
+files = files[grepl(pattern = "Feb-25", x = files)]
 
 ll_classif = list()
 ll_classif_msrs = list()
@@ -127,9 +127,10 @@ df_mstop = df_params %>%
   group_by(learner, task) %>%
   summarize(mstop = median(mstop))
 
-lrn_names = c(cboost1 = "CWB (no binning)", cboost2 = "CWB (binning)", cboost_nesterov1 = "ACWB (no binning)",
-  cboost_nesterov2 = "ACWB (binning)", ranger = "Random forest", rpart = "CART", xgboost = "Boosted trees",
-  gamboost = "CWB (mboost)")
+lrn_names = c(cboost1 = "CWB (no binning)", cboost2 = "CWB (binning)", cboost_nesterov1 = "hCWB (no binning)",
+  cboost_nesterov2 = "hCWB (binning)", cboost_nesterov1_norestart = "AGBM (no binning)",
+  cboost_nesterov2_norestart = "AGBM (binning)", ranger = "Random forest", rpart = "CART",
+  xgboost = "Boosted trees", gamboost = "CWB (mboost)")
 
 idx_nm = sapply(df_mstop$learner, function(lr) which(paste0("ps_", names(lrn_names)) == lr))
 df_mstop$learner = factor(lrn_names[idx_nm], levels = lrn_names)
@@ -137,10 +138,10 @@ df_mstop$learner = factor(lrn_names[idx_nm], levels = lrn_names)
 idx_nm = sapply(tmp$learner, function(lr) which(paste0("ps_", names(lrn_names)) == lr))
 tmp$learner = factor(lrn_names[idx_nm], levels = lrn_names)
 
-ggViz = function (yf) {
-  ggplot(data = tmp, aes_string(x = "learner", y = yf, color = "learner", fill = "learner")) +
-    geom_boxplot(alpha = 0.2) +
-    facet_wrap(. ~ task, ncol = 5L) +
+ggViz = function (data, yf) {
+  ggplot(data = data, aes_string(x = "learner", y = yf, color = "learner", fill = "learner")) +
+    geom_boxplot(alpha = 0.2, outlier.color = NA) +
+    facet_wrap(. ~ task, ncol = 4L) +
     theme_bw(base_family = font) +
     theme(
       strip.background = element_rect(fill = rgb(47,79,79,maxColorValue = 255), color = "white"),
@@ -157,7 +158,9 @@ ggViz = function (yf) {
     scale_fill_viridis(discrete = TRUE)
 }
 
-gg = ggViz("auc") + ylab("AUC")
+gg = tmp %>% filter(learner != "CART") %>% ggViz("auc") + ylab("AUC") + ylim(0.5, 1)
+gg
+
 dinA4width = 210 * font_scale
 scale_fac = 1 / 2
 ggsave(
@@ -167,7 +170,10 @@ ggsave(
   height = dinA4width * scale_fac * 1 / 3,
   units = "mm")
 
-gg = ggViz("time_train") + ylab("Training time\n(seconds)")
+gg = tmp %>% filter(learner != "CART") %>% ggViz("time_train/100") + ylab("Training time\n(seconds)")
+gg
+
+
 dinA4width = 210 * font_scale
 scale_fac = 1 / 2
 ggsave(
@@ -183,7 +189,7 @@ ggsave(
 ### Get tables:
 ### ======================================
 
-latexResults = function (rres, minimize = TRUE) {
+latexResults = function (rres, minimize = TRUE, dec = 4) {
 
   minmax = function (x, minimize) { if (minimize) { return (min(x)) } else { return (max(x)) }}
 
@@ -194,7 +200,7 @@ latexResults = function (rres, minimize = TRUE) {
 
   lt_lines = rres %>%
     left_join(max_idx, by = "task") %>%
-    mutate(cell_text = paste0("$", ifelse(med == max_med, paste0("\\bm{", round(med, 4), "}"), round(med, 4)), "\\pm", round(sd, 4), "$")) %>%
+    mutate(cell_text = paste0("$", ifelse(med == max_med, paste0("\\bm{", round(med, dec), "}"), round(med, dec)), "\\pm", round(sd, dec), "$")) %>%
     select(learner, task, cell_text) %>%
     pivot_wider(names_from = learner, values_from = cell_text) %>%
     mutate(task = paste0("\\textbf{", task, "}")) #%>%
@@ -206,11 +212,15 @@ latexResults = function (rres, minimize = TRUE) {
   lines = as.character(rbind(lines, "\\hline"))
   lines = paste0("\t\t", lines, " \n")
 
-  lines_header = c("\t\t\\hline\n\t\t\\diagbox{\\textbf{Dataset}}{\\textbf{Learner}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(no binning)}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(binning)}} \n\t\t\t& \\makecell{\\textbf{ACWB} \\\\ \\textbf{(no binning)}} \n\t\t\t& \\makecell{\\textbf{ACWB} \\\\ \\textbf{(binning)}} \n\t\t\t&\\makecell{\\textbf{Boosted} \\\\ \\textbf{trees}} \n\t\t\t& \\textbf{CART} \n\t\t\t& \\makecell{\\textbf{Random} \\\\ \\textbf{forest}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(no binning; mboost)}} \\\\\n\t\t\\hline\\hline\n")
-  lines_start = "\t\\begin{tabular}{r|c|c|c|c|c|c|c|c}\n"
+  #lines_header = c("\t\t\\hline\n\t\t\\diagbox{\\textbf{Dataset}}{\\textbf{Learner}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(no binning)}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(binning)}} \n\t\t\t& \\makecell{\\textbf{ACWB} \\\\ \\textbf{(no binning)}} \n\t\t\t& \\makecell{\\textbf{ACWB} \\\\ \\textbf{(binning)}} \n\t\t\t&\\makecell{\\textbf{Boosted} \\\\ \\textbf{trees}} \n\t\t\t& \\textbf{CART} \n\t\t\t& \\makecell{\\textbf{Random} \\\\ \\textbf{forest}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(no binning; mboost)}} \\\\\n\t\t\\hline\\hline\n")
+  lines_header = paste0("\t\t\\hline\n\t\t\\diagbox{\\textbf{Dataset}}{\\textbf{Learner}} \n\t\t\t&",
+    paste0(paste0("\\makecell{", names(lt_lines[-1]), "}"), collapse =  " \n\t\t\t& "), "\\\\ \n\t\t\\hline\\hline\n")
+  lines_start = paste0("\t\\begin{tabular}{r", paste0("|", rep("c", length(lt_lines)-1), collapse = ""),  "}\n")
   lines_end = "\t\t\\hline\n\t\\end{tabular}"
 
-  cat(c(lines_start, lines_header, lines, lines_end, "\n\n"))
+  lines_all = c(lines_start, lines_header, lines, lines_end, "\n\n")
+
+  cat(stringr::str_replace(lines_all, stringr::fixed("_"), "\\_"))
 }
 
 rres_classif = tmp %>%
@@ -218,7 +228,7 @@ rres_classif = tmp %>%
   group_by(learner, task) %>%
   summarize(med = median(auc), min = min(auc), max = max(auc), sd = sd(auc))
 
-latexResults(rres_classif, FALSE)
+latexResults(rres_classif %>% filter(learner != "CART"), FALSE, dec = 3)
 
 
 ### Prepare regression  benchmark:
@@ -227,7 +237,7 @@ latexResults(rres_classif, FALSE)
 files = list.files("res-results", full.names = TRUE)
 files = files[grepl(x = files, pattern = "bmr-regr")]
 
-files = files[grepl(pattern = "Feb-19", x = files)]
+files = files[grepl(pattern = "Feb-16", x = files)]
 
 ll_classif = list()
 ll_classif_msrs = list()
@@ -296,9 +306,10 @@ df_mstop = df_params %>%
   group_by(learner, task) %>%
   summarize(mstop = median(mstop))
 
-lrn_names = c(cboost1 = "CWB (no binning)", cboost2 = "CWB (binning)", cboost_nesterov1 = "ACWB (no binning)",
-  cboost_nesterov2 = "ACWB (binning)", ranger = "Random forest", rpart = "CART", xgboost = "Boosted trees",
-  gamboost = "CWB (mboost)")
+lrn_names = c(cboost1 = "CWB (no binning)", cboost2 = "CWB (binning)", cboost_nesterov1 = "hCWB (no binning)",
+  cboost_nesterov2 = "hCWB (binning)", cboost_nesterov1_norestart = "AGBM (no binning)",
+  cboost_nesterov2_norestart = "AGBM (binning)", ranger = "Random forest", rpart = "CART",
+  xgboost = "Boosted trees", gamboost = "CWB (mboost)")
 
 idx_nm = sapply(df_mstop$learner, function(lr) which(paste0("ps_", names(lrn_names)) == lr))
 df_mstop$learner = factor(lrn_names[idx_nm], levels = lrn_names)
@@ -307,8 +318,8 @@ idx_nm = sapply(tmp$learner, function(lr) which(paste0("ps_", names(lrn_names)) 
 tmp$learner = factor(lrn_names[idx_nm], levels = lrn_names)
 
 
-ggViz("mse") + ylab("MSE")
-ggViz("time_train / 100") + ylab("Training time\n(seconds)")
+tmp %>% filter(learner != "CART") %>% ggViz("mse") + ylab("MSE") + ylim(0,1) + facet_wrap(. ~ task, ncol = 4L, scales = "free")
+tmp %>% filter(learner != "CART") %>% ggViz("time_train / 100") + ylab("Training time\n(seconds)")
 
 
 
@@ -317,128 +328,7 @@ rres_regr = tmp %>%
   group_by(learner, task) %>%
   summarize(med = median(mse), min = min(mse), max = max(mse), sd = sd(mse))
 
-latexResults(rres_regr, TRUE)
+latexResults(rres_regr %>% filter(learner != "CART"), TRUE, dec = 3)
 
 
-
-### Visualize:
-### ======================================
-
-
-rres_classif %>%
-  group_by(task, learner) %>%
-  summarize(auc_med = median(classif.auc), auc_min = min(classif.auc), auc_max = max(classif.auc)) %>%
-  as.data.frame()
-
-bmrl = as.data.table(bmr)$learner
-l = bmrl[[1]]
-l$tuning_results
-
-
-#sysfonts::font_add("Gyre Bonum",
-    #regular = "/usr/share/texmf-dist/fonts/opentype/public/tex-gyre/texgyrebonum-regular.otf",
-    #bold = "/usr/share/texmf-dist/fonts/opentype/public/tex-gyre/texgyrebonum-bold.otf")
-#showtext::showtext_auto()
-
-#font_scale = 3
-
-#gg = rres %>%
-  #pivot_longer(names_to = "measure", values_to = "measure_value", cols = starts_with("classif.")) %>%
-    #ggplot(aes(x = measure, y = measure_value, fill = learner)) +
-      #geom_boxplot() +
-      #theme_minimal(base_family = "Gyre Bonum") +
-      #theme(
-        #strip.background = element_rect(fill = rgb(47,79,79,maxColorValue = 255), color = "white"),
-        #strip.text = element_text(color = "white", face = "bold", size = 8 * font_scale),
-        #axis.text.x = element_text(angle = 45, hjust = 1),
-        #axis.text = element_text(size = 8 * font_scale),
-        #axis.title = element_text(size = 10 * font_scale),
-        #legend.text = element_text(size = 6 * font_scale),
-        #legend.title = element_text(size = 8 * font_scale)
-      #) +
-      #scale_fill_viridis(discrete = TRUE) +
-      #xlab("") +
-      #ylab("") +
-      #labs(fill = "") +
-      #facet_grid(paste0(task, "\nnrow: ", task_nrow) ~ .)
-
-#dinA4width = 210 * font_scale
-#ggsave(plot = gg, filename = "rres.pdf", width = dinA4width * 1/3, height = dinA4width, units = "mm")
-
-
-
-#as.data.table(bmr$resample_results$resample_result[[1]])$learner[[1]]$tuning_result
-
-
-
-
-
-
-
-
-#library("paradox")
-#library("mlr3")
-#library("mlr3tuning")
-#library("mlr3learners")
-
-#learner = lrn("classif.rpart")
-#tune_ps = ParamSet$new(list(
-  #ParamDbl$new("cp", lower = 0.001, upper = 0.1),
-  #ParamInt$new("minsplit", lower = 1, upper = 10)
-#))
-#terminator = trm("evals", n_evals = 10)
-#tuner = tnr("random_search")
-
-#at = AutoTuner$new(
-  #learner = learner,
-  #resampling = rsmp("holdout"),
-  #measure = msr("classif.ce"),
-  #search_space = tune_ps,
-  #terminator = terminator,
-  #tuner = tuner,
-  #store_tuning_instance = TRUE
-#)
-
-#grid = benchmark_grid(
-  #task = tsk("pima"),
-  #learner = list(at, lrn("classif.rpart")),
-  #resampling = rsmp("cv", folds = 3)
-#)
-
-#bmr = benchmark(grid, store_models = TRUE)
-
-#bmrl = as.data.table(bmr)$learner
-#l = bmrl[[1]]
-#l$tuning_result
-
-
-
-
-latexResults = function (rres, minimize = TRUE) {
-
-  minmax = function (x, minimize) { if (minimize) { return (min(x)) } else { return (max(x)) }}
-
-  max_idx = rres %>%
-    select(learner, task, med) %>%
-    group_by(task) %>%
-    summarize(max_med = minmax(med, minimize))
-
-  lt_lines = rres %>%
-    left_join(max_idx, by = "task") %>%
-    mutate(cell_text = paste0(ifelse(med == max_med, paste0("\\textbf{", round(med, 4), "}"), round(med, 4)), "\\ \\ \\makecell[c]{\\scriptsize{", round(max, 4), "} \\\\ \\scriptsize{", round(min, 4), "}}")) %>%
-    select(learner, task, cell_text) %>%
-    pivot_wider(names_from = learner, values_from = cell_text) %>%
-    mutate(task = paste0("\\textbf{", task, "}")) #%>%
-  #knitr::kable(format = "latex", escape = FALSE)
-
-  lines = paste0(apply(lt_lines, 1, paste0, collapse = " \n\t\t\t& "), " \\\\")
-  lines = as.character(rbind(lines, "\\hline"))
-  lines = paste0("\t\t", lines, " \n")
-
-  lines_header = c("\t\t\\hline\n\t\t\\diagbox{\\textbf{Dataset}}{\\textbf{Learner}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(binning)}} \n\t\t\t& \\makecell{\\textbf{CWB} \\\\ \\textbf{(no binning)}} \n\t\t\t& \\makecell{\\textbf{ACWB} \\\\ \\textbf{(binning)}} \n\t\t\t& \\makecell{\\textbf{ACWB} \\\\ \\textbf{(no binning)}} \n\t\t\t&\\makecell{\\textbf{Boosted} \\\\ \\textbf{trees}} \n\t\t\t& \\textbf{CART} \n\t\t\t& \\makecell{\\textbf{Random} \\\\ \\textbf{forest}} \\\\\n\t\t\\hline\\hline\n")
-  lines_start = "\t\\begin{tabular}{r|c|c|c|c|c|c|c}\n"
-  lines_end = "\t\t\\hline\n\t\\end{tabular}"
-
-  cat(c(lines_start, lines_header, lines, lines_end, "\n\n"))
-}
 
