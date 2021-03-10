@@ -1,1 +1,0 @@
-INFO  [11:46:11.066] [mlr3]  Benchmark with 8 resampling iterations 

@@ -6,11 +6,11 @@ design_classif = benchmark_grid(
   task = tasks_classif,
   resampling = resampling_outer$clone(deep = TRUE)
 )
-design_regr = benchmark_grid(
-  learner = learners_regr,
-  task = tasks_regr,
-  resampling = resampling_outer$clone(deep = TRUE)
-)
+#design_regr = benchmark_grid(
+  #learner = learners_regr,
+  #task = tasks_regr,
+  #resampling = resampling_outer$clone(deep = TRUE)
+#)
 
 robustify = po("removeconstants", id = "removeconstants_before") %>>%
   po("imputemedian", id = "imputemedian_num", affect_columns = selector_type(c("integer", "numeric"))) %>>%
@@ -23,7 +23,11 @@ getAT = function (lrn, ps, res, add_pipe = NULL) {
   if (! is.null(add_pipe)) glearner = glearner %>>% add_pipe
   glearner = glearner %>>% lrn
 
-  if ("twoclass" %in% lrn$properties) { measure = measure_classif$clone(deep = TRUE) } else { measure = measure_regr$clone(deep = TRUE) }
+  if ("twoclass" %in% lrn$properties) {
+    measure = measure_classif$clone(deep = TRUE)
+  } else {
+    measure = measure_regr$clone(deep = TRUE)
+  }
 
   AutoTuner$new(
     learner      = GraphLearner$new(glearner),
@@ -64,4 +68,4 @@ updateDesign = function (design) {
 }
 
 design_classif = updateDesign(design_classif)
-design_regr = updateDesign(design_regr)
+#design_regr = updateDesign(design_regr)

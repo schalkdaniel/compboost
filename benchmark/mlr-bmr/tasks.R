@@ -3,8 +3,8 @@
 
 ## CLASSIFICATION
 
-requireNamespace("mlr3oml")
-task_classif = list()
+suppressMessages(requireNamespace("mlr3oml"))
+tasks_classif = list()
 
 load("config.Rda")
 
@@ -12,7 +12,7 @@ if (config$type == "oml") {
   e = try({
     tsk("oml", task_id = as.integer(config$task))
   }, silent = TRUE)
-  if (class(e) != "try-error") {
+  if (! "try-error" %in% class(e)) {
     if ("twoclass" %in% e$properties) {
       if (! all(is.na(e$data()))) tasks_classif[[config$task]] = e
     }
