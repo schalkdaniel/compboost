@@ -6,7 +6,7 @@
 suppressMessages(requireNamespace("mlr3oml"))
 tasks_classif = list()
 
-load("config.Rda")
+#load("config.Rda")
 
 if (config$type == "oml") {
   e = try({

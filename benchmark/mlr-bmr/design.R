@@ -29,13 +29,25 @@ getAT = function (lrn, ps, res, add_pipe = NULL) {
     measure = measure_regr$clone(deep = TRUE)
   }
 
+
+  terminator1 = trm("stagnation", iters = 5L)
+  terminator2 = trm("evals", n_evals = n_evals_mbo)
+  terminator = trm("combo", terminators = list(terminator1, terminator2))
+  # terminator = terminator2
+
+  #tuner = tnr("random_search")
+  surrogate_learner = lrn("regr.ranger", predict_type = "se", keep.inbag = TRUE)
+  tuner = tnr("intermbo", surrogate.learner = surrogate_learner)
+
   AutoTuner$new(
     learner      = GraphLearner$new(glearner),
     resampling   = res$clone(deep = TRUE),
     measure      = measure,
     search_space = ps$clone(deep = TRUE),
-    terminator   = trm("evals", n_evals = n_evals),
-    tuner        = tnr("random_search"),
+    #terminator   = trm("evals", n_evals = n_evals),
+    terminator   = terminator$clone(deep = TRUE),
+    #tuner        = tnr("random_search"),
+    tuner        = tuner$clone(deep = TRUE),
     store_tuning_instance = TRUE)
 }
 

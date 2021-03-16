@@ -8,13 +8,14 @@ if (FALSE) {
 load("config.Rda")
 if (FALSE) {
   config$task = "31"
-  config$learner = "classif_lrn_cboost_bin4"
+  config$learner = "classif_lrn_interpretML"
   tt = "CLASSIFICATION"
   i = 1
 }
 
 suppressMessages(library(mlr3))
 suppressMessages(library(mlr3tuning))
+suppressMessages(library(mlrintermbo))
 suppressMessages(library(mlr3learners))
 suppressMessages(library(mlr3extralearners))
 suppressMessages(library(mlr3pipelines))
@@ -25,6 +26,7 @@ bm_dir = paste0(base_dir, "/benchmark/mlr-bmr/")
 
 library(R6)
 source(paste0(bm_dir, "learner-src/classifCompboost.R"))
+source(paste0(bm_dir, "learner-src/classifInterpretML.R"))
 source(paste0(bm_dir, "learner-src/regrCompboost.R"))
 
 
@@ -37,16 +39,19 @@ bm_full = TRUE
 
 if (bm_test) {
   n_evals = 2L
+  n_evals_mbo = 3L
   resampling_inner = rsmp("holdout")
   resampling_outer = rsmp("holdout", ratio = 0.2)
 }
 if (bm_small) {
   n_evals = 20L
+  n_evals_mbo = 50L
   resampling_inner = rsmp("cv", folds = 2)
   resampling_outer = rsmp("cv", folds = 2)
 }
 if (bm_full) {
   n_evals = 100L
+  n_evals_mbo = 60L
   resampling_inner = rsmp("cv", folds = 3)
   resampling_outer = rsmp("cv", folds = 5)
 }
@@ -61,7 +66,7 @@ source(paste0(bm_dir, "learners.R"))
 source(paste0(bm_dir, "design.R"))
 
 
-## Runrne benchmark:
+## Run benchmark:
 ## -----------------------
 
 #msrs_types = list(

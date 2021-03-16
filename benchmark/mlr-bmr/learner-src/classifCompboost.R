@@ -145,3 +145,17 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
   )
 )
 mlr_learners$add("classif.compboost", LearnerClassifCompboost)
+
+#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob", mstop = 10L, restart = FALSE)
+
+#design = benchmark_grid(
+  #tasks = tsk("sonar"),
+  #learners = lr1,
+  #resamplings = rsmp("cv", folds = 3)
+#)
+
+#bmr = benchmark(design, store_models = TRUE)
+#bmr$aggregate(msrs(c("classif.auc", "classif.ce")))
+
+
+

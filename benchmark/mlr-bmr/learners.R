@@ -1,8 +1,8 @@
 ## Learners:
 ## ---------------------
 
-ncores = 15L
-load("config.Rda")
+ncores = parallel::detectCores() - 2L
+#load("config.Rda")
 
 ### Classification
 
@@ -39,6 +39,8 @@ classif_lrn_rpart = lrn("classif.rpart", id = "ps_rpart", predict_type = "prob")
 
 classif_lrn_ranger = lrn("classif.ranger", id = "ps_ranger", predict_type = "prob")
 
+classif_lrn_interpretML = lrn("classif.interpretML", id = "ps_interpretML", predict_type = "prob")
+
 learners_classif = list(
   classif_lrn_cboost1 = classif_lrn_cboost1,
   classif_lrn_cboost2 = classif_lrn_cboost2,
@@ -51,17 +53,18 @@ learners_classif = list(
   classif_lrn_xgboost = classif_lrn_xgboost,
   classif_lrn_gamboost = classif_lrn_gamboost,
   classif_lrn_rpart = classif_lrn_rpart,
-  classif_lrn_ranger = classif_lrn_ranger)
+  classif_lrn_ranger = classif_lrn_ranger,
+  classif_lrn_interpretML = classif_lrn_interpretML)
 
 learners_classif = learners_classif[config$learner]
 
 learners_classif = lapply(learners_classif, function(l) {
-  #l$encapsulate = c(train = "evaluate", predict = "evaluate")
-  #l$fallback = lrn("classif.featureless")
-
+  if (grepl(pattern = "cboost", x = l$id)) {
+    l$encapsulate = c(train = "evaluate", predict = "evaluate")
+    l$fallback = lrn("classif.featureless")
+  }
   if (l$id == "ps_xgboost") l = po("encode", method = "one-hot") %>>% l
-
-  l
+  return(l)
 })
 
 
