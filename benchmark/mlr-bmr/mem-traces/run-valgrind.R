@@ -1,5 +1,5 @@
 tsks_classif = rbind(
-  data.frame(type = "oml", name = c(359994L, 7592L, 168335L, 168337L)),
+  data.frame(type = "oml", name = c(359994L, 7592L, 168335L, 168337L, 31L)),
   data.frame(type = "script", name = "albert"))
 
 learners = c("classif_lrn_cboost1",
