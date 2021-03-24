@@ -32,6 +32,10 @@ robustify = po("removeconstants", id = "removeconstants_before") %>>%
   po("removeconstants", id = "removeconstants_after")
 
 
+# Trigger compboostSplines as flag when the fitting starts. compboostSplines
+# can be extracted by valgrind.
+tmp = compboostSplines::createKnots(1:10, 3, 2)
+
 lrn = learners_classif[[config$learner]]
 lrn = GraphLearner$new(robustify %>>% lrn)
 lrn$train(ts)

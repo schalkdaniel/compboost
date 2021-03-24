@@ -1,5 +1,5 @@
 tsks_classif = rbind(
-  data.frame(type = "oml", name = c(359994L, 7592L, 168335L, 168337L, 31L)),
+  data.frame(type = "oml", name = c(31L, 168337L, 168335L, 7572L, 359994L)),
   data.frame(type = "script", name = "albert"))
 
 learners = c("classif_lrn_cboost1",
@@ -16,27 +16,49 @@ learners = c("classif_lrn_cboost1",
   "classif_lrn_ranger",
   "classif_lrn_interpretML")
 
+if (FALSE) {
+  i = 3
+  j = 12
+  config = list(learner = learners[j], task = tsks_classif$name[i], type = tsks_classif$type[i])
+}
+
+files = list.files()
+files = files[grepl("massif-print", files)]
+files = c(files, "dummy")
+
 for (i in seq_len(nrow(tsks_classif))) {
   cat("[", as.character(Sys.time()), "]: Run task ", tsks_classif$name[i], " (", i, "/", nrow(tsks_classif), ")\n", sep = "")
   for (j in seq_along(learners)) {
     config = list(learner = learners[j], task = tsks_classif$name[i], type = tsks_classif$type[i])
     save(config, file = "config.Rda")
 
-    massif_file = paste0("massif.task", tsks_classif$name[i], "-", learners[j])
-    massif_print_file = paste0("massif-print.task", tsks_classif$name[i], "-", learners[j], ".txt")
-    log_file = paste0("log.task", tsks_classif$name[i], "-", learners[j])
+    if (!any(grepl(tsks_classif$name[i], files) & grepl(learners[j], files))) {
+      cat("\t[", as.character(Sys.time()), "]: Task ", tsks_classif$name[i], " and learner ", learners[j], "!\n", sep = "")
 
-    sys_call = paste0(
-      "R -d \"valgrind --tool=massif --stacks=yes",
-      " --threshold=0 --detailed-freq=1 --time-unit=ms --verbose --trace-children=yes",
-      " --massif-out-file=", massif_file, " --log-file=", log_file,
-      "\" -e \"source('train-model.R')\"")
+      massif_file = paste0("massif.task", tsks_classif$name[i], "-", learners[j])
+      massif_print_file = paste0("massif-print.task", tsks_classif$name[i], "-", learners[j], ".txt")
+      log_file = paste0("log.task", tsks_classif$name[i], "-", learners[j])
 
-    system(sys_call)
-    system(paste0("ms_print ", massif_file, " > ", massif_print_file))
-    file.remove(massif_file)
+      sys_call = paste0(
+        "R -d \"valgrind --tool=massif --stacks=yes",
+        " --threshold=0 --detailed-freq=1 --time-unit=ms --verbose --trace-children=yes",
+        " --massif-out-file=", massif_file, " --log-file=", log_file,
+        "\" -e \"source('train-model.R')\"")
+
+      system(sys_call)
+      system(paste0("ms_print ", massif_file, " > ", massif_print_file))
+      file.remove(massif_file)
+    } else {
+      cat("\t[", as.character(Sys.time()), "]: Task ", tsks_classif$name[i], " and learner ", learners[j], " already done!\n", sep = "")
+    }
   }
 }
+
+
+
+
+if (FALSE) {
+
 
 extractLineData = function (line) {
   l = stringr::str_replace_all(line, "[,]", "")
@@ -81,16 +103,21 @@ tmp = df_mem %>%
   group_by(learner, task) %>%
   mutate(ma = zoo::rollmean(mb, 10, fill = NA))
 
-tmp %>% filter(learner == "classif_lrn_xgboost") %>% select(mb, ma) %>% as.data.frame()
+#tmp %>% filter(learner == "classif_lrn_xgboost") %>% select(mb, ma) %>% as.data.frame()
+tmp0 = tmp %>% select(mb, seconds, learner, task, idx_cboost)
+tmp0 = tmp0 %>% mutate(data_base = ifelse(!is.na(idx_cboost), mb, NA))
 
 library(ggplot2)
-ggplot(tmp, aes(x = seconds / 60, y = mb, color = learner, fill = learner)) +
-  geom_line(alpha = 0.2) +
-  geom_line(aes(y = ma)) +
-  geom_hline(yintercept = df_mem$mb[!is.na(df_mem$idx_cboost)][1]) +
+library(ggsci)
+ggplot() +
+  geom_line(data = tmp, aes(x = seconds / 60, y = mb, color = learner, fill = learner), alpha = 0.2) +
+  geom_line(data = tmp, aes(x = seconds / 60, y = ma, color = learner, fill = learner)) +
+  geom_hline(data = tmp0, aes(yintercept = data_base, color = learner)) +
   xlab("Minutes") +
   ylab("Used memory (MB)") +
   facet_wrap(. ~ paste0("Task: ", task), scales = "free") +
-  scale_color_brewer(palette = "Set1") +
-  scale_fill_brewer(palette = "Set1")
+  scale_color_uchicago() +
+  scale_fill_uchicago()
 
+
+}
