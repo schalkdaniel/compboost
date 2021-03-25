@@ -1,6 +1,9 @@
 tsks_classif = rbind(
-  data.frame(type = "oml", name = c(359994L, 168337L, 7592L, 168335L, 31L, 37L, 54L, 4534L)),
-  data.frame(type = c("script", "mlr"), name = c("albert", "spam")))
+  data.frame(type = "mlr", name = "spam"),         # Spam
+  data.frame(type = "oml", name = "168335"),       # MiniBooNE
+  data.frame(type = "script", name = "albert"),    # Albert
+  data.frame(type = "oml", name = "168337")        # Guillermo
+)
 
 learners = c("classif_lrn_cboost1",
   "classif_lrn_cboost2",
@@ -13,31 +16,33 @@ learners = c("classif_lrn_cboost1",
   "classif_lrn_xgboost",
   "classif_lrn_gamboost",
   #"classif_lrn_rpart",
-  "classif_lrn_ranger",
-  "classif_lrn_interpretML")
+  "classif_lrn_ranger")
+  #"classif_lrn_interpretML")
 
-idx_large_data = c(1, 2, 4, 9)
-idx_other = setdiff(seq_len(nrow(tsks_classif)), idx_large_data)
+#idx_large_data = c(1, 2, 9)
+#idx_other = setdiff(seq_len(nrow(tsks_classif)), idx_large_data)
 
 if (FALSE) {
   idx_test = 5
   tsks_classif = tsks_classif[idx_test, ]
   learners = learners[9]
 }
-
 ## Bigger server has much more RAM, therefore, use large data on bigger server.
-if (parallel::detectCores() > 30) {
-  tsks_classif = tsks_classif[idx_large_data, ]
-} else {
-  tsks_classif = tsks_classif[idx_other, ]
-}
+#if (parallel::detectCores() > 30) {
+#  tsks_classif = tsks_classif[idx_large_data, ]
+#} else {
+#  tsks_classif = tsks_classif[idx_other, ]
+#}
 
 if (! dir.exists("res-results")) dir.create("res-results")
 if (! dir.exists("log-files")) dir.create("log-files")
 
+idx_miniboone = c(5, 6, 7, 10)
+idx_spam = c(7, 10)
+
 for (i in seq_len(nrow(tsks_classif))) {
   cat("[", as.character(Sys.time()), "] Task ", tsks_classif$name[i],
-    " (", i, "/", nrow(tsks_classif), ")\n", sep = "")
+    " (", i, "/", nrow(tsks_classif), "sep = "")
   for (j in seq_along(learners)) {
     done = list.files("res-results")
     is_done = any(grepl(learners[j], done) & grepl(tsks_classif$name[i], done))
@@ -45,14 +50,21 @@ for (i in seq_len(nrow(tsks_classif))) {
     cat("\t[", as.character(Sys.time()), "] Start benchmark of ", learners[j],
       " (", j, "/", length(learners), ")\n", sep = "")
 
+
+    if (tsks_classif$name[i] %in% c("spam", "168335")) is_done = TRUE
+    if ((tsks_classif$name[i] == "168335") && (learners[j] %in% learners[idx_miniboone])) is_done = FALSE
+    if ((tsks_classif$name[i] == "spam") && (learners[j] %in% learners[idx_spam])) is_done = FALSE
+
     if (! is_done) {
       config = list(date = as.character(Sys.time()), task = tsks_classif$name[i],
         type = tsks_classif$type[i], learner = learners[j])
 
       save(config, file = "config.Rda")
 
-      lf = paste0("log-files/log-", format(Sys.Date(), "%Y-%m-%d"), "-task", config$task, "-", learners[j], "-log.txt")
-      mf = paste0("log-files/log-", format(Sys.Date(), "%Y-%m-%d"), "-task", config$task, "-", learners[j], "-mem.txt")
+      lf = paste0("log-files/log-", format(Sys.Date(), "%Y-%m-%d"), "-task",
+        config$task, "-", learners[j], "-log.txt")
+      mf = paste0("log-files/log-", format(Sys.Date(), "%Y-%m-%d"), "-task",
+        config$task, "-", learners[j], "-mem.txt")
 
       system("chmod +x measure-mem.sh")
       system(paste0("./measure-mem.sh ", mf), wait = FALSE)
