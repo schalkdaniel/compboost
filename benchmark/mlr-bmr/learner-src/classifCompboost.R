@@ -19,6 +19,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           ParamInt$new(id = "patience", default = 5, lower = 1),
           ParamDbl$new(id = "eps_for_break", default = 0),
           ParamDbl$new(id = "bin_root", default = 0, lower = 0, upper = 4),
+          ParamFct$new(id = "bin_method", default = "quantile", levels = c("linear", "quantile")),
           ParamDbl$new(id = "df_cat", default = 1, lower = 1),
           ParamLgl$new(id = "restart", default = TRUE)
         )
@@ -86,6 +87,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         oob_fraction = self$param_set$values$oob_fraction,
         stop_args = stop_args,
         bin_root = self$param_set$values$bin_root,
+        bin_method = self$param_set$values$bin_method,
         df_cat = self$param_set$values$df_cat)
 
       out$cboost = cboost
@@ -106,6 +108,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
             df = self$param_set$values$df,
             learning_rate = self$param_set$values$learning_rate,
             bin_root = self$param_set$values$bin_root,
+            bin_method = self$param_set$values$bin_method,
             df_cat = self$param_set$values$df_cat)
 
           out$cboost_restart = cboost_restart

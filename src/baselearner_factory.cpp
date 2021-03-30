@@ -150,7 +150,7 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBasel
  */
 BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner_type,
   std::shared_ptr<data::Data> data_source, const unsigned int degree, const unsigned int n_knots,
-  const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root,
+  const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root, const std::string bin_method,
   const std::string cache_type)
   : BaselearnerFactory ( blearner_type, data_source )
 {
@@ -171,7 +171,7 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
   if (bin_root == 0) { // don't use binning
     _sh_ptr_psdata = std::make_shared<data::PSplineData>(data_source->getDataIdentifier(), degree, knots, penalty_mat);
   } else {             // use binning
-    arma::colvec bins = binning::binVectorCustom(data_source->getData(), bin_root);
+    arma::colvec bins = binning::binVectorCustom(data_source->getData(), bin_root, bin_method);
     _sh_ptr_psdata    = std::make_shared<data::PSplineData>(data_source->getDataIdentifier(), degree, knots, penalty_mat, bin_root, data_source->getDenseData(), bins);
     data_source->setDenseData(bins);
   }

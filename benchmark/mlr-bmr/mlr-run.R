@@ -1,7 +1,8 @@
 if (FALSE) {
   devtools::install("~/repos/compboost")
   install.packages(c("mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
-    "paradox", "xgboost", "ranger", "mboost", "mlr3oml"))
+    "paradox", "xgboost", "ranger", "mboost", "mlr3oml", "interpret", "mlrMBO",
+    "mlrintermbo"))
   remotes::install_github("mlr-org/mlr3extralearners")
 }
 
@@ -54,6 +55,7 @@ if (bm_full) {
   n_evals_mbo = 60L
   resampling_inner = rsmp("cv", folds = 3)
   resampling_outer = rsmp("cv", folds = 5)
+  #resampling_outer = rsmp("repeated_cv", folds = 5, repeats = 10L)
 }
 
 

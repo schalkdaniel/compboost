@@ -13,24 +13,27 @@ learners = c("classif_lrn_cboost1",
   "classif_lrn_xgboost",
   "classif_lrn_gamboost",
   #"classif_lrn_rpart",
-  "classif_lrn_ranger",
-  "classif_lrn_interpretML")
+  "classif_lrn_ranger")#,
+  #"classif_lrn_interpretML")
 
-idx_large_data = c(1, 2, 4, 9)
-idx_other = setdiff(seq_len(nrow(tsks_classif)), idx_large_data)
 
-if (FALSE) {
-  idx_test = 5
-  tsks_classif = tsks_classif[idx_test, ]
-  learners = learners[9]
-}
+tsks_classif = tsks_classif[tsks_classif$name %in% c("54", "37", "31"), ]
 
-## Bigger server has much more RAM, therefore, use large data on bigger server.
-if (parallel::detectCores() > 30) {
-  tsks_classif = tsks_classif[idx_large_data, ]
-} else {
-  tsks_classif = tsks_classif[idx_other, ]
-}
+#idx_large_data = c(1, 2, 4, 9)
+#idx_other = setdiff(seq_len(nrow(tsks_classif)), idx_large_data)
+
+#if (FALSE) {
+  #idx_test = 5
+  #tsks_classif = tsks_classif[idx_test, ]
+  #learners = learners[9]
+#}
+
+# Bigger server has much more RAM, therefore, use large data on bigger server.
+#if (parallel::detectCores() > 30) {
+  #tsks_classif = tsks_classif[idx_large_data, ]
+#} else {
+  #tsks_classif = tsks_classif[idx_other, ]
+#}
 
 if (! dir.exists("res-results")) dir.create("res-results")
 if (! dir.exists("log-files")) dir.create("log-files")

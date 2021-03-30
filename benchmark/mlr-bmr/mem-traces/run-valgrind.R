@@ -116,8 +116,8 @@ ggplot() +
   xlab("Minutes") +
   ylab("Used memory (MB)") +
   facet_wrap(. ~ paste0("Task: ", task), scales = "free") +
-  scale_color_uchicago() +
-  scale_fill_uchicago()
+  scale_fill_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
+  scale_color_manual(values = c(pal_uchicago()(9), pal_aaas()(3)))
 
 
 }
