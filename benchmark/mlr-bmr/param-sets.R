@@ -11,20 +11,30 @@ ps_interpretML = function(task, id) {
 }
 
 ps_xgboost = function(task, id) {
-  ParamSet$new(
+  ps = ParamSet$new(
     params = list(
-      ParamDbl$new(paste0(id, ".ps_xgboost.eta"), lower = 0.001, upper = 0.5),
-      ParamInt$new(paste0(id, ".ps_xgboost.max_depth"), lower = 3L, upper = 20L),
+      ParamDbl$new(paste0(id, ".ps_xgboost.eta"), lower = 0.001, upper = 0.2),
+      ParamInt$new(paste0(id, ".ps_xgboost.max_depth"), lower = 1L, upper = 20L),
       ParamInt$new(paste0(id, ".ps_xgboost.nrounds"), lower = 200L, upper = 5000L),
       ParamDbl$new(paste0(id, ".ps_xgboost.colsample_bytree"), lower = 0.5, upper = 1),
       ParamDbl$new(paste0(id, ".ps_xgboost.colsample_bylevel"), lower = 0.5, upper = 1),
       ParamDbl$new(paste0(id, ".ps_xgboost.subsample"), lower = 0.5, upper = 1),
-      ParamDbl$new(paste0(id, ".ps_xgboost.gamma"), lower = 2^(-7), upper = 2^6)
-      #ParamDbl$new(paste0(id, ".ps_xgboost.lambda"), lower = 0, upper = 1e4),
-      #ParamDbl$new(paste0(id, ".ps_xgboost.alpha"), lower = 0, upper = 1e4)
-    )
-  )
+      ParamDbl$new(paste0(id, ".ps_xgboost.gamma"), lower = -7, upper = 6),
+      ParamDbl$new(paste0(id, ".ps_xgboost.lambda"), lower = -10, upper = 10),
+      ParamDbl$new(paste0(id, ".ps_xgboost.alpha"), lower = -10, upper = 10)
+    ))
+  ps$trafo = function(x, param_set) {
+    idx_gamma = grep("gamma", names(x))
+    x[[idx_gamma]] = 2^(x[[idx_gamma]])
+    idx_lambda = grep("lambda", names(x))
+    x[[idx_lambda]] = 2^(x[[idx_lambda]])
+    idx_alpha = grep("alpha", names(x))
+    x[[idx_alpha]] = 2^(x[[idx_alpha]])
+    x
+  }
+  return(ps)
 }
+
 ps_cboost = function(task, id) {
   ParamSet$new(
     params = list(
