@@ -1,6 +1,6 @@
 if (FALSE) {
   devtools::install("~/repos/compboost")
-  install.packages(c("mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
+  install.packages(c("processx", "callr", "mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
     "paradox", "xgboost", "ranger", "mboost", "mlr3oml", "reticulate", "mlrMBO",
     "mlrintermbo", "mlrMBO"))
   remotes::install_github("mlr-org/mlr3extralearners")
