@@ -8,7 +8,6 @@ if (FALSE) {
 
 load("config.Rda")
 if (FALSE) {
-  #config = list(task = "54", type = "oml", learner = "classif_lrn_interpretML")
   config = list(task = "168335", type = "oml", learner = "classif_lrn_interpretML")
   i = 1
 }
@@ -87,6 +86,7 @@ source(paste0(bm_dir, "design.R"))
 ## Run benchmark:
 ## -----------------------
 
+# Measure which are tracked:
 msrs_classif = c("time_train", "time_predict", "time_both",
   "classif.auc", "classif.ce", "classif.bbrier")
 

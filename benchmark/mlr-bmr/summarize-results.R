@@ -56,27 +56,23 @@ files = list.files("res-results", full.names = TRUE)
 #getLearnerFromFile(files)
 
 df_bmr = do.call(rbind, extractBMRData(files))
+
 save(df_bmr, file = "df_bmr.Rda")
 load("bmr-aggr/df_bmr.Rda")
 
 df_bmr$learner = factor(df_bmr$learner, labels = learner_table[-12])
 
-library(ggplot2)
-library(dplyr)
+if (FALSE) {
+  library(ggplot2)
+  library(dplyr)
 
-df_bmr %>%
-  group_by(learner, task) %>%
-  summarize(med = median(classif.auc[1:3]), sd = sd(classif.auc[1:3]))
+  df_bmr %>%
+    group_by(learner, task) %>%
+    summarize(med = median(classif.auc[1:3]), sd = sd(classif.auc[1:3]))
 
-  summarize(med = median(classif.auc), sd = sd(classif.auc))
+    summarize(med = median(classif.auc), sd = sd(classif.auc))
 
-ggplot(df_bmr, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +
-  geom_boxplot(aes(alpha = ifelse(grepl("[(]binning[)]", learner), 0.2, 0.4))) +
-  facet_wrap(. ~ task, ncol = 3, scales = "free")
-
-
-
-
-
-
-
+  ggplot(df_bmr, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +
+    geom_boxplot(aes(alpha = ifelse(grepl("[(]binning[)]", learner), 0.2, 0.4))) +
+    facet_wrap(. ~ task, ncol = 3, scales = "free")
+}
