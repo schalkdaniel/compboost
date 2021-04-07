@@ -24,7 +24,12 @@ getAT = function (lrn, ps, res, add_pipe = NULL) {
   terminator = trm("evals", n_evals = n_evals_per_dim * ps$length)
 
   # Uses Kriging as default learner with just numerical parameter
-  tuner = tnr("intermbo")
+  base = mlr3learners::LearnerRegrKM$new()
+  base$param_set$values = list(covtype = "matern3_2", optim.method = "BFGS",
+    jitter = 1e12, nugget.stability = 1e-8)
+  base$predict_type = "se"
+  tuner = tnr("intermbo", surrogate.learner = base, initial.design.size = 8L * psr$length,
+    on.surrogate.error = "warn") # Inital design default: 4L * psr$length
 
   AutoTuner$new(
     learner      = GraphLearner$new(glearner),

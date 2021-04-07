@@ -40,8 +40,7 @@ serverSelector = function(on_host = FALSE) {
       "cacb3" = 6,
       "cacb4" = 7,
       "cacb5" = 8,
-      "cacb6" = 9,
-    )
+      "cacb6" = 9)
     idx = host_tasks[[host]]
     if (is.null(idx[1])) stop("Server is not one of {", paste(names(host_tasks), collapse = ", "), "}")
     return(idx)
