@@ -3,7 +3,7 @@
 
 ## CLASSIFICATION
 
-if ("config" %in% ls()) stop("No config file given")
+if (! "config" %in% ls()) stop("No config file given")
 
 suppressMessages(requireNamespace("mlr3oml"))
 tasks_classif = list()
