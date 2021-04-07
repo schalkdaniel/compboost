@@ -28,8 +28,8 @@ getAT = function (lrn, ps, res, add_pipe = NULL) {
   base$param_set$values = list(covtype = "matern3_2", optim.method = "BFGS",
     jitter = 1e12, nugget.stability = 1e-8)
   base$predict_type = "se"
-  tuner = tnr("intermbo", surrogate.learner = base, initial.design.size = 8L * psr$length,
-    on.surrogate.error = "warn") # Inital design default: 4L * psr$length
+  tuner = tnr("intermbo", surrogate.learner = base, initial.design.size = 8L * ps$length,
+    on.surrogate.error = "warn") # Inital design default: 4L * ps$length
 
   AutoTuner$new(
     learner      = GraphLearner$new(glearner),

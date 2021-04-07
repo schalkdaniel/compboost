@@ -1,5 +1,6 @@
 if (FALSE) {
   devtools::install("~/repos/compboost")
+  install.packages(c("DiceKriging"))
   install.packages(c("processx", "callr", "mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
     "paradox", "xgboost", "ranger", "mboost", "mlr3oml", "reticulate", "mlrMBO",
     "mlrintermbo", "mlrMBO"))
