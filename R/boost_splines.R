@@ -76,7 +76,7 @@
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
-  oob_fraction = NULL, bin_root = 0, bin_method = "quantile", cache_type = "inverse",
+  oob_fraction = NULL, bin_root = 0, bin_method = "linear", cache_type = "inverse",
   stop_args = list(), df_cat = 1)
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,

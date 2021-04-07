@@ -19,7 +19,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           ParamInt$new(id = "patience", default = 5, lower = 1),
           ParamDbl$new(id = "eps_for_break", default = 0),
           ParamDbl$new(id = "bin_root", default = 0, lower = 0, upper = 4),
-          ParamFct$new(id = "bin_method", default = "quantile", levels = c("linear", "quantile")),
+          ParamFct$new(id = "bin_method", default = "linear", levels = c("linear", "quantile")),
           ParamDbl$new(id = "df_cat", default = 1, lower = 1),
           ParamLgl$new(id = "restart", default = TRUE)
         )
@@ -149,7 +149,21 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
 )
 mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 
-#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob", mstop = 10L, restart = FALSE)
+
+
+#suppressMessages(library(mlr3))
+#suppressMessages(library(mlr3tuning))
+#suppressMessages(library(mlrintermbo))
+#suppressMessages(library(mlr3learners))
+#suppressMessages(library(mlr3extralearners))
+#suppressMessages(library(mlr3pipelines))
+#suppressMessages(library(paradox))
+#suppressMessages(library(R6))
+
+
+#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob", mstop = 10L, restart = FALSE, bin_method = "quantile")
+
+#lr1$train(tsk("sonar"))
 
 #design = benchmark_grid(
   #tasks = tsk("sonar"),
