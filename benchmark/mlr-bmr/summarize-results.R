@@ -51,14 +51,15 @@ extractBMRData = function (file_name) {
   })
 }
 
-files = list.files("res-results", full.names = TRUE)
+base_dir = "~/repos/compboost/benchmark/mlr-bmr/"
+files = list.files(paste0(base_dir, "res-results"), full.names = TRUE)
 #getTaskFromFile(files)
 #getLearnerFromFile(files)
 
 df_bmr = do.call(rbind, extractBMRData(files))
 df_bmr$time_per_model = df_bmr$time_train / df_bmr$n_evals
 
-save(df_bmr, file = "df_bmr.Rda")
+save(df_bmr, file = paste0(base_dir, "df_bmr.Rda"))
 #load("bmr-aggr/df_bmr.Rda")
 
 #df_bmr$learner = factor(df_bmr$learner, labels = learner_table[-12])
