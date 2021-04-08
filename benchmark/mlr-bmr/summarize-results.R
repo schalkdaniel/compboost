@@ -42,7 +42,7 @@ extractBMRData = function (file_name) {
     load(file)
     tmp = bmr_res[[3]]
     idx_select = sapply(
-      c("classif.auc", "classif.ce", "classif.bbrier", "time_train", "time_predict", "time_both"),
+      c("classif.auc", "classif.ce", "classif.bbrier", "time_train", "time_predict", "time_both", "n_evals"),
       function (m) which(m == names(tmp)))
     tmp = tmp[, idx_select]
     tmp$task = getTaskFromFile(file)
@@ -56,11 +56,12 @@ files = list.files("res-results", full.names = TRUE)
 #getLearnerFromFile(files)
 
 df_bmr = do.call(rbind, extractBMRData(files))
+df_bmr$time_per_model = df_bmr$time_train / df_bmr$n_evals
 
 save(df_bmr, file = "df_bmr.Rda")
 load("bmr-aggr/df_bmr.Rda")
 
-df_bmr$learner = factor(df_bmr$learner, labels = learner_table[-12])
+#df_bmr$learner = factor(df_bmr$learner, labels = learner_table[-12])
 
 if (FALSE) {
   library(ggplot2)
