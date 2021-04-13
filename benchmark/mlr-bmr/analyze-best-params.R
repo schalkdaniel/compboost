@@ -132,9 +132,9 @@ for (fn in files) {
     res = getResampleInstance(ts)
 
     ll_res = list()
-    pb = txtProgressBar(min = 1, max = res$outer$iters, style = 3)
+    if (res$outer$iters > 1) pb = txtProgressBar(min = 1, max = res$outer$iters, style = 3)
     for(j in seq_len(res$outer$iters)) {
-      setTxtProgressBar(pb, j)
+      if (res$outer$iters > 1) setTxtProgressBar(pb, j)
 
       lrns[[j]]$train(ts, res$outer$train_set(j))
       pred = lrns[[j]]$predict(ts, res$outer$test_set(j))
@@ -161,7 +161,7 @@ save(ll_best, file = paste0(base_dir, "/ll_best.Rda"))
 if (FALSE) {
   library(dplyr)
 
-  df = do.call(rbind, lapply(ll_best, function (bmr) bmr %>% select(learner, task, auc, time_train, iter)))
+  df = do.call(rbind, lapply(ll_best, function (bmr) bmr %>% select(learner, task, auc, time_train, iter, param.mstop)))
   df %>% group_by(learner, task) %>%
     mutate(auc0 = auc) %>%
     summarize(time = median(time_train), time_sd = sd(time_train), auc = median(auc0), auc_sd = sd(auc0))
