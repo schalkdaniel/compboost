@@ -24,26 +24,26 @@ learner_table = c(
   gamboost = "CWB (mboost)",
   interpretML = "interpretML")
 
-extractStringBetween = function (str, left, right) {
-  tmp = sapply(strsplit(str, left), function (x) x[2])
-  sapply(strsplit(tmp, right), function (x) x[1])
+extractStringBetween = function(str, left, right) {
+  tmp = sapply(strsplit(str, left), function(x) x[2])
+  sapply(strsplit(tmp, right), function(x) x[1])
 }
-getTaskFromFile = function (file_name) {
+getTaskFromFile = function(file_name) {
   tsks = extractStringBetween(file_name, "-task", "-classif")
-  unname(task_table[sapply(tsks, function (ts) which(ts == names(task_table)))])
+  unname(task_table[sapply(tsks, function(ts) which(ts == names(task_table)))])
 }
-getLearnerFromFile = function (file_name) {
+getLearnerFromFile = function(file_name) {
   lrns = extractStringBetween(file_name, "-classif_lrn_", "[.]Rda")
-  lrns_idx = sapply(lrns, function (l) which(l == names(learner_table)))
+  lrns_idx = sapply(lrns, function(l) which(l == names(learner_table)))
   unname(learner_table[lrns_idx])
 }
-extractBMRData = function (file_name) {
-  lapply(file_name, function (file) {
+extractBMRData = function(file_name) {
+  lapply(file_name, function(file) {
     load(file)
     tmp = bmr_res[[3]]
     idx_select = sapply(
       c("classif.auc", "classif.ce", "classif.bbrier", "time_train", "time_predict", "time_both", "n_evals"),
-      function (m) which(m == names(tmp)))
+      function(m) which(m == names(tmp)))
     tmp = tmp[, idx_select]
     tmp$task = getTaskFromFile(file)
     tmp$learner = getLearnerFromFile(file)
@@ -59,10 +59,8 @@ files = list.files(paste0(base_dir, "res-results"), full.names = TRUE)
 df_bmr = do.call(rbind, extractBMRData(files))
 df_bmr$time_per_model = df_bmr$time_train / df_bmr$n_evals
 
-save(df_bmr, file = paste0(base_dir, "df_bmr.Rda"))
+#save(df_bmr, file = paste0(base_dir, "df_bmr.Rda"))
 #load("bmr-aggr/df_bmr.Rda")
-
-#df_bmr$learner = factor(df_bmr$learner, labels = learner_table[-12])
 
 if (FALSE) {
   library(ggplot2)
@@ -75,6 +73,6 @@ if (FALSE) {
     summarize(med = median(classif.auc), sd = sd(classif.auc))
 
   ggplot(df_bmr, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +
-    geom_boxplot(aes(alpha = ifelse(grepl("[(]binning[)]", learner), 0.2, 0.4))) +
+    geom_boxplot(alpha = 0.2) +
     facet_wrap(. ~ task, ncol = 3, scales = "free")
 }

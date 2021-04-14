@@ -1,3 +1,11 @@
+if (FALSE) {
+  install.packages(c("processx", "callr", "mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
+    "paradox", "xgboost", "ranger", "mboost", "mlr3oml", "reticulate", "mlrMBO",
+    "mlrintermbo", "DiceKriging"))
+  remotes::install_github("mlr-org/mlr3extralearners")
+  remotes::install_github("schalkdaniel/compboost", ref = "ba044d3a6f6814080eb097acca2e59fd8bad9805")
+}
+
 tsks_classif = rbind(
   data.frame(type = "oml", name = "54"),           # Hepatitis
   data.frame(type = "oml", name = "37"),           # Diabetes

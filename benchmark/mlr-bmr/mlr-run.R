@@ -1,15 +1,6 @@
-if (FALSE) {
-  devtools::install("~/repos/compboost")
-  install.packages(c("DiceKriging"))
-  install.packages(c("processx", "callr", "mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
-    "paradox", "xgboost", "ranger", "mboost", "mlr3oml", "reticulate", "mlrMBO",
-    "mlrintermbo", "mlrMBO"))
-  remotes::install_github("mlr-org/mlr3extralearners")
-}
-
 load("config.Rda")
 if (FALSE) {
-  config = list(task = "168335", type = "oml", learner = "classif_lrn_interpretML")
+  config = list(task = "54", type = "oml", learner = "classif_lrn_cboost1")
   i = 1
 }
 
@@ -39,7 +30,7 @@ bm_small = FALSE
 bm_full = TRUE
 
 if (bm_test) {
-  n_evals_per_dim = 2L
+  n_evals_per_dim = 10L
   getResampleInstance = function(task) {
     resampling_inner = rsmp("holdout")
     resampling_outer = rsmp("holdout", ratio = 0.2)
@@ -48,7 +39,7 @@ if (bm_test) {
   }
 }
 if (bm_small) {
-  n_evals_per_dim = 5L
+  n_evals_per_dim = 10L
   getResampleInstance = function(task) {
     resampling_inner = rsmp("cv", folds = 2)
     resampling_outer = rsmp("cv", folds = 2)
@@ -98,6 +89,10 @@ logfile = paste0(bm_dir, "log-files/mlr3log-", format(Sys.Date(), "%Y-%m-%d"),
 cat("\t>> [", as.character(Sys.time()), "] Starting benchmark\n", sep = "")
 
 e = try({
+
+  options(mlr.debug = TRUE)
+  lgr::get_logger("mlr3tuning")$set_threshold("trace")
+  lgr::get_logger("bbotk")$set_threshold("trace")
 
   sink(logfile)
   time = proc.time()
