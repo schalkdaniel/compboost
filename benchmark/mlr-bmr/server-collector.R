@@ -77,7 +77,7 @@ for (i in seq_along(ips)) {
 
   git_push = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i], " \"cd repos/compboost;",
     c("git add benchmark/mlr-bmr/res-results/*",
-      'git commit -m 'update latest restuls'",
+      "git commit -m 'update latest restuls'",
       "git push 'https://schalkdaniel:e06b26c8eb3f14d8aa59878fd7af561a17001784@github.com/schalkdaniel/compboost.git'"),
     "\"")
   git_pull = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i],
