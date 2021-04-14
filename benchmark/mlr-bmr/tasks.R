@@ -21,6 +21,7 @@ if (config$type == "oml") {
       }
       ts = TaskClassif$new(id = ts$id, backend = dat, target = "signal")
     }
+    ts
   }, silent = TRUE)
   if (! "try-error" %in% class(e)) {
     if ("twoclass" %in% e$properties) {
