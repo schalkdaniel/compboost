@@ -30,7 +30,7 @@ classif_lrn_cboost_bin3 = lrn("classif.compboost", id = "ps_cboost_nesterov2_nor
 classif_lrn_cboost_bin4 = lrn("classif.compboost", id = "ps_cboost_anneal2",
   ncores = ncores, predict_type = "prob", bin_root = 2L, optimizer = "cos-anneal")
 
-classif_lrn_xgboost = lrn("classif.xgboost", id = "ps_xgboost", predict_type = "prob")
+classif_lrn_xgboost = lrn("classif.xgboost", id = "ps_xgboost", predict_type = "prob", nthread = ncores)
 
 classif_lrn_gamboost = lrn("classif.gamboost", id = "ps_gamboost", predict_type = "prob")
 
