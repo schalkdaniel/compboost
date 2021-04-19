@@ -36,7 +36,7 @@ classif_lrn_gamboost = lrn("classif.gamboost", id = "ps_gamboost", predict_type 
 
 classif_lrn_rpart = lrn("classif.rpart", id = "ps_rpart", predict_type = "prob")
 
-classif_lrn_ranger = lrn("classif.ranger", id = "ps_ranger", predict_type = "prob")
+classif_lrn_ranger = lrn("classif.ranger", id = "ps_ranger", predict_type = "prob", num.threads = ncores)
 
 classif_lrn_interpretML = lrn("classif.interpretML_reticulate", id = "ps_interpretML",
   predict_type = "prob", n_jobs = ncores)
