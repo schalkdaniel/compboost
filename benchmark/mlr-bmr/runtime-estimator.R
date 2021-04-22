@@ -1,3 +1,5 @@
+load("config-runtime-estimator.Rda")
+
 tsks_classif = rbind(
   data.frame(type = "oml", name = "54"),           # Hepatitis
   data.frame(type = "oml", name = "37"),           # Diabetes
@@ -24,6 +26,9 @@ learners = c(
   "classif_lrn_ranger",             # Random forest
   "classif_lrn_interpretML"         # Interpret
 )
+
+tsks_classif = tsks_classif[config_runtime$tidx, ]
+learners = learners[config_runtime$lidx]
 
 extractStringBetween = function (str, left, right) {
   tmp = sapply(strsplit(str, left), function (x) x[2])
@@ -96,14 +101,13 @@ pars_dim = list(
   "classif_lrn_interpretML" = 2
 )
 
-
 ll_est = list()
 for (its in seq_len(nrow(tsks_classif))) {
 
-  cat(its, "/", nrow(tsks_classif), "\n", sep = "")
+  cat(as.character(tsks_classif$name[its]), "\n", sep = "")
 
   config = list(task = tsks_classif$name[its], type = tsks_classif$type[its], learner = "dummy")
-  source("tasks.R")
+  temp = capture.output(source("tasks.R"))
   ts = tasks_classif[[1]]
 
   set.seed(31415L)
@@ -120,21 +124,100 @@ for (its in seq_len(nrow(tsks_classif))) {
     lrn = learners_classif[[1]]$clone(deep = TRUE)
     if (learner == "classif_lrn_xgboost") {
       lrn$param_set$values = c(pars[[learner]], encode.method = "one-hot")
-    } else {
-      lrn$param_set$values = pars[[learner]]
+    }
+    for (pj in seq_along(pars[[learner]])) {
+      lrn$param_set$values[[names(pars[[learner]])[pj]]] = pars[[learner]][[pj]]
     }
     lrn = GraphLearner$new(robustify %>>% lrn)
 
-    lrn$train(ts)
+    tts = numeric(3L)
+    for (j in seq_len(3L)) {
+      lrn$train(ts$filter(res$outer$train_set(1L)))
+      tts[j] = lrn$state$train_time
+    }
 
-    train_times[k] = res$outer$iters * (lrn$state$train_time * res$inner$iters * 50 * pars_dim[[learner]] + 1)
+    train_times[k] = res$outer$iters * (mean(tts) * res$inner$iters * 50 * pars_dim[[learner]] + 1)
     cat(round(train_times[k] / 60 / 60, 4), "hours\n")
     k = k + 1L
   }
-  ll_est[[as.character(tsks_classif$name[its])]] = data.frame(
-    task = as.character(tsks_classif$name[its]),
-    learner = learners,
-    train_time = train_times)
 }
 
+if (FALSE) {
 
+  nevals = list(
+    "54" = list(outer = 50L, inner = 3L),
+    "37" = list(outer = 50L, inner = 3L),
+    "4534" = list(outer = 50L, inner = 3L),
+    "spam" = list(outer = 5L, inner = 3L),
+    "7592" = list(outer = 5L, inner = 3L),
+    "168335" = list(outer = 1L, inner = 1L),
+    "albert" = list(outer = 1L, inner = 1L),
+    "168337" = list(outer = 5L, inner = 3L),
+    "359994" = list(outer = 1L, inner = 1L)
+  )
+  pars_dim = list(
+    "classif_lrn_cboost1" = 4,
+    "classif_lrn_cboost_bin1" = 4,
+    "classif_lrn_cboost4" = 4,
+    "classif_lrn_cboost_bin4" = 4,
+    "classif_lrn_cboost3" = 6,
+    "classif_lrn_cboost_bin3" = 6,
+    "classif_lrn_cboost2" = 6,
+    "classif_lrn_cboost_bin2" = 6,
+    "classif_lrn_xgboost" = 8,
+    "classif_lrn_gamboost" = 3,
+    "classif_lrn_ranger" = 4,
+    "classif_lrn_interpretML" = 2
+  )
+
+
+  lines = readLines("log-runtime-2021-04-20-new.txt")
+  ll = list()
+  for (tsn in as.character(tsks_classif$name)) {
+    tidx = tsn == lines
+    times = regmatches(lines[which(tidx) + 1L], gregexpr("[[:digit:]]+", lines[which(tidx) + 1L]))
+    times = as.numeric(sapply(times, function(x) {
+      if (length(x) == 3) {
+        paste0(x[2], ".", x[3])
+      } else {
+        paste0(x[1], ".", x[2])
+      }
+    }))
+    times = times * 60^2
+    #llrns = extractStringBetween(lines[which(tidx) + 1L], "Learner: ", " ")
+    llrns = learners
+    out = data.frame(task = tsn, learner = llrns, time_train = times,
+      nevals_outer = nevals[[tsn]]$outer, nevals_inner = nevals[[tsn]]$inner,
+      par_dim = unlist(pars_dim[llrns]), budget_per_dim = 50L)
+    out$time_train = out$time_train / (out$nevals_outer * out$nevals_inner * out$par_dim * out$budget_per_dim + out$nevals_outer)
+    rownames(out) = NULL
+    ll[[tsn]] = out
+  }
+  df_run = do.call(rbind, unname(ll))
+  attr(df_run, "estRuntime") = function(out) {
+    out$time_train * (out$nevals_outer * out$nevals_inner * out$par_dim * out$budget_per_dim + out$nevals_outer) / 60^2
+  }
+  df_run$runtime_extrapolated = attr(df_run, "estRuntime")(df_run)
+  save(df_run, file = "df-runtime-est.Rda")
+
+  library(dplyr)
+
+  day_machines = 24 * 7
+
+  (df_run %>%
+    filter(task != "168337"))$runtime_extrapolated %>%
+    sum(na.rm = TRUE) / day_machines
+
+  df_run %>%
+    group_by(task) %>%
+    summarize(time_total = sum(runtime_extrapolated, na.rm = TRUE) / 24)
+
+  df_run %>%
+    group_by(learner) %>%
+    summarize(time_total = sum(runtime_extrapolated, na.rm = TRUE) / 24)
+  df_run %>%
+    filter(task != "168337") %>%
+    group_by(learner) %>%
+    summarize(time_total = sum(runtime_extrapolated, na.rm = TRUE) / 24)
+
+}
