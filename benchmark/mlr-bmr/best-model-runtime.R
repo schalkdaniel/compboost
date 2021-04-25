@@ -85,8 +85,9 @@ source("learners.R")
 load(config_runtime$file)
 
 ll_run = list()
+cat("  Fitting", length(pars), "best parameter combos")
 for (i in seq_along(pars)) {
-  cat("  Fitting", length(pars), "best parameter combos:")
+  cat(i, "/", length(pars), "\n", sep = "")
   lrn = learners_classif[[1]]$clone(deep = TRUE)
   lrn = GraphLearner$new(robustify %>>% lrn)
   xs = unlist(pars[[i]]$learner_param_vals)
