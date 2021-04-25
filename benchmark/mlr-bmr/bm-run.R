@@ -19,14 +19,14 @@ tsks_classif = rbind(
 )
 
 learners = c(
-  "classif_lrn_cboost1",            # CWB (without binning)
-  "classif_lrn_cboost_bin1",        #     (with binning)
-  "classif_lrn_cboost4",            # CWB cosine annealing (without binning)
-  "classif_lrn_cboost_bin4",        #                      (with binning)
-  "classif_lrn_cboost3",            # ACWB (without binning)
-  "classif_lrn_cboost_bin3",        #      (with binning)
-  "classif_lrn_cboost2",            # hCWB (without binning)
-  "classif_lrn_cboost_bin2",        #      (with binning)
+  #"classif_lrn_cboost1",            # CWB (without binning)
+  #"classif_lrn_cboost_bin1",        #     (with binning)
+  #"classif_lrn_cboost4",            # CWB cosine annealing (without binning)
+  #"classif_lrn_cboost_bin4",        #                      (with binning)
+  #"classif_lrn_cboost3",            # ACWB (without binning)
+  #"classif_lrn_cboost_bin3",        #      (with binning)
+  #"classif_lrn_cboost2",            # hCWB (without binning)
+  #"classif_lrn_cboost_bin2",        #      (with binning)
   "classif_lrn_xgboost",            # Boosted trees
   "classif_lrn_gamboost",           # CWB (mboost variant)
   "classif_lrn_ranger",             # Random forest
@@ -46,7 +46,7 @@ serverSelector = function(on_host = FALSE) {
       "cacb1" = c(3, 4),
       "cacb2" = 5,
       "cacb3" = 6,
-      "cacb4" = 7,
+      "cacb4" = 3,
       "cacb5" = 8,
       "cacb6" = 9)
     idx = host_tasks[[host]]
