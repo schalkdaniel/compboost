@@ -21,8 +21,8 @@ for (fn in files) {
 
     cat(k, "/", length(files), ": ", fn, "\n", sep = "")
 
-    save(config_runtime, file = "config-best-model.Rda")
-    system("Rscript runtime-estimator.R")
+    save(config_runtime, file = "~/repos/compboost/benchmark/mlr-bmr/config-best-model.Rda")
+    system("Rscript best-model-runtime.R")
   }
   k = k + 1L
 }

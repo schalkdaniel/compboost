@@ -1,4 +1,4 @@
-load("config-best-model.Rda")
+load("~/repos/compboost/benchmark/mlr-bmr/config-best-model.Rda")
 
 tsks_classif = rbind(
   data.frame(type = "oml", name = "54"),           # Hepatitis
@@ -83,6 +83,7 @@ res = getResampleInstance(ts)
 source("learners.R")
 
 load(config_runtime$file)
+pars = bmr_res[[1]]
 
 ll_run = list()
 cat("  Fitting", length(pars), "best parameter combos")
