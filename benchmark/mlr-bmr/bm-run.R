@@ -45,7 +45,7 @@ serverSelector = function(on_host = FALSE) {
       "bigger-benchmarks2" = c(1, 2),
       "cacb1" = c(3, 4),
       "cacb2" = 5,
-      "cacb3" = 6,
+      "cacb3" = 4,
       "cacb4" = 7,
       "cacb5" = 8,
       "cacb6" = 9)
