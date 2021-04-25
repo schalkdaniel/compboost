@@ -15,7 +15,14 @@ tsks_classif = rbind(
   data.frame(type = "oml", name = "168335"),       # MiniBooNE
   data.frame(type = "script", name = "albert"),    # Albert
   data.frame(type = "oml", name = "168337"),       # Guillermo
-  data.frame(type = "oml", name = "359994")        # SF Police Incidents
+  data.frame(type = "oml", name = "359994"),       # SF Police Incidents
+
+  # Additional tasks:
+  data.frame(type = "oml", name = "3945"),         # KDDCup09_appetency (231 feats, 50' feats)
+  data.frame(type = "oml", name = "9977"),         # namao (119 feats, 34465 rows)
+  data.frame(type = "oml", name = "168908"),       # Christine (1637 feats, 5418 rows)
+  data.frame(type = "oml", name = "168896")        # gina (970 feats, 3153 rows)
+
 )
 
 learners = c(
