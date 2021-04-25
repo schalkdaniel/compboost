@@ -86,9 +86,9 @@ load(config_runtime$file)
 pars = bmr_res[[1]]
 
 ll_run = list()
-cat("  Fitting", length(pars), "best parameter combos")
+cat("  Fitting", length(pars), "best parameter combos\n")
 for (i in seq_along(pars)) {
-  cat(i, "/", length(pars), "\n", sep = "")
+  cat("   ", i, "/", length(pars), "\n", sep = "")
   lrn = learners_classif[[1]]$clone(deep = TRUE)
   lrn = GraphLearner$new(robustify %>>% lrn)
   xs = unlist(pars[[i]]$learner_param_vals)
@@ -111,4 +111,4 @@ for (i in seq_along(pars)) {
     iteration = i, time_train = mean(tts))
 }
 df_best = do.call(rbind, ll_run)
-save(df_best, file = paste0("best-runs/", config_runtime$file))
+save(df_best, file = paste0("~/repos/compboost/benchmark/mlr-bmr/best-runs/", config_runtime$ts, "-", config_runtime$ln, ".Rda"))
