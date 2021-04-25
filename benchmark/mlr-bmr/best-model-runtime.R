@@ -104,7 +104,7 @@ for (i in seq_along(pars)) {
     ts0 = ts$clone(deep = TRUE)
     ts0$filter(res$outer$train_set(i))
 
-    lrn$train(ts0)
+    lrn0$train(ts0)
     tts[j] = lrn0$state$train_time
   }
   ll_run[[i]] = data.frame(learner = learner, task = config_runtime$ts,
