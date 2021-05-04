@@ -13,7 +13,7 @@ Description: C++ implementation of component-wise boosting to
   without editing the source code. Therefore, it is possible to use R
   functions as well as C++ functions for custom base-learners,
   losses, logging mechanisms or stopping criteria.
-License: MIT + file LICENSE
+License: LGPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.0
