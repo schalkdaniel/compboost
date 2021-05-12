@@ -90,7 +90,8 @@ cat("\t>> [", as.character(Sys.time()), "] Starting benchmark\n", sep = "")
 
 e = try({
 
-  options(mlr.debug = TRUE)
+  options(mlr3.debug = TRUE)
+  lgr::get_logger("mlr3")$set_threshold("trace")
   lgr::get_logger("mlr3tuning")$set_threshold("trace")
   lgr::get_logger("bbotk")$set_threshold("trace")
 

@@ -9,7 +9,7 @@ classif_lrn_cboost1 = lrn("classif.compboost", id = "ps_cboost1",  ncores = ncor
 
 classif_lrn_cboost2 = lrn("classif.compboost", id = "ps_cboost_nesterov1",
   use_stopper = TRUE, ncores = ncores,  predict_type = "prob", patience = 5L,
-  optimizer = "nesterov", momentum = 0.05)
+  optimizer = "nesterov", momentum = 0.05, oob_fraction = 0.67)
 
 classif_lrn_cboost3 = lrn("classif.compboost", id = "ps_cboost_nesterov1_norestart",
   ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = FALSE,
@@ -23,7 +23,7 @@ classif_lrn_cboost_bin1 = lrn("classif.compboost", id = "ps_cboost2",
 
 classif_lrn_cboost_bin2 = lrn("classif.compboost", id = "ps_cboost_nesterov2",
   use_stopper = TRUE, ncores = ncores, predict_type = "prob", patience = 5L,
-  bin_root = 2L, optimizer = "nesterov", momentum = 0.05)
+  bin_root = 2L, optimizer = "nesterov", momentum = 0.05, oob_fraction = 0.67)
 
 classif_lrn_cboost_bin3 = lrn("classif.compboost", id = "ps_cboost_nesterov2_norestart",
   ncores = ncores, predict_type = "prob", bin_root = 2L, optimizer = "nesterov", restart = FALSE,
