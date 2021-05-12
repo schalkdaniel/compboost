@@ -86,6 +86,7 @@ for (i in seq_len(nrow(tsks_classif))) {
         unlink(fr)
       }
     }
+    done = list.files("res-results", full.names = TRUE)
     is_done = any(grepl(learners[j], done) & grepl(tsks_classif$name[i], done))
 
     cat("\t[", as.character(Sys.time()), "] Start benchmark of ", learners[j],
