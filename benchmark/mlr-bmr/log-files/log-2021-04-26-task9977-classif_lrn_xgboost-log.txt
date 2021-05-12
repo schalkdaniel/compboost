@@ -1,0 +1,6 @@
+INFO  [11:23:04.839] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/9977, authenticated: FALSE}
+INFO  [11:23:05.036] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/1486, authenticated: FALSE}
+1 / 1 
+
+>> [2021-04-26 11:23:13]  BENCHMARK:
+	>> [2021-04-26 11:23:13] Starting benchmark

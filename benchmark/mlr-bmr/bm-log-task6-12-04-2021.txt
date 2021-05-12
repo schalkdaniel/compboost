@@ -1,0 +1,49 @@
+[2021-04-12 11:22:13] Task 168335 (1/1)
+	[2021-04-12 11:22:13] Start benchmark of classif_lrn_cboost1 (1/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 12:18:05] Finish benchmark of classif_lrn_cboost1
+	[2021-04-12 12:18:05] Start benchmark of classif_lrn_cboost_bin1 (2/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 12:45:27] Finish benchmark of classif_lrn_cboost_bin1
+	[2021-04-12 12:45:27] Start benchmark of classif_lrn_cboost4 (3/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 13:41:03] Finish benchmark of classif_lrn_cboost4
+	[2021-04-12 13:41:03] Start benchmark of classif_lrn_cboost_bin4 (4/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 14:09:16] Finish benchmark of classif_lrn_cboost_bin4
+	[2021-04-12 14:09:16] Start benchmark of classif_lrn_cboost3 (5/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 16:30:13] Finish benchmark of classif_lrn_cboost3
+	[2021-04-12 16:30:13] Start benchmark of classif_lrn_cboost_bin3 (6/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 19:05:46] Finish benchmark of classif_lrn_cboost_bin3
+	[2021-04-12 19:05:46] Start benchmark of classif_lrn_cboost2 (7/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 20:38:14] Finish benchmark of classif_lrn_cboost2
+	[2021-04-12 20:38:14] Start benchmark of classif_lrn_cboost_bin2 (8/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 21:24:50] Finish benchmark of classif_lrn_cboost_bin2
+	[2021-04-12 21:24:50] Start benchmark of classif_lrn_xgboost (9/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-14 00:03:11] Finish benchmark of classif_lrn_xgboost
+	[2021-04-14 00:03:11] Start benchmark of classif_lrn_gamboost (10/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-14 00:03:25] Finish benchmark of classif_lrn_gamboost
+	[2021-04-14 00:03:25] Start benchmark of classif_lrn_ranger (11/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-14 00:03:38] Finish benchmark of classif_lrn_ranger
+	[2021-04-14 00:03:38] Start benchmark of classif_lrn_interpretML (12/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-14 00:03:51] Finish benchmark of classif_lrn_interpretML

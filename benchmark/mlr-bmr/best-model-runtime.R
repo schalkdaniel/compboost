@@ -9,6 +9,7 @@ tsks_classif = rbind(
   data.frame(type = "oml", name = "168335"),       # MiniBooNE
   data.frame(type = "script", name = "albert"),    # Albert
   # data.frame(type = "oml", name = "168337"),       # Guillermo
+  data.frame(type = "oml", name = "9977"),
   data.frame(type = "oml", name = "359994")        # SF Police Incidents
 )
 
