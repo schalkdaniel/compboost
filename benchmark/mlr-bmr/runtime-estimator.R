@@ -198,14 +198,33 @@ if (FALSE) {
     out$time_train * (out$nevals_outer * out$nevals_inner * out$par_dim * out$budget_per_dim + out$nevals_outer) / 60^2
   }
   df_run$runtime_extrapolated = attr(df_run, "estRuntime")(df_run)
+
+
   save(df_run, file = "df-runtime-est.Rda")
+  load("df-runtime-est.Rda")
+
 
   library(dplyr)
 
   day_machines = 24 * 7
 
   (df_run %>%
-    filter(task != "168337"))$runtime_extrapolated %>%
+    filter())$runtime_extrapolated %>%
+    sum(na.rm = TRUE) / day_machines
+
+  df_run %>%
+    filter(runtime_extrapolated > 5 * 24) %>%
+    mutate(time = runtime_extrapolated / 24)
+
+  df_run %>%
+    filter(task %in% c("37", "4534")) %>%
+    #filter(task %in% "168337") %>%
+    mutate(time_days = runtime_extrapolated / 24)
+  %>%
+    group_by(task) %>%
+    summarize(time_days_sum = sum(time_days))
+
+  )$time_days %>%
     sum(na.rm = TRUE) / day_machines
 
   df_run %>%

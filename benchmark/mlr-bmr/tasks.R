@@ -32,9 +32,9 @@ if (config$type == "oml") {
   }
 }
 
-if (config$type == "script") {
-  source(paste0("load-", as.character(config$task), ".R"))
-  tasks_classif[[as.character(config$task)]] = ts_file
+if (ttype == "omldata-albert") {
+  albert = mlr3oml::read_arff("https://www.openml.org/data/download/19335520/file7b53746cbda2.arff")
+  ts = TaskClassif$new(id = "albert", backend = albert, target = "class")
 }
 
 if (config$type == "mlr") {
