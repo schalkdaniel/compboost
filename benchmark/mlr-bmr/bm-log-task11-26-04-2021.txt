@@ -1,0 +1,47 @@
+[2021-04-26 11:23:46] Task 9977 (1/1)
+	[2021-04-26 11:23:46] Start benchmark of classif_lrn_cboost1 (1/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-27 12:30:39] Finish benchmark of classif_lrn_cboost1
+	[2021-04-27 12:30:39] Start benchmark of classif_lrn_cboost_bin1 (2/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-28 00:13:57] Finish benchmark of classif_lrn_cboost_bin1
+	[2021-04-28 00:13:57] Start benchmark of classif_lrn_cboost4 (3/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-29 01:18:36] Finish benchmark of classif_lrn_cboost4
+	[2021-04-29 01:18:36] Start benchmark of classif_lrn_cboost_bin4 (4/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-29 12:50:29] Finish benchmark of classif_lrn_cboost_bin4
+	[2021-04-29 12:50:29] Start benchmark of classif_lrn_cboost3 (5/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-05-02 15:51:31] Finish benchmark of classif_lrn_cboost3
+	[2021-05-02 15:51:31] Start benchmark of classif_lrn_cboost_bin3 (6/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-05-04 06:50:55] Finish benchmark of classif_lrn_cboost_bin3
+	[2021-05-04 06:50:55] Start benchmark of classif_lrn_cboost2 (7/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-05-06 01:25:18] Finish benchmark of classif_lrn_cboost2
+	[2021-05-06 01:25:18] Start benchmark of classif_lrn_cboost_bin2 (8/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-05-06 20:54:03] Finish benchmark of classif_lrn_cboost_bin2
+	[2021-05-06 20:54:03] Start benchmark of classif_lrn_xgboost (9/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-05-09 07:37:28] Finish benchmark of classif_lrn_xgboost
+	[2021-05-09 07:37:28] Start benchmark of classif_lrn_gamboost (10/12)
+There were 50 or more warnings (use warnings() to see the first 50)
+	[2021-05-09 08:45:13] Finish benchmark of classif_lrn_gamboost
+	[2021-05-09 08:45:13] Start benchmark of classif_lrn_ranger (11/12)
+There were 50 or more warnings (use warnings() to see the first 50)
+	[2021-05-09 15:18:41] Finish benchmark of classif_lrn_ranger
+	[2021-05-09 15:18:41] Start benchmark of classif_lrn_interpretML (12/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-05-11 08:33:15] Finish benchmark of classif_lrn_interpretML

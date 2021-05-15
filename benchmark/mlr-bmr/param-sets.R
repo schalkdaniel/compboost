@@ -53,10 +53,10 @@ ps_cboost_nesterov = function(task, id) {
       ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10),
       ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10),
       ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
-      ParamDbl$new(id = paste0(id, ".oob_fraction"), lower = 0.2, upper = 0.5),
-      ParamInt$new(id = paste0(id, ".mstop"), lower = 200L, upper = 5000L),
+      #ParamDbl$new(id = paste0(id, ".oob_fraction"), lower = 0.2, upper = 0.5),
+      ParamInt$new(id = paste0(id, ".mstop"), lower = 200L, upper = 5000L)
       #ParamFct$new(id = paste0(id, ".optimizer"), levels = c("cod", "nesterov")),
-      ParamDbl$new(id = paste0(id, ".momentum"), lower = 0.000001, upper = 0.1)
+      #ParamDbl$new(id = paste0(id, ".momentum"), lower = 0.000001, upper = 0.1)
     )
   )
 }

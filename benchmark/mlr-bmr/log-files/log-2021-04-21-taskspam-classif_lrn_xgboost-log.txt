@@ -1,0 +1,7 @@
+1 / 1 
+
+>> [2021-04-21 08:31:22]  BENCHMARK:
+	>> [2021-04-21 08:31:22] Starting benchmark
+    >> [2021-04-21 22:15:29] Finish benchmark in 49447.08 seconds
+    >> [2021-04-21 22:15:29] Aggregate results and store data
+    >> [2021-04-21 22:15:29] Save /home/debian/repos/compboost/benchmark/mlr-bmr/res-results/bmr-2021-04-21-taskspam-classif_lrn_xgboost.Rda

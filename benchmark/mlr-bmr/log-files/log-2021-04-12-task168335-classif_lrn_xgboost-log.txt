@@ -1,0 +1,9 @@
+INFO  [21:24:51.295] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/168335, authenticated: FALSE}
+INFO  [21:24:51.505] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/41150, authenticated: FALSE}
+1 / 1 
+
+>> [2021-04-12 21:25:09]  BENCHMARK:
+	>> [2021-04-12 21:25:09] Starting benchmark
+    >> [2021-04-14 00:03:11] Finish benchmark in 95882.27 seconds
+    >> [2021-04-14 00:03:11] Aggregate results and store data
+    >> [2021-04-14 00:03:11] Save /home/debian/repos/compboost/benchmark/mlr-bmr/res-results/bmr-2021-04-14-task168335-classif_lrn_xgboost.Rda

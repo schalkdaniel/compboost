@@ -30,14 +30,14 @@ learners = c(
   #"classif_lrn_cboost_bin1",        #     (with binning)
   #"classif_lrn_cboost4",            # CWB cosine annealing (without binning)
   #"classif_lrn_cboost_bin4",        #                      (with binning)
-  #"classif_lrn_cboost3",            # ACWB (without binning)
-  #"classif_lrn_cboost_bin3",        #      (with binning)
-  #"classif_lrn_cboost2",            # hCWB (without binning)
-  #"classif_lrn_cboost_bin2",        #      (with binning)
-  "classif_lrn_xgboost",            # Boosted trees
-  "classif_lrn_gamboost",           # CWB (mboost variant)
-  "classif_lrn_ranger",             # Random forest
-  "classif_lrn_interpretML"         # Interpret
+  "classif_lrn_cboost3",            # ACWB (without binning)
+  "classif_lrn_cboost_bin3",        #      (with binning)
+  "classif_lrn_cboost2",            # hCWB (without binning)
+  "classif_lrn_cboost_bin2"         #      (with binning)
+  #"classif_lrn_xgboost",            # Boosted trees
+  #"classif_lrn_gamboost",           # CWB (mboost variant)
+  #"classif_lrn_ranger",             # Random forest
+  #"classif_lrn_interpretML"         # Interpret
 )
 
 # Each sever gets just a few tasks to efficiently distribute
@@ -49,10 +49,10 @@ serverSelector = function(on_host = FALSE) {
   if (on_host) {
     host = readLines("/etc/hostname")
     host_tasks = list(
-      "bigger-benchmarks2" = c(1, 2),
-      "cacb1" = c(3, 4),
-      "cacb2" = 5,
-      "cacb3" = 6,
+      "bigger-benchmarks2" = 4,
+      "cacb1" = 5,
+      "cacb2" = 6,
+      "cacb3" = 11,
       "cacb4" = 7,
       "cacb5" = 8,
       "cacb6" = 9)
@@ -69,12 +69,24 @@ tsks_classif = tsks_classif[serverSelector(TRUE), ]
 if (! dir.exists("res-results")) dir.create("res-results")
 if (! dir.exists("log-files")) dir.create("log-files")
 
+overwrite = TRUE
+
 for (i in seq_len(nrow(tsks_classif))) {
   cat("[", as.character(Sys.time()), "] Task ", as.character(tsks_classif$name[i]),
     " (", i, "/", nrow(tsks_classif), ")\n", sep = "")
   for (j in seq_along(learners)) {
     # Check if job was already executed:
-    done = list.files("res-results")
+    done = list.files("res-results", full.names = TRUE)
+    is_done = any(grepl(learners[j], done) & grepl(tsks_classif$name[i], done))
+
+    if (is_done & overwrite) {
+      fd = done[grepl(learners[j], done) & grepl(tsks_classif$name[i], done)]
+      for (fr in fd) {
+        cat("\tRemove file", fr, "\n")
+        unlink(fr)
+      }
+    }
+    done = list.files("res-results", full.names = TRUE)
     is_done = any(grepl(learners[j], done) & grepl(tsks_classif$name[i], done))
 
     cat("\t[", as.character(Sys.time()), "] Start benchmark of ", learners[j],
