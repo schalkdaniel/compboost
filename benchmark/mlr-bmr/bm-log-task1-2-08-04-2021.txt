@@ -1,0 +1,98 @@
+[2021-04-07 22:26:31] Task 54 (1/2)
+	[2021-04-07 22:26:31] Start benchmark of classif_lrn_cboost1 (1/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-08 15:50:45] Finish benchmark of classif_lrn_cboost1
+	[2021-04-08 15:50:45] Start benchmark of classif_lrn_cboost_bin1 (2/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-09 08:30:14] Finish benchmark of classif_lrn_cboost_bin1
+	[2021-04-09 08:30:14] Start benchmark of classif_lrn_cboost4 (3/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-10 01:39:17] Finish benchmark of classif_lrn_cboost4
+	[2021-04-10 01:39:17] Start benchmark of classif_lrn_cboost_bin4 (4/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-10 17:19:31] Finish benchmark of classif_lrn_cboost_bin4
+	[2021-04-10 17:19:31] Start benchmark of classif_lrn_cboost3 (5/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-12 16:43:59] Finish benchmark of classif_lrn_cboost3
+	[2021-04-12 16:43:59] Start benchmark of classif_lrn_cboost_bin3 (6/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:05] Finish benchmark of classif_lrn_cboost_bin3
+	[2021-04-12 16:44:05] Start benchmark of classif_lrn_cboost2 (7/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:11] Finish benchmark of classif_lrn_cboost2
+	[2021-04-12 16:44:11] Start benchmark of classif_lrn_cboost_bin2 (8/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:16] Finish benchmark of classif_lrn_cboost_bin2
+	[2021-04-12 16:44:16] Start benchmark of classif_lrn_xgboost (9/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:22] Finish benchmark of classif_lrn_xgboost
+	[2021-04-12 16:44:22] Start benchmark of classif_lrn_gamboost (10/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:28] Finish benchmark of classif_lrn_gamboost
+	[2021-04-12 16:44:28] Start benchmark of classif_lrn_ranger (11/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:33] Finish benchmark of classif_lrn_ranger
+	[2021-04-12 16:44:33] Start benchmark of classif_lrn_interpretML (12/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:39] Finish benchmark of classif_lrn_interpretML
+[2021-04-12 16:44:39] Task 37 (2/2)
+	[2021-04-12 16:44:39] Start benchmark of classif_lrn_cboost1 (1/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:44] Finish benchmark of classif_lrn_cboost1
+	[2021-04-12 16:44:44] Start benchmark of classif_lrn_cboost_bin1 (2/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:50] Finish benchmark of classif_lrn_cboost_bin1
+	[2021-04-12 16:44:50] Start benchmark of classif_lrn_cboost4 (3/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:44:56] Finish benchmark of classif_lrn_cboost4
+	[2021-04-12 16:44:56] Start benchmark of classif_lrn_cboost_bin4 (4/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:02] Finish benchmark of classif_lrn_cboost_bin4
+	[2021-04-12 16:45:02] Start benchmark of classif_lrn_cboost3 (5/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:07] Finish benchmark of classif_lrn_cboost3
+	[2021-04-12 16:45:07] Start benchmark of classif_lrn_cboost_bin3 (6/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:13] Finish benchmark of classif_lrn_cboost_bin3
+	[2021-04-12 16:45:13] Start benchmark of classif_lrn_cboost2 (7/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:19] Finish benchmark of classif_lrn_cboost2
+	[2021-04-12 16:45:19] Start benchmark of classif_lrn_cboost_bin2 (8/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:24] Finish benchmark of classif_lrn_cboost_bin2
+	[2021-04-12 16:45:24] Start benchmark of classif_lrn_xgboost (9/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:30] Finish benchmark of classif_lrn_xgboost
+	[2021-04-12 16:45:30] Start benchmark of classif_lrn_gamboost (10/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:36] Finish benchmark of classif_lrn_gamboost
+	[2021-04-12 16:45:36] Start benchmark of classif_lrn_ranger (11/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:41] Finish benchmark of classif_lrn_ranger
+	[2021-04-12 16:45:41] Start benchmark of classif_lrn_interpretML (12/12)
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.
+	[2021-04-12 16:45:47] Finish benchmark of classif_lrn_interpretML

@@ -1,0 +1,50 @@
+[2021-04-19 09:41:44] Task 54 (1/2)
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost1 (1/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost_bin1 (2/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost4 (3/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost_bin4 (4/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost3 (5/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost_bin3 (6/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost2 (7/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_cboost_bin2 (8/12)
+	[2021-04-19 09:41:44] INTERRUPT: Job already done
+	[2021-04-19 09:41:44] Start benchmark of classif_lrn_xgboost (9/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-23 03:57:29] Finish benchmark of classif_lrn_xgboost
+	[2021-04-23 03:57:29] Start benchmark of classif_lrn_gamboost (10/12)
+Warning message:
+no DISPLAY variable so Tk is not available 
+	[2021-04-24 03:29:26] Finish benchmark of classif_lrn_gamboost
+	[2021-04-24 03:29:26] Start benchmark of classif_lrn_ranger (11/12)
+There were 50 or more warnings (use warnings() to see the first 50)
+	[2021-04-24 11:56:00] Finish benchmark of classif_lrn_ranger
+	[2021-04-24 11:56:00] Start benchmark of classif_lrn_interpretML (12/12)
+There were 50 or more warnings (use warnings() to see the first 50)
+	[2021-04-25 13:56:47] Finish benchmark of classif_lrn_interpretML
+[2021-04-25 13:56:47] Task 37 (2/2)
+	[2021-04-25 13:56:47] Start benchmark of classif_lrn_cboost1 (1/12)
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+	[2021-04-26 01:44:37] Finish benchmark of classif_lrn_cboost1
+	[2021-04-26 01:44:37] Start benchmark of classif_lrn_cboost_bin1 (2/12)
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+	[2021-04-26 13:48:01] Finish benchmark of classif_lrn_cboost_bin1
+	[2021-04-26 13:48:01] Start benchmark of classif_lrn_cboost4 (3/12)
+
+libgomp: Thread creation failed: Resource temporarily unavailable
+	[2021-04-27 01:32:53] Finish benchmark of classif_lrn_cboost4
+	[2021-04-27 01:32:53] Start benchmark of classif_lrn_cboost_bin4 (4/12)
+Terminated
+/home/debian/venv/ebm/lib/python3.7/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 26 leaked semlock objects to clean up at shutdown
+  (len(rtype_registry), rtype))
+/home/debian/venv/ebm/lib/python3.7/site-packages/joblib/externals/loky/backend/resource_tracker.py:320: UserWarning: resource_tracker: There appear to be 30100 leaked folder objects to clean up at shutdown
+  (len(rtype_registry), rtype))

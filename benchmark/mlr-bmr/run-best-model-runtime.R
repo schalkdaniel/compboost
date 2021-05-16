@@ -27,4 +27,13 @@ for (fn in files) {
   k = k + 1L
 }
 
+if (FALSE) {
+  files = list.files("best-runs", full.names = TRUE)
 
+  ll = list()
+  for (fn in files) {
+    load(fn)
+    ll = c(ll, list(df_best))
+  }
+  df_run = do.call(rbind, ll)
+}

@@ -7,22 +7,28 @@ tsks_classif = rbind(
   data.frame(type = "oml", name = "168335"),       # MiniBooNE
   data.frame(type = "script", name = "albert"),    # Albert
   data.frame(type = "oml", name = "168337"),       # Guillermo
-  data.frame(type = "oml", name = "359994")        # SF Police Incidents
+  data.frame(type = "oml", name = "359994"),       # SF Police Incidents
+
+  # Additional tasks:
+  data.frame(type = "oml", name = "3945"),         # KDDCup09_appetency (231 feats, 50' feats)
+  data.frame(type = "oml", name = "9977"),         # namao (119 feats, 34465 rows)
+  data.frame(type = "oml", name = "168908"),       # Christine (1637 feats, 5418 rows)
+  data.frame(type = "oml", name = "168896")        # gina (970 feats, 3153 rows)
+
 )
 
-learners = c(
-  "classif_lrn_cboost1",            # CWB (without binning)
-  "classif_lrn_cboost_bin1",        #     (with binning)
-  "classif_lrn_cboost4",            # CWB cosine annealing (without binning)
-  "classif_lrn_cboost_bin4",        #                      (with binning)
-  "classif_lrn_cboost3",            # ACWB (without binning)
-  "classif_lrn_cboost_bin3",        #      (with binning)
-  "classif_lrn_cboost2",            # hCWB (without binning)
-  "classif_lrn_cboost_bin2",        #      (with binning)
-  "classif_lrn_xgboost",            # Boosted trees
-  "classif_lrn_gamboost",           # CWB (mboost variant)
-  "classif_lrn_ranger",             # Random forest
-  "classif_lrn_interpretML"         # Interpret
+learners = c( "classif_lrn_cboost1",            # CWB (without binning)
+  "classif_lrn_cboost_bin1",                    #     (with binning)
+  "classif_lrn_cboost4",                        # CWB cosine annealing (without binning)
+  "classif_lrn_cboost_bin4",                    #                      (with binning)
+  "classif_lrn_cboost3",                        # ACWB (without binning)
+  "classif_lrn_cboost_bin3",                    #      (with binning)
+  "classif_lrn_cboost2",                        # hCWB (without binning)
+  "classif_lrn_cboost_bin2",                    #      (with binning)
+  "classif_lrn_xgboost",                        # Boosted trees
+  "classif_lrn_gamboost",                       # CWB (mboost variant)
+  "classif_lrn_ranger",                         # Random forest
+  "classif_lrn_interpretML"                     # Interpret
 )
 
 # Each sever gets just a few tasks to efficiently distribute
@@ -69,115 +75,45 @@ if (! dir.exists("~/repos/compboost/benchmark/mlr-bmr/bmr-aggr")) {
 }
 
 just_get_status = FALSE
+just_pull = TRUE
 
-ll_done = list()
-ll_data = list()
-for (i in seq_along(ips)) {
-  data_file = paste0("~/repos/compboost/benchmark/mlr-bmr/bmr-aggr/", names(ips)[i], ".Rda")
-
-  git_push = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i], " \"cd repos/compboost;",
-    c("git add benchmark/mlr-bmr/res-results/*",
-      "git commit -m 'update latest restuls'",
-      "git push 'https://schalkdaniel:e06b26c8eb3f14d8aa59878fd7af561a17001784@github.com/schalkdaniel/compboost.git'"),
-    "\"")
-  git_pull = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i],
-    " 'cd repos/compboost; git pull origin agbm_optim'")
-  create_data_call = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i],
-    " 'Rscript ~/repos/compboost/benchmark/mlr-bmr/summarize-results.R'")
-  pull_data_call = paste0("scp -i ~/.ssh/lrz-key debian@", ips[i],
-    ":~/repos/compboost/benchmark/mlr-bmr/df_bmr.Rda ", data_file,
-    collapse = "")
-
-  if (! just_get_status) {
-    cat("(", i, "/", length(ips), "): Pull latest changes ", names(ips)[i], "\n", sep = "")
+callOnAllSever = function(ips, call) {
+  for (i in seq_along(ips)) {
+    cat("(", i, "/", length(ips), ") ", ips[i], ": \n", sep = "")
+    system(call)
+  }
+}
+gitPullOnServer = function(ips, silent = FALSE) {
+  for (i in seq_along(ips)) {
+    if (! silent) cat("(", i, "/", length(ips), ") ", ips[i], ": \n", sep = "")
+    git_pull = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i],
+      " 'cd repos/compboost; git pull origin agbm_optim'")
     system(git_pull)
+  }
+}
+gitPushResultsOnServer = function(ips) {
+  for (i in seq_along(ips)) {
+    cat("(", i, "/", length(ips), ") ", ips[i], ": \n", sep = "")
+    pat = readLines("~/repos/compboost/benchmark/mlr-bmr/.gittoken")
+    git_push = paste0("ssh -i ~/.ssh/lrz-key -l debian ", ips[i], " \"cd repos/compboost;",
+      c("git add benchmark/mlr-bmr/res-results/*",
+        paste0("git commit -m 'update latest results from ", ips[i], "'"),
+        paste0("git push 'https://schalkdaniel:", pat, "@github.com/schalkdaniel/compboost.git'")),
+      "\"")
+
+    gitPullOnServer(ips[i], TRUE)
     for (push in git_push) {
       system(push)
     }
   }
-  cat("(", i, "/", length(ips), "): Generate data at server ", names(ips)[i], "\n", sep = "")
-  system(create_data_call)
-  cat("(", i, "/", length(ips), "): Pull data from ", names(ips)[i], "\n", sep = "")
-  system(pull_data_call)
-
-  load(data_file)
-  ll_data[[ips[i]]] = df_bmr
-  if (is.null(nrow(df_bmr))) {
-    dd = data.frame(
-      server = names(ips)[i],
-      done = 0,
-      total = length(serverSelector(TRUE, names(ips)[i])) * length(learners))
-  } else {
-    dd = data.frame(
-      server = names(ips)[i],
-      done = nrow(df_bmr) / nevals[i],
-      total = length(serverSelector(TRUE, names(ips)[i])) * length(learners))
-  }
-  dd$percent = paste0(round(dd$done / dd$total, 4) * 100, " %")
-  ll_done[[ips[i]]] = dd
 }
-df_done = do.call(rbind, ll_done)
-df_bmr = do.call(rbind, ll_data)
-df_done
-df_bmr
 
-save(df_bmr, file = "~/repos/compboost/benchmark/mlr-bmr/bmr-aggr/df_bmr.Rda")
+#killAndRestartBenchmark = function(ips) {
+  #callOnAllServers(ips, "killall R")
+  #callOnAllServers(ips, paste0("nohup Rscript ~/repos/compboost/benchmark/mlr-bmr/bm-run.R > bm-log",
+    #Sys.Date(), ".txt"))
+#}
 
-if (FALSE) {
-  library(dplyr)
-  library(ggplot2)
-  library(ggsci)
-  library(gridExtra)
+#gitPullOnServer(ips)
+gitPushResultsOnServer(ips)
 
-  df_all = expand.grid(learner = unique(df_bmr$learner), task = unique(df_bmr$task),
-    classif.auc = NA, time_per_iter = NA)
-
-  df_bmr = df_all %>% full_join(df_bmr, by = c("learner", "task"))
-
-  df_bmr$classif.auc.x = NULL
-  df_bmr$classif.auc = df_bmr$classif.auc.y
-
-  df_bmr$time_per_iter.x = NULL
-  df_bmr$time_per_iter = df_bmr$time_per_iter.y
-
-  df_bmr$learner = factor(df_bmr$learner, levels = c("CWB (no binning)",
-    "CWB (binning)", "CWB Cosine Annealing (no binning)", "CWB Cosine Annealing (binning)",
-    "ACWB (no binning)", "ACWB (binning)", "hCWB (no binning)", "hCWB (binning)",
-    "Random forest", "Boosted trees", "CWB (mboost)", "interpretML"))
-
-  df_bmr$task = factor(df_bmr$task, levels = c("Hepatitis",
-    "Diabetes",
-    #"German Credit",
-    "Analcat Halloffame",
-    "Spam",
-    "Guillermo",
-    "Adult",
-    "MiniBooNE",
-    "Albert",
-    "SF Police Incidents"
-    ))
-
-  gg1 = ggplot(df_bmr, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +
-    geom_boxplot(alpha = 0.2, lwd = 0.3) +
-    scale_fill_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
-    scale_color_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
-    theme(axis.text.x = element_blank(), legend.position = "bottom") +
-    labs(fill = "Algorithm", color = "Algorithm") +
-    guides(fill = guide_legend(nrow = 4), color = guide_legend(nrow = 4)) +
-    xlab("") +
-    ylab("AUC") +
-    facet_wrap(. ~ task, scales = "free", ncol = 4)
-
-  gg2 = ggplot(df_bmr, aes(x = learner, y = time_per_model, color = learner, fill = learner)) +
-    geom_boxplot(alpha = 0.2, lwd = 0.3) +
-    scale_fill_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
-    scale_color_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
-    theme(axis.text.x = element_blank(), legend.position = "bottom") +
-    labs(fill = "Algorithm", color = "Algorithm") +
-    guides(fill = guide_legend(nrow = 4), color = guide_legend(nrow = 4)) +
-    xlab("") +
-    ylab("Training time (seconds)") +
-    facet_wrap(. ~ task, scales = "free", ncol = 4)
-
-  grid.arrange(gg1, gg2, nrow = 2)
-}
