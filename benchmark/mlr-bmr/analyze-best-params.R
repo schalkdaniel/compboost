@@ -136,12 +136,14 @@ for (fn in files) {
     for(j in seq_len(res$outer$iters)) {
       if (res$outer$iters > 1) setTxtProgressBar(pb, j)
 
-      lrns[[j]]$train(ts, res$outer$train_set(j))
-      pred = lrns[[j]]$predict(ts, res$outer$test_set(j))
-      auc = unname(pred$score(msrs("classif.auc"))["classif.auc"])
-      time_train = lrns[[j]]$state$train_time
-
-      ll_res[[j]] = data.frame(auc = auc, time_train = time_train, iter = j,
+      train_times = numeric(5L)
+      for (k in seq_len(5L)) {
+        lrns[[j]]$train(ts, res$outer$train_set(j))
+        pred = lrns[[j]]$predict(ts, res$outer$test_set(j))
+        auc = unname(pred$score(msrs("classif.auc"))["classif.auc"])
+        train_times[k] = lrns[[j]]$state$train_time
+      }
+      ll_res[[j]] = data.frame(auc = auc, time_train = mean(train_times), iter = j,
         learner = learner, task = ts$id)
     }
     df_res = do.call(rbind, ll_res)
