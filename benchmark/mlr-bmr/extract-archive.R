@@ -44,6 +44,9 @@ extractCWBIters = function(l) {
 }
 
 extractArchive = function(bmr) {
+  lid = as.data.table(bmr)$learner[[1]]$graph$ids(TRUE)
+  lid = lid[grepl("ps_", lid)]
+
   ll_arx = list()
   ll_arx[[1]] = bmr$score(msrs(c("classif.auc", "time_train")))
   if (grepl("cboost", lid) || grepl("cwb", lid)) ll_arx[[2]] = do.call(rbind, lapply(as.data.table(bmr)$learner, extractCWBIters))
