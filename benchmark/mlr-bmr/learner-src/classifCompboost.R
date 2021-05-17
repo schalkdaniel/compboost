@@ -87,7 +87,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       seed = sample(seq_len(1e6), 1)
       #browser()
 
-      #nuisance = capture.output({
+      nuisance = capture.output({
       set.seed(seed)
       cboost = compboost::boostSplines(
         data = task$data(),
@@ -144,7 +144,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           out$cboost_restart = cboost_restart
         }
       }
-    #})
+    })
     return(out)
     },
 

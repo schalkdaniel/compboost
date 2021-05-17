@@ -15,11 +15,14 @@ robustify = po("removeconstants", id = "removeconstants_before") %>>%
   po("collapsefactors", target_level_count = 10) %>>%
   po("removeconstants", id = "removeconstants_after")
 
-getAT = function (lrn, ps, res, add_pipe = NULL) {
+getAT = function(lrn, ps, res, add_pipe = NULL) {
   glearner = robustify
   if (! is.null(add_pipe)) glearner = glearner %>>% add_pipe
   glearner = glearner %>>% lrn
 
+  if (grepl("notune", lrn$id)) {
+   return(glearner)
+  }
   measure    = measure_classif$clone(deep = TRUE)
   terminator = trm("evals", n_evals = n_evals_per_dim * ps$length)
 
@@ -61,7 +64,12 @@ updateDesign = function(design) {
     }
     if (grepl("ps_cwb", cl)) cl = "ps_cwb"
 
-    ps = do.call(cl, list(task = robustify$train(design$task[[i]])[[1]], id = design$learner[[i]]$id))
+    notune = grepl("notune", design$learner[[i]]$id)
+    if (notune) {
+      ps = NULL
+    } else {
+      ps = do.call(cl, list(task = robustify$train(design$task[[i]])[[1]], id = design$learner[[i]]$id))
+    }
 
     res = getResampleInstance(design$task[[i]])$inner$clone(deep = TRUE)
     design$task[[i]]$col_roles$stratum = design$task[[i]]$target_names
@@ -70,8 +78,10 @@ updateDesign = function(design) {
     set.seed(seed)
     design$resampling[[i]] = getResampleInstance(design$task[[i]])$outer$clone(deep = TRUE)
 
-    # Check if params do match:
-    if (! all(ps$ids() %in% at$learner$param_set$ids())) stop("Arguments does not match for ", at$id)
+    if (!notune) {
+      # Check if params do match:
+      if (! all(ps$ids() %in% at$learner$param_set$ids())) stop("Arguments does not match for ", at$id)
+    }
 
     ats = c(ats, list(at))
   }

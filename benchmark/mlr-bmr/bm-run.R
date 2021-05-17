@@ -36,6 +36,15 @@ learners = c(
   #"classif_lrn_cboost2",            # hCWB (without binning)
   #"classif_lrn_cboost_bin2"         #      (with binning)
 
+  "classif_lrn_cwb_notune",
+  "classif_lrn_cwb_notune_bin",
+
+  "classif_lrn_acwb_notune",
+  "classif_lrn_acwb_notune_bin",
+
+  "classif_lrn_hcwb_notune",
+  "classif_lrn_hcwb_notune_bin",
+
   "classif_lrn_cwb",
   "classif_lrn_cwb_bin",
 
@@ -43,7 +52,7 @@ learners = c(
   "classif_lrn_acwb_bin",
 
   "classif_lrn_hcwb",
-  "classif_lrn_hcwb_bin",
+  "classif_lrn_hcwb_bin"
 
   #"classif_lrn_xgboost",            # Boosted trees
   #"classif_lrn_gamboost",           # CWB (mboost variant)
