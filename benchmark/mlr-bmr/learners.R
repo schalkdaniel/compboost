@@ -15,6 +15,47 @@ classif_lrn_cboost3 = lrn("classif.compboost", id = "ps_cboost_nesterov1_noresta
   ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = FALSE,
   momentum = 0.001)
 
+
+
+
+classif_lrn_cwb = lrn("classif.compboost", id = "ps_cwb1",
+  ncores = ncores,  predict_type = "prob", optimizer = "cod", restart = FALSE,
+  stop_both = FALSE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67,
+  mstop = 5000L)
+classif_lrn_cwb_bin = lrn("classif.compboost", id = "ps_cwb1_bin",
+  ncores = ncores,  predict_type = "prob", optimizer = "cod", restart = FALSE,
+  stop_both = FALSE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67,
+  bin_root = 2L, mstop = 5000L)
+
+classif_lrn_acwb = lrn("classif.compboost", id = "ps_cwb2",
+  ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = FALSE,
+  momentum = 0.0034, stop_both = FALSE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67, mstop = 5000L)
+classif_lrn_acwb_bin = lrn("classif.compboost", id = "ps_cwb2_bin",
+  ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = FALSE,
+  momentum = 0.0034, stop_both = FALSE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67,
+  bin_root = 2L, mstop = 5000L)
+
+classif_lrn_hcwb = lrn("classif.compboost", id = "ps_cwb3",
+  ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = TRUE,
+  momentum = 0.03, stop_both = TRUE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67, mstop = 5000L)
+classif_lrn_hcwb_bin = lrn("classif.compboost", id = "ps_cwb3_bin",
+  ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = TRUE,
+  momentum = 0.03, stop_both = TRUE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67,
+  bin_root = 2L, mstop = 5000L)
+
+
+classif_lrn_acwb_notune = lrn("classif.compboost", id = "ps_cboost_acwb1",
+  ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = FALSE,
+  momentum = 0.001, stop_both = FALSE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67,
+  df_autoselect = TRUE)
+
+classif_lrn_acwb_hcwb_notune = lrn("classif.compboost", id = "ps_cboost_acwb1",
+  ncores = ncores,  predict_type = "prob", optimizer = "nesterov", restart = TRUE,
+  momentum = 0.001, stop_both = TRUE, use_stopper = TRUE, patience = 5L, oob_fraction = 0.67,
+  df_autoselect = TRUE)
+
+
+
 classif_lrn_cboost4 = lrn("classif.compboost", id = "ps_cboost_anneal1",
   ncores = ncores,  predict_type = "prob", optimizer = "cos-anneal")
 
@@ -52,6 +93,17 @@ learners_classif = list(
   classif_lrn_cboost_bin2 = classif_lrn_cboost_bin2,
   classif_lrn_cboost_bin3 = classif_lrn_cboost_bin3,
   classif_lrn_cboost_bin4 = classif_lrn_cboost_bin4,
+
+  classif_lrn_cwb = classif_lrn_cwb,
+  classif_lrn_cwb_bin = classif_lrn_cwb_bin,
+
+  classif_lrn_acwb = classif_lrn_acwb,
+  classif_lrn_acwb_bin = classif_lrn_acwb_bin,
+
+  classif_lrn_hcwb = classif_lrn_hcwb,
+  classif_lrn_hcwb_bin = classif_lrn_hcwb_bin,
+
+
   classif_lrn_xgboost = classif_lrn_xgboost,
   classif_lrn_gamboost = classif_lrn_gamboost,
   classif_lrn_rpart = classif_lrn_rpart,

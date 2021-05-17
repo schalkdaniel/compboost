@@ -61,6 +61,13 @@ ps_cboost_nesterov = function(task, id) {
   )
 }
 
+ps_cwb = function(task, id) {
+  ParamSet$new(
+    params = list(
+      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10),
+      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10),
+      ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5)))}
+
 ps_gamboost = function(task, id) {
   ParamSet$new(
     params = list(

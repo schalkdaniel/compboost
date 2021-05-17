@@ -1,6 +1,8 @@
 load("config.Rda")
 if (FALSE) {
-  config = list(task = "54", type = "oml", learner = "classif_lrn_cboost1")
+  #config = list(task = "4534", type = "oml", learner = "classif_lrn_cboost2")
+  #config = list(task = "4534", type = "oml", learner = "classif_lrn_xgboost")
+  config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
   i = 1
 }
 
@@ -30,7 +32,7 @@ bm_small = FALSE
 bm_full = TRUE
 
 if (bm_test) {
-  n_evals_per_dim = 10L
+  n_evals_per_dim = 15L
   getResampleInstance = function(task) {
     resampling_inner = rsmp("holdout")
     resampling_outer = rsmp("holdout", ratio = 0.2)
@@ -70,6 +72,7 @@ if (bm_full) {
 
 measure_classif = msr("classif.auc")
 
+source(paste0(bm_dir, "extract-archive.R"))
 source(paste0(bm_dir, "tasks.R"))
 source(paste0(bm_dir, "param-sets.R"))
 source(paste0(bm_dir, "learners.R"))
@@ -104,6 +107,8 @@ e = try({
   cat("    >> [", as.character(Sys.time()), "] Finish benchmark in ", time[3], " seconds\n", sep = "")
   cat("    >> [", as.character(Sys.time()), "] Aggregate results and store data\n", sep = "")
 
+  bmr_arx = extractArchive(bmr)
+
   lrners       = as.data.table(bmr)$learner
   bmr_tune_res = lapply(lrners, function(b) b$tuning_result)
 
@@ -118,7 +123,7 @@ e = try({
     bmr_score$n_evals = design_classif$learner[[1]]$instance_args$terminator$param_set$values$n_evals
   }
 
-  bmr_res = list(bmr_tune_res, bmr_aggr, bmr_score)
+  bmr_res = list(bmr_tune_res, bmr_aggr, bmr_score, archive = bmr_arx)
 
   bm_file = paste0(bm_dir, "res-results/bmr-", format(Sys.Date(),
     "%Y-%m-%d"), "-task", config$task, "-", config$learner, ".Rda")

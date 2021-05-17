@@ -1,8 +1,9 @@
 if (FALSE) {
   install.packages(c("processx", "callr", "mlr3", "mlr3tuning", "mlr3learners", "mlr3pipelines",
     "paradox", "xgboost", "ranger", "mboost", "mlr3oml", "reticulate", "mlrMBO",
-    "mlrintermbo", "DiceKriging"))
+    "DiceKriging"))
   remotes::install_github("mlr-org/mlr3extralearners")
+  remotes::install_github("mb706/mlrintermbo@fixed-initial-design")
   remotes::install_github("schalkdaniel/compboost", ref = "ba044d3a6f6814080eb097acca2e59fd8bad9805")
 }
 
@@ -30,10 +31,20 @@ learners = c(
   #"classif_lrn_cboost_bin1",        #     (with binning)
   #"classif_lrn_cboost4",            # CWB cosine annealing (without binning)
   #"classif_lrn_cboost_bin4",        #                      (with binning)
-  "classif_lrn_cboost3",            # ACWB (without binning)
-  "classif_lrn_cboost_bin3",        #      (with binning)
-  "classif_lrn_cboost2",            # hCWB (without binning)
-  "classif_lrn_cboost_bin2"         #      (with binning)
+  #"classif_lrn_cboost3",            # ACWB (without binning)
+  #"classif_lrn_cboost_bin3",        #      (with binning)
+  #"classif_lrn_cboost2",            # hCWB (without binning)
+  #"classif_lrn_cboost_bin2"         #      (with binning)
+
+  "classif_lrn_cwb",
+  "classif_lrn_cwb_bin",
+
+  "classif_lrn_acwb",
+  "classif_lrn_acwb_bin",
+
+  "classif_lrn_hcwb",
+  "classif_lrn_hcwb_bin",
+
   #"classif_lrn_xgboost",            # Boosted trees
   #"classif_lrn_gamboost",           # CWB (mboost variant)
   #"classif_lrn_ranger",             # Random forest
@@ -54,8 +65,8 @@ serverSelector = function(on_host = FALSE) {
       "cacb2" = 6,
       "cacb3" = 11,
       "cacb4" = 7,
-      "cacb5" = 8,
-      "cacb6" = 9)
+      "cacb5" = c(5, 6, 7),
+      "cacb6" = c(4, 9, 11))
     idx = host_tasks[[host]]
     if (is.null(idx[1])) stop("Server is not one of {", paste(names(host_tasks), collapse = ", "), "}")
     return(idx)

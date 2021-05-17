@@ -21,14 +21,11 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           ParamDbl$new(id = "bin_root", default = 0, lower = 0, upper = 4),
           ParamFct$new(id = "bin_method", default = "linear", levels = c("linear", "quantile")),
           ParamDbl$new(id = "df_cat", default = 1, lower = 1),
-          ParamLgl$new(id = "restart", default = TRUE)
+          ParamLgl$new(id = "restart", default = TRUE),
+          ParamLgl$new(id = "stop_both", default = FALSE),
+          ParamLgl$new(id = "df_autoselect", default = FALSE)
         )
       )
-      #ps$add_dep("momentum", "optimizer", CondEqual$new("nesterov"))
-      #ps$add_dep("use_stopper", "oob_fraction", Condition$new(oob_fraction > 0))
-      #ps$add_dep("patience", "use_stopper", CondEqual$new(TRUE))
-      #ps$add_dep("eps_for_break", "use_stopper", CondEqual$new(TRUE))
-
       super$initialize(
         id = "classif.compboost",
         packages = "compboost",
@@ -51,6 +48,23 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         if (is.null(pars[[id]])) pars[[id]] = pdefaults[[id]]
       }
       self$param_set$values = pars
+      if (self$param_set$values$df_autoselect) {
+        factor_cols = task$feature_types$id[task$feature_types$type == "factor"]
+        if (length(factor_cols) > 0) {
+          df_cat_min = min(vapply(
+            X = task$data(cols = factor_cols),
+            FUN = function(fc) length(unique(fc)),
+            FUN.VALUE = integer(1L)
+          ))
+          df = min(c(df_cat_min, self$param_set$values$n_knots))
+          if (df <= 3) df = 5L
+
+          self$param_set$values$df = df
+          self$param_set$values$df_cat = df_cat_min
+        } else {
+          self$param_set$values$df = self$param_set$values$n_knots
+        }
+      }
 
       if (self$param_set$values$optimizer == "cod") {
         optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores)
@@ -63,7 +77,6 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           self$param_set$values$ncores)
       }
 
-
       if (self$param_set$values$use_stopper) {
         stop_args = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break)
       } else {
@@ -74,7 +87,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       seed = sample(seq_len(1e6), 1)
       #browser()
 
-      nuisance = capture.output({
+      #nuisance = capture.output({
       set.seed(seed)
       cboost = compboost::boostSplines(
         data = task$data(),
@@ -98,23 +111,40 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         iters_remaining = self$param_set$values$mstop - iters
 
         if (iters_remaining > 0) {
-          set.seed(seed)
-          cboost_restart = compboost::boostSplines(
-            data = task$data(),
-            target = task$target_names,
-            iterations = iters_remaining,
-            optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
-            loss = compboost::LossBinomial$new(cboost$predict(task$data()), TRUE),
-            df = self$param_set$values$df,
-            learning_rate = self$param_set$values$learning_rate,
-            bin_root = self$param_set$values$bin_root,
-            bin_method = self$param_set$values$bin_method,
-            df_cat = self$param_set$values$df_cat)
-
+          if (self$param_set$values$stop_both) {
+            #browser()
+            set.seed(seed)
+            cboost_restart = compboost::boostSplines(
+              data = task$data(),
+              target = task$target_names,
+              iterations = iters_remaining,
+              optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
+              loss = compboost::LossBinomial$new(cboost$predict(), TRUE),
+              df = self$param_set$values$df,
+              stop_args = c(stop_args, list(oob_offset = cboost$response_oob$getPrediction())),
+              oob_fraction = self$param_set$values$oob_fraction,
+              learning_rate = self$param_set$values$learning_rate,
+              bin_root = self$param_set$values$bin_root,
+              bin_method = self$param_set$values$bin_method,
+              df_cat = self$param_set$values$df_cat)
+          } else {
+            set.seed(seed)
+            cboost_restart = compboost::boostSplines(
+              data = task$data(),
+              target = task$target_names,
+              iterations = iters_remaining,
+              optimizer = compboost::OptimizerCoordinateDescent$new(self$param_set$values$ncores),
+              loss = compboost::LossBinomial$new(cboost$predict(task$data()), TRUE),
+              df = self$param_set$values$df,
+              learning_rate = self$param_set$values$learning_rate,
+              bin_root = self$param_set$values$bin_root,
+              bin_method = self$param_set$values$bin_method,
+              df_cat = self$param_set$values$df_cat)
+          }
           out$cboost_restart = cboost_restart
         }
       }
-    })
+    #})
     return(out)
     },
 
@@ -150,7 +180,6 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
 mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 
 
-
 #suppressMessages(library(mlr3))
 #suppressMessages(library(mlr3tuning))
 #suppressMessages(library(mlrintermbo))
@@ -161,9 +190,17 @@ mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 #suppressMessages(library(R6))
 
 
-#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE, eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob", mstop = 10L, restart = FALSE, bin_method = "quantile")
+#lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE,
+  #eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob",
+  #mstop = 5000L, restart = TRUE, stop_both = TRUE, df_autoselect = TRUE)
 
 #lr1$train(tsk("sonar"))
+#length(lr1$model$cboost$getSelectedBaselearner())
+#length(lr1$model$cboost_restart$getSelectedBaselearner())
+#gridExtra::grid.arrange(
+  #lr1$model$cboost$plotInbagVsOobRisk() + ggplot2::ylim(0, 1),
+  #lr1$model$cboost_restart$plotInbagVsOobRisk() + ggplot2::ylim(0, 1),
+  #ncol = 2)
 
 #design = benchmark_grid(
   #tasks = tsk("sonar"),

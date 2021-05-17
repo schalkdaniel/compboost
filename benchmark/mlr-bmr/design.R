@@ -31,6 +31,12 @@ getAT = function (lrn, ps, res, add_pipe = NULL) {
   tuner = tnr("intermbo", surrogate.learner = base, initial.design.size = 8L * ps$length,
     on.surrogate.error = "warn") # Inital design default: 4L * ps$length
 
+  set.seed(31415)
+  design = paradox::generate_design_lhs(ps, 8 * ps$length)$data
+  tuner$param_set$values$initial.design.size = 0
+  tuner$param_set$values$fixed.initial.design = design
+
+
   AutoTuner$new(
     learner      = GraphLearner$new(glearner),
     resampling   = res$clone(deep = TRUE),
@@ -38,6 +44,7 @@ getAT = function (lrn, ps, res, add_pipe = NULL) {
     search_space = ps$clone(deep = TRUE),
     terminator   = terminator$clone(deep = TRUE),
     tuner        = tuner$clone(deep = TRUE),
+    store_models = TRUE,
     store_tuning_instance = TRUE)
 }
 
@@ -52,6 +59,7 @@ updateDesign = function(design) {
     } else {
       if (grepl("ps_cboost", cl)) cl = "ps_cboost"
     }
+    if (grepl("ps_cwb", cl)) cl = "ps_cwb"
 
     ps = do.call(cl, list(task = robustify$train(design$task[[i]])[[1]], id = design$learner[[i]]$id))
 

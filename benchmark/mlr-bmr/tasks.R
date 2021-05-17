@@ -32,7 +32,7 @@ if (config$type == "oml") {
   }
 }
 
-if (ttype == "omldata-albert") {
+if (config$type == "omldata-albert") {
   albert = mlr3oml::read_arff("https://www.openml.org/data/download/19335520/file7b53746cbda2.arff")
   ts = TaskClassif$new(id = "albert", backend = albert, target = "class")
 }
