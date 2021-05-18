@@ -89,7 +89,7 @@ tsks_classif = tsks_classif[serverSelector(TRUE), ]
 if (! dir.exists("res-results")) dir.create("res-results")
 if (! dir.exists("log-files")) dir.create("log-files")
 
-overwrite = TRUE
+overwrite = FALSE
 
 for (i in seq_len(nrow(tsks_classif))) {
   cat("[", as.character(Sys.time()), "] Task ", as.character(tsks_classif$name[i]),
@@ -97,17 +97,17 @@ for (i in seq_len(nrow(tsks_classif))) {
   for (j in seq_along(learners)) {
     # Check if job was already executed:
     done = list.files("res-results", full.names = TRUE)
-    is_done = any(grepl(learners[j], done) & grepl(tsks_classif$name[i], done))
+    is_done = any(grepl(paste0(learners[j], ".Rda"), done) & grepl(tsks_classif$name[i], done))
 
     if (is_done & overwrite) {
-      fd = done[grepl(learners[j], done) & grepl(tsks_classif$name[i], done)]
+      fd = done[grepl(paste0(learners[j], ".Rda"), done) & grepl(tsks_classif$name[i], done)]
       for (fr in fd) {
         cat("\tRemove file", fr, "\n")
         unlink(fr)
       }
     }
     done = list.files("res-results", full.names = TRUE)
-    is_done = any(grepl(learners[j], done) & grepl(tsks_classif$name[i], done))
+    is_done = any(grepl(paste0(learners[j], ".Rda"), done) & grepl(tsks_classif$name[i], done))
 
     cat("\t[", as.character(Sys.time()), "] Start benchmark of ", learners[j],
       " (", j, "/", length(learners), ")\n", sep = "")
