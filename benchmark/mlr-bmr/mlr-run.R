@@ -84,9 +84,6 @@ source(paste0(bm_dir, "param-sets.R"))
 source(paste0(bm_dir, "learners.R"))
 source(paste0(bm_dir, "design.R"))
 
-bmr = benchmark(design_classif, store_models = TRUE)
-bmr$aggregate(msr("classif.auc"))
-
 
 ## Run benchmark:
 ## -----------------------
@@ -114,8 +111,6 @@ e = try({
   bmr = benchmark(design_classif, store_models = TRUE)
   time = proc.time() - time
   sink()
-
-  bmr$aggregate(msr("classif.auc"))
 
   cat("    >> [", as.character(Sys.time()), "] Finish benchmark in ", time[3], " seconds\n", sep = "")
   cat("    >> [", as.character(Sys.time()), "] Aggregate results and store data\n", sep = "")
