@@ -1,6 +1,6 @@
 getMinFactor = function (task) {
   factor_cols = task$feature_types$id[task$feature_types$type == "factor"]
-  df_cat_min = NA
+  df_cat_min = 1L
   if (length(factor_cols) > 0) {
     df_cat_min = min(vapply(
       X = task$data(cols = factor_cols),
