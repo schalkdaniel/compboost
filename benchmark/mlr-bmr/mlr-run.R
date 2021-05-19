@@ -1,10 +1,15 @@
 load("config.Rda")
+
 if (FALSE) {
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_cboost2")
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_xgboost")
-  config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
-  #config = list(task = "7592", type = "oml", learner = "classif_lrn_acwb_notune_bin")
-  i = 1
+  #config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
+  config = list(task = "spam", type = "mlr", learner = "classif_lrn_hcwb_notune")
+  config = list(task = "7592", type = "oml", learner = "classif_lrn_acwb_notune")
+  config = list(task = "168335", type = "oml", learner = "classif_lrn_hcwb_notune")
+  config = list(task = "albert", type = "omldata-albert", learner = "classif_lrn_hcwb_notune")
+  config = list(task = "359994", type = "oml", learner = "classif_lrn_hcwb_notune")
+  config = list(task = "9977", type = "oml", learner = "classif_lrn_hcwb_notune")
 }
 
 suppressMessages(library(mlr3))
@@ -79,6 +84,10 @@ source(paste0(bm_dir, "param-sets.R"))
 source(paste0(bm_dir, "learners.R"))
 source(paste0(bm_dir, "design.R"))
 
+bmr = benchmark(design_classif, store_models = TRUE)
+bmr$aggregate(msr("classif.auc"))
+
+
 ## Run benchmark:
 ## -----------------------
 
@@ -105,6 +114,8 @@ e = try({
   bmr = benchmark(design_classif, store_models = TRUE)
   time = proc.time() - time
   sink()
+
+  bmr$aggregate(msr("classif.auc"))
 
   cat("    >> [", as.character(Sys.time()), "] Finish benchmark in ", time[3], " seconds\n", sep = "")
   cat("    >> [", as.character(Sys.time()), "] Aggregate results and store data\n", sep = "")

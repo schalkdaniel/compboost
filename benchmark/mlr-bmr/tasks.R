@@ -34,7 +34,7 @@ if (config$type == "oml") {
 
 if (config$type == "omldata-albert") {
   albert = mlr3oml::read_arff("https://www.openml.org/data/download/19335520/file7b53746cbda2.arff")
-  ts = TaskClassif$new(id = "albert", backend = albert, target = "class")
+  tasks_classif[[as.character(config$task)]] = TaskClassif$new(id = "albert", backend = albert, target = "class")
 }
 
 if (config$type == "mlr") {

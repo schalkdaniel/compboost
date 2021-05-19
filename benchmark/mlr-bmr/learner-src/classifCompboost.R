@@ -23,7 +23,8 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           ParamDbl$new(id = "df_cat", default = 1, lower = 1),
           ParamLgl$new(id = "restart", default = TRUE),
           ParamLgl$new(id = "stop_both", default = FALSE),
-          ParamLgl$new(id = "df_autoselect", default = FALSE)
+          ParamLgl$new(id = "df_autoselect", default = FALSE),
+          ParamInt$new(id = "oob_seed", default = sample(seq_len(1e6), 1), lower = 1L)
         )
       )
       super$initialize(
@@ -85,7 +86,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       }
 
       out = list()
-      seed = sample(seq_len(1e6), 1)
+      seed = self$param_set$values$oob_seed
       #browser()
 
       nuisance = capture.output({
@@ -237,9 +238,11 @@ mlr_learners$add("classif.compboost", LearnerClassifCompboost)
 
 #lr1 = lrn("classif.compboost", optimizer = "nesterov", use_stopper = TRUE,
   #eps_for_break = 0, patience = 2, oob_fraction = 0.3, predict_type = "prob",
-  #mstop = 5000L, restart = TRUE, stop_both = TRUE, df_autoselect = TRUE)
+  #mstop = 5000L, restart = TRUE, stop_both = TRUE, df_autoselect = TRUE,
+  #oob_seed = 100)
 
 #lr1$train(tsk("sonar"))
+
 #length(lr1$model$cboost$getSelectedBaselearner())
 #length(lr1$model$cboost_restart$getSelectedBaselearner())
 #gridExtra::grid.arrange(
