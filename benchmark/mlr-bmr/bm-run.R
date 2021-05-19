@@ -89,7 +89,7 @@ tsks_classif = tsks_classif[serverSelector(TRUE), ]
 if (! dir.exists("res-results")) dir.create("res-results")
 if (! dir.exists("log-files")) dir.create("log-files")
 
-overwrite = FALSE
+overwrite = TRUE
 
 for (i in seq_len(nrow(tsks_classif))) {
   cat("[", as.character(Sys.time()), "] Task ", as.character(tsks_classif$name[i]),
