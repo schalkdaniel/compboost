@@ -5,7 +5,7 @@ if (FALSE) {
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_xgboost")
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
   config = list(task = "spam", type = "mlr", learner = "classif_lrn_hcwb_notune")
-  config = list(task = "7592", type = "oml", learner = "classif_lrn_acwb_notune")
+  config = list(task = "7592", type = "oml", learner = "classif_lrn_hcwb_notune_bin")
   config = list(task = "168335", type = "oml", learner = "classif_lrn_hcwb_notune")
   config = list(task = "albert", type = "omldata-albert", learner = "classif_lrn_hcwb_notune")
   config = list(task = "359994", type = "oml", learner = "classif_lrn_hcwb_notune")

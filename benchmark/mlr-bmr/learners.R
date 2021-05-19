@@ -110,7 +110,7 @@ classif_lrn_hcwb_notune$param_set$values = updatePars(classif_lrn_hcwb_notune, c
 classif_lrn_hcwb_notune_bin = lrn("classif.compboost", id = "ps_cwb6_notune_bin", predict_type = "prob",
   optimizer = "nesterov", restart = TRUE, learning_rate = 0.01, momentum = 0.03, df_autoselect = TRUE,
   bin_root = 2L)
-classif_lrn_hcwb_notune_bin = updatePars(classif_lrn_hcwb_notune_bin, cwb_pars)
+classif_lrn_hcwb_notune_bin$param_set$values = updatePars(classif_lrn_hcwb_notune_bin, cwb_pars)
 
 
 
