@@ -1,5 +1,9 @@
 extractCWBIters = function(l) {
-  mod = l$model
+  if ("graph" %in% names(l)) {
+    mod = l$model
+  } else {
+    mod = l$model$learner$model
+  }
   lid = names(mod)[grepl("ps_", names(mod))]
   mod0 = mod[[lid]]
   tt = mod0$train_time
@@ -10,8 +14,8 @@ extractCWBIters = function(l) {
     "ps_cwb2_bin", "ps_cwb5_notune", "ps_cwb5_notune_bin")
   hcwb_ids = c("ps_cboost_nesterov1", "ps_cboost_nesterov2", "ps_cwb3", "ps_cwb3_bin",
     "ps_cwb6_notune", "ps_cwb6_notune_bin")
-
   icwb  = NA
+
   iacwb = NA
   ihcwb = NA
 
@@ -44,13 +48,19 @@ extractCWBIters = function(l) {
 }
 
 extractArchive = function(bmr) {
-  lid = as.data.table(bmr)$learner[[1]]$graph$ids(TRUE)
+  l1 = as.data.table(bmr)$learner[[1]]
+  if ("graph" %in% names(l1)) {
+    lid = l1$graph$ids(TRUE)
+  } else {
+    lid = l1$model$learner$graph$ids(TRUE)
+  }
   lid = lid[grepl("ps_", lid)]
 
   ll_arx = list()
   ll_arx[[1]] = bmr$score(msrs(c("classif.auc", "time_train")))
-  if (grepl("cboost", lid) || grepl("cwb", lid)) ll_arx[[2]] = do.call(rbind, lapply(as.data.table(bmr)$learner, extractCWBIters))
-
+  if (grepl("cboost", lid) || grepl("cwb", lid)) {
+    ll_arx[[2]] = do.call(rbind, lapply(as.data.table(bmr)$learner, extractCWBIters))
+  }
   out = as.data.frame(do.call(cbind, ll_arx))
   out[, -which(names(out) %in% c("uhash", "task", "resampling", "learner", "prediction"))]
 }

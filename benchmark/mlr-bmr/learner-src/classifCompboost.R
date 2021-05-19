@@ -40,6 +40,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
   private = list(
     .train = function(task) {
 
+      lg = lgr::get_logger("mlr3")
       #browser()
 
       pdefaults = self$param_set$default
@@ -102,6 +103,9 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         bin_root = self$param_set$values$bin_root,
         bin_method = self$param_set$values$bin_method,
         df_cat = self$param_set$values$df_cat)
+      })
+
+      lg$info("[LGCOMPBOOST] Completed fitting of compboost with optimizer %s", self$param_set$values$optimizer)
 
       out$cboost = cboost
       iters = length(cboost$getSelectedBaselearner())
@@ -113,6 +117,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         if (iters_remaining > 0) {
           if (self$param_set$values$stop_both) {
             #browser()
+            nuisance = capture.output({
             set.seed(seed)
             cboost_restart = compboost::boostSplines(
               data = task$data(),
@@ -127,7 +132,9 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
               bin_root = self$param_set$values$bin_root,
               bin_method = self$param_set$values$bin_method,
               df_cat = self$param_set$values$df_cat)
+            })
           } else {
+            nuisance = capture.output({
             set.seed(seed)
             cboost_restart = compboost::boostSplines(
               data = task$data(),
@@ -140,12 +147,50 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
               bin_root = self$param_set$values$bin_root,
               bin_method = self$param_set$values$bin_method,
               df_cat = self$param_set$values$df_cat)
+            })
           }
           out$cboost_restart = cboost_restart
+          lg$info("[LGCOMPBOOST] Completed fitting of restarted compboost model with optimizer %s",
+            self$param_set$values$optimizer)
         }
       }
-    })
-    return(out)
+      rintercept = out$cboost$getInbagRisk()[1]
+      rcwb  = racwb = rhcwb = NA
+      rcwb_oob = racwb_oob = rhcwb_oob = NA
+      stop_cwb  = stop_acwb = stop_hcwb = NA
+
+      opt = self$param_set$values$optimizer
+
+      if (opt == "cod") {
+        rcwb = tail(out$cboost$getInbagRisk(), 1)
+        stop_cwb = length(out$cboost$getSelectedBaselearner())
+        if (self$param_set$values$use_stopper) {
+          rintercept_oob = out$cboost$getLoggerData()$oob_risk[1]
+          rcwb_oob = tail(out$cboost$getLoggerData()$oob_risk, 1)
+        }
+      }
+      if (opt == "nesterov") {
+        racwb = tail(out$cboost$getInbagRisk(), 1)
+        stop_acwb = length(out$cboost$getSelectedBaselearner())
+        if (self$param_set$values$use_stopper) {
+          rintercept_oob = out$cboost$getLoggerData()$oob_risk[1]
+          racwb_oob = tail(out$cboost$getLoggerData()$oob_risk, 1)
+        }
+      }
+      if ("cboost_restart" %in% names(out)) {
+        rhcwb = tail(out$cboost_restart$getInbagRisk(), 1)
+        stop_hcwb = length(out$cboost_restart$getSelectedBaselearner())
+        if (self$param_set$values$use_stopper) rhcwb_oob = tail(out$cboost_restart$getLoggerData()$oob_risk, 1)
+      }
+
+      lg$info("[LGCOMPBOOST] iterations:'stop_cwb',%i,'stop_acwb',%i,'stop_hcwb',%i",
+        stop_cwb, stop_acwb, stop_hcwb)
+      lg$info("[LGCOMPBOOST] risk_inbag:'risk_intercept',%f,'risk_cwb',%f,'risk_acwb',%f,'risk_hcwb',%f",
+        rintercept, rcwb, racwb, rhcwb)
+      lg$info(paste0("[LGCOMPBOOST] risk_oob:'risk_intercept_oob',%f,'risk_cwb_oob',%f,'risk_acwb_oob',%f,",
+        "'risk_hcwb_oob',%f"), rintercept_oob, rcwb_oob, racwb_oob, rhcwb_oob)
+
+      return(out)
     },
 
     .predict = function(task) {

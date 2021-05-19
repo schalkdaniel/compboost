@@ -2,8 +2,8 @@ load("config.Rda")
 if (FALSE) {
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_cboost2")
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_xgboost")
-  #config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
-  config = list(task = "7592", type = "oml", learner = "classif_lrn_acwb_notune_bin")
+  config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
+  #config = list(task = "7592", type = "oml", learner = "classif_lrn_acwb_notune_bin")
   i = 1
 }
 
@@ -95,9 +95,10 @@ cat("\t>> [", as.character(Sys.time()), "] Starting benchmark\n", sep = "")
 e = try({
 
   options(mlr3.debug = TRUE)
-  lgr::get_logger("mlr3")$set_threshold("trace")
-  lgr::get_logger("mlr3tuning")$set_threshold("trace")
-  lgr::get_logger("bbotk")$set_threshold("trace")
+  lgr::get_logger("mlr3")$set_threshold("info")
+  #lgr::get_logger("mlr3")$set_threshold("trace")
+  #lgr::get_logger("mlr3tuning")$set_threshold("trace")
+  #lgr::get_logger("bbotk")$set_threshold("trace")
 
   sink(logfile)
   time = proc.time()
@@ -108,9 +109,9 @@ e = try({
   cat("    >> [", as.character(Sys.time()), "] Finish benchmark in ", time[3], " seconds\n", sep = "")
   cat("    >> [", as.character(Sys.time()), "] Aggregate results and store data\n", sep = "")
 
-  bmr_arx = extractArchive(bmr)
-  bmr_nest_arx = NULL
-  if (! grepl("notune", config$learner)) bmr_nest_arx = extractNestedArchive(bmr)
+  bmr_arx = try(extractArchive(bmr), silent = TRUE)
+  #bmr_nest_arx = NULL
+  #if (! grepl("notune", config$learner)) bmr_nest_arx = extractNestedArchive(bmr)
 
   lrners       = as.data.table(bmr)$learner
   bmr_tune_res = lapply(lrners, function(b) b$tuning_result)
@@ -126,8 +127,8 @@ e = try({
     bmr_score$n_evals = design_classif$learner[[1]]$instance_args$terminator$param_set$values$n_evals
   }
 
-  bmr_res = list(bmr_tune_res, bmr_aggr, bmr_score, archive = bmr_arx,
-    nested_archive = bmr_nest_arx)
+  bmr_res = list(bmr_tune_res, bmr_aggr, bmr_score, archive = bmr_arx)#,
+    #nested_archive = bmr_nest_arx)
 
   bm_file = paste0(bm_dir, "res-results/bmr-", format(Sys.Date(),
     "%Y-%m-%d"), "-task", config$task, "-", config$learner, ".Rda")

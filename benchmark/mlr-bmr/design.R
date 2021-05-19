@@ -47,7 +47,7 @@ getAT = function(lrn, ps, res, add_pipe = NULL) {
     search_space = ps$clone(deep = TRUE),
     terminator   = terminator$clone(deep = TRUE),
     tuner        = tuner$clone(deep = TRUE),
-    store_models = TRUE,
+    store_models = FALSE,
     store_tuning_instance = TRUE)
 }
 

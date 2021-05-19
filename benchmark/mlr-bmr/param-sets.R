@@ -1,3 +1,16 @@
+getMinFactor = function (task) {
+  factor_cols = task$feature_types$id[task$feature_types$type == "factor"]
+  df_cat_min = NA
+  if (length(factor_cols) > 0) {
+    df_cat_min = min(vapply(
+      X = task$data(cols = factor_cols),
+      FUN = function(fc) length(unique(fc)),
+      FUN.VALUE = integer(1L)
+    ))
+  }
+  return(df_cat_min)
+}
+
 ## Paramsets:
 ## ----------------------
 
@@ -36,10 +49,11 @@ ps_xgboost = function(task, id) {
 }
 
 ps_cboost = function(task, id) {
+  df_cat = getMinFactor(task)
   ParamSet$new(
     params = list(
-      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10),
-      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10),
+      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 20),
+      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = df_cat),
       ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
       ParamInt$new(id = paste0(id, ".mstop"), lower = 100L, upper = 5000L)
       #ParamFct$new(id = "classif.compboost.optimizer", levels = c("cod", "nesterov")),
@@ -48,10 +62,11 @@ ps_cboost = function(task, id) {
   )
 }
 ps_cboost_nesterov = function(task, id) {
+  df_cat = getMinFactor(task)
   ParamSet$new(
     params = list(
-      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10),
-      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10),
+      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 20),
+      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = df_cat),
       ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
       #ParamDbl$new(id = paste0(id, ".oob_fraction"), lower = 0.2, upper = 0.5),
       ParamInt$new(id = paste0(id, ".mstop"), lower = 100L, upper = 5000L)
@@ -62,16 +77,20 @@ ps_cboost_nesterov = function(task, id) {
 }
 
 ps_cwb = function(task, id) {
+  df_cat = getMinFactor(task)
   ParamSet$new(
     params = list(
-      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 10),
-      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = 10),
-      ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5)))}
+      ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 20),
+      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = df_cat),
+      ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5)
+    )
+  )
+}
 
 ps_gamboost = function(task, id) {
   ParamSet$new(
     params = list(
-      ParamInt$new(id = paste0(id, ".dfbase"), lower = 3, upper = 10),
+      ParamInt$new(id = paste0(id, ".dfbase"), lower = 2, upper = 20),
       ParamInt$new(id = paste0(id, ".mstop"), lower = 100, upper = 5000),
       ParamDbl$new(id = paste0(id, ".nu"), lower = 0.001, 0.5)
     )

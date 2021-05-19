@@ -139,7 +139,8 @@ if ("config" %in% ls()) {
 }
 
 learners_classif = lapply(learners_classif, function(l) {
-  l$encapsulate = c(train = "evaluate", predict = "evaluate")
+  #l$encapsulate = c(train = "evaluate", predict = "evaluate")
+  #l$encapsulate = "none"
   l$fallback = lrn("classif.featureless")
 
   if (l$id == "ps_xgboost") l = po("encode", method = "one-hot") %>>% l
