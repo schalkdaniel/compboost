@@ -53,7 +53,7 @@ ps_cboost = function(task, id) {
   ParamSet$new(
     params = list(
       ParamDbl$new(id = paste0(id, ".df"), lower = 2, upper = 20),
-      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 2, upper = df_cat),
+      ParamDbl$new(id = paste0(id, ".df_cat"), lower = 1, upper = df_cat),
       ParamDbl$new(id = paste0(id, ".learning_rate"), lower = 0.001, upper = 0.5),
       ParamInt$new(id = paste0(id, ".mstop"), lower = 100L, upper = 5000L)
       #ParamFct$new(id = "classif.compboost.optimizer", levels = c("cod", "nesterov")),
