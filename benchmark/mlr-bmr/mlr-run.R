@@ -1,10 +1,10 @@
 load("config.Rda")
 
 if (FALSE) {
-  #config = list(task = "4534", type = "oml", learner = "classif_lrn_cboost2")
+  config = list(task = "spam", type = "mlr", learner = "classif_lrn_cboost1")
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_xgboost")
   #config = list(task = "4534", type = "oml", learner = "classif_lrn_acwb_bin")
-  config = list(task = "spam", type = "mlr", learner = "classif_lrn_hcwb_notune")
+  config = list(task = "spam", type = "mlr", learner = "classif_lrn_cwb")
   config = list(task = "7592", type = "oml", learner = "classif_lrn_hcwb_notune_bin")
   config = list(task = "168335", type = "oml", learner = "classif_lrn_hcwb_notune")
   config = list(task = "albert", type = "omldata-albert", learner = "classif_lrn_hcwb_notune")
@@ -38,7 +38,7 @@ bm_small = FALSE
 bm_full = TRUE
 
 if (bm_test) {
-  n_evals_per_dim = 15L
+  n_evals_per_dim = 40L
   getResampleInstance = function(task) {
     resampling_inner = rsmp("holdout")
     resampling_outer = rsmp("holdout", ratio = 0.2)
@@ -47,7 +47,7 @@ if (bm_test) {
   }
 }
 if (bm_small) {
-  n_evals_per_dim = 10L
+  n_evals_per_dim = 40L
   getResampleInstance = function(task) {
     resampling_inner = rsmp("cv", folds = 2)
     resampling_outer = rsmp("cv", folds = 2)
@@ -78,12 +78,15 @@ if (bm_full) {
 
 measure_classif = msr("classif.auc")
 
+#source(paste0(bm_dir, "learner-src/classifCompboost.R"))
+
 source(paste0(bm_dir, "extract-archive.R"))
 source(paste0(bm_dir, "tasks.R"))
 source(paste0(bm_dir, "param-sets.R"))
 source(paste0(bm_dir, "learners.R"))
 source(paste0(bm_dir, "design.R"))
 
+#bmr = benchmark(design_classif, store_models = TRUE)
 
 ## Run benchmark:
 ## -----------------------
@@ -102,9 +105,9 @@ e = try({
 
   options(mlr3.debug = TRUE)
   lgr::get_logger("mlr3")$set_threshold("info")
-  #lgr::get_logger("mlr3")$set_threshold("trace")
-  #lgr::get_logger("mlr3tuning")$set_threshold("trace")
-  #lgr::get_logger("bbotk")$set_threshold("trace")
+  lgr::get_logger("mlr3")$set_threshold("trace")
+  lgr::get_logger("mlr3tuning")$set_threshold("trace")
+  lgr::get_logger("bbotk")$set_threshold("trace")
 
   sink(logfile)
   time = proc.time()

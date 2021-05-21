@@ -35,12 +35,11 @@ getAT = function(lrn, ps, res, add_pipe = NULL) {
     on.surrogate.error = "warn") # Inital design default: 4L * ps$length
 
   set.seed(31415)
-  design = paradox::generate_design_lhs(ps, 8 * ps$length)$data
+  dsgn = paradox::generate_design_lhs(ps, 8L * ps$length)$data
   tuner$param_set$values$initial.design.size = 0
-  tuner$param_set$values$fixed.initial.design = design
+  tuner$param_set$values$fixed.initial.design = dsgn
 
-
-  AutoTuner$new(
+  at = AutoTuner$new(
     learner      = GraphLearner$new(glearner),
     resampling   = res$clone(deep = TRUE),
     measure      = measure,
@@ -49,6 +48,7 @@ getAT = function(lrn, ps, res, add_pipe = NULL) {
     tuner        = tuner$clone(deep = TRUE),
     store_models = FALSE,
     store_tuning_instance = TRUE)
+  return(at)
 }
 
 updateDesign = function(design) {

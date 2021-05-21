@@ -1,3 +1,6 @@
+
+cat("[", as.character(Sys.Date()),   "] Loading new learner\n", sep = "")
+
 LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
   inherit = LearnerClassif,
   public = list(
@@ -79,6 +82,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
           self$param_set$values$ncores)
       }
 
+
       if (self$param_set$values$use_stopper) {
         stop_args = list(patience = self$param_set$values$patience, eps_for_break = self$param_set$values$eps_for_break)
       } else {
@@ -86,8 +90,12 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
       }
 
       out = list()
-      seed = self$param_set$values$oob_seed
+      seed = sample(seq_len(100000), 1)
+      #seed = self$param_set$values$oob_seed
       #browser()
+
+      lg$info("[LGCOMPBOOST] Running compboost with df %f and df_cat %f", self$param_set$values$df, self$param_set$values$df_cat)
+
 
       nuisance = capture.output({
       set.seed(seed)
@@ -105,8 +113,6 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         bin_method = self$param_set$values$bin_method,
         df_cat = self$param_set$values$df_cat)
       })
-
-      lg$info("[LGCOMPBOOST] Completed fitting of compboost with optimizer %s", self$param_set$values$optimizer)
 
       out$cboost = cboost
       iters = length(cboost$getSelectedBaselearner())
@@ -156,6 +162,7 @@ LearnerClassifCompboost = R6Class("LearnerClassifCompboost",
         }
       }
       rintercept = out$cboost$getInbagRisk()[1]
+      rintercept_oob = NA
       rcwb  = racwb = rhcwb = NA
       rcwb_oob = racwb_oob = rhcwb_oob = NA
       stop_cwb  = stop_acwb = stop_hcwb = NA
