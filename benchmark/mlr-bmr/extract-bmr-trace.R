@@ -84,16 +84,22 @@ extractIters = function(lines) {
   stringr::str_remove(lines, "iterations:")
 }
 extractDFIter = function(file) {
+  cat("Read", file, "\n")
   bm_trace = readLines(file)
-  extrct = extractIters(bm_trace)
-  tmp = read.csv(text = paste0(extrct, collapse = "\n"), header = FALSE, quote = "\'")
-  names(tmp)[c(2, 4, 6)] = c("iters_cwb", "iters_acwb", "iters_restart")
-  tmp %>%
-    select(-starts_with("V")) %>%
-    pivot_longer(cols = starts_with("iters_"), names_to = "method", values_to = "iters") %>%
-    select(-method) %>%
-    na.omit() %>%
-    mutate(task = getTaskFromFile(file), learner = getLearnerFromFile(file))
+  if (any(grepl("LGCOMPBOOST", bm_trace))) {
+    extrct = extractIters(bm_trace)
+    tmp = read.csv(text = paste0(extrct, collapse = "\n"), header = FALSE, quote = "\'")
+    names(tmp)[c(2, 4, 6)] = c("iters_cwb", "iters_acwb", "iters_restart")
+    tmp = tmp %>%
+      select(-starts_with("V")) %>%
+      pivot_longer(cols = starts_with("iters_"), names_to = "method", values_to = "iters") %>%
+      select(-method) %>%
+      na.omit() %>%
+      mutate(task = getTaskFromFile(file), learner = getLearnerFromFile(file))
+  } else {
+    tmp = NULL
+  }
+  return(tmp)
 }
 
 ll_iter = lapply(files_cv, extractDFIter)
