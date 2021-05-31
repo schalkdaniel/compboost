@@ -72,10 +72,11 @@ serverSelector = function(on_host = FALSE) {
       "bigger-benchmarks2" = 4,
       "cacb1" = 5,
       "cacb2" = 6,
-      "cacb3" = 11,
-      "cacb4" = 7,
-      "cacb5" = c(5, 6, 7),
-      "cacb6" = c(4, 9, 11))
+
+      "cacb3" = 4,
+      "cacb4" = 5,
+      "cacb5" = c(6, 7),
+      "cacb6" = c(9, 11))
     idx = host_tasks[[host]]
     if (is.null(idx[1])) stop("Server is not one of {", paste(names(host_tasks), collapse = ", "), "}")
     return(idx)
