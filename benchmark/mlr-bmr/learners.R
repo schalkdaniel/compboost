@@ -62,7 +62,7 @@ classif_lrn_cwb = lrn("classif.compboost", id = "ps_cwb1", predict_type = "prob"
 classif_lrn_cwb$param_set$values = updatePars(classif_lrn_cwb, cwb_pars)
 
 classif_lrn_cwb_bin = lrn("classif.compboost", id = "ps_cwb1_bin", predict_type = "prob",
-  optimizer = "cod", restart = FALSE)
+  optimizer = "cod", restart = FALSE, bin_root = 2L)
 classif_lrn_cwb_bin$param_set$values = updatePars(classif_lrn_cwb_bin, cwb_pars)
 
 ### ACWB - tuning
@@ -71,7 +71,7 @@ classif_lrn_acwb = lrn("classif.compboost", id = "ps_cwb2", predict_type = "prob
 classif_lrn_acwb$param_set$values = updatePars(classif_lrn_acwb, cwb_pars)
 
 classif_lrn_acwb_bin = lrn("classif.compboost", id = "ps_cwb2_bin", predict_type = "prob",
-  optimizer = "nesterov", restart = FALSE, momentum = 0.0034)
+  optimizer = "nesterov", restart = FALSE, momentum = 0.0034, bin_root = 2L)
 classif_lrn_acwb_bin$param_set$values = updatePars(classif_lrn_acwb_bin, cwb_pars)
 
 ### HCWB - tuning
@@ -80,7 +80,7 @@ classif_lrn_hcwb = lrn("classif.compboost", id = "ps_cwb3", predict_type = "prob
 classif_lrn_hcwb$param_set$values = updatePars(classif_lrn_hcwb, cwb_pars)
 
 classif_lrn_hcwb_bin = lrn("classif.compboost", id = "ps_cwb3_bin", predict_type = "prob",
-  optimizer = "nesterov", restart = TRUE, momentum = 0.03)
+  optimizer = "nesterov", restart = TRUE, momentum = 0.03, bin_root = 2L)
 classif_lrn_hcwb_bin$param_set$values = updatePars(classif_lrn_hcwb_bin, cwb_pars)
 
 ### CWB - no tuning
@@ -164,7 +164,7 @@ if ("config" %in% ls()) {
 }
 
 learners_classif = lapply(learners_classif, function(l) {
-  #l$encapsulate = c(train = "evaluate", predict = "evaluate")
+  l$encapsulate = c(train = "evaluate", predict = "evaluate")
   #l$encapsulate = "none"
   l$fallback = lrn("classif.featureless")
 
