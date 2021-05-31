@@ -45,13 +45,13 @@ learners = c(
   #"classif_lrn_hcwb_notune",
   #"classif_lrn_hcwb_notune_bin",
 
-  "classif_lrn_cwb",
+  #"classif_lrn_cwb",
   "classif_lrn_cwb_bin",
 
-  "classif_lrn_acwb",
+  #"classif_lrn_acwb",
   "classif_lrn_acwb_bin",
 
-  "classif_lrn_hcwb",
+  #"classif_lrn_hcwb",
   "classif_lrn_hcwb_bin"
 
   #"classif_lrn_xgboost",            # Boosted trees
