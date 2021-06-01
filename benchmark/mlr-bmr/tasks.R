@@ -11,7 +11,7 @@ tasks_classif = list()
 if (config$type == "oml") {
   e = try({
     ts = tsk("oml", task_id = as.integer(as.character(config$task)))
-    if (as.character(config$task) == "MiniBooNE") {
+    if (as.character(config$task) == "168335") {
       dat = ts$data()
       for (i in seq_along(dat)) {
         if (is.numeric(dat[[i]])) {
