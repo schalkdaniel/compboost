@@ -1,4 +1,11 @@
+## ============================================================ ##
+##
+##                         SETUP
+##
+## ============================================================ ##
+
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 library(ggsci)
 library(gridExtra)
@@ -49,38 +56,35 @@ g_legend = function(a_gplot) {
   return(legend)
 }
 
-
-
-
-
 task_table = c(
-  "54" = "Hepatitis",
-  "37" = "Diabetes",
-  "31" = "German Credit",
-  "4534" = "Analcat Halloffame",
+  #"54" = "Hepatitis",
+  #"37" = "Diabetes",
+  #"31" = "German Credit",
+  #"4534" = "Analcat Halloffame",
   "spam" = "Spam",
-  "168337" = "Guillermo",
+  #"168337" = "Guillermo",
   "7592" = "Adult",
   "9977" = "namao",
   "168335" = "MiniBooNE",
   "albert" = "Albert",
   "359994" = "SF Police")# Incidents")
 
-#learner_table = c(
-  #cboost1 = "CWB (no binning)",
-  #cboost_bin1 = "CWB (binning)",
-  #cboost4 = "CWB Cosine Annealing (no binning)",
-  #cboost_bin4 = "CWB Cosine Annealing (binning)",
-  #cboost3 = "ACWB (no binning)",
-  #cboost_bin3 = "ACWB (binning)",
-  #cboost2 = "hCWB (no binning)",
-  #cboost_bin2 = "hCWB (binning)",
-  #ranger = "Random forest",
-  #xgboost = "Boosted trees",
-  #gamboost = "CWB (mboost)",
-  #interpretML = "interpretML")
-
 learner_table = c(
+
+  cwb = "CWB (nb, no mstop)",
+  cwb_bin = "CWB (b, no mstop)",
+  acwb = "ACWB (nb, no mstop)",
+  acwb_bin = "ACWB (b, no mstop)",
+  hcwb = "hCWB (nb, no mstop)",
+  hcwb_bin = "hCWB (b, no mstop)",
+
+  cwb_notune = "CWB (nb, no mstop, notune)",
+  cwb_notune_bin = "CWB (b, no mstop, notune)",
+  acwb_notune = "ACWB (nb, no mstop, notune)",
+  acwb_notune_bin = "ACWB (b, no mstop, notune)",
+  hcwb_notune = "hCWB (nb, no mstop, notune)",
+  hcwb_notune_bin = "hCWB (b, no mstop, notune)",
+
   cboost1 = "CWB (nb)",
   cboost_bin1 = "CWB (b)",
   cboost4 = "CWB CA (nb)",
@@ -95,11 +99,13 @@ learner_table = c(
   gamboost = "CWB (mboost)")
 
 llevels = learner_table
-#llevels = c("CWB (nb)",
-  #"CWB (b)", "CWB CA (nb)", "CWB CA (b)",
-  #"ACWB (nb)", "ACWB (b)", "hCWB (nb)", "hCWB (b)",
-  #"Random forest", "Boosted trees", "EBM", "CWB (mboost)")
 
+
+## ============================================================ ##
+##
+##                         FUNCTIONS
+##
+## ============================================================ ##
 
 extractStringBetween = function(str, left, right) {
   tmp = sapply(strsplit(str, left), function(x) x[2])
@@ -110,7 +116,8 @@ getTaskFromFile = function(file_name) {
   unname(task_table[sapply(tsks, function(ts) which(ts == names(task_table)))])
 }
 getLearnerFromFile = function(file_name) {
-  lrns = extractStringBetween(file_name, "-classif_lrn_", "[.]Rda")
+  ext = tools::file_ext(file_name)
+  lrns = extractStringBetween(file_name, "-classif_lrn_", paste0("[.]", ext))
   lrns_idx = sapply(lrns, function(l) which(l == names(learner_table)))
   unname(learner_table[lrns_idx])
 }
@@ -119,7 +126,7 @@ extractBMRData = function(file_name) {
     load(file)
     tmp = bmr_res[[3]]
     idx_select = sapply(
-      c("classif.auc", "classif.ce", "classif.bbrier", "time_train", "time_predict", "time_both", "n_evals"),
+      c("classif.auc", "classif.ce", "classif.bbrier", "time_train", "time_predict", "time_both"),#, "n_evals"),
       function(m) which(m == names(tmp)))
     tmp = tmp[, idx_select]
     tmp$task = getTaskFromFile(file)
@@ -129,61 +136,24 @@ extractBMRData = function(file_name) {
 }
 
 
-
+## ============================================================ ##
+##
+##                         LOAD DATA
+##
+## ============================================================ ##
 
 base_dir = "~/repos/compboost/benchmark/mlr-bmr/"
 files = list.files(paste0(base_dir, "res-results"), full.names = TRUE)
-
-#ll = list()
-#for (fn in files) {
-  #load(fn)
-  #if (!is.null(bmr_res[[1]][[1]])) {
-    #if (!is.null(names(bmr_res[[1]][[1]]))) {
-      #if (any(grepl("momentum", names(bmr_res[[1]][[1]])))) {
-       #mm = lapply(bmr_res[[1]], function (x) x[[names(x)[grepl("momentum", names(x))]]])
-       #ll[[fn]] = data.frame(task = getTaskFromFile(fn), momentum = unlist(mm), learner = getLearnerFromFile(fn))
-      #}
-    #}
-  #}
-#}
-#a = do.call(rbind, ll)
-#ggplot(a, aes(x = task, y = momentum, color = learner, fill = learner)) + geom_boxplot(alpha = 0.2) + scale_y_continuous(trans = "log10")
-
+idx_files = extractStringBetween(files, "-task", "-classif_") %in% names(task_table)
+files = files[idx_files]
 
 df_bmr = do.call(rbind, extractBMRData(files))
-df_bmr$time_per_model = df_bmr$time_train / df_bmr$n_evals
-
-df_all = expand.grid(learner = unique(df_bmr$learner), task = unique(df_bmr$task),
-  classif.auc = NA, time_per_iter = NA)
+df_all = expand.grid(learner = unique(df_bmr$learner), task = unique(df_bmr$task))
 
 df_bmr = df_all %>% full_join(df_bmr, by = c("learner", "task"))
 
-df_bmr$classif.auc.x = NULL
-df_bmr$classif.auc = df_bmr$classif.auc.y
-
-df_bmr$time_per_iter.x = NULL
-df_bmr$time_per_iter = df_bmr$time_per_iter.y
-
-
 df_bmr$learner = factor(df_bmr$learner, levels = llevels)
-
-#levels = c("CWB (no binning)",
-  #"CWB (binning)", "CWB Cosine Annealing (no binning)", "CWB Cosine Annealing (binning)",
-  #"ACWB (no binning)", "ACWB (binning)", "hCWB (no binning)", "hCWB (binning)",
-  #"Random forest", "Boosted trees", "CWB (mboost)", "interpretML"))
-
-df_bmr$task = factor(df_bmr$task, levels = c("Hepatitis",
-  "Diabetes",
-  #"German Credit",
-  "Analcat Halloffame",
-  "Spam",
-  "Guillermo",
-  "Adult",
-  "MiniBooNE",
-  "namao",
-  "Albert",
-  "SF Police"# Incidents"
-  ))
+df_bmr$task = factor(df_bmr$task, levels = task_table)
 
 equalBreaks = function(n = 4, s = 0.05, ...) {
   function(x) {
@@ -192,6 +162,123 @@ equalBreaks = function(n = 4, s = 0.05, ...) {
     seq(min(x) + d, max(x) - d, length = n)
   }
 }
+
+## ============================================================ ##
+##
+##                           FIGURES
+##
+## ============================================================ ##
+
+### OVERALL PLOTS:
+### =================================
+
+df_plt1 = df_bmr %>%
+  select(learner, task, classif.auc, time_train) %>%
+  filter(classif.auc > 0.5)
+
+df_space = expand.grid(learner = paste0("space", 1:3), task = unique(df_plt1$task), classif.auc = NA, time_train = NA)
+df_plt1 = df_plt1 %>% rbind(df_space)
+df_plt1$learner = factor(df_plt1$learner, levels = c(llevels[1:6], "space1", llevels[7:12], "space2", llevels[13:20], "space3", llevels[21:24]))
+
+### Overall Plot:
+gg_tt = ggplot(df_plt1, aes(x = learner, y = time_train, color = learner, fill = learner)) +#,
+  geom_boxplot(alpha = 0.2, lwd = 0.3) +
+  scale_fill_manual(values = c(pal_uchicago()(6), pal_aaas()(6), pal_jco()(8), pal_locuszoom()(4))) +
+  scale_color_manual(values = c(pal_uchicago()(6), pal_aaas()(6), pal_jco()(8), pal_locuszoom()(4))) +
+  #scale_x_discrete(breaks = unname(c(llevels[1:8], "space1", llevels[9:12])), labels = unname(c(llevels[1:8], "", llevels[9:12]))) +
+  #scale_y_continuous(breaks = equalBreaks(), trans = "log10") +
+  scale_y_continuous(trans = "log10") +
+  theme(axis.text.x = element_blank(), legend.position = "bottom", axis.text.y = element_text(size = 7)) +
+  labs(fill = "Algorithm", color = "Algorithm") +
+  guides(fill = guide_legend(nrow = 4), color = guide_legend(nrow = 4), linetype = FALSE) +
+  xlab("") +
+  ylab("Time train") +
+  facet_wrap(~ task, scales = "free_y", nrow = 2)
+gg_tt
+
+gg_auc = ggplot(df_plt1, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +
+  geom_boxplot(alpha = 0.2, lwd = 0.3) +
+  scale_fill_manual(values = c(pal_uchicago()(6), pal_aaas()(6), pal_jco()(8), pal_locuszoom()(4))) +
+  scale_color_manual(values = c(pal_uchicago()(6), pal_aaas()(6), pal_jco()(8), pal_locuszoom()(4))) +
+  #scale_x_discrete(breaks = unname(c(llevels[1:8], "space1", llevels[9:12])), labels = unname(c(llevels[1:8], "", llevels[9:12]))) +
+  scale_y_continuous(breaks = equalBreaks()) +
+  theme(axis.text.x = element_blank(), legend.position = "bottom", axis.text.y = element_text(size = 7)) +
+  labs(fill = "Algorithm", color = "Algorithm") +
+  guides(fill = guide_legend(nrow = 4), color = guide_legend(nrow = 4), linetype = FALSE) +
+  xlab("") +
+  ylab("AUC") +
+  facet_wrap(~ task, scales = "free_y", nrow = 2)
+gg_auc
+
+
+### hCWB SWITCH:
+### =================================
+
+cwb_variants = learner_table[1:12]
+
+
+files = list.files(paste0(base_dir, "res-results"), full.names = TRUE)
+idx_files = extractStringBetween(files, "-task", "-classif_") %in% names(task_table)
+files_cv = files[getLearnerFromFile(files) %in% cwb_variants]
+
+fcv = files_cv[1]
+
+extractArchive = function(fcv) {
+  load(fcv)
+  tmp = bmr_res$archive
+  tmp$learner = getLearnerFromFile(fcv)
+  tmp$task = getTaskFromFile(fcv)
+  tmp$binning = ifelse(grepl("[(]b,", tmp$learner), "yes", "no")
+  tmp$learner_id = NULL
+  tmp$task_id = NULL
+  tmp
+}
+
+df_cv = do.call(rbind, lapply(files_cv, extractArchive)) %>%
+  pivot_longer(cols = starts_with("iters"), names_to = "method", values_to = "iters") %>%
+  filter(! is.na(iters))
+
+df_iters = df_cv %>%
+  ggplot(aes(x = iters, color = method, fill = method)) +
+    my_color + my_fill +
+    geom_density(aes(linetype = binning), alpha = 0.2) +
+    facet_wrap(~ task, scales = "free_y", nrow = 2)
+df_iters
+
+
+
+
+load(paste0(base_dir, "ll_iter.Rda"))
+df_iter = do.call(rbind, ll_iter)
+
+df_iter = df_iter %>%
+  mutate(iters_hcwb_restart = iters_restart, iters_hcwb_burnin = ifelse(!is.na(iters_restart), iters_acwb, NA))
+
+df_iter %>% filter(! is.na(iters_hcwb)) %>%
+  ggplot() +
+    geom_density(aes(x = iters_acwb, color = "ACWB", fill = "ACWB"), alpha = 0.2) +
+    geom_density(aes(x = iters_restart, color = "hCWB - ACWB", fill = "hCWB - ACWB"), alpha = 0.2) +
+    my_color + my_fill +
+    labs(fill = "Iters", color = "Iters") +
+    facet_wrap(~ task, scales = "free_y", nrow = 2)
+
+df_iter %>%
+  select(-iters_restart) %>%
+  select(-starts_with("V")) %>%
+  pivot_longer(cols = starts_with("iters_"), names_to = "method", values_to = "iters") %>%
+  #filter(grepl("hcwb", method)) %>% na.omit()
+  #select(-method) %>%
+  na.omit() %>%
+  mutate(binning = ifelse(grepl("[(]b,", learner), "yes", "no")) %>%
+  mutate(variant = ifelse(grepl("hCWB", learner), "hCWB", ifelse(grepl("ACWB", learner), "ACWB", "CWB"))) %>%
+  mutate(tuned = ifelse(grepl("notune", learner), " notune", " tuned")) %>%
+  mutate(learner = paste0(variant, tuned)) %>%
+  filter(grepl("tuned", learner)) %>%
+  ggplot(aes(x = iters, color = method, fill = method)) +
+    my_color + my_fill +
+    #geom_density(aes(linetype = binning), alpha = 0.2) +
+    geom_density(alpha = 0.2) +
+    facet_wrap(~ task, scales = "free_y", nrow = 2)
 
 
 
@@ -231,15 +318,18 @@ df_space = data.frame(learner = "space1", task = unique(df_plt1$task), classif.a
 df_plt1 = df_plt1 %>% rbind(df_space)
 df_plt1$learner = factor(df_plt1$learner, levels = c(llevels[1:8], "space1", llevels[9:12]))
 
-
 ### Overall Plot:
-gg1 = ggplot(df_plt1, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +#,
-gg1 = ggplot(df_plt1, aes(x = learner, y = time_train, color = learner, fill = learner)) +#,
+gg1 =
+gg1 =
+
+  ggplot(df_plt1, aes(x = learner, y = time_train, color = learner, fill = learner)) +#,
+
+  ggplot(df_plt1, aes(x = learner, y = classif.auc, color = learner, fill = learner)) +#,
     #linetype = ifelse(!grepl("[(]binning", learner), "binning", "no binning"))) +
   geom_boxplot(alpha = 0.2, lwd = 0.3) +
-  scale_fill_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
-  scale_color_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
-  scale_x_discrete(breaks = unname(c(llevels[1:8], "space1", llevels[9:12])), labels = unname(c(llevels[1:8], "", llevels[9:12]))) +
+  #scale_fill_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
+  #scale_color_manual(values = c(pal_uchicago()(9), pal_aaas()(3))) +
+  #scale_x_discrete(breaks = unname(c(llevels[1:8], "space1", llevels[9:12])), labels = unname(c(llevels[1:8], "", llevels[9:12]))) +
   scale_y_continuous(breaks = equalBreaks()) +
   theme(axis.text.x = element_blank(), legend.position = "bottom", axis.text.y = element_text(size = 7)) +
   labs(fill = "Algorithm", color = "Algorithm") +
@@ -330,21 +420,77 @@ ggsave(
 
 
 ### EQ1:
+### =============================000
+
 colors = c(pal_uchicago()(9), pal_aaas()(3))[c(1,2,8,11,5,6,7,3,10,9,4,12)]
+
+colors = c(pal_uchicago()(6), pal_aaas()(6), pal_jco()(8), pal_locuszoom()(4))
 names(colors) = learner_table
 box_width = 0.25
 box_fatten = 1.25
 hline_size = 0.2
 width_ggsep = 0.3
 
-baseline_lrn = "CWB (nb)"
-additional_lrn = c("CWB (b)", "ACWB (b)", "hCWB (b)")
+baseline_lrn = "CWB (nb, no mstop)"
+additional_lrn = c("CWB (b, no mstop)", "ACWB (nb, no mstop)", "ACWB (b, no mstop)",
+  "hCWB (nb, no mstop)", "hCWB (b, no mstop)")
+
+qlower = 0.25
+qupper = 0.75
+df_tmp = df_bmr %>%
+  filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
+  group_by(task) %>%
+  mutate(
+    classif.auc = (classif.auc - classif.auc[learner == baseline_lrn]) / classif.auc[learner == baseline_lrn],
+    time_train = time_train[learner == baseline_lrn] / time_train
+    ) %>%
+  group_by(task, learner) %>%
+  summarize(
+    med_auc = median(classif.auc, na.rm = TRUE),
+    lower_auc = quantile(classif.auc, qlower, na.rm = TRUE),
+    upper_auc = quantile(classif.auc, qupper, na.rm = TRUE),
+    med_time = median(time_train, na.rm = TRUE),
+    lower_time = quantile(time_train, qlower, na.rm = TRUE),
+    upper_time = quantile(time_train, qupper, na.rm = TRUE)
+  ) %>%
+  filter(learner != baseline_lrn)
+
+#equalBreaks = function(n = 4, s = 0.05, ...) {
+  #function(x) {
+    #d = s * diff(range(x)) / (1 + 2 * s)
+    #round(seq(round(min(x) + d, 2), round(max(x) - d, 2), length = n), 2)
+  #}
+#}
+
+
+gg1 = df_tmp %>%
+  ggplot(aes(color = learner)) +
+    geom_point(aes(x = med_time, y = med_auc), size = 1) +
+    geom_errorbar(aes(x = med_time, ymin = lower_auc, ymax = upper_auc), alpha = 0.8, size = 0.4) +
+    geom_errorbarh(aes(xmin = lower_time, xmax = upper_time, y = med_auc), alpha = 0.8, size = 0.4) +
+    my_color +
+    my_fill +
+    xlab("Speedup") +
+    ylab("AUC improvement") +
+    labs(color = "", fill = "") +
+    #scale_y_continuous(breaks = equalBreaks(3)) +
+    scale_x_continuous(trans = "log2", breaks = scales::pretty_breaks(n = 5)) +
+    theme(strip.text = element_text(color = "white", face = "bold", size = 8),
+      axis.text.x = element_text(size = 6, angle = 45, hjust = 1),
+      axis.text.y = element_text(size = 6)) +
+    facet_wrap(. ~ task, scales = "free")
+
+
+
+
+
+
 gg1 = df_bmr %>%
   filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
   filter(task != "Analcat Halloffame") %>%
   group_by(task) %>%
-  summarize(auc = classif.auc / classif.auc[learner == baseline_lrn] - 1, learner = learner) %>%
-  filter(learner != baseline_lrn, auc < 0.2, auc > -0.2) %>%
+  summarize(auc = (classif.auc -  classif.auc[learner == baseline_lrn]) /classif.auc[learner == baseline_lrn], learner = learner) %>%
+  filter(learner != baseline_lrn) %>%#, auc < 0.2, auc > -0.2) %>%
   ggplot(aes(x = task, y = auc, color = learner, fill = learner)) +
     geom_hline(yintercept = 0, size = hline_size, color = "dark red", linetype = "dashed") +
     geom_boxplot(alpha = 0.2, size = box_width, fatten = box_fatten) +
@@ -358,14 +504,14 @@ gg1 = df_bmr %>%
     labs(color = "", fill = "") +
     theme(axis.text.y = element_text(size = 8), axis.text.x = element_text(size = 8, angle = 45, hjust = 0.5, vjust = 0.5), legend.position = "right")
 
-gg2 = df_run %>%
+gg2 = df_bmr %>%
   filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
   filter(task != "Analcat Halloffame") %>%
   group_by(task) %>%
-  summarize(time =  time_train[learner == baseline_lrn] / time_train - 1, learner = learner) %>%
+  summarize(time = time_train[learner == baseline_lrn] / time_train, learner = learner) %>%
   filter(learner != baseline_lrn) %>%
   ggplot(aes(x = task, y = time, color = learner, fill = learner)) +
-    geom_hline(yintercept = 0, color = "dark red", linetype = "dashed", size = hline_size) +
+    geom_hline(yintercept = 1, color = "dark red", linetype = "dashed", size = hline_size) +
     geom_boxplot(alpha = 0.2, size = box_width, fatten = box_fatten) +
     geom_vline(xintercept = seq_len(5) + 0.5, size = width_ggsep, alpha = 0.3) +
     #my_color +
@@ -399,7 +545,7 @@ p3 = arrangeGrob(
   ncol = 3,
   widths = c(4,4,2))
 
-#plot(p3)
+plot(p3)
 
 ggsave(
   plot = p3,
@@ -410,7 +556,15 @@ ggsave(
 
 #system("evince fig-eq1.pdf &")
 
+
 ### EQ2:
+### ----------------------------
+
+cwb_files = files[grepl("_cwb[.]", files)]
+
+load(cwb_files[1])
+
+
 baseline_lrn = "CWB (mboost)"
 additional_lrn = c("CWB (nb)", "CWB (b)", "hCWB (b)")
 gg1 = df_run %>%
@@ -423,10 +577,10 @@ gg1 = df_run %>%
     geom_hline(yintercept = 1, color = "dark red", linetype = "dashed", size = hline_size) +
     geom_boxplot(alpha = 0.2, fatten = box_fatten, size = box_width) +
     geom_vline(xintercept = seq_len(5) + 0.5, size = width_ggsep, alpha = 0.3) +
-    #my_color +
-    scale_color_manual(values = colors[additional_lrn]) +
-    #my_fill +
-    scale_fill_manual(values = colors[additional_lrn]) +
+    my_color +
+    #scale_color_manual(values = colors[additional_lrn]) +
+    my_fill +
+    #scale_fill_manual(values = colors[additional_lrn]) +
     xlab("") +
     ylab("Speedup  ") +
     labs(color = "", fill = "") +
@@ -442,7 +596,9 @@ ggsave(
 #system("evince fig-eq2.pdf &")
 
 ### EQ3:
-baseline_lrn = "hCWB (nb)"
+### ==========================
+
+baseline_lrn = "hCWB (b, no mstop)"
 additional_lrn = c("Boosted trees", "EBM")
 gg1 = df_bmr %>%
   filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
@@ -463,8 +619,8 @@ gg1 = df_bmr %>%
     labs(color = "", fill = "") +
     theme(axis.text.y = element_text(size = 8), axis.text.x = element_text(size = 8, angle = 45, hjust = 0.5, vjust = 0.5), legend.position = "right")
 
-baseline_lrn = "hCWB (b)"
-gg2 = df_run %>%
+baseline_lrn = "hCWB (b, no mstop)"
+gg2 = df_bmr %>%
   filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
   filter(task != "Analcat Halloffame") %>%
   group_by(task) %>%
@@ -474,10 +630,10 @@ gg2 = df_run %>%
     geom_hline(yintercept = 1, color = "dark red", linetype = "dashed", size = hline_size) +
     geom_boxplot(alpha = 0.2, size = box_width, fatten = box_fatten) +
     geom_vline(xintercept = seq_len(5) + 0.5, size = width_ggsep, alpha = 0.3) +
-    #my_color +
-    scale_color_manual(values = colors[additional_lrn]) +
-    #my_fill +
-    scale_fill_manual(values = colors[additional_lrn]) +
+    my_color +
+    #scale_color_manual(values = colors[additional_lrn]) +
+    my_fill +
+    #scale_fill_manual(values = colors[additional_lrn]) +
     xlab("") +
     ylab("\nSlowdown") +
     labs(color = "Algorithm", fill = "Algorithm") +
