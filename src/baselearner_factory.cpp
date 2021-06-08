@@ -22,6 +22,17 @@
 
 namespace blearnerfactory {
 
+std::shared_ptr<data::Data> extractDataFromMap (const std::shared_ptr<data::Data>& sh_ptr_data,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map)
+{
+  std::string data_id = sh_ptr_data->getDataIdentifier();
+  auto it_data = data_map.find(data_id);
+  if (it_data == data_map.end()) {
+    throw "Cannot find data " + data_id + " in data map. Using 0 as linear predictor.";
+  }
+  return it_data->second;
+}
+
 // -------------------------------------------------------------------------- //
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
@@ -112,10 +123,19 @@ arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::ma
   return BaselearnerPolynomialFactory::getData() * param;
 }
 
-arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+//arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
 {
-  arma::mat temp = newdata->getDenseData();
-  return this->instantiateData(temp) * param;
+  try {
+    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+
+    arma::mat temp = newdata->getDenseData();
+    return this->instantiateData(temp) * param;
+
+  } catch (const char* msg) {
+    throw msg;
+  }
 }
 
 std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
@@ -211,10 +231,18 @@ arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& 
   return (param.t() * _sh_ptr_psdata->getSparseData()).t();
 }
 
-arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+//arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
 {
-  arma::mat temp = newdata->getDenseData();
-  return this->instantiateData(temp) * param;
+  try {
+    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+
+    arma::mat temp = newdata->getDenseData();
+    return this->instantiateData(temp) * param;
+  } catch (const char* msg) {
+    throw msg;
+  }
 }
 
 
@@ -265,10 +293,17 @@ arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const ar
   return out;
 }
 
-arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+//arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
 {
-  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
-  return _sh_ptr_cdata->dictionaryInsert(classes, param);
+  try {
+    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
+    return _sh_ptr_cdata->dictionaryInsert(classes, param);
+  } catch (const char* msg) {
+    throw msg;
+  }
 }
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::createBaselearner ()
@@ -304,18 +339,25 @@ arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const a
   return helper::predictBinaryIndex(_sh_ptr_bcdata->getIndex(), _sh_ptr_bcdata->getNObs(), arma::as_scalar(param));
 }
 
-arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+//arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
 {
-  std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
+  try {
+    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    std::vector<std::string> classes = std::static_pointer_cast<data::CategoricalDataRaw>(newdata)->getRawData();
 
-  unsigned int nobs = classes.size();
-  arma::mat out(nobs, 1, arma::fill::zeros);
+    unsigned int nobs = classes.size();
+    arma::mat out(nobs, 1, arma::fill::zeros);
 
-  for (unsigned int i = 0; i < nobs; i++) {
-    if (classes.at(i) == _sh_ptr_bcdata->getCategory())
-      out(i) = arma::as_scalar(param);
+    for (unsigned int i = 0; i < nobs; i++) {
+      if (classes.at(i) == _sh_ptr_bcdata->getCategory())
+        out(i) = arma::as_scalar(param);
+    }
+    return out;
+  } catch (const char* msg) {
+    throw msg;
   }
-  return out;
 }
 
 arma::mat BaselearnerCategoricalBinaryFactory::instantiateData (const arma::mat& newdata) const
@@ -359,10 +401,17 @@ arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& p
   return _sh_ptr_data_target->getData() * param;
 }
 
-arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+//arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
 {
-  arma::mat temp = newdata->getDenseData();
-  return this->instantiateData(temp) * param;
+  try {
+    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    arma::mat temp = newdata->getDenseData();
+    return this->instantiateData(temp) * param;
+  } catch (const char* msg) {
+    throw msg;
+  }
 }
 
 arma::mat BaselearnerCustomFactory::instantiateData (const arma::mat& newdata) const
@@ -403,10 +452,17 @@ arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat
   return _sh_ptr_data_target->getData() * param;
 }
 
-arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+//arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
+arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param,
+  const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
 {
-  arma::mat temp = newdata->getDenseData();
-  return this->instantiateData(temp) * param;
+  try {
+    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    arma::mat temp = newdata->getDenseData();
+    return this->instantiateData(temp) * param;
+  } catch (const char* msg) {
+    throw msg;
+  }
 }
 
 

@@ -130,25 +130,5 @@ std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const
   return out;
 }
 
-arma::mat trapezWeights (const arma::mat& time_points)
-{
-  /// Get Differences of the current function
-  arma::mat t_diffs = arma::diff( time_points, 1, 1) ;
-  arma::mat weights = time_points;
-
-
-  /// change the border values
-  weights.col(0) = t_diffs.col(0);
-  weights.col(weights.n_cols-1) = t_diffs.col(t_diffs.n_cols-1);
-
-  /// divide all by half except for beginning and end, add to get mean per value
-  arma::mat t_diff_halfs = t_diffs / 2;
-
-  weights.cols(1,(weights.n_cols-2)) =  t_diff_halfs.cols(1,t_diff_halfs.n_cols-1) +
-    t_diff_halfs.cols(0,t_diff_halfs.n_cols-2);
-
-  return weights;
-}
-
 } // namespace tensors
 

@@ -99,7 +99,7 @@ public:
   void       trainCompboost     (const unsigned int);
   void       continueTraining   (const unsigned int);
   arma::vec  predict            () const;
-  arma::vec  predict            (std::map<std::string, std::shared_ptr<data::Data>>, const bool&) const;
+  arma::vec  predict            (const std::map<std::string, std::shared_ptr<data::Data>>&, const bool&) const;
   void       setToIteration     (const unsigned int&, const unsigned int&);
   void       summarizeCompboost () const;
 

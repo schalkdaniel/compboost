@@ -199,7 +199,7 @@ arma::vec Compboost::predict () const
 // Those columns are then transformed by the corresponding transform data function of the
 // specific factory. After the transformation, the transformed data is multiplied by the
 // corresponding parameter.
-arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>> data_map, const bool& as_response) const
+arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::Data>>& data_map, const bool& as_response) const
 {
   helper::debugPrint("From 'Compboost::predict(std::map, bool)'");
   // IMPROVE THIS FUNCTION!!! See:
@@ -221,15 +221,20 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 
     // Find the element with key 'hat'
     std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner_factory = _factory_list.getFactoryMap().find(factory_id)->second;
-
-    // Select newdata corresponding to selected factory object:
-    std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;
-    it_newdata = data_map.find(blearner_factory->getDataIdentifier());
-
-    // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
-    if (it_newdata != data_map.end()) {
-      pred += blearner_factory->calculateLinearPredictor(it_pair_param.second, it_newdata->second);
+    try {
+      pred += blearner_factory->calculateLinearPredictor(it_pair_param.second, data_map);
+    } catch (const char* msg) {
+      std::cout << msg << std::endl;
     }
+
+    // // Select newdata corresponding to selected factory object:
+    //std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;
+    //it_newdata = data_map.find(blearner_factory->getDataIdentifier());
+
+    // // Calculate prediction by accumulating the design matrices multiplied by the estimated parameter:
+    //if (it_newdata != data_map.end()) {
+      //pred += blearner_factory->calculateLinearPredictor(it_pair_param.second, it_newdata->second);
+    //}
   }
   if (as_response) {
     pred = _sh_ptr_response->getPredictionTransform(pred);
