@@ -143,92 +143,6 @@ public:
   }
 };
 
-//' Data class for character variables
-//'
-//' \code{CategoricalData} creates an data object which can be used as source
-//' object to instantiate categorical base learner.
-//'
-//' @format \code{\link{S4}} object.
-//' @name CategoricalData
-//'
-//' @section Usage:
-//' \preformatted{
-//' CategoricalData$new(x, data_identifier)
-//' }
-//'
-//' @section Arguments:
-//' \describe{
-//' \item{\code{x} [\code{character}]}{
-//'   Character vector containing the classes.
-//' }
-//' \item{\code{data_identifier} [\code{character(1)}]}{
-//'   The name for the data specified in \code{data_mat}. Note that it is
-//'   important to have the same data names for train and evaluation data.
-//' }
-//' }
-//'
-//' @section Fields:
-//'   This class doesn't contain public fields.
-//'
-//' @section Methods:
-//' \describe{
-//' \item{\code{getData()}}{Get numerical representation of the data.}
-//' \item{\code{getIdentifier()}}{Get data identifier.}
-//' \item{\code{getDictionary()}}{Get internal encoding to map numerical encoding to raw data.}
-//' }
-//' @examples
-//' # Sample data:
-//' x = sample(c("one","two", "three"), 20, TRUE)
-//'
-//' # Create new data object:
-//' data_obj = CategoricalData$new(x, "cat")
-//'
-//' # Get data and identifier:
-//' data_obj$getData()
-//' data_obj$getIdentifier()
-//' data_obj$getDictionary()
-//'
-//' @export CategoricalData
-
-//namespace {
-  //std::shared_ptr<data::CategoricalData> vecToData (Rcpp::StringVector classes, std::string data_identifier) {
-    //std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
-    //return std::make_shared<data::CategoricalData>(data_identifier, str_classes);
-  //}
-//}
-
-//class CategoricalDataWrapper : public DataWrapper
-//{
-
-//private:
-  //std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
-
-//public:
-
-  //CategoricalDataWrapper (Rcpp::StringVector classes, std::string data_identifier)
-  //{
-    //std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
-    //_sh_ptr_cdata = std::make_shared<data::CategoricalData>(data_identifier, str_classes);
-  //}
-
-  //std::shared_ptr<data::Data> getDataObj () { return _sh_ptr_cdata; }
-  //std::shared_ptr<data::CategoricalData> getCDataObj () const { return _sh_ptr_cdata; }
-
-  //arma::mat getData () const
-  //{
-    //return _sh_ptr_cdata->getData();
-  //}
-
-  //std::string getIdentifier () const
-  //{
-    //return _sh_ptr_cdata->getDataIdentifier();
-  //}
-
-  //std::map<std::string, unsigned int> getDictionary () const
-  //{
-    //return _sh_ptr_cdata->getDictionary();
-  //}
-//};
 
 //' Data class for character variables
 //'
@@ -334,16 +248,6 @@ RCPP_MODULE (data_module)
     .method("getData",       &InMemoryDataWrapper::getData, "Get data")
     .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
   ;
-
-  //class_<CategoricalDataWrapper> ("CategoricalData")
-    //.derives<DataWrapper> ("Data")
-
-    //.constructor<Rcpp::StringVector, std::string> ()
-
-    //.method("getData",       &CategoricalDataWrapper::getData, "Get data")
-    //.method("getIdentifier", &CategoricalDataWrapper::getIdentifier, "Get the data identifier")
-    //.method("getDictionary", &CategoricalDataWrapper::getDictionary, "Get the encoding of the feature")
-  //;
 
   class_<CategoricalDataRawWrapper> ("CategoricalDataRaw")
     .derives<DataWrapper> ("Data")

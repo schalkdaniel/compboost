@@ -64,54 +64,6 @@ NULL
 
 #' Data class for character variables
 #'
-#' \code{CategoricalData} creates an data object which can be used as source
-#' object to instantiate categorical base learner.
-#'
-#' @format \code{\link{S4}} object.
-#' @name CategoricalData
-#'
-#' @section Usage:
-#' \preformatted{
-#' CategoricalData$new(x, data_identifier)
-#' }
-#'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{x} [\code{character}]}{
-#'   Character vector containing the classes.
-#' }
-#' \item{\code{data_identifier} [\code{character(1)}]}{
-#'   The name for the data specified in \code{data_mat}. Note that it is
-#'   important to have the same data names for train and evaluation data.
-#' }
-#' }
-#'
-#' @section Fields:
-#'   This class doesn't contain public fields.
-#'
-#' @section Methods:
-#' \describe{
-#' \item{\code{getData()}}{Get numerical representation of the data.}
-#' \item{\code{getIdentifier()}}{Get data identifier.}
-#' \item{\code{getDictionary()}}{Get internal encoding to map numerical encoding to raw data.}
-#' }
-#' @examples
-#' # Sample data:
-#' x = sample(c("one","two", "three"), 20, TRUE)
-#'
-#' # Create new data object:
-#' data_obj = CategoricalData$new(x, "cat")
-#'
-#' # Get data and identifier:
-#' data_obj$getData()
-#' data_obj$getIdentifier()
-#' data_obj$getDictionary()
-#'
-#' @export CategoricalData
-NULL
-
-#' Data class for character variables
-#'
 #' \code{CategoricalDataRaw} creates an data object which can be used as source
 #' object to instantiate categorical base learner. In contrast to \code{CategoricalData}
 #' the data are stored as raw categorical vector.
