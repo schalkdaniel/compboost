@@ -81,11 +81,11 @@ logger_data LoggerList::getLoggerData () const
 
 void LoggerList::logCurrent (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer)
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
   for (auto& it_logger : _logger_list) {
     it_logger.second->logStep(current_iteration, sh_ptr_response, sh_ptr_blearner,
-      learning_rate, step_size, sh_ptr_optimizer);
+      learning_rate, step_size, sh_ptr_optimizer, factory_list);
   }
 }
 

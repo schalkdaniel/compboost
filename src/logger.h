@@ -51,6 +51,7 @@
 #include "baselearner.h"
 #include "response.h"
 #include "optimizer.h"
+#include "baselearner_factory_list.h"
 
 namespace logger
 {
@@ -85,9 +86,9 @@ protected:
 
 public:
   // Virtual functions:
-  virtual void logStep (const unsigned int, const std::shared_ptr<response::Response>,
-    const std::shared_ptr<blearner::Baselearner>, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>) = 0;
+  virtual void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
+    const std::shared_ptr<blearner::Baselearner>&, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&) = 0;
 
   virtual bool         reachedStopCriteria ()       = 0;
   virtual arma::vec    getLoggedData       () const = 0;
@@ -129,9 +130,9 @@ private:
 public:
   LoggerIteration (const std::string, const bool, const unsigned int);
 
-  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
-    const std::shared_ptr<blearner::Baselearner>, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
+    const std::shared_ptr<blearner::Baselearner>&, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
@@ -170,9 +171,9 @@ public:
   LoggerInbagRisk (const std::string, const bool, const std::shared_ptr<loss::Loss>, const double, const unsigned int);
 
 
-  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
-    const std::shared_ptr<blearner::Baselearner>, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
+    const std::shared_ptr<blearner::Baselearner>&, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
@@ -207,16 +208,17 @@ private:
 
   arma::mat _oob_prediction;
 
-  std::map<std::string, std::shared_ptr<data::Data>>  _oob_data;
+  std::map<std::string, std::shared_ptr<data::Data>>  _oob_data_map;
+  std::map<std::string, std::shared_ptr<data::Data>>  _oob_data_map_inst;
   const std::shared_ptr<response::Response>           _sh_ptr_oob_response;
 
 public:
   LoggerOobRisk (const std::string, const bool, const std::shared_ptr<loss::Loss>, const double, const unsigned int,
     const std::map<std::string, std::shared_ptr<data::Data>>, const std::shared_ptr<response::Response>);
 
-  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
-    const std::shared_ptr<blearner::Baselearner>, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
+    const std::shared_ptr<blearner::Baselearner>&, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
@@ -253,9 +255,9 @@ private:
 public:
   LoggerTime (const std::string, const bool, const unsigned int, const std::string);
 
-  void logStep (const unsigned int, const std::shared_ptr<response::Response>,
-    const std::shared_ptr<blearner::Baselearner>, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>);
+  void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
+    const std::shared_ptr<blearner::Baselearner>&, const double, const double,
+    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;

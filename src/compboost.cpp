@@ -68,7 +68,7 @@ void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlis
       _blearner_track, _factory_list);
 
     sh_ptr_loggerlist->logCurrent(_current_iter, _sh_ptr_response, _blearner_track.getBaselearnerVector().back(),
-      _learning_rate, _sh_ptr_optimizer->getStepSize(_current_iter), _sh_ptr_optimizer);
+      _learning_rate, _sh_ptr_optimizer->getStepSize(_current_iter), _sh_ptr_optimizer, _factory_list);
 
     // Calculate and log risk:
     _risk.push_back(_sh_ptr_response->calculateEmpiricalRisk(_sh_ptr_loss));
@@ -202,30 +202,59 @@ arma::vec Compboost::predict () const
 arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::Data>>& data_map, const bool& as_response) const
 {
   helper::debugPrint("From 'Compboost::predict(std::map, bool)'");
-  // IMPROVE THIS FUNCTION!!! See:
-  // https://github.com/schalkdaniel/compboost/issues/206
 
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
 
-  arma::mat pred(data_map.begin()->second->getData().n_rows, _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
+  arma::mat pred(_sh_ptr_response->getResponse().n_rows, _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
   helper::debugPrint("| > Calculate initial prediction");
   pred = _sh_ptr_response->calculateInitialPrediction(pred);
 
   // Idea is simply to calculate the vector matrix product of parameter and
   // newdata. The problem here is that the newdata comes as raw data and has
   // to be transformed first:
+  helper::debugPrint("| > Entering loop over parameter map");
+  std::string factory_id;
+  auto factory_map = _factory_list.getFactoryMap();
+  helper::debugPrint("|     > Elements in factory map:");
+  for (auto it = factory_map.begin(); it != factory_map.end(); it++) {
+    helper::debugPrint("|     > " + it->first);
+  }
   for (auto& it_pair_param : parameter_map) {
 
     // Name of current feature:
-    std::string factory_id = it_pair_param.first;
+    factory_id = it_pair_param.first;
+    helper::debugPrint("|   > Processing " + factory_id);
 
+    helper::debugPrint("|     > Try to find factory");
     // Find the element with key 'hat'
-    std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner_factory = _factory_list.getFactoryMap().find(factory_id)->second;
+    auto it_fac = factory_map.find(factory_id);
+    if (it_fac == factory_map.end()) {
+      helper::debugPrint("|     > Was not able to find " + factory_id + "! Prepare for error!");
+    } else {
+      helper::debugPrint("|     > Found entry in factory map");
+    }
+    helper::debugPrint("|     > Elements in data map:");
+    for (auto it = data_map.begin(); it != data_map.end(); it++) {
+      helper::debugPrint("|     > " + it->first);
+    }
+    helper::debugPrint("|     > Try to access base learner object");
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner_factory = it_fac->second;
+    helper::debugPrint("|     > Select factory of type " + blearner_factory->getBaselearnerType() + " and data " + blearner_factory->getDataIdentifier());
+    helper::debugPrint("|     > Try to access parameter");
+    arma::mat temp_param = it_pair_param.second;
+    std::cout << temp_param << std::endl;
+    //helper::debugPrint("|     > Calculate linear predictor of factory based on inbag data");
+    //arma::mat temp = blearner_factory->calculateLinearPredictor(temp_param);
+    helper::debugPrint("|     > Calculate linear predictor of factory based on given data map");
+    //arma::mat temp2 = blearner_factory->calculateLinearPredictor(temp_param, data_map);
+    //helper::debugPrint("|     > Jumping into try:");
     try {
-      pred += blearner_factory->calculateLinearPredictor(it_pair_param.second, data_map);
+      pred += blearner_factory->calculateLinearPredictor(temp_param, data_map);
     } catch (const char* msg) {
+      helper::debugPrint("      > 'blearner_factory->calculateLinearPredictor' throws error:");
       std::cout << msg << std::endl;
     }
+    helper::debugPrint("|     > Finished calculation of linear predictor of factory " + factory_id);
 
     // // Select newdata corresponding to selected factory object:
     //std::map<std::string, std::shared_ptr<data::Data>>::iterator it_newdata;

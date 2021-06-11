@@ -312,6 +312,29 @@ NULL
 #' @export BaselearnerPSpline
 NULL
 
+#' Base-learner factory to make regression using tensor products
+#'
+#' \code{BaselearnerTensor} creates a combined base-learner factory
+#'  object which can be registered within a base-learner list and then used
+#'  for training.
+#'
+#' @format \code{\link{S4}} object.
+#' @name BaselearnerTensor
+#'
+#' @export BaselearnerTensor
+NULL
+
+#' Base-learner factory to make regression using centered base learner
+#'
+#' \code{BaselearnerCentered} creates a base learner factory which is centered
+#'  using another base learner.
+#'
+#' @format \code{\link{S4}} object.
+#' @name BaselearnerCentered
+#'
+#' @export BaselearnerCentered
+NULL
+
 #' Base-learner factory for categorical feature using Ridge penalty
 #'
 #' \code{BaselearnerCategoricalRidge} can be used to estimate effects of  categorical

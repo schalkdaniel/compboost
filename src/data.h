@@ -38,10 +38,11 @@ namespace data
 class Data
 {
 private:
-  const std::string   _data_identifier  = "";
-  const bool          _use_sparse       = false;
+  bool  _use_sparse = false;
+  const std::string _data_identifier = "";
 
-  arma::mat     _data_mat         = arma::mat (1, 1, arma::fill::zeros);
+  arma::mat     _data_mat    = arma::mat (1, 1, arma::fill::zeros);
+  arma::mat     _penalty_mat = arma::mat (1, 1, arma::fill::zeros);
   arma::sp_mat  _sparse_data_mat;
 
   std::pair<std::string, arma::mat> _mat_cache;
@@ -66,12 +67,14 @@ public:
   std::string                       getCacheType      () const;
   arma::mat                         getCacheMat       () const;
   arma::mat                         getDenseData      () const;
+  arma::mat                         getPenaltyMat     () const;
   arma::sp_mat                      getSparseData     () const;
   bool                              usesSparseMatrix  () const;
 
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
+  void setPenaltyMat  (const arma::mat&);
 
   // Destructor
   virtual ~Data () {};
@@ -110,11 +113,10 @@ private:
   const bool          _use_binning = false;
   const unsigned int  _bin_root = 1;
 
-protected:
+public:
   BinnedData (const std::string);
   BinnedData (const std::string, const unsigned int, const arma::vec&, const arma::vec&);
 
-public:
   arma::mat  getData         () const;
   arma::uvec getBinningIndex () const;
   bool       usesBinning     () const;
@@ -127,30 +129,33 @@ public:
 // PSplineData:
 // -------------------------------
 
-class PSplineData : public BinnedData
-{
-private:
-  const unsigned int  _degree;
-  const arma::mat     _knots;
-  const arma::mat     _penalty_mat;
-  const double        _range_min;
-  const double        _range_max;
+//class PSplineData : public BinnedData
+//{
+//private:
+  //const unsigned int  _degree;
+  //const arma::mat     _knots;
+  //const arma::mat     _penalty_mat;
+  //const double        _range_min;
+  //const double        _range_max;
 
-public:
-  PSplineData (const std::string, const unsigned int, const arma::mat&,
-    const arma::mat&);
-  PSplineData (const std::string, const unsigned int, const arma::mat&,
-    const arma::mat&, const unsigned int, const arma::vec&, const arma::vec&);
+//public:
+  //PSplineData (const std::string, const unsigned int, const arma::mat&,
+    //const arma::mat&);
+  //PSplineData (const std::string, const unsigned int, const arma::mat&,
+    //const arma::mat&, const unsigned int, const arma::vec&, const arma::vec&);
 
-  arma::mat    filterKnotRange (const arma::mat&) const;
-  arma::mat    getKnots        ()                 const;
-  arma::mat    getPenaltyMat   ()                 const;
-  unsigned int getDegree       ()                 const;
-};
+  //arma::mat    filterKnotRange (const arma::mat&) const;
+  //arma::mat    getKnots        ()                 const;
+  //arma::mat    getPenaltyMat   ()                 const;
+  //unsigned int getDegree       ()                 const;
+//};
 
 
 // CategoricalData:
 // ----------------------------
+
+
+/// REMOVE!
 
 typedef std::map<std::string, unsigned int> map_dict;
 class CategoricalData : public Data
@@ -197,27 +202,27 @@ public:
 // CategoricalBinaryData:
 // ----------------------------
 
-class CategoricalBinaryData : public Data
-{
-private:
-  arma::uvec          _idx;
-  const unsigned int  _nobs;
-  const double        _xtx_inv_scalar;
-  const std::string   _category;
+//class CategoricalBinaryData : public Data
+//{
+//private:
+  //arma::uvec          _idx;
+  //const unsigned int  _nobs;
+  //const double        _xtx_inv_scalar;
+  //const std::string   _category;
 
-public:
-  CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
+//public:
+  //CategoricalBinaryData (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
 
-  arma::mat    getData      ()                   const;
-  arma::uvec   getIndex     ()                   const;
-  unsigned int getIndex     (const unsigned int) const;
-  double       getXtxScalar ()                   const;
-  std::string  getCategory  ()                   const;
-  unsigned int getNObs      ()                   const;
+  //arma::mat    getData      ()                   const;
+  //arma::uvec   getIndex     ()                   const;
+  //unsigned int getIndex     (const unsigned int) const;
+  //double       getXtxScalar ()                   const;
+  //std::string  getCategory  ()                   const;
+  //unsigned int getNObs      ()                   const;
 
   // Destructor
-  ~CategoricalBinaryData ();
-};
+  //~CategoricalBinaryData ();
+//};
 
 
 } // namespace data

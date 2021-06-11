@@ -2,10 +2,12 @@
 
 export(BaselearnerCategoricalBinary)
 export(BaselearnerCategoricalRidge)
+export(BaselearnerCentered)
 export(BaselearnerCustom)
 export(BaselearnerCustomCpp)
 export(BaselearnerPSpline)
 export(BaselearnerPolynomial)
+export(BaselearnerTensor)
 export(BlearnerFactoryList)
 export(CategoricalData)
 export(CategoricalDataRaw)

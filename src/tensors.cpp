@@ -55,7 +55,7 @@ arma::mat rowWiseKronecker (const arma::mat& A, const arma::mat& B)
  * \param B `arma::mat` or `arma::sp_mat` a matrix.
  * \returns `arma::mat` or `arma::sp_mat`.
  */
-arma::sp_mat rowWiseKroneckerSparse (const arma::sp_mat A, const arma::sp_mat B)
+arma::sp_mat rowWiseKroneckerSparse (const arma::sp_mat& A, const arma::sp_mat& B)
 {
   // Variables
   arma::rowvec vecA = arma::rowvec(A.n_cols, arma::fill::ones);
@@ -97,7 +97,7 @@ arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
 }
 
 
-std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const arma::mat& P1, const arma::mat& X2)
+arma::mat centerDesignMatrix (const arma::mat& X1, const arma::mat& P1, const arma::mat& X2)
 {
 
   // Cross Product X1 and X2
@@ -116,18 +116,18 @@ std::map<std::string, arma::mat>  centerDesignMatrix (const arma::mat& X1, const
   arma::mat Z = Q.cols(rankR,Q.n_cols-1);
 
   // Construct the rotated X1
-  arma::mat X1_out = X1 * Z;
+  //arma::mat X1_out = X1 * Z;
 
   // Construct the rotated Penalty Matrix
-  arma::mat P1_out = Z.t() * P1 * Z;
+  //arma::mat P1_out = Z.t() * P1 * Z;
 
   // Construct out
-  std::map<std::string, arma::mat> out;
-  out["X"] = X1_out;
-  out["P"] = P1_out;
-  out["Z"] = Z;
+  //std::map<std::string, arma::mat> out;
+  //out["X"] = X1_out;
+  //out["P"] = P1_out;
+  //out["Z"] = Z;
 
-  return out;
+  return Z;
 }
 
 } // namespace tensors

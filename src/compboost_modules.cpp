@@ -190,45 +190,45 @@ public:
 //'
 //' @export CategoricalData
 
-namespace {
-  std::shared_ptr<data::CategoricalData> vecToData (Rcpp::StringVector classes, std::string data_identifier) {
-    std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
-    return std::make_shared<data::CategoricalData>(data_identifier, str_classes);
-  }
-}
+//namespace {
+  //std::shared_ptr<data::CategoricalData> vecToData (Rcpp::StringVector classes, std::string data_identifier) {
+    //std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
+    //return std::make_shared<data::CategoricalData>(data_identifier, str_classes);
+  //}
+//}
 
-class CategoricalDataWrapper : public DataWrapper
-{
+//class CategoricalDataWrapper : public DataWrapper
+//{
 
-private:
-  std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
+//private:
+  //std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
 
-public:
+//public:
 
-  CategoricalDataWrapper (Rcpp::StringVector classes, std::string data_identifier)
-  {
-    std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
-    _sh_ptr_cdata = std::make_shared<data::CategoricalData>(data_identifier, str_classes);
-  }
+  //CategoricalDataWrapper (Rcpp::StringVector classes, std::string data_identifier)
+  //{
+    //std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
+    //_sh_ptr_cdata = std::make_shared<data::CategoricalData>(data_identifier, str_classes);
+  //}
 
-  std::shared_ptr<data::Data> getDataObj () { return _sh_ptr_cdata; }
-  std::shared_ptr<data::CategoricalData> getCDataObj () const { return _sh_ptr_cdata; }
+  //std::shared_ptr<data::Data> getDataObj () { return _sh_ptr_cdata; }
+  //std::shared_ptr<data::CategoricalData> getCDataObj () const { return _sh_ptr_cdata; }
 
-  arma::mat getData () const
-  {
-    return _sh_ptr_cdata->getData();
-  }
+  //arma::mat getData () const
+  //{
+    //return _sh_ptr_cdata->getData();
+  //}
 
-  std::string getIdentifier () const
-  {
-    return _sh_ptr_cdata->getDataIdentifier();
-  }
+  //std::string getIdentifier () const
+  //{
+    //return _sh_ptr_cdata->getDataIdentifier();
+  //}
 
-  std::map<std::string, unsigned int> getDictionary () const
-  {
-    return _sh_ptr_cdata->getDictionary();
-  }
-};
+  //std::map<std::string, unsigned int> getDictionary () const
+  //{
+    //return _sh_ptr_cdata->getDictionary();
+  //}
+//};
 
 //' Data class for character variables
 //'
@@ -313,7 +313,7 @@ public:
 
 
 RCPP_EXPOSED_CLASS(DataWrapper)
-RCPP_EXPOSED_CLASS(CategoricalDataWrapper)
+//RCPP_EXPOSED_CLASS(CategoricalDataWrapper)
 RCPP_EXPOSED_CLASS(CategoricalDataRawWrapper)
 RCPP_MODULE (data_module)
 {
@@ -335,15 +335,15 @@ RCPP_MODULE (data_module)
     .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
   ;
 
-  class_<CategoricalDataWrapper> ("CategoricalData")
-    .derives<DataWrapper> ("Data")
+  //class_<CategoricalDataWrapper> ("CategoricalData")
+    //.derives<DataWrapper> ("Data")
 
-    .constructor<Rcpp::StringVector, std::string> ()
+    //.constructor<Rcpp::StringVector, std::string> ()
 
-    .method("getData",       &CategoricalDataWrapper::getData, "Get data")
-    .method("getIdentifier", &CategoricalDataWrapper::getIdentifier, "Get the data identifier")
-    .method("getDictionary", &CategoricalDataWrapper::getDictionary, "Get the encoding of the feature")
-  ;
+    //.method("getData",       &CategoricalDataWrapper::getData, "Get data")
+    //.method("getIdentifier", &CategoricalDataWrapper::getIdentifier, "Get the data identifier")
+    //.method("getDictionary", &CategoricalDataWrapper::getDictionary, "Get the encoding of the feature")
+  //;
 
   class_<CategoricalDataRawWrapper> ("CategoricalDataRaw")
     .derives<DataWrapper> ("Data")
@@ -375,7 +375,7 @@ public:
   arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
   std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-  arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
+  //arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
 
   std::string getFeatureName () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
 
@@ -640,6 +640,78 @@ public:
   }
 };
 
+//' Base-learner factory to make regression using tensor products
+//'
+//' \code{BaselearnerTensor} creates a combined base-learner factory
+//'  object which can be registered within a base-learner list and then used
+//'  for training.
+//'
+//' @format \code{\link{S4}} object.
+//' @name BaselearnerTensor
+//'
+//' @export BaselearnerTensor
+class BaselearnerTensorFactoryWrapper : public BaselearnerFactoryWrapper
+{
+private:
+
+public:
+
+  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+  {
+    // We need to converse the SEXP from the element to an integer:
+    std::string blearner_type_temp = blc;
+
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner1 = blearner1.getFactory();
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerTensorFactory>(blearner_type_temp, ptr_blearner1,
+      ptr_blearner2);
+  }
+
+  void summarizeFactory ()
+  {
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
+  }
+};
+
+//' Base-learner factory to make regression using centered base learner
+//'
+//' \code{BaselearnerCentered} creates a base learner factory which is centered
+//'  using another base learner.
+//'
+//' @format \code{\link{S4}} object.
+//' @name BaselearnerCentered
+//'
+//' @export BaselearnerCentered
+class BaselearnerCenteredFactoryWrapper : public BaselearnerFactoryWrapper
+{
+private:
+
+public:
+  BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+  {
+    // We need to converse the SEXP from the element to an integer:
+    std::string blearner_type_temp = blc;
+
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner1 = blearner1.getFactory();
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCenteredFactory>(blearner_type_temp, ptr_blearner1,
+      ptr_blearner2);
+  }
+
+  void summarizeFactory ()
+  {
+    Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
+  }
+  arma::mat getRotation ()
+  {
+    return std::static_pointer_cast<blearnerfactory::BaselearnerCenteredFactory>(sh_ptr_blearner_factory)->getRotation();
+  }
+};
+
+
+
 
 //' Base-learner factory for categorical feature using Ridge penalty
 //'
@@ -687,18 +759,18 @@ private:
   );
 
 public:
-  BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataWrapper& cdata_source, Rcpp::List arg_list)
+  BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataRawWrapper& cdata_source, Rcpp::List arg_list)
   {
-    std::string blearner_type_temp = cdata_source.getCDataObj()->getDataIdentifier();
-    std::shared_ptr<data::CategoricalData> temp = cdata_source.getCDataObj();
+    std::string blearner_type_temp = cdata_source.getCDataRawPtr()->getDataIdentifier();
+    std::shared_ptr<data::CategoricalDataRaw> temp = cdata_source.getCDataRawPtr();
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type_temp, temp, internal_arg_list["df"]);
   }
 
-  BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataWrapper& cdata_source, std::string blearner_type, Rcpp::List arg_list)
+  BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataRawWrapper& cdata_source, std::string blearner_type, Rcpp::List arg_list)
   {
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
-    std::shared_ptr<data::CategoricalData> temp = cdata_source.getCDataObj();
+    std::shared_ptr<data::CategoricalDataRaw> temp = cdata_source.getCDataRawPtr();
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blearner_type, temp, internal_arg_list["df"]);
 }
 
@@ -766,16 +838,16 @@ class BaselearnerCategoricalBinaryFactoryWrapper : public BaselearnerFactoryWrap
 
 public:
 
-  BaselearnerCategoricalBinaryFactoryWrapper (const CategoricalDataWrapper& data_source, std::string cls)
+  BaselearnerCategoricalBinaryFactoryWrapper (const CategoricalDataRawWrapper& data_source, std::string cls)
   {
-    std::string blearner_type_temp = data_source.getCDataObj()->getDataIdentifier() + "_" + cls;
+    std::string blearner_type_temp = data_source.getCDataRawPtr()->getDataIdentifier() + "_" + cls;
 
-    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blearner_type_temp, cls, data_source.getCDataObj());
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blearner_type_temp, cls, data_source.getCDataRawPtr());
   }
 
-  BaselearnerCategoricalBinaryFactoryWrapper (const CategoricalDataWrapper& data_source, std::string cls, std::string blearner_type)
+  BaselearnerCategoricalBinaryFactoryWrapper (const CategoricalDataRawWrapper& data_source, std::string cls, std::string blearner_type)
   {
-    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blearner_type, cls, data_source.getCDataObj());
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blearner_type, cls, data_source.getCDataRawPtr());
   }
 
   void summarizeFactory ()
@@ -1060,7 +1132,7 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor ("Create BaselearnerFactory class")
 
     .method("getData",        &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
-    .method("transformData",  &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
+    //.method("transformData",  &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
     .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature used for the base-learner")
   ;
 
@@ -1074,18 +1146,33 @@ RCPP_MODULE (baselearner_factory_module)
 
  class_<BaselearnerCategoricalRidgeFactoryWrapper> ("BaselearnerCategoricalRidge")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
-    .constructor<const CategoricalDataWrapper&, Rcpp::List> ()
-    .constructor<const CategoricalDataWrapper&, std::string, Rcpp::List> ()
+    .constructor<const CategoricalDataRawWrapper&, Rcpp::List> ()
+    .constructor<const CategoricalDataRawWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerCategoricalRidgeFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
  class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
-    .constructor<const CategoricalDataWrapper&, std::string> ()
-    .constructor<const CategoricalDataWrapper&, std::string, std::string> ()
+    .constructor<const CategoricalDataRawWrapper&, std::string> ()
+    .constructor<const CategoricalDataRawWrapper&, std::string, std::string> ()
 
     .method("summarizeFactory", &BaselearnerCategoricalBinaryFactoryWrapper::summarizeFactory, "Summarize Factory")
+  ;
+
+  class_<BaselearnerCenteredFactoryWrapper> ("BaselearnerCentered")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string> ()
+
+    .method("summarizeFactory", &BaselearnerCenteredFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("getRotation",      &BaselearnerCenteredFactoryWrapper::getRotation, "Get rotation matrix for centering")
+  ;
+
+  class_<BaselearnerTensorFactoryWrapper> ("BaselearnerTensor")
+    .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string> ()
+
+    .method("summarizeFactory", &BaselearnerTensorFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")

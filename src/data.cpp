@@ -51,8 +51,9 @@ void Data::setCacheIdentity (const arma::mat& X)
   _mat_cache = std::make_pair("identity", X);
 }
 
-void Data::setDenseData  (const arma::mat& X)    { _data_mat = X; }
-void Data::setSparseData (const arma::sp_mat& X) { _sparse_data_mat = X; }
+void Data::setDenseData  (const arma::mat& X)    { _use_sparse = false; _data_mat = X; }
+void Data::setSparseData (const arma::sp_mat& X) { _use_sparse = true; _sparse_data_mat = X; }
+void Data::setPenaltyMat (const arma::mat& D)    { _penalty_mat = D; }
 
 void Data::setCache (const std::string cache_type, const arma::mat& xtx)
 {
@@ -79,6 +80,7 @@ arma::mat Data::getDenseData () const
   }
 }
 
+arma::mat    Data::getPenaltyMat    () const { return _penalty_mat; }
 arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
 
@@ -103,6 +105,7 @@ InMemoryData::InMemoryData (const std::string data_identifier, const arma::sp_ma
 { }
 
 // void InMemoryData::setData (const arma::mat& transformed_data) { data_mat = transformed_data; }
+// Todo! Autotransform sparse to dense and ALWAYS return a dense matrix
 arma::mat InMemoryData::getData () const { return Data::getDenseData(); }
 
 InMemoryData::~InMemoryData () {}
@@ -116,7 +119,7 @@ BinnedData::BinnedData (const std::string data_identifier)
 
 BinnedData::BinnedData (const std::string data_identifier, const unsigned int bin_root, const arma::vec& x, const arma::vec& x_bins)
   : Data         ( data_identifier),
-    _use_binning ( true ),
+    _use_binning ( bin_root > 0 ),
     _bin_root    ( bin_root ),
     _bin_idx     ( binning::calculateIndexVector(x, x_bins) )
 { }
@@ -129,29 +132,29 @@ bool       BinnedData::usesBinning     () const { return _use_binning; }
 // PSplineData:
 // -------------------------------
 
-PSplineData::PSplineData (const std::string data_identifier, const unsigned int degree, const arma::mat& knots, const arma::mat& penalty_mat)
-  : BinnedData   ( data_identifier ),
-    _degree      ( degree ),
-    _knots       ( knots ),
-    _penalty_mat ( penalty_mat ),
-    _range_min   ( knots(degree) ),
-    _range_max   ( knots(knots.n_rows - degree - 1) )
-{ }
+//PSplineData::PSplineData (const std::string data_identifier, const unsigned int degree, const arma::mat& knots, const arma::mat& penalty_mat)
+  //: BinnedData   ( data_identifier ),
+    //_degree      ( degree ),
+    //_knots       ( knots ),
+    //_penalty_mat ( penalty_mat ),
+    //_range_min   ( knots(degree) ),
+    //_range_max   ( knots(knots.n_rows - degree - 1) )
+//{ }
 
-PSplineData::PSplineData (const std::string data_identifier, const unsigned int degree, const arma::mat& knots, const arma::mat& penalty_mat,
-  const unsigned int bin_root, const arma::vec& x, const arma::vec& x_bins)
-  : BinnedData ( data_identifier, bin_root, x, x_bins ),
-    _degree ( degree ),
-    _knots ( knots ),
-    _penalty_mat ( penalty_mat ),
-    _range_min ( knots(degree) ),
-    _range_max ( knots(knots.n_rows - degree - 1) )
-{ }
+//PSplineData::PSplineData (const std::string data_identifier, const unsigned int degree, const arma::mat& knots, const arma::mat& penalty_mat,
+  //const unsigned int bin_root, const arma::vec& x, const arma::vec& x_bins)
+  //: BinnedData ( data_identifier, bin_root, x, x_bins ),
+    //_degree ( degree ),
+    //_knots ( knots ),
+    //_penalty_mat ( penalty_mat ),
+    //_range_min ( knots(degree) ),
+    //_range_max ( knots(knots.n_rows - degree - 1) )
+//{ }
 
-arma::mat    PSplineData::filterKnotRange (const arma::mat& x) const { return splines::filterKnotRange(x, _range_min, _range_max); }
-arma::mat    PSplineData::getKnots        () const { return _knots; }
-arma::mat    PSplineData::getPenaltyMat   () const { return _penalty_mat; }
-unsigned int PSplineData::getDegree       () const { return _degree; }
+//arma::mat    PSplineData::filterKnotRange (const arma::mat& x) const { return splines::filterKnotRange(x, _range_min, _range_max); }
+//arma::mat    PSplineData::getKnots        () const { return _knots; }
+//arma::mat    PSplineData::getPenaltyMat   () const { return _penalty_mat; }
+//unsigned int PSplineData::getDegree       () const { return _degree; }
 
 
 // CategoricalData:
@@ -167,10 +170,10 @@ CategoricalData::CategoricalData (const std::string data_identifier, const std::
   arma::urowvec      temp_classes(chr_classes.size(), arma::fill::zeros);
   map_dict::iterator it;
 
-
   for (unsigned int i = 0; i < chr_classes.size(); i++) {
     chr_class = chr_classes.at(i);
     it = _dictionary.find(chr_class);
+    // Fill in dictionary if not already there:
     if (it == _dictionary.end()) {
       int_class = _dictionary.size();
       _dictionary.insert(std::pair<std::string, unsigned int>(chr_class, int_class));
@@ -270,37 +273,37 @@ CategoricalDataRaw::CategoricalDataRaw (const std::string data_identifier, const
 
 arma::mat CategoricalDataRaw::getData () const {
   throw std::logic_error("Raw categorical data does not contain a numerical representation, call '$getRawData()' instead");
-  // 1 x 1 dummy  matrix:
+   //1 x 1 dummy  matrix:
   return Data::getDenseData();
 }
 
 std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; };
 
-// CategoricalBinaryData:
-// ---------------------------------
+ //CategoricalBinaryData:
+ //---------------------------------
 
-CategoricalBinaryData::CategoricalBinaryData (const std::string data_identifier, const std::string cls, const std::shared_ptr<data::CategoricalData>& sh_ptr_cdata)
-  : Data            ( data_identifier ),
-    _idx            ( sh_ptr_cdata->getIdxOfClass(cls) ),
-    _nobs           ( sh_ptr_cdata->getClasses().size() ),
-    _xtx_inv_scalar ( 1 / (double)(_idx.size()-1) ),
-    _category       ( cls )
-{
-  std::vector<std::string> keys;
-  std::map<std::string, unsigned int> dict = sh_ptr_cdata->getDictionary();
-  for (auto it = dict.begin(); it != dict.end(); ++it) {
-    keys.push_back(it->first);
-  }
-  helper::assertChoice(cls, keys);
-}
+//CategoricalBinaryData::CategoricalBinaryData (const std::string data_identifier, const std::string cls, const std::shared_ptr<data::CategoricalData>& sh_ptr_cdata)
+  //: Data            ( data_identifier ),
+    //_idx            ( sh_ptr_cdata->getIdxOfClass(cls) ),
+    //_nobs           ( sh_ptr_cdata->getClasses().size() ),
+    //_xtx_inv_scalar ( 1 / (double)(_idx.size()-1) ),
+    //_category       ( cls )
+//{
+  //std::vector<std::string> keys;
+  //std::map<std::string, unsigned int> dict = sh_ptr_cdata->getDictionary();
+  //for (auto it = dict.begin(); it != dict.end(); ++it) {
+    //keys.push_back(it->first);
+  //}
+  //helper::assertChoice(cls, keys);
+//}
 
-arma::mat    CategoricalBinaryData::getData      () const { return Data::getDenseData(); }
-arma::uvec   CategoricalBinaryData::getIndex     () const { return _idx; }
-unsigned int CategoricalBinaryData::getIndex     (const unsigned int i) const { return _idx(i); }
-double       CategoricalBinaryData::getXtxScalar () const { return _xtx_inv_scalar; }
-std::string  CategoricalBinaryData::getCategory  () const { return _category; }
-unsigned int CategoricalBinaryData::getNObs      () const { return _nobs; }
+//arma::mat    CategoricalBinaryData::getData      () const { return Data::getDenseData(); }
+//arma::uvec   CategoricalBinaryData::getIndex     () const { return _idx; }
+//unsigned int CategoricalBinaryData::getIndex     (const unsigned int i) const { return _idx(i); }
+//double       CategoricalBinaryData::getXtxScalar () const { return _xtx_inv_scalar; }
+//std::string  CategoricalBinaryData::getCategory  () const { return _category; }
+//unsigned int CategoricalBinaryData::getNObs      () const { return _nobs; }
 
-CategoricalBinaryData::~CategoricalBinaryData () {}
+//CategoricalBinaryData::~CategoricalBinaryData () {}
 
 } // namespace data

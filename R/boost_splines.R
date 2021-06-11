@@ -71,20 +71,20 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
 {
+  #browser()
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction)
   features = setdiff(colnames(data), model$response$getTargetName())
 
   # This loop could be replaced with foreach???
   # Issue:
-  for(feat in features) {
+  for (feat in features) {
     if (is.numeric(data[[feat]])) {
       model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
         degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
         bin_root = bin_root, cache_type = cache_type)
     } else {
-      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
-        degree = 1, intercept = FALSE)
+      model$addBaselearner(feat, "category", BaselearnerCategoricalRidge, data_source, df = df)
     }
   }
   model$train(iterations, trace)
