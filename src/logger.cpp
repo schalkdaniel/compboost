@@ -378,23 +378,24 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
   const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
+
   if (current_iteration == 1) {
     _sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
     _sh_ptr_oob_response->initializePrediction();
   }
-
   std::string blearner_id = sh_ptr_blearner->getDataIdentifier();
 
   // Get data of corresponding selected baselearner. E.g. iteration 100 linear
   // baselearner of feature x_7, then get the data of feature x_7:
-
   std::string factory_id = sh_ptr_blearner->getDataIdentifier() + "_" + sh_ptr_blearner->getBaselearnerType();
   auto it_oob_data_inst = _oob_data_map_inst.find(factory_id);
   if (it_oob_data_inst == _oob_data_map_inst.end()) {
     auto itf = factory_list.getFactoryMap().find(factory_id);
     _oob_data_map_inst.insert(std::pair<std::string, std::shared_ptr<data::Data>>(factory_id, itf->second->instantiateData(_oob_data_map)));
   }
+
   arma::mat temp_oob_prediction = sh_ptr_blearner->predict(_oob_data_map_inst.find(factory_id)->second);
+
   _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
 
   // Check, whether the data object is present or not:

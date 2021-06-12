@@ -1306,6 +1306,7 @@ class LossQuadraticWrapper : public LossWrapper
 public:
   LossQuadraticWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(); }
   LossQuadraticWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
+  LossQuadraticWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
 };
 
 //' Absolute loss for regression tasks.
@@ -1524,7 +1525,7 @@ class LossBinomialWrapper : public LossWrapper
 public:
   LossBinomialWrapper () { sh_ptr_loss = std::make_shared<loss::LossBinomial>(); }
   LossBinomialWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
-};
+  LossBinomialWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }};
 
 //' Create LossCustom by using R functions.
 //'
@@ -1690,6 +1691,7 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <arma::mat, bool> ()
   ;
 
   class_<LossAbsoluteWrapper> ("LossAbsolute")
@@ -1718,6 +1720,7 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <arma::mat, bool> ()
   ;
 
   class_<LossCustomWrapper> ("LossCustom")

@@ -205,7 +205,7 @@ arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::
 
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
 
-  arma::mat pred(_sh_ptr_response->getResponse().n_rows, _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
+  arma::mat pred(data_map.begin()->second->getNObs(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
   helper::debugPrint("| > Calculate initial prediction");
   pred = _sh_ptr_response->calculateInitialPrediction(pred);
 
@@ -242,7 +242,6 @@ arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::
     helper::debugPrint("|     > Select factory of type " + blearner_factory->getBaselearnerType() + " and data " + blearner_factory->getDataIdentifier());
     helper::debugPrint("|     > Try to access parameter");
     arma::mat temp_param = it_pair_param.second;
-    std::cout << temp_param << std::endl;
     //helper::debugPrint("|     > Calculate linear predictor of factory based on inbag data");
     //arma::mat temp = blearner_factory->calculateLinearPredictor(temp_param);
     helper::debugPrint("|     > Calculate linear predictor of factory based on given data map");

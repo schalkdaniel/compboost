@@ -98,6 +98,10 @@ LossQuadratic::LossQuadratic (const double custom_offset)
   : Loss ( "regression", doubleToMat(custom_offset) )
 { }
 
+LossQuadratic::LossQuadratic (const arma::mat& custom_offset)
+  : Loss ("regression", custom_offset)
+{ }
+
 /**
  * \brief Definition of the loss function (see description of the class)
  *
@@ -398,6 +402,10 @@ LossBinomial::LossBinomial (const double custom_offset)
     Rcpp::stop("LossBinomial allows just values between -1 and 1 as offset. Continuing with default offset.");
   }
 }
+
+LossBinomial::LossBinomial (const arma::mat& custom_offset)
+  : Loss ("binary_classif", custom_offset)
+{ }
 
 /**
 * \brief Definition of the loss function (see description of the class)

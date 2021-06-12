@@ -147,6 +147,7 @@ class LossQuadratic : public Loss
 public:
   LossQuadratic ();
   LossQuadratic (const double);
+  LossQuadratic (const arma::mat&);
 
   arma::mat loss     (const arma::mat&, const arma::mat&) const;
   arma::mat gradient (const arma::mat&, const arma::mat&) const;
@@ -276,6 +277,7 @@ class LossBinomial : public Loss
 public:
   LossBinomial ();
   LossBinomial (const double);
+  LossBinomial (const arma::mat&);
 
   arma::mat loss     (const arma::mat&, const arma::mat&) const;
   arma::mat gradient (const arma::mat&, const arma::mat&) const;

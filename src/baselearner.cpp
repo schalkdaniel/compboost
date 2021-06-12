@@ -184,7 +184,7 @@ arma::mat BaselearnerPSpline::predict () const
 
 arma::mat BaselearnerPSpline::predict (const std::shared_ptr<data::Data>& newdata) const
 {
-  return (_parameter.t() * _sh_ptr_bindata->getSparseData()).t();
+  return (_parameter.t() * newdata->getSparseData()).t();
 }
 
 //arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const

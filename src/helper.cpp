@@ -21,7 +21,7 @@
 #include "helper.h"
 
 //bool _DEBUG_PRINT = false;
-bool _DEBUG_PRINT = true;
+bool _DEBUG_PRINT = false;
 
 namespace helper
 {

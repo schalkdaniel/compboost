@@ -381,46 +381,55 @@ Compboost = R6::R6Class("Compboost",
     positive_category = NULL,
     stop_if_all_stoppers_fulfilled = FALSE,
     use_early_stopping = FALSE,
-    stop_args = list(),
-
-    components = list(),
 
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-      learning_rate = 0.05, oob_fraction = NULL, use_early_stopping = FALSE, stop_args = list(eps_for_break = 0, patience = 10L)) {
+      learning_rate = 0.05, oob_fraction = NULL, use_early_stopping = FALSE, test_idx = NULL,
+      stop_args = list(eps_for_break = 0, patience = 10L)) {
 
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
       checkmate::assertLogical(use_early_stopping, any.missing = FALSE, len = 1L)
+      checkmate::assertInteger(test_idx, null.ok = TRUE, upper = nrow(data), unique = TRUE)
 
+      if (any(is.na(test_idx))) stop("No missing values allowed in `test_idx`.")
       if (! isRcppClass(target, "Response")) {
         if (! target %in% names(data)) {
           stop("The target ", target, " is not present within the data")
         }
       }
       if (inherits(loss, "C++Class")) {
-        stop ("Loss should be an initialized loss object by calling the constructor: ", deparse(substitute(loss)), "$new()")
+        stop("Loss should be an initialized loss object by calling the constructor: ",
+          deparse(substitute(loss)), "$new()")
       }
 
       if (! "eps_for_break" %in% names(stop_args)) stop_args[["eps_for_break"]] = 0
       if (! "patience" %in% names(stop_args)) stop_args[["patience"]] = 10L
-      self$stop_args = stop_args
+      private$stop_args = stop_args
       self$id = deparse(substitute(data))
       data = droplevels(as.data.frame(data))
 
-      if (! is.null(oob_fraction)) {
-        private$oob_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+      if ((! is.null(test_idx)) || (! is.null(oob_fraction))) {
+        if (is.null(test_idx)) {
+          private$test_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+        } else {
+          private$test_idx = test_idx
+        }
+        if ((! is.null(test_idx)) && (! is.null(oob_fraction))) {
+          warning("`oob_fraction` is ignored when a specific test index is given.")
+        }
       }
-      private$train_idx = setdiff(seq_len(nrow(data)), private$oob_idx)
+      private$train_idx = setdiff(seq_len(nrow(data)), private$test_idx)
 
       if (is.character(target)) {
         checkmate::assertCharacter(target)
         if (! target %in% names(data))
-          stop ("The target ", target, " is not present within the data")
+          stop("The target ", target, " is not present within the data")
 
-        # With .vectorToRespone we are very restricted to the task types. We can just guess for regression or classification. For every
+        # With .vectorToRespone we are very restricted to the task types.
+        # We can just guess for regression or classification. For every
         # other task one should use the Response interface!
-        self$response = vectorToResponse(data[[target]], target)
+        self$response = vectorToResponse(data[[target]][private$train_idx], target)
       } else {
         assertRcppClass(target, "Response")
         if (nrow(target$getResponse()) != nrow(data))
@@ -435,10 +444,10 @@ Compboost = R6::R6Class("Compboost",
       self$optimizer = optimizer
       self$loss = loss
       self$learning_rate = learning_rate
-      if (! is.null(self$oob_fraction)) {
-        self$data_oob = data[private$oob_idx, !colnames(data) %in% target, drop = FALSE]
-        self$response_oob = data[private$oob_idx, self$target]#, "oob_response")
-        self$response$filter(private$train_idx)
+      if (self$use_early_stopping || (! is.null(self$oob_fraction))) {
+        self$data_oob = data[private$test_idx, !colnames(data) %in% target, drop = FALSE]
+        self$response_oob = data[private$test_idx, self$target]#, "oob_response")
+        self$response_oob = self$prepareResponse(self$response_oob)
       }
 
       # Initialize new base-learner factory list. All factories which are defined in
@@ -527,10 +536,10 @@ Compboost = R6::R6Class("Compboost",
           private$bl_list[[i]] = NULL
         }
       }
-      data_columns = self$data[, feature, drop = FALSE]
-      checkmate::assertNumeric(data_columns[, 1])
+      x = self$data[[feature]]
+      checkmate::assertNumeric(x)
 
-      ds1 = InMemoryData$new(cbind(x1), feature)
+      ds1 = InMemoryData$new(cbind(x), feature)
       fac1 = BaselearnerPolynomial$new(ds1, "linear", list(degree = 1))
       fac2 = BaselearnerPSpline$new(ds1, "spline", list(...))
       f2cen = BaselearnerCentered$new(fac2, fac1, "spline_centered")
@@ -551,20 +560,20 @@ Compboost = R6::R6Class("Compboost",
 
       self$bl_factory_list$registerFactory(private$bl_list[[id_sp]]$factory)
 
-      self$components[[feature]] = list(feature = feature, linear_id = id_lin, spline_id = id_sp, hp_spline = list(...))
+      private$components[[feature]] = list(feature = feature, linear_id = id_lin, spline_id = id_sp, hp_spline = list(...))
     },
     extractComponents = function() {
 
       if (is.null(self$model)) {
         stop("Extraction just makes sense after compboost is trained!")
       }
-      if (length(self$components) == 0) {
+      if (length(private$components) == 0) {
         stop("No registered components! Use `addComponent(feat)` instead of `addBaselearner`.")
       }
 
       cf = self$getEstimatedCoef()
 
-      out = lapply(self$components, function(cp) {
+      out = lapply(private$components, function(cp) {
 
         if (is.null(cp$hp_spline[["degree"]])) {
           degree = 3L
@@ -614,6 +623,7 @@ Compboost = R6::R6Class("Compboost",
     },
     train = function(iteration = 100, trace = -1) {
 
+      #browser()
       if (self$bl_factory_list$getNumberOfRegisteredFactories() == 0) {
         stop("Could not train without any registered base-learner.")
       }
@@ -639,7 +649,7 @@ Compboost = R6::R6Class("Compboost",
             self$addLogger(LoggerIteration, TRUE, logger_id = "_iterations", iter.max = iteration)
           }
         }
-        if (! is.null(self$oob_fraction)) private$addOobLogger()
+        if (self$use_early_stopping || (! is.null(self$oob_fraction))) private$addOobLogger()
         # After calling `initializeModel` it isn't possible to add base-learner or logger.
         private$initializeModel()
       }
@@ -653,29 +663,25 @@ Compboost = R6::R6Class("Compboost",
       return(invisible(NULL))
     },
     prepareData = function(newdata) {
-      new_source_features = unique(unlist(lapply(private$bl_list, function(x) x$feature)))
-
+      bl_features = unique(unlist(lapply(private$bl_list, function(x) x$feature)))
+      nuisance = lapply(bl_features, function(blf) {
+        if (! blf %in% names(newdata))
+          warning("Missing feature ", blf, " in newdata. Note that this feature will be ignored in predictions.")
+      })
       new_sources = list()
-      data_names = character()
 
-      # Remove lapply due to categorical feature handling which needs to return multiple data objects
-      # at once.
-      for (ns in new_source_features) {
-
-        data_columns = newdata[, ns, drop = FALSE]
-
-        if (!is.numeric(data_columns[, 1])) {
-          data_names = append(data_names, ns)
-          new_sources = c(new_sources, CategoricalDataRaw$new(data_columns[[ns]], ns))
+      blf_in_newdata = bl_features[bl_features %in% names(newdata)]
+      out = lapply(blf_in_newdata, function(blf) {
+        if (!is.numeric(newdata[[blf]])) {
+          new_sources[[blf]] = CategoricalDataRaw$new(newdata[[blf]], blf)
         } else {
-          data_names = append(data_names, ns)
-          new_sources = c(new_sources, InMemoryData$new(cbind(data_columns[[ns]]), ns))
+          new_sources[[blf]] = InMemoryData$new(cbind(newdata[[blf]]), blf)
         }
-      }
-      names(new_sources) = data_names
-      return(new_sources)
+      })
+      names(out) = blf_in_newdata
+      return(out)
     },
-    prepareResponse = function (response) {
+    prepareResponse = function(response) {
       pos_class = NULL
       if (grepl(pattern = "ResponseBinaryClassif", x = class(self$response)))
         pos_class = self$response$getPositiveClass()
@@ -691,42 +697,42 @@ Compboost = R6::R6Class("Compboost",
       }
     },
     getInbagRisk = function() {
-      if(!is.null(self$model)) {
+      if (! is.null(self$model)) {
         # Return the risk + intercept, hence the current iteration + 1:
         return(self$model$getRiskVector()[seq_len(self$getCurrentIteration() + 1)])
       }
       return(NULL)
     },
     getSelectedBaselearner = function() {
-      if(!is.null(self$model))
+      if (!is.null(self$model))
         return(self$model$getSelectedBaselearner())
       return(NULL)
     },
     print = function() {
       p = glue::glue("\n
-				Component-Wise Gradient Boosting\n
-				Trained on {self$id} with target {self$target}
-				Number of base-learners: {self$bl_factory_list$getNumberOfRegisteredFactories()}
-				Learning rate: {self$learning_rate}
-				Iterations: {self$getCurrentIteration()}
-				")
+        Component-Wise Gradient Boosting\n
+        Trained on {self$id} with target {self$target}
+        Number of base-learners: {self$bl_factory_list$getNumberOfRegisteredFactories()}
+        Learning rate: {self$learning_rate}
+        Iterations: {self$getCurrentIteration()}
+        ")
 
       if (! is.null(self$positive_category))
         p = glue::glue(p, "\nPositive class: {self$positive_category}")
 
-      if(! is.null(self$model))
+      if (! is.null(self$model))
         p = glue::glue(p, "\nOffset: {round(self$model$getOffset(), 4)}")
 
       print(p)
       print(self$loss)
     },
-    getEstimatedCoef = function () {
-      if(!is.null(self$model)) {
+    getEstimatedCoef = function() {
+      if (! is.null(self$model)) {
         return(c(self$model$getEstimatedParameter(), offset = self$model$getOffset()))
       }
       return(NULL)
     },
-    plot = function (blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000) {
+    plot = function(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000) {
       checkModelPlotAvailability(self)
 
       gg = plotFeatEffect(cboost_obj = self, bl_list = private$bl_list, blearner_name = blearner_name,
@@ -734,10 +740,10 @@ Compboost = R6::R6Class("Compboost",
 
       return(gg)
     },
-    getBaselearnerNames = function () {
+    getBaselearnerNames = function() {
       return(names(private$bl_list))
     },
-    getLoggerData = function () {
+    getLoggerData = function() {
       checkModelPlotAvailability(self, check_ggplot = FALSE)
 
       out_list = self$model$getLoggerData()
@@ -746,15 +752,16 @@ Compboost = R6::R6Class("Compboost",
 
       return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()), , drop = FALSE]))
     },
-    calculateFeatureImportance = function (num_feats = NULL) {
+    calculateFeatureImportance = function(num_feats = NULL) {
       checkModelPlotAvailability(self, check_ggplot = FALSE)
 
       max_feats = length(unique(self$getSelectedBaselearner()))
-      checkmate::assert_integerish(x = num_feats, lower = 1, upper = max_feats, any.missing = FALSE, len = 1L, null.ok = TRUE)
+      checkmate::assert_integerish(x = num_feats, lower = 1, upper = max_feats,
+        any.missing = FALSE, len = 1L, null.ok = TRUE)
 
       if (is.null(num_feats)) {
         num_feats = max_feats
-        if (num_feats > 15L) { num_feats = 15L }
+        if (num_feats > 15L) num_feats = 15L
       }
 
       inbag_risk_differences = abs(diff(self$getInbagRisk()))
@@ -762,11 +769,10 @@ Compboost = R6::R6Class("Compboost",
 
       blearner_sums = aggregate(inbag_risk_differences, by = list(selected_learner), FUN = sum)
       colnames(blearner_sums) = c("baselearner", "risk_reduction")
-      # blearner_sums[["relative_risk_reduction"]] = blearner_sums[["relative_risk_reduction"]] / sum(blearner_sums[["relative_risk_reduction"]])
 
       return(blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ])
     },
-    plotFeatureImportance = function (num_feats = NULL) {
+    plotFeatureImportance = function(num_feats = NULL) {
 
       checkModelPlotAvailability(self)
 
@@ -775,9 +781,9 @@ Compboost = R6::R6Class("Compboost",
       gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
         ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
-      return (gg)
+      return(gg)
     },
-    plotInbagVsOobRisk = function () {
+    plotInbagVsOobRisk = function() {
       checkModelPlotAvailability(self)
 
       inbag_trace = self$getInbagRisk()
@@ -804,7 +810,7 @@ Compboost = R6::R6Class("Compboost",
 
       return(gg)
     },
-    plotBlearnerTraces = function (value = 1L, n_legend = 5L) {
+    plotBlearnerTraces = function(value = 1L, n_legend = 5L) {
       plotBlearnerTraces(cboost_obj = self, value = value, n_legend = n_legend)
     }
   ),
@@ -814,23 +820,31 @@ Compboost = R6::R6Class("Compboost",
     l_list = list(),
     bl_list = list(),
     logger_list = list(),
-    oob_idx = NULL,
+    stop_args = list(),
+    test_idx = NULL,
     train_idx = NULL,
+    components = list(),
+
     initializeModel = function() {
 
       private$logger_list = LoggerList$new()
-      lapply(private$l_list, function (logger) { private$logger_list$registerLogger(logger) })
+      lapply(private$l_list, function(logger) private$logger_list$registerLogger(logger))
 
       self$model = Compboost_internal$new(self$response, self$learning_rate,
-        self$stop_if_all_stoppers_fulfilled, self$bl_factory_list, self$loss, private$logger_list, self$optimizer)
+        self$stop_if_all_stoppers_fulfilled, self$bl_factory_list, self$loss,
+        private$logger_list, self$optimizer)
     },
     addOobLogger = function() {
-
-
-      if (! is.null(self$oob_fraction)) {
+      if ("loss_oob" %in% private$stop_args) {
+         loss_oob = private$stop_args$loss_oob
+        assertRcppClass(loss_oob, class(self$loss))
+      } else {
+        loss_oob = self$loss
+      }
+      if (self$use_early_stopping || (! is.null(self$oob_fraction))) {
         self$addLogger(logger = LoggerOobRisk, use_as_stopper = self$use_early_stopping, logger_id = "oob_risk",
-          used.loss = self$loss, eps.for.break = self$stop_args$eps_for_break, patience = self$stop_args$patience, oob_data = self$prepareData(self$data_oob),
-          oob.response = self$prepareResponse(self$response_oob))
+          used.loss = loss_oob, eps.for.break = private$stop_args$eps_for_break, patience = private$stop_args$patience,
+          oob_data = self$prepareData(self$data_oob), oob.response = self$response_oob)
       }
     },
     addSingleNumericBl = function(data_columns, feature, id_fac, id, bl_factory, data_source, ...) {
@@ -868,13 +882,16 @@ Compboost = R6::R6Class("Compboost",
             private$bl_list[[cat_feat_id]] = list()
             if (data_source@.Data == "Rcpp_InMemoryData") {
               # If data source is InMemoryData use the sparse option to reduce memory load:
-              private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"), TRUE)
+              private$bl_list[[cat_feat_id]]$source = data_source$new(
+                cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"), TRUE)
             } else {
-              private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"))
+              private$bl_list[[cat_feat_id]]$source = data_source$new(
+                cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"))
             }
 
             private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
-            private$bl_list[[cat_feat_id]]$factory = bl_factory$new(private$bl_list[[cat_feat_id]]$source, paste0(lvl, "_", id_fac))
+            private$bl_list[[cat_feat_id]]$factory = bl_factory$new(
+              private$bl_list[[cat_feat_id]]$source, paste0(lvl, "_", id_fac))
 
             self$bl_factory_list$registerFactory(private$bl_list[[cat_feat_id]]$factory)
             private$bl_list[[cat_feat_id]]$source = NULL
@@ -896,3 +913,30 @@ Compboost = R6::R6Class("Compboost",
     }
   )
 )
+
+  #x1 = runif(1000L)
+  #x2 = runif(1000L)
+  #x3 = runif(1000L)
+  #x4 = runif(1000L)
+
+  #f1  = function(x1, x2) (1 - x1) * x2^2 + x1 * sin(pi * x2)
+  #f2 = function(x1, x2) x1^2 + x2^2
+  #y  = f1(x1, x2) + f2(x3, x4) + rnorm(1000L, 0, 0.1)
+
+  #df = data.frame(x1, x2, x3, x4, y)
+
+  #cboost = Compboost$new(data = df, target = "y", loss = LossQuadratic$new(), learning_rate = 0.1)
+  #cboost = Compboost$new(data = df, target = "y", loss = LossQuadratic$new(), learning_rate = 0.1, oob_fraction = 0.33)
+
+  #cboost$addBaselearner("x1", "spline", BaselearnerPSpline)
+
+  #cboost$addTensor("x1", "x2", n_knots = 10, df = 10)
+  #cboost$addTensor("x3", "x4", n_knots = 10, df = 10)
+
+  #cboost$addLogger(LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob_risk",
+    #used_loss = LossQuadratic$new(), eps_for_break = 0, patience = 5L, oob_data = cboost$prepareData(df[test_idx, ]),
+    #oob_response = cboost$prepareResponse(df$y[test_idx]))
+
+  #cboost$train(500)
+
+
