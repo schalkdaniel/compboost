@@ -623,7 +623,6 @@ Compboost = R6::R6Class("Compboost",
     },
     train = function(iteration = 100, trace = -1) {
 
-      #browser()
       if (self$bl_factory_list$getNumberOfRegisteredFactories() == 0) {
         stop("Could not train without any registered base-learner.")
       }
@@ -835,11 +834,13 @@ Compboost = R6::R6Class("Compboost",
         private$logger_list, self$optimizer)
     },
     addOobLogger = function() {
-      if ("loss_oob" %in% private$stop_args) {
-         loss_oob = private$stop_args$loss_oob
+      if ("loss_oob" %in% names(private$stop_args)) {
+        loss_oob = private$stop_args$loss_oob
         assertRcppClass(loss_oob, class(self$loss))
+        control = "loss_oob"
       } else {
-        loss_oob = self$loss
+        loss_oob = eval(parse(text = paste0(gsub("Rcpp_", "", class(self$loss)), "$new()")))
+        control = "new loss"
       }
       if (self$use_early_stopping || (! is.null(self$oob_fraction))) {
         self$addLogger(logger = LoggerOobRisk, use_as_stopper = self$use_early_stopping, logger_id = "oob_risk",

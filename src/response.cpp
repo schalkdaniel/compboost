@@ -160,10 +160,25 @@ arma::mat ResponseRegr::calculateInitialPrediction (const arma::mat& response) c
   if (! _is_initialized) {
      Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
-  // Use just first element to correctly use .fill:
-  init.fill(_initialization[0]);
+  if (_initialization.n_rows > 1) {
+    init = _initialization;
+  } else {
+    // Use just first element to correctly use .fill:
+    init.fill(_initialization[0]);
+  }
   return init;
 }
+//{
+  //arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  //if (! _is_initialized) {
+     //Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  //}
+   ////Use just first element to correctly use .fill:
+  //init.fill(_initialization[0]);
+  //return init;
+//}
+
 
 void ResponseRegr::initializePrediction ()
 {
@@ -228,10 +243,24 @@ arma::mat ResponseBinaryClassif::calculateInitialPrediction (const arma::mat& re
   if (! _is_initialized) {
      Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
-  // Use just first element to correctly use .fill:
-  init.fill(_initialization[0]);
+  if (_initialization.n_rows > 1) {
+    init = _initialization;
+  } else {
+    // Use just first element to correctly use .fill:
+    init.fill(_initialization[0]);
+  }
   return init;
 }
+//{
+  //arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  //if (! _is_initialized) {
+     //Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  //}
+   ////Use just first element to correctly use .fill:
+  //init.fill(_initialization[0]);
+  //return init;
+//}
 
 void ResponseBinaryClassif::initializePrediction ()
 {

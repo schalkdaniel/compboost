@@ -1252,10 +1252,13 @@ class LossWrapper
 public:
 
   std::shared_ptr<loss::Loss> getLoss () { return sh_ptr_loss; }
+  arma::mat calculatePseudoResiduals (const arma::mat& response, const arma::mat& pred) const {
+    return sh_ptr_loss->calculatePseudoResiduals(response, pred);
+  }
   virtual ~LossWrapper () {}
 
-protected:
 
+protected:
   std::shared_ptr<loss::Loss> sh_ptr_loss;
 };
 
@@ -1685,6 +1688,7 @@ RCPP_MODULE (loss_module)
 
   class_<LossWrapper> ("Loss")
     .constructor ()
+    .method("calculatePseudoResiduals", &LossWrapper::calculatePseudoResiduals)
   ;
 
   class_<LossQuadraticWrapper> ("LossQuadratic")
