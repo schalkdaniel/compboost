@@ -23,8 +23,9 @@
 namespace init {
 
 typedef std::shared_ptr<data::Data> sdata;
+typedef std::shared_ptr<data::BinnedData> sbindata;
 
-sdata initPolynomialData (const sdata& raw_data, const std::shared_ptr<PolynomialAttributes>& attributes)
+sbindata initPolynomialData (const sdata& raw_data, const std::shared_ptr<PolynomialAttributes>& attributes)
 {
   arma::mat mraw = raw_data->getData();
   // This is necessary to prevent the program from segfolds... whyever???
@@ -36,40 +37,38 @@ sdata initPolynomialData (const sdata& raw_data, const std::shared_ptr<Polynomia
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
   } catch (...) {
-    ::Rf_error( "c++ exception (unknown reason) in constructor of BaselearnerPSplineFactory" );
+    ::Rf_error( "c++ exception (unknown reason) in initialization of data for BaselearnerPolynomialFactory" );
+  }
+
+  sbindata sh_ptr_bindata;
+  if (attributes->bin_root == 0) { // don't use binning
+    sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier());
+  } else {             // use binning
+    arma::colvec bins = binning::binVectorCustom(mraw, attributes->bin_root);
+    sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier(), attributes->bin_root, mraw, bins);
+    mraw = bins;
   }
 
   arma::mat   out;
-  //arma::mat   temp_xtx;
-  //std::string cache_type;
-  if (attributes->degree == 1) {
-    //arma::mat temp_mat(1, 2, arma::fill::zeros);
-
-    if (attributes->use_intercept) {
-      //temp_mat(0,0) = arma::as_scalar(arma::mean(mraw));
-      out = arma::mat(mraw.n_rows, 1, arma::fill::ones);
-    }
-    //temp_mat(0,1) = arma::as_scalar(arma::sum(arma::pow(mraw - temp_mat(0,0), 2)));
-    out = arma::join_rows(out, mraw);
-
-    //temp_xtx      = temp_mat;
-    //cache_type    = "identity";
-  } else {
+  //if (attributes->degree == 1) {
+    //if (attributes->use_intercept) {
+      //out = arma::mat(mraw.n_rows, 1, arma::fill::ones);
+    //}
+    //out = arma::join_rows(out, mraw);
+  //} else {
     if (attributes->use_intercept) {
       out = arma::mat(mraw.n_rows, 1, arma::fill::ones);
     }
     for (unsigned int i = 0; i < attributes->degree; i++) {
       out = arma::join_rows(out, arma::pow(mraw, i+1));
     }
-    //temp_data_mat = instantiateData(data_source->getDenseData());
-    //temp_xtx      = temp_data_mat.t() * temp_data_mat;
-    //cache_type    = "inverse";
-  }
-  return std::make_shared<data::InMemoryData>(raw_data->getDataIdentifier(), out);
-  //_sh_ptr_data_target->setCache(cache_type, temp_xtx);
+  //}
+
+  sh_ptr_bindata->setDenseData(out);
+  return sh_ptr_bindata;
 }
 
-std::shared_ptr<data::BinnedData> initPSplineData (const sdata& raw_data, const std::shared_ptr<PSplineAttributes>& attributes)
+sbindata initPSplineData (const sdata& raw_data, const std::shared_ptr<PSplineAttributes>& attributes)
 {
   auto mraw = raw_data->getData();
   // This is necessary to prevent the program from segfolds... whyever???
@@ -81,12 +80,10 @@ std::shared_ptr<data::BinnedData> initPSplineData (const sdata& raw_data, const 
   } catch ( std::exception &ex ) {
     forward_exception_to_r( ex );
   } catch (...) {
-    ::Rf_error( "c++ exception (unknown reason) in constructor of BaselearnerPSplineFactory" );
+    ::Rf_error( "c++ exception (unknown reason) in initialization of data for  BaselearnerPSplineFactory" );
   }
 
-  arma::mat penalty_mat = splines::penaltyMat(attributes->n_knots + (attributes->degree + 1), attributes->differences);
-
-  std::shared_ptr<data::BinnedData> sh_ptr_bindata;
+  sbindata sh_ptr_bindata;
   if (attributes->bin_root == 0) { // don't use binning
     sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier());
   } else {             // use binning
@@ -189,17 +186,18 @@ sdata initTensorData (const sdata& data1, const sdata& data2)
   return sh_ptr_data;
 }
 
-sdata initCenteredData (const sdata& bl_data, const std::shared_ptr<CenteredAttributes>& attributes)
+//sdata initCenteredData (const sbindata& bl_data, const std::shared_ptr<CenteredAttributes>& attributes)
+sbindata initCenteredData (const sdata& bl_data, const std::shared_ptr<CenteredAttributes>& attributes)
 {
-  auto sh_ptr_data = std::make_shared<data::InMemoryData>(bl_data->getDataIdentifier());
   arma::mat temp;
   if (bl_data->usesSparseMatrix()) {
     temp = (attributes->rotation.t() * bl_data->getSparseData()).t();
   } else {
     temp = bl_data->getDenseData() * attributes->rotation;
   }
-  sh_ptr_data->setDenseData(temp);
-  return sh_ptr_data;
+  sbindata sh_ptr_bindata = std::make_shared<data::BinnedData>(bl_data->getDataIdentifier()); //, attributes->bin_root, mraw, bins);
+  sh_ptr_bindata->setDenseData(temp);
+  return sh_ptr_bindata;
 }
 
 sdata initCustomData (const sdata& raw_data, Rcpp::Function instantiateDataFun)

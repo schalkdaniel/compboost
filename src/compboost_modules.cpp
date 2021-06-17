@@ -363,7 +363,8 @@ class BaselearnerPolynomialFactoryWrapper : public BaselearnerFactoryWrapper
 private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
     Rcpp::Named("degree") = 1,
-    Rcpp::Named("intercept") = true
+    Rcpp::Named("intercept") = true,
+    Rcpp::Named("bin_root") = 0
   );
 
 public:
@@ -380,7 +381,7 @@ public:
     std::string blearner_type_temp = "polynomial_degree_" + std::to_string(degree);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type_temp, data_source.getDataObj(),
-       internal_arg_list["degree"], internal_arg_list["intercept"]);
+       internal_arg_list["degree"], internal_arg_list["intercept"], internal_arg_list["bin_root"]);
   }
 
   BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source,
@@ -389,7 +390,7 @@ public:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, TRUE);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPolynomialFactory>(blearner_type, data_source.getDataObj(),
-      internal_arg_list["degree"], internal_arg_list["intercept"]);
+      internal_arg_list["degree"], internal_arg_list["intercept"], internal_arg_list["bin_root"]);
   }
 
   void summarizeFactory ()

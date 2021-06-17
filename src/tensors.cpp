@@ -96,18 +96,30 @@ arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
   return out;
 }
 
-
-arma::mat centerDesignMatrix (const arma::mat& X1, const arma::mat& P1, const arma::mat& X2)
+arma::mat centerDesignMatrix (const arma::mat& X1, const arma::mat& X2)
 {
+  arma::uvec temp(1, arma::fill::zeros);
+  return centerDesignMatrix(X1, X2, temp);
+}
 
+arma::mat centerDesignMatrix (const arma::mat& X1, const arma::mat& X2,
+  const arma::uvec& idx)
+{
   // Cross Product X1 and X2
-  arma::mat cross = X1.t() * X2 ;
+  arma::mat cross;
+  if ((idx.size() == 1) && (idx[0] == 0)) {
+    cross = X1.t() * X2 ;
+  } else {
+    arma::mat X1t = X1.t();
+    cross = X1t.cols(idx) * X2.rows(idx);
+  }
 
   // QR decomp
   // We require and orthogonal matrix Q
   arma::mat R;
   arma::mat Q;
   arma::qr(Q,R,cross);
+  std::cout << "successful decomposition" << std::endl;
 
   // get rank of R and add 1
   int rankR = arma::rank(R);

@@ -65,6 +65,12 @@ void Data::setCache (const std::string cache_type, const arma::mat& xtx)
   if (cache_type == "identity") setCacheIdentity(xtx);
 }
 
+void Data::setIndexVector (const arma::uvec& idx)
+{
+  _use_binning = true;
+  _bin_idx = idx;
+}
+
 std::string Data::getDataIdentifier () const { return _data_identifier; }
 std::pair<std::string, arma::mat> Data::getCache () const { return _mat_cache; }
 std::string Data::getCacheType () const { return _mat_cache.first; }
@@ -82,8 +88,9 @@ arma::mat Data::getDenseData () const
 
 arma::mat    Data::getPenaltyMat    () const { return _penalty_mat; }
 arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
+arma::uvec   Data::getBinningIndex  () const { return _bin_idx; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
-
+bool         Data::usesBinning      () const { return _use_binning; }
 
 // -------------------------------------------------------------------------- //
 // Data implementations:
@@ -127,14 +134,21 @@ BinnedData::BinnedData (const std::string data_identifier)
 
 BinnedData::BinnedData (const std::string data_identifier, const unsigned int bin_root, const arma::vec& x, const arma::vec& x_bins)
   : Data         ( data_identifier),
-    _use_binning ( bin_root > 0 ),
-    _bin_root    ( bin_root ),
-    _bin_idx     ( binning::calculateIndexVector(x, x_bins) )
-{ }
+    _bin_root    ( bin_root )
+{
+  _use_binning = bin_root > 0;
+  _bin_idx     = binning::calculateIndexVector(x, x_bins);
+}
 
 arma::mat  BinnedData::getData         () const { return Data::getDenseData(); }
-arma::uvec BinnedData::getBinningIndex () const { return _bin_idx; }
-bool       BinnedData::usesBinning     () const { return _use_binning; }
+//bool       BinnedData::usesBinning     () const { return _use_binning; }
+
+//void BinnedData::setBinRoot (const unsigned int& bin_root)
+//{
+  //_bin_root = bin_root;
+  //_use_binning = bin_root > 0;
+//}
+
 
 unsigned int BinnedData::getNObs () const {
   return _bin_idx.n_rows;

@@ -71,7 +71,7 @@ public:
 class BaselearnerPolynomial : public Baselearner
 {
 private:
-  const std::shared_ptr<data::Data>                 _sh_ptr_data;
+  const std::shared_ptr<data::BinnedData>           _sh_ptr_bindata;
   const std::shared_ptr<init::PolynomialAttributes> _attributes;
 
   //const unsigned int                 _degree;
@@ -79,7 +79,8 @@ private:
 
 public:
   //BaselearnerPolynomial (const std::string, const std::shared_ptr<data::Data>&, const unsigned int, const bool);
-  BaselearnerPolynomial (const std::string, const std::shared_ptr<data::Data>&, const std::shared_ptr<init::PolynomialAttributes>&);
+  BaselearnerPolynomial (const std::string, const std::shared_ptr<data::BinnedData>&);
+  BaselearnerPolynomial (const std::string, const std::shared_ptr<data::BinnedData>&, const std::shared_ptr<init::PolynomialAttributes>&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;

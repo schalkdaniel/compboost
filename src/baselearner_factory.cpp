@@ -65,13 +65,15 @@ BaselearnerFactory::~BaselearnerFactory () {}
 // -----------------------
 
 BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string blearner_type,
-  std::shared_ptr<data::Data> data_source, const unsigned int degree, const bool intercept)
+  std::shared_ptr<data::Data> data_source, const unsigned int degree, const bool intercept,
+  const unsigned int bin_root)
   : BaselearnerFactory ( blearner_type, data_source )
 {
-  _attributes->degree = degree;
+  _attributes->degree        = degree;
   _attributes->use_intercept = intercept;
+  _attributes->bin_root      = bin_root;
 
-  _sh_ptr_data_target = init::initPolynomialData(data_source, _attributes);
+  _sh_ptr_bindata = init::initPolynomialData(data_source, _attributes);
 
   arma::mat temp_xtx;
   if (_attributes->degree == 1) {
@@ -83,13 +85,18 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string bl
     }
     temp_mat(0,1) = arma::as_scalar(arma::sum(arma::pow(mraw - temp_mat(0,0), 2)));
     temp_xtx      = temp_mat;
-    _sh_ptr_data_target->setCache("identity", temp_xtx);
+    _sh_ptr_bindata->setCache("identity", temp_xtx);
   } else {
-    arma::mat temp_data_mat = _sh_ptr_data_target->getDenseData();
-    temp_xtx = temp_data_mat.t() * temp_data_mat;
-    //cache_type    = "inverse";
-    _sh_ptr_data_target->setCache("inverse", temp_xtx);
+
+    if (_sh_ptr_bindata->usesBinning()) {
+      arma::vec temp_weight(1, arma::fill::ones);
+      temp_xtx = binning::binnedMatMult(_sh_ptr_bindata->getDenseData(), _sh_ptr_bindata->getBinningIndex(), temp_weight);
+    } else {
+      temp_xtx = _sh_ptr_bindata->getDenseData().t() * _sh_ptr_bindata->getDenseData();
+    }
+    _sh_ptr_bindata->setCache("inverse", temp_xtx);
   }
+  _attributes->bin_root = 0;
 
   //arma::mat   temp_data_mat;
   //arma::mat   temp_xtx;
@@ -130,16 +137,16 @@ sdata BaselearnerPolynomialFactory::instantiateData (const mdata& data_map) cons
 }
 
 bool BaselearnerPolynomialFactory::usesSparse () const { return false; }
-sdata BaselearnerPolynomialFactory::getInstantiatedData () const { return _sh_ptr_data_target; }
+sdata BaselearnerPolynomialFactory::getInstantiatedData () const { return _sh_ptr_bindata; }
 
 arma::mat BaselearnerPolynomialFactory::getData () const
 {
-  return _sh_ptr_data_target->getDenseData();
+  return _sh_ptr_bindata->getDenseData();
 }
 
 arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param) const
 {
-  return _sh_ptr_data_target->getDenseData() * param;
+  return _sh_ptr_bindata->getDenseData() * param;
 
 //  // Here we have a different handling than in predict(data) because of the possibility to use binning.
 //  // It does not make sense to also include binning into the prediction of new points! Binning is just
@@ -169,7 +176,7 @@ arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::ma
 
 std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
 {
-  return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_data_target, _attributes);//, _degree, _intercept);
+  return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_bindata, _attributes);//, _degree, _intercept);
 }
 
 
@@ -228,6 +235,10 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
 
   _sh_ptr_bindata->setPenaltyMat(_attributes->penalty * penalty_mat);
   _sh_ptr_bindata->setCache(cache_type, temp_xtx + _attributes->penalty * penalty_mat);
+
+  // Set bin_root to zero for later creation of data for predictions. We don't want to
+  // use binning there.
+  _attributes->bin_root = 0;
 }
 
 bool BaselearnerPSplineFactory::usesSparse () const { return true; }
@@ -370,32 +381,53 @@ BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blear
     _blearner1 ( blearner1 ),
     _blearner2 ( blearner2 )
 {
+  auto bldat1 = _blearner1->getInstantiatedData();
+  auto bldat2 = _blearner2->getInstantiatedData();
+
+  if (bldat1->usesBinning() != bldat2->usesBinning()) {
+    std::string msg = "Can just use centering binning or non-binning applied to both base learners.";
+    throw msg;
+  }
+
   arma::mat temp1;
-  if (_blearner1->getInstantiatedData()->usesSparseMatrix()) {
-    temp1 = _blearner1->getInstantiatedData()->getSparseData().t();
+  if (bldat1->usesSparseMatrix()) {
+    temp1 = bldat1->getSparseData().t();
   } else {
-    temp1 = _blearner1->getInstantiatedData()->getDenseData();
+    temp1 = bldat1->getDenseData();
   }
   arma::mat temp2;
-  if (_blearner2->getInstantiatedData()->usesSparseMatrix()) {
-    temp2 = _blearner2->getInstantiatedData()->getSparseData().t();
+  if (bldat2->usesSparseMatrix()) {
+    temp2 = bldat2->getSparseData().t();
   } else {
-    temp2 = _blearner2->getInstantiatedData()->getDenseData();
+    temp2 = bldat2->getDenseData();
   }
-  _attributes->rotation = tensors::centerDesignMatrix(temp1, _blearner1->getInstantiatedData()->getPenaltyMat(), temp2);
+  // usesBinning has to be a function of the parent data class!
+  bool uses_binning = bldat1->usesBinning();
+  if (uses_binning) {
+    _attributes->rotation = tensors::centerDesignMatrix(temp1, temp2, bldat1->getBinningIndex());
+  } else {
+    _attributes->rotation = tensors::centerDesignMatrix(temp1, temp2);
+  }
+  _sh_ptr_bindata = init::initCenteredData(bldat1, _attributes);
 
-  _sh_ptr_data = init::initCenteredData(_blearner1->getInstantiatedData(), _attributes);
+  if (uses_binning) {
+    _sh_ptr_bindata->setIndexVector(bldat1->getBinningIndex());
+  }
+  arma::mat pen = _attributes->rotation.t() * bldat1->getPenaltyMat() * _attributes->rotation;
+  _sh_ptr_bindata->setPenaltyMat(pen);
 
-  arma::mat bl1_pen = _blearner1->getInstantiatedData()->getPenaltyMat();
-  arma::mat pen = _attributes->rotation.t() * bl1_pen * _attributes->rotation;
-  _sh_ptr_data->setPenaltyMat(pen);
-
-  arma::mat temp_xtx = _sh_ptr_data->getDenseData().t() * _sh_ptr_data->getDenseData() + pen;;
-  _sh_ptr_data->setCache("cholesky", temp_xtx);
+  arma::mat temp_xtx;
+  if (uses_binning) {
+    arma::vec wtmp(1, arma::fill::ones);
+    temp_xtx = binning::binnedMatMult(_sh_ptr_bindata->getDenseData(), _sh_ptr_bindata->getBinningIndex(), wtmp);
+  } else {
+    temp_xtx = _sh_ptr_bindata->getDenseData().t() * _sh_ptr_bindata->getDenseData() + pen;
+  }
+  _sh_ptr_bindata->setCache("cholesky", temp_xtx);
 }
 
 bool BaselearnerCenteredFactory::usesSparse () const { return false; }
-sdata BaselearnerCenteredFactory::getInstantiatedData () const { return _sh_ptr_data; }
+sdata BaselearnerCenteredFactory::getInstantiatedData () const { return _sh_ptr_bindata; }
 
 sdata BaselearnerCenteredFactory::instantiateData (const mdata& data_map) const
 {
@@ -405,12 +437,12 @@ sdata BaselearnerCenteredFactory::instantiateData (const mdata& data_map) const
 
 arma::mat BaselearnerCenteredFactory::getData () const
 {
-  return _sh_ptr_data->getDenseData();
+  return _sh_ptr_bindata->getDenseData();
 }
 
 arma::mat BaselearnerCenteredFactory::calculateLinearPredictor (const arma::mat& param) const
 {
-  return _sh_ptr_data->getDenseData() * param;
+  return _sh_ptr_bindata->getDenseData() * param;
 }
 
 arma::mat BaselearnerCenteredFactory::calculateLinearPredictor (const arma::mat& param, const mdata& data_map) const
@@ -425,7 +457,7 @@ arma::mat BaselearnerCenteredFactory::calculateLinearPredictor (const arma::mat&
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCenteredFactory::createBaselearner ()
 {
-  return std::make_shared<blearner::BaselearnerCentered>(_blearner_type, _sh_ptr_data);
+  return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_bindata);
 }
 
 arma::mat BaselearnerCenteredFactory::getRotation() const { return _attributes->rotation; }

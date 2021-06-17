@@ -539,9 +539,15 @@ Compboost = R6::R6Class("Compboost",
       x = self$data[[feature]]
       checkmate::assertNumeric(x)
 
+      pars = list(...)
+      if ("bin_root" %in% names(pars))
+        broot = pars[["bin_root"]]
+      else
+        broot = 0
+
       ds1 = InMemoryData$new(cbind(x), feature)
-      fac1 = BaselearnerPolynomial$new(ds1, "linear", list(degree = 1))
-      fac2 = BaselearnerPSpline$new(ds1, "spline", list(...))
+      fac1 = BaselearnerPolynomial$new(ds1, "linear", list(degree = 1, bin_root = broot))
+      fac2 = BaselearnerPSpline$new(ds1, "spline", pars)
       f2cen = BaselearnerCentered$new(fac2, fac1, "spline_centered")
 
       # Register linear factory:

@@ -389,13 +389,15 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
   // baselearner of feature x_7, then get the data of feature x_7:
   std::string factory_id = sh_ptr_blearner->getDataIdentifier() + "_" + sh_ptr_blearner->getBaselearnerType();
   auto it_oob_data_inst = _oob_data_map_inst.find(factory_id);
+  arma::mat temp_oob_prediction;
   if (it_oob_data_inst == _oob_data_map_inst.end()) {
     auto itf = factory_list.getFactoryMap().find(factory_id);
-    _oob_data_map_inst.insert(std::pair<std::string, std::shared_ptr<data::Data>>(factory_id, itf->second->instantiateData(_oob_data_map)));
+    auto insert = std::pair<std::string, std::shared_ptr<data::Data>>(factory_id, itf->second->instantiateData(_oob_data_map));
+    _oob_data_map_inst.insert(insert);
+    temp_oob_prediction = sh_ptr_blearner->predict(insert.second);
+  } else {
+    temp_oob_prediction = sh_ptr_blearner->predict(it_oob_data_inst->second);
   }
-
-  arma::mat temp_oob_prediction = sh_ptr_blearner->predict(_oob_data_map_inst.find(factory_id)->second);
-
   _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
 
   // Check, whether the data object is present or not:

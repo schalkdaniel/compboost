@@ -34,10 +34,15 @@
 namespace init {
 
 typedef std::shared_ptr<data::Data> sdata;
+typedef std::shared_ptr<data::BinnedData> sbindata;
 
 struct PolynomialAttributes {
   unsigned int degree;
   bool use_intercept;
+  unsigned int bin_root;
+  PolynomialAttributes () {};
+  PolynomialAttributes (const unsigned int _degree, const bool _use_intercept)
+    : degree ( _degree ), use_intercept ( _use_intercept ) {};
 };
 struct PSplineAttributes {
   unsigned int degree;
@@ -75,17 +80,16 @@ struct CustomCppAttributes {
  predictFunPtr predictFun;
 };
 
-sdata initPolynomialData (const sdata&, const std::shared_ptr<PolynomialAttributes>&);
-std::shared_ptr<data::BinnedData> initPSplineData (const sdata&, const std::shared_ptr<PSplineAttributes>&);
-sdata initRidgeData (const sdata&, const std::shared_ptr<RidgeAttributes>&);
-sdata initBinaryData (const sdata&, const std::shared_ptr<BinaryAttributes>&);
-sdata initTensorData (const sdata&, const sdata&);
-sdata initCenteredData (const sdata&,const std::shared_ptr<CenteredAttributes>&);
-sdata initCustomData (const sdata&, Rcpp::Function);
-sdata initCustomCppData (const sdata&, const std::shared_ptr<CustomCppAttributes>&);
+sbindata initPolynomialData (const sdata&, const std::shared_ptr<PolynomialAttributes>&);
+sbindata initPSplineData    (const sdata&, const std::shared_ptr<PSplineAttributes>&);
+sdata initRidgeData         (const sdata&, const std::shared_ptr<RidgeAttributes>&);
+sdata initBinaryData        (const sdata&, const std::shared_ptr<BinaryAttributes>&);
+sdata initTensorData        (const sdata&, const sdata&);
+//sdata initCenteredData      (const sbindata&,const std::shared_ptr<CenteredAttributes>&);
+sbindata initCenteredData   (const sdata&,const std::shared_ptr<CenteredAttributes>&);
+sdata initCustomData        (const sdata&, Rcpp::Function);
+sdata initCustomCppData     (const sdata&, const std::shared_ptr<CustomCppAttributes>&);
 
 } // init
 
 #endif // INIT_H_
-
-

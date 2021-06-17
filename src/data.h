@@ -39,7 +39,8 @@ class Data
 {
 private:
   const std::string _data_identifier = "";
-  arma::mat     _penalty_mat = arma::mat (1, 1, arma::fill::zeros);
+  arma::mat         _penalty_mat = arma::mat (1, 1, arma::fill::zeros);
+
   std::pair<std::string, arma::mat> _mat_cache;
 
   // Private functions
@@ -48,8 +49,10 @@ private:
   void setCacheIdentity (const arma::mat&);
 
 protected:
-  bool          _use_sparse = false;
+  bool          _use_sparse  = false;
+  bool          _use_binning = false;
   arma::mat     _data_mat    = arma::mat (1, 1, arma::fill::zeros);
+  arma::uvec    _bin_idx;
   arma::sp_mat  _sparse_data_mat;
 
   Data (const std::string);
@@ -69,12 +72,15 @@ public:
   arma::mat                         getDenseData      () const;
   arma::mat                         getPenaltyMat     () const;
   arma::sp_mat                      getSparseData     () const;
+  arma::uvec                        getBinningIndex   () const;
   bool                              usesSparseMatrix  () const;
+  bool                              usesBinning       () const;
 
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
   void setPenaltyMat  (const arma::mat&);
+  void setIndexVector (const arma::uvec&);
 
   // Destructor
   virtual ~Data () {};
@@ -110,9 +116,9 @@ public:
 class BinnedData : public Data
 {
 private:
-  const arma::uvec    _bin_idx;
-  const bool          _use_binning = false;
-  const unsigned int  _bin_root = 1;
+  //arma::uvec    _bin_idx;
+  //bool          _use_binning = false;
+  unsigned int  _bin_root = 1;
 
 public:
   BinnedData (const std::string);
@@ -120,9 +126,9 @@ public:
 
   arma::mat    getData         () const;
   unsigned int getNObs         () const;
-  arma::uvec   getBinningIndex () const;
-  bool         usesBinning     () const;
 
+  //void setBinRoot     (const unsigned int&);
+  //void setIndexVector (const arma::uvec&);
   //void setIndexVector (const arma::vec&, const arma::vec&);
   //void setData        (const arma::mat&);
 };

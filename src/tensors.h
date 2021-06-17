@@ -27,7 +27,8 @@ namespace tensors
 arma::mat rowWiseKronecker (const arma::mat&, const arma::mat&);
 arma::sp_mat rowWiseKroneckerSparse (const arma::sp_mat&, const arma::sp_mat&);
 arma::mat penaltySumKronecker (const arma::mat&, const arma::mat&);
-arma::mat centerDesignMatrix (const arma::mat&, const arma::mat&, const arma::mat&);
+arma::mat centerDesignMatrix (const arma::mat&, const arma::mat&);
+arma::mat centerDesignMatrix (const arma::mat&, const arma::mat&, const arma::uvec&);
 } // namespace tensors
 
 # endif // TENSORS_H_

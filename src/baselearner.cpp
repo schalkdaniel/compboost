@@ -40,10 +40,18 @@ Baselearner::~Baselearner () { }
 // BaselearnerPolynomial:
 // -----------------------
 
-BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, const std::shared_ptr<data::Data>& data,
+BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, const std::shared_ptr<data::BinnedData>& data)
+  : Baselearner ( blearner_type ),
+    _sh_ptr_bindata ( data ),
+    _attributes  ( std::make_shared<init::PolynomialAttributes>(0, false))
+    //_degree      ( degree ),
+    //_intercept   ( intercept )
+{ }
+
+BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, const std::shared_ptr<data::BinnedData>& data,
   const std::shared_ptr<init::PolynomialAttributes>& attributes)//, const unsigned int degree, const bool intercept)
   : Baselearner ( blearner_type ),
-    _sh_ptr_data ( data ),
+    _sh_ptr_bindata ( data ),
     _attributes  ( attributes)
     //_degree      ( degree ),
     //_intercept   ( intercept )
@@ -51,15 +59,25 @@ BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, c
 
 void BaselearnerPolynomial::train (const arma::mat& response)
 {
+  arma::vec temp_weight(1, arma::fill::ones);
   if (_attributes->degree == 1) {
     double y_mean = 0;
     if (_attributes->use_intercept) {
       y_mean = arma::as_scalar(arma::accu(response) / response.size());
     }
 
-    arma::mat xtx_inv = _sh_ptr_data->getCacheMat();
+    arma::mat xtx_inv = _sh_ptr_bindata->getCacheMat();
 
-    double slope = arma::as_scalar(arma::sum((_sh_ptr_data->getDenseData().col(1) - xtx_inv(0,0)) % (response - y_mean)) / arma::as_scalar(xtx_inv(0,1)));
+    arma::mat xmx = _sh_ptr_bindata->getDenseData().col(1) - xtx_inv(0,0);
+    arma::mat ymy = response - y_mean;
+    arma::mat xmxdymy;
+    if (_sh_ptr_bindata->usesBinning()) {
+      xmxdymy = binning::binnedMatMultResponse(xmx, ymy, _sh_ptr_bindata->getBinningIndex(), temp_weight);
+    } else {
+      xmxdymy = arma::accu(xmx % ymy);
+    }
+
+    double slope = arma::as_scalar(xmxdymy / arma::as_scalar(xtx_inv(0,1)));
     double intercept = y_mean - slope * xtx_inv(0,0);
 
     if (_attributes->use_intercept) {
@@ -73,25 +91,23 @@ void BaselearnerPolynomial::train (const arma::mat& response)
       _parameter = slope;
     }
   } else {
-
-    _parameter = helper::cboostSolver(_sh_ptr_data->getCache(), _sh_ptr_data->getDenseData().t() * response);
-    // _parameter = _sh_ptr_data->XtX_inv * _sh_ptr_data->getDenseData().t() * response;
+    arma::mat temp;
+    if (_sh_ptr_bindata->usesBinning()) {
+      temp = binning::binnedMatMultResponse(_sh_ptr_bindata->getDenseData(), response, _sh_ptr_bindata->getBinningIndex(), temp_weight).t();
+    } else {
+      temp = (response.t() * _sh_ptr_bindata->getDenseData()).t();
+    }
+    _parameter = helper::cboostSolver(_sh_ptr_bindata->getCache(), temp);
   }
 }
 
-// PUT IN PARENT CLASS!
 arma::mat BaselearnerPolynomial::predict () const
 {
-  return predict(_sh_ptr_data);
-  //if (_sh_ptr_data->getDenseData().n_cols == 1) {
-    //if (_intercept) {
-      //return _parameter(0) + _sh_ptr_data->getDenseData() * _parameter(1);
-    //} else {
-      //return _sh_ptr_data->getDenseData() * _parameter;
-    //}
-  //} else {
-    //return _sh_ptr_data->getDenseData() * _parameter;
-  //}
+  if (_sh_ptr_bindata->usesBinning()) {
+    return binning::binnedPrediction(_sh_ptr_bindata->getDenseData(), _parameter, _sh_ptr_bindata->getBinningIndex());
+  } else {
+    return _sh_ptr_bindata->getDenseData() * _parameter;
+  }
 }
 
 arma::mat BaselearnerPolynomial::predict (const std::shared_ptr<data::Data>& newdata) const
@@ -111,7 +127,7 @@ arma::mat BaselearnerPolynomial::predict (const std::shared_ptr<data::Data>& new
 
 std::string BaselearnerPolynomial::getDataIdentifier () const
 {
-  return _sh_ptr_data->getDataIdentifier();
+  return _sh_ptr_bindata->getDataIdentifier();
 }
 
 // Destructor:
@@ -187,12 +203,6 @@ arma::mat BaselearnerPSpline::predict (const std::shared_ptr<data::Data>& newdat
   return (_parameter.t() * newdata->getSparseData()).t();
 }
 
-//arma::mat BaselearnerPSpline::instantiateData (const arma::mat& newdata) const
-//{
-  //arma::mat temp = _sh_ptr_psdata->filterKnotRange(newdata);
-  //return splines::createSplineBasis (temp, _sh_ptr_psdata->getDegree(), _sh_ptr_psdata->getKnots());
-//}
-
 std::string BaselearnerPSpline::getDataIdentifier () const
 {
   return _sh_ptr_bindata->getDataIdentifier();
@@ -214,6 +224,14 @@ void BaselearnerCentered::train (const arma::mat& response)
 {
   arma::mat temp = _sh_ptr_data->getDenseData().t() * response;
   _parameter = helper::cboostSolver(_sh_ptr_data->getCache(), temp);
+
+  //arma::mat temp;
+  //if (_sh_ptr_data->usesBinning()) {
+    //temp = binning::binnedMatMultResponse(_sh_ptr_bindata->getDenseData(), response, _sh_ptr_bindata->getBinningIndex(), temp_weight).t();
+  //} else {
+    //temp = (response.t() * _sh_ptr_bindata->getDenseData()).t();
+  //}
+  //_parameter = helper::cboostSolver(_sh_ptr_bindata->getCache(), temp);
 }
 
 arma::mat BaselearnerCentered::predict () const

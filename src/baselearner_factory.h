@@ -57,6 +57,7 @@
 namespace blearnerfactory {
 
 typedef std::shared_ptr<data::Data> sdata;
+typedef std::shared_ptr<data::BinnedData> sbindata;
 typedef std::map<std::string, sdata> mdata;
 
 // Helper:
@@ -105,7 +106,7 @@ public:
 class BaselearnerPolynomialFactory : public BaselearnerFactory
 {
 private:
-  sdata _sh_ptr_data_target;
+  sbindata _sh_ptr_bindata;
   const std::shared_ptr<init::PolynomialAttributes> _attributes = std::make_shared<init::PolynomialAttributes>();
 
   //const unsigned int           _degree;
@@ -113,7 +114,7 @@ private:
 
 public:
   BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
-    const unsigned int, const bool);
+    const unsigned int, const bool, const unsigned int);
 
   bool       usesSparse               ()                 const;
   sdata      instantiateData          (const mdata&)     const;
@@ -133,7 +134,7 @@ public:
 class BaselearnerPSplineFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::BinnedData>        _sh_ptr_bindata;
+  sbindata _sh_ptr_bindata;
   std::shared_ptr<init::PSplineAttributes> _attributes = std::make_shared<init::PSplineAttributes>();
 
 public:
@@ -191,7 +192,7 @@ class BaselearnerCenteredFactory : public BaselearnerFactory
 {
 private:
   std::shared_ptr<init::CenteredAttributes> _attributes = std::make_shared<init::CenteredAttributes>();
-  std::shared_ptr<data::Data> _sh_ptr_data;
+  std::shared_ptr<data::BinnedData> _sh_ptr_bindata;
 
   std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner1;
   std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner2;
