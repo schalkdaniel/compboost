@@ -381,6 +381,7 @@ Compboost = R6::R6Class("Compboost",
     positive_category = NULL,
     stop_if_all_stoppers_fulfilled = FALSE,
     use_early_stopping = FALSE,
+    logs = NULL,
 
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
       learning_rate = 0.05, oob_fraction = NULL, use_early_stopping = FALSE, test_idx = NULL,
@@ -725,9 +726,11 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$positive_category))
         p = glue::glue(p, "\nPositive class: {self$positive_category}")
 
-      if (! is.null(self$model))
-        p = glue::glue(p, "\nOffset: {round(self$model$getOffset(), 4)}")
-
+      if (! is.null(self$model)){
+        offset = round(self$model$getOffset(), 4)
+        if (length(offset) == 1)
+          p = glue::glue(p, "\nOffset: {}")
+      }
       print(p)
       print(self$loss)
     },
@@ -755,7 +758,16 @@ Compboost = R6::R6Class("Compboost",
       out_mat = out_list[[2]]
       colnames(out_mat) = out_list[[1]]
 
-      return(as.data.frame(out_mat[seq_len(self$getCurrentIteration()), , drop = FALSE]))
+      self$logs = out_mat
+      self$logs$baselearner = self$getSelectedBaselearner()
+      if (! "train_risk" %in% names(self$logs)) {
+        self$logs = rbind(NA, self$logs)
+        self$logs$train_risk = self$getInbagRisk()
+        self$logs$baselearner[1] = "intercept"
+        if ("_iterations" %in% names(self$logs))
+          self$logs[["_iterations"]][1] = 0
+      }
+      return(self$logs)
     },
     calculateFeatureImportance = function(num_feats = NULL) {
       checkModelPlotAvailability(self, check_ggplot = FALSE)
