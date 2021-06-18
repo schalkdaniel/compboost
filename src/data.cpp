@@ -51,6 +51,11 @@ void Data::setCacheIdentity (const arma::mat& X)
   _mat_cache = std::make_pair("identity", X);
 }
 
+void Data::setCacheCustom (const std::string ctype, const arma::mat& X)
+{
+  _mat_cache = std::make_pair(ctype, X);
+}
+
 void Data::setDenseData  (const arma::mat& X)    { _use_sparse = false; _data_mat = X; }
 void Data::setSparseData (const arma::sp_mat& X) { _use_sparse = true; _sparse_data_mat = X; }
 void Data::setPenaltyMat (const arma::mat& D)    { _penalty_mat = D; }
@@ -63,6 +68,7 @@ void Data::setCache (const std::string cache_type, const arma::mat& xtx)
   if (cache_type == "cholesky") setCacheCholesky(xtx);
   if (cache_type == "inverse")  setCacheInverse(xtx);
   if (cache_type == "identity") setCacheIdentity(xtx);
+  if (cache_type == "custom")   setCacheCustom(cache_type, xtx);
 }
 
 void Data::setIndexVector (const arma::uvec& idx)

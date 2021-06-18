@@ -413,17 +413,32 @@ BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blear
   if (uses_binning) {
     _sh_ptr_bindata->setIndexVector(bldat1->getBinningIndex());
   }
+
   arma::mat pen = _attributes->rotation.t() * bldat1->getPenaltyMat() * _attributes->rotation;
   _sh_ptr_bindata->setPenaltyMat(pen);
 
+  auto mcache = bldat1->getCache();
   arma::mat temp_xtx;
-  if (uses_binning) {
-    arma::vec wtmp(1, arma::fill::ones);
-    temp_xtx = binning::binnedMatMult(_sh_ptr_bindata->getDenseData(), _sh_ptr_bindata->getBinningIndex(), wtmp);
-  } else {
-    temp_xtx = _sh_ptr_bindata->getDenseData().t() * _sh_ptr_bindata->getDenseData() + pen;
+  if (mcache.first == "cholesky") {
+    temp_xtx = _attributes->rotation.t() * mcache.second;
+    temp_xtx = temp_xtx * temp_xtx.t();
   }
-  _sh_ptr_bindata->setCache("cholesky", temp_xtx);
+  if (mcache.first == "inverse") {
+    temp_xtx = _attributes->rotation.t() * arma::inv(mcache.second) * _attributes->rotation;
+  }
+  if ((mcache.first != "cholesky") && (mcache.first != "inverse")) {
+    throw "Can just handle cholesky or inverse cache types.";
+  }
+
+  //arma::mat temp_xtx;
+  //if (uses_binning) {
+    //arma::vec wtmp(1, arma::fill::ones);
+    //temp_xtx = _attributes->rotation.t() * *
+    //temp_xtx = binning::binnedMatMult(_sh_ptr_bindata->getDenseData(), _sh_ptr_bindata->getBinningIndex(), wtmp);
+  //} else {
+    //temp_xtx = _sh_ptr_bindata->getDenseData().t() * _sh_ptr_bindata->getDenseData() + pen;
+  //}
+  _sh_ptr_bindata->setCache(mcache.first, temp_xtx);
 }
 
 bool BaselearnerCenteredFactory::usesSparse () const { return false; }

@@ -506,7 +506,7 @@ private:
     Rcpp::Named("df") = 0,
     Rcpp::Named("differences") = 2,
     Rcpp::Named("bin_root") = 0,
-    Rcpp::Named("cache_type") = "inverse"
+    Rcpp::Named("cache_type") = "cholesky"
   );
 
 public:

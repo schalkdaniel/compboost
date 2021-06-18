@@ -79,6 +79,7 @@ public:
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
+  void setCacheCustom (const std::string, const arma::mat&);
   void setPenaltyMat  (const arma::mat&);
   void setIndexVector (const arma::uvec&);
 

@@ -119,7 +119,6 @@ arma::mat centerDesignMatrix (const arma::mat& X1, const arma::mat& X2,
   arma::mat R;
   arma::mat Q;
   arma::qr(Q,R,cross);
-  std::cout << "successful decomposition" << std::endl;
 
   // get rank of R and add 1
   int rankR = arma::rank(R);
