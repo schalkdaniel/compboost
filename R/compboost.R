@@ -758,7 +758,7 @@ Compboost = R6::R6Class("Compboost",
       out_mat = out_list[[2]]
       colnames(out_mat) = out_list[[1]]
 
-      self$logs = out_mat
+      self$logs = as.data.frame(out_mat)
       self$logs$baselearner = self$getSelectedBaselearner()
       if (! "train_risk" %in% names(self$logs)) {
         self$logs = rbind(NA, self$logs)

@@ -38,12 +38,22 @@ Data::Data (const std::string data_identifier, const arma::sp_mat& sparse_data_m
 
 void Data::setCacheCholesky (const arma::mat& xtx)
 {
-  _mat_cache = std::make_pair("cholesky", arma::chol(xtx));
+  try {
+    _mat_cache = std::make_pair("cholesky", arma::chol(xtx));
+  } catch (const std::exception& e) {
+    std::string msg = "From data object '" + _data_identifier + "': Trying cholesky decomposition of XtX." + std::string(e.what());
+    throw std::runtime_error(msg);
+  }
 }
 
 void Data::setCacheInverse (const arma::mat& xtx)
 {
-  _mat_cache = std::make_pair("inverse", arma::inv(xtx));
+  try {
+    _mat_cache = std::make_pair("inverse", arma::inv(xtx));
+  } catch (const std::exception& e) {
+    std::string msg = "From data object '" + _data_identifier + "': Trying to calculate inverse of XtX." +  std::string(e.what());
+    throw msg;
+  }
 }
 
 void Data::setCacheIdentity (const arma::mat& X)

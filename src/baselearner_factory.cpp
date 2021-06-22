@@ -230,7 +230,13 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
     temp_xtx = _sh_ptr_bindata->getSparseData() * _sh_ptr_bindata->getSparseData().t();
   }
   if (df > 0) {
-    _attributes->penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
+    try {
+      _attributes->penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
+    } catch (const std::exception& e) {
+      std::string msg = "From constructor of BaselearnerPSplineFactory with data '" + _sh_ptr_bindata->getDataIdentifier() +
+        "': Try to run demmlerDemmlerReinsch" + std::string(e.what());
+      throw msg;
+    }
   }
 
   _sh_ptr_bindata->setPenaltyMat(_attributes->penalty * penalty_mat);

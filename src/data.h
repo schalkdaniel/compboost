@@ -26,6 +26,7 @@
 #include "splines.h"
 #include "helper.h"
 
+#include <string>
 #include <vector>
 
 namespace data

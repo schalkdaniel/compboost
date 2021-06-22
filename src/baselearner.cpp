@@ -68,7 +68,13 @@ void BaselearnerPolynomial::train (const arma::mat& response)
 
     arma::mat xtx_inv = _sh_ptr_bindata->getCacheMat();
 
-    arma::mat xmx = _sh_ptr_bindata->getDenseData().col(1) - xtx_inv(0,0);
+    unsigned int dcol;
+    if (_attributes->use_intercept) {
+      dcol = 1;
+    } else {
+      dcol = 0;
+    }
+    arma::mat xmx = _sh_ptr_bindata->getDenseData().col(dcol) - xtx_inv(0,0);
     arma::mat ymy = response - y_mean;
     arma::mat xmxdymy;
     if (_sh_ptr_bindata->usesBinning()) {
