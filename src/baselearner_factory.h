@@ -239,6 +239,8 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
+
+  std::map<std::string, unsigned int> getDictionary () const;
 };
 
 

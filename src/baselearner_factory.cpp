@@ -522,6 +522,7 @@ BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const st
   } else {
     penalty = nrows / df - 1;
   }
+  _sh_ptr_data->setPenaltyMat(penalty * arma::diagmat(arma::vec(_attributes->dictionary.size(), arma::fill::ones)));
   arma::vec temp_XtX_inv = 1 / (arma::diagvec(_sh_ptr_data->getSparseData() * _sh_ptr_data->getSparseData().t()) + penalty);
   _sh_ptr_data->setCache("identity", temp_XtX_inv);
 }
@@ -572,6 +573,8 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::creat
 }
 
 std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { return _sh_ptr_data->getDataIdentifier(); }
+
+std::map<std::string, unsigned int> BaselearnerCategoricalRidgeFactory::getDictionary () const { return _attributes->dictionary; }
 
 // BaselearnerCategoricalBinary:
 // ----------------------------------

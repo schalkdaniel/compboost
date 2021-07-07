@@ -176,6 +176,29 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::getParameterMatrix () 
   return _blearner_track.getParameterMatrix();
 }
 
+std::map<std::string, arma::mat> Compboost::predictIndividual () const
+{
+  helper::debugPrint("From 'Compboost::predictIndividual()'");
+
+  std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
+  helper::debugPrint("| > Calculate initial prediction");
+  arma::mat pred = _sh_ptr_response->calculateInitialPrediction(_sh_ptr_response->getResponse());
+
+  std::map<std::string, arma::mat> out;
+  out.insert(std::pair<std::string, arma::mat>("offset", pred));
+
+  // Calculate vector - matrix product for each selected base-learner:
+  for (auto& it : parameter_map) {
+    std::string sel_factory = it.first;
+    helper::debugPrint("| > data_trafo:" + helper::getMatStatus(_factory_list.getFactoryMap().find(sel_factory)->second->getData()));
+    helper::debugPrint("| > parameter iterator:" + helper::getMatStatus(it.second));
+    arma::mat tmp = _factory_list.getFactoryMap().find(sel_factory)->second->calculateLinearPredictor(it.second);
+    out.insert(std::pair<std::string, arma::mat>(sel_factory, tmp));
+  }
+  helper::debugPrint("Finished 'Compboost::predictIndividual()'");
+  return out;
+}
+
 arma::vec Compboost::predict () const
 {
   helper::debugPrint("From 'Compboost::predict()'");
@@ -194,6 +217,47 @@ arma::vec Compboost::predict () const
   helper::debugPrint("Finished 'Compboost::predict()'");
   return pred;
 }
+
+
+
+std::map<std::string, arma::mat> Compboost::predictIndividual (const std::map<std::string, std::shared_ptr<data::Data>>& data_map) const
+{
+
+  std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
+
+  arma::mat pred(data_map.begin()->second->getNObs(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
+  if (_sh_ptr_response->getInitialization().n_rows == 1) {
+    pred = _sh_ptr_response->calculateInitialPrediction(pred);
+  }
+  std::map<std::string, arma::mat> out;
+  out.insert(std::pair<std::string, arma::mat>("offset", pred));
+
+  std::string factory_id;
+  auto factory_map = _factory_list.getFactoryMap();
+  for (auto& it_pair_param : parameter_map) {
+
+    // Name of current feature:
+    factory_id = it_pair_param.first;
+
+    // Find the element with key 'hat'
+    auto it_fac = factory_map.find(factory_id);
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner_factory = it_fac->second;
+
+    arma::mat temp_param = it_pair_param.second;
+
+    arma::mat tmp;
+    try {
+      tmp = blearner_factory->calculateLinearPredictor(temp_param, data_map);
+      out.insert(std::pair<std::string, arma::mat>(factory_id, tmp));
+    } catch (const char* msg) {
+      helper::debugPrint("      > 'blearner_factory->calculateLinearPredictor' throws error:");
+      std::cout << msg << std::endl;
+    }
+  }
+  return out;
+}
+
+
 
 // Predict for new data. Note: The data_map contains the raw columns of the used data.
 // Those columns are then transformed by the corresponding transform data function of the

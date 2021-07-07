@@ -683,6 +683,11 @@ public:
   {
     Rcpp::Rcout << "Categorical base-learner of category " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
   }
+
+  std::map<std::string, unsigned int> getDictionary () const
+  {
+    return std::static_pointer_cast<blearnerfactory::BaselearnerCategoricalRidgeFactory>(sh_ptr_blearner_factory)->getDictionary();
+  }
 };
 
 
@@ -1055,6 +1060,7 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<const CategoricalDataRawWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerCategoricalRidgeFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("getDictionary",    &BaselearnerCategoricalRidgeFactoryWrapper::getDictionary, "Summarize Factory")
   ;
 
  class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")
@@ -2872,6 +2878,18 @@ public:
     );
   }
 
+  std::map<std::string, arma::mat> predictIndividual (Rcpp::List& newdata)
+  {
+    std::map<std::string, std::shared_ptr<data::Data>> data_map;
+
+    for (unsigned int i = 0; i < newdata.size(); i++) {
+      DataWrapper* temp = newdata[i];
+      data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
+    }
+    return unique_ptr_cboost->predictIndividual(data_map);
+  }
+
+
   arma::vec predict (Rcpp::List& newdata, bool as_response)
   {
     std::map<std::string, std::shared_ptr<data::Data>> data_map;
@@ -2921,6 +2939,7 @@ RCPP_MODULE (compboost_module)
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated parameter")
     .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
+    .method("predictIndividual", &CompboostWrapper::predictIndividual, "Get linear predictor for each feature on new data")
     .method("predict", &CompboostWrapper::predict, "Predict new data")
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Summarize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")

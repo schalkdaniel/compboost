@@ -503,17 +503,32 @@ Compboost = R6::R6Class("Compboost",
         }
       }
 
+      args = list(...)
+      if ("df" %in% args)
+        argc = list(df = args$df)
+      else
+        argc = list()
+
       x1 = self$data[[feature1]]
-      checkmate::assertNumeric(x1)
+      #checkmate::assertNumeric(x1)
+      if (is.numeric(x1)) {
+        ds1 = InMemoryData$new(cbind(x1), feature1)
+        fac1 = BaselearnerPSpline$new(ds1, "spline", args)
+      } else {
+        ds1 = CategoricalDataRaw$new(x1, feature1)
+        fac1 = BaselearnerCategoricalRidge$new(ds1, "categorical", argc)
+      }
 
       x2 = self$data[[feature2]]
-      checkmate::assertNumeric(x2)
+      #checkmate::assertNumeric(x2)
+      if (is.numeric(x2)) {
+        ds2 = InMemoryData$new(cbind(x2), feature2)
+        fac2 = BaselearnerPSpline$new(ds2, "spline", args)
+      } else {
+        ds2 = CategoricalDataRaw$new(x2, feature2)
+        fac2 = BaselearnerCategoricalRidge$new(ds2, "categorical", argc)
+      }
 
-      ds1 = InMemoryData$new(cbind(x1), feature1)
-      ds2 = InMemoryData$new(cbind(x2), feature2)
-
-      fac1 = BaselearnerPSpline$new(ds1, "spline", list(...))
-      fac2 = BaselearnerPSpline$new(ds2, "spline", list(...))
       tensor = BaselearnerTensor$new(fac1, fac2, "tensor")
 
       # Register tensor:
@@ -626,6 +641,7 @@ Compboost = R6::R6Class("Compboost",
         return(cp)
       })
       out[["offset"]] = cf$offset
+      class(out) = "compboostExtract"
       return(out)
     },
     train = function(iteration = 100, trace = -1) {
@@ -702,6 +718,10 @@ Compboost = R6::R6Class("Compboost",
         return(self$model$predict(self$prepareData(newdata), as_response))
       }
     },
+    predictIndividual = function(newdata) {
+      checkmate::assertDataFrame(newdata, null.ok = FALSE, min.rows = 1)
+      return(self$model$predictIndividual(self$prepareData(newdata)))
+    },
     getInbagRisk = function() {
       if (! is.null(self$model)) {
         # Return the risk + intercept, hence the current iteration + 1:
@@ -735,8 +755,19 @@ Compboost = R6::R6Class("Compboost",
       print(self$loss)
     },
     getEstimatedCoef = function() {
+      bl_classes = vapply(private$bl_list, function(bl) class(bl$factory), character(1L))
+      bl_cat = bl_classes[grepl("Categorical", bl_classes)]
       if (! is.null(self$model)) {
-        return(c(self$model$getEstimatedParameter(), offset = self$model$getOffset()))
+        pars = self$model$getEstimatedParameter()
+        for (blc in intersect(names(bl_cat), names(pars))) {
+          dict = private$bl_list[[blc]]$factory$getDictionary()
+          rownames(pars[[blc]]) = names(sort(dict))
+        }
+        for (i in seq_along(pars)) {
+          bln = names(pars)[i]
+          attr(pars[[bln]], "blclass") = unname(bl_classes[bln])
+        }
+        return(c(pars, offset = self$model$getOffset()))
       }
       return(NULL)
     },
@@ -769,10 +800,19 @@ Compboost = R6::R6Class("Compboost",
       }
       return(self$logs)
     },
-    calculateFeatureImportance = function(num_feats = NULL) {
+    calculateFeatureImportance = function(num_feats = NULL, aggregate_bl_by_feat = FALSE) {
       checkModelPlotAvailability(self, check_ggplot = FALSE)
 
-      max_feats = length(unique(self$getSelectedBaselearner()))
+      inbag_risk_differences = abs(diff(self$getInbagRisk()))
+      selected_learner = self$getSelectedBaselearner()
+      fcol = "baselearner"
+      if (aggregate_bl_by_feat) {
+        feats = vapply(private$bl_list, function(bl) bl$feature, character(1L))
+        selected_learner = feats[selected_learner]
+        fcol = "feature"
+      }
+
+      max_feats = length(unique(selected_learner))
       checkmate::assert_integerish(x = num_feats, lower = 1, upper = max_feats,
         any.missing = FALSE, len = 1L, null.ok = TRUE)
 
@@ -781,20 +821,21 @@ Compboost = R6::R6Class("Compboost",
         if (num_feats > 15L) num_feats = 15L
       }
 
-      inbag_risk_differences = abs(diff(self$getInbagRisk()))
-      selected_learner = self$getSelectedBaselearner()
-
       blearner_sums = aggregate(inbag_risk_differences, by = list(selected_learner), FUN = sum)
-      colnames(blearner_sums) = c("baselearner", "risk_reduction")
+      colnames(blearner_sums) = c(fcol, "risk_reduction")
 
-      return(blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ])
+      out = blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ]
+      return(out)
     },
-    plotFeatureImportance = function(num_feats = NULL) {
+    plotFeatureImportance = function(num_feats = NULL, aggregate_bl_by_feat = FALSE) {
 
       checkModelPlotAvailability(self)
 
-      df_vip = self$calculateFeatureImportance(num_feats)
+      df_vip = self$calculateFeatureImportance(num_feats, aggregate_bl_by_feat)
 
+      ## First column containing the names contains the base learner or the feature depending on the aggregation.
+      ## Therefore, set a general baselearner column used for ggplot:
+      df_vip$baselearner = df_vip[[1]]
       gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
         ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 

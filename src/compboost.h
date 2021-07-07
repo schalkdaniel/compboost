@@ -103,6 +103,9 @@ public:
   void       setToIteration     (const unsigned int&, const unsigned int&);
   void       summarizeCompboost () const;
 
+  std::map<std::string, arma::mat> predictIndividual () const;
+  std::map<std::string, arma::mat> predictIndividual (const std::map<std::string, std::shared_ptr<data::Data>>&) const;
+
   // Destructor:
   ~Compboost ();
 };
