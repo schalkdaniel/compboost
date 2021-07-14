@@ -70,8 +70,10 @@ public:
 
   virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const = 0;
-  virtual void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&) = 0;
 
+  virtual void calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&) = 0;
+
+  virtual std::map<std::string, arma::mat> getParameterAtIteration (const unsigned int, const double, blearnertrack::BaselearnerTrack&) const;
 
   // Destructor
   virtual ~Optimizer ();
@@ -185,7 +187,10 @@ public:
   std::pair<std::vector<std::string>, arma::mat> getParameterMatrix ()             const;
 
   //void updateAggrParameter (std::shared_ptr<blearner::Baselearner>&, double, double, blearnertrack::BaselearnerTrack&);
+  std::map<std::string, arma::mat> addParamMaps (const std::map<std::string, arma::mat>&, const std::map<std::string, arma::mat>&, const double) const;
   void updateAggrParameter (double, blearnertrack::BaselearnerTrack&);
+   std::map<std::string, arma::mat> getParameterAtIteration (const unsigned int, const double, blearnertrack::BaselearnerTrack&) const;
+
 };
 
 

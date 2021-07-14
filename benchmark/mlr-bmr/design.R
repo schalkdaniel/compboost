@@ -86,7 +86,7 @@ updateDesign = function(design) {
     ats = c(ats, list(at))
   }
   design$learner = ats
-  return (design)
+  return(design)
 }
 
 design_classif = updateDesign(design_classif)

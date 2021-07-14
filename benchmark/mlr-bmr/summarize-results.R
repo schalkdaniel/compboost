@@ -210,6 +210,292 @@ gg_auc = ggplot(df_plt1, aes(x = learner, y = classif.auc, color = learner, fill
   facet_wrap(~ task, scales = "free_y", nrow = 2)
 gg_auc
 
+gridExtra::grid.arrange(gg_tt, gg_auc)
+
+
+### EQ1:
+### =============================000
+
+colors = c(pal_uchicago()(9), pal_aaas()(3))[c(1,2,8,11,5,6,7,3,10,9,4,12)]
+
+colors = c(pal_uchicago()(6), pal_aaas()(6), pal_jco()(8), pal_locuszoom()(4))
+names(colors) = learner_table
+box_width = 0.25
+box_fatten = 1.25
+hline_size = 0.2
+width_ggsep = 0.3
+
+baseline_lrn = "CWB (nb, no mstop)"
+additional_lrn = c("CWB (b, no mstop)", "ACWB (nb, no mstop)", "ACWB (b, no mstop)",
+  "hCWB (nb, no mstop)", "hCWB (b, no mstop)")
+
+qlower = 0.25
+qupper = 0.75
+df_tmp = df_bmr %>%
+  filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
+  group_by(task) %>%
+  mutate(
+    classif.auc = (classif.auc - classif.auc[learner == baseline_lrn]) / classif.auc[learner == baseline_lrn],
+    time_train = time_train[learner == baseline_lrn] / time_train
+    ) %>%
+  group_by(task, learner) %>%
+  summarize(
+    med_auc = median(classif.auc, na.rm = TRUE),
+    lower_auc = quantile(classif.auc, qlower, na.rm = TRUE),
+    upper_auc = quantile(classif.auc, qupper, na.rm = TRUE),
+    med_time = median(time_train, na.rm = TRUE),
+    lower_time = quantile(time_train, qlower, na.rm = TRUE),
+    upper_time = quantile(time_train, qupper, na.rm = TRUE)
+  ) %>%
+  filter(learner != baseline_lrn) %>%
+  mutate(binning = ifelse(grepl("(b,", learner, fixed = TRUE), "Yes", "No"),
+    learner_short = factor(ifelse(grepl("(", learner, fixed = TRUE), gsub(" ", "", substr(learner, 1, 4)), learner), levels = c("CWB", "ACWB", "hCWB")))
+
+#equalBreaks = function(n = 4, s = 0.05, ...) {
+  #function(x) {
+    #d = s * diff(range(x)) / (1 + 2 * s)
+    #round(seq(round(min(x) + d, 2), round(max(x) - d, 2), length = n), 2)
+  #}
+#}
+
+gg1 = df_tmp %>%
+  ggplot(aes(color = learner_short, shape = binning)) +
+    geom_point(aes(x = med_time, y = med_auc), size = 2) +
+    geom_segment(aes(x = med_time, xend = med_time, y = lower_auc, yend = upper_auc), alpha = 0.8, size = 0.4) +
+    geom_segment(aes(x = lower_time, xend = upper_time, y = med_auc, yend = med_auc), alpha = 0.8, size = 0.4) +
+    my_color +
+    my_fill +
+    xlab("Speedup") +
+    ylab("AUC improvement") +
+    labs(color = "Algorithm", fill = "Algorithm", shape = "Uses binning") +
+    #scale_y_continuous(breaks = equalBreaks(3)) +
+    scale_y_continuous(breaks = scales::pretty_breaks(n = 4), expand = expansion(mult = 0.2)) +
+    xlim(0, 8) +
+    #scale_x_continuous(trans = "log2", breaks = scales::pretty_breaks(n = 3), limits = c(0.5, 8)) +
+    scale_x_continuous(breaks = scales::pretty_breaks(n = 3), expand = expansion(mult = 0.2)) +
+    #scale_x_continuous(trans = "log2") +
+    theme(strip.text = element_text(color = "white", face = "bold", size = 8),
+      #axis.text.x = element_text(size = 6, angle = 45, hjust = 1),
+      axis.text.x = element_text(size = 6, hjust = 1),
+      axis.text.y = element_text(size = 6)) +
+    facet_wrap(. ~ task, scales = "free")
+#gg1
+ggsave(
+  plot = gg1,
+  filename = "fig-eq1.pdf",
+  width = dinA4width * 0.9,
+  height = dinA4width * 0.35,
+  units = "mm")
+
+system("evince fig-eq1.pdf &")
+
+### EQ2:
+### ----------------------------
+
+cwb_files = files[grepl("_cwb[.]", files)]
+
+load(cwb_files[1])
+
+
+baseline_lrn = "CWB (mboost)"
+additional_lrn = c("CWB (nb)", "CWB (b)", "hCWB (b)")
+gg1 = df_run %>%
+  filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
+  filter(task != "Analcat Halloffame") %>%
+  group_by(task) %>%
+  summarize(time =  time_train[learner == baseline_lrn] / time_train, learner = learner) %>%
+  filter(learner != baseline_lrn) %>%
+  ggplot(aes(x = task, y = time, color = learner, fill = learner)) +
+    geom_hline(yintercept = 1, color = "dark red", linetype = "dashed", size = hline_size) +
+    geom_boxplot(alpha = 0.2, fatten = box_fatten, size = box_width) +
+    geom_vline(xintercept = seq_len(5) + 0.5, size = width_ggsep, alpha = 0.3) +
+    my_color +
+    #scale_color_manual(values = colors[additional_lrn]) +
+    my_fill +
+    #scale_fill_manual(values = colors[additional_lrn]) +
+    xlab("") +
+    ylab("Speedup  ") +
+    labs(color = "", fill = "") +
+    theme(axis.text.y = element_text(size = 8), axis.text.x = element_text(size = 8, angle = 45, hjust = 0.5, vjust = 0.5), legend.position = "right")
+
+ggsave(
+  plot = gg1,
+  filename = "fig-eq2.pdf",
+  width = 0.55*dinA4width,
+  height = dinA4width * 0.27,
+  units = "mm")
+
+#system("evince fig-eq2.pdf &")
+
+### EQ3:
+### ==========================
+
+baseline_lrn = "hCWB (b, no mstop)"
+additional_lrn = c("Boosted trees", "EBM")
+
+qlower = 0.25
+qupper = 0.75
+
+df_bmr0 = df_bmr
+df_bmr0[(df_bmr$learner == "hCWB (nb, no mstop)") & (df_bmr$task == "Spam"),"learner"] = baseline_lrn
+
+df_tmp = df_bmr0 %>%
+  filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
+  filter(task != "Analcat Halloffame") %>%
+  group_by(task) %>%
+  summarize(
+    classif.auc = (classif.auc - classif.auc[learner == baseline_lrn]) / classif.auc[learner == baseline_lrn],
+    time_train =  time_train / time_train[learner == baseline_lrn],
+    learner = learner) %>%
+  filter(learner != baseline_lrn) %>%
+  #filter(learner != baseline_lrn, auc < 0.2, auc > -0.2) %>%
+  group_by(task, learner) %>%
+  summarize(
+    med_auc = median(classif.auc, na.rm = TRUE),
+    lower_auc = quantile(classif.auc, qlower, na.rm = TRUE),
+    upper_auc = quantile(classif.auc, qupper, na.rm = TRUE),
+    med_time = median(time_train, na.rm = TRUE),
+    lower_time = quantile(time_train, qlower, na.rm = TRUE),
+    upper_time = quantile(time_train, qupper, na.rm = TRUE)
+  ) %>%
+  filter(learner != baseline_lrn) %>%
+  mutate(binning = ifelse(grepl("(b,", learner, fixed = TRUE), "Binning", "No binning"),
+    learner_short = factor(ifelse(grepl("(", learner, fixed = TRUE), gsub(" ", "", substr(learner, 1, 4)), learner), levels = c("CWB", "ACWB", "hCWB")))
+
+gg1 = df_tmp %>%
+  ggplot(aes(shape = learner, color = task)) +
+    geom_point(aes(x = med_time, y = med_auc), size = 2) +
+    geom_segment(aes(x = med_time, xend = med_time, y = lower_auc, yend = upper_auc), alpha = 0.8, size = 0.4) +
+    geom_segment(aes(x = lower_time, xend = upper_time, y = med_auc, yend = med_auc), alpha = 0.8, size = 0.4) +
+    my_color +
+    my_fill +
+    xlab("Slowdown") +
+    ylab("AUC\nimprovement") +
+    labs(color = "Task", fill = "Task", shape = "Algorithm") +
+    scale_x_continuous(trans = "log2", limits = c(0.5, 32)) +
+    theme(strip.text = element_text(color = "white", face = "bold", size = 8),
+      legend.title = element_text(size = 7),
+      legend.text = element_text(size = 6),
+      legend.spacing.y = unit(0.02, "cm"),
+      legend.key.size = unit(0.5, "line"),
+      axis.text.y = element_text(size = 6)) #+
+
+ggsave(
+  plot = gg1,
+  filename = "fig-eq3.pdf",
+  width = dinA4width * 0.5,
+  height = dinA4width * 0.25,
+  units = "mm")
+
+system("evince fig-eq3.pdf &")
+
+df_smr = df_bmr %>% group_by(learner, task) %>%
+  select(classif.auc, time_train) %>%
+  pivot_longer(cols = c("classif.auc", "time_train"), names_to = "measure", values_to = "value") %>%
+  group_by(task, learner, measure) %>%
+  summarize(mm = mean(value), ms = sd(value)) %>%
+  pivot_wider(names_from = "learner", values_from = c("mm", "ms")) %>%
+  mutate(measure = ifelse(measure == "classif.auc", "AUC", "Seconds"))
+
+df_smr = df_smr[, c(1, 2, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8, 16, 9, 17, 10, 18)]
+
+knitr::kable(df_smr, format = "latex")
+
+
+
+gg1 = df_bmr %>%
+  filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
+  filter(task != "Analcat Halloffame") %>%
+  group_by(task) %>%
+  summarize(auc = classif.auc / classif.auc[learner == baseline_lrn] - 1, learner = learner) %>%
+  filter(learner != baseline_lrn, auc < 0.2, auc > -0.2) %>%
+  ggplot(aes(x = task, y = auc, color = learner, fill = learner)) +
+    geom_hline(yintercept = 0, color = "dark red", linetype = "dashed", size = hline_size) +
+    geom_boxplot(alpha = 0.2, size = box_width, fatten = box_fatten) +
+    geom_vline(xintercept = seq_len(5) + 0.5, size = width_ggsep, alpha = 0.3) +
+    #my_color +
+    scale_color_manual(values = colors[additional_lrn]) +
+    #my_fill +
+    scale_fill_manual(values = colors[additional_lrn]) +
+    xlab("") +
+    ylab(" AUC \nimprovement  ") +
+    labs(color = "", fill = "") +
+    theme(axis.text.y = element_text(size = 8), axis.text.x = element_text(size = 8, angle = 45, hjust = 0.5, vjust = 0.5), legend.position = "right")
+
+gg1
+baseline_lrn = "hCWB (b, no mstop)"
+gg2 = df_bmr %>%
+  filter(learner %in% c(baseline_lrn, additional_lrn)) %>%
+  filter(task != "Analcat Halloffame") %>%
+  group_by(task) %>%
+  summarize(time =  time_train / time_train[learner == baseline_lrn], learner = learner) %>%
+  filter(learner != baseline_lrn) %>%
+  ggplot(aes(x = task, y = time, color = learner, fill = learner)) +
+    geom_hline(yintercept = 1, color = "dark red", linetype = "dashed", size = hline_size) +
+    geom_boxplot(alpha = 0.2, size = box_width, fatten = box_fatten) +
+    geom_vline(xintercept = seq_len(5) + 0.5, size = width_ggsep, alpha = 0.3) +
+    my_color +
+    #scale_color_manual(values = colors[additional_lrn]) +
+    my_fill +
+    #scale_fill_manual(values = colors[additional_lrn]) +
+    xlab("") +
+    ylab("\nSlowdown") +
+    labs(color = "Algorithm", fill = "Algorithm") +
+    theme(axis.text.y = element_text(size = 8), axis.text.x = element_text(size = 8, angle = 45, hjust = 0.5, vjust = 0.5), legend.position = "bottom")
+
+my_legend = g_legend(gg1)
+gg1 = gg1 + theme(legend.position = "none")
+gg2 = gg2 + theme(legend.position = "none")
+
+gt1 = ggplot_gtable(ggplot_build(gg1))
+gt2 = ggplot_gtable(ggplot_build(gg2))
+gt2$widths = gt1$width
+
+dev.off()
+
+p3 = arrangeGrob(
+  gt1,
+  gt2,
+  arrangeGrob(
+    my_legend,
+    ggplot() + theme_void(),
+    nrow = 2L
+  ),
+  nrow = 1,
+  ncol = 3,
+  widths = c(4,4,2))
+
+#plot(p3)
+
+ggsave(
+  plot = p3,
+  filename = "fig-eq3.pdf",
+  width = dinA4width,
+  height = dinA4width * 0.27,
+  units = "mm")
+
+#system("evince fig-eq3.pdf &")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### hCWB SWITCH:
 ### =================================
@@ -679,7 +965,8 @@ ggsave(
 if (FALSE) {
   library(tidyr)
 
-  lrns = c("CWB (nb)", "CWB (b)", "ACWB (b)", "hCWB (b)", "Boosted trees", "EBM", "CWB (mboost)")
+  lrns = c(paste0(c("CWB (nb", "CWB (b", "ACWB (nb", "ACWB (b",
+    "hCWB (nb", "hCWB (b"), ", no mstop)"), "Boosted trees", "EBM")#, "CWB (mboost)")
   cellSummary = function(x) {
     if (length(x) > 1) {
       paste0("$", round(mean(x), 3), "\\pm ", round(sd(x), 3), "$")
@@ -699,18 +986,18 @@ if (FALSE) {
     select(measure, Learner, task, auc) %>%
     pivot_wider(names_from = "task", values_from = "auc") %>%
     rbind(
-      df_run %>%
+      df_bmr %>%
         filter(task != "Analcat Halloffame") %>%
         filter(learner %in% lrns) %>%
         select(task, learner, time_train) %>%
         group_by(task, learner) %>%
-        summarize(runtime = cellSummary(time_train)) %>%
+        summarize(runtime = cellSummary(time_train / 60 / 60)) %>%
         mutate(measure = "Runtime") %>%
         mutate(Learner = learner, learner = NULL) %>%
         select(measure, Learner, task, runtime) %>%
         pivot_wider(names_from = "task", values_from = "runtime")
     )
-  df_tab$measure = c("\\multirow{6}{*}{AUC}", rep("", length(lrns) - 1), "\\multirow{6}{*}{Runtime}", rep("", length(lrns) - 1))
+  df_tab$measure = c(paste0("\\multirow{", length(lrns), "}{*}{AUC}"), rep("", length(lrns) - 1), paste0("\\multirow{", length(lrns), "}{*}{Runtime}"), rep("", length(lrns) - 1))
   names(df_tab) = c("", paste0("\\textbf{", names(df_tab)[-1], "}"))
   df_tab %>% knitr::kable(format = "latex", escape = FALSE)
 

@@ -258,8 +258,8 @@ arma::mat BaselearnerCategoricalRidgeFactory::getData () const
 arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   arma::urowvec classes = _sh_ptr_cdata->getClasses();
-  arma::mat out(classes.n_rows, param.n_cols, arma::fill::zeros);
-  for (unsigned int i = 0; i < classes.n_rows; i++) {
+  arma::mat out(classes.n_cols, param.n_cols, arma::fill::zeros);
+  for (unsigned int i = 0; i < out.n_rows; i++) {
     out.row(i) = param.row(classes(i));
   }
   return out;

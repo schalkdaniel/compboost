@@ -78,6 +78,32 @@ if (bm_full) {
 
 measure_classif = msr("classif.auc")
 
+
+#library(mlr3oml)
+#task = tsk("oml", task_id = 9977)
+
+#classif_lrn_cwb = lrn("classif.compboost", id = "ps_cwb1", predict_type = "prob",
+  #optimizer = "cod", restart = FALSE)
+#classif_lrn_cwb$param_set$values = updatePars(classif_lrn_cwb, cwb_pars)
+
+#classif_lrn_cwb_bin = lrn("classif.compboost", id = "ps_cwb1_bin", predict_type = "prob",
+  #optimizer = "cod", restart = FALSE, bin_root = 2L)
+#classif_lrn_cwb_bin$param_set$values = updatePars(classif_lrn_cwb_bin, cwb_pars)
+
+#mb = microbenchmark::microbenchmark(
+  #nobin = classif_lrn_cwb$train(task),
+  #bin = classif_lrn_cwb_bin$train(task),
+  #times = 2L
+#)
+#mb
+
+library(ggplot2)
+library(dplyr)
+diter %>% filter(!grepl("notune", learner)) %>%
+  ggplot(aes(x = iters_acwb, color = learner)) +
+    geom_density() +
+    facet_wrap(. ~ task)
+
 #source(paste0(bm_dir, "learner-src/classifCompboost.R"))
 
 source(paste0(bm_dir, "extract-archive.R"))
@@ -85,6 +111,8 @@ source(paste0(bm_dir, "tasks.R"))
 source(paste0(bm_dir, "param-sets.R"))
 source(paste0(bm_dir, "learners.R"))
 source(paste0(bm_dir, "design.R"))
+
+
 
 #bmr = benchmark(design_classif, store_models = TRUE)
 

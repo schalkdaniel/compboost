@@ -77,11 +77,13 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, bin_method = "linear", cache_type = "inverse",
-  stop_args = list(), df_cat = 1)
+  stop_args = list(), df_cat = 1, stop_time = "microseconds")
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction, stop_args)
   features = setdiff(colnames(data), model$response$getTargetName())
+
+  checkmate::assertChoice(stop_time, choices = c("minuts", "seconds", "microseconds"), null.ok = TRUE)
 
   # This loop could be replaced with foreach???
   # Issue:
@@ -96,6 +98,9 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
       model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source,
         df = df_cat)
     }
+  }
+  if (! is.null(stop_time)) {
+    model$addLogger(LoggerTime, FALSE, "time", 0, stop_time)
   }
   model$train(iterations, trace)
   return(model)

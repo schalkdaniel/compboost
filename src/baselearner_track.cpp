@@ -158,7 +158,7 @@ void BaselearnerTrack::insertBaselearner (std::shared_ptr<blearner::Baselearner>
   }
   // Accumulating parameter. If there is a nan, then this will be ignored and
   // the non nan entries are summed up:
-  _parameter_map[ insert_id ] = parameter_temp + _parameter_map.find(insert_id)->second;
+  _parameter_map[ insert_id ] += parameter_temp;
 }
 
 void BaselearnerTrack::clearBaselearnerVector ()

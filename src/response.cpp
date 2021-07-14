@@ -139,9 +139,11 @@ double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_p
 {
   checkLossCompatibility(sh_ptr_loss);
   if (_use_weights) {
-    return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, getPredictionTransform(), _weights);
+    //return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, getPredictionTransform(), _weights);
+    return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, _prediction_scores, _weights);
   } else {
-    return sh_ptr_loss->calculateEmpiricalRisk(_response, getPredictionTransform());
+    //return sh_ptr_loss->calculateEmpiricalRisk(_response, getPredictionTransform());
+    return sh_ptr_loss->calculateEmpiricalRisk(_response, _prediction_scores);
   }
 }
 

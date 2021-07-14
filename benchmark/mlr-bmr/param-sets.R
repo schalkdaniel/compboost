@@ -1,4 +1,4 @@
-getMinFactor = function (task) {
+getMinFactor = function(task) {
   factor_cols = task$feature_types$id[task$feature_types$type == "factor"]
   df_cat_min = 20L
   if (length(factor_cols) > 0) {
