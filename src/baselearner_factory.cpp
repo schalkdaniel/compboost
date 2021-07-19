@@ -208,7 +208,14 @@ arma::mat BaselearnerPSplineFactory::getData () const
 
 arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param) const
 {
-  return (param.t() * _sh_ptr_psdata->getSparseData()).t();
+  if (_sh_ptr_psdata->usesBinning()) {
+    return binning::binnedSparsePrediction(_sh_ptr_psdata->getSparseData(), param, _sh_ptr_psdata->getBinningIndex());
+  } else {
+    // Trick to speed up things. Try to avoid transposing the sparse matrix. The
+    // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
+    // slower than that one:
+    return (param.t() * _sh_ptr_psdata->getSparseData()).t();
+  }
 }
 
 arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
