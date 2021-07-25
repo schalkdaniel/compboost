@@ -516,8 +516,9 @@ arma::mat LossCustom::gradient (const arma::mat& true_value, const arma::mat& pr
 arma::mat LossCustom::constantInitializer (const arma::mat& true_value) const
 {
   Rcpp::NumericVector out = _initFun(true_value);
-  arma::mat out_single(1, 1);
-  out_single.fill(out[0]);
+  arma::mat out_single = out;
+  //arma::mat out_single(1, 1);
+  //out_single.fill(out[0]);
   return out_single;
 }
 
