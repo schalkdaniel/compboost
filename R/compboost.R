@@ -708,18 +708,16 @@ Compboost = R6::R6Class("Compboost",
       if (! is.null(self$oob_fraction)) {
         scount = 0
         if (! is.null(self$stop_args$oob_offset)) {
+          scount = 1
           if (class(self$loss) == "Rcpp_LossQuadratic") {
             l = LossQuadratic$new(self$stop_args$oob_offset, TRUE)
-            scount = 1
           } else {
             if (class(self$loss) == "Rcpp_LossBinomial") {
               l = LossBinomial$new(self$stop_args$oob_offset, TRUE)
-              scount = 1
             } else {
               l = self$loss
             }
           }
-
         } else {
           l = self$loss
         }

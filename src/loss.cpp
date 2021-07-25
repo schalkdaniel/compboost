@@ -40,7 +40,7 @@ Loss::Loss (const std::string task_id)
 Loss::Loss (const std::string task_id, const arma::mat& custom_offset)
   : _task_id           ( task_id ),
     _custom_offset     ( custom_offset ),
-    _use_custom_offset ( true)
+    _use_custom_offset ( true )
 { }
 
 std::string Loss::getTaskId () const { return _task_id; }
@@ -403,7 +403,7 @@ LossBinomial::LossBinomial (const double custom_offset)
   }
 }
 LossBinomial::LossBinomial (const arma::mat& custom_offset)
-  :Loss ("binary_classif", custom_offset)
+  : Loss ("binary_classif", custom_offset)
 { }
 
 /**

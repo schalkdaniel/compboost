@@ -77,7 +77,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, bin_method = "linear", cache_type = "inverse",
-  stop_args = list(), df_cat = 1, stop_time = "microseconds")
+  stop_args = list(), df_cat = 1, stop_time = "microseconds", additional_risk_logs)
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction, stop_args)
@@ -87,7 +87,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
 
   # This loop could be replaced with foreach???
   # Issue:
-  for(feat in features) {
+  for (feat in features) {
     if (is.numeric(data[[feat]])) {
       model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
         degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
@@ -101,6 +101,18 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   }
   if (! is.null(stop_time)) {
     model$addLogger(LoggerTime, FALSE, "time", 0, stop_time)
+  }
+  if (length(additional_risk_logs) > 0) {
+    for (i in seq_along(additional_risk_logs)) {
+      if (! is.null(additional_risk_logs[[i]]$data))
+        ndat = additional_risk_logs[[i]]$data
+      else
+        ndat = model$data
+
+      model$addLogger(logger = LoggerOobRisk, use_as_stopper = FALSE, logger_id = paste0("risk", names(additional_risk_logs)[i]),
+        used_loss = additional_risk_logs[[i]]$loss, esp_for_break = 0, patience = 1, oob_data = model$prepareData(ndat),
+        oob_response = model$prepareResponse(data[[target]]))
+    }
   }
   model$train(iterations, trace)
   return(model)

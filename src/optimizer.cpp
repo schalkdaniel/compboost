@@ -59,7 +59,7 @@ std::map<std::string, arma::mat> Optimizer::getParameterAtIteration (const unsig
       }
       // Accumulating parameter. If there is a nan, then this will be ignored and
       // the non  nan entries are summed up:
-      new_parameter_map[ insert_id ] = parameter_temp + new_parameter_map.find(insert_id)->second;
+      new_parameter_map[ insert_id ] += parameter_temp;
     }
     return new_parameter_map;
   } else {
