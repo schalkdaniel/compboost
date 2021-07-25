@@ -111,7 +111,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
 
       model$addLogger(logger = LoggerOobRisk, use_as_stopper = FALSE, logger_id = paste0("risk", names(additional_risk_logs)[i]),
         used_loss = additional_risk_logs[[i]]$loss, esp_for_break = 0, patience = 1, oob_data = model$prepareData(ndat),
-        oob_response = model$prepareResponse(data[[target]]))
+        oob_response = model$prepareResponse(ndat[[target]]))
     }
   }
   model$train(iterations, trace)
