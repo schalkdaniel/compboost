@@ -670,12 +670,12 @@ std::map<std::string, arma::mat> OptimizerAGBM::getParameterAtIteration (const u
       if (it == mmod.end()) {
         // If this is the first entry, initialize it with zeros:
         arma::mat init_parameter(param_temp.n_rows, param_temp.n_cols, arma::fill::zeros);
-        mmod.insert(std::pair<std::string, arma::mat>(insert_id, init_parameter));
+        mmod[ insert_id ] = init_parameter;
       }
       if (it_mom == mmom.end()) {
         // If this is the first entry, initialize it with zeros:
         arma::mat init_parameter(param_temp_mom.n_rows, param_temp_mom.n_cols, arma::fill::zeros);
-        mmom.insert(std::pair<std::string, arma::mat>(insert_id_mom, init_parameter));
+        mmom[ insert_id_mom] = init_parameter;
       }
 
       // Accumulating parameter. If there is a nan, then this will be ignored and
