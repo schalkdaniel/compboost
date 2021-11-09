@@ -23,7 +23,7 @@ BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 
 \describe{
 \item{\code{data_source} [\code{data} object]}{
-  data object which contains the source data.
+  data object of class \code{CategoricalData} which contains the source data.
 }
 }
 }
@@ -53,5 +53,4 @@ bl = BaselearnerCategoricalRidge$new(ds, "one")
 
 bl$getData()
 bl$summarizeFactory()
-
 }

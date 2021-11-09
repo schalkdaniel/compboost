@@ -27,6 +27,8 @@ docs
 Readme_files
 benchmark
 paper
+temp
+pkgdown
 Readme.*
 temp
 pkgdown

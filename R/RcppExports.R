@@ -377,7 +377,7 @@ NULL
 #' @section arguments:
 #' \describe{
 #' \item{\code{data_source} [\code{data} object]}{
-#'   data object which contains the source data.
+#'   data object of class \code{CategoricalData} which contains the source data.
 #' }
 #' }
 #'

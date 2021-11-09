@@ -365,7 +365,7 @@ RCPP_MODULE (data_module)
 
 // Abstract class. This one is given to the factory list. The factory list then
 // handles all factories equally. It does not differ between a polynomial or
-// custom factory:
+// a custom factory:
 class BaselearnerFactoryWrapper
 {
 public:
@@ -735,7 +735,7 @@ public:
 //' @section arguments:
 //' \describe{
 //' \item{\code{data_source} [\code{data} object]}{
-//'   data object which contains the source data.
+//'   data object of class \code{CategoricalData} which contains the source data.
 //' }
 //' }
 //'
@@ -907,7 +907,7 @@ public:
   BaselearnerCustomFactoryWrapper (DataWrapper& data_source,
     Rcpp::List arg_list)
   {
-    // Don't check argument types since we don't have a Function placeholder for the default list:
+    // Don't check argument types since we don't have a function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomFactory>("custom", data_source.getDataObj(),
@@ -918,7 +918,7 @@ public:
   BaselearnerCustomFactoryWrapper (DataWrapper& data_source,
     const std::string& blearner_type, Rcpp::List arg_list)
   {
-    // Don't check argument types since we don't have a Function placeholder for the default list:
+    // Don't check argument types since we don't have a function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomFactory>(blearner_type, data_source.getDataObj(),
@@ -1023,7 +1023,7 @@ public:
   BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source,
     Rcpp::List arg_list)
   {
-    // Don't check argument types since we don't have a Function placeholder for the default list:
+    // Don't check argument types since we don't have a function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomCppFactory>("custom_cpp", data_source.getDataObj(),
@@ -1034,7 +1034,7 @@ public:
   BaselearnerCustomCppFactoryWrapper (DataWrapper& data_source,
     const std::string& blearner_type, Rcpp::List arg_list)
   {
-    // Don't check argument types since we don't have a Function placeholder for the default list:
+    // Don't check argument types since we don't have a function placeholder for the default list:
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, FALSE);
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerCustomCppFactory>(blearner_type, data_source.getDataObj(),
@@ -2248,7 +2248,7 @@ public:
 
     // Be very careful with the wrappers. For instance: doing something like
     // temp = oob_data[i] within the loop will force temp to call its destructor
-    // when it runs out of scope. This will trigger the destructor of the
+    // when it runs out of the scope. This will trigger the destructor of the
     // underlying data class which deletes the data needed for logging.
     // Therefore, the system crashes!
     //

@@ -22,7 +22,7 @@ boostLinear(
 A data frame containing the data.}
 
 \item{target}{[\code{character(1)} or \code{Response} class]\cr
-Character value containing the target variable or Response object. Note that the loss must match the
+Character value containing the target variable or response object. Note that the loss must match the
 data type of the target.}
 
 \item{optimizer}{[\code{S4 Optimizer}]\cr
@@ -61,7 +61,7 @@ A model of the \code{Compboost} class. This model is an \code{R6} object
   \code{?Compboost}.
 }
 \description{
-This wrapper function automatically initialize the model by adding all numerical
+This wrapper function automatically initializes the model by adding all numerical
 features as linear base-learner. Categorical features are dummy encoded and inserted
 using another linear base-learners without intercept. The function \code{boostLinear}
 does also train the model.
