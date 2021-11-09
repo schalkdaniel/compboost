@@ -47,15 +47,22 @@
 #'   just in memory training is supported.
 #' @param oob_fraction [\code{numeric(1)}]\cr
 #'   Fraction of how much data we want to use to track the out of bag risk.
-#' @param bin_root [\code{integer(1)}+]\cr
+#' @param bin_root [\code{integer(1)}]\cr
 #'   If set to a value greater than zero, binning is applied and reduces the number of used
 #'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
 #'   to set \code{bin_root = 2}.
+#' @param bin_method [\code{character(1)}]\cr
+#'   Method used to calculate knots for binning. Possible choices are "quantile" and "linear".
 #' @param cache_type [\code{character(1)}+]\cr
 #'   String to indicate what method should be used to estimate the parameter in each iteration.
 #'   Default is \code{cache_type = "cholesky"} which computes the Cholesky decomposition,
 #'   caches it, and reuses the matrix over and over again. The other option is to use
 #'   \code{cache_type = "inverse"} which does the same but caches the inverse.
+#' @param stop_args [\code{list(2)}]\cr
+#'   List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+#'   from setting `oob_fraction`.
+#' @param df_cat [\code{numeric(1)}]\cr
+#'   Degrees of freedom of the categorical base-learner.
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -69,22 +76,42 @@
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
-  oob_fraction = NULL, bin_root = 0, cache_type = "inverse")
+  oob_fraction = NULL, bin_root = 0, bin_method = "linear", cache_type = "inverse",
+  stop_args = list(), df_cat = 1, stop_time = "microseconds", additional_risk_logs = list())
 {
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
-    learning_rate = learning_rate, oob_fraction = oob_fraction)
+    learning_rate = learning_rate, oob_fraction = oob_fraction, stop_args)
   features = setdiff(colnames(data), model$response$getTargetName())
+
+  checkmate::assertChoice(stop_time, choices = c("minuts", "seconds", "microseconds"), null.ok = TRUE)
 
   # This loop could be replaced with foreach???
   # Issue:
-  for(feat in features) {
+  for (feat in features) {
     if (is.numeric(data[[feat]])) {
       model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
         degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
-        bin_root = bin_root, cache_type = cache_type)
+        bin_root = bin_root, bin_method = bin_method, cache_type = cache_type)
     } else {
-      model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
-        degree = 1, intercept = FALSE)
+      checkmate::assertNumeric(df_cat, len = 1L, lower = 1)
+      if (length(unique(feat)) > df_cat) stop("Categorical degree of freedom must be smaller than the number of classes (here <", length(unique(feat)), ")")
+      model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source,
+        df = df_cat)
+    }
+  }
+  if (! is.null(stop_time)) {
+    model$addLogger(LoggerTime, FALSE, "time", 0, stop_time)
+  }
+  if (length(additional_risk_logs) > 0) {
+    for (i in seq_along(additional_risk_logs)) {
+      if (! is.null(additional_risk_logs[[i]]$data))
+        ndat = additional_risk_logs[[i]]$data
+      else
+        ndat = model$data
+
+      model$addLogger(logger = LoggerOobRisk, use_as_stopper = FALSE, logger_id = paste0("risk", names(additional_risk_logs)[i]),
+        used_loss = additional_risk_logs[[i]]$loss, esp_for_break = 0, patience = 1, oob_data = model$prepareData(ndat),
+        oob_response = model$prepareResponse(ndat[[target]]))
     }
   }
   model$train(iterations, trace)

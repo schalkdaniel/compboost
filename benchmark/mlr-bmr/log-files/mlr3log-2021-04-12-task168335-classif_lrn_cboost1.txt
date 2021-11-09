@@ -1,0 +1,1962 @@
+INFO  [11:22:30.653] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:22:30.727] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1.tuned' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:22:30.831] [bbotk] Starting to optimize 4 parameter(s) with '<OptimizerInterMBO>' and '<TerminatorEvals> [n_evals=200]' 
+INFO  [11:22:31.820] [bbotk] Evaluating 32 configuration(s) 
+INFO  [11:22:33.067] [mlr3]  Running benchmark with 32 resampling iterations 
+INFO  [11:22:33.074] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:22:45.767] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:22:54.457] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:05.344] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:21.594] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:42.073] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:24:03.802] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:24:24.796] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:24:51.623] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:11.423] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:15.857] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:35.307] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:40.635] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:50.477] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:53.179] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:26:21.166] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:26:28.229] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:26:43.736] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:26:56.821] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:27:02.663] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:27:19.045] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:27:37.993] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:27:52.940] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:28:20.611] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:28:29.813] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:28:33.505] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:29:02.031] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:29:08.112] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:29:33.171] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:29:46.142] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:05.453] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:29.640] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:40.573] [mlr3]  Finished benchmark 
+INFO  [11:30:42.240] [bbotk] Result of batch 1: 
+INFO  [11:30:42.244] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:30:42.244] [bbotk]       5.411926          4.117385              0.251239283             3883 
+INFO  [11:30:42.244] [bbotk]       8.711536          9.044960              0.110829844             2514 
+INFO  [11:30:42.244] [bbotk]       3.538769          5.551923              0.371101343             2195 
+INFO  [11:30:42.244] [bbotk]       8.299441          4.528433              0.447065569             1562 
+INFO  [11:30:42.244] [bbotk]       6.378594          8.423251              0.184726147             4820 
+INFO  [11:30:42.244] [bbotk]       9.564669          5.141975              0.328497049             3105 
+INFO  [11:30:42.244] [bbotk]       3.297021          7.932295              0.093669967              758 
+INFO  [11:30:42.244] [bbotk]       6.998110          4.251847              0.205511342              954 
+INFO  [11:30:42.244] [bbotk]       8.124392          7.025297              0.203666001             1397 
+INFO  [11:30:42.244] [bbotk]       4.704710          2.401551              0.436707793             3618 
+INFO  [11:30:42.244] [bbotk]       2.337294          3.563392              0.290230487             4539 
+INFO  [11:30:42.244] [bbotk]       7.954089          3.087526              0.098631164             3234 
+INFO  [11:30:42.244] [bbotk]       6.057886          9.975909              0.135036612             2147 
+INFO  [11:30:42.244] [bbotk]       3.946304          6.814550              0.355625357             4862 
+INFO  [11:30:42.244] [bbotk]       4.448472          8.862154              0.322373021             2998 
+INFO  [11:30:42.244] [bbotk]       4.788901          5.291649              0.060953310             1948 
+INFO  [11:30:42.244] [bbotk]       2.652870          4.933285              0.240629143             1717 
+INFO  [11:30:42.244] [bbotk]       6.583288          9.703129              0.383519276             1535 
+INFO  [11:30:42.244] [bbotk]       5.871599          6.309302              0.229827076             2844 
+INFO  [11:30:42.244] [bbotk]       7.135503          8.042006              0.034696705              436 
+INFO  [11:30:42.244] [bbotk]       5.631815          6.639346              0.496417420             2431 
+INFO  [11:30:42.244] [bbotk]       7.367562          9.259693              0.077135077             4172 
+INFO  [11:30:42.244] [bbotk]       7.682990          2.817968              0.407215191             4301 
+INFO  [11:30:42.244] [bbotk]       9.198508          5.798251              0.005149688             2611 
+INFO  [11:30:42.244] [bbotk]       9.886401          6.145982              0.398063974              859 
+INFO  [11:30:42.244] [bbotk]       2.763427          8.741366              0.148046607             3751 
+INFO  [11:30:42.244] [bbotk]       5.011109          2.507400              0.480809687             1164 
+INFO  [11:30:42.244] [bbotk]       8.780886          2.162257              0.164420900              549 
+INFO  [11:30:42.244] [bbotk]       2.009598          3.830868              0.466236028             4596 
+INFO  [11:30:42.244] [bbotk]       4.159231          7.527920              0.266177539              251 
+INFO  [11:30:42.244] [bbotk]       3.106424          3.437082              0.020210688             3398 
+INFO  [11:30:42.244] [bbotk]       9.404802          7.448509              0.304639827             4038 
+INFO  [11:30:42.244] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:30:42.244] [bbotk]  classif.auc                                uhash 
+INFO  [11:30:42.244] [bbotk]    0.9731366 25a692a1-048d-4ac8-9aa5-96de86686767 
+INFO  [11:30:42.244] [bbotk]    0.9722091 ebfc074c-34cf-420a-8137-5987f5cc0de9 
+INFO  [11:30:42.244] [bbotk]    0.9705297 19fce908-9638-4a3f-981c-b8ee62346b44 
+INFO  [11:30:42.244] [bbotk]    0.9732622 73fd35f9-5cd6-471a-88e9-8876896686fd 
+INFO  [11:30:42.244] [bbotk]    0.9733872 99a9d597-03fe-4790-89b8-10f108b2b53d 
+INFO  [11:30:42.244] [bbotk]    0.9731850 0e6482d1-2d44-427d-bbd3-621b5dc8c324 
+INFO  [11:30:42.244] [bbotk]    0.9609214 5d9e4d2c-fe64-44c8-b4eb-82cae18a5208 
+INFO  [11:30:42.244] [bbotk]    0.9708251 25a529ba-284c-4e53-b0ca-6c08e9a1a50f 
+INFO  [11:30:42.244] [bbotk]    0.9721598 66701c6a-8848-440d-bff3-ff9b73705fd8 
+INFO  [11:30:42.244] [bbotk]    0.9732387 ec9ad9b5-b31d-4fea-ba52-b682dc441b47 
+INFO  [11:30:42.244] [bbotk]    0.9677703 a10037c8-0537-4041-839d-26701a9aaaf0 
+INFO  [11:30:42.244] [bbotk]    0.9723603 f3ed47e1-4b71-4ff4-b26e-e5fcf67a9325 
+INFO  [11:30:42.244] [bbotk]    0.9713366 3392b7ab-183c-453b-b0ea-1a0d69e6fa2d 
+INFO  [11:30:42.244] [bbotk]    0.9727502 cae7165a-5811-4368-942b-3544f190b68e 
+INFO  [11:30:42.244] [bbotk]    0.9723929 586a63ec-d639-411e-91e8-b79cd4b4e4d3 
+INFO  [11:30:42.244] [bbotk]    0.9671402 51ebf2d7-5195-447d-b613-890f119fb22a 
+INFO  [11:30:42.244] [bbotk]    0.9656755 45d63b26-8b48-470e-b457-b9f985ff6d68 
+INFO  [11:30:42.244] [bbotk]    0.9729741 cd417665-a961-4205-8552-a186094e24fd 
+INFO  [11:30:42.244] [bbotk]    0.9728589 7739a54e-f70f-4e92-adf3-6ba3000a9f56 
+INFO  [11:30:42.244] [bbotk]    0.9522059 bd1b25c4-aaa1-4b77-a82b-f20703ae154e 
+INFO  [11:30:42.244] [bbotk]    0.9734380 efe98cec-a8f2-4984-9a85-2e708cfec3e4 
+INFO  [11:30:42.244] [bbotk]    0.9722229 f7c05961-3847-461d-b254-6bb66a781523 
+INFO  [11:30:42.244] [bbotk]    0.9735539 95344450-02b6-4f21-99d8-75cdc29e4d92 
+INFO  [11:30:42.244] [bbotk]    0.9520400 af233626-3637-4de3-8e27-4687315adae4 
+INFO  [11:30:42.244] [bbotk]    0.9725675 2368900e-6d98-4ded-b249-e7237680d5ae 
+INFO  [11:30:42.244] [bbotk]    0.9671774 4960a964-b7d7-4814-93bc-2f006a6223b8 
+INFO  [11:30:42.244] [bbotk]    0.9718631 8d7e64c2-18fa-4b81-af93-febedcfe04ff 
+INFO  [11:30:42.244] [bbotk]    0.9689377 f59d5509-426f-4319-bfb4-a6b1ee4c349b 
+INFO  [11:30:42.244] [bbotk]    0.9624208 8e396594-ef54-4cb9-af53-7a2bcf13478b 
+INFO  [11:30:42.244] [bbotk]    0.9635587 ba0abcec-efd8-4249-ac80-c9b33ac982d0 
+INFO  [11:30:42.244] [bbotk]    0.9599094 f359c8fc-1a01-430d-8965-efa7f2e898e8 
+INFO  [11:30:42.244] [bbotk]    0.9731995 31c4298a-80fe-4f38-b3f8-06d85b1baadc 
+INFO  [11:30:42.244] [bbotk]  classif.auc                                uhash 
+INFO  [11:30:43.985] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:30:44.040] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:30:44.047] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:56.986] [mlr3]  Finished benchmark 
+INFO  [11:30:57.055] [bbotk] Result of batch 2: 
+INFO  [11:30:57.057] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:30:57.057] [bbotk]       4.430369           3.18616               0.03816064             2079 
+INFO  [11:30:57.057] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:30:57.057] [bbotk]         0.628 -0.9678984         <NA>    0.964946 
+INFO  [11:30:57.057] [bbotk]                                 uhash 
+INFO  [11:30:57.057] [bbotk]  1748bf77-3210-48e1-8540-e43c66cb8790 
+INFO  [11:30:58.049] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:30:58.104] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:30:58.111] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:31:10.945] [mlr3]  Finished benchmark 
+INFO  [11:31:11.014] [bbotk] Result of batch 3: 
+INFO  [11:31:11.016] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:31:11.016] [bbotk]       4.680036          6.504308                0.1200609             2124 
+INFO  [11:31:11.016] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:31:11.016] [bbotk]         0.624 -0.9695906         <NA>   0.9694304 
+INFO  [11:31:11.016] [bbotk]                                 uhash 
+INFO  [11:31:11.016] [bbotk]  72b65aaf-dd85-466f-a91d-6fa10c5df662 
+INFO  [11:31:11.871] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:31:11.930] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:31:11.937] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:31:41.226] [mlr3]  Finished benchmark 
+INFO  [11:31:41.305] [bbotk] Result of batch 4: 
+INFO  [11:31:41.307] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:31:41.307] [bbotk]       4.338931          3.681071                0.1927039             4960 
+INFO  [11:31:41.307] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:31:41.307] [bbotk]         0.622 -0.9709454         <NA>   0.9722503 
+INFO  [11:31:41.307] [bbotk]                                 uhash 
+INFO  [11:31:41.307] [bbotk]  82eee6ef-1d5b-4f37-97f8-9fcf75e90260 
+INFO  [11:31:42.182] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:31:42.239] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:31:42.246] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:32:01.955] [mlr3]  Finished benchmark 
+INFO  [11:32:02.025] [bbotk] Result of batch 5: 
+INFO  [11:32:02.027] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:32:02.027] [bbotk]         9.9353          4.736674                0.1633233             3516 
+INFO  [11:32:02.027] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:32:02.027] [bbotk]         0.629 -0.9706126         <NA>   0.9729941 
+INFO  [11:32:02.027] [bbotk]                                 uhash 
+INFO  [11:32:02.027] [bbotk]  352b82b9-7888-4ee0-b506-3ce457d579fe 
+INFO  [11:32:02.914] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:32:02.969] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:32:02.975] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:32:13.788] [mlr3]  Finished benchmark 
+INFO  [11:32:13.857] [bbotk] Result of batch 6: 
+INFO  [11:32:13.859] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:32:13.859] [bbotk]       7.152356          6.920083                0.3700345             1731 
+INFO  [11:32:13.859] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:32:13.859] [bbotk]         0.648 -0.9701423         <NA>   0.9732032 
+INFO  [11:32:13.859] [bbotk]                                 uhash 
+INFO  [11:32:13.859] [bbotk]  f03e82ee-c197-4b2a-bbda-5b420c9e585e 
+INFO  [11:32:14.698] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:32:14.756] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:32:14.763] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:32:20.039] [mlr3]  Finished benchmark 
+INFO  [11:32:20.109] [bbotk] Result of batch 7: 
+INFO  [11:32:20.111] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:32:20.111] [bbotk]       5.282022          9.376688                0.4322004              518 
+INFO  [11:32:20.111] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:32:20.111] [bbotk]         0.478 -0.9690007         <NA>   0.9697571 
+INFO  [11:32:20.111] [bbotk]                                 uhash 
+INFO  [11:32:20.111] [bbotk]  e8e73dbe-a128-4ea6-b7b9-82f21c926a63 
+INFO  [11:32:20.754] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:32:20.811] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:32:20.818] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:32:39.887] [mlr3]  Finished benchmark 
+INFO  [11:32:39.956] [bbotk] Result of batch 8: 
+INFO  [11:32:39.957] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:32:39.957] [bbotk]        4.13951           8.54951                0.2940645             3187 
+INFO  [11:32:39.957] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:32:39.957] [bbotk]         0.464 -0.9710484         <NA>   0.9719431 
+INFO  [11:32:39.957] [bbotk]                                 uhash 
+INFO  [11:32:39.957] [bbotk]  2b0a1905-4b90-4c3e-84a3-a020d31c2528 
+INFO  [11:32:40.628] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:32:40.685] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:32:40.692] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:32:43.816] [mlr3]  Finished benchmark 
+INFO  [11:32:43.885] [bbotk] Result of batch 9: 
+INFO  [11:32:43.887] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:32:43.887] [bbotk]       4.172646           3.10042                0.1586398              332 
+INFO  [11:32:43.887] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:32:43.887] [bbotk]         0.462 -0.9690516         <NA>   0.9619441 
+INFO  [11:32:43.887] [bbotk]                                 uhash 
+INFO  [11:32:43.887] [bbotk]  01b92f03-3c97-4c4e-9f90-ed561e73a2eb 
+INFO  [11:32:44.526] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:32:44.585] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:32:44.592] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:33:08.030] [mlr3]  Finished benchmark 
+INFO  [11:33:08.098] [bbotk] Result of batch 10: 
+INFO  [11:33:08.100] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:33:08.100] [bbotk]       8.643164          9.582831                0.2360818             4084 
+INFO  [11:33:08.100] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:33:08.100] [bbotk]         0.461 -0.9699762         <NA>   0.9733723 
+INFO  [11:33:08.100] [bbotk]                                 uhash 
+INFO  [11:33:08.100] [bbotk]  021fd2e3-954e-472d-b8b6-076a8c8bf2f8 
+INFO  [11:33:08.736] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:33:08.794] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:33:08.801] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:33:32.478] [mlr3]  Finished benchmark 
+INFO  [11:33:32.546] [bbotk] Result of batch 11: 
+INFO  [11:33:32.548] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:33:32.548] [bbotk]       5.822286          6.770687                0.2914736             3689 
+INFO  [11:33:32.548] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:33:32.548] [bbotk]         0.458 -0.9690848         <NA>   0.9733938 
+INFO  [11:33:32.548] [bbotk]                                 uhash 
+INFO  [11:33:32.548] [bbotk]  c3ddf65d-3f3c-4967-86a9-3467bede656a 
+INFO  [11:33:33.400] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:33:33.457] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:33:33.463] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:00.286] [mlr3]  Finished benchmark 
+INFO  [11:34:00.355] [bbotk] Result of batch 12: 
+INFO  [11:34:00.357] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:00.357] [bbotk]       2.654727           5.72214                0.1691626             4696 
+INFO  [11:34:00.357] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:34:00.357] [bbotk]         0.613 -0.9694069         <NA>   0.9678096 
+INFO  [11:34:00.357] [bbotk]                                 uhash 
+INFO  [11:34:00.357] [bbotk]  d88e16ea-73c9-4649-a2d3-c7098ad61b61 
+INFO  [11:34:01.190] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:01.249] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:01.256] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:04.126] [mlr3]  Finished benchmark 
+INFO  [11:34:04.195] [bbotk] Result of batch 13: 
+INFO  [11:34:04.197] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:04.197] [bbotk]        8.36914          9.371668                0.4543497              304 
+INFO  [11:34:04.197] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:34:04.197] [bbotk]         0.601 -0.9693514         <NA>   0.9702519 
+INFO  [11:34:04.197] [bbotk]                                 uhash 
+INFO  [11:34:04.197] [bbotk]  a3f0dd43-64ac-40f1-9a4f-601257e05cd9 
+INFO  [11:34:04.854] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:04.911] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:04.918] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:07.778] [mlr3]  Finished benchmark 
+INFO  [11:34:07.848] [bbotk] Result of batch 14: 
+INFO  [11:34:07.850] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:07.850] [bbotk]       4.204321          2.244324               0.08215104              280 
+INFO  [11:34:07.850] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:34:07.850] [bbotk]         0.468 -0.968636         <NA>   0.9529061 
+INFO  [11:34:07.850] [bbotk]                                 uhash 
+INFO  [11:34:07.850] [bbotk]  0d5796b4-e846-4338-9cce-7ef10461af7f 
+INFO  [11:34:08.508] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:08.566] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:08.573] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:18.717] [mlr3]  Finished benchmark 
+INFO  [11:34:18.786] [bbotk] Result of batch 15: 
+INFO  [11:34:18.787] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:18.787] [bbotk]       3.555996          3.207784                0.1014112             1536 
+INFO  [11:34:18.787] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:34:18.787] [bbotk]         0.468 -0.9685014         <NA>   0.9655672 
+INFO  [11:34:18.787] [bbotk]                                 uhash 
+INFO  [11:34:18.787] [bbotk]  9d37036a-71e7-407c-8229-32ceadbe89ba 
+INFO  [11:34:19.451] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:19.508] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:19.515] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:31.512] [mlr3]  Finished benchmark 
+INFO  [11:34:31.581] [bbotk] Result of batch 16: 
+INFO  [11:34:31.583] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:31.583] [bbotk]        9.17209          2.112688                0.4314924             1923 
+INFO  [11:34:31.583] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:34:31.583] [bbotk]          0.48 -0.9706914         <NA>   0.9732365 
+INFO  [11:34:31.583] [bbotk]                                 uhash 
+INFO  [11:34:31.583] [bbotk]  6f1de66e-34e2-4ed9-b9bc-015c89d0a1da 
+INFO  [11:34:32.275] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:32.323] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:32.330] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:41.002] [mlr3]  Finished benchmark 
+INFO  [11:34:41.071] [bbotk] Result of batch 17: 
+INFO  [11:34:41.073] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:41.073] [bbotk]       7.830846          2.872065                0.4117621             1322 
+INFO  [11:34:41.073] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:34:41.073] [bbotk]         0.502 -0.965077         <NA>   0.9730637 
+INFO  [11:34:41.073] [bbotk]                                 uhash 
+INFO  [11:34:41.073] [bbotk]  8114ee95-b1e2-4fdb-a2fe-4fef563d451f 
+INFO  [11:34:41.759] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:41.818] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:41.824] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:34:56.131] [mlr3]  Finished benchmark 
+INFO  [11:34:56.200] [bbotk] Result of batch 18: 
+INFO  [11:34:56.201] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:34:56.201] [bbotk]       3.825495          4.604653                0.2674585             2476 
+INFO  [11:34:56.201] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:34:56.201] [bbotk]         0.503 -0.9682216         <NA>   0.9705698 
+INFO  [11:34:56.201] [bbotk]                                 uhash 
+INFO  [11:34:56.201] [bbotk]  f0d33d16-6f1e-41e0-8722-0f017a272e88 
+INFO  [11:34:56.878] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:34:56.935] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:34:56.942] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:35:09.569] [mlr3]  Finished benchmark 
+INFO  [11:35:09.638] [bbotk] Result of batch 19: 
+INFO  [11:35:09.640] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:35:09.640] [bbotk]       4.663229          2.078431                0.3187673             2157 
+INFO  [11:35:09.640] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:35:09.640] [bbotk]         0.494 -0.967362         <NA>   0.9719845 
+INFO  [11:35:09.640] [bbotk]                                 uhash 
+INFO  [11:35:09.640] [bbotk]  1b8188d2-fab4-4898-a9c9-9c7e96b4a6ea 
+INFO  [11:35:10.321] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:35:10.377] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:35:10.384] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:35:35.695] [mlr3]  Finished benchmark 
+INFO  [11:35:35.764] [bbotk] Result of batch 20: 
+INFO  [11:35:35.766] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:35:35.766] [bbotk]       9.870678          4.021728               0.01940783             4228 
+INFO  [11:35:35.766] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:35:35.766] [bbotk]         0.497 -0.9679939         <NA>   0.9688128 
+INFO  [11:35:35.766] [bbotk]                                 uhash 
+INFO  [11:35:35.766] [bbotk]  f4f91fd8-8c56-46c1-8d01-9c199c9be0e6 
+INFO  [11:35:36.474] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:35:36.529] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:35:36.536] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:35:59.339] [mlr3]  Finished benchmark 
+INFO  [11:35:59.409] [bbotk] Result of batch 21: 
+INFO  [11:35:59.411] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:35:59.411] [bbotk]       4.691515          9.956466                0.1937112             3928 
+INFO  [11:35:59.411] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:35:59.411] [bbotk]         0.496 -0.9712884         <NA>   0.9722007 
+INFO  [11:35:59.411] [bbotk]                                 uhash 
+INFO  [11:35:59.411] [bbotk]  bedf870e-3c25-4ae4-a4f0-77665118743c 
+INFO  [11:36:00.112] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:00.167] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:00.174] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:12.172] [mlr3]  Finished benchmark 
+INFO  [11:36:12.242] [bbotk] Result of batch 22: 
+INFO  [11:36:12.244] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:36:12.244] [bbotk]        5.02017          4.391316                0.3631589             2039 
+INFO  [11:36:12.244] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:36:12.244] [bbotk]          0.52 -0.9718226         <NA>   0.9724921 
+INFO  [11:36:12.244] [bbotk]                                 uhash 
+INFO  [11:36:12.244] [bbotk]  3c211c7b-5b51-475f-944c-4eae6476c45e 
+INFO  [11:36:12.935] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:12.995] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:13.003] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:17.791] [mlr3]  Finished benchmark 
+INFO  [11:36:18.159] [bbotk] Result of batch 23: 
+INFO  [11:36:18.161] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:36:18.161] [bbotk]       6.122488          7.361098                0.2158579              705 
+INFO  [11:36:18.161] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:36:18.161] [bbotk]         0.505 -0.9698285         <NA>   0.9695344 
+INFO  [11:36:18.161] [bbotk]                                 uhash 
+INFO  [11:36:18.161] [bbotk]  27657965-a525-44b7-be9b-70a498e2d9f0 
+INFO  [11:36:18.867] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:18.924] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:18.931] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:33.167] [mlr3]  Finished benchmark 
+INFO  [11:36:33.237] [bbotk] Result of batch 24: 
+INFO  [11:36:33.239] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:36:33.239] [bbotk]        7.18878          4.582712                 0.386585             2277 
+INFO  [11:36:33.239] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:36:33.239] [bbotk]         0.511 -0.9713034         <NA>   0.9734428 
+INFO  [11:36:33.239] [bbotk]                                 uhash 
+INFO  [11:36:33.239] [bbotk]  aee155d6-f8ff-415a-ac1c-5e0817bf66cf 
+INFO  [11:36:33.950] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:34.005] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:34.012] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:53.543] [mlr3]  Finished benchmark 
+INFO  [11:36:53.615] [bbotk] Result of batch 25: 
+INFO  [11:36:53.616] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:36:53.616] [bbotk]       4.517066          2.197916                0.2895925             3094 
+INFO  [11:36:53.616] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:36:53.616] [bbotk]         0.513 -0.9715356         <NA>   0.9723231 
+INFO  [11:36:53.616] [bbotk]                                 uhash 
+INFO  [11:36:53.616] [bbotk]  bd38ebe6-7268-4817-b893-ccbd1277e3b5 
+INFO  [11:36:54.331] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:54.389] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:54.396] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:37:11.953] [mlr3]  Finished benchmark 
+INFO  [11:37:12.021] [bbotk] Result of batch 26: 
+INFO  [11:37:12.023] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:37:12.023] [bbotk]       9.782476          8.209168               0.03775175             3154 
+INFO  [11:37:12.023] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:37:12.023] [bbotk]         0.513 -0.9686782         <NA>   0.9700847 
+INFO  [11:37:12.023] [bbotk]                                 uhash 
+INFO  [11:37:12.023] [bbotk]  277dad54-d954-4703-b77b-85913539d5d9 
+INFO  [11:37:12.751] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:37:12.836] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:37:12.842] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:37:29.932] [mlr3]  Finished benchmark 
+INFO  [11:37:30.001] [bbotk] Result of batch 27: 
+INFO  [11:37:30.003] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:37:30.003] [bbotk]       4.472777          2.089564                0.4070591             2996 
+INFO  [11:37:30.003] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:37:30.003] [bbotk]         0.526 -0.9724966         <NA>    0.972776 
+INFO  [11:37:30.003] [bbotk]                                 uhash 
+INFO  [11:37:30.003] [bbotk]  9554cd2a-1d9a-43f4-a0b0-a9c198be6b2a 
+INFO  [11:37:30.886] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:37:30.942] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:37:30.949] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:37:39.199] [mlr3]  Finished benchmark 
+INFO  [11:37:39.269] [bbotk] Result of batch 28: 
+INFO  [11:37:39.271] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:37:39.271] [bbotk]        4.11213          8.663554                0.3276585             1316 
+INFO  [11:37:39.271] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:37:39.271] [bbotk]         0.685 -0.9708922         <NA>   0.9699528 
+INFO  [11:37:39.271] [bbotk]                                 uhash 
+INFO  [11:37:39.271] [bbotk]  69f30a02-edf5-4920-8fe2-5db8cd65f392 
+INFO  [11:37:40.023] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:37:40.078] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:37:40.085] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:00.965] [mlr3]  Finished benchmark 
+INFO  [11:38:01.034] [bbotk] Result of batch 29: 
+INFO  [11:38:01.036] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:38:01.036] [bbotk]       5.257794           2.00172                0.4232195             3835 
+INFO  [11:38:01.036] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:38:01.036] [bbotk]         0.547 -0.9730734         <NA>   0.9735111 
+INFO  [11:38:01.036] [bbotk]                                 uhash 
+INFO  [11:38:01.036] [bbotk]  d373c455-0393-4bc9-9c03-0e6e2ff324c5 
+INFO  [11:38:01.733] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:01.792] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:01.799] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:18.483] [mlr3]  Finished benchmark 
+INFO  [11:38:18.553] [bbotk] Result of batch 30: 
+INFO  [11:38:18.554] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:38:18.554] [bbotk]       7.443339          3.055827                0.4054746             2914 
+INFO  [11:38:18.554] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:38:18.554] [bbotk]         0.505 -0.9717796         <NA>   0.9735712 
+INFO  [11:38:18.554] [bbotk]                                 uhash 
+INFO  [11:38:18.554] [bbotk]  5298d355-2713-49c9-81d2-93041e49bc9e 
+INFO  [11:38:19.255] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:19.313] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:19.320] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:28.356] [mlr3]  Finished benchmark 
+INFO  [11:38:28.426] [bbotk] Result of batch 31: 
+INFO  [11:38:28.428] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:38:28.428] [bbotk]       6.335388           2.02193                0.1537901             1321 
+INFO  [11:38:28.428] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:38:28.428] [bbotk]         0.502 -0.9719004         <NA>   0.9705689 
+INFO  [11:38:28.428] [bbotk]                                 uhash 
+INFO  [11:38:28.428] [bbotk]  7f8971ae-3150-4b62-ba3e-f01a6e19d2eb 
+INFO  [11:38:29.152] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:29.213] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:29.220] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:37.287] [mlr3]  Finished benchmark 
+INFO  [11:38:37.356] [bbotk] Result of batch 32: 
+INFO  [11:38:37.358] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:38:37.358] [bbotk]       6.960946          5.178755                0.2103214             1287 
+INFO  [11:38:37.358] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:38:37.358] [bbotk]         0.527 -0.9706286         <NA>   0.9717101 
+INFO  [11:38:37.358] [bbotk]                                 uhash 
+INFO  [11:38:37.358] [bbotk]  bbf66776-8cc3-4191-aa5c-382d62fc331d 
+INFO  [11:38:38.074] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:38.131] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:38.139] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:44.690] [mlr3]  Finished benchmark 
+INFO  [11:38:44.759] [bbotk] Result of batch 33: 
+INFO  [11:38:44.761] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:38:44.761] [bbotk]       4.966837          3.969253               0.08738526             1019 
+INFO  [11:38:44.761] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:38:44.761] [bbotk]         0.514 -0.9714613         <NA>   0.9663585 
+INFO  [11:38:44.761] [bbotk]                                 uhash 
+INFO  [11:38:44.761] [bbotk]  af38b108-ca07-4eda-8288-286c48d484d1 
+INFO  [11:38:45.488] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:45.545] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:45.552] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:56.025] [mlr3]  Finished benchmark 
+INFO  [11:38:56.094] [bbotk] Result of batch 34: 
+INFO  [11:38:56.096] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:38:56.096] [bbotk]       2.303121            7.4509                0.1034511             1753 
+INFO  [11:38:56.096] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:38:56.096] [bbotk]         0.529 -0.9712597         <NA>   0.9604948 
+INFO  [11:38:56.096] [bbotk]                                 uhash 
+INFO  [11:38:56.096] [bbotk]  12232483-1d12-43eb-8034-ed560e961145 
+INFO  [11:38:56.819] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:56.877] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:56.884] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:08.838] [mlr3]  Finished benchmark 
+INFO  [11:39:08.909] [bbotk] Result of batch 35: 
+INFO  [11:39:08.911] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:39:08.911] [bbotk]       7.769214          9.519733                0.1471721             2000 
+INFO  [11:39:08.911] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:39:08.911] [bbotk]         0.526 -0.9716812         <NA>   0.9721313 
+INFO  [11:39:08.911] [bbotk]                                 uhash 
+INFO  [11:39:08.911] [bbotk]  ccbad7ca-019a-4a70-a5ca-13e9750eb294 
+INFO  [11:39:09.669] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:39:09.730] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:39:09.738] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:32.778] [mlr3]  Finished benchmark 
+INFO  [11:39:32.852] [bbotk] Result of batch 36: 
+INFO  [11:39:32.853] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:39:32.853] [bbotk]       7.235659          2.692899                0.1426927             3478 
+INFO  [11:39:32.853] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:39:32.853] [bbotk]         0.542 -0.9726202         <NA>   0.9729275 
+INFO  [11:39:32.853] [bbotk]                                 uhash 
+INFO  [11:39:32.853] [bbotk]  5b368c22-3fe0-4b56-8895-9ca37d42ca9c 
+INFO  [11:39:33.594] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:39:33.653] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:39:33.660] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:44.858] [mlr3]  Finished benchmark 
+INFO  [11:39:44.927] [bbotk] Result of batch 37: 
+INFO  [11:39:44.929] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:39:44.929] [bbotk]       2.543575          5.305745                0.3293607             1765 
+INFO  [11:39:44.929] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:39:44.929] [bbotk]         0.548 -0.9720196         <NA>   0.9662988 
+INFO  [11:39:44.929] [bbotk]                                 uhash 
+INFO  [11:39:44.929] [bbotk]  2158d7ce-c976-472e-86b8-984ec2784ddc 
+INFO  [11:39:45.671] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:39:45.729] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:39:45.737] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:57.075] [mlr3]  Finished benchmark 
+INFO  [11:39:57.158] [bbotk] Result of batch 38: 
+INFO  [11:39:57.160] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:39:57.160] [bbotk]       2.959447          7.315841                0.0752618             1888 
+INFO  [11:39:57.160] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:39:57.160] [bbotk]         0.538 -0.9722921         <NA>   0.9630951 
+INFO  [11:39:57.160] [bbotk]                                 uhash 
+INFO  [11:39:57.160] [bbotk]  7e21c6d6-c413-468a-91b0-73f054488519 
+INFO  [11:39:57.892] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:39:57.950] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:39:57.957] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:40:02.582] [mlr3]  Finished benchmark 
+INFO  [11:40:02.679] [bbotk] Result of batch 39: 
+INFO  [11:40:02.680] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:40:02.680] [bbotk]       6.671144          3.778216                0.1312515              634 
+INFO  [11:40:02.680] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:40:02.680] [bbotk]         0.549 -0.9727556         <NA>   0.9676651 
+INFO  [11:40:02.680] [bbotk]                                 uhash 
+INFO  [11:40:02.680] [bbotk]  d61867ce-27c2-4acd-b4ba-f033e5081861 
+INFO  [11:40:03.436] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:40:03.491] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:40:03.498] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:40:22.634] [mlr3]  Finished benchmark 
+INFO  [11:40:22.704] [bbotk] Result of batch 40: 
+INFO  [11:40:22.706] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:40:22.706] [bbotk]       7.258724          9.227027                0.2411782             3119 
+INFO  [11:40:22.706] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:40:22.706] [bbotk]         0.549 -0.9711296         <NA>   0.9733659 
+INFO  [11:40:22.706] [bbotk]                                 uhash 
+INFO  [11:40:22.706] [bbotk]  45d51439-7ddd-4b47-a57f-d66feb6fc8b4 
+INFO  [11:40:23.635] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:40:23.691] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:40:23.698] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:40:44.287] [mlr3]  Finished benchmark 
+INFO  [11:40:44.356] [bbotk] Result of batch 41: 
+INFO  [11:40:44.358] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:40:44.358] [bbotk]       5.703138          3.584589                0.1950943             3329 
+INFO  [11:40:44.358] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:40:44.358] [bbotk]         0.735 -0.9707924         <NA>   0.9727417 
+INFO  [11:40:44.358] [bbotk]                                 uhash 
+INFO  [11:40:44.358] [bbotk]  6f35836e-18fc-4d05-822d-e12051980840 
+INFO  [11:40:45.096] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:40:45.153] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:40:45.160] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:40:56.723] [mlr3]  Finished benchmark 
+INFO  [11:40:56.792] [bbotk] Result of batch 42: 
+INFO  [11:40:56.794] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:40:56.794] [bbotk]       5.264393          4.518295                0.4021041             1982 
+INFO  [11:40:56.794] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:40:56.794] [bbotk]         0.534 -0.9708351         <NA>   0.9727613 
+INFO  [11:40:56.794] [bbotk]                                 uhash 
+INFO  [11:40:56.794] [bbotk]  f568571b-d73a-47b6-9bee-60e3a5025e59 
+INFO  [11:40:57.540] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:40:57.598] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:40:57.605] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:41:01.251] [mlr3]  Finished benchmark 
+INFO  [11:41:01.320] [bbotk] Result of batch 43: 
+INFO  [11:41:01.322] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:41:01.322] [bbotk]       8.007851          9.110747                0.1743648              477 
+INFO  [11:41:01.322] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:41:01.322] [bbotk]         0.544 -0.9700898         <NA>   0.9683632 
+INFO  [11:41:01.322] [bbotk]                                 uhash 
+INFO  [11:41:01.322] [bbotk]  ea5176a8-6ad3-4835-9b69-387a5c129fb5 
+INFO  [11:41:02.064] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:41:02.121] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:41:02.128] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:41:04.831] [mlr3]  Finished benchmark 
+INFO  [11:41:04.899] [bbotk] Result of batch 44: 
+INFO  [11:41:04.901] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:41:04.901] [bbotk]       8.968061          9.708253                0.0891361              226 
+INFO  [11:41:04.901] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:41:04.901] [bbotk]         0.544 -0.9699179         <NA>   0.9578084 
+INFO  [11:41:04.901] [bbotk]                                 uhash 
+INFO  [11:41:04.901] [bbotk]  ec5287e6-3f38-42e2-b77d-ca94a1b73f85 
+INFO  [11:41:05.678] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:41:05.739] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:41:05.746] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:41:24.372] [mlr3]  Finished benchmark 
+INFO  [11:41:24.442] [bbotk] Result of batch 45: 
+INFO  [11:41:24.443] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:41:24.443] [bbotk]       6.920092          5.884433                0.1241047             3171 
+INFO  [11:41:24.443] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:41:24.443] [bbotk]         0.567 -0.9702968         <NA>   0.9724875 
+INFO  [11:41:24.443] [bbotk]                                 uhash 
+INFO  [11:41:24.443] [bbotk]  f32ebad5-9980-4a79-aa02-59f6989c48a9 
+INFO  [11:41:25.221] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:41:25.280] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:41:25.287] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:41:49.126] [mlr3]  Finished benchmark 
+INFO  [11:41:49.195] [bbotk] Result of batch 46: 
+INFO  [11:41:49.197] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:41:49.197] [bbotk]       5.900161          7.289799               0.05633427             4144 
+INFO  [11:41:49.197] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:41:49.197] [bbotk]         0.563 -0.9704957         <NA>   0.9706437 
+INFO  [11:41:49.197] [bbotk]                                 uhash 
+INFO  [11:41:49.197] [bbotk]  cf21ca6f-794b-4dd7-9aa0-998c9dfec5b9 
+INFO  [11:41:49.990] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:41:50.051] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:41:50.058] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:41:53.597] [mlr3]  Finished benchmark 
+INFO  [11:41:53.666] [bbotk] Result of batch 47: 
+INFO  [11:41:53.668] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:41:53.668] [bbotk]        4.47845          3.790215                0.2034163              387 
+INFO  [11:41:53.668] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:41:53.668] [bbotk]         0.578 -0.9682074         <NA>    0.965031 
+INFO  [11:41:53.668] [bbotk]                                 uhash 
+INFO  [11:41:53.668] [bbotk]  bda022cb-a5f6-43e6-9593-28af4fb40a05 
+INFO  [11:41:54.432] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:41:54.490] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:41:54.497] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:07.522] [mlr3]  Finished benchmark 
+INFO  [11:42:07.591] [bbotk] Result of batch 48: 
+INFO  [11:42:07.593] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:42:07.593] [bbotk]       2.803436          5.536701                0.3848652             2236 
+INFO  [11:42:07.593] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:42:07.593] [bbotk]         0.565 -0.9705668         <NA>   0.9686554 
+INFO  [11:42:07.593] [bbotk]                                 uhash 
+INFO  [11:42:07.593] [bbotk]  3f8b57ea-02af-484d-b7b2-a02a5515c627 
+INFO  [11:42:08.376] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:08.432] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:08.439] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:35.056] [mlr3]  Finished benchmark 
+INFO  [11:42:35.126] [bbotk] Result of batch 49: 
+INFO  [11:42:35.128] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:42:35.128] [bbotk]       7.177304          4.607925                0.2677395             4383 
+INFO  [11:42:35.128] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:42:35.128] [bbotk]         0.574 -0.9701552         <NA>   0.9736008 
+INFO  [11:42:35.128] [bbotk]                                 uhash 
+INFO  [11:42:35.128] [bbotk]  a19721bc-7398-4f69-8b93-0d9c9edf097d 
+INFO  [11:42:36.087] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:36.143] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:36.150] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:43.469] [mlr3]  Finished benchmark 
+INFO  [11:42:43.541] [bbotk] Result of batch 50: 
+INFO  [11:42:43.542] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:42:43.542] [bbotk]       8.135407          7.937074                0.4932351             1097 
+INFO  [11:42:43.542] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:42:43.542] [bbotk]         0.758 -0.9694136         <NA>   0.9730802 
+INFO  [11:42:43.542] [bbotk]                                 uhash 
+INFO  [11:42:43.542] [bbotk]  faae5e5b-9420-422b-ba0f-745ad4734a24 
+INFO  [11:42:44.310] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:44.370] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:44.377] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:11.155] [mlr3]  Finished benchmark 
+INFO  [11:43:11.223] [bbotk] Result of batch 51: 
+INFO  [11:43:11.225] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:11.225] [bbotk]       5.274986           3.66256                0.1181396             4697 
+INFO  [11:43:11.225] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:43:11.225] [bbotk]         0.554 -0.969917         <NA>   0.9721452 
+INFO  [11:43:11.225] [bbotk]                                 uhash 
+INFO  [11:43:11.225] [bbotk]  ed83d47f-4dd6-4b7a-8018-88dbb45bd256 
+INFO  [11:43:11.996] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:12.055] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:12.062] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:35.866] [mlr3]  Finished benchmark 
+INFO  [11:43:35.955] [bbotk] Result of batch 52: 
+INFO  [11:43:35.958] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:35.958] [bbotk]        8.03493          4.272514              0.004599489             3875 
+INFO  [11:43:35.958] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:43:35.958] [bbotk]          0.56 -0.9716608         <NA>   0.9554218 
+INFO  [11:43:35.958] [bbotk]                                 uhash 
+INFO  [11:43:35.958] [bbotk]  246f3b98-54ae-40b8-a49b-f08b3f61f62c 
+INFO  [11:43:36.787] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:36.857] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:36.866] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:44.776] [mlr3]  Finished benchmark 
+INFO  [11:43:44.848] [bbotk] Result of batch 53: 
+INFO  [11:43:44.850] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:43:44.850] [bbotk]       6.444809          7.341239                0.2380654             1084 
+INFO  [11:43:44.850] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:43:44.850] [bbotk]         0.612 -0.9698706         <NA>   0.9712514 
+INFO  [11:43:44.850] [bbotk]                                 uhash 
+INFO  [11:43:44.850] [bbotk]  6b50eb2a-c72e-4f9e-942a-fabcedcc3168 
+INFO  [11:43:45.641] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:45.702] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:45.710] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:01.986] [mlr3]  Finished benchmark 
+INFO  [11:44:02.055] [bbotk] Result of batch 54: 
+INFO  [11:44:02.056] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:44:02.056] [bbotk]       8.142479          2.079737                   0.4449             2879 
+INFO  [11:44:02.056] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:44:02.056] [bbotk]         0.581 -0.970042         <NA>   0.9734791 
+INFO  [11:44:02.056] [bbotk]                                 uhash 
+INFO  [11:44:02.056] [bbotk]  a23af81e-8bdc-480a-9b11-97b15260caf5 
+INFO  [11:44:02.856] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:44:02.914] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:44:02.921] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:27.695] [mlr3]  Finished benchmark 
+INFO  [11:44:27.764] [bbotk] Result of batch 55: 
+INFO  [11:44:27.766] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:44:27.766] [bbotk]       3.854453          6.231021                0.3045147             4232 
+INFO  [11:44:27.766] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:44:27.766] [bbotk]         0.576 -0.970134         <NA>   0.9721627 
+INFO  [11:44:27.766] [bbotk]                                 uhash 
+INFO  [11:44:27.766] [bbotk]  43bde919-dbea-46a5-9838-eaf623e31df6 
+INFO  [11:44:28.623] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:44:28.681] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:44:28.688] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:44:41.288] [mlr3]  Finished benchmark 
+INFO  [11:44:41.356] [bbotk] Result of batch 56: 
+INFO  [11:44:41.358] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:44:41.358] [bbotk]       9.798817          7.375491                0.4194289             2317 
+INFO  [11:44:41.358] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:44:41.358] [bbotk]         0.617 -0.9662218         <NA>   0.9731322 
+INFO  [11:44:41.358] [bbotk]                                 uhash 
+INFO  [11:44:41.358] [bbotk]  6311870c-54e1-4cc4-a8a9-66c067b5e5c8 
+INFO  [11:44:42.283] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:44:42.342] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:44:42.349] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:02.543] [mlr3]  Finished benchmark 
+INFO  [11:45:02.612] [bbotk] Result of batch 57: 
+INFO  [11:45:02.614] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:45:02.614] [bbotk]       2.167976          7.167521                0.4525665             3678 
+INFO  [11:45:02.614] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:45:02.614] [bbotk]         0.673 -0.9706692         <NA>   0.9669027 
+INFO  [11:45:02.614] [bbotk]                                 uhash 
+INFO  [11:45:02.614] [bbotk]  d98adaba-e287-425a-89e1-d4cd6a999b39 
+INFO  [11:45:03.763] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:45:03.820] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:45:03.828] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:25.277] [mlr3]  Finished benchmark 
+INFO  [11:45:25.345] [bbotk] Result of batch 58: 
+INFO  [11:45:25.347] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:45:25.347] [bbotk]       3.815531          4.471199                 0.340703             3614 
+INFO  [11:45:25.347] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:45:25.347] [bbotk]         0.905 -0.9717409         <NA>   0.9720224 
+INFO  [11:45:25.347] [bbotk]                                 uhash 
+INFO  [11:45:25.347] [bbotk]  92e31529-004c-47a1-8009-de1297ef03e9 
+INFO  [11:45:26.201] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:45:26.260] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:45:26.267] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:52.959] [mlr3]  Finished benchmark 
+INFO  [11:45:53.030] [bbotk] Result of batch 59: 
+INFO  [11:45:53.031] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:45:53.031] [bbotk]       7.219647          3.437205                0.1246915             4478 
+INFO  [11:45:53.031] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:45:53.031] [bbotk]         0.606 -0.9686307         <NA>   0.9730775 
+INFO  [11:45:53.031] [bbotk]                                 uhash 
+INFO  [11:45:53.031] [bbotk]  046bab4f-b714-4661-8933-438cb53e0ec7 
+INFO  [11:45:53.838] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:45:53.896] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:45:53.903] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:02.893] [mlr3]  Finished benchmark 
+INFO  [11:46:02.961] [bbotk] Result of batch 60: 
+INFO  [11:46:02.963] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:46:02.963] [bbotk]       7.521101          4.676982                0.3804873             1516 
+INFO  [11:46:02.963] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:46:02.963] [bbotk]         0.597 -0.970577         <NA>   0.9731123 
+INFO  [11:46:02.963] [bbotk]                                 uhash 
+INFO  [11:46:02.963] [bbotk]  c7d96781-a085-4c37-bf20-f84d76f7b35a 
+INFO  [11:46:03.846] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:46:03.916] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:46:03.923] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:18.720] [mlr3]  Finished benchmark 
+INFO  [11:46:18.789] [bbotk] Result of batch 61: 
+INFO  [11:46:18.791] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:46:18.791] [bbotk]       5.122891          2.751674                 0.310784             2614 
+INFO  [11:46:18.791] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:46:18.791] [bbotk]         0.595 -0.9661319         <NA>    0.972723 
+INFO  [11:46:18.791] [bbotk]                                 uhash 
+INFO  [11:46:18.791] [bbotk]  ed201706-d216-4a63-8ee3-d16aa0a17660 
+INFO  [11:46:19.636] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:46:19.694] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:46:19.701] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:33.030] [mlr3]  Finished benchmark 
+INFO  [11:46:33.098] [bbotk] Result of batch 62: 
+INFO  [11:46:33.100] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:46:33.100] [bbotk]       2.205239          8.781652                0.4738737             2089 
+INFO  [11:46:33.100] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:46:33.100] [bbotk]         0.616 -0.9722092         <NA>   0.9656643 
+INFO  [11:46:33.100] [bbotk]                                 uhash 
+INFO  [11:46:33.100] [bbotk]  7423ca2e-f59a-4d0f-960b-e6af099e9e6b 
+INFO  [11:46:34.033] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:46:34.091] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:46:34.098] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:46:40.553] [mlr3]  Finished benchmark 
+INFO  [11:46:40.621] [bbotk] Result of batch 63: 
+INFO  [11:46:40.623] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:46:40.623] [bbotk]       3.028292          9.457192                0.4398354              887 
+INFO  [11:46:40.623] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:46:40.623] [bbotk]         0.611 -0.9612011         <NA>    0.967062 
+INFO  [11:46:40.623] [bbotk]                                 uhash 
+INFO  [11:46:40.623] [bbotk]  d9f4a30e-1a1d-4ca6-94ef-b8aee061bd0f 
+INFO  [11:46:41.683] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:46:41.741] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:46:41.748] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:47:06.965] [mlr3]  Finished benchmark 
+INFO  [11:47:07.034] [bbotk] Result of batch 64: 
+INFO  [11:47:07.036] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:47:07.036] [bbotk]       2.467169          2.265889                0.2628654             4476 
+INFO  [11:47:07.036] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:47:07.036] [bbotk]         0.821 -0.9719059         <NA>   0.9681902 
+INFO  [11:47:07.036] [bbotk]                                 uhash 
+INFO  [11:47:07.036] [bbotk]  295132f7-3b88-4f89-b252-ca8ca28d001f 
+INFO  [11:47:07.866] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:47:07.922] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:47:07.929] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:47:26.421] [mlr3]  Finished benchmark 
+INFO  [11:47:26.491] [bbotk] Result of batch 65: 
+INFO  [11:47:26.493] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:47:26.493] [bbotk]       6.277417          5.834865                0.4729229             3109 
+INFO  [11:47:26.493] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:47:26.493] [bbotk]          0.61 -0.9703183         <NA>    0.973652 
+INFO  [11:47:26.493] [bbotk]                                 uhash 
+INFO  [11:47:26.493] [bbotk]  d6af5909-262b-4224-9add-c462c05cf0a2 
+INFO  [11:47:27.406] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:47:27.463] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:47:27.470] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:47:34.507] [mlr3]  Finished benchmark 
+INFO  [11:47:34.585] [bbotk] Result of batch 66: 
+INFO  [11:47:34.587] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:47:34.587] [bbotk]       8.807569          9.570507                0.4999729              878 
+INFO  [11:47:34.587] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:47:34.587] [bbotk]         0.605 -0.9688943         <NA>    0.972837 
+INFO  [11:47:34.587] [bbotk]                                 uhash 
+INFO  [11:47:34.587] [bbotk]  7f49f08a-12f4-49ec-a458-b43ab7b07321 
+INFO  [11:47:35.459] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:47:35.517] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:47:35.524] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:47:52.009] [mlr3]  Finished benchmark 
+INFO  [11:47:52.077] [bbotk] Result of batch 67: 
+INFO  [11:47:52.079] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:47:52.079] [bbotk]       7.813808          7.749712                0.3298503             2619 
+INFO  [11:47:52.079] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:47:52.079] [bbotk]         0.637 -0.969747         <NA>    0.973421 
+INFO  [11:47:52.079] [bbotk]                                 uhash 
+INFO  [11:47:52.079] [bbotk]  9470b89a-a8ed-4319-b941-b65d493144bb 
+INFO  [11:47:53.032] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:47:53.091] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:47:53.098] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:18.911] [mlr3]  Finished benchmark 
+INFO  [11:48:19.005] [bbotk] Result of batch 68: 
+INFO  [11:48:19.007] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:48:19.007] [bbotk]       7.362493          3.103901               0.04422443             4461 
+INFO  [11:48:19.007] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:48:19.007] [bbotk]         0.628 -0.9691442         <NA>   0.9710332 
+INFO  [11:48:19.007] [bbotk]                                 uhash 
+INFO  [11:48:19.007] [bbotk]  fe204e14-ec55-4e66-8d99-d214627b11d3 
+INFO  [11:48:19.883] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:19.941] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:19.948] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:49.501] [mlr3]  Finished benchmark 
+INFO  [11:48:49.570] [bbotk] Result of batch 69: 
+INFO  [11:48:49.572] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:48:49.572] [bbotk]       8.578642          8.804271                0.4726006             4823 
+INFO  [11:48:49.572] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:48:49.572] [bbotk]         0.638 -0.9704494         <NA>   0.9731937 
+INFO  [11:48:49.572] [bbotk]                                 uhash 
+INFO  [11:48:49.572] [bbotk]  a51390c2-d502-4218-9ce2-4c0ac9e40daf 
+INFO  [11:48:50.635] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:50.691] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:50.698] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:53.818] [mlr3]  Finished benchmark 
+INFO  [11:48:53.891] [bbotk] Result of batch 70: 
+INFO  [11:48:53.892] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:48:53.892] [bbotk]       6.086112          5.744891                0.4863921              247 
+INFO  [11:48:53.892] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:48:53.892] [bbotk]         0.826 -0.9708284         <NA>    0.968656 
+INFO  [11:48:53.892] [bbotk]                                 uhash 
+INFO  [11:48:53.892] [bbotk]  1e2fb562-4d03-4d4e-92c1-bf781b519906 
+INFO  [11:48:54.727] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:54.786] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:54.793] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:49:04.069] [mlr3]  Finished benchmark 
+INFO  [11:49:04.141] [bbotk] Result of batch 71: 
+INFO  [11:49:04.143] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:49:04.143] [bbotk]       5.090756          3.589959                 0.431584             1413 
+INFO  [11:49:04.143] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:49:04.143] [bbotk]         0.622 -0.9706094         <NA>   0.9721397 
+INFO  [11:49:04.143] [bbotk]                                 uhash 
+INFO  [11:49:04.143] [bbotk]  2bbeeb0a-1ba1-4141-8ee7-db83974bca7e 
+INFO  [11:49:05.029] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:49:05.087] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:49:05.094] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:49:23.097] [mlr3]  Finished benchmark 
+INFO  [11:49:23.179] [bbotk] Result of batch 72: 
+INFO  [11:49:23.181] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:49:23.181] [bbotk]       6.127771          5.097722                0.3024564             3212 
+INFO  [11:49:23.181] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:49:23.181] [bbotk]         0.637 -0.969782         <NA>   0.9733941 
+INFO  [11:49:23.181] [bbotk]                                 uhash 
+INFO  [11:49:23.181] [bbotk]  d3e4d8bd-ec2c-4176-a2a9-b0b61d6f7ced 
+INFO  [11:49:24.074] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:49:24.132] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:49:24.139] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:49:27.171] [mlr3]  Finished benchmark 
+INFO  [11:49:27.241] [bbotk] Result of batch 73: 
+INFO  [11:49:27.243] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:49:27.243] [bbotk]       3.440207          8.156892                 0.313733              340 
+INFO  [11:49:27.243] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:49:27.243] [bbotk]         0.652 -0.969997         <NA>   0.9637447 
+INFO  [11:49:27.243] [bbotk]                                 uhash 
+INFO  [11:49:27.243] [bbotk]  4d0a2e21-90f5-47bd-a88a-7cead6b6d164 
+INFO  [11:49:28.196] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:49:28.255] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:49:28.262] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:49:37.522] [mlr3]  Finished benchmark 
+INFO  [11:49:37.593] [bbotk] Result of batch 74: 
+INFO  [11:49:37.595] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:49:37.595] [bbotk]       5.727725          9.356502                0.1808703             1285 
+INFO  [11:49:37.595] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:49:37.595] [bbotk]          0.65 -0.9689177         <NA>   0.9704705 
+INFO  [11:49:37.595] [bbotk]                                 uhash 
+INFO  [11:49:37.595] [bbotk]  5320e24b-6048-401e-bc6b-dda2076dd0fb 
+INFO  [11:49:38.498] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:49:38.557] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:49:38.564] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:50:00.784] [mlr3]  Finished benchmark 
+INFO  [11:50:00.851] [bbotk] Result of batch 75: 
+INFO  [11:50:00.853] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:50:00.853] [bbotk]       8.689919          9.464448                0.2513249             3802 
+INFO  [11:50:00.853] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:50:00.853] [bbotk]         0.648 -0.9717195         <NA>   0.9733608 
+INFO  [11:50:00.853] [bbotk]                                 uhash 
+INFO  [11:50:00.853] [bbotk]  a0c38218-76bf-4b35-9572-b8e10528804b 
+INFO  [11:50:02.082] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:50:02.138] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:50:02.145] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:50:24.952] [mlr3]  Finished benchmark 
+INFO  [11:50:25.023] [bbotk] Result of batch 76: 
+INFO  [11:50:25.025] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:50:25.025] [bbotk]       7.104831          5.620006                0.2069687             4052 
+INFO  [11:50:25.025] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:50:25.025] [bbotk]         0.978 -0.9674841         <NA>   0.9734337 
+INFO  [11:50:25.025] [bbotk]                                 uhash 
+INFO  [11:50:25.025] [bbotk]  be57a2ea-58cf-4e81-935f-e7b070b9d79b 
+INFO  [11:50:25.928] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:50:25.984] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:50:25.991] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:50:41.595] [mlr3]  Finished benchmark 
+INFO  [11:50:41.716] [bbotk] Result of batch 77: 
+INFO  [11:50:41.718] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:50:41.718] [bbotk]       2.851532          6.421688               0.09426265             2321 
+INFO  [11:50:41.718] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:50:41.718] [bbotk]         0.637 -0.9679649         <NA>   0.9643444 
+INFO  [11:50:41.718] [bbotk]                                 uhash 
+INFO  [11:50:41.718] [bbotk]  bca862f1-3729-4c2a-8a99-c450b87f899b 
+INFO  [11:50:42.617] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:50:42.674] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:50:42.680] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:51:06.384] [mlr3]  Finished benchmark 
+INFO  [11:51:06.453] [bbotk] Result of batch 78: 
+INFO  [11:51:06.455] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:51:06.455] [bbotk]       6.432232          5.047006                 0.426362             4101 
+INFO  [11:51:06.455] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:51:06.455] [bbotk]         0.657 -0.9698896         <NA>   0.9737151 
+INFO  [11:51:06.455] [bbotk]                                 uhash 
+INFO  [11:51:06.455] [bbotk]  6e21da0f-6c7f-4b41-8304-edf8bb25f36e 
+INFO  [11:51:07.323] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:51:07.384] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:51:07.391] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:51:17.861] [mlr3]  Finished benchmark 
+INFO  [11:51:17.932] [bbotk] Result of batch 79: 
+INFO  [11:51:17.934] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:51:17.934] [bbotk]        8.11753          3.606713                0.1172408             1742 
+INFO  [11:51:17.934] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:51:17.934] [bbotk]         0.642 -0.9685928         <NA>   0.9713863 
+INFO  [11:51:17.934] [bbotk]                                 uhash 
+INFO  [11:51:17.934] [bbotk]  bb012e07-962d-44ea-81ac-736da2f809e8 
+INFO  [11:51:18.842] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:51:18.901] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:51:18.908] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:51:24.625] [mlr3]  Finished benchmark 
+INFO  [11:51:24.695] [bbotk] Result of batch 80: 
+INFO  [11:51:24.697] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:51:24.697] [bbotk]       9.566693          4.539824                0.2063101              775 
+INFO  [11:51:24.697] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:51:24.697] [bbotk]         0.646 -0.9694021         <NA>   0.9710228 
+INFO  [11:51:24.697] [bbotk]                                 uhash 
+INFO  [11:51:24.697] [bbotk]  588b89b3-70ac-43dc-819b-0ab2d7fd28cb 
+INFO  [11:51:25.610] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:51:25.669] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:51:25.676] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:51:44.917] [mlr3]  Finished benchmark 
+INFO  [11:51:44.985] [bbotk] Result of batch 81: 
+INFO  [11:51:44.987] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:51:44.987] [bbotk]       5.662165          3.296595                0.3893944             3323 
+INFO  [11:51:44.987] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:51:44.987] [bbotk]         0.661 -0.9711066         <NA>   0.9735029 
+INFO  [11:51:44.987] [bbotk]                                 uhash 
+INFO  [11:51:44.987] [bbotk]  903057a7-c064-4b64-9b3a-e59dd0e9be5c 
+INFO  [11:51:45.900] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:51:45.956] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:51:45.962] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:06.217] [mlr3]  Finished benchmark 
+INFO  [11:52:06.309] [bbotk] Result of batch 82: 
+INFO  [11:52:06.312] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:52:06.312] [bbotk]       8.653142          4.647233                0.1079245             3630 
+INFO  [11:52:06.312] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:52:06.312] [bbotk]          0.67 -0.9671331         <NA>   0.9727732 
+INFO  [11:52:06.312] [bbotk]                                 uhash 
+INFO  [11:52:06.312] [bbotk]  f0a07742-ee45-4ad2-8f63-13246b3b03f1 
+INFO  [11:52:07.514] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:07.573] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:07.580] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:23.450] [mlr3]  Finished benchmark 
+INFO  [11:52:23.520] [bbotk] Result of batch 83: 
+INFO  [11:52:23.522] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:52:23.522] [bbotk]       3.080477          6.027715                0.1588976             2675 
+INFO  [11:52:23.522] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:52:23.522] [bbotk]         0.763 -0.9675649         <NA>   0.9675052 
+INFO  [11:52:23.522] [bbotk]                                 uhash 
+INFO  [11:52:23.522] [bbotk]  2357eff8-0344-472d-b419-c54e1ea39b28 
+INFO  [11:52:24.541] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:24.598] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:24.606] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:27.900] [mlr3]  Finished benchmark 
+INFO  [11:52:27.969] [bbotk] Result of batch 84: 
+INFO  [11:52:27.971] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:52:27.971] [bbotk]       4.122456          3.285209                 0.228809              349 
+INFO  [11:52:27.971] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:52:27.971] [bbotk]         0.668 -0.9653975         <NA>   0.9643496 
+INFO  [11:52:27.971] [bbotk]                                 uhash 
+INFO  [11:52:27.971] [bbotk]  3473e2e7-0b3e-411b-8029-57e83b9896e8 
+INFO  [11:52:29.062] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:29.119] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:29.126] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:48.340] [mlr3]  Finished benchmark 
+INFO  [11:52:48.411] [bbotk] Result of batch 85: 
+INFO  [11:52:48.413] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:52:48.413] [bbotk]       9.597693           4.13516               0.06797125             3587 
+INFO  [11:52:48.413] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:52:48.413] [bbotk]         0.835 -0.9700671         <NA>   0.9720369 
+INFO  [11:52:48.413] [bbotk]                                 uhash 
+INFO  [11:52:48.413] [bbotk]  1206ea25-504f-43bd-adae-b2de692efbdc 
+INFO  [11:52:49.306] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:49.364] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:49.370] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:53.752] [mlr3]  Finished benchmark 
+INFO  [11:52:53.820] [bbotk] Result of batch 86: 
+INFO  [11:52:53.822] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:52:53.822] [bbotk]       5.798018            9.6346                0.1984907              560 
+INFO  [11:52:53.822] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:52:53.822] [bbotk]         0.643 -0.9694663         <NA>    0.968099 
+INFO  [11:52:53.822] [bbotk]                                 uhash 
+INFO  [11:52:53.822] [bbotk]  e9707f08-edbf-43a6-ad5f-3556e6f8a63b 
+INFO  [11:52:54.824] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:54.881] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:54.888] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:53:03.098] [mlr3]  Finished benchmark 
+INFO  [11:53:03.178] [bbotk] Result of batch 87: 
+INFO  [11:53:03.180] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:53:03.180] [bbotk]       5.844438          9.559992               0.05541564             1284 
+INFO  [11:53:03.180] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:53:03.180] [bbotk]         0.652 -0.9686317         <NA>   0.9662984 
+INFO  [11:53:03.180] [bbotk]                                 uhash 
+INFO  [11:53:03.180] [bbotk]  f6512702-e967-4639-82e8-195f1c238922 
+INFO  [11:53:04.119] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:53:04.183] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:53:04.191] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:53:11.538] [mlr3]  Finished benchmark 
+INFO  [11:53:11.607] [bbotk] Result of batch 88: 
+INFO  [11:53:11.609] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:53:11.609] [bbotk]       2.288193          2.239434                0.2168781             1137 
+INFO  [11:53:11.609] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:53:11.609] [bbotk]         0.673 -0.9704642         <NA>   0.9615006 
+INFO  [11:53:11.609] [bbotk]                                 uhash 
+INFO  [11:53:11.609] [bbotk]  34d49a20-69f9-4aa9-a330-e802e9ec5d0c 
+INFO  [11:53:12.518] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:53:12.573] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:53:12.580] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:53:25.056] [mlr3]  Finished benchmark 
+INFO  [11:53:25.125] [bbotk] Result of batch 89: 
+INFO  [11:53:25.127] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:53:25.127] [bbotk]       7.870211          5.594384               0.07928326             2066 
+INFO  [11:53:25.127] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:53:25.127] [bbotk]         0.664 -0.9677147         <NA>   0.9706806 
+INFO  [11:53:25.127] [bbotk]                                 uhash 
+INFO  [11:53:25.127] [bbotk]  8ff3ddaa-d81a-4e1b-9928-795a8bac3d59 
+INFO  [11:53:26.052] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:53:26.108] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:53:26.115] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:53:32.325] [mlr3]  Finished benchmark 
+INFO  [11:53:32.394] [bbotk] Result of batch 90: 
+INFO  [11:53:32.395] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:53:32.395] [bbotk]         4.2744          8.889714              0.007835557              743 
+INFO  [11:53:32.395] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:53:32.395] [bbotk]         0.674 -0.9699888         <NA>   0.9348686 
+INFO  [11:53:32.395] [bbotk]                                 uhash 
+INFO  [11:53:32.395] [bbotk]  488a56c5-91dd-4c08-957a-c8cb5ce3cf9f 
+INFO  [11:53:33.334] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:53:33.389] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:53:33.395] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:53:53.232] [mlr3]  Finished benchmark 
+INFO  [11:53:53.301] [bbotk] Result of batch 91: 
+INFO  [11:53:53.303] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:53:53.303] [bbotk]       8.761465           4.87745                0.4583839             3262 
+INFO  [11:53:53.303] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:53:53.303] [bbotk]         0.695 -0.9712738         <NA>   0.9733136 
+INFO  [11:53:53.303] [bbotk]                                 uhash 
+INFO  [11:53:53.303] [bbotk]  fe742c7d-c596-4f1e-b04f-af518626d017 
+INFO  [11:53:54.242] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:53:54.296] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:53:54.303] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:54:11.144] [mlr3]  Finished benchmark 
+INFO  [11:54:11.213] [bbotk] Result of batch 92: 
+INFO  [11:54:11.215] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:54:11.215] [bbotk]       3.957646          9.549316                0.2805698             2933 
+INFO  [11:54:11.215] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:54:11.215] [bbotk]         0.693 -0.9715644         <NA>   0.9713659 
+INFO  [11:54:11.215] [bbotk]                                 uhash 
+INFO  [11:54:11.215] [bbotk]  4b31f8eb-7d86-4685-8138-2d469aa4c41a 
+INFO  [11:54:12.282] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:54:12.338] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:54:12.344] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:54:27.618] [mlr3]  Finished benchmark 
+INFO  [11:54:27.686] [bbotk] Result of batch 93: 
+INFO  [11:54:27.688] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:54:27.688] [bbotk]       4.362572          4.490068               0.08673442             2500 
+INFO  [11:54:27.688] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:54:27.688] [bbotk]         0.694 -0.9665115         <NA>   0.9684537 
+INFO  [11:54:27.688] [bbotk]                                 uhash 
+INFO  [11:54:27.688] [bbotk]  3abeb909-24c4-44df-bc5f-aedfe1070682 
+INFO  [11:54:28.931] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:54:28.987] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:54:28.994] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:54:43.986] [mlr3]  Finished benchmark 
+INFO  [11:54:44.055] [bbotk] Result of batch 94: 
+INFO  [11:54:44.056] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:54:44.056] [bbotk]       4.494059          6.596214                0.4766405             2231 
+INFO  [11:54:44.056] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:54:44.056] [bbotk]         0.871 -0.9688951         <NA>    0.972603 
+INFO  [11:54:44.056] [bbotk]                                 uhash 
+INFO  [11:54:44.056] [bbotk]  b6a93cf1-bb0d-4b04-bc5f-c33d7a0cf407 
+INFO  [11:54:45.098] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:54:45.155] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:54:45.162] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:55:09.774] [mlr3]  Finished benchmark 
+INFO  [11:55:09.843] [bbotk] Result of batch 95: 
+INFO  [11:55:09.845] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:55:09.845] [bbotk]       5.672099          5.157877                0.2041601             4162 
+INFO  [11:55:09.845] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:55:09.845] [bbotk]         0.679 -0.9665154         <NA>   0.9730893 
+INFO  [11:55:09.845] [bbotk]                                 uhash 
+INFO  [11:55:09.845] [bbotk]  2df28b65-9a23-4f69-bc5d-840b120cc81e 
+INFO  [11:55:10.808] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:55:10.865] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:55:10.872] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:55:32.163] [mlr3]  Finished benchmark 
+INFO  [11:55:32.233] [bbotk] Result of batch 96: 
+INFO  [11:55:32.234] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:55:32.234] [bbotk]       8.578099          7.634588                0.4030004             3769 
+INFO  [11:55:32.234] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:55:32.234] [bbotk]          0.71 -0.9676948         <NA>   0.9733676 
+INFO  [11:55:32.234] [bbotk]                                 uhash 
+INFO  [11:55:32.234] [bbotk]  6ecefb2c-84d2-43e4-bd84-0eab105e98ee 
+INFO  [11:55:33.277] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:55:33.336] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:55:33.343] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:55:44.049] [mlr3]  Finished benchmark 
+INFO  [11:55:44.118] [bbotk] Result of batch 97: 
+INFO  [11:55:44.120] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:55:44.120] [bbotk]       9.615569          3.841135                0.4528308             1528 
+INFO  [11:55:44.120] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:55:44.120] [bbotk]         0.697 -0.9606584         <NA>   0.9731078 
+INFO  [11:55:44.120] [bbotk]                                 uhash 
+INFO  [11:55:44.120] [bbotk]  d502ea61-1f99-4d35-a32f-9ad7b240de84 
+INFO  [11:55:45.321] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:55:45.375] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:55:45.382] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:55:54.208] [mlr3]  Finished benchmark 
+INFO  [11:55:54.296] [bbotk] Result of batch 98: 
+INFO  [11:55:54.298] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:55:54.298] [bbotk]       9.474588          8.794425                0.3830966             1271 
+INFO  [11:55:54.298] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:55:54.298] [bbotk]         0.707 -0.9600762         <NA>   0.9729394 
+INFO  [11:55:54.298] [bbotk]                                 uhash 
+INFO  [11:55:54.298] [bbotk]  0f6ad6e3-72c1-44ab-9610-d691cf83ca1e 
+INFO  [11:55:55.278] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:55:55.336] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:55:55.343] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:56:13.522] [mlr3]  Finished benchmark 
+INFO  [11:56:13.590] [bbotk] Result of batch 99: 
+INFO  [11:56:13.592] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:56:13.592] [bbotk]       9.368713          6.177599                0.4972126             3099 
+INFO  [11:56:13.592] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:56:13.592] [bbotk]         0.704 -0.9683959         <NA>   0.9731302 
+INFO  [11:56:13.592] [bbotk]                                 uhash 
+INFO  [11:56:13.592] [bbotk]  388c0aa5-9ad0-4bb9-b7f0-52a22216d0f4 
+INFO  [11:56:14.722] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:56:14.782] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:56:14.789] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:56:23.932] [mlr3]  Finished benchmark 
+INFO  [11:56:24.003] [bbotk] Result of batch 100: 
+INFO  [11:56:24.005] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:56:24.005] [bbotk]       2.961334          2.094412                0.4430679             1553 
+INFO  [11:56:24.005] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:56:24.005] [bbotk]         0.856 -0.9656599         <NA>    0.968514 
+INFO  [11:56:24.005] [bbotk]                                 uhash 
+INFO  [11:56:24.005] [bbotk]  739909b2-b28b-4c94-9f4c-5c99f0d7a6b8 
+INFO  [11:56:25.014] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:56:25.069] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:56:25.076] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:56:44.003] [mlr3]  Finished benchmark 
+INFO  [11:56:44.072] [bbotk] Result of batch 101: 
+INFO  [11:56:44.074] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:56:44.074] [bbotk]       5.578728           9.58323                0.3082732             3249 
+INFO  [11:56:44.074] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:56:44.074] [bbotk]         0.717 -0.9664338         <NA>   0.9732416 
+INFO  [11:56:44.074] [bbotk]                                 uhash 
+INFO  [11:56:44.074] [bbotk]  87ee2cfa-7198-402f-aeae-3aee1b3644ff 
+INFO  [11:56:45.199] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:56:45.256] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:56:45.262] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:56:49.341] [mlr3]  Finished benchmark 
+INFO  [11:56:49.410] [bbotk] Result of batch 102: 
+INFO  [11:56:49.412] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:56:49.412] [bbotk]       4.399731           2.38511                0.4069401              534 
+INFO  [11:56:49.412] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:56:49.412] [bbotk]          0.72  -0.96261         <NA>   0.9684503 
+INFO  [11:56:49.412] [bbotk]                                 uhash 
+INFO  [11:56:49.412] [bbotk]  4141bea5-e2b5-499f-a31c-16c64171f006 
+INFO  [11:56:50.450] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:56:50.506] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:56:50.513] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:57:16.377] [mlr3]  Finished benchmark 
+INFO  [11:57:16.447] [bbotk] Result of batch 103: 
+INFO  [11:57:16.449] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:57:16.449] [bbotk]       9.938326          8.232006                 0.316849             4617 
+INFO  [11:57:16.449] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:57:16.449] [bbotk]         0.746 -0.9735454         <NA>    0.972988 
+INFO  [11:57:16.449] [bbotk]                                 uhash 
+INFO  [11:57:16.449] [bbotk]  65eb1a9e-e25f-48f7-b188-1c5f839d1c5c 
+INFO  [11:57:17.565] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:57:17.621] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:57:17.628] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:57:27.694] [mlr3]  Finished benchmark 
+INFO  [11:57:27.778] [bbotk] Result of batch 104: 
+INFO  [11:57:27.780] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:57:27.780] [bbotk]       8.717827          3.308239                0.1772583             1535 
+INFO  [11:57:27.780] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:57:27.780] [bbotk]         0.728 -0.9620628         <NA>   0.9721699 
+INFO  [11:57:27.780] [bbotk]                                 uhash 
+INFO  [11:57:27.780] [bbotk]  6deb3b24-6e55-49e9-b400-59acd8d257ce 
+INFO  [11:57:28.867] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:57:28.924] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:57:28.931] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:57:41.079] [mlr3]  Finished benchmark 
+INFO  [11:57:41.148] [bbotk] Result of batch 105: 
+INFO  [11:57:41.149] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:57:41.149] [bbotk]       7.360528          9.682367                0.4410866             2090 
+INFO  [11:57:41.149] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [11:57:41.149] [bbotk]         0.719 -0.961377         <NA>   0.9734825 
+INFO  [11:57:41.149] [bbotk]                                 uhash 
+INFO  [11:57:41.149] [bbotk]  e87915b7-2cda-47bf-b7e0-7f62ed1714a1 
+INFO  [11:57:42.439] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:57:42.497] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:57:42.503] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:57:49.121] [mlr3]  Finished benchmark 
+INFO  [11:57:49.189] [bbotk] Result of batch 106: 
+INFO  [11:57:49.191] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:57:49.191] [bbotk]       7.618864          4.046402                0.3788514             1046 
+INFO  [11:57:49.191] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:57:49.191] [bbotk]         0.891 -0.9695186         <NA>   0.9726198 
+INFO  [11:57:49.191] [bbotk]                                 uhash 
+INFO  [11:57:49.191] [bbotk]  75389703-5bd8-42fc-80cd-a34d68612a7f 
+INFO  [11:57:50.387] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:57:50.443] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:57:50.450] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:57:54.907] [mlr3]  Finished benchmark 
+INFO  [11:57:54.978] [bbotk] Result of batch 107: 
+INFO  [11:57:54.980] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:57:54.980] [bbotk]       5.956444           6.98162                0.2800447              467 
+INFO  [11:57:54.980] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:57:54.980] [bbotk]         0.751 -0.9653844         <NA>   0.9688368 
+INFO  [11:57:54.980] [bbotk]                                 uhash 
+INFO  [11:57:54.980] [bbotk]  e3beac3a-e8bf-4242-b1a6-58fd675f6e71 
+INFO  [11:57:55.981] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:57:56.041] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:57:56.048] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:05.382] [mlr3]  Finished benchmark 
+INFO  [11:58:05.451] [bbotk] Result of batch 108: 
+INFO  [11:58:05.453] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:58:05.453] [bbotk]       5.210795          5.227503                0.4741395             1567 
+INFO  [11:58:05.453] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:58:05.453] [bbotk]         0.725 -0.9634996         <NA>   0.9726058 
+INFO  [11:58:05.453] [bbotk]                                 uhash 
+INFO  [11:58:05.453] [bbotk]  44385e98-4cee-440e-87bf-e6dfd783bf1a 
+INFO  [11:58:06.501] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:58:06.558] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:58:06.565] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:28.382] [mlr3]  Finished benchmark 
+INFO  [11:58:28.452] [bbotk] Result of batch 109: 
+INFO  [11:58:28.454] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:58:28.454] [bbotk]       3.015262          5.466797                0.1871799             3746 
+INFO  [11:58:28.454] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:58:28.454] [bbotk]         0.746 -0.9713164         <NA>   0.9687329 
+INFO  [11:58:28.454] [bbotk]                                 uhash 
+INFO  [11:58:28.454] [bbotk]  c3c4c337-c2a5-438a-b228-a3eefd82c472 
+INFO  [11:58:29.499] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:58:29.558] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:58:29.565] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:48.226] [mlr3]  Finished benchmark 
+INFO  [11:58:48.294] [bbotk] Result of batch 110: 
+INFO  [11:58:48.296] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:58:48.296] [bbotk]       6.845273          6.501128                0.4324548             3094 
+INFO  [11:58:48.296] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:58:48.296] [bbotk]         0.754 -0.9659173         <NA>   0.9736389 
+INFO  [11:58:48.296] [bbotk]                                 uhash 
+INFO  [11:58:48.296] [bbotk]  d548df07-7b83-4c8b-b7c3-f406953f74cd 
+INFO  [11:58:49.369] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:58:49.426] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:58:49.433] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:59:10.220] [mlr3]  Finished benchmark 
+INFO  [11:59:10.299] [bbotk] Result of batch 111: 
+INFO  [11:59:10.301] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:59:10.301] [bbotk]       4.611387          2.506511                0.4356018             3180 
+INFO  [11:59:10.301] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:59:10.301] [bbotk]         0.754 -0.9688147         <NA>    0.973046 
+INFO  [11:59:10.301] [bbotk]                                 uhash 
+INFO  [11:59:10.301] [bbotk]  4cfd7cbb-f8a1-4a26-b6f2-b51690c16e8e 
+INFO  [11:59:11.518] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:59:11.574] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:59:11.580] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:59:30.693] [mlr3]  Finished benchmark 
+INFO  [11:59:30.763] [bbotk] Result of batch 112: 
+INFO  [11:59:30.765] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:59:30.765] [bbotk]       4.615762          7.759436                0.4444124             3289 
+INFO  [11:59:30.765] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:59:30.765] [bbotk]         0.895 -0.9694088         <NA>   0.9731128 
+INFO  [11:59:30.765] [bbotk]                                 uhash 
+INFO  [11:59:30.765] [bbotk]  98b55388-a206-4ffa-af58-967d3b05e0c7 
+INFO  [11:59:31.794] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:59:31.849] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:59:31.856] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:59:41.663] [mlr3]  Finished benchmark 
+INFO  [11:59:41.733] [bbotk] Result of batch 113: 
+INFO  [11:59:41.735] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [11:59:41.735] [bbotk]       5.689904          3.702487                0.2555493             1642 
+INFO  [11:59:41.735] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [11:59:41.735] [bbotk]         0.742 -0.9664431         <NA>   0.9719278 
+INFO  [11:59:41.735] [bbotk]                                 uhash 
+INFO  [11:59:41.735] [bbotk]  d498ed93-f0bd-4568-aada-84c71d2784bb 
+INFO  [11:59:42.829] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:59:42.889] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:59:42.896] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:00:03.431] [mlr3]  Finished benchmark 
+INFO  [12:00:03.501] [bbotk] Result of batch 114: 
+INFO  [12:00:03.502] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:00:03.502] [bbotk]        9.07022          4.649602               0.09460596             3310 
+INFO  [12:00:03.502] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:00:03.502] [bbotk]         0.759 -0.9671696         <NA>   0.9724623 
+INFO  [12:00:03.502] [bbotk]                                 uhash 
+INFO  [12:00:03.502] [bbotk]  00c46c65-070d-4fbf-b33f-840470fa6de8 
+INFO  [12:00:04.687] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:00:04.743] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:00:04.750] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:00:32.108] [mlr3]  Finished benchmark 
+INFO  [12:00:32.176] [bbotk] Result of batch 115: 
+INFO  [12:00:32.178] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:00:32.178] [bbotk]       7.312287           6.59949                0.1756415             4640 
+INFO  [12:00:32.178] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:00:32.178] [bbotk]         0.755 -0.9616863         <NA>   0.9734141 
+INFO  [12:00:32.178] [bbotk]                                 uhash 
+INFO  [12:00:32.178] [bbotk]  9c66dcbe-b381-452e-a66c-b209518bf568 
+INFO  [12:00:33.257] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:00:33.314] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:00:33.321] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:00:37.302] [mlr3]  Finished benchmark 
+INFO  [12:00:37.370] [bbotk] Result of batch 116: 
+INFO  [12:00:37.372] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:00:37.372] [bbotk]       9.205132          5.674908                0.2778402              509 
+INFO  [12:00:37.372] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:00:37.372] [bbotk]         0.753 -0.9656205         <NA>   0.9706169 
+INFO  [12:00:37.372] [bbotk]                                 uhash 
+INFO  [12:00:37.372] [bbotk]  a7f6fcbc-e623-49a5-b30e-ea0796147c37 
+INFO  [12:00:38.723] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:00:38.780] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:00:38.787] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:00:49.476] [mlr3]  Finished benchmark 
+INFO  [12:00:49.545] [bbotk] Result of batch 117: 
+INFO  [12:00:49.547] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:00:49.547] [bbotk]       9.410962          8.645079                0.2620075             1687 
+INFO  [12:00:49.547] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:00:49.547] [bbotk]         0.748 -0.9621409         <NA>   0.9728762 
+INFO  [12:00:49.547] [bbotk]                                 uhash 
+INFO  [12:00:49.547] [bbotk]  94ee93d9-90ca-4a0c-bf5a-5d9f9b7af73f 
+INFO  [12:00:50.600] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:00:50.657] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:00:50.664] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:00:58.366] [mlr3]  Finished benchmark 
+INFO  [12:00:58.436] [bbotk] Result of batch 118: 
+INFO  [12:00:58.438] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:00:58.438] [bbotk]       5.260096          2.361301                0.3129395             1051 
+INFO  [12:00:58.438] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:00:58.438] [bbotk]         0.756 -0.9696159         <NA>   0.9708943 
+INFO  [12:00:58.438] [bbotk]                                 uhash 
+INFO  [12:00:58.438] [bbotk]  f7c2ada3-f55a-4538-abbc-48bb868e6e61 
+INFO  [12:00:59.709] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:00:59.765] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:00:59.772] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:01:13.203] [mlr3]  Finished benchmark 
+INFO  [12:01:13.272] [bbotk] Result of batch 119: 
+INFO  [12:01:13.274] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:01:13.274] [bbotk]       7.285738          8.704774                0.3982718             2235 
+INFO  [12:01:13.274] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:01:13.274] [bbotk]         0.774 -0.9655743         <NA>   0.9734583 
+INFO  [12:01:13.274] [bbotk]                                 uhash 
+INFO  [12:01:13.274] [bbotk]  fb1d9f03-a504-48bb-ac61-845a7100d257 
+INFO  [12:01:14.588] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:01:14.643] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:01:14.650] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:01:38.795] [mlr3]  Finished benchmark 
+INFO  [12:01:38.864] [bbotk] Result of batch 120: 
+INFO  [12:01:38.865] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:01:38.865] [bbotk]       9.382554          3.888456                0.3982392             4035 
+INFO  [12:01:38.865] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:01:38.865] [bbotk]         0.763 -0.9653657         <NA>   0.9731156 
+INFO  [12:01:38.865] [bbotk]                                 uhash 
+INFO  [12:01:38.865] [bbotk]  320fa745-bf3e-4e87-be20-b68e36dc5fed 
+INFO  [12:01:40.110] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:01:40.166] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:01:40.173] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:02:07.010] [mlr3]  Finished benchmark 
+INFO  [12:02:07.079] [bbotk] Result of batch 121: 
+INFO  [12:02:07.081] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:02:07.081] [bbotk]       5.277424          9.631773                0.2361654             4388 
+INFO  [12:02:07.081] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:02:07.081] [bbotk]         0.932 -0.9653548         <NA>   0.9731371 
+INFO  [12:02:07.081] [bbotk]                                 uhash 
+INFO  [12:02:07.081] [bbotk]  f73ec6b2-6a75-45c1-a2fa-d1b3e178ae48 
+INFO  [12:02:08.309] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:02:08.368] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:02:08.375] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:02:15.871] [mlr3]  Finished benchmark 
+INFO  [12:02:15.940] [bbotk] Result of batch 122: 
+INFO  [12:02:15.942] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:02:15.942] [bbotk]        7.21551          3.088094               0.06937988             1219 
+INFO  [12:02:15.942] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:02:15.942] [bbotk]         0.758 -0.9636217         <NA>   0.9680476 
+INFO  [12:02:15.942] [bbotk]                                 uhash 
+INFO  [12:02:15.942] [bbotk]  b2adb7dc-be79-4b50-b653-882cc3f55eab 
+INFO  [12:02:16.998] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:02:17.055] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:02:17.062] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:02:44.996] [mlr3]  Finished benchmark 
+INFO  [12:02:45.066] [bbotk] Result of batch 123: 
+INFO  [12:02:45.068] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:02:45.068] [bbotk]       3.127548          9.285972                0.1708746             4716 
+INFO  [12:02:45.068] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:02:45.068] [bbotk]         0.762 -0.9696176         <NA>    0.969458 
+INFO  [12:02:45.068] [bbotk]                                 uhash 
+INFO  [12:02:45.068] [bbotk]  20b1ea4f-442d-4d85-9a2e-d65b962f6d10 
+INFO  [12:02:46.374] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:02:46.434] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:02:46.441] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:02:55.614] [mlr3]  Finished benchmark 
+INFO  [12:02:55.696] [bbotk] Result of batch 124: 
+INFO  [12:02:55.698] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:02:55.698] [bbotk]       9.069763          4.880772                0.1231601             1510 
+INFO  [12:02:55.698] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:02:55.698] [bbotk]         0.794 -0.9662321         <NA>   0.9713685 
+INFO  [12:02:55.698] [bbotk]                                 uhash 
+INFO  [12:02:55.698] [bbotk]  a0259b72-9186-4a45-b7a9-ae8a53c86565 
+INFO  [12:02:56.838] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:02:56.899] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:02:56.907] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:03:10.231] [mlr3]  Finished benchmark 
+INFO  [12:03:10.299] [bbotk] Result of batch 125: 
+INFO  [12:03:10.301] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:03:10.301] [bbotk]       8.589484          3.100904                0.2205291             2193 
+INFO  [12:03:10.301] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:03:10.301] [bbotk]         0.797 -0.9697841         <NA>   0.9729882 
+INFO  [12:03:10.301] [bbotk]                                 uhash 
+INFO  [12:03:10.301] [bbotk]  a0c50454-0324-49b3-bfe7-aaccc8fb6b3a 
+INFO  [12:03:11.697] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:03:11.752] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:03:11.759] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:03:34.463] [mlr3]  Finished benchmark 
+INFO  [12:03:34.531] [bbotk] Result of batch 126: 
+INFO  [12:03:34.533] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:03:34.533] [bbotk]       5.455529          9.465291                0.2370285             4273 
+INFO  [12:03:34.533] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:03:34.533] [bbotk]         0.776 -0.9624716         <NA>   0.9731943 
+INFO  [12:03:34.533] [bbotk]                                 uhash 
+INFO  [12:03:34.533] [bbotk]  7ebe75da-4675-4425-90fa-d80aecaddeb4 
+INFO  [12:03:35.790] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:03:35.845] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:03:35.852] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:03:48.437] [mlr3]  Finished benchmark 
+INFO  [12:03:48.505] [bbotk] Result of batch 127: 
+INFO  [12:03:48.507] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:03:48.507] [bbotk]       9.223731          3.791824               0.02639248             2169 
+INFO  [12:03:48.507] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [12:03:48.507] [bbotk]         0.793 -0.965041         <NA>   0.9670728 
+INFO  [12:03:48.507] [bbotk]                                 uhash 
+INFO  [12:03:48.507] [bbotk]  5df9e1e7-f171-4d99-8b30-9cf97f5e09d6 
+INFO  [12:03:49.849] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:03:49.906] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:03:49.913] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:04:06.004] [mlr3]  Finished benchmark 
+INFO  [12:04:06.073] [bbotk] Result of batch 128: 
+INFO  [12:04:06.075] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:04:06.075] [bbotk]       2.311422          8.820088                0.2952512             2758 
+INFO  [12:04:06.075] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:04:06.075] [bbotk]         0.876 -0.9624752         <NA>   0.9659428 
+INFO  [12:04:06.075] [bbotk]                                 uhash 
+INFO  [12:04:06.075] [bbotk]  14bd895d-9269-4b2b-ad45-b473a0bcc66d 
+INFO  [12:04:07.570] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:04:07.626] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:04:07.633] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:04:31.694] [mlr3]  Finished benchmark 
+INFO  [12:04:31.763] [bbotk] Result of batch 129: 
+INFO  [12:04:31.765] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:04:31.765] [bbotk]       5.278871          5.584698                0.1607854             4248 
+INFO  [12:04:31.765] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:04:31.765] [bbotk]         1.137 -0.9667983         <NA>   0.9725494 
+INFO  [12:04:31.765] [bbotk]                                 uhash 
+INFO  [12:04:31.765] [bbotk]  8b53a36d-cfc9-4691-8277-99fb6942bc83 
+INFO  [12:04:32.945] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:04:33.003] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:04:33.010] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:04:56.966] [mlr3]  Finished benchmark 
+INFO  [12:04:57.035] [bbotk] Result of batch 130: 
+INFO  [12:04:57.037] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:04:57.037] [bbotk]       8.683028          8.538216                0.1716218             3974 
+INFO  [12:04:57.037] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:04:57.037] [bbotk]         0.789 -0.9692949         <NA>   0.9732574 
+INFO  [12:04:57.037] [bbotk]                                 uhash 
+INFO  [12:04:57.037] [bbotk]  a3b7fb08-fbb4-4638-8b5e-3aa7a785a0ac 
+INFO  [12:04:58.505] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:04:58.562] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:04:58.569] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:08.451] [mlr3]  Finished benchmark 
+INFO  [12:05:08.520] [bbotk] Result of batch 131: 
+INFO  [12:05:08.522] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:05:08.522] [bbotk]       4.949633          3.830414                0.3143622             1422 
+INFO  [12:05:08.522] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:05:08.522] [bbotk]         0.784 -0.9629547         <NA>   0.9712717 
+INFO  [12:05:08.522] [bbotk]                                 uhash 
+INFO  [12:05:08.522] [bbotk]  8f864628-7b85-4022-b69d-01b7bc0107c4 
+INFO  [12:05:09.676] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:09.734] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:09.741] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:21.424] [mlr3]  Finished benchmark 
+INFO  [12:05:21.493] [bbotk] Result of batch 132: 
+INFO  [12:05:21.495] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:05:21.495] [bbotk]       4.988838          4.156828               0.09162784             1700 
+INFO  [12:05:21.495] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:05:21.495] [bbotk]         0.809 -0.9702907         <NA>   0.9683722 
+INFO  [12:05:21.495] [bbotk]                                 uhash 
+INFO  [12:05:21.495] [bbotk]  621b7239-d086-4d61-9a26-0a911d887a46 
+INFO  [12:05:22.688] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:22.747] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:22.754] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:45.062] [mlr3]  Finished benchmark 
+INFO  [12:05:45.131] [bbotk] Result of batch 133: 
+INFO  [12:05:45.133] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:05:45.133] [bbotk]       5.333746          9.065639                0.1284982             3899 
+INFO  [12:05:45.133] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:05:45.133] [bbotk]         0.818 -0.9696845         <NA>   0.9719865 
+INFO  [12:05:45.133] [bbotk]                                 uhash 
+INFO  [12:05:45.133] [bbotk]  5eff4a64-c1f8-4a32-a77b-01759cfeebff 
+INFO  [12:05:46.588] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:46.646] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:46.652] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:06:07.929] [mlr3]  Finished benchmark 
+INFO  [12:06:07.999] [bbotk] Result of batch 134: 
+INFO  [12:06:08.000] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:06:08.000] [bbotk]       8.679803          2.418639                0.1997302             3230 
+INFO  [12:06:08.000] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:06:08.000] [bbotk]         0.812 -0.9646323         <NA>   0.9732245 
+INFO  [12:06:08.000] [bbotk]                                 uhash 
+INFO  [12:06:08.000] [bbotk]  7300bf7f-4560-4615-98c9-15fdb1d2b29e 
+INFO  [12:06:09.344] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:06:09.403] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:06:09.410] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:06:24.623] [mlr3]  Finished benchmark 
+INFO  [12:06:24.692] [bbotk] Result of batch 135: 
+INFO  [12:06:24.694] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:06:24.694] [bbotk]       4.899885          7.468009               0.08022894             2524 
+INFO  [12:06:24.694] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:06:24.694] [bbotk]         0.971 -0.9696083         <NA>   0.9691037 
+INFO  [12:06:24.694] [bbotk]                                 uhash 
+INFO  [12:06:24.694] [bbotk]  7880317c-2f9b-41c3-92da-98e6cf037da0 
+INFO  [12:06:26.021] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:06:26.078] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:06:26.085] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:06:38.410] [mlr3]  Finished benchmark 
+INFO  [12:06:38.479] [bbotk] Result of batch 136: 
+INFO  [12:06:38.481] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:06:38.481] [bbotk]       3.113131          8.504213                0.3596796             2107 
+INFO  [12:06:38.481] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:06:38.481] [bbotk]         0.817 -0.9648952         <NA>    0.969237 
+INFO  [12:06:38.481] [bbotk]                                 uhash 
+INFO  [12:06:38.481] [bbotk]  4622cb53-379c-4cf4-aa5f-33375409f907 
+INFO  [12:06:39.787] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:06:39.844] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:06:39.851] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:07:08.625] [mlr3]  Finished benchmark 
+INFO  [12:07:08.694] [bbotk] Result of batch 137: 
+INFO  [12:07:08.696] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:07:08.696] [bbotk]       4.870346          8.155823                0.4950741             4538 
+INFO  [12:07:08.696] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:07:08.696] [bbotk]         0.809 -0.9692701         <NA>   0.9735914 
+INFO  [12:07:08.696] [bbotk]                                 uhash 
+INFO  [12:07:08.696] [bbotk]  7c98a7ab-6bfc-4e26-8e62-d2b13c6f717c 
+INFO  [12:07:09.858] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:07:09.916] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:07:09.923] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:07:23.556] [mlr3]  Finished benchmark 
+INFO  [12:07:23.640] [bbotk] Result of batch 138: 
+INFO  [12:07:23.642] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:07:23.642] [bbotk]       8.592446           2.32704                 0.240111             2258 
+INFO  [12:07:23.642] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:07:23.642] [bbotk]         0.824 -0.9681832         <NA>   0.9731041 
+INFO  [12:07:23.642] [bbotk]                                 uhash 
+INFO  [12:07:23.642] [bbotk]  bf89230f-22cb-4724-9398-97352423584c 
+INFO  [12:07:24.999] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:07:25.056] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:07:25.062] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:07:51.860] [mlr3]  Finished benchmark 
+INFO  [12:07:51.928] [bbotk] Result of batch 139: 
+INFO  [12:07:51.930] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:07:51.930] [bbotk]       4.551515          2.756632               0.04540734             4665 
+INFO  [12:07:51.930] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:07:51.930] [bbotk]         0.841 -0.9633595         <NA>   0.9686947 
+INFO  [12:07:51.930] [bbotk]                                 uhash 
+INFO  [12:07:51.930] [bbotk]  37c33f32-4b23-402a-b3cd-d3699c6cfbfa 
+INFO  [12:07:53.636] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:07:53.693] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:07:53.700] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:07:56.366] [mlr3]  Finished benchmark 
+INFO  [12:07:56.435] [bbotk] Result of batch 140: 
+INFO  [12:07:56.437] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:07:56.437] [bbotk]       8.731549          5.730704                0.2977416              253 
+INFO  [12:07:56.437] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [12:07:56.437] [bbotk]         1.015 -0.967128         <NA>   0.9682069 
+INFO  [12:07:56.437] [bbotk]                                 uhash 
+INFO  [12:07:56.437] [bbotk]  f1816f7c-38da-4516-9eac-78beebe99361 
+INFO  [12:07:57.816] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:07:57.875] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:07:57.882] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:19.067] [mlr3]  Finished benchmark 
+INFO  [12:08:19.137] [bbotk] Result of batch 141: 
+INFO  [12:08:19.138] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:08:19.138] [bbotk]       2.954627          4.244786                0.2020214             3358 
+INFO  [12:08:19.138] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:08:19.138] [bbotk]         0.833 -0.9626463         <NA>   0.9684433 
+INFO  [12:08:19.138] [bbotk]                                 uhash 
+INFO  [12:08:19.138] [bbotk]  1b611d5b-7574-472f-b5e8-0b5ad40b8b2b 
+INFO  [12:08:20.533] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:20.630] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:20.637] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:39.805] [mlr3]  Finished benchmark 
+INFO  [12:08:39.874] [bbotk] Result of batch 142: 
+INFO  [12:08:39.876] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:08:39.876] [bbotk]       5.245308          7.728064               0.08569553             3425 
+INFO  [12:08:39.876] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:08:39.876] [bbotk]         0.998 -0.9648032         <NA>   0.9705865 
+INFO  [12:08:39.876] [bbotk]                                 uhash 
+INFO  [12:08:39.876] [bbotk]  12450f6b-98a3-47cd-9208-f309894212a2 
+INFO  [12:08:41.085] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:41.141] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:41.148] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:09:05.944] [mlr3]  Finished benchmark 
+INFO  [12:09:06.012] [bbotk] Result of batch 143: 
+INFO  [12:09:06.014] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:09:06.014] [bbotk]       3.327586          3.758076               0.05803041             4131 
+INFO  [12:09:06.014] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:09:06.014] [bbotk]         0.843 -0.9677571         <NA>   0.9664461 
+INFO  [12:09:06.014] [bbotk]                                 uhash 
+INFO  [12:09:06.014] [bbotk]  fc841814-0d8e-443b-9fdf-894605c6135c 
+INFO  [12:09:07.425] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:09:07.481] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:09:07.489] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:09:33.003] [mlr3]  Finished benchmark 
+INFO  [12:09:33.072] [bbotk] Result of batch 144: 
+INFO  [12:09:33.073] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:09:33.073] [bbotk]       3.021502          2.363645                0.4324138             4460 
+INFO  [12:09:33.073] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [12:09:33.073] [bbotk]         0.839 -0.966138         <NA>   0.9713244 
+INFO  [12:09:33.073] [bbotk]                                 uhash 
+INFO  [12:09:33.073] [bbotk]  7c9d288b-859c-4c0b-9d67-e0d811ce0f8a 
+INFO  [12:09:34.289] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:09:34.348] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:09:34.355] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:09:36.941] [mlr3]  Finished benchmark 
+INFO  [12:09:37.012] [bbotk] Result of batch 145: 
+INFO  [12:09:37.014] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:09:37.014] [bbotk]       9.648461           2.41306                0.4086361              207 
+INFO  [12:09:37.014] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:09:37.014] [bbotk]         0.829 -0.9622405         <NA>   0.9689083 
+INFO  [12:09:37.014] [bbotk]                                 uhash 
+INFO  [12:09:37.014] [bbotk]  71277f11-9170-497f-816f-6aa180e17bd5 
+INFO  [12:09:38.376] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:09:38.433] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:09:38.440] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:09:51.431] [mlr3]  Finished benchmark 
+INFO  [12:09:51.518] [bbotk] Result of batch 146: 
+INFO  [12:09:51.520] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:09:51.520] [bbotk]       8.127032          3.160455                0.0135639             2270 
+INFO  [12:09:51.520] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:09:51.520] [bbotk]          0.99 -0.9626177         <NA>   0.9620352 
+INFO  [12:09:51.520] [bbotk]                                 uhash 
+INFO  [12:09:51.520] [bbotk]  516f13e0-6bcc-48d8-ba80-0d6d688a4c01 
+INFO  [12:09:52.739] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:09:52.798] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:09:52.805] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:10:21.728] [mlr3]  Finished benchmark 
+INFO  [12:10:21.800] [bbotk] Result of batch 147: 
+INFO  [12:10:21.802] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:10:21.802] [bbotk]       6.085408          8.935221                0.4868926             4972 
+INFO  [12:10:21.802] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:10:21.802] [bbotk]         0.853 -0.9678788         <NA>   0.9737684 
+INFO  [12:10:21.802] [bbotk]                                 uhash 
+INFO  [12:10:21.802] [bbotk]  f39d4054-e897-480f-9248-1c3f43460788 
+INFO  [12:10:23.025] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:10:23.086] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:10:23.093] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:10:40.519] [mlr3]  Finished benchmark 
+INFO  [12:10:40.589] [bbotk] Result of batch 148: 
+INFO  [12:10:40.591] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:10:40.591] [bbotk]       3.704896          7.007549                0.1105718             3075 
+INFO  [12:10:40.591] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:10:40.591] [bbotk]         0.851 -0.9678537         <NA>   0.9684487 
+INFO  [12:10:40.591] [bbotk]                                 uhash 
+INFO  [12:10:40.591] [bbotk]  eb5810d4-84d5-45fb-9d2f-d0d70ea79abe 
+INFO  [12:10:42.012] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:10:42.068] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:10:42.074] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:11:06.057] [mlr3]  Finished benchmark 
+INFO  [12:11:06.126] [bbotk] Result of batch 149: 
+INFO  [12:11:06.128] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:11:06.128] [bbotk]       2.763741          2.395025                0.2669198             4135 
+INFO  [12:11:06.128] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:11:06.128] [bbotk]          0.84 -0.9676388         <NA>   0.9692429 
+INFO  [12:11:06.128] [bbotk]                                 uhash 
+INFO  [12:11:06.128] [bbotk]  5a2bc10d-677b-4a08-8216-c1f840f15643 
+INFO  [12:11:07.607] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:11:07.667] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:11:07.674] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:11:18.665] [mlr3]  Finished benchmark 
+INFO  [12:11:18.734] [bbotk] Result of batch 150: 
+INFO  [12:11:18.736] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:11:18.736] [bbotk]         6.9678           5.45169                0.2420234             1899 
+INFO  [12:11:18.736] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:11:18.736] [bbotk]          0.87 -0.9659375         <NA>   0.9727682 
+INFO  [12:11:18.736] [bbotk]                                 uhash 
+INFO  [12:11:18.736] [bbotk]  3aa050d0-92bc-4cc3-83ca-e3794b736167 
+INFO  [12:11:19.990] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:11:20.046] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:11:20.053] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:11:29.344] [mlr3]  Finished benchmark 
+INFO  [12:11:29.415] [bbotk] Result of batch 151: 
+INFO  [12:11:29.417] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:11:29.417] [bbotk]       9.580549          2.135464                0.3672211             1526 
+INFO  [12:11:29.417] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:11:29.417] [bbotk]         0.854 -0.9651375         <NA>   0.9730232 
+INFO  [12:11:29.417] [bbotk]                                 uhash 
+INFO  [12:11:29.417] [bbotk]  f2b1daf0-f971-4078-aa2a-cb34f45b8c8e 
+INFO  [12:11:30.952] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:11:31.011] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:11:31.018] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:11:43.437] [mlr3]  Finished benchmark 
+INFO  [12:11:43.506] [bbotk] Result of batch 152: 
+INFO  [12:11:43.508] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:11:43.508] [bbotk]       4.666729          9.878587                0.1643025             2016 
+INFO  [12:11:43.508] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:11:43.508] [bbotk]         0.873 -0.9657859         <NA>   0.9701339 
+INFO  [12:11:43.508] [bbotk]                                 uhash 
+INFO  [12:11:43.508] [bbotk]  aebac7d2-2017-4a1c-8e74-eb1ee4518330 
+INFO  [12:11:45.091] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:11:45.150] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:11:45.157] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:11:51.240] [mlr3]  Finished benchmark 
+INFO  [12:11:51.313] [bbotk] Result of batch 153: 
+INFO  [12:11:51.315] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:11:51.315] [bbotk]       3.103887          4.763371              0.009798735              888 
+INFO  [12:11:51.315] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:11:51.315] [bbotk]         0.863 -0.9610178         <NA>   0.9346386 
+INFO  [12:11:51.315] [bbotk]                                 uhash 
+INFO  [12:11:51.315] [bbotk]  93598aa7-f1ed-427e-9025-5b47dac65d3c 
+INFO  [12:11:52.828] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:11:52.889] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:11:52.896] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:00.408] [mlr3]  Finished benchmark 
+INFO  [12:12:00.479] [bbotk] Result of batch 154: 
+INFO  [12:12:00.481] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:12:00.481] [bbotk]        8.80363          3.738651                 0.246238             1230 
+INFO  [12:12:00.481] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:12:00.481] [bbotk]         0.873 -0.9605754         <NA>   0.9723772 
+INFO  [12:12:00.481] [bbotk]                                 uhash 
+INFO  [12:12:00.481] [bbotk]  03e7d2b9-fd72-4156-9daf-a5b438f7d0c7 
+INFO  [12:12:02.110] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:02.168] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:02.175] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:19.650] [mlr3]  Finished benchmark 
+INFO  [12:12:19.722] [bbotk] Result of batch 155: 
+INFO  [12:12:19.724] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:12:19.724] [bbotk]       4.239925          3.300283               0.02245714             2885 
+INFO  [12:12:19.724] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:12:19.724] [bbotk]         1.033 -0.9657051         <NA>    0.963402 
+INFO  [12:12:19.724] [bbotk]                                 uhash 
+INFO  [12:12:19.724] [bbotk]  90567162-3d88-4906-abae-11999fc55363 
+INFO  [12:12:21.333] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:21.392] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:21.399] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:31.747] [mlr3]  Finished benchmark 
+INFO  [12:12:31.816] [bbotk] Result of batch 156: 
+INFO  [12:12:31.818] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:12:31.818] [bbotk]       5.363008          3.212243                0.4480503             1743 
+INFO  [12:12:31.818] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:12:31.818] [bbotk]         0.851 -0.9610035         <NA>   0.9727861 
+INFO  [12:12:31.818] [bbotk]                                 uhash 
+INFO  [12:12:31.818] [bbotk]  f0ae0a9c-7fd3-4fe6-ab8a-3d740fbd57d5 
+INFO  [12:12:33.076] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:33.132] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:33.139] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:51.258] [mlr3]  Finished benchmark 
+INFO  [12:12:51.346] [bbotk] Result of batch 157: 
+INFO  [12:12:51.348] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:12:51.348] [bbotk]       9.068411          6.577811                0.4816765             3191 
+INFO  [12:12:51.348] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:12:51.348] [bbotk]         0.876 -0.9683868         <NA>    0.973223 
+INFO  [12:12:51.348] [bbotk]                                 uhash 
+INFO  [12:12:51.348] [bbotk]  f89e25aa-daf2-4386-b42d-0fd56e9afb32 
+INFO  [12:12:53.330] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:53.387] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:53.394] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:58.619] [mlr3]  Finished benchmark 
+INFO  [12:12:58.688] [bbotk] Result of batch 158: 
+INFO  [12:12:58.690] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:12:58.690] [bbotk]       3.484655          2.076551                0.2615038              666 
+INFO  [12:12:58.690] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:12:58.690] [bbotk]         1.028 -0.9563534         <NA>   0.9657841 
+INFO  [12:12:58.690] [bbotk]                                 uhash 
+INFO  [12:12:58.690] [bbotk]  e5c1d465-8745-4478-a354-c2c37a856e40 
+INFO  [12:13:00.178] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:13:00.235] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:13:00.242] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:13:02.856] [mlr3]  Finished benchmark 
+INFO  [12:13:02.925] [bbotk] Result of batch 159: 
+INFO  [12:13:02.927] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:13:02.927] [bbotk]       2.340578          9.604135                0.2338265              247 
+INFO  [12:13:02.927] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:13:02.927] [bbotk]         0.874 -0.9600704         <NA>    0.955206 
+INFO  [12:13:02.927] [bbotk]                                 uhash 
+INFO  [12:13:02.927] [bbotk]  86b0fdbf-ea71-41c2-9742-4055bd27c95b 
+INFO  [12:13:04.239] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:13:04.295] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:13:04.302] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:13:24.952] [mlr3]  Finished benchmark 
+INFO  [12:13:25.023] [bbotk] Result of batch 160: 
+INFO  [12:13:25.025] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:13:25.025] [bbotk]       4.037996          2.210461                0.1440072             3382 
+INFO  [12:13:25.025] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:13:25.025] [bbotk]         0.882 -0.9692122         <NA>   0.9701313 
+INFO  [12:13:25.025] [bbotk]                                 uhash 
+INFO  [12:13:25.025] [bbotk]  0da6d009-746c-464d-9e10-85d198ab42fc 
+INFO  [12:13:26.480] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:13:26.536] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:13:26.543] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:13:47.739] [mlr3]  Finished benchmark 
+INFO  [12:13:47.808] [bbotk] Result of batch 161: 
+INFO  [12:13:47.810] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:13:47.810] [bbotk]       9.947019          9.190273                0.1314708             3659 
+INFO  [12:13:47.810] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [12:13:47.810] [bbotk]         1.054 -0.966083         <NA>   0.9728913 
+INFO  [12:13:47.810] [bbotk]                                 uhash 
+INFO  [12:13:47.810] [bbotk]  4dc077d2-1fa0-42f8-842c-aad920792f32 
+INFO  [12:13:49.162] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:13:49.219] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:13:49.226] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:14:16.102] [mlr3]  Finished benchmark 
+INFO  [12:14:16.172] [bbotk] Result of batch 162: 
+INFO  [12:14:16.174] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:14:16.174] [bbotk]       4.636918          4.211827                  0.12726             4638 
+INFO  [12:14:16.174] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [12:14:16.174] [bbotk]         0.875 -0.965678         <NA>    0.971591 
+INFO  [12:14:16.174] [bbotk]                                 uhash 
+INFO  [12:14:16.174] [bbotk]  f1459a4a-5662-486a-822d-646ecaf35c54 
+INFO  [12:14:17.499] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:14:17.558] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:14:17.565] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:14:42.253] [mlr3]  Finished benchmark 
+INFO  [12:14:42.321] [bbotk] Result of batch 163: 
+INFO  [12:14:42.323] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:14:42.323] [bbotk]       5.146629          3.810268                0.4849512             4315 
+INFO  [12:14:42.323] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:14:42.323] [bbotk]         0.891 -0.9671826         <NA>   0.9736362 
+INFO  [12:14:42.323] [bbotk]                                 uhash 
+INFO  [12:14:42.323] [bbotk]  8867c7ff-09a7-4633-bea9-a0162e7a3f50 
+INFO  [12:14:43.980] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:14:44.038] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:14:44.045] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:14:59.106] [mlr3]  Finished benchmark 
+INFO  [12:14:59.184] [bbotk] Result of batch 164: 
+INFO  [12:14:59.186] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:14:59.186] [bbotk]       9.034125          8.991511                0.2114393             2634 
+INFO  [12:14:59.186] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:14:59.186] [bbotk]          1.18 -0.9604637         <NA>   0.9730962 
+INFO  [12:14:59.186] [bbotk]                                 uhash 
+INFO  [12:14:59.186] [bbotk]  4dd56818-445f-4866-91e7-ac4a094e3a0a 
+INFO  [12:15:00.490] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:15:00.552] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:15:00.560] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:15:15.540] [mlr3]  Finished benchmark 
+INFO  [12:15:15.621] [bbotk] Result of batch 165: 
+INFO  [12:15:15.623] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:15:15.623] [bbotk]       8.499982          2.844303                0.2159915             2516 
+INFO  [12:15:15.623] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:15:15.623] [bbotk]         0.877 -0.9615076         <NA>   0.9731081 
+INFO  [12:15:15.623] [bbotk]                                 uhash 
+INFO  [12:15:15.623] [bbotk]  d210a6c1-0886-4202-a0db-04dda7df795f 
+INFO  [12:15:16.904] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:15:16.967] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:15:16.975] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:15:44.377] [mlr3]  Finished benchmark 
+INFO  [12:15:44.448] [bbotk] Result of batch 166: 
+INFO  [12:15:44.450] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:15:44.450] [bbotk]       9.484262          9.750538                0.1773676             4941 
+INFO  [12:15:44.450] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:15:44.450] [bbotk]         0.873 -0.9654506         <NA>   0.9732011 
+INFO  [12:15:44.450] [bbotk]                                 uhash 
+INFO  [12:15:44.450] [bbotk]  ce9fa434-aa85-4767-ad72-3d26af591126 
+INFO  [12:15:46.133] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:15:46.192] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:15:46.200] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:16:15.718] [mlr3]  Finished benchmark 
+INFO  [12:16:15.787] [bbotk] Result of batch 167: 
+INFO  [12:16:15.789] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:16:15.789] [bbotk]       9.690663          7.240419                0.3074992             4775 
+INFO  [12:16:15.789] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:16:15.789] [bbotk]         1.065 -0.9603902         <NA>   0.9730646 
+INFO  [12:16:15.789] [bbotk]                                 uhash 
+INFO  [12:16:15.789] [bbotk]  4b0a51b3-10b0-48ae-b637-86d10514ee19 
+INFO  [12:16:17.100] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:16:17.158] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:16:17.165] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:16:33.324] [mlr3]  Finished benchmark 
+INFO  [12:16:33.396] [bbotk] Result of batch 168: 
+INFO  [12:16:33.398] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:16:33.398] [bbotk]       9.988324          9.844514                 0.193334             2815 
+INFO  [12:16:33.398] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:16:33.398] [bbotk]         0.895 -0.9666276         <NA>    0.972954 
+INFO  [12:16:33.398] [bbotk]                                 uhash 
+INFO  [12:16:33.398] [bbotk]  4b523fef-12f7-4505-9ce5-cb9001d538b3 
+INFO  [12:16:35.055] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:16:35.113] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:16:35.120] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_cboost1' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:16:48.382] [mlr3]  Finished benchmark 
+INFO  [12:16:48.453] [bbotk] Result of batch 169: 
+INFO  [12:16:48.455] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:16:48.455] [bbotk]       8.604601          6.753104               0.03681646             2196 
+INFO  [12:16:48.455] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:16:48.455] [bbotk]          0.95 -0.9585905         <NA>   0.9684403 
+INFO  [12:16:48.455] [bbotk]                                 uhash 
+INFO  [12:16:48.455] [bbotk]  91931586-139b-4712-8d90-5e534514136f 
+INFO  [12:16:48.536] [bbotk] Finished optimizing after 200 evaluation(s) 
+INFO  [12:16:48.537] [bbotk] Result: 
+INFO  [12:16:48.540] [bbotk]  ps_cboost1.df ps_cboost1.df_cat ps_cboost1.learning_rate ps_cboost1.mstop 
+INFO  [12:16:48.540] [bbotk]       6.085408          8.935221                0.4868926             4972 
+INFO  [12:16:48.540] [bbotk]  learner_param_vals  x_domain classif.auc 
+INFO  [12:16:48.540] [bbotk]          <list[17]> <list[4]>   0.9737684 
+INFO  [12:18:04.891] [mlr3]  Finished benchmark 

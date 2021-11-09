@@ -30,7 +30,7 @@ namespace blearnertrack
 class BaselearnerTrack
 {
 private:
-  double                                               _learning_rate;
+  double                                               _learning_rate = 1;
   std::vector<std::shared_ptr<blearner::Baselearner>>  _blearner_vector;
   std::map<std::string, arma::mat>                     _parameter_map;
   std::vector<double>                                  _step_sizes;
@@ -44,6 +44,8 @@ public:
   std::map<std::string, arma::mat>                     getParameterMap                  () const;
   std::pair<std::vector<std::string>, arma::mat>       getParameterMatrix               () const;
   std::map<std::string, arma::mat>                     getEstimatedParameterOfIteration (const unsigned int&) const;
+
+  void setParameterMap (std::map<std::string, arma::mat>);
 
   // Other member functions
   void insertBaselearner (std::shared_ptr<blearner::Baselearner>, const double& step_size);

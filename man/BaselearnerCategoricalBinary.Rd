@@ -47,19 +47,10 @@ BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 }
 
 \examples{
-# Sample data:
-x = sample(c("pos","neg"), 20, TRUE)
+x = sample(c("one","two"), 20, TRUE)
+ds = CategoricalData$new(x, "cat")
+bl = BaselearnerCategoricalRidge$new(ds, "one")
 
-# Create new data object:
-data_source = CategoricalData$new(x, "pos")
-
-# Create new linear base-learner:
-cat_factory = BaselearnerCategoricalBinary$new(data_source, "pos")
-
-# Get the transformed data as stored for internal use:
-cat_factory$getData()
-
-# Summarize factory:
-cat_factory$summarizeFactory()
-
+bl$getData()
+bl$summarizeFactory()
 }

@@ -75,6 +75,10 @@
 #'   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
 #'     Fraction of how much data are used to calculate the out of bag risk.
 #'   }
+#'   \item{\code{stop_args}}{[\code{list(2)}]\cr
+#'     List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+#'     from setting `oob_fraction`.
+#'   }
 #' }
 #'
 #' \strong{For cboost$addLogger()}:
@@ -376,7 +380,8 @@ Compboost = R6::R6Class("Compboost",
     bl_factory_list = NULL,
     positive_category = NULL,
     stop_if_all_stoppers_fulfilled = FALSE,
-    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning_rate = 0.05, oob_fraction = NULL) {
+    stop_args = NULL,
+    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss, learning_rate = 0.05, oob_fraction = NULL, stop_args = list()) {
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
@@ -429,6 +434,17 @@ Compboost = R6::R6Class("Compboost",
       # `addBaselearners` are registered here:
       self$bl_factory_list = BlearnerFactoryList$new()
 
+      # Check and set stop args:
+      scount = 0
+      if (! is.null(stop_args$oob_offset)) scount = 1
+      if (length(stop_args) > scount) {
+        for (nm in c("patience", "eps_for_break")) {
+          if (! nm %in% names(stop_args)) stop("Cannot find ", nm, " in 'stop_args'")
+        }
+        checkmate::assertCount(stop_args$patience, positive = TRUE)
+        checkmate::assertNumeric(stop_args$eps_for_break, len = 1L)
+      }
+      self$stop_args = stop_args
     },
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       private$l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
@@ -516,6 +532,11 @@ Compboost = R6::R6Class("Compboost",
 
         if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
 
+          #browser()
+
+          data_names = append(data_names, ns)
+          new_sources = c(new_sources, CategoricalDataRaw$new(data_columns[[ns]], ns))
+          if (FALSE) {
           lvls = unlist(unique(data_columns))
 
           # Create dummy variable for each category and use that vector as data matrix. Hence,
@@ -524,6 +545,7 @@ Compboost = R6::R6Class("Compboost",
           for (lvl in lvls) {
             data_names = append(data_names, paste(ns, lvl, sep = "_"))
             new_sources = c(new_sources, InMemoryData$new(as.matrix(as.integer(data_columns == lvl)), paste(ns, lvl, sep = "_")))
+          }
           }
         } else {
           data_names = append(data_names, paste(ns, collapse = "_"))
@@ -683,10 +705,34 @@ Compboost = R6::R6Class("Compboost",
         self$stop_if_all_stoppers_fulfilled, self$bl_factory_list, self$loss, private$logger_list, self$optimizer)
     },
     addOobLogger = function () {
-
       if (! is.null(self$oob_fraction)) {
-        self$addLogger(logger = LoggerOobRisk, logger_id = "oob_risk",
-          used.loss = self$loss, eps.for.break = 0, patience = 0, oob_data = self$prepareData(self$data_oob),
+        scount = 0
+        if (! is.null(self$stop_args$oob_offset)) {
+          scount = 1
+          if (class(self$loss) == "Rcpp_LossQuadratic") {
+            l = LossQuadratic$new(self$stop_args$oob_offset, TRUE)
+          } else {
+            if (class(self$loss) == "Rcpp_LossBinomial") {
+              l = LossBinomial$new(self$stop_args$oob_offset, TRUE)
+            } else {
+              l = self$loss
+            }
+          }
+        } else {
+          l = self$loss
+        }
+
+        if (length(self$stop_args) > scount) {
+          use_as_stopper = TRUE
+          patience = self$stop_args$patience
+          eps_for_break = self$stop_args$eps_for_break
+        } else {
+          use_as_stopper = FALSE
+          patience = 0
+          eps_for_break = 0
+        }
+        self$addLogger(logger = LoggerOobRisk, use_as_stopper = use_as_stopper, logger_id = "oob_risk",
+          used.loss = l, eps.for.break = eps_for_break, patience = patience, oob_data = self$prepareData(self$data_oob),
           oob.response = self$response_oob)
       }
     },
@@ -703,13 +749,24 @@ Compboost = R6::R6Class("Compboost",
     },
     addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, ...) {
 
-      lvls = unlist(unique(data_column))
+      if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalRidge") {
+        #browser()
+        private$bl_list[[id]] = list()
+        private$bl_list[[id]]$feature = feature
+        private$bl_list[[id]]$source = CategoricalData$new(data_column[[feature]], feature)
+        private$bl_list[[id]]$factory = BaselearnerCategoricalRidge$new(private$bl_list[[id]]$source, id_fac, list(...))
 
+        self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)
+        private$bl_list[[id]]$source = NULL
+      } else {
+
+      #### OLD BINARY ENCODING:
+      lvls = unlist(unique(data_column))
       # Create dummy variable for each category and use that vector as data matrix. Hence,
       # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
       # base-learners (unbiased feature selection).
+      ds = CategoricalData$new(data_column[[feature]], feature)
       for (lvl in lvls) {
-
         cat_feat_id = paste(feature, lvl, id_fac, sep = "_")
 
         if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalBinary") {
@@ -721,8 +778,9 @@ Compboost = R6::R6Class("Compboost",
             private$bl_list[[cat_feat_id]]$source = data_source$new(cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"))
           }
 
-          private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
-          private$bl_list[[cat_feat_id]]$factory = bl_factory$new(private$bl_list[[cat_feat_id]]$source, paste0(lvl, "_", id_fac))
+          #private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
+          private$bl_list[[cat_feat_id]]$feature = feature
+          private$bl_list[[cat_feat_id]]$factory = bl_factory$new(ds, lvl)
 
           self$bl_factory_list$registerFactory(private$bl_list[[cat_feat_id]]$factory)
           private$bl_list[[cat_feat_id]]$source = NULL
@@ -741,5 +799,6 @@ Compboost = R6::R6Class("Compboost",
         }
       }
     }
+    } ### OLD BINARY ENCODING
   )
 )

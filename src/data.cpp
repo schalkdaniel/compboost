@@ -36,23 +36,11 @@ Data::Data (const std::string data_identifier, const arma::sp_mat& sparse_data_m
     _sparse_data_mat ( sparse_data_mat )
 { }
 
-void Data::setCacheCholesky (const arma::mat& xtx)
-{
-  _mat_cache = std::make_pair("cholesky", arma::chol(xtx));
-}
-
-void Data::setCacheInverse (const arma::mat& xtx)
-{
-  _mat_cache = std::make_pair("inverse", arma::inv(xtx));
-}
-
-void Data::setCacheIdentity (const arma::mat& X)
-{
-  _mat_cache = std::make_pair("identity", X);
-}
-
-void Data::setDenseData  (const arma::mat& X)    { _data_mat = X; }
-void Data::setSparseData (const arma::sp_mat& X) { _sparse_data_mat = X; }
+void Data::setCacheCholesky (const arma::mat& xtx)  { _mat_cache = std::make_pair("cholesky", arma::chol(xtx)); }
+void Data::setCacheInverse  (const arma::mat& xtx)  { _mat_cache = std::make_pair("inverse", arma::inv(xtx)); }
+void Data::setCacheIdentity (const arma::mat& X)    { _mat_cache = std::make_pair("identity", X); }
+void Data::setDenseData     (const arma::mat& X)    { _data_mat = X; }
+void Data::setSparseData    (const arma::sp_mat& X) { _sparse_data_mat = X; }
 
 void Data::setCache (const std::string cache_type, const arma::mat& xtx)
 {
@@ -104,6 +92,7 @@ InMemoryData::InMemoryData (const std::string data_identifier, const arma::sp_ma
 
 // void InMemoryData::setData (const arma::mat& transformed_data) { data_mat = transformed_data; }
 arma::mat InMemoryData::getData () const { return Data::getDenseData(); }
+unsigned int InMemoryData::nrow() const { return Data::getDenseData().n_rows; }
 
 InMemoryData::~InMemoryData () {}
 
@@ -121,9 +110,10 @@ BinnedData::BinnedData (const std::string data_identifier, const unsigned int bi
     _bin_idx     ( binning::calculateIndexVector(x, x_bins) )
 { }
 
-arma::mat  BinnedData::getData         () const { return Data::getDenseData(); }
-arma::uvec BinnedData::getBinningIndex () const { return _bin_idx; }
-bool       BinnedData::usesBinning     () const { return _use_binning; }
+unsigned int  BinnedData::nrow            () const { return _bin_idx.n_rows; }
+arma::mat     BinnedData::getData         () const { return Data::getDenseData(); }
+arma::uvec    BinnedData::getBinningIndex () const { return _bin_idx; }
+bool          BinnedData::usesBinning     () const { return _use_binning; }
 
 
 // PSplineData:
@@ -260,6 +250,11 @@ unsigned int CategoricalData::classStringToInt (const std::string cls) const
   return dict_entry->second;
 }
 
+unsigned int CategoricalData::nrow () const
+{
+  return _classes.n_rows;
+}
+
 // CategoricalDataRaw:
 // ---------------------------------
 
@@ -274,8 +269,11 @@ arma::mat CategoricalDataRaw::getData () const {
   return Data::getDenseData();
 }
 
-std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; };
+std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; }
+unsigned int CategoricalDataRaw::nrow ( ) const { return _raw_data.size(); }
 
+
+//
 // CategoricalBinaryData:
 // ---------------------------------
 
@@ -300,6 +298,7 @@ unsigned int CategoricalBinaryData::getIndex     (const unsigned int i) const { 
 double       CategoricalBinaryData::getXtxScalar () const { return _xtx_inv_scalar; }
 std::string  CategoricalBinaryData::getCategory  () const { return _category; }
 unsigned int CategoricalBinaryData::getNObs      () const { return _nobs; }
+unsigned int CategoricalBinaryData::nrow         () const { return _nobs; }
 
 CategoricalBinaryData::~CategoricalBinaryData () {}
 

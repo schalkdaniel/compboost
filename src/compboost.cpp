@@ -183,6 +183,11 @@ arma::vec Compboost::predict () const
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
   helper::debugPrint("| > Calculate initial prediction");
   arma::mat pred = _sh_ptr_response->calculateInitialPrediction(_sh_ptr_response->getResponse());
+  //std::cout << "Init: " << pred << std::endl;
+
+  //for (auto const& it: parameter_map) {
+    //std::cout << it.first << ": " << it.second << std::endl;
+  //}
 
   // Calculate vector - matrix product for each selected base-learner:
   for (auto& it : parameter_map) {
@@ -207,9 +212,11 @@ arma::vec Compboost::predict (std::map<std::string, std::shared_ptr<data::Data>>
 
   std::map<std::string, arma::mat> parameter_map = _blearner_track.getParameterMap();
 
-  arma::mat pred(data_map.begin()->second->getData().n_rows, _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
+  arma::mat pred(data_map.begin()->second->nrow(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
   helper::debugPrint("| > Calculate initial prediction");
-  pred = _sh_ptr_response->calculateInitialPrediction(pred);
+  if (_sh_ptr_response->getInitialization().n_rows == 1) {
+    pred = _sh_ptr_response->calculateInitialPrediction(pred);
+  }
 
   // Idea is simply to calculate the vector matrix product of parameter and
   // newdata. The problem here is that the newdata comes as raw data and has
@@ -246,14 +253,17 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
   if (k > iter_max) {
     unsigned int iter_diff = k - iter_max;
     Rcpp::Rcout << "\nYou have already trained " << std::to_string(iter_max) << " iterations.\n"
-                <<"Train " << std::to_string(iter_diff) << " additional iterations."
+                << "Train " << std::to_string(iter_diff) << " additional iterations."
                 << std::endl << std::endl;
 
     _sh_ptr_loggerlist->prepareForRetraining(k);
     continueTraining(trace);
   }
   helper::debugPrint("| > Set base-learner track to the new iteration");
-  _blearner_track.setToIteration(k);
+  auto tmp_param_map = _sh_ptr_optimizer->getParameterAtIteration(k, _learning_rate, _blearner_track);
+  _blearner_track.setParameterMap(tmp_param_map);
+  //
+  //_blearner_track.setToIteration(k);
   helper::debugPrint("| > Set new prediction scores by calling predict()");
   _sh_ptr_response->setPredictionScores(predict(), k);
   _current_iter = k;

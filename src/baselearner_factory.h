@@ -121,7 +121,8 @@ private:
 
 public:
   BaselearnerPSplineFactory (const std::string, std::shared_ptr<data::Data>, const unsigned int,
-    const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int, const std::string);
+    const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int,
+    const std::string, const std::string);
 
   arma::mat  instantiateData          (const arma::mat&) const;
   arma::mat  getData                  ()                 const;

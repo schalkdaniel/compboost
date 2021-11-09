@@ -523,7 +523,7 @@ public:
 //' @section Usage:
 //' \preformatted{
 //' BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
-//'   differences, df))
+//'   differences, df, n_bins, bin_method))
 //' }
 //'
 //' @section arguments:
@@ -550,6 +550,10 @@ public:
 //'   If set to a value greater than zero, binning is applied and reduces the number of used
 //'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
 //'   to set \code{bin_root = 2}.
+//' }
+//' \item{\code{bin_method} [\code{character(1)}]}{
+//'   Method used for spacing knot points. Options are linear (equally spaced grid) or
+//'   quantile (knot points based on quantiles).
 //' }
 //' }
 //'
@@ -601,6 +605,7 @@ private:
     Rcpp::Named("df") = 0,
     Rcpp::Named("differences") = 2,
     Rcpp::Named("bin_root") = 0,
+    Rcpp::Named("bin_method") = "linear",
     Rcpp::Named("cache_type") = "inverse"
   );
 
@@ -617,7 +622,7 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
       internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["df"], internal_arg_list["differences"], true,
-      internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
+      internal_arg_list["bin_root"], internal_arg_list["bin_method"], internal_arg_list["cache_type"]);
   }
 
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, const std::string& blearner_type, Rcpp::List arg_list)
@@ -626,7 +631,7 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
       internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["df"], internal_arg_list["differences"], true,
-      internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
+      internal_arg_list["bin_root"], internal_arg_list["bin_method"], internal_arg_list["cache_type"]);
   }
 
   void summarizeFactory ()
@@ -674,9 +679,12 @@ public:
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
-//' # Sample data:
-//' x = sample(c(0,1), 20, TRUE)
-//' data_mat = cbind(x)
+//' x = sample(c("one","two"), 20, TRUE)
+//' ds = CategoricalData$new(x, "cat")
+//' bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
+//'
+//' bl$getData()
+//' bl$summarizeFactory()
 //'
 //' @export BaselearnerCategoricalRidge
 class BaselearnerCategoricalRidgeFactoryWrapper : public BaselearnerFactoryWrapper
@@ -745,20 +753,12 @@ public:
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
-//' # Sample data:
-//' x = sample(c("pos","neg"), 20, TRUE)
+//' x = sample(c("one","two"), 20, TRUE)
+//' ds = CategoricalData$new(x, "cat")
+//' bl = BaselearnerCategoricalRidge$new(ds, "one")
 //'
-//' # Create new data object:
-//' data_source = CategoricalData$new(x, "pos")
-//'
-//' # Create new linear base-learner:
-//' cat_factory = BaselearnerCategoricalBinary$new(data_source, "pos")
-//'
-//' # Get the transformed data as stored for internal use:
-//' cat_factory$getData()
-//'
-//' # Summarize factory:
-//' cat_factory$summarizeFactory()
+//' bl$getData()
+//' bl$summarizeFactory()
 //'
 //' @export BaselearnerCategoricalBinary
 class BaselearnerCategoricalBinaryFactoryWrapper : public BaselearnerFactoryWrapper
@@ -1315,6 +1315,7 @@ class LossQuadraticWrapper : public LossWrapper
 public:
   LossQuadraticWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(); }
   LossQuadraticWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
+  LossQuadraticWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
 };
 
 //' Absolute loss for regression tasks.
@@ -1533,6 +1534,7 @@ class LossBinomialWrapper : public LossWrapper
 public:
   LossBinomialWrapper () { sh_ptr_loss = std::make_shared<loss::LossBinomial>(); }
   LossBinomialWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
+  LossBinomialWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
 };
 
 //' Create LossCustom by using R functions.
@@ -1699,6 +1701,7 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <arma::mat, bool> ()
   ;
 
   class_<LossAbsoluteWrapper> ("LossAbsolute")
@@ -1727,6 +1730,7 @@ RCPP_MODULE (loss_module)
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <arma::mat, bool> ()
   ;
 
   class_<LossCustomWrapper> ("LossCustom")
@@ -2534,8 +2538,15 @@ protected:
 //' @section Usage:
 //' \preformatted{
 //' OptimizerCoordinateDescent$new()
+//' OptimizerCoordinateDescent$new(ncores)
 //' }
-//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
 //' @examples
 //'
 //' # Define optimizer:
@@ -2555,6 +2566,67 @@ public:
   }
 };
 
+//' Coordinate Descent with Cosine Annealing
+//'
+//' This class defines a new object which is used to conduct Coordinate Descent with a
+//' cosine annealing learning rate strategy.
+//'
+//' @format \code{\link{S4}} object.
+//' @name OptimizerCosineAnnealing
+//'
+//' @section Usage:
+//' \preformatted{
+//' OptimizerCosineAnnealing$new()
+//' OptimizerCosineAnnealing$new(ncores)
+//' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles)
+//' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles, ncores)
+//' }
+//' @section Arguments:
+//' \describe{
+//' \item{\code{nu_min} [\code{numeric(1)}]}{
+//'   Minimal learning rate.
+//' }
+//' \item{\code{nu_max} [\code{numeric(1)}]}{
+//'   Maximal learning rate.
+//' }
+//' \item{\code{cycles} [\code{integer(1)}]}{
+//'   Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
+//' }
+//' \item{\code{anneal_iter_max} [\code{integer(1)}]}{
+//'   Maximal number of iters for which annealing is applied. If the iteration is bigger
+//'   than anneal_iter_max, then nu_min is used as fixed learning rate.
+//' }
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
+//' @examples
+//'
+//' # Define optimizer:
+//' optimizer = OptimizerCosineAnnealing$new()
+//'
+//' @export OptimizerCosineAnnealing
+class OptimizerCosineAnnealing : public OptimizerWrapper
+{
+public:
+  OptimizerCosineAnnealing () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>();
+  }
+  OptimizerCosineAnnealing (unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(num_threads);
+  }
+  OptimizerCosineAnnealing (double nu_min, double nu_max, unsigned int cycles, unsigned int anneal_iter_max) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(nu_min, nu_max, cycles, anneal_iter_max, 1);
+  }
+  OptimizerCosineAnnealing (double nu_min, double nu_max, unsigned int cycles, unsigned int anneal_iter_max,
+      unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(nu_min, nu_max, cycles, anneal_iter_max,
+      num_threads);
+  }
+  std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
+};
+
 //' Coordinate Descent with line search
 //'
 //' This class defines a new object which is used to conduct Coordinate Descent with line search.
@@ -2568,8 +2640,15 @@ public:
 //' @section Usage:
 //' \preformatted{
 //' OptimizerCoordinateDescentLineSearch$new()
+//' OptimizerCoordinateDescentLineSearch$new(ncores)
 //' }
-//'
+//' @section Arguments:
+//' \describe{
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
 //' @examples
 //'
 //' # Define optimizer:
@@ -2584,6 +2663,71 @@ public:
   }
   OptimizerCoordinateDescentLineSearch (unsigned int num_threads) {
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(num_threads);
+  }
+  std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
+};
+
+
+//' Nesterov momentum
+//'
+//' This class defines a new object which is used to conduct Nesterovs momentum as optimization technique.
+//'
+//' @format \code{\link{S4}} object.
+//' @name OptimizerAGBM
+//'
+//' @section Usage:
+//' \preformatted{
+//' OptimizerAGBM$new(momentum)
+//' OptimizerAGBM$new(momentum, ncores)
+//' }
+//' @section Arguments:
+//' \describe{
+//' \item{\code{momentum} [\code{numeric(1)}]}{
+//'   Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
+//'   faster but also tends to overfit faster.
+//' }
+//' \item{\code{ncores} [\code{integer(1)}]}{
+//'   Number of cores used to fit the algorithm. Note that number of used cores
+//'   should be smaller or equal the number of base learner.
+//' }
+//' }
+//' @examples
+//'
+//' optimizer = OptimizerAGBM$new(0.1)
+//'
+//' @export OptimizerAGBM
+class OptimizerAGBM: public OptimizerWrapper
+{
+public:
+  OptimizerAGBM (double momentum) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum);
+  }
+  OptimizerAGBM (double momentum, unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, num_threads);
+  }
+  OptimizerAGBM (double momentum, unsigned int acc_iters, unsigned int num_threads) {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, acc_iters, num_threads);
+  }
+
+
+  std::map<std::string, arma::mat> getMomentumParameter ()
+  {
+    std::map<std::string, arma::mat> param_map = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getMomentumParameter();
+    return param_map;
+  }
+  std::vector<std::string> getSelectedMomentumBaselearner ()
+  {
+    std::vector<std::string> out  = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getSelectedMomentumBaselearner();
+    return out;
+  }
+  Rcpp::List getParameterMatrix () const
+  {
+    std::pair<std::vector<std::string>, arma::mat> out_pair = std::static_pointer_cast<optimizer::OptimizerAGBM>(sh_ptr_optimizer)->getParameterMatrix();
+
+    return Rcpp::List::create(
+      Rcpp::Named("parameter_names")   = out_pair.first,
+      Rcpp::Named("parameter_matrix")  = out_pair.second
+    );
   }
   std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
@@ -2604,11 +2748,31 @@ RCPP_MODULE(optimizer_module)
     .constructor <unsigned int> ()
   ;
 
+  class_<OptimizerCosineAnnealing> ("OptimizerCosineAnnealing")
+    .derives<OptimizerWrapper> ("Optimizer")
+    .constructor ()
+    .constructor <unsigned int> ()
+    .constructor <double, double, unsigned int, unsigned int> ()
+    .constructor <double, double, unsigned int, unsigned int, unsigned int> ()
+    .method("getStepSize", &OptimizerCosineAnnealing::getStepSize, "Get vector of step sizes")
+  ;
+
   class_<OptimizerCoordinateDescentLineSearch> ("OptimizerCoordinateDescentLineSearch")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
     .constructor <unsigned int> ()
     .method("getStepSize", &OptimizerCoordinateDescentLineSearch::getStepSize, "Get vector of step sizes")
+  ;
+
+  class_<OptimizerAGBM> ("OptimizerAGBM")
+    .derives<OptimizerWrapper> ("Optimizer")
+    .constructor <double> ()
+    .constructor <double, unsigned int> ()
+    .constructor <double, unsigned int, unsigned int> ()
+    .method("getMomentumParameter", &OptimizerAGBM::getMomentumParameter, "Get the parameter estimated in the momentum sequence")
+    .method("getSelectedMomentumBaselearner", &OptimizerAGBM::getSelectedMomentumBaselearner, "Get selected base-learner of the momentum sequence")
+    .method("getStepSize", &OptimizerAGBM::getStepSize, "Get vector of step sizes")
+    .method("getParameterMatrix", &OptimizerAGBM::getParameterMatrix, "Get parameter matrix")
   ;
 }
 

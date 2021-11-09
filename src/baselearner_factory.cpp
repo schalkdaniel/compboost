@@ -150,7 +150,7 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBasel
  */
 BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner_type,
   std::shared_ptr<data::Data> data_source, const unsigned int degree, const unsigned int n_knots,
-  const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root,
+  const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices, const unsigned int bin_root, const std::string bin_method,
   const std::string cache_type)
   : BaselearnerFactory ( blearner_type, data_source )
 {
@@ -171,7 +171,7 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
   if (bin_root == 0) { // don't use binning
     _sh_ptr_psdata = std::make_shared<data::PSplineData>(data_source->getDataIdentifier(), degree, knots, penalty_mat);
   } else {             // use binning
-    arma::colvec bins = binning::binVectorCustom(data_source->getData(), bin_root);
+    arma::colvec bins = binning::binVectorCustom(data_source->getData(), bin_root, bin_method);
     _sh_ptr_psdata    = std::make_shared<data::PSplineData>(data_source->getDataIdentifier(), degree, knots, penalty_mat, bin_root, data_source->getDenseData(), bins);
     data_source->setDenseData(bins);
   }
@@ -208,7 +208,14 @@ arma::mat BaselearnerPSplineFactory::getData () const
 
 arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param) const
 {
-  return (param.t() * _sh_ptr_psdata->getSparseData()).t();
+  if (_sh_ptr_psdata->usesBinning()) {
+    return binning::binnedSparsePrediction(_sh_ptr_psdata->getSparseData(), param, _sh_ptr_psdata->getBinningIndex());
+  } else {
+    // Trick to speed up things. Try to avoid transposing the sparse matrix. The
+    // original one (sh_ptr_data->sparse_data_mat * parameter) is about 4 or 5 times
+    // slower than that one:
+    return (param.t() * _sh_ptr_psdata->getSparseData()).t();
+  }
 }
 
 arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param, const std::shared_ptr<data::Data>& newdata) const
@@ -258,8 +265,8 @@ arma::mat BaselearnerCategoricalRidgeFactory::getData () const
 arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   arma::urowvec classes = _sh_ptr_cdata->getClasses();
-  arma::mat out(classes.n_rows, param.n_cols, arma::fill::zeros);
-  for (unsigned int i = 0; i < classes.n_rows; i++) {
+  arma::mat out(classes.n_cols, param.n_cols, arma::fill::zeros);
+  for (unsigned int i = 0; i < out.n_rows; i++) {
     out.row(i) = param.row(classes(i));
   }
   return out;
