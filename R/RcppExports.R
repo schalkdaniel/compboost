@@ -194,7 +194,7 @@ NULL
 #' @section Usage:
 #' \preformatted{
 #' BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
-#'   differences, df))
+#'   differences, df, n_bins, bin_method))
 #' }
 #'
 #' @section arguments:
@@ -221,6 +221,10 @@ NULL
 #'   If set to a value greater than zero, binning is applied and reduces the number of used
 #'   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
 #'   to set \code{bin_root = 2}.
+#' }
+#' \item{\code{bin_method} [\code{character(1)}]}{
+#'   Method used for spacing knot points. Options are linear (equally spaced grid) or
+#'   quantile (knot points based on quantiles).
 #' }
 #' }
 #'
@@ -320,9 +324,12 @@ NULL
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
-#' # Sample data:
-#' x = sample(c(0,1), 20, TRUE)
-#' data_mat = cbind(x)
+#' x = sample(c("one","two"), 20, TRUE)
+#' ds = CategoricalData$new(x, "cat")
+#' bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
+#'
+#' bl$getData()
+#' bl$summarizeFactory()
 #'
 #' @export BaselearnerCategoricalRidge
 NULL
@@ -363,20 +370,12 @@ NULL
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
-#' # Sample data:
-#' x = sample(c("pos","neg"), 20, TRUE)
+#' x = sample(c("one","two"), 20, TRUE)
+#' ds = CategoricalData$new(x, "cat")
+#' bl = BaselearnerCategoricalRidge$new(ds, "one")
 #'
-#' # Create new data object:
-#' data_source = CategoricalData$new(x, "pos")
-#'
-#' # Create new linear base-learner:
-#' cat_factory = BaselearnerCategoricalBinary$new(data_source, "pos")
-#'
-#' # Get the transformed data as stored for internal use:
-#' cat_factory$getData()
-#'
-#' # Summarize factory:
-#' cat_factory$summarizeFactory()
+#' bl$getData()
+#' bl$summarizeFactory()
 #'
 #' @export BaselearnerCategoricalBinary
 NULL
@@ -1385,14 +1384,64 @@ NULL
 #' @section Usage:
 #' \preformatted{
 #' OptimizerCoordinateDescent$new()
+#' OptimizerCoordinateDescent$new(ncores)
 #' }
-#'
+#' @section Arguments:
+#' \describe{
+#' \item{\code{ncores} [\code{integer(1)}]}{
+#'   Number of cores used to fit the algorithm. Note that number of used cores
+#'   should be smaller or equal the number of base learner.
+#' }
+#' }
 #' @examples
 #'
 #' # Define optimizer:
 #' optimizer = OptimizerCoordinateDescent$new()
 #'
 #' @export OptimizerCoordinateDescent
+NULL
+
+#' Coordinate Descent with Cosine Annealing
+#'
+#' This class defines a new object which is used to conduct Coordinate Descent with a
+#' cosine annealing learning rate strategy.
+#'
+#' @format \code{\link{S4}} object.
+#' @name OptimizerCosineAnnealing
+#'
+#' @section Usage:
+#' \preformatted{
+#' OptimizerCosineAnnealing$new()
+#' OptimizerCosineAnnealing$new(ncores)
+#' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles)
+#' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles, ncores)
+#' }
+#' @section Arguments:
+#' \describe{
+#' \item{\code{nu_min} [\code{numeric(1)}]}{
+#'   Minimal learning rate.
+#' }
+#' \item{\code{nu_max} [\code{numeric(1)}]}{
+#'   Maximal learning rate.
+#' }
+#' \item{\code{cycles} [\code{integer(1)}]}{
+#'   Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
+#' }
+#' \item{\code{anneal_iter_max} [\code{integer(1)}]}{
+#'   Maximal number of iters for which annealing is applied. If the iteration is bigger
+#'   than anneal_iter_max, then nu_min is used as fixed learning rate.
+#' }
+#' \item{\code{ncores} [\code{integer(1)}]}{
+#'   Number of cores used to fit the algorithm. Note that number of used cores
+#'   should be smaller or equal the number of base learner.
+#' }
+#' }
+#' @examples
+#'
+#' # Define optimizer:
+#' optimizer = OptimizerCosineAnnealing$new()
+#'
+#' @export OptimizerCosineAnnealing
 NULL
 
 #' Coordinate Descent with line search
@@ -1408,14 +1457,51 @@ NULL
 #' @section Usage:
 #' \preformatted{
 #' OptimizerCoordinateDescentLineSearch$new()
+#' OptimizerCoordinateDescentLineSearch$new(ncores)
 #' }
-#'
+#' @section Arguments:
+#' \describe{
+#' \item{\code{ncores} [\code{integer(1)}]}{
+#'   Number of cores used to fit the algorithm. Note that number of used cores
+#'   should be smaller or equal the number of base learner.
+#' }
+#' }
 #' @examples
 #'
 #' # Define optimizer:
 #' optimizer = OptimizerCoordinateDescentLineSearch$new()
 #'
 #' @export OptimizerCoordinateDescentLineSearch
+NULL
+
+#' Nesterov momentum
+#'
+#' This class defines a new object which is used to conduct Nesterovs momentum as optimization technique.
+#'
+#' @format \code{\link{S4}} object.
+#' @name OptimizerAGBM
+#'
+#' @section Usage:
+#' \preformatted{
+#' OptimizerAGBM$new(momentum)
+#' OptimizerAGBM$new(momentum, ncores)
+#' }
+#' @section Arguments:
+#' \describe{
+#' \item{\code{momentum} [\code{numeric(1)}]}{
+#'   Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
+#'   faster but also tends to overfit faster.
+#' }
+#' \item{\code{ncores} [\code{integer(1)}]}{
+#'   Number of cores used to fit the algorithm. Note that number of used cores
+#'   should be smaller or equal the number of base learner.
+#' }
+#' }
+#' @examples
+#'
+#' optimizer = OptimizerAGBM$new(0.1)
+#'
+#' @export OptimizerAGBM
 NULL
 
 #' Main Compboost Class

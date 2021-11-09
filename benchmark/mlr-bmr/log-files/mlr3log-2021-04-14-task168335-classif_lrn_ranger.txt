@@ -1,0 +1,1962 @@
+INFO  [10:29:22.520] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:29:22.592] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger.tuned' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:29:22.749] [bbotk] Starting to optimize 4 parameter(s) with '<OptimizerInterMBO>' and '<TerminatorEvals> [n_evals=200]' 
+INFO  [10:29:23.626] [bbotk] Evaluating 32 configuration(s) 
+INFO  [10:29:25.013] [mlr3]  Running benchmark with 32 resampling iterations 
+INFO  [10:29:25.020] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:07.690] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:35:34.639] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:38:21.649] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:43:37.664] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:45:20.379] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:50:36.754] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:03:59.217] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:04:49.343] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:05:08.373] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:05:13.300] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:15:21.775] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:16:04.209] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:20:13.863] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:20:47.002] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:16.566] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:25:29.365] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:35:09.562] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:32.860] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:41:57.541] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:45:55.044] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:45.083] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:57:35.870] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:24.009] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:02:10.385] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:04:04.242] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:14:46.253] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:18:57.212] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:21:36.543] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:26:23.972] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:27:46.210] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:38:31.109] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:39:24.106] [mlr3]  Finished benchmark 
+INFO  [12:39:25.992] [bbotk] Result of batch 1: 
+INFO  [12:39:25.996] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [12:39:25.996] [bbotk]              22                  13                      51                1581 
+INFO  [12:39:25.996] [bbotk]              42                  44                      23                1068 
+INFO  [12:39:25.996] [bbotk]              10                  22                      75                 948 
+INFO  [12:39:25.996] [bbotk]              40                  16                      90                 711 
+INFO  [12:39:25.996] [bbotk]              28                  40                      37                1933 
+INFO  [12:39:25.996] [bbotk]              48                  20                      66                1289 
+INFO  [12:39:25.996] [bbotk]               9                  37                      19                 409 
+INFO  [12:39:25.996] [bbotk]              32                  14                      41                 483 
+INFO  [12:39:25.996] [bbotk]              39                  32                      41                 649 
+INFO  [12:39:25.996] [bbotk]              17                   2                      88                1482 
+INFO  [12:39:25.996] [bbotk]               3                   9                      58                1828 
+INFO  [12:39:25.996] [bbotk]              38                   6                      20                1338 
+INFO  [12:39:25.996] [bbotk]              26                  50                      27                 930 
+INFO  [12:39:25.996] [bbotk]              13                  30                      72                1948 
+INFO  [12:39:25.996] [bbotk]              16                  43                      65                1249 
+INFO  [12:39:25.996] [bbotk]              18                  20                      13                 856 
+INFO  [12:39:25.996] [bbotk]               5                  18                      49                 769 
+INFO  [12:39:25.996] [bbotk]              29                  49                      77                 701 
+INFO  [12:39:25.996] [bbotk]              25                  27                      46                1192 
+INFO  [12:39:25.996] [bbotk]              33                  38                       7                 288 
+INFO  [12:39:25.996] [bbotk]              23                  29                     100                1037 
+INFO  [12:39:25.996] [bbotk]              34                  46                      16                1690 
+INFO  [12:39:25.996] [bbotk]              36                   5                      82                1738 
+INFO  [12:39:25.996] [bbotk]              45                  24                       1                1104 
+INFO  [12:39:25.996] [bbotk]              50                  26                      80                 447 
+INFO  [12:39:25.996] [bbotk]               5                  42                      30                1532 
+INFO  [12:39:25.996] [bbotk]              19                   3                      97                 561 
+INFO  [12:39:25.996] [bbotk]              43                   1                      33                 331 
+INFO  [12:39:25.996] [bbotk]               1                  11                      94                1849 
+INFO  [12:39:25.996] [bbotk]              14                  35                      54                 219 
+INFO  [12:39:25.996] [bbotk]               7                   9                       4                1399 
+INFO  [12:39:25.996] [bbotk]              47                  34                      61                1639 
+INFO  [12:39:25.996] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [12:39:25.996] [bbotk]  classif.auc                                uhash 
+INFO  [12:39:25.996] [bbotk]    0.9743166 d70bd776-e25d-451c-8b15-667b7ca5c77b 
+INFO  [12:39:25.996] [bbotk]    0.9743051 33d92b18-6d5e-41a5-9484-27c34db4e14c 
+INFO  [12:39:25.996] [bbotk]    0.9730748 59d9ff27-4d4c-4eee-80cf-ed0834ca36a7 
+INFO  [12:39:25.996] [bbotk]    0.9717380 6e72d607-257a-4b6b-9ccb-0f44e8bc8e36 
+INFO  [12:39:25.996] [bbotk]    0.9748423 b633465f-9631-4c87-8b7c-8a383153ced4 
+INFO  [12:39:25.996] [bbotk]    0.9717658 eec6b2af-da46-4510-b44c-903bd4581dea 
+INFO  [12:39:25.996] [bbotk]    0.9755753 c391e140-046c-4b2b-93ca-fdd402144847 
+INFO  [12:39:25.996] [bbotk]    0.9741900 cd00596a-ebca-4927-93d5-63a79fdf9f93 
+INFO  [12:39:25.996] [bbotk]    0.9736519 b03356e9-72e4-4e9a-982a-d936109a78e3 
+INFO  [12:39:25.996] [bbotk]    0.9338411 057ff0eb-ea27-48f6-af8d-84da30d599f8 
+INFO  [12:39:25.996] [bbotk]    0.9673136 134b0e44-e306-4865-985b-f1375e43a755 
+INFO  [12:39:25.996] [bbotk]    0.9662409 dd5fbd4e-7274-45a5-9f5d-edc1ae4e4b67 
+INFO  [12:39:25.996] [bbotk]    0.9754058 59530e4a-a18b-4745-a4b4-ad3e55519182 
+INFO  [12:39:25.996] [bbotk]    0.9735759 03cce619-b5f6-47f5-8446-88d8691568cf 
+INFO  [12:39:25.996] [bbotk]    0.9740451 3254787c-225d-4d9f-96c0-6594aeb1678b 
+INFO  [12:39:25.996] [bbotk]    0.9763188 e589f073-bb40-424a-81c1-350b62b4a6b0 
+INFO  [12:39:25.996] [bbotk]    0.9724195 89981bc3-748c-4dee-88dd-5e601f8365b9 
+INFO  [12:39:25.996] [bbotk]    0.9732126 9d13ba26-1503-4288-b8f8-2c8de91e06de 
+INFO  [12:39:25.996] [bbotk]    0.9746634 6d0954c5-2109-4f47-8aaf-50866c1234e6 
+INFO  [12:39:25.996] [bbotk]    0.9754534 5caa7a83-ab78-49c7-9e82-64ecea168595 
+INFO  [12:39:25.996] [bbotk]    0.9726855 ec1469d3-9bb1-46da-905a-4bd3c495d810 
+INFO  [12:39:25.996] [bbotk]    0.9753926 17291009-86cf-4332-993c-970c6bc4953d 
+INFO  [12:39:25.996] [bbotk]    0.9612344 f26a8e52-4128-4b6e-8ddb-31ae9fe6fbab 
+INFO  [12:39:25.996] [bbotk]    0.9747721 b514e954-c6a5-41c4-a3ab-458b8ce2cbe8 
+INFO  [12:39:25.996] [bbotk]    0.9707755 077d15a4-5857-4936-9721-e2ea23d2a4d9 
+INFO  [12:39:25.996] [bbotk]    0.9736382 5eef1557-5369-4953-b989-fbeabf8f3e01 
+INFO  [12:39:25.996] [bbotk]    0.9473384 9815a82f-e793-4dee-b6fa-ff6985f6c7b9 
+INFO  [12:39:25.996] [bbotk]    0.8688826 4d6ef890-ea0f-41f0-bca0-e96c2f585f04 
+INFO  [12:39:25.996] [bbotk]    0.9626180 9c439cab-f539-4254-b676-766f0835b4b3 
+INFO  [12:39:25.996] [bbotk]    0.9743225 ec0f44ba-4e34-41d2-b9a3-aeeda4e88904 
+INFO  [12:39:25.996] [bbotk]    0.9722270 6eb5cabf-1c63-4e00-89a7-9df1f656d751 
+INFO  [12:39:25.996] [bbotk]    0.9721224 dd7532cb-0874-4598-9bf8-66c601227636 
+INFO  [12:39:25.996] [bbotk]  classif.auc                                uhash 
+INFO  [12:39:27.958] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:39:28.018] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:39:28.025] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:40:37.993] [mlr3]  Finished benchmark 
+INFO  [12:40:38.066] [bbotk] Result of batch 2: 
+INFO  [12:40:38.068] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [12:40:38.068] [bbotk]              16                   7                       8                 904 
+INFO  [12:40:38.068] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:40:38.068] [bbotk]         0.826 -0.9811229         <NA>   0.9703611 
+INFO  [12:40:38.068] [bbotk]                                 uhash 
+INFO  [12:40:38.068] [bbotk]  0a9e58b2-0709-47ab-a553-2e1d0e2adfa4 
+INFO  [12:40:39.156] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:40:39.220] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:40:39.227] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:43:47.407] [mlr3]  Finished benchmark 
+INFO  [12:43:47.489] [bbotk] Result of batch 3: 
+INFO  [12:43:47.491] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [12:43:47.491] [bbotk]              17                  28                      24                 921 
+INFO  [12:43:47.491] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:43:47.491] [bbotk]         0.762 -0.9800326         <NA>   0.9759577 
+INFO  [12:43:47.491] [bbotk]                                 uhash 
+INFO  [12:43:47.491] [bbotk]  70142a16-247d-4f5e-b088-84f2d5822db3 
+INFO  [12:43:48.337] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:43:48.405] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:43:48.413] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:47:36.164] [mlr3]  Finished benchmark 
+INFO  [12:47:36.241] [bbotk] Result of batch 4: 
+INFO  [12:47:36.243] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [12:47:36.243] [bbotk]              15                  10                      39                1985 
+INFO  [12:47:36.243] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [12:47:36.243] [bbotk]         0.643 -0.980837         <NA>   0.9740518 
+INFO  [12:47:36.243] [bbotk]                                 uhash 
+INFO  [12:47:36.243] [bbotk]  89070c9f-f3fb-4459-9601-f727f3216905 
+INFO  [12:47:37.254] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:47:37.302] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:47:37.309] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:59:54.165] [mlr3]  Finished benchmark 
+INFO  [12:59:54.238] [bbotk] Result of batch 5: 
+INFO  [12:59:54.240] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [12:59:54.240] [bbotk]              50                  17                      33                1444 
+INFO  [12:59:54.240] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [12:59:54.240] [bbotk]         0.811 -0.9822148         <NA>   0.9725769 
+INFO  [12:59:54.240] [bbotk]                                 uhash 
+INFO  [12:59:54.240] [bbotk]  b5f97795-e57e-4fc7-8b91-464d14281404 
+INFO  [12:59:55.013] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:59:55.075] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:59:55.081] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:04:35.059] [mlr3]  Finished benchmark 
+INFO  [13:04:35.131] [bbotk] Result of batch 6: 
+INFO  [13:04:35.132] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:04:35.132] [bbotk]              33                  31                      74                 774 
+INFO  [13:04:35.132] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:04:35.132] [bbotk]         0.576 -0.9784777         <NA>   0.9730581 
+INFO  [13:04:35.132] [bbotk]                                 uhash 
+INFO  [13:04:35.132] [bbotk]  aa632567-1a1e-45ae-826b-ee0fa1057e7f 
+INFO  [13:04:35.896] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:04:35.958] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:04:35.964] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:05:49.625] [mlr3]  Finished benchmark 
+INFO  [13:05:49.701] [bbotk] Result of batch 7: 
+INFO  [13:05:49.703] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:05:49.703] [bbotk]              21                  47                      87                 319 
+INFO  [13:05:49.703] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [13:05:49.703] [bbotk]         0.565 -0.979168         <NA>   0.9730988 
+INFO  [13:05:49.703] [bbotk]                                 uhash 
+INFO  [13:05:49.703] [bbotk]  9e5729b6-acaa-414c-87a3-6cc43bb15339 
+INFO  [13:05:50.452] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:05:50.523] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:05:50.529] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:09:28.114] [mlr3]  Finished benchmark 
+INFO  [13:09:28.185] [bbotk] Result of batch 8: 
+INFO  [13:09:28.187] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:09:28.187] [bbotk]              14                  41                      59                1320 
+INFO  [13:09:28.187] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:09:28.187] [bbotk]          0.56 -0.9831098         <NA>    0.974196 
+INFO  [13:09:28.187] [bbotk]                                 uhash 
+INFO  [13:09:28.187] [bbotk]  47f2a83f-83dd-4aff-9312-a21f92e62cc7 
+INFO  [13:09:29.025] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:09:29.085] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:09:29.092] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:09:45.839] [mlr3]  Finished benchmark 
+INFO  [13:09:45.908] [bbotk] Result of batch 9: 
+INFO  [13:09:45.910] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:09:45.910] [bbotk]              14                   7                      32                 249 
+INFO  [13:09:45.910] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:09:45.910] [bbotk]         0.641 -0.9772649         <NA>   0.9696411 
+INFO  [13:09:45.910] [bbotk]                                 uhash 
+INFO  [13:09:45.910] [bbotk]  ac9641fc-c9ee-44d3-99dc-4928965ed60a 
+INFO  [13:09:46.623] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:09:46.681] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:09:46.687] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:22:22.236] [mlr3]  Finished benchmark 
+INFO  [13:22:22.326] [bbotk] Result of batch 10: 
+INFO  [13:22:22.328] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:22:22.328] [bbotk]              42                  48                      48                1657 
+INFO  [13:22:22.328] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:22:22.328] [bbotk]         0.504 -0.9796422         <NA>   0.9732573 
+INFO  [13:22:22.328] [bbotk]                                 uhash 
+INFO  [13:22:22.328] [bbotk]  60229a1c-e6e9-4923-ac8b-31cb076212f2 
+INFO  [13:22:23.160] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:22:23.210] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:22:23.217] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:28:53.219] [mlr3]  Finished benchmark 
+INFO  [13:28:53.289] [bbotk] Result of batch 11: 
+INFO  [13:28:53.290] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:28:53.290] [bbotk]              24                  30                      59                1508 
+INFO  [13:28:53.290] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:28:53.290] [bbotk]         0.623 -0.9798605         <NA>   0.9741616 
+INFO  [13:28:53.290] [bbotk]                                 uhash 
+INFO  [13:28:53.290] [bbotk]  dbc32622-1914-415a-98de-cb1c1014d94d 
+INFO  [13:28:54.071] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:28:54.131] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:28:54.137] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:31:03.394] [mlr3]  Finished benchmark 
+INFO  [13:31:03.469] [bbotk] Result of batch 12: 
+INFO  [13:31:03.471] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:31:03.471] [bbotk]               5                  23                      34                1886 
+INFO  [13:31:03.471] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:31:03.471] [bbotk]         0.575 -0.9773313         <NA>    0.973399 
+INFO  [13:31:03.471] [bbotk]                                 uhash 
+INFO  [13:31:03.471] [bbotk]  66d73d12-c30d-4ac5-a6bc-fdb3a757627e 
+INFO  [13:31:04.275] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:31:04.335] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:31:04.342] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:32:46.823] [mlr3]  Finished benchmark 
+INFO  [13:32:46.917] [bbotk] Result of batch 13: 
+INFO  [13:32:46.919] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:32:46.919] [bbotk]              40                  46                      91                 239 
+INFO  [13:32:46.919] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:32:46.919] [bbotk]         0.621 -0.9782575         <NA>    0.971824 
+INFO  [13:32:46.919] [bbotk]                                 uhash 
+INFO  [13:32:46.919] [bbotk]  a9669a71-8d0e-4a3c-a74c-4b52052a46bc 
+INFO  [13:32:47.670] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:32:47.732] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:32:47.741] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:32:50.432] [mlr3]  Finished benchmark 
+INFO  [13:32:50.508] [bbotk] Result of batch 14: 
+INFO  [13:32:50.510] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:32:50.510] [bbotk]              14                   1                      17                 230 
+INFO  [13:32:50.510] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:32:50.510] [bbotk]         0.554 -0.9789012         <NA>   0.9059778 
+INFO  [13:32:50.510] [bbotk]                                 uhash 
+INFO  [13:32:50.510] [bbotk]  88c25527-8a59-4e0b-bf8b-f70879c29047 
+INFO  [13:32:51.267] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:32:51.335] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:32:51.342] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:33:25.953] [mlr3]  Finished benchmark 
+INFO  [13:33:26.024] [bbotk] Result of batch 15: 
+INFO  [13:33:26.026] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:33:26.026] [bbotk]              10                   7                      21                 701 
+INFO  [13:33:26.026] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:33:26.026] [bbotk]         0.563 -0.9781785         <NA>   0.9690166 
+INFO  [13:33:26.026] [bbotk]                                 uhash 
+INFO  [13:33:26.026] [bbotk]  728c1583-06a3-4ef2-beb3-8069b69f86b4 
+INFO  [13:33:26.822] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:33:26.882] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:33:26.888] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:40:04.022] [mlr3]  Finished benchmark 
+INFO  [13:40:04.095] [bbotk] Result of batch 16: 
+INFO  [13:40:04.096] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:40:04.096] [bbotk]              45                   0                      87                 846 
+INFO  [13:40:04.096] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:40:04.096] [bbotk]         0.601 -0.9777747         <NA>   0.9714726 
+INFO  [13:40:04.096] [bbotk]                                 uhash 
+INFO  [13:40:04.096] [bbotk]  b6912fe9-9e8c-4936-8047-e3183573f848 
+INFO  [13:40:04.890] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:40:04.954] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:40:04.961] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:40:59.803] [mlr3]  Finished benchmark 
+INFO  [13:40:59.884] [bbotk] Result of batch 17: 
+INFO  [13:40:59.886] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:40:59.886] [bbotk]              37                   5                      83                 621 
+INFO  [13:40:59.886] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:40:59.886] [bbotk]         0.595 -0.9855648         <NA>   0.9612324 
+INFO  [13:40:59.886] [bbotk]                                 uhash 
+INFO  [13:40:59.886] [bbotk]  201aabd6-d316-4500-9489-d7357bd8b4fd 
+INFO  [13:41:00.670] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:41:00.729] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:41:00.735] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:43:14.860] [mlr3]  Finished benchmark 
+INFO  [13:43:14.931] [bbotk] Result of batch 18: 
+INFO  [13:43:14.933] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:43:14.933] [bbotk]              12                  16                      54                1054 
+INFO  [13:43:14.933] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:43:14.933] [bbotk]         0.577 -0.9853772         <NA>   0.9741155 
+INFO  [13:43:14.933] [bbotk]                                 uhash 
+INFO  [13:43:14.933] [bbotk]  9482aa33-48a6-4194-89b6-e8feda9b2494 
+INFO  [13:43:15.698] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:43:15.760] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:43:15.766] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:46:04.944] [mlr3]  Finished benchmark 
+INFO  [13:46:05.016] [bbotk] Result of batch 19: 
+INFO  [13:46:05.018] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:46:05.018] [bbotk]              17                   0                      64                 934 
+INFO  [13:46:05.018] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [13:46:05.018] [bbotk]         0.576 -0.9843184         <NA>   0.9740571 
+INFO  [13:46:05.018] [bbotk]                                 uhash 
+INFO  [13:46:05.018] [bbotk]  27d7c710-d33e-456f-87d4-4ae10359f218 
+INFO  [13:46:05.788] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:46:05.855] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:46:05.862] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [13:56:54.438] [mlr3]  Finished benchmark 
+INFO  [13:56:54.508] [bbotk] Result of batch 20: 
+INFO  [13:56:54.509] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [13:56:54.509] [bbotk]              50                  12                       4                1711 
+INFO  [13:56:54.509] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [13:56:54.509] [bbotk]         0.569  -0.98462         <NA>   0.9731364 
+INFO  [13:56:54.509] [bbotk]                                 uhash 
+INFO  [13:56:54.509] [bbotk]  e818f96b-3ff8-4046-bc72-a9a5a56be1e4 
+INFO  [13:56:55.367] [bbotk] Evaluating 1 configuration(s) 
+INFO  [13:56:55.427] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [13:56:55.433] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:01:59.231] [mlr3]  Finished benchmark 
+INFO  [14:01:59.304] [bbotk] Result of batch 21: 
+INFO  [14:01:59.306] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:01:59.306] [bbotk]              17                  50                      39                1598 
+INFO  [14:01:59.306] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:01:59.306] [bbotk]         0.653 -0.9858184         <NA>   0.9752134 
+INFO  [14:01:59.306] [bbotk]                                 uhash 
+INFO  [14:01:59.306] [bbotk]  3864c026-e37b-4996-8479-553522f941aa 
+INFO  [14:02:00.060] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:02:00.128] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:02:00.135] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:04:36.164] [mlr3]  Finished benchmark 
+INFO  [14:04:36.237] [bbotk] Result of batch 22: 
+INFO  [14:04:36.239] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:04:36.239] [bbotk]              19                  15                      73                 889 
+INFO  [14:04:36.239] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:04:36.239] [bbotk]         0.554 -0.9843388         <NA>    0.973578 
+INFO  [14:04:36.239] [bbotk]                                 uhash 
+INFO  [14:04:36.239] [bbotk]  94b13894-a615-4037-a28b-f9be7efa45f1 
+INFO  [14:04:37.199] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:04:37.259] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:04:37.266] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:06:26.189] [mlr3]  Finished benchmark 
+INFO  [14:06:26.268] [bbotk] Result of batch 23: 
+INFO  [14:06:26.269] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:06:26.269] [bbotk]              26                  34                      44                 389 
+INFO  [14:06:26.269] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:06:26.269] [bbotk]         0.745 -0.9840867         <NA>   0.9745229 
+INFO  [14:06:26.269] [bbotk]                                 uhash 
+INFO  [14:06:26.269] [bbotk]  9b9828e9-74ec-4525-8f08-3a569670b269 
+INFO  [14:06:27.015] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:06:27.076] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:06:27.082] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:11:25.055] [mlr3]  Finished benchmark 
+INFO  [14:11:25.129] [bbotk] Result of batch 24: 
+INFO  [14:11:25.131] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:11:25.131] [bbotk]              33                  16                      78                 979 
+INFO  [14:11:25.131] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:11:25.131] [bbotk]         0.542 -0.9840916         <NA>   0.9727295 
+INFO  [14:11:25.131] [bbotk]                                 uhash 
+INFO  [14:11:25.131] [bbotk]  adefe130-bb14-4606-af2b-e13f9f24848b 
+INFO  [14:11:25.907] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:11:25.968] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:11:25.975] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:11:36.105] [mlr3]  Finished benchmark 
+INFO  [14:11:36.175] [bbotk] Result of batch 25: 
+INFO  [14:11:36.177] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:11:36.177] [bbotk]              16                   1                      58                1285 
+INFO  [14:11:36.177] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:11:36.177] [bbotk]         0.577 -0.9839865         <NA>   0.9060681 
+INFO  [14:11:36.177] [bbotk]                                 uhash 
+INFO  [14:11:36.177] [bbotk]  f215576c-90ca-4f07-9dba-b50477bc8f6d 
+INFO  [14:11:37.004] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:11:37.064] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:11:37.070] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:23:19.749] [mlr3]  Finished benchmark 
+INFO  [14:23:19.839] [bbotk] Result of batch 26: 
+INFO  [14:23:19.841] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:23:19.841] [bbotk]              49                  39                       8                1308 
+INFO  [14:23:19.841] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:23:19.841] [bbotk]         0.625 -0.9840431         <NA>   0.9739974 
+INFO  [14:23:19.841] [bbotk]                                 uhash 
+INFO  [14:23:19.841] [bbotk]  6a20a702-61fc-4e7b-a3a8-64b87b20a870 
+INFO  [14:23:20.642] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:23:20.699] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:23:20.705] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:26:49.339] [mlr3]  Finished benchmark 
+INFO  [14:26:49.491] [bbotk] Result of batch 27: 
+INFO  [14:26:49.492] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:26:49.492] [bbotk]              16                   0                      82                1249 
+INFO  [14:26:49.492] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:26:49.492] [bbotk]         0.601 -0.9844542         <NA>   0.9734036 
+INFO  [14:26:49.492] [bbotk]                                 uhash 
+INFO  [14:26:49.492] [bbotk]  341bc530-0f11-406c-aefc-9a7cf9ae5509 
+INFO  [14:26:50.298] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:26:50.357] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:26:50.363] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:28:22.103] [mlr3]  Finished benchmark 
+INFO  [14:28:22.176] [bbotk] Result of batch 28: 
+INFO  [14:28:22.178] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:28:22.178] [bbotk]              14                  42                      66                 618 
+INFO  [14:28:22.178] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:28:22.178] [bbotk]         0.604 -0.9858569         <NA>   0.9739751 
+INFO  [14:28:22.178] [bbotk]                                 uhash 
+INFO  [14:28:22.178] [bbotk]  0eb444fa-41ef-4bd0-80ff-6c7ad834a037 
+INFO  [14:28:22.960] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:28:23.022] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:28:23.028] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:34:00.942] [mlr3]  Finished benchmark 
+INFO  [14:34:01.015] [bbotk] Result of batch 29: 
+INFO  [14:34:01.017] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:34:01.017] [bbotk]              21                   0                      85                1563 
+INFO  [14:34:01.017] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:34:01.017] [bbotk]         0.569 -0.9864895         <NA>   0.9733177 
+INFO  [14:34:01.017] [bbotk]                                 uhash 
+INFO  [14:34:01.017] [bbotk]  18bb87e3-8e0c-45fb-901a-a4f4e3f51df8 
+INFO  [14:34:01.881] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:34:01.945] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:34:01.952] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:36:17.583] [mlr3]  Finished benchmark 
+INFO  [14:36:17.666] [bbotk] Result of batch 30: 
+INFO  [14:36:17.668] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:36:17.668] [bbotk]              35                   6                      82                1218 
+INFO  [14:36:17.668] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:36:17.668] [bbotk]         0.646 -0.9861425         <NA>   0.9662721 
+INFO  [14:36:17.668] [bbotk]                                 uhash 
+INFO  [14:36:17.668] [bbotk]  559dceb1-6b59-4398-9e57-27ace2434244 
+INFO  [14:36:18.589] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:36:18.649] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:36:18.656] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:39:28.885] [mlr3]  Finished benchmark 
+INFO  [14:39:28.956] [bbotk] Result of batch 31: 
+INFO  [14:39:28.958] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:39:28.958] [bbotk]              28                   0                      31                 620 
+INFO  [14:39:28.958] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:39:28.958] [bbotk]         0.719 -0.9838605         <NA>   0.9748513 
+INFO  [14:39:28.958] [bbotk]                                 uhash 
+INFO  [14:39:28.958] [bbotk]  7d589bbc-3442-4e39-8749-5db01bb7c605 
+INFO  [14:39:29.933] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:39:29.995] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:39:30.001] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:42:51.854] [mlr3]  Finished benchmark 
+INFO  [14:42:51.926] [bbotk] Result of batch 32: 
+INFO  [14:42:51.928] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:42:51.928] [bbotk]              32                  20                      42                 607 
+INFO  [14:42:51.928] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:42:51.928] [bbotk]         0.736 -0.9834965         <NA>   0.9742495 
+INFO  [14:42:51.928] [bbotk]                                 uhash 
+INFO  [14:42:51.928] [bbotk]  8ddde146-890f-4bf4-9525-8128851b9177 
+INFO  [14:42:52.745] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:42:52.807] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:42:52.813] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:44:12.820] [mlr3]  Finished benchmark 
+INFO  [14:44:12.892] [bbotk] Result of batch 33: 
+INFO  [14:44:12.894] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:44:12.894] [bbotk]              19                  12                      18                 507 
+INFO  [14:44:12.894] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:44:12.894] [bbotk]         0.596 -0.9833077         <NA>   0.9755495 
+INFO  [14:44:12.894] [bbotk]                                 uhash 
+INFO  [14:44:12.894] [bbotk]  0117c273-39e1-4d78-bfeb-3a3c0fa38927 
+INFO  [14:44:13.760] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:44:13.821] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:44:13.828] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:44:41.226] [mlr3]  Finished benchmark 
+INFO  [14:44:41.299] [bbotk] Result of batch 34: 
+INFO  [14:44:41.301] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:44:41.301] [bbotk]               2                  34                      21                 782 
+INFO  [14:44:41.301] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [14:44:41.301] [bbotk]         0.659  -0.98464         <NA>   0.9711635 
+INFO  [14:44:41.301] [bbotk]                                 uhash 
+INFO  [14:44:41.301] [bbotk]  20221801-ca71-4d34-8054-9686e7a592b1 
+INFO  [14:44:42.166] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:44:42.229] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:44:42.236] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:50:32.816] [mlr3]  Finished benchmark 
+INFO  [14:50:32.890] [bbotk] Result of batch 35: 
+INFO  [14:50:32.891] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:50:32.891] [bbotk]              37                  47                      30                 875 
+INFO  [14:50:32.891] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:50:32.891] [bbotk]         0.655 -0.9858596         <NA>   0.9743584 
+INFO  [14:50:32.891] [bbotk]                                 uhash 
+INFO  [14:50:32.891] [bbotk]  ce930c97-c54d-46e8-9cff-103001df492f 
+INFO  [14:50:33.894] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:50:33.960] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:50:33.966] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:51:51.486] [mlr3]  Finished benchmark 
+INFO  [14:51:51.560] [bbotk] Result of batch 36: 
+INFO  [14:51:51.561] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:51:51.561] [bbotk]              33                   4                      29                1429 
+INFO  [14:51:51.561] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:51:51.561] [bbotk]         0.777 -0.9857919         <NA>    0.954592 
+INFO  [14:51:51.561] [bbotk]                                 uhash 
+INFO  [14:51:51.561] [bbotk]  86f3c6b2-e845-4efc-b47e-d4610ccad3a8 
+INFO  [14:51:52.424] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:51:52.486] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:51:52.493] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:52:32.970] [mlr3]  Finished benchmark 
+INFO  [14:52:33.043] [bbotk] Result of batch 37: 
+INFO  [14:52:33.045] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:52:33.045] [bbotk]               4                  21                      66                 787 
+INFO  [14:52:33.045] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [14:52:33.045] [bbotk]         0.654 -0.987133         <NA>   0.9707894 
+INFO  [14:52:33.045] [bbotk]                                 uhash 
+INFO  [14:52:33.045] [bbotk]  202311ce-7c02-426e-864d-5c05c87afb0e 
+INFO  [14:52:33.904] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:52:33.963] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:52:33.969] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:53:37.788] [mlr3]  Finished benchmark 
+INFO  [14:53:37.861] [bbotk] Result of batch 38: 
+INFO  [14:53:37.863] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:53:37.863] [bbotk]               6                  33                      15                 833 
+INFO  [14:53:37.863] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [14:53:37.863] [bbotk]          0.64 -0.9847231         <NA>   0.9750825 
+INFO  [14:53:37.863] [bbotk]                                 uhash 
+INFO  [14:53:37.863] [bbotk]  bec11373-19f0-40b0-ae5b-9ff7b4b12bb9 
+INFO  [14:53:38.682] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:53:38.745] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:53:38.752] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [14:55:00.507] [mlr3]  Finished benchmark 
+INFO  [14:55:00.578] [bbotk] Result of batch 39: 
+INFO  [14:55:00.580] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [14:55:00.580] [bbotk]              30                  11                      27                 362 
+INFO  [14:55:00.580] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [14:55:00.580] [bbotk]         0.597 -0.985368         <NA>   0.9743286 
+INFO  [14:55:00.580] [bbotk]                                 uhash 
+INFO  [14:55:00.580] [bbotk]  83ef3eb5-43be-4e36-866c-adacf3c8cad7 
+INFO  [14:55:01.456] [bbotk] Evaluating 1 configuration(s) 
+INFO  [14:55:01.520] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [14:55:01.528] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:02:42.666] [mlr3]  Finished benchmark 
+INFO  [15:02:42.744] [bbotk] Result of batch 40: 
+INFO  [15:02:42.747] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:02:42.747] [bbotk]              33                  46                      49                1295 
+INFO  [15:02:42.747] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:02:42.747] [bbotk]          0.61 -0.9855097         <NA>   0.9739795 
+INFO  [15:02:42.747] [bbotk]                                 uhash 
+INFO  [15:02:42.747] [bbotk]  c6f458ec-9ac9-440a-b048-2819e37553e7 
+INFO  [15:02:43.672] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:02:43.735] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:02:43.743] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:06:27.890] [mlr3]  Finished benchmark 
+INFO  [15:06:27.962] [bbotk] Result of batch 41: 
+INFO  [15:06:27.964] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:06:27.964] [bbotk]              24                  10                      39                1373 
+INFO  [15:06:27.964] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:06:27.964] [bbotk]         0.674 -0.9832509         <NA>   0.9739038 
+INFO  [15:06:27.964] [bbotk]                                 uhash 
+INFO  [15:06:27.964] [bbotk]  c5724d5b-adb3-4856-9c0b-64427756b474 
+INFO  [15:06:28.821] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:06:28.879] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:06:28.886] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:09:18.984] [mlr3]  Finished benchmark 
+INFO  [15:09:19.059] [bbotk] Result of batch 42: 
+INFO  [15:09:19.061] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:09:19.061] [bbotk]              21                  16                      81                 868 
+INFO  [15:09:19.061] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:09:19.061] [bbotk]         0.622 -0.9830227         <NA>    0.973455 
+INFO  [15:09:19.061] [bbotk]                                 uhash 
+INFO  [15:09:19.061] [bbotk]  052835e7-b2b0-4e0b-aec4-f2b95149778e 
+INFO  [15:09:19.890] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:09:19.956] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:09:19.962] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:11:23.902] [mlr3]  Finished benchmark 
+INFO  [15:11:23.975] [bbotk] Result of batch 43: 
+INFO  [15:11:23.977] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:11:23.977] [bbotk]              38                  45                      35                 304 
+INFO  [15:11:23.977] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:11:23.977] [bbotk]         0.607 -0.9852754         <NA>   0.9741187 
+INFO  [15:11:23.977] [bbotk]                                 uhash 
+INFO  [15:11:23.977] [bbotk]  e39f9f56-e776-4c71-9af2-183e57dc807c 
+INFO  [15:11:24.890] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:11:24.950] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:11:24.957] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:13:09.026] [mlr3]  Finished benchmark 
+INFO  [15:13:09.098] [bbotk] Result of batch 44: 
+INFO  [15:13:09.099] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:13:09.099] [bbotk]              44                  49                      18                 209 
+INFO  [15:13:09.099] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:13:09.099] [bbotk]         0.696 -0.9828709         <NA>   0.9738458 
+INFO  [15:13:09.099] [bbotk]                                 uhash 
+INFO  [15:13:09.099] [bbotk]  ce048721-2499-4904-8f18-11fb1faabd40 
+INFO  [15:13:10.013] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:13:10.073] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:13:10.080] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:20:39.640] [mlr3]  Finished benchmark 
+INFO  [15:20:39.741] [bbotk] Result of batch 45: 
+INFO  [15:20:39.743] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:20:39.743] [bbotk]              31                  24                      25                1314 
+INFO  [15:20:39.743] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:20:39.743] [bbotk]           0.7 -0.9856907         <NA>   0.9751742 
+INFO  [15:20:39.743] [bbotk]                                 uhash 
+INFO  [15:20:39.743] [bbotk]  3b1187a2-16ba-4714-8165-ae0f39e47e2b 
+INFO  [15:20:40.727] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:20:40.787] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:20:40.794] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:28:40.994] [mlr3]  Finished benchmark 
+INFO  [15:28:41.067] [bbotk] Result of batch 46: 
+INFO  [15:28:41.069] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:28:41.069] [bbotk]              25                  33                      12                1679 
+INFO  [15:28:41.069] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:28:41.069] [bbotk]         0.764 -0.9825667         <NA>   0.9762261 
+INFO  [15:28:41.069] [bbotk]                                 uhash 
+INFO  [15:28:41.069] [bbotk]  338598d7-88b3-4575-8a1e-5e083653c71c 
+INFO  [15:28:42.339] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:28:42.427] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:28:42.433] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:29:18.459] [mlr3]  Finished benchmark 
+INFO  [15:29:18.560] [bbotk] Result of batch 47: 
+INFO  [15:29:18.562] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:29:18.562] [bbotk]              16                  11                      41                 270 
+INFO  [15:29:18.562] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:29:18.562] [bbotk]          1.03 -0.9834299         <NA>   0.9741559 
+INFO  [15:29:18.562] [bbotk]                                 uhash 
+INFO  [15:29:18.562] [bbotk]  93d9b21b-6a2e-442f-8a43-015f028469e0 
+INFO  [15:29:19.391] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:29:19.453] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:29:19.460] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:30:28.004] [mlr3]  Finished benchmark 
+INFO  [15:30:28.077] [bbotk] Result of batch 48: 
+INFO  [15:30:28.078] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:30:28.078] [bbotk]               6                  22                      77                 963 
+INFO  [15:30:28.078] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:30:28.078] [bbotk]           0.6 -0.9855826         <NA>   0.9715997 
+INFO  [15:30:28.078] [bbotk]                                 uhash 
+INFO  [15:30:28.078] [bbotk]  d945bbd4-62b9-4543-9af6-c565b9c7d912 
+INFO  [15:30:28.950] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:30:29.012] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:30:29.019] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:39:52.765] [mlr3]  Finished benchmark 
+INFO  [15:39:52.850] [bbotk] Result of batch 49: 
+INFO  [15:39:52.852] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:39:52.852] [bbotk]              33                  16                      54                1769 
+INFO  [15:39:52.852] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:39:52.852] [bbotk]         0.673 -0.9853564         <NA>   0.9736483 
+INFO  [15:39:52.852] [bbotk]                                 uhash 
+INFO  [15:39:52.852] [bbotk]  5d6dc499-ef44-47a3-b9a1-baea059358f0 
+INFO  [15:39:53.773] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:39:53.840] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:39:53.848] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:43:22.841] [mlr3]  Finished benchmark 
+INFO  [15:43:23.204] [bbotk] Result of batch 50: 
+INFO  [15:43:23.206] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:43:23.206] [bbotk]              39                  37                      99                 536 
+INFO  [15:43:23.206] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:43:23.206] [bbotk]         0.687 -0.9832793         <NA>   0.9716407 
+INFO  [15:43:23.206] [bbotk]                                 uhash 
+INFO  [15:43:23.206] [bbotk]  599d7cbc-6585-4cad-8166-d48ce08b5ff3 
+INFO  [15:43:24.081] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:43:24.139] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:43:24.145] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:47:52.887] [mlr3]  Finished benchmark 
+INFO  [15:47:52.969] [bbotk] Result of batch 51: 
+INFO  [15:47:52.971] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:47:52.971] [bbotk]              21                  10                      24                1887 
+INFO  [15:47:52.971] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:47:52.971] [bbotk]         0.641 -0.9850928         <NA>   0.9746598 
+INFO  [15:47:52.971] [bbotk]                                 uhash 
+INFO  [15:47:52.971] [bbotk]  82226600-0b9c-4b6c-bea7-475336990aa3 
+INFO  [15:47:53.845] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:47:53.912] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:47:53.919] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:56:47.669] [mlr3]  Finished benchmark 
+INFO  [15:56:47.753] [bbotk] Result of batch 52: 
+INFO  [15:56:47.755] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:56:47.755] [bbotk]              38                  14                       1                1578 
+INFO  [15:56:47.755] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [15:56:47.755] [bbotk]         0.653 -0.981944         <NA>   0.9752486 
+INFO  [15:56:47.755] [bbotk]                                 uhash 
+INFO  [15:56:47.755] [bbotk]  112362ae-e9de-4562-9462-9eb68ded7566 
+INFO  [15:56:48.782] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:56:48.855] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:56:48.863] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [15:59:27.962] [mlr3]  Finished benchmark 
+INFO  [15:59:28.036] [bbotk] Result of batch 53: 
+INFO  [15:59:28.038] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [15:59:28.038] [bbotk]              28                  34                      48                 531 
+INFO  [15:59:28.038] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [15:59:28.038] [bbotk]         0.736 -0.9848787         <NA>   0.9742293 
+INFO  [15:59:28.038] [bbotk]                                 uhash 
+INFO  [15:59:28.038] [bbotk]  b07569ea-287e-4ac6-b0fc-c1540794b2a7 
+INFO  [15:59:28.920] [bbotk] Evaluating 1 configuration(s) 
+INFO  [15:59:29.051] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [15:59:29.058] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:07:27.606] [mlr3]  Finished benchmark 
+INFO  [16:07:27.679] [bbotk] Result of batch 54: 
+INFO  [16:07:27.681] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:07:27.681] [bbotk]              39                   0                      89                1204 
+INFO  [16:07:27.681] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:07:27.681] [bbotk]         0.635 -0.9849149         <NA>   0.9719922 
+INFO  [16:07:27.681] [bbotk]                                 uhash 
+INFO  [16:07:27.681] [bbotk]  0fdec78a-74bf-4c48-a6b8-53fe31466875 
+INFO  [16:07:28.628] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:07:28.690] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:07:28.696] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:11:12.615] [mlr3]  Finished benchmark 
+INFO  [16:11:12.689] [bbotk] Result of batch 55: 
+INFO  [16:11:12.691] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:11:12.691] [bbotk]              12                  26                      61                1712 
+INFO  [16:11:12.691] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:11:12.691] [bbotk]          0.71 -0.9849115         <NA>   0.9739942 
+INFO  [16:11:12.691] [bbotk]                                 uhash 
+INFO  [16:11:12.691] [bbotk]  b3ee1bc5-110b-4f76-915f-df4b4ee41db0 
+INFO  [16:11:13.766] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:11:13.828] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:11:13.835] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:19:33.385] [mlr3]  Finished benchmark 
+INFO  [16:19:33.456] [bbotk] Result of batch 56: 
+INFO  [16:19:33.457] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:19:33.457] [bbotk]              49                  34                      84                 994 
+INFO  [16:19:33.457] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:19:33.457] [bbotk]         0.832 -0.9850195         <NA>   0.9707422 
+INFO  [16:19:33.457] [bbotk]                                 uhash 
+INFO  [16:19:33.457] [bbotk]  62db7aef-af08-4368-93bc-3c26139c33c1 
+INFO  [16:19:34.322] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:19:34.382] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:19:34.388] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:20:23.239] [mlr3]  Finished benchmark 
+INFO  [16:20:23.308] [bbotk] Result of batch 57: 
+INFO  [16:20:23.309] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:20:23.309] [bbotk]               2                  32                      91                1504 
+INFO  [16:20:23.309] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:20:23.309] [bbotk]          0.63 -0.9834108         <NA>   0.9671541 
+INFO  [16:20:23.309] [bbotk]                                 uhash 
+INFO  [16:20:23.309] [bbotk]  5e0b4ec8-f6e0-4765-9afb-a1e3e3c0ce78 
+INFO  [16:20:24.153] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:20:24.211] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:20:24.217] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:23:15.105] [mlr3]  Finished benchmark 
+INFO  [16:23:15.177] [bbotk] Result of batch 58: 
+INFO  [16:23:15.179] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:23:15.179] [bbotk]              12                  15                      69                1481 
+INFO  [16:23:15.179] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:23:15.179] [bbotk]         0.633 -0.9825452         <NA>   0.9734803 
+INFO  [16:23:15.179] [bbotk]                                 uhash 
+INFO  [16:23:15.179] [bbotk]  f49b6a87-61c3-403f-a1d6-0625559fbab4 
+INFO  [16:23:16.102] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:23:16.165] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:23:16.172] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:28:54.104] [mlr3]  Finished benchmark 
+INFO  [16:28:54.187] [bbotk] Result of batch 59: 
+INFO  [16:28:54.189] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:28:54.189] [bbotk]              33                   9                      25                1804 
+INFO  [16:28:54.189] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:28:54.189] [bbotk]         0.681 -0.9859927         <NA>   0.9732246 
+INFO  [16:28:54.189] [bbotk]                                 uhash 
+INFO  [16:28:54.189] [bbotk]  e1ea4772-fc30-4ce2-8638-0d62c78068db 
+INFO  [16:28:55.161] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:28:55.227] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:28:55.235] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:32:42.624] [mlr3]  Finished benchmark 
+INFO  [16:32:42.696] [bbotk] Result of batch 60: 
+INFO  [16:32:42.698] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:32:42.698] [bbotk]              35                  17                      77                 693 
+INFO  [16:32:42.698] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:32:42.698] [bbotk]         0.731 -0.9869206         <NA>   0.9725885 
+INFO  [16:32:42.698] [bbotk]                                 uhash 
+INFO  [16:32:42.698] [bbotk]  f180bcd5-6c09-41c2-8be2-18319eab5a26 
+INFO  [16:32:43.667] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:32:43.727] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:32:43.734] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:33:21.587] [mlr3]  Finished benchmark 
+INFO  [16:33:21.661] [bbotk] Result of batch 61: 
+INFO  [16:33:21.663] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:33:21.663] [bbotk]              20                   4                      63                1105 
+INFO  [16:33:21.663] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [16:33:21.663] [bbotk]         0.718 -0.983239         <NA>   0.9559384 
+INFO  [16:33:21.663] [bbotk]                                 uhash 
+INFO  [16:33:21.663] [bbotk]  8dbd434e-39af-4506-b261-04f4727f118f 
+INFO  [16:33:22.586] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:33:22.649] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:33:22.655] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:33:50.612] [mlr3]  Finished benchmark 
+INFO  [16:33:50.684] [bbotk] Result of batch 62: 
+INFO  [16:33:50.685] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:33:50.685] [bbotk]               2                  43                      95                 908 
+INFO  [16:33:50.685] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:33:50.685] [bbotk]         0.679 -0.9820602         <NA>   0.9671131 
+INFO  [16:33:50.685] [bbotk]                                 uhash 
+INFO  [16:33:50.685] [bbotk]  318e7e71-1dcf-46fd-a43f-391619826d46 
+INFO  [16:33:51.686] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:33:51.750] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:33:51.758] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:34:27.819] [mlr3]  Finished benchmark 
+INFO  [16:34:27.891] [bbotk] Result of batch 63: 
+INFO  [16:34:27.893] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:34:27.893] [bbotk]               7                  47                      88                 458 
+INFO  [16:34:27.893] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:34:27.893] [bbotk]         0.717 -0.9821307         <NA>   0.9715556 
+INFO  [16:34:27.893] [bbotk]                                 uhash 
+INFO  [16:34:27.893] [bbotk]  5cefdc5a-afe8-4236-bbc0-b690e33e9583 
+INFO  [16:34:29.109] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:34:29.168] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:34:29.174] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:34:38.512] [mlr3]  Finished benchmark 
+INFO  [16:34:38.603] [bbotk] Result of batch 64: 
+INFO  [16:34:38.605] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:34:38.605] [bbotk]               3                   1                      53                1804 
+INFO  [16:34:38.605] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:34:38.605] [bbotk]         0.891 -0.9823875         <NA>    0.927308 
+INFO  [16:34:38.605] [bbotk]                                 uhash 
+INFO  [16:34:38.605] [bbotk]  301862d2-e1d9-41bd-9f5c-e7bd2847c6a0 
+INFO  [16:34:39.545] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:34:39.607] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:34:39.614] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:40:35.370] [mlr3]  Finished benchmark 
+INFO  [16:40:35.457] [bbotk] Result of batch 65: 
+INFO  [16:40:35.459] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:40:35.459] [bbotk]              27                  24                      95                1291 
+INFO  [16:40:35.459] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:40:35.459] [bbotk]         0.713 -0.9816569         <NA>   0.9726234 
+INFO  [16:40:35.459] [bbotk]                                 uhash 
+INFO  [16:40:35.459] [bbotk]  78e9d74a-b04a-4bd6-a5e6-192c158178bf 
+INFO  [16:40:36.381] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:40:36.438] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:40:36.445] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:43:52.136] [mlr3]  Finished benchmark 
+INFO  [16:43:52.218] [bbotk] Result of batch 66: 
+INFO  [16:43:52.220] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:43:52.220] [bbotk]              43                  48                     100                 454 
+INFO  [16:43:52.220] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:43:52.220] [bbotk]          0.68 -0.9812205         <NA>   0.9710465 
+INFO  [16:43:52.220] [bbotk]                                 uhash 
+INFO  [16:43:52.220] [bbotk]  706714da-dc48-45dc-9a99-02eb9f45b1af 
+INFO  [16:43:53.234] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:43:53.293] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:43:53.299] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:51:01.815] [mlr3]  Finished benchmark 
+INFO  [16:51:01.890] [bbotk] Result of batch 67: 
+INFO  [16:51:01.892] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:51:01.892] [bbotk]              37                  36                      66                1107 
+INFO  [16:51:01.892] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:51:01.892] [bbotk]         0.762 -0.9836328         <NA>    0.973003 
+INFO  [16:51:01.892] [bbotk]                                 uhash 
+INFO  [16:51:01.892] [bbotk]  8783a76c-fcd9-406e-9ea8-811711d82c92 
+INFO  [16:51:02.844] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:51:02.906] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:51:02.912] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [16:55:16.661] [mlr3]  Finished benchmark 
+INFO  [16:55:16.734] [bbotk] Result of batch 68: 
+INFO  [16:55:16.736] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [16:55:16.736] [bbotk]              34                   7                       9                1798 
+INFO  [16:55:16.736] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [16:55:16.736] [bbotk]         0.704 -0.9824444         <NA>   0.9700776 
+INFO  [16:55:16.736] [bbotk]                                 uhash 
+INFO  [16:55:16.736] [bbotk]  fb56e79b-e8d9-4213-a4d7-fd4b6c6e4538 
+INFO  [16:55:17.711] [bbotk] Evaluating 1 configuration(s) 
+INFO  [16:55:17.770] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [16:55:17.777] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:08:56.398] [mlr3]  Finished benchmark 
+INFO  [17:08:56.471] [bbotk] Result of batch 69: 
+INFO  [17:08:56.473] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:08:56.473] [bbotk]              42                  43                      95                1934 
+INFO  [17:08:56.473] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:08:56.473] [bbotk]         0.733 -0.9816763         <NA>   0.9715544 
+INFO  [17:08:56.473] [bbotk]                                 uhash 
+INFO  [17:08:56.473] [bbotk]  45c903a5-3e61-4047-93de-f457a9c2443d 
+INFO  [17:08:57.418] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:08:57.481] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:08:57.488] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:09:54.272] [mlr3]  Finished benchmark 
+INFO  [17:09:54.346] [bbotk] Result of batch 70: 
+INFO  [17:09:54.348] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:09:54.348] [bbotk]              26                  23                      98                 217 
+INFO  [17:09:54.348] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:09:54.348] [bbotk]         0.711 -0.9811041         <NA>    0.972437 
+INFO  [17:09:54.348] [bbotk]                                 uhash 
+INFO  [17:09:54.348] [bbotk]  93129616-1ac4-48fb-9d5f-4bbe948cc826 
+INFO  [17:09:55.474] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:09:55.536] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:09:55.543] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:11:21.012] [mlr3]  Finished benchmark 
+INFO  [17:11:21.082] [bbotk] Result of batch 71: 
+INFO  [17:11:21.084] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:11:21.084] [bbotk]              20                  10                      87                 655 
+INFO  [17:11:21.084] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:11:21.084] [bbotk]         0.883 -0.9813188         <NA>   0.9724747 
+INFO  [17:11:21.084] [bbotk]                                 uhash 
+INFO  [17:11:21.084] [bbotk]  165ffa29-d65b-4edf-a31e-18d3ea6c60e3 
+INFO  [17:11:22.031] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:11:22.089] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:11:22.095] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:17:16.387] [mlr3]  Finished benchmark 
+INFO  [17:17:16.477] [bbotk] Result of batch 72: 
+INFO  [17:17:16.479] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:17:16.479] [bbotk]              26                  19                      61                1330 
+INFO  [17:17:16.479] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:17:16.479] [bbotk]         0.697 -0.9870832         <NA>   0.9739568 
+INFO  [17:17:16.479] [bbotk]                                 uhash 
+INFO  [17:17:16.479] [bbotk]  63f2f938-58da-426d-b6ac-5472f7ea3393 
+INFO  [17:17:17.506] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:17:17.565] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:17:17.571] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:17:45.395] [mlr3]  Finished benchmark 
+INFO  [17:17:45.469] [bbotk] Result of batch 73: 
+INFO  [17:17:45.471] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:17:45.471] [bbotk]              10                  39                      63                 252 
+INFO  [17:17:45.471] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:17:45.471] [bbotk]         0.753 -0.9835128         <NA>   0.9733599 
+INFO  [17:17:45.471] [bbotk]                                 uhash 
+INFO  [17:17:45.471] [bbotk]  1dc5feeb-8878-43d8-b6aa-1d0995f82577 
+INFO  [17:17:46.479] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:17:46.541] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:17:46.547] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:20:25.673] [mlr3]  Finished benchmark 
+INFO  [17:20:25.745] [bbotk] Result of batch 74: 
+INFO  [17:20:25.747] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:20:25.747] [bbotk]              24                  46                      37                 607 
+INFO  [17:20:25.747] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:20:25.747] [bbotk]         0.768 -0.9811439         <NA>   0.9749835 
+INFO  [17:20:25.747] [bbotk]                                 uhash 
+INFO  [17:20:25.747] [bbotk]  2c47035f-fa48-4948-b9ae-baf89dd33290 
+INFO  [17:20:26.728] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:20:26.788] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:20:26.794] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:31:53.975] [mlr3]  Finished benchmark 
+INFO  [17:31:54.048] [bbotk] Result of batch 75: 
+INFO  [17:31:54.050] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:31:54.050] [bbotk]              42                  47                      51                1551 
+INFO  [17:31:54.050] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:31:54.050] [bbotk]         0.741 -0.9836613         <NA>   0.9730981 
+INFO  [17:31:54.050] [bbotk]                                 uhash 
+INFO  [17:31:54.050] [bbotk]  5bb202d0-91ce-4c10-a1da-ed06b28de1ff 
+INFO  [17:31:55.175] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:31:55.238] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:31:55.245] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:41:20.218] [mlr3]  Finished benchmark 
+INFO  [17:41:20.302] [bbotk] Result of batch 76: 
+INFO  [17:41:20.304] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:41:20.304] [bbotk]              32                  23                      42                1645 
+INFO  [17:41:20.304] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:41:20.304] [bbotk]          0.88 -0.9816224         <NA>   0.9742862 
+INFO  [17:41:20.304] [bbotk]                                 uhash 
+INFO  [17:41:20.304] [bbotk]  0701fb91-a5c5-4a1e-b369-c7632c44e578 
+INFO  [17:41:21.304] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:41:21.356] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:41:21.363] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:42:37.399] [mlr3]  Finished benchmark 
+INFO  [17:42:37.473] [bbotk] Result of batch 77: 
+INFO  [17:42:37.475] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:42:37.475] [bbotk]               6                  28                      19                 995 
+INFO  [17:42:37.475] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:42:37.475] [bbotk]         0.744 -0.9837937         <NA>   0.9747486 
+INFO  [17:42:37.475] [bbotk]                                 uhash 
+INFO  [17:42:37.475] [bbotk]  794bfe59-8a61-42b3-8a80-a46d77657ca6 
+INFO  [17:42:38.488] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:42:38.550] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:42:38.557] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:50:13.766] [mlr3]  Finished benchmark 
+INFO  [17:50:13.837] [bbotk] Result of batch 78: 
+INFO  [17:50:13.838] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:50:13.838] [bbotk]              28                  19                      86                1663 
+INFO  [17:50:13.838] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:50:13.838] [bbotk]         0.766 -0.9839041         <NA>     0.97291 
+INFO  [17:50:13.838] [bbotk]                                 uhash 
+INFO  [17:50:13.838] [bbotk]  171de451-6e42-4f91-9111-55b4b0334649 
+INFO  [17:50:14.826] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:50:14.890] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:50:14.897] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:53:24.272] [mlr3]  Finished benchmark 
+INFO  [17:53:24.350] [bbotk] Result of batch 79: 
+INFO  [17:53:24.352] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:53:24.352] [bbotk]              39                  10                      24                 778 
+INFO  [17:53:24.352] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:53:24.352] [bbotk]         0.733 -0.9818374         <NA>   0.9733997 
+INFO  [17:53:24.352] [bbotk]                                 uhash 
+INFO  [17:53:24.352] [bbotk]  3ffe3b8c-6b46-4791-aa8c-0c05f9d9bea2 
+INFO  [17:53:25.443] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:53:25.510] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:53:25.518] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:56:26.739] [mlr3]  Finished benchmark 
+INFO  [17:56:26.813] [bbotk] Result of batch 80: 
+INFO  [17:56:26.815] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:56:26.815] [bbotk]              48                  16                      42                 415 
+INFO  [17:56:26.815] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:56:26.815] [bbotk]         0.848 -0.9830412         <NA>   0.9723285 
+INFO  [17:56:26.815] [bbotk]                                 uhash 
+INFO  [17:56:26.815] [bbotk]  bc63bbdc-12b7-415a-9ea0-81b7b2e53861 
+INFO  [17:56:27.960] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:56:28.021] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:56:28.028] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [17:58:59.443] [mlr3]  Finished benchmark 
+INFO  [17:58:59.521] [bbotk] Result of batch 81: 
+INFO  [17:58:59.523] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [17:58:59.523] [bbotk]              23                   8                      78                1371 
+INFO  [17:58:59.523] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [17:58:59.523] [bbotk]         0.859 -0.9826534         <NA>   0.9712863 
+INFO  [17:58:59.523] [bbotk]                                 uhash 
+INFO  [17:58:59.523] [bbotk]  2c1bbd0d-3d64-48e3-9640-82d5869b8ca2 
+INFO  [17:59:00.567] [bbotk] Evaluating 1 configuration(s) 
+INFO  [17:59:00.633] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [17:59:00.641] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:08:57.678] [mlr3]  Finished benchmark 
+INFO  [18:08:57.751] [bbotk] Result of batch 82: 
+INFO  [18:08:57.753] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:08:57.753] [bbotk]              42                  16                      22                1486 
+INFO  [18:08:57.753] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:08:57.753] [bbotk]         0.768 -0.9839733         <NA>   0.9741826 
+INFO  [18:08:57.753] [bbotk]                                 uhash 
+INFO  [18:08:57.753] [bbotk]  3e9d872c-4c63-4c75-b3a1-bfec379d62e3 
+INFO  [18:08:58.686] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:08:58.746] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:08:58.753] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:10:32.283] [mlr3]  Finished benchmark 
+INFO  [18:10:32.362] [bbotk] Result of batch 83: 
+INFO  [18:10:32.364] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:10:32.364] [bbotk]               7                  25                      32                1128 
+INFO  [18:10:32.364] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:10:32.364] [bbotk]         0.693 -0.9839868         <NA>   0.9743514 
+INFO  [18:10:32.364] [bbotk]                                 uhash 
+INFO  [18:10:32.364] [bbotk]  9caabf91-660f-4829-af37-15a6278766ba 
+INFO  [18:10:33.422] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:10:33.487] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:10:33.495] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:10:53.337] [mlr3]  Finished benchmark 
+INFO  [18:10:53.412] [bbotk] Result of batch 84: 
+INFO  [18:10:53.413] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:10:53.413] [bbotk]              14                   8                      46                 256 
+INFO  [18:10:53.413] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:10:53.413] [bbotk]         0.772 -0.9816539         <NA>   0.9714452 
+INFO  [18:10:53.413] [bbotk]                                 uhash 
+INFO  [18:10:53.413] [bbotk]  e36edfbc-2cbc-4527-b8b9-012fe94d11a2 
+INFO  [18:10:54.393] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:10:54.455] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:10:54.461] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:20:17.371] [mlr3]  Finished benchmark 
+INFO  [18:20:17.463] [bbotk] Result of batch 85: 
+INFO  [18:20:17.465] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:20:17.465] [bbotk]              48                  13                      14                1470 
+INFO  [18:20:17.465] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [18:20:17.465] [bbotk]         0.731 -0.980569         <NA>    0.973355 
+INFO  [18:20:17.465] [bbotk]                                 uhash 
+INFO  [18:20:17.465] [bbotk]  5fbc857e-6313-48ef-b148-1841c0a832a8 
+INFO  [18:20:18.583] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:20:18.643] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:20:18.650] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:21:43.616] [mlr3]  Finished benchmark 
+INFO  [18:21:43.689] [bbotk] Result of batch 86: 
+INFO  [18:21:43.691] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:21:43.691] [bbotk]              24                  48                      40                 335 
+INFO  [18:21:43.691] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:21:43.691] [bbotk]          0.82 -0.9816993         <NA>   0.9748179 
+INFO  [18:21:43.691] [bbotk]                                 uhash 
+INFO  [18:21:43.691] [bbotk]  1371c99f-9a69-4473-93d1-adfa16d236b9 
+INFO  [18:21:44.751] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:21:44.810] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:21:44.817] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:24:30.541] [mlr3]  Finished benchmark 
+INFO  [18:24:30.625] [bbotk] Result of batch 87: 
+INFO  [18:24:30.627] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:24:30.627] [bbotk]              25                  48                      11                 606 
+INFO  [18:24:30.627] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:24:30.627] [bbotk]         0.804 -0.9816491         <NA>   0.9760824 
+INFO  [18:24:30.627] [bbotk]                                 uhash 
+INFO  [18:24:30.627] [bbotk]  45c09bf9-1abb-4f45-b603-19bfb7045880 
+INFO  [18:24:31.643] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:24:31.712] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:24:31.720] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:24:34.858] [mlr3]  Finished benchmark 
+INFO  [18:24:34.941] [bbotk] Result of batch 88: 
+INFO  [18:24:34.943] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:24:34.943] [bbotk]               2                   1                      44                 551 
+INFO  [18:24:34.943] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:24:34.943] [bbotk]          0.75 -0.9834405         <NA>   0.9302435 
+INFO  [18:24:34.943] [bbotk]                                 uhash 
+INFO  [18:24:34.943] [bbotk]  12fab2be-654e-4442-a2d7-0a04849ce977 
+INFO  [18:24:36.064] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:24:36.132] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:24:36.140] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:30:31.196] [mlr3]  Finished benchmark 
+INFO  [18:30:31.575] [bbotk] Result of batch 89: 
+INFO  [18:30:31.576] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:30:31.576] [bbotk]              37                  22                      16                 900 
+INFO  [18:30:31.576] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:30:31.576] [bbotk]         0.709 -0.9825212         <NA>   0.9750735 
+INFO  [18:30:31.576] [bbotk]                                 uhash 
+INFO  [18:30:31.576] [bbotk]  48313f0c-e1e0-4208-ace5-ee9b3fccc58f 
+INFO  [18:30:32.669] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:30:32.728] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:30:32.735] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:31:41.125] [mlr3]  Finished benchmark 
+INFO  [18:31:41.200] [bbotk] Result of batch 90: 
+INFO  [18:31:41.202] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:31:41.202] [bbotk]              15                  43                       2                 404 
+INFO  [18:31:41.202] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [18:31:41.202] [bbotk]         0.783 -0.984012         <NA>   0.9766869 
+INFO  [18:31:41.202] [bbotk]                                 uhash 
+INFO  [18:31:41.202] [bbotk]  e54e87bf-5cd8-4b97-88e1-382f6a21cd97 
+INFO  [18:31:42.189] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:31:42.254] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:31:42.261] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:40:39.629] [mlr3]  Finished benchmark 
+INFO  [18:40:39.725] [bbotk] Result of batch 91: 
+INFO  [18:40:39.728] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:40:39.728] [bbotk]              43                  18                      92                1348 
+INFO  [18:40:39.728] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:40:39.728] [bbotk]         0.741 -0.9818211         <NA>   0.9714519 
+INFO  [18:40:39.728] [bbotk]                                 uhash 
+INFO  [18:40:39.728] [bbotk]  8b20bded-3e37-49dc-a4a3-286ed5181dfc 
+INFO  [18:40:40.757] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:40:40.821] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:40:40.830] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:43:30.961] [mlr3]  Finished benchmark 
+INFO  [18:43:31.034] [bbotk] Result of batch 92: 
+INFO  [18:43:31.036] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:43:31.036] [bbotk]              13                  48                      57                1225 
+INFO  [18:43:31.036] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:43:31.036] [bbotk]         0.755 -0.9813036         <NA>      0.9742 
+INFO  [18:43:31.036] [bbotk]                                 uhash 
+INFO  [18:43:31.036] [bbotk]  071d5802-ee0f-409d-bf39-e984630e2c1d 
+INFO  [18:43:32.045] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:43:32.108] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:43:32.115] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:46:09.725] [mlr3]  Finished benchmark 
+INFO  [18:46:09.797] [bbotk] Result of batch 93: 
+INFO  [18:46:09.799] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:46:09.799] [bbotk]              15                  15                      18                1063 
+INFO  [18:46:09.799] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:46:09.799] [bbotk]          0.74 -0.9804155         <NA>   0.9758676 
+INFO  [18:46:09.799] [bbotk]                                 uhash 
+INFO  [18:46:09.799] [bbotk]  ce276023-9275-4e7b-a936-1f25febaa178 
+INFO  [18:46:10.795] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:46:10.856] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:46:10.863] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:48:45.136] [mlr3]  Finished benchmark 
+INFO  [18:48:45.208] [bbotk] Result of batch 94: 
+INFO  [18:48:45.210] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:48:45.210] [bbotk]              16                  29                      96                 962 
+INFO  [18:48:45.210] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [18:48:45.210] [bbotk]         0.739 -0.9838185         <NA>    0.972877 
+INFO  [18:48:45.210] [bbotk]                                 uhash 
+INFO  [18:48:45.210] [bbotk]  93f433c1-dce8-4358-9aa1-354f9f5a466b 
+INFO  [18:48:46.236] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:48:46.297] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:48:46.303] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [18:55:27.722] [mlr3]  Finished benchmark 
+INFO  [18:55:27.794] [bbotk] Result of batch 95: 
+INFO  [18:55:27.796] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [18:55:27.796] [bbotk]              23                  20                      41                1686 
+INFO  [18:55:27.796] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [18:55:27.796] [bbotk]         0.731 -0.980797         <NA>   0.9749918 
+INFO  [18:55:27.796] [bbotk]                                 uhash 
+INFO  [18:55:27.796] [bbotk]  540577c8-2513-4d5d-8406-ce500b2c5500 
+INFO  [18:55:28.904] [bbotk] Evaluating 1 configuration(s) 
+INFO  [18:55:28.966] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [18:55:28.973] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:06:22.440] [mlr3]  Finished benchmark 
+INFO  [19:06:22.513] [bbotk] Result of batch 96: 
+INFO  [19:06:22.515] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:06:22.515] [bbotk]              42                  35                      81                1539 
+INFO  [19:06:22.515] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:06:22.515] [bbotk]           0.8 -0.9823647         <NA>   0.9718637 
+INFO  [19:06:22.515] [bbotk]                                 uhash 
+INFO  [19:06:22.515] [bbotk]  5a3f903e-6f68-4c92-a32d-9c03fcb48ed5 
+INFO  [19:06:23.739] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:06:23.802] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:06:23.809] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:09:57.988] [mlr3]  Finished benchmark 
+INFO  [19:09:58.062] [bbotk] Result of batch 97: 
+INFO  [19:09:58.064] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:09:58.064] [bbotk]              48                  11                      91                 698 
+INFO  [19:09:58.064] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:09:58.064] [bbotk]         0.958 -0.9860602         <NA>   0.9700465 
+INFO  [19:09:58.064] [bbotk]                                 uhash 
+INFO  [19:09:58.064] [bbotk]  d33bf1b3-8cea-4c03-a28c-ad6c3fde92a3 
+INFO  [19:09:59.199] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:09:59.260] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:09:59.266] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:14:46.215] [mlr3]  Finished benchmark 
+INFO  [19:14:46.291] [bbotk] Result of batch 98: 
+INFO  [19:14:46.292] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:14:46.292] [bbotk]              47                  43                      77                 601 
+INFO  [19:14:46.292] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:14:46.292] [bbotk]         0.851 -0.9819717         <NA>   0.9714995 
+INFO  [19:14:46.292] [bbotk]                                 uhash 
+INFO  [19:14:46.292] [bbotk]  5e75bfd1-8cfa-46c8-83c1-0ce62b715d38 
+INFO  [19:14:47.386] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:14:47.450] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:14:47.457] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:24:46.874] [mlr3]  Finished benchmark 
+INFO  [19:24:46.986] [bbotk] Result of batch 99: 
+INFO  [19:24:46.989] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:24:46.989] [bbotk]              47                  26                     100                1287 
+INFO  [19:24:46.989] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:24:46.989] [bbotk]         0.786 -0.9829108         <NA>   0.9706561 
+INFO  [19:24:46.989] [bbotk]                                 uhash 
+INFO  [19:24:46.989] [bbotk]  820a7dfe-4d61-4a4b-ba68-b38d3f95a7ad 
+INFO  [19:24:48.112] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:24:48.171] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:24:48.178] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:25:41.514] [mlr3]  Finished benchmark 
+INFO  [19:25:41.587] [bbotk] Result of batch 100: 
+INFO  [19:25:41.589] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:25:41.589] [bbotk]               7                   0                      89                 707 
+INFO  [19:25:41.589] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:25:41.589] [bbotk]         0.821 -0.9820331         <NA>   0.9715784 
+INFO  [19:25:41.589] [bbotk]                                 uhash 
+INFO  [19:25:41.589] [bbotk]  fa3022cf-be63-43cb-8f24-5bb42d01e065 
+INFO  [19:25:42.750] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:25:42.810] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:25:42.816] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:31:01.620] [mlr3]  Finished benchmark 
+INFO  [19:31:01.690] [bbotk] Result of batch 101: 
+INFO  [19:31:01.692] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:31:01.692] [bbotk]              23                  48                      62                1343 
+INFO  [19:31:01.692] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:31:01.692] [bbotk]         0.827 -0.9804318         <NA>    0.974127 
+INFO  [19:31:01.692] [bbotk]                                 uhash 
+INFO  [19:31:01.692] [bbotk]  5961c6c2-fbec-4959-a9a1-046ee43f26b6 
+INFO  [19:31:02.790] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:31:02.851] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:31:02.857] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:31:07.329] [mlr3]  Finished benchmark 
+INFO  [19:31:07.402] [bbotk] Result of batch 102: 
+INFO  [19:31:07.403] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:31:07.403] [bbotk]              15                   2                      82                 325 
+INFO  [19:31:07.403] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:31:07.403] [bbotk]         0.839 -0.9810588         <NA>    0.935521 
+INFO  [19:31:07.403] [bbotk]                                 uhash 
+INFO  [19:31:07.403] [bbotk]  ca25aa23-3ca7-4aa7-b40b-ff5509768023 
+INFO  [19:31:08.657] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:31:08.720] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:31:08.726] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:46:56.146] [mlr3]  Finished benchmark 
+INFO  [19:46:56.220] [bbotk] Result of batch 103: 
+INFO  [19:46:56.222] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:46:56.222] [bbotk]              50                  39                      64                1857 
+INFO  [19:46:56.222] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:46:56.222] [bbotk]         0.964 -0.9832859         <NA>    0.971472 
+INFO  [19:46:56.222] [bbotk]                                 uhash 
+INFO  [19:46:56.222] [bbotk]  1566172c-9778-4210-b701-85200510ded4 
+INFO  [19:46:57.332] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:46:57.393] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:46:57.400] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:49:14.974] [mlr3]  Finished benchmark 
+INFO  [19:49:15.047] [bbotk] Result of batch 104: 
+INFO  [19:49:15.049] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:49:15.049] [bbotk]              42                   8                      36                 701 
+INFO  [19:49:15.049] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:49:15.049] [bbotk]         0.822 -0.9809463         <NA>   0.9707158 
+INFO  [19:49:15.049] [bbotk]                                 uhash 
+INFO  [19:49:15.049] [bbotk]  9248abba-5a1f-4ea1-868c-7bf8d439e807 
+INFO  [19:49:16.187] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:49:16.248] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:49:16.255] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:54:27.661] [mlr3]  Finished benchmark 
+INFO  [19:54:27.746] [bbotk] Result of batch 105: 
+INFO  [19:54:27.748] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:54:27.748] [bbotk]              34                  48                      89                 909 
+INFO  [19:54:27.748] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:54:27.748] [bbotk]         0.835 -0.9818181         <NA>    0.972407 
+INFO  [19:54:27.748] [bbotk]                                 uhash 
+INFO  [19:54:27.748] [bbotk]  89f001ea-dec0-415f-9248-6c33bc9a7779 
+INFO  [19:54:28.875] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:54:28.933] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:54:28.940] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:56:52.292] [mlr3]  Finished benchmark 
+INFO  [19:56:52.364] [bbotk] Result of batch 106: 
+INFO  [19:56:52.366] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:56:52.366] [bbotk]              36                  13                      76                 517 
+INFO  [19:56:52.366] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:56:52.366] [bbotk]         0.822 -0.9798815         <NA>   0.9724183 
+INFO  [19:56:52.366] [bbotk]                                 uhash 
+INFO  [19:56:52.366] [bbotk]  821ba457-d35e-41be-8a4c-75d0e057c4dd 
+INFO  [19:56:53.510] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:56:53.570] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:56:53.577] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [19:58:11.887] [mlr3]  Finished benchmark 
+INFO  [19:58:11.962] [bbotk] Result of batch 107: 
+INFO  [19:58:11.963] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [19:58:11.963] [bbotk]              25                  31                      56                 300 
+INFO  [19:58:11.963] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [19:58:11.963] [bbotk]         0.818 -0.9819841         <NA>   0.9740626 
+INFO  [19:58:11.963] [bbotk]                                 uhash 
+INFO  [19:58:11.963] [bbotk]  3d4a6a0f-321a-4f83-9f3e-69f77a020230 
+INFO  [19:58:13.200] [bbotk] Evaluating 1 configuration(s) 
+INFO  [19:58:13.261] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [19:58:13.268] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:00:39.761] [mlr3]  Finished benchmark 
+INFO  [20:00:39.833] [bbotk] Result of batch 108: 
+INFO  [20:00:39.835] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:00:39.835] [bbotk]              21                  20                      95                 712 
+INFO  [20:00:39.835] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:00:39.835] [bbotk]         0.831 -0.9802802         <NA>   0.9729247 
+INFO  [20:00:39.835] [bbotk]                                 uhash 
+INFO  [20:00:39.835] [bbotk]  ca408c4e-3dd2-4298-86ea-c35c629f3fdd 
+INFO  [20:00:40.928] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:00:40.990] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:00:40.996] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:02:48.913] [mlr3]  Finished benchmark 
+INFO  [20:02:49.002] [bbotk] Result of batch 109: 
+INFO  [20:02:49.004] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:02:49.004] [bbotk]               7                  22                      38                1530 
+INFO  [20:02:49.004] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:02:49.004] [bbotk]         0.789 -0.9794048         <NA>   0.9740823 
+INFO  [20:02:49.004] [bbotk]                                 uhash 
+INFO  [20:02:49.004] [bbotk]  92b3e34c-df7d-4c0c-8f95-5126af2c0c64 
+INFO  [20:02:50.100] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:02:50.161] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:02:50.167] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:09:33.895] [mlr3]  Finished benchmark 
+INFO  [20:09:33.968] [bbotk] Result of batch 110: 
+INFO  [20:09:33.970] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:09:33.970] [bbotk]              31                  28                      87                1285 
+INFO  [20:09:33.970] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:09:33.970] [bbotk]         0.822 -0.9809334         <NA>    0.972689 
+INFO  [20:09:33.970] [bbotk]                                 uhash 
+INFO  [20:09:33.970] [bbotk]  b423bf20-5402-4824-992e-0f9cfe81d826 
+INFO  [20:09:35.305] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:09:35.369] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:09:35.376] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:10:02.000] [mlr3]  Finished benchmark 
+INFO  [20:10:02.074] [bbotk] Result of batch 111: 
+INFO  [20:10:02.076] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:10:02.076] [bbotk]              17                   3                      88                1318 
+INFO  [20:10:02.076] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:10:02.076] [bbotk]         0.826 -0.9802773         <NA>   0.9475885 
+INFO  [20:10:02.076] [bbotk]                                 uhash 
+INFO  [20:10:02.076] [bbotk]  276a1e6e-ad87-4d4b-807d-6421559efa38 
+INFO  [20:10:03.151] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:10:03.214] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:10:03.221] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:13:57.235] [mlr3]  Finished benchmark 
+INFO  [20:13:57.309] [bbotk] Result of batch 112: 
+INFO  [20:13:57.310] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:13:57.310] [bbotk]              17                  36                      89                1359 
+INFO  [20:13:57.310] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:13:57.310] [bbotk]         0.801 -0.9829987         <NA>   0.9731755 
+INFO  [20:13:57.310] [bbotk]                                 uhash 
+INFO  [20:13:57.310] [bbotk]  45e79e33-8dfd-429b-b0f2-12fc4708b649 
+INFO  [20:13:58.442] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:13:58.504] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:13:58.510] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:15:51.636] [mlr3]  Finished benchmark 
+INFO  [20:15:51.709] [bbotk] Result of batch 113: 
+INFO  [20:15:51.711] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:15:51.711] [bbotk]              24                  10                      52                 741 
+INFO  [20:15:51.711] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:15:51.711] [bbotk]         0.845 -0.9808822         <NA>   0.9736858 
+INFO  [20:15:51.711] [bbotk]                                 uhash 
+INFO  [20:15:51.711] [bbotk]  ccda149d-cbe0-49f1-9b83-746735370ebc 
+INFO  [20:15:52.901] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:15:52.964] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:15:52.970] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:25:26.333] [mlr3]  Finished benchmark 
+INFO  [20:25:26.409] [bbotk] Result of batch 114: 
+INFO  [20:25:26.411] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:25:26.411] [bbotk]              45                  16                      19                1366 
+INFO  [20:25:26.411] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [20:25:26.411] [bbotk]         0.881 -0.989382         <NA>   0.9739066 
+INFO  [20:25:26.411] [bbotk]                                 uhash 
+INFO  [20:25:26.411] [bbotk]  bc0b0fd4-f866-4f75-9ab0-44a6a30d4d62 
+INFO  [20:25:27.635] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:25:27.701] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:25:27.708] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:36:40.432] [mlr3]  Finished benchmark 
+INFO  [20:36:40.504] [bbotk] Result of batch 115: 
+INFO  [20:36:40.506] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:36:40.506] [bbotk]              34                  29                      35                1865 
+INFO  [20:36:40.506] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:36:40.506] [bbotk]         0.861 -0.9812249         <NA>   0.9744527 
+INFO  [20:36:40.506] [bbotk]                                 uhash 
+INFO  [20:36:40.506] [bbotk]  cda52200-7ec2-406d-938f-0d0b3a87eb7f 
+INFO  [20:36:41.833] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:36:41.895] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:36:41.902] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:39:11.202] [mlr3]  Finished benchmark 
+INFO  [20:39:11.274] [bbotk] Result of batch 116: 
+INFO  [20:39:11.276] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:39:11.276] [bbotk]              46                  23                      56                 316 
+INFO  [20:39:11.276] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:39:11.276] [bbotk]         0.822 -0.9804019         <NA>   0.9722915 
+INFO  [20:39:11.276] [bbotk]                                 uhash 
+INFO  [20:39:11.276] [bbotk]  4011fcf4-90fa-4938-bccf-ce040bc09369 
+INFO  [20:39:12.430] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:39:12.490] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:39:12.497] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:45:22.702] [mlr3]  Finished benchmark 
+INFO  [20:45:22.775] [bbotk] Result of batch 117: 
+INFO  [20:45:22.777] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:45:22.777] [bbotk]              47                  42                      53                 757 
+INFO  [20:45:22.777] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [20:45:22.777] [bbotk]         0.828 -0.979285         <NA>   0.9724684 
+INFO  [20:45:22.777] [bbotk]                                 uhash 
+INFO  [20:45:22.777] [bbotk]  7085dda8-4247-487a-9093-5efaf981740e 
+INFO  [20:45:23.926] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:45:23.989] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:45:23.995] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:45:32.105] [mlr3]  Finished benchmark 
+INFO  [20:45:32.191] [bbotk] Result of batch 118: 
+INFO  [20:45:32.193] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:45:32.193] [bbotk]              21                   2                      63                 519 
+INFO  [20:45:32.193] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [20:45:32.193] [bbotk]         0.849 -0.9821427         <NA>    0.932223 
+INFO  [20:45:32.193] [bbotk]                                 uhash 
+INFO  [20:45:32.193] [bbotk]  799c7f76-7357-4010-9499-a043b3ba3965 
+INFO  [20:45:33.361] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:45:33.425] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:45:33.432] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [20:51:05.453] [mlr3]  Finished benchmark 
+INFO  [20:51:05.527] [bbotk] Result of batch 119: 
+INFO  [20:51:05.528] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [20:51:05.528] [bbotk]              34                  42                      80                 963 
+INFO  [20:51:05.528] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [20:51:05.528] [bbotk]         0.852 -0.979669         <NA>   0.9727561 
+INFO  [20:51:05.528] [bbotk]                                 uhash 
+INFO  [20:51:05.528] [bbotk]  d91483b7-1de7-4f9f-a083-fad978bcd9bd 
+INFO  [20:51:06.692] [bbotk] Evaluating 1 configuration(s) 
+INFO  [20:51:06.755] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [20:51:06.762] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:00:03.106] [mlr3]  Finished benchmark 
+INFO  [21:00:03.179] [bbotk] Result of batch 120: 
+INFO  [21:00:03.181] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:00:03.181] [bbotk]              47                  12                      80                1638 
+INFO  [21:00:03.181] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:00:03.181] [bbotk]         0.842 -0.9794909         <NA>   0.9708186 
+INFO  [21:00:03.181] [bbotk]                                 uhash 
+INFO  [21:00:03.181] [bbotk]  57414fed-c233-4ecc-a5c3-745aa688cfb2 
+INFO  [21:00:04.524] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:00:04.583] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:00:04.590] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:06:36.916] [mlr3]  Finished benchmark 
+INFO  [21:06:37.007] [bbotk] Result of batch 121: 
+INFO  [21:06:37.010] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:06:37.010] [bbotk]              21                  48                      48                1771 
+INFO  [21:06:37.010] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:06:37.010] [bbotk]         0.895 -0.9823232         <NA>    0.974712 
+INFO  [21:06:37.010] [bbotk]                                 uhash 
+INFO  [21:06:37.010] [bbotk]  3be3251c-5d78-4a34-a64a-529c0660abcf 
+INFO  [21:06:38.396] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:06:38.458] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:06:38.466] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:07:39.016] [mlr3]  Finished benchmark 
+INFO  [21:07:39.089] [bbotk] Result of batch 122: 
+INFO  [21:07:39.091] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:07:39.091] [bbotk]              33                   6                      14                 582 
+INFO  [21:07:39.091] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:07:39.091] [bbotk]         0.846 -0.9800384         <NA>   0.9669221 
+INFO  [21:07:39.091] [bbotk]                                 uhash 
+INFO  [21:07:39.091] [bbotk]  68bba7c9-acfc-4e0e-9729-5d8452271ef5 
+INFO  [21:07:40.308] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:07:40.369] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:07:40.376] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:10:38.561] [mlr3]  Finished benchmark 
+INFO  [21:10:38.673] [bbotk] Result of batch 123: 
+INFO  [21:10:38.675] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:10:38.675] [bbotk]               8                  46                      35                1894 
+INFO  [21:10:38.675] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:10:38.675] [bbotk]          0.88 -0.9797323         <NA>   0.9745181 
+INFO  [21:10:38.675] [bbotk]                                 uhash 
+INFO  [21:10:38.675] [bbotk]  bf35e97c-1b91-40cd-9e52-d77878ee2896 
+INFO  [21:10:39.905] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:10:39.967] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:10:39.973] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:15:46.245] [mlr3]  Finished benchmark 
+INFO  [21:15:46.318] [bbotk] Result of batch 124: 
+INFO  [21:15:46.320] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:15:46.320] [bbotk]              45                  18                      25                 691 
+INFO  [21:15:46.320] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:15:46.320] [bbotk]         0.864 -0.9797498         <NA>   0.9737287 
+INFO  [21:15:46.320] [bbotk]                                 uhash 
+INFO  [21:15:46.320] [bbotk]  e513031d-8993-4b1e-919f-e66e47892f73 
+INFO  [21:15:47.580] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:15:47.644] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:15:47.651] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:18:22.540] [mlr3]  Finished benchmark 
+INFO  [21:18:22.613] [bbotk] Result of batch 125: 
+INFO  [21:18:22.615] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:18:22.615] [bbotk]              42                   7                      44                 947 
+INFO  [21:18:22.615] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:18:22.615] [bbotk]          0.85 -0.9829694         <NA>   0.9687051 
+INFO  [21:18:22.615] [bbotk]                                 uhash 
+INFO  [21:18:22.615] [bbotk]  0e731214-3d08-41a7-9437-71cee82c72a1 
+INFO  [21:18:23.923] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:18:23.984] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:18:23.991] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:25:06.452] [mlr3]  Finished benchmark 
+INFO  [21:25:06.526] [bbotk] Result of batch 126: 
+INFO  [21:25:06.527] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:25:06.527] [bbotk]              22                  47                      48                1727 
+INFO  [21:25:06.527] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:25:06.527] [bbotk]         0.841 -0.9804803         <NA>   0.9746887 
+INFO  [21:25:06.527] [bbotk]                                 uhash 
+INFO  [21:25:06.527] [bbotk]  b21f31a3-ea05-4802-9029-d5280e249a68 
+INFO  [21:25:07.959] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:25:08.020] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:25:08.027] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:30:03.542] [mlr3]  Finished benchmark 
+INFO  [21:30:03.612] [bbotk] Result of batch 127: 
+INFO  [21:30:03.614] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:30:03.614] [bbotk]              46                  11                       6                 938 
+INFO  [21:30:03.614] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:30:03.614] [bbotk]         1.027 -0.9801375         <NA>    0.973439 
+INFO  [21:30:03.614] [bbotk]                                 uhash 
+INFO  [21:30:03.614] [bbotk]  3fc18b30-77ce-427e-941f-2ef038fd9a85 
+INFO  [21:30:04.840] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:30:04.899] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:30:04.905] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:30:42.516] [mlr3]  Finished benchmark 
+INFO  [21:30:42.590] [bbotk] Result of batch 128: 
+INFO  [21:30:42.592] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:30:42.592] [bbotk]               2                  43                      59                1159 
+INFO  [21:30:42.592] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:30:42.592] [bbotk]         0.865 -0.9828551         <NA>   0.9686916 
+INFO  [21:30:42.592] [bbotk]                                 uhash 
+INFO  [21:30:42.592] [bbotk]  b53654cd-2501-4e59-aa7e-009baf061f0e 
+INFO  [21:30:43.831] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:30:43.893] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:30:43.899] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:37:13.942] [mlr3]  Finished benchmark 
+INFO  [21:37:14.010] [bbotk] Result of batch 129: 
+INFO  [21:37:14.012] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:37:14.012] [bbotk]              21                  22                      33                1718 
+INFO  [21:37:14.012] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [21:37:14.012] [bbotk]          0.94 -0.980225         <NA>   0.9754343 
+INFO  [21:37:14.012] [bbotk]                                 uhash 
+INFO  [21:37:14.012] [bbotk]  e3d1dd52-421d-4bea-88fe-08817201556a 
+INFO  [21:37:15.236] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:37:15.296] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:37:15.302] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:49:15.350] [mlr3]  Finished benchmark 
+INFO  [21:49:15.423] [bbotk] Result of batch 130: 
+INFO  [21:49:15.425] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:49:15.425] [bbotk]              42                  41                      35                1615 
+INFO  [21:49:15.425] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:49:15.425] [bbotk]          0.86 -0.9802174         <NA>   0.9737485 
+INFO  [21:49:15.425] [bbotk]                                 uhash 
+INFO  [21:49:15.425] [bbotk]  4a23f5fc-46c5-4115-b906-bc14eddd2bf2 
+INFO  [21:49:16.916] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:49:16.977] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:49:16.984] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:50:52.510] [mlr3]  Finished benchmark 
+INFO  [21:50:52.612] [bbotk] Result of batch 131: 
+INFO  [21:50:52.615] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:50:52.615] [bbotk]              19                  11                      63                 658 
+INFO  [21:50:52.615] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:50:52.615] [bbotk]         1.039 -0.9828049         <NA>   0.9736095 
+INFO  [21:50:52.615] [bbotk]                                 uhash 
+INFO  [21:50:52.615] [bbotk]  82096421-3e5b-4113-bd33-6041b0f1b7e1 
+INFO  [21:50:53.973] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:50:54.031] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:50:54.039] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:53:01.593] [mlr3]  Finished benchmark 
+INFO  [21:53:01.672] [bbotk] Result of batch 132: 
+INFO  [21:53:01.674] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:53:01.674] [bbotk]              19                  13                      19                 762 
+INFO  [21:53:01.674] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:53:01.674] [bbotk]         0.889 -0.9803748         <NA>   0.9755439 
+INFO  [21:53:01.674] [bbotk]                                 uhash 
+INFO  [21:53:01.674] [bbotk]  c733d57b-4b7f-450e-ab2c-c5fad9558696 
+INFO  [21:53:03.007] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:53:03.073] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:53:03.080] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:59:05.933] [mlr3]  Finished benchmark 
+INFO  [21:59:06.006] [bbotk] Result of batch 133: 
+INFO  [21:59:06.008] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:59:06.008] [bbotk]              21                  45                      26                1587 
+INFO  [21:59:06.008] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:59:06.008] [bbotk]         0.896 -0.9825896         <NA>   0.9757667 
+INFO  [21:59:06.008] [bbotk]                                 uhash 
+INFO  [21:59:06.008] [bbotk]  8f611bfa-7b5d-46a5-907b-6cebe154154a 
+INFO  [21:59:07.203] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:59:07.284] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:59:07.290] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [21:59:41.078] [mlr3]  Finished benchmark 
+INFO  [21:59:41.150] [bbotk] Result of batch 134: 
+INFO  [21:59:41.152] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [21:59:41.152] [bbotk]              42                   2                      40                1336 
+INFO  [21:59:41.152] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [21:59:41.152] [bbotk]         0.867 -0.9802328         <NA>   0.9234028 
+INFO  [21:59:41.152] [bbotk]                                 uhash 
+INFO  [21:59:41.152] [bbotk]  2f26b9ab-a976-47ea-b07d-b54da55f67b0 
+INFO  [21:59:42.547] [bbotk] Evaluating 1 configuration(s) 
+INFO  [21:59:42.607] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [21:59:42.614] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:03:32.721] [mlr3]  Finished benchmark 
+INFO  [22:03:32.795] [bbotk] Result of batch 135: 
+INFO  [22:03:32.796] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:03:32.796] [bbotk]              19                  34                      16                1072 
+INFO  [22:03:32.796] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:03:32.796] [bbotk]         1.059 -0.9805126         <NA>   0.9761703 
+INFO  [22:03:32.796] [bbotk]                                 uhash 
+INFO  [22:03:32.796] [bbotk]  e01af92f-2d57-4b58-bb77-29b6eb3be037 
+INFO  [22:03:34.132] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:03:34.246] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:03:34.255] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:04:45.255] [mlr3]  Finished benchmark 
+INFO  [22:04:45.329] [bbotk] Result of batch 136: 
+INFO  [22:04:45.331] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:04:45.331] [bbotk]               7                  41                      72                 915 
+INFO  [22:04:45.331] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:04:45.331] [bbotk]         0.923 -0.9790426         <NA>   0.9723367 
+INFO  [22:04:45.331] [bbotk]                                 uhash 
+INFO  [22:04:45.331] [bbotk]  0a6a2711-c620-4a27-9a6a-d359cb000c39 
+INFO  [22:04:46.669] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:04:46.734] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:04:46.741] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:10:15.805] [mlr3]  Finished benchmark 
+INFO  [22:10:15.879] [bbotk] Result of batch 137: 
+INFO  [22:10:15.881] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:10:15.881] [bbotk]              18                  39                     100                1827 
+INFO  [22:10:15.881] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:10:15.881] [bbotk]         0.917 -0.9805721         <NA>   0.9727793 
+INFO  [22:10:15.881] [bbotk]                                 uhash 
+INFO  [22:10:15.881] [bbotk]  a60f93da-d0fe-4f55-8086-b2f72ed2ef85 
+INFO  [22:10:17.191] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:10:17.253] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:10:17.259] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:10:41.822] [mlr3]  Finished benchmark 
+INFO  [22:10:41.896] [bbotk] Result of batch 138: 
+INFO  [22:10:41.898] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:10:41.898] [bbotk]              42                   2                      48                 972 
+INFO  [22:10:41.898] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:10:41.898] [bbotk]         0.882 -0.9845408         <NA>   0.9231043 
+INFO  [22:10:41.898] [bbotk]                                 uhash 
+INFO  [22:10:41.898] [bbotk]  9abcc5d3-2c7b-48b0-a62b-d6be0c3a5786 
+INFO  [22:10:43.205] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:10:43.269] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:10:43.275] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:11:39.333] [mlr3]  Finished benchmark 
+INFO  [22:11:39.406] [bbotk] Result of batch 139: 
+INFO  [22:11:39.408] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:11:39.408] [bbotk]              16                   4                       9                1875 
+INFO  [22:11:39.408] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [22:11:39.408] [bbotk]         0.912 -0.983696         <NA>   0.9556744 
+INFO  [22:11:39.408] [bbotk]                                 uhash 
+INFO  [22:11:39.408] [bbotk]  9a674ee7-bf70-4828-9434-55c51ab26937 
+INFO  [22:11:40.833] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:11:40.895] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:11:40.902] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:13:17.490] [mlr3]  Finished benchmark 
+INFO  [22:13:17.561] [bbotk] Result of batch 140: 
+INFO  [22:13:17.563] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:13:17.563] [bbotk]              43                  23                      60                 219 
+INFO  [22:13:17.563] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:13:17.563] [bbotk]         0.912 -0.9801873         <NA>   0.9723324 
+INFO  [22:13:17.563] [bbotk]                                 uhash 
+INFO  [22:13:17.563] [bbotk]  05a4ccfb-6db4-41ec-9097-c3875b150c51 
+INFO  [22:13:18.869] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:13:18.930] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:13:18.937] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:14:50.422] [mlr3]  Finished benchmark 
+INFO  [22:14:50.520] [bbotk] Result of batch 141: 
+INFO  [22:14:50.521] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:14:50.521] [bbotk]               6                  14                      41                1384 
+INFO  [22:14:50.521] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:14:50.521] [bbotk]         0.887 -0.9786944         <NA>   0.9732014 
+INFO  [22:14:50.521] [bbotk]                                 uhash 
+INFO  [22:14:50.521] [bbotk]  67dd1c60-62f3-4cf3-b173-2dde36596532 
+INFO  [22:14:51.780] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:14:51.842] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:14:51.849] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:20:16.140] [mlr3]  Finished benchmark 
+INFO  [22:20:16.210] [bbotk] Result of batch 142: 
+INFO  [22:20:16.211] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:20:16.211] [bbotk]              21                  36                      17                1409 
+INFO  [22:20:16.211] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:20:16.211] [bbotk]         0.897 -0.9801572         <NA>   0.9761278 
+INFO  [22:20:16.211] [bbotk]                                 uhash 
+INFO  [22:20:16.211] [bbotk]  37e4c230-b70b-4087-8a7c-628264149acc 
+INFO  [22:20:17.622] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:20:17.682] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:20:17.688] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:22:28.722] [mlr3]  Finished benchmark 
+INFO  [22:22:28.793] [bbotk] Result of batch 143: 
+INFO  [22:22:28.795] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:22:28.795] [bbotk]               9                  11                      12                1674 
+INFO  [22:22:28.795] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:22:28.795] [bbotk]         1.055 -0.9799058         <NA>    0.974756 
+INFO  [22:22:28.795] [bbotk]                                 uhash 
+INFO  [22:22:28.795] [bbotk]  0c7ccc75-14b8-44ae-859d-ea887c4c9ed4 
+INFO  [22:22:29.993] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:22:30.052] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:22:30.059] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:22:45.267] [mlr3]  Finished benchmark 
+INFO  [22:22:45.342] [bbotk] Result of batch 144: 
+INFO  [22:22:45.344] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:22:45.344] [bbotk]               7                   2                      87                1798 
+INFO  [22:22:45.344] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [22:22:45.344] [bbotk]         0.879 -0.983029         <NA>   0.9377388 
+INFO  [22:22:45.344] [bbotk]                                 uhash 
+INFO  [22:22:45.344] [bbotk]  9d1f3ebf-bd60-4c4d-93ec-f0100bc1181e 
+INFO  [22:22:46.751] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:22:46.813] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:22:46.820] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:22:53.231] [mlr3]  Finished benchmark 
+INFO  [22:22:53.302] [bbotk] Result of batch 145: 
+INFO  [22:22:53.304] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:22:53.304] [bbotk]              48                   2                      82                 202 
+INFO  [22:22:53.304] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:22:53.304] [bbotk]         0.934 -0.9801211         <NA>   0.9197346 
+INFO  [22:22:53.304] [bbotk]                                 uhash 
+INFO  [22:22:53.304] [bbotk]  2ee20952-5176-450b-a6e1-d756ad2fae3f 
+INFO  [22:22:54.587] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:22:54.649] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:22:54.656] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:25:24.023] [mlr3]  Finished benchmark 
+INFO  [22:25:24.096] [bbotk] Result of batch 146: 
+INFO  [22:25:24.098] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:25:24.098] [bbotk]              39                   7                       3                 976 
+INFO  [22:25:24.098] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:25:24.098] [bbotk]         0.924 -0.9816432         <NA>   0.9695059 
+INFO  [22:25:24.098] [bbotk]                                 uhash 
+INFO  [22:25:24.098] [bbotk]  2df7517f-4558-4ef3-bea9-55e8c048cc53 
+INFO  [22:25:25.576] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:25:25.636] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:25:25.643] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:33:59.798] [mlr3]  Finished benchmark 
+INFO  [22:33:59.871] [bbotk] Result of batch 147: 
+INFO  [22:33:59.873] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:33:59.873] [bbotk]              26                  44                      98                1990 
+INFO  [22:33:59.873] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [22:33:59.873] [bbotk]         1.102  -0.97858         <NA>   0.9726786 
+INFO  [22:33:59.873] [bbotk]                                 uhash 
+INFO  [22:33:59.873] [bbotk]  b01e8c29-bcbf-4c1a-a43b-d3b34aad4a44 
+INFO  [22:34:01.239] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:34:01.299] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:34:01.306] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:36:46.087] [mlr3]  Finished benchmark 
+INFO  [22:36:46.159] [bbotk] Result of batch 148: 
+INFO  [22:36:46.161] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:36:46.161] [bbotk]              11                  31                      22                1278 
+INFO  [22:36:46.161] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:36:46.161] [bbotk]         0.924 -0.9807398         <NA>   0.9757136 
+INFO  [22:36:46.161] [bbotk]                                 uhash 
+INFO  [22:36:46.161] [bbotk]  66c756f4-767f-4860-b165-d39c63f47558 
+INFO  [22:36:47.750] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:36:47.892] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:36:47.904] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:37:00.637] [mlr3]  Finished benchmark 
+INFO  [22:37:00.715] [bbotk] Result of batch 149: 
+INFO  [22:37:00.717] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:37:00.717] [bbotk]               5                   2                      54                1676 
+INFO  [22:37:00.717] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:37:00.717] [bbotk]         0.979 -0.9791878         <NA>   0.9381107 
+INFO  [22:37:00.717] [bbotk]                                 uhash 
+INFO  [22:37:00.717] [bbotk]  d2034180-c048-46e0-9f5f-82caab408e0f 
+INFO  [22:37:02.205] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:37:02.264] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:37:02.271] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:41:39.355] [mlr3]  Finished benchmark 
+INFO  [22:41:39.429] [bbotk] Result of batch 150: 
+INFO  [22:41:39.431] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:41:39.431] [bbotk]              32                  22                      49                 837 
+INFO  [22:41:39.431] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:41:39.431] [bbotk]         1.063 -0.9848676         <NA>   0.9740202 
+INFO  [22:41:39.431] [bbotk]                                 uhash 
+INFO  [22:41:39.431] [bbotk]  5482328c-f5db-4a7c-afec-e374d35b1668 
+INFO  [22:41:41.023] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:41:41.086] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:41:41.093] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:47:19.522] [mlr3]  Finished benchmark 
+INFO  [22:47:19.595] [bbotk] Result of batch 151: 
+INFO  [22:47:19.597] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:47:19.597] [bbotk]              48                   0                      74                 697 
+INFO  [22:47:19.597] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:47:19.597] [bbotk]         1.081 -0.9801126         <NA>   0.9714392 
+INFO  [22:47:19.597] [bbotk]                                 uhash 
+INFO  [22:47:19.597] [bbotk]  360a1d7b-eaf6-4af9-81bc-bb0f21ce00fe 
+INFO  [22:47:20.870] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:47:20.931] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:47:20.937] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:50:03.176] [mlr3]  Finished benchmark 
+INFO  [22:50:03.251] [bbotk] Result of batch 152: 
+INFO  [22:50:03.253] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:50:03.253] [bbotk]              17                  50                      33                 881 
+INFO  [22:50:03.253] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:50:03.253] [bbotk]         0.904 -0.9812075         <NA>   0.9754335 
+INFO  [22:50:03.253] [bbotk]                                 uhash 
+INFO  [22:50:03.253] [bbotk]  b9633cfd-afde-4460-b82b-8247dbec2a24 
+INFO  [22:50:05.034] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:50:05.097] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:50:05.104] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:50:43.590] [mlr3]  Finished benchmark 
+INFO  [22:50:43.663] [bbotk] Result of batch 153: 
+INFO  [22:50:43.665] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:50:43.665] [bbotk]               7                  17                       2                 458 
+INFO  [22:50:43.665] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [22:50:43.665] [bbotk]         0.984 -0.980477         <NA>   0.9759617 
+INFO  [22:50:43.665] [bbotk]                                 uhash 
+INFO  [22:50:43.665] [bbotk]  458cb128-8499-4b54-ac41-368da684f745 
+INFO  [22:50:45.158] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:50:45.220] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:50:45.227] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:53:33.912] [mlr3]  Finished benchmark 
+INFO  [22:53:33.985] [bbotk] Result of batch 154: 
+INFO  [22:53:33.987] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:53:33.987] [bbotk]              43                  11                      50                 586 
+INFO  [22:53:33.987] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:53:33.987] [bbotk]         1.073 -0.9792425         <NA>   0.9722566 
+INFO  [22:53:33.987] [bbotk]                                 uhash 
+INFO  [22:53:33.987] [bbotk]  8c4c3c37-5f71-4059-b8f4-e86a989f8292 
+INFO  [22:53:35.400] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:53:35.461] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:53:35.468] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:55:04.926] [mlr3]  Finished benchmark 
+INFO  [22:55:04.999] [bbotk] Result of batch 155: 
+INFO  [22:55:05.001] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:55:05.001] [bbotk]              14                   8                       5                1207 
+INFO  [22:55:05.001] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:55:05.001] [bbotk]         0.954 -0.9852815         <NA>    0.972319 
+INFO  [22:55:05.001] [bbotk]                                 uhash 
+INFO  [22:55:05.001] [bbotk]  01b343dc-394c-404c-8a23-3293e3ea1e5e 
+INFO  [22:55:06.343] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:55:06.405] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:55:06.412] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [22:56:15.282] [mlr3]  Finished benchmark 
+INFO  [22:56:15.355] [bbotk] Result of batch 156: 
+INFO  [22:56:15.357] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [22:56:15.357] [bbotk]              22                   7                      90                 779 
+INFO  [22:56:15.357] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [22:56:15.357] [bbotk]          0.95 -0.9781351         <NA>   0.9694748 
+INFO  [22:56:15.357] [bbotk]                                 uhash 
+INFO  [22:56:15.357] [bbotk]  9ce29605-7574-45af-94d3-3f432b8cc78b 
+INFO  [22:56:16.971] [bbotk] Evaluating 1 configuration(s) 
+INFO  [22:56:17.029] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [22:56:17.036] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:06:05.524] [mlr3]  Finished benchmark 
+INFO  [23:06:05.599] [bbotk] Result of batch 157: 
+INFO  [23:06:05.601] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:06:05.601] [bbotk]              45                  29                      97                1322 
+INFO  [23:06:05.601] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:06:05.601] [bbotk]         1.054 -0.9800854         <NA>   0.9710748 
+INFO  [23:06:05.601] [bbotk]                                 uhash 
+INFO  [23:06:05.601] [bbotk]  6395d0e0-a286-410c-8937-be2dd0c97331 
+INFO  [23:06:07.168] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:06:07.229] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:06:07.236] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:06:48.777] [mlr3]  Finished benchmark 
+INFO  [23:06:48.859] [bbotk] Result of batch 158: 
+INFO  [23:06:48.861] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:06:48.861] [bbotk]              10                   0                      53                 374 
+INFO  [23:06:48.861] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:06:48.861] [bbotk]         0.972 -0.9802463         <NA>   0.9738219 
+INFO  [23:06:48.861] [bbotk]                                 uhash 
+INFO  [23:06:48.861] [bbotk]  d6ee188e-c6e1-4d73-aba7-ceafd8ab041c 
+INFO  [23:06:50.238] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:06:50.301] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:06:50.309] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:07:00.153] [mlr3]  Finished benchmark 
+INFO  [23:07:00.227] [bbotk] Result of batch 159: 
+INFO  [23:07:00.229] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:07:00.229] [bbotk]               3                  48                      47                 217 
+INFO  [23:07:00.229] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:07:00.229] [bbotk]         0.965 -0.9785512         <NA>   0.9708849 
+INFO  [23:07:00.229] [bbotk]                                 uhash 
+INFO  [23:07:00.229] [bbotk]  de8afaf1-ba3b-43e9-b12e-773b4b9241ff 
+INFO  [23:07:01.701] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:07:01.762] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:07:01.768] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:07:11.423] [mlr3]  Finished benchmark 
+INFO  [23:07:11.496] [bbotk] Result of batch 160: 
+INFO  [23:07:11.498] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:07:11.498] [bbotk]              13                   1                      29                1393 
+INFO  [23:07:11.498] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:07:11.498] [bbotk]         0.984 -0.9847411         <NA>    0.908103 
+INFO  [23:07:11.498] [bbotk]                                 uhash 
+INFO  [23:07:11.498] [bbotk]  8687187b-e4ad-4630-937a-f14cdaf1e50e 
+INFO  [23:07:13.265] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:07:13.325] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:07:13.331] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:20:30.038] [mlr3]  Finished benchmark 
+INFO  [23:20:30.129] [bbotk] Result of batch 161: 
+INFO  [23:20:30.130] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:20:30.130] [bbotk]              50                  45                      27                1497 
+INFO  [23:20:30.130] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:20:30.130] [bbotk]         1.142 -0.9849303         <NA>   0.9730943 
+INFO  [23:20:30.130] [bbotk]                                 uhash 
+INFO  [23:20:30.130] [bbotk]  a2998635-9f08-4160-a0b5-f435c89986ec 
+INFO  [23:20:31.914] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:20:31.978] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:20:31.984] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:25:23.532] [mlr3]  Finished benchmark 
+INFO  [23:25:23.606] [bbotk] Result of batch 162: 
+INFO  [23:25:23.608] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:25:23.608] [bbotk]              17                  14                      26                1865 
+INFO  [23:25:23.608] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:25:23.608] [bbotk]         0.961 -0.9834688         <NA>   0.9755493 
+INFO  [23:25:23.608] [bbotk]                                 uhash 
+INFO  [23:25:23.608] [bbotk]  3f4e9649-1030-4c26-a904-a2630ead8acd 
+INFO  [23:25:25.167] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:25:25.229] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:25:25.236] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:29:21.631] [mlr3]  Finished benchmark 
+INFO  [23:29:21.701] [bbotk] Result of batch 163: 
+INFO  [23:29:21.703] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:29:21.703] [bbotk]              20                  11                      97                1743 
+INFO  [23:29:21.703] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:29:21.703] [bbotk]         1.042 -0.9802143         <NA>   0.9723898 
+INFO  [23:29:21.703] [bbotk]                                 uhash 
+INFO  [23:29:21.703] [bbotk]  875c8c86-86f0-440f-8eb0-915887e73a34 
+INFO  [23:29:23.352] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:29:23.412] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:29:23.418] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:37:53.066] [mlr3]  Finished benchmark 
+INFO  [23:37:53.140] [bbotk] Result of batch 164: 
+INFO  [23:37:53.142] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:37:53.142] [bbotk]              44                  44                      43                1113 
+INFO  [23:37:53.142] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:37:53.142] [bbotk]         1.139 -0.9798479         <NA>   0.9731916 
+INFO  [23:37:53.142] [bbotk]                                 uhash 
+INFO  [23:37:53.142] [bbotk]  a7f5243a-b043-4be2-a7a3-aa2b0db5ab31 
+INFO  [23:37:54.751] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:37:54.815] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:37:54.821] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:39:36.110] [mlr3]  Finished benchmark 
+INFO  [23:39:36.181] [bbotk] Result of batch 165: 
+INFO  [23:39:36.183] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:39:36.183] [bbotk]              41                   5                      44                1069 
+INFO  [23:39:36.183] [bbotk]  propose.time crit.vals errors.model classif.auc 
+INFO  [23:39:36.183] [bbotk]         1.005 -0.978895         <NA>   0.9607905 
+INFO  [23:39:36.183] [bbotk]                                 uhash 
+INFO  [23:39:36.183] [bbotk]  0bd63d33-3465-4fda-8f0a-62f1aa7c1ec0 
+INFO  [23:39:37.760] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:39:37.808] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:39:37.815] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [23:55:55.592] [mlr3]  Finished benchmark 
+INFO  [23:55:55.665] [bbotk] Result of batch 166: 
+INFO  [23:55:55.667] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [23:55:55.667] [bbotk]              47                  49                      36                1978 
+INFO  [23:55:55.667] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [23:55:55.667] [bbotk]          1.04 -0.9802637         <NA>   0.9731146 
+INFO  [23:55:55.667] [bbotk]                                 uhash 
+INFO  [23:55:55.667] [bbotk]  07159ad4-a8ac-429e-8332-38a82c51e431 
+INFO  [23:55:57.508] [bbotk] Evaluating 1 configuration(s) 
+INFO  [23:55:57.569] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [23:55:57.576] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [00:11:54.696] [mlr3]  Finished benchmark 
+INFO  [00:11:54.772] [bbotk] Result of batch 167: 
+INFO  [00:11:54.773] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [00:11:54.773] [bbotk]              49                  33                      62                1916 
+INFO  [00:11:54.773] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [00:11:54.773] [bbotk]         1.247 -0.9828638         <NA>      0.9717 
+INFO  [00:11:54.773] [bbotk]                                 uhash 
+INFO  [00:11:54.773] [bbotk]  07a05159-d191-4f90-b1bc-cde54ec22f17 
+INFO  [00:11:56.305] [bbotk] Evaluating 1 configuration(s) 
+INFO  [00:11:56.367] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [00:11:56.373] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [00:22:12.978] [mlr3]  Finished benchmark 
+INFO  [00:22:13.052] [bbotk] Result of batch 168: 
+INFO  [00:22:13.054] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [00:22:13.054] [bbotk]              50                  50                      39                1181 
+INFO  [00:22:13.054] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [00:22:13.054] [bbotk]         1.015 -0.9802439         <NA>   0.9724353 
+INFO  [00:22:13.054] [bbotk]                                 uhash 
+INFO  [00:22:13.054] [bbotk]  3fe5ceb0-dd1d-4945-8fa9-6cb70f677b51 
+INFO  [00:22:14.461] [bbotk] Evaluating 1 configuration(s) 
+INFO  [00:22:14.524] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [00:22:14.530] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_ranger' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [00:29:21.677] [mlr3]  Finished benchmark 
+INFO  [00:29:21.751] [bbotk] Result of batch 169: 
+INFO  [00:29:21.753] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [00:29:21.753] [bbotk]              42                  30                       8                 948 
+INFO  [00:29:21.753] [bbotk]  propose.time  crit.vals errors.model classif.auc 
+INFO  [00:29:21.753] [bbotk]         0.971 -0.9811215         <NA>   0.9748934 
+INFO  [00:29:21.753] [bbotk]                                 uhash 
+INFO  [00:29:21.753] [bbotk]  d55cff09-a5fe-4938-af9c-594793ee1828 
+INFO  [00:29:21.834] [bbotk] Finished optimizing after 200 evaluation(s) 
+INFO  [00:29:21.835] [bbotk] Result: 
+INFO  [00:29:21.838] [bbotk]  ps_ranger.mtry ps_ranger.max.depth ps_ranger.min.node.size ps_ranger.num.trees 
+INFO  [00:29:21.838] [bbotk]              15                  43                       2                 404 
+INFO  [00:29:21.838] [bbotk]  learner_param_vals  x_domain classif.auc 
+INFO  [00:29:21.838] [bbotk]          <list[17]> <list[4]>   0.9766869 
+INFO  [00:34:36.465] [mlr3]  Finished benchmark 

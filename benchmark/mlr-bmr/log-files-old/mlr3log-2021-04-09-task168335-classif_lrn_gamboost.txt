@@ -1,0 +1,1224 @@
+INFO  [10:23:53.861] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:23:53.934] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost.tuned' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:23:54.040] [bbotk] Starting to optimize 3 parameter(s) with '<OptimizerInterMBO>' and '<TerminatorEvals> [n_evals=150]' 
+INFO  [10:23:55.002] [bbotk] Evaluating 24 configuration(s) 
+INFO  [10:23:55.907] [mlr3]  Running benchmark with 24 resampling iterations 
+INFO  [10:23:55.914] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:27:20.703] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:27:22.584] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:27:24.007] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:27:25.266] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:27:26.792] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:27:28.247] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:29:24.000] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:41.140] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:42.971] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:44.483] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:45.968] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:47.458] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:31:48.755] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:35:15.774] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:35:17.490] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:39:40.882] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:42:52.417] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:42:53.967] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:42:55.344] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:42:57.105] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:42:58.335] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:42:59.569] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:43:01.122] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:43:02.356] [mlr3]  Finished benchmark 
+INFO  [10:43:03.486] [bbotk] Result of batch 1: 
+INFO  [10:43:03.490] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [10:43:03.490] [bbotk]                   9              3089    0.381177820   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   6              3585    0.408675589   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   7               961    0.093457255   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   5              1666    0.131588464   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   8              4897    0.205241281   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   4              2678    0.286212210   0.9701597 
+INFO  [10:43:03.490] [bbotk]                  10              4538    0.153063189   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   8              1832    0.116310977   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   3              4068    0.329312514   0.9679291 
+INFO  [10:43:03.490] [bbotk]                   4              1206    0.067365447   0.9645091 
+INFO  [10:43:03.490] [bbotk]                   4              2410    0.424762070   0.9705094 
+INFO  [10:43:03.490] [bbotk]                   9               453    0.366597738   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   7              3759    0.334598951   0.5000000 
+INFO  [10:43:03.490] [bbotk]                  10              2127    0.498370971   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   3              2901    0.056353717   0.9628188 
+INFO  [10:43:03.490] [bbotk]                   6              2206    0.256645069   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   7               238    0.218811844   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   6              1170    0.447128090   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   5              4722    0.186250846   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   8              3999    0.003757376   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   5              4353    0.471819633   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   9               708    0.041354786   0.5000000 
+INFO  [10:43:03.490] [bbotk]                   3              1532    0.231657532   0.9653320 
+INFO  [10:43:03.490] [bbotk]                  10              3249    0.306594638   0.5000000 
+INFO  [10:43:03.490] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu classif.auc 
+INFO  [10:43:03.490] [bbotk]                                 uhash 
+INFO  [10:43:03.490] [bbotk]  a965ee5f-5e0a-49a0-a765-2ca2eea821eb 
+INFO  [10:43:03.490] [bbotk]  0c4e0276-a679-412e-ae85-202ec3884dd4 
+INFO  [10:43:03.490] [bbotk]  89f599c5-36c1-4f05-a454-667018faecdc 
+INFO  [10:43:03.490] [bbotk]  257fbfed-d58c-425c-900e-927c9f4a9b7e 
+INFO  [10:43:03.490] [bbotk]  33add6dc-953b-40d6-8795-ee01a09d8b40 
+INFO  [10:43:03.490] [bbotk]  2307b726-015e-4f35-bf00-c53b2007d98e 
+INFO  [10:43:03.490] [bbotk]  346b9cd8-2ae7-4eb3-8dd8-863e5aa6927e 
+INFO  [10:43:03.490] [bbotk]  88623b66-21ea-4843-b238-c36c3c9b2a6a 
+INFO  [10:43:03.490] [bbotk]  41e84c5c-e8b1-4646-9d4e-b4c506149513 
+INFO  [10:43:03.490] [bbotk]  5485a116-4fc4-40f6-b4d9-c8a8ab2fdb55 
+INFO  [10:43:03.490] [bbotk]  3fbcadb9-c1c5-49b8-9869-0eaee813aec2 
+INFO  [10:43:03.490] [bbotk]  732e279a-097c-4eb2-9331-c14a185046df 
+INFO  [10:43:03.490] [bbotk]  262c1bae-3364-4db8-b809-fa0bbd84f12b 
+INFO  [10:43:03.490] [bbotk]  e5f9ec3a-3e7f-4fb5-8713-437d294193d7 
+INFO  [10:43:03.490] [bbotk]  a15b9cd1-552b-46ff-a3d7-bf51214df037 
+INFO  [10:43:03.490] [bbotk]  3cbebc60-6769-4e87-87f9-5bed816b1df5 
+INFO  [10:43:03.490] [bbotk]  7c6d35f3-345a-4851-84ea-50bcfbf53d7d 
+INFO  [10:43:03.490] [bbotk]  28192e49-252b-452c-993f-d066e1988136 
+INFO  [10:43:03.490] [bbotk]  7cc270b7-4f12-4139-a51f-850571021368 
+INFO  [10:43:03.490] [bbotk]  9cb71ce7-cb44-48e1-8253-430ee8493416 
+INFO  [10:43:03.490] [bbotk]  3f6baa78-32aa-4a33-addc-9fd08f8cc402 
+INFO  [10:43:03.490] [bbotk]  6206c54c-d06d-4584-8dd5-a5be156c424d 
+INFO  [10:43:03.490] [bbotk]  ef5e36c9-803d-41be-a124-ec88b9a9f858 
+INFO  [10:43:03.490] [bbotk]  efe91ab4-f4d4-40db-8a55-848046398154 
+INFO  [10:43:03.490] [bbotk]                                 uhash 
+INFO  [10:43:05.084] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:43:05.138] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:43:05.144] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:45:16.716] [mlr3]  Finished benchmark 
+INFO  [10:45:16.780] [bbotk] Result of batch 2: 
+INFO  [10:45:16.782] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:45:16.782] [bbotk]                   3              1632     0.09419868        0.576 -0.7392047 
+INFO  [10:45:16.782] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:45:16.782] [bbotk]          <NA>   0.9626312 da19df65-02e2-4e35-a3fc-33b9f9168426 
+INFO  [10:45:17.713] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:45:17.767] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:45:17.774] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:45:19.775] [mlr3]  Finished benchmark 
+INFO  [10:45:19.835] [bbotk] Result of batch 3: 
+INFO  [10:45:19.837] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:45:19.837] [bbotk]                   7               221     0.05494035        0.556 -0.7404877 
+INFO  [10:45:19.837] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:45:19.837] [bbotk]          <NA>         0.5 74c02c25-32a3-4866-83e1-2e437c0e8a41 
+INFO  [10:45:20.688] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:45:20.741] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:45:20.747] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:45:22.081] [mlr3]  Finished benchmark 
+INFO  [10:45:22.142] [bbotk] Result of batch 4: 
+INFO  [10:45:22.143] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:45:22.143] [bbotk]                  10               258      0.3949738        0.591 -0.7346029 
+INFO  [10:45:22.143] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:45:22.143] [bbotk]          <NA>         0.5 ab8c96af-277a-4dd3-aced-9fe05cc182f1 
+INFO  [10:45:22.757] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:45:22.810] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:45:22.817] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:45:24.156] [mlr3]  Finished benchmark 
+INFO  [10:45:24.215] [bbotk] Result of batch 5: 
+INFO  [10:45:24.217] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:45:24.217] [bbotk]                   5              4412      0.3914013        0.436 -0.7333815 
+INFO  [10:45:24.217] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:45:24.217] [bbotk]          <NA>         0.5 e9ade184-d2bb-4625-9eb9-597f7152e4b6 
+INFO  [10:45:24.835] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:45:24.889] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:45:24.896] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:45:26.249] [mlr3]  Finished benchmark 
+INFO  [10:45:26.314] [bbotk] Result of batch 6: 
+INFO  [10:45:26.315] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [10:45:26.315] [bbotk]                   7              3626      0.4449297        0.431 -0.729845 
+INFO  [10:45:26.315] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:45:26.315] [bbotk]          <NA>         0.5 3b227116-3a34-4e04-9bbf-2e931402a3d6 
+INFO  [10:45:27.109] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:45:27.164] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:45:27.171] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:50:23.594] [mlr3]  Finished benchmark 
+INFO  [10:50:23.659] [bbotk] Result of batch 7: 
+INFO  [10:50:23.660] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:50:23.660] [bbotk]                   4              4475        0.34527        0.604 -0.7275682 
+INFO  [10:50:23.660] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:50:23.660] [bbotk]          <NA>   0.9710979 cf7ebf47-5030-49a5-8796-ef0f032df279 
+INFO  [10:50:24.285] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:50:24.339] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:50:24.346] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:50:26.155] [mlr3]  Finished benchmark 
+INFO  [10:50:26.218] [bbotk] Result of batch 8: 
+INFO  [10:50:26.220] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [10:50:26.220] [bbotk]                   8               792      0.1519267        0.424 -0.733818 
+INFO  [10:50:26.220] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:50:26.220] [bbotk]          <NA>         0.5 50b1838f-1b69-4c20-8fac-39c6495214ec 
+INFO  [10:50:26.952] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:50:27.009] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:50:27.016] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:50:28.376] [mlr3]  Finished benchmark 
+INFO  [10:50:28.437] [bbotk] Result of batch 9: 
+INFO  [10:50:28.439] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [10:50:28.439] [bbotk]                   7               816      0.4490982        0.539 -0.732582 
+INFO  [10:50:28.439] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:50:28.439] [bbotk]          <NA>         0.5 6c42a745-6852-4486-9173-814c447a1c41 
+INFO  [10:50:29.238] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:50:29.292] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:50:29.298] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:54:14.447] [mlr3]  Finished benchmark 
+INFO  [10:54:14.512] [bbotk] Result of batch 10: 
+INFO  [10:54:14.513] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:54:14.513] [bbotk]                   4              3095      0.4048946        0.551 -0.7300182 
+INFO  [10:54:14.513] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:54:14.513] [bbotk]          <NA>   0.9707994 87656a30-2dbe-4933-925e-3749ad94f3d6 
+INFO  [10:54:15.303] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:54:15.357] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:54:15.364] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:54:17.068] [mlr3]  Finished benchmark 
+INFO  [10:54:17.132] [bbotk] Result of batch 11: 
+INFO  [10:54:17.134] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [10:54:17.134] [bbotk]                   5              1579      0.3319286        0.557 -0.728246 
+INFO  [10:54:17.134] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:54:17.134] [bbotk]          <NA>         0.5 72d6c696-6189-40e5-ad7c-b0ee0169dd90 
+INFO  [10:54:17.926] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:54:17.979] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:54:17.986] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:18.153] [mlr3]  Finished benchmark 
+INFO  [10:55:18.216] [bbotk] Result of batch 12: 
+INFO  [10:55:18.218] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:55:18.218] [bbotk]                   4               263      0.2702068        0.559 -0.7268429 
+INFO  [10:55:18.218] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:18.218] [bbotk]          <NA>   0.9642205 f8291ab7-ed66-494a-955f-1a1942d0b412 
+INFO  [10:55:19.033] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:19.089] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:19.096] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:20.757] [mlr3]  Finished benchmark 
+INFO  [10:55:20.818] [bbotk] Result of batch 13: 
+INFO  [10:55:20.820] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:55:20.820] [bbotk]                  10              1720      0.1532471        0.568 -0.7281603 
+INFO  [10:55:20.820] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:20.820] [bbotk]          <NA>         0.5 c62a9010-05bf-4ed7-bd18-d8c2553037ac 
+INFO  [10:55:21.695] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:21.747] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:21.753] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:23.764] [mlr3]  Finished benchmark 
+INFO  [10:55:23.827] [bbotk] Result of batch 14: 
+INFO  [10:55:23.829] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [10:55:23.829] [bbotk]                   9              1171      0.4029972        0.579 -0.724707 
+INFO  [10:55:23.829] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:23.829] [bbotk]          <NA>         0.5 dbb01784-d9d9-4fef-898b-3baf8e8ee746 
+INFO  [10:55:24.435] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:24.491] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:24.498] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:26.164] [mlr3]  Finished benchmark 
+INFO  [10:55:26.230] [bbotk] Result of batch 15: 
+INFO  [10:55:26.232] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:55:26.232] [bbotk]                   9              2080      0.3843187         0.43 -0.7241326 
+INFO  [10:55:26.232] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:26.232] [bbotk]          <NA>         0.5 978b0e2f-6a8b-46e8-a052-ec76c7b44c7a 
+INFO  [10:55:26.864] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:26.918] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:26.927] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:28.307] [mlr3]  Finished benchmark 
+INFO  [10:55:28.382] [bbotk] Result of batch 16: 
+INFO  [10:55:28.384] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:55:28.384] [bbotk]                   8              3259      0.4219971        0.437 -0.7225419 
+INFO  [10:55:28.384] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:28.384] [bbotk]          <NA>         0.5 65ebd14b-f7ae-432c-bedd-8108309f0130 
+INFO  [10:55:29.026] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:29.089] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:29.098] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:30.772] [mlr3]  Finished benchmark 
+INFO  [10:55:30.833] [bbotk] Result of batch 17: 
+INFO  [10:55:30.835] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:55:30.835] [bbotk]                  10              4800       0.439922        0.456 -0.7248117 
+INFO  [10:55:30.835] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:30.835] [bbotk]          <NA>         0.5 11d7f653-7a94-49bf-8b8b-edcd05a63eeb 
+INFO  [10:55:31.479] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:31.536] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:31.542] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:55:33.011] [mlr3]  Finished benchmark 
+INFO  [10:55:33.083] [bbotk] Result of batch 18: 
+INFO  [10:55:33.085] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:55:33.085] [bbotk]                   9              4828      0.4331013         0.46 -0.7211519 
+INFO  [10:55:33.085] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:55:33.085] [bbotk]          <NA>         0.5 d9b7382e-1a38-405b-b3fb-ea9008129cb7 
+INFO  [10:55:33.759] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:55:33.814] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:55:33.820] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [10:59:39.502] [mlr3]  Finished benchmark 
+INFO  [10:59:39.566] [bbotk] Result of batch 19: 
+INFO  [10:59:39.568] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [10:59:39.568] [bbotk]                   4              4417    0.002379082        0.476 -0.7191644 
+INFO  [10:59:39.568] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [10:59:39.568] [bbotk]          <NA>     0.95113 bbd46a28-148a-4c4b-be9d-f79705288bd3 
+INFO  [10:59:40.206] [bbotk] Evaluating 1 configuration(s) 
+INFO  [10:59:40.261] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [10:59:40.268] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:01:43.423] [mlr3]  Finished benchmark 
+INFO  [11:01:43.488] [bbotk] Result of batch 20: 
+INFO  [11:01:43.489] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:01:43.489] [bbotk]                   3              1353      0.2640856        0.442 -0.7192875 
+INFO  [11:01:43.489] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:01:43.489] [bbotk]          <NA>   0.9653109 9c91c60e-7579-494d-a701-e19cfc585060 
+INFO  [11:01:44.137] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:01:44.191] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:01:44.198] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:01:45.774] [mlr3]  Finished benchmark 
+INFO  [11:01:45.838] [bbotk] Result of batch 21: 
+INFO  [11:01:45.840] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:01:45.840] [bbotk]                   7               255     0.03575817        0.449 -0.7177526 
+INFO  [11:01:45.840] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:01:45.840] [bbotk]          <NA>         0.5 da9d6ecb-50d2-4c0e-b987-00b270f043d0 
+INFO  [11:01:46.480] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:01:46.591] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:01:46.597] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:01:48.008] [mlr3]  Finished benchmark 
+INFO  [11:01:48.071] [bbotk] Result of batch 22: 
+INFO  [11:01:48.072] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:01:48.072] [bbotk]                  10              3456      0.3190904        0.443 -0.7178095 
+INFO  [11:01:48.072] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:01:48.072] [bbotk]          <NA>         0.5 3757c692-988a-432e-9866-a38dc9e0a49d 
+INFO  [11:01:48.711] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:01:48.825] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:01:48.831] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:04:46.307] [mlr3]  Finished benchmark 
+INFO  [11:04:46.370] [bbotk] Result of batch 23: 
+INFO  [11:04:46.372] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:04:46.372] [bbotk]                   4              2151      0.2982137        0.451 -0.7170035 
+INFO  [11:04:46.372] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:04:46.372] [bbotk]          <NA>   0.9698679 5a388103-79fe-4182-abb0-278baacf7d6e 
+INFO  [11:04:47.045] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:04:47.101] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:04:47.107] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:04:48.633] [mlr3]  Finished benchmark 
+INFO  [11:04:48.693] [bbotk] Result of batch 24: 
+INFO  [11:04:48.694] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:04:48.694] [bbotk]                   6               585      0.3752241        0.482 -0.7168383 
+INFO  [11:04:48.694] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:04:48.694] [bbotk]          <NA>         0.5 6a9bf727-34d0-4228-9781-cadf94399b0a 
+INFO  [11:04:49.356] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:04:49.408] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:04:49.414] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:09:45.113] [mlr3]  Finished benchmark 
+INFO  [11:09:45.178] [bbotk] Result of batch 25: 
+INFO  [11:09:45.180] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:09:45.180] [bbotk]                   4              4463      0.2935391        0.464 -0.7170523 
+INFO  [11:09:45.180] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:09:45.180] [bbotk]          <NA>   0.9709038 93f34335-2d3a-458c-a8ca-88edf175912f 
+INFO  [11:09:45.859] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:09:45.915] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:09:45.922] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:11:55.415] [mlr3]  Finished benchmark 
+INFO  [11:11:55.480] [bbotk] Result of batch 26: 
+INFO  [11:11:55.482] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:11:55.482] [bbotk]                   4              1215      0.4474281        0.476 -0.7159617 
+INFO  [11:11:55.482] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:11:55.482] [bbotk]          <NA>   0.9695195 0e8eea00-a916-44b1-b240-83c425c57ea0 
+INFO  [11:11:56.343] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:11:56.479] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:11:56.486] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:11:57.891] [mlr3]  Finished benchmark 
+INFO  [11:11:57.953] [bbotk] Result of batch 27: 
+INFO  [11:11:57.955] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:11:57.955] [bbotk]                   8              2383      0.3288645         0.66 -0.7119849 
+INFO  [11:11:57.955] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:11:57.955] [bbotk]          <NA>         0.5 5f94ceb3-9b3d-405a-ac69-7d8a07950d83 
+INFO  [11:11:58.662] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:11:58.769] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:11:58.775] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:12:00.232] [mlr3]  Finished benchmark 
+INFO  [11:12:00.295] [bbotk] Result of batch 28: 
+INFO  [11:12:00.348] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:12:00.348] [bbotk]                   5              4125     0.02435614        0.479 -0.7170251 
+INFO  [11:12:00.348] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:12:00.348] [bbotk]          <NA>         0.5 01fae121-a112-4ac8-a6ec-c7bbd3bb7534 
+INFO  [11:12:01.050] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:12:01.103] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:12:01.110] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:12:02.562] [mlr3]  Finished benchmark 
+INFO  [11:12:02.625] [bbotk] Result of batch 29: 
+INFO  [11:12:02.627] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:12:02.627] [bbotk]                   9              3200     0.04001202        0.489 -0.7105695 
+INFO  [11:12:02.627] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:12:02.627] [bbotk]          <NA>         0.5 89895b44-0ed7-4bf3-bdd8-d6475d9ecd95 
+INFO  [11:12:03.316] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:12:03.424] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:12:03.430] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:12:05.280] [mlr3]  Finished benchmark 
+INFO  [11:12:05.341] [bbotk] Result of batch 30: 
+INFO  [11:12:05.342] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:12:05.342] [bbotk]                   8              3816      0.1019596        0.488 -0.7124584 
+INFO  [11:12:05.342] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:12:05.342] [bbotk]          <NA>         0.5 fe10494b-3c55-4d07-b250-ac63be7908cf 
+INFO  [11:12:06.041] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:12:06.099] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:12:06.106] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:12:07.451] [mlr3]  Finished benchmark 
+INFO  [11:12:07.512] [bbotk] Result of batch 31: 
+INFO  [11:12:07.514] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:12:07.514] [bbotk]                   8              1138       0.253851        0.504 -0.7101333 
+INFO  [11:12:07.514] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:12:07.514] [bbotk]          <NA>         0.5 a3d2a614-74eb-41ca-8472-546e4280dcc5 
+INFO  [11:12:08.335] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:12:08.392] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:12:08.398] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:12:09.889] [mlr3]  Finished benchmark 
+INFO  [11:12:09.952] [bbotk] Result of batch 32: 
+INFO  [11:12:09.954] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:12:09.954] [bbotk]                   7              3871      0.4651579        0.449 -0.708833 
+INFO  [11:12:09.954] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:12:09.954] [bbotk]          <NA>         0.5 fa287655-abf4-4237-abcd-b132ad2cd78c 
+INFO  [11:12:10.617] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:12:10.674] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:12:10.681] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:12:12.168] [mlr3]  Finished benchmark 
+INFO  [11:12:12.228] [bbotk] Result of batch 33: 
+INFO  [11:12:12.230] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:12:12.230] [bbotk]                   6              2973      0.3663131        0.462 -0.7077956 
+INFO  [11:12:12.230] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:12:12.230] [bbotk]          <NA>         0.5 f1c927ff-794b-495f-aa67-5e12239ac70f 
+INFO  [11:12:13.066] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:12:13.120] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:12:13.126] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:16:53.900] [mlr3]  Finished benchmark 
+INFO  [11:16:53.964] [bbotk] Result of batch 34: 
+INFO  [11:16:53.965] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:16:53.965] [bbotk]                   3              4406      0.3482824        0.603 -0.7052785 
+INFO  [11:16:53.965] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:16:53.965] [bbotk]          <NA>    0.968144 948481e6-6e90-4653-b2d1-f845eb9ac485 
+INFO  [11:16:54.618] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:16:54.733] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:16:54.740] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:19:30.743] [mlr3]  Finished benchmark 
+INFO  [11:19:30.807] [bbotk] Result of batch 35: 
+INFO  [11:19:30.809] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:19:30.809] [bbotk]                   3              2006      0.2301218        0.454 -0.7108265 
+INFO  [11:19:30.809] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:19:30.809] [bbotk]          <NA>   0.9659985 bcad5f8a-93b4-4255-9b3a-b3b19f9470f0 
+INFO  [11:19:31.495] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:19:31.549] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:19:31.616] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:45.187] [mlr3]  Finished benchmark 
+INFO  [11:23:45.251] [bbotk] Result of batch 36: 
+INFO  [11:23:45.253] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:23:45.253] [bbotk]                   3              4013      0.1324366         0.48 -0.7068729 
+INFO  [11:23:45.253] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:23:45.253] [bbotk]          <NA>   0.9663038 a716d0c8-6296-4440-bfe5-45a01da59fa1 
+INFO  [11:23:45.942] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:23:46.000] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:23:46.006] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:47.447] [mlr3]  Finished benchmark 
+INFO  [11:23:47.510] [bbotk] Result of batch 37: 
+INFO  [11:23:47.512] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:23:47.512] [bbotk]                  10              4962      0.4825697        0.486 -0.706521 
+INFO  [11:23:47.512] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:23:47.512] [bbotk]          <NA>         0.5 beebbfbf-5d84-4720-96c8-501703dd9381 
+INFO  [11:23:48.208] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:23:48.262] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:23:48.269] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:49.596] [mlr3]  Finished benchmark 
+INFO  [11:23:49.659] [bbotk] Result of batch 38: 
+INFO  [11:23:49.661] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:23:49.661] [bbotk]                   9              1744      0.3494357        0.478 -0.705579 
+INFO  [11:23:49.661] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:23:49.661] [bbotk]          <NA>         0.5 c3b7fec0-9aa1-4c82-a41d-75634f6de665 
+INFO  [11:23:50.357] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:23:50.415] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:23:50.422] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:51.927] [mlr3]  Finished benchmark 
+INFO  [11:23:51.989] [bbotk] Result of batch 39: 
+INFO  [11:23:51.990] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:23:51.990] [bbotk]                   9              4041     0.03534499        0.485 -0.7040858 
+INFO  [11:23:51.990] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:23:51.990] [bbotk]          <NA>         0.5 e83e916c-66fe-431f-b363-fdb79ac35e8d 
+INFO  [11:23:52.684] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:23:52.739] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:23:52.746] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:54.017] [mlr3]  Finished benchmark 
+INFO  [11:23:54.083] [bbotk] Result of batch 40: 
+INFO  [11:23:54.085] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:23:54.085] [bbotk]                   5               546      0.1257337         0.48 -0.7038672 
+INFO  [11:23:54.085] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:23:54.085] [bbotk]          <NA>         0.5 7c8fb735-6692-486a-bc65-19b1f409ddfa 
+INFO  [11:23:54.793] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:23:54.850] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:23:54.856] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:23:56.122] [mlr3]  Finished benchmark 
+INFO  [11:23:56.184] [bbotk] Result of batch 41: 
+INFO  [11:23:56.185] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:23:56.185] [bbotk]                   5              4822     0.07569207          0.5 -0.7006221 
+INFO  [11:23:56.185] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:23:56.185] [bbotk]          <NA>         0.5 b6fb7528-08f7-4f33-b767-6d10baf1f109 
+INFO  [11:23:56.885] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:23:56.940] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:23:56.947] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:26:06.428] [mlr3]  Finished benchmark 
+INFO  [11:26:06.492] [bbotk] Result of batch 42: 
+INFO  [11:26:06.494] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:26:06.494] [bbotk]                   3              1593      0.1622692        0.506 -0.6933209 
+INFO  [11:26:06.494] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:26:06.494] [bbotk]          <NA>   0.9643485 5f8e7761-86b8-4a19-af76-9aba8a0697e4 
+INFO  [11:26:07.207] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:26:07.345] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:26:07.352] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:26:08.698] [mlr3]  Finished benchmark 
+INFO  [11:26:08.762] [bbotk] Result of batch 43: 
+INFO  [11:26:08.764] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:26:08.764] [bbotk]                   5              2782      0.2975269        0.502 -0.6987979 
+INFO  [11:26:08.764] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:26:08.764] [bbotk]          <NA>         0.5 c31cea63-a553-4650-a7dc-2b5a11ad7c42 
+INFO  [11:26:09.490] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:26:09.546] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:26:09.606] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:07.813] [mlr3]  Finished benchmark 
+INFO  [11:30:07.877] [bbotk] Result of batch 44: 
+INFO  [11:30:07.879] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:30:07.879] [bbotk]                   4              3277      0.4490336        0.505 -0.7007296 
+INFO  [11:30:07.879] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:30:07.879] [bbotk]          <NA>   0.9710084 3ff6c376-770a-4bb2-a372-5a6061234f5b 
+INFO  [11:30:08.601] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:30:08.656] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:30:08.663] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:10.110] [mlr3]  Finished benchmark 
+INFO  [11:30:10.171] [bbotk] Result of batch 45: 
+INFO  [11:30:10.173] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:30:10.173] [bbotk]                   8              3906      0.1193449        0.522 -0.6915135 
+INFO  [11:30:10.173] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:30:10.173] [bbotk]          <NA>         0.5 f968a6d1-1e7d-40ab-a8db-33fb1d1e5160 
+INFO  [11:30:11.063] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:30:11.122] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:30:11.129] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:30:12.562] [mlr3]  Finished benchmark 
+INFO  [11:30:12.770] [bbotk] Result of batch 46: 
+INFO  [11:30:12.772] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:30:12.772] [bbotk]                   7              1613    0.003303705        0.681 -0.6995891 
+INFO  [11:30:12.772] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:30:12.772] [bbotk]          <NA>         0.5 d073f5fb-6fa6-4331-a4bb-029692119b86 
+INFO  [11:30:13.467] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:30:13.523] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:30:13.529] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:33:10.251] [mlr3]  Finished benchmark 
+INFO  [11:33:10.315] [bbotk] Result of batch 47: 
+INFO  [11:33:10.317] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:33:10.317] [bbotk]                   4              2135      0.4037054        0.485 -0.6975143 
+INFO  [11:33:10.317] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:33:10.317] [bbotk]          <NA>   0.9702492 d0b69ed5-d3ed-4f33-a010-a3bc68b9220f 
+INFO  [11:33:11.017] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:33:11.075] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:33:11.081] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:04.679] [mlr3]  Finished benchmark 
+INFO  [11:36:04.742] [bbotk] Result of batch 48: 
+INFO  [11:36:04.744] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:36:04.744] [bbotk]                   4              2543     0.06307327        0.492 -0.6967541 
+INFO  [11:36:04.744] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:36:04.744] [bbotk]          <NA>   0.9666832 c83cef6f-c80e-44b4-bb99-e4f9dd7f3cc6 
+INFO  [11:36:05.461] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:05.504] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:05.511] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:07.069] [mlr3]  Finished benchmark 
+INFO  [11:36:07.130] [bbotk] Result of batch 49: 
+INFO  [11:36:07.132] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:36:07.132] [bbotk]                   8              4846      0.3528464        0.517 -0.6962596 
+INFO  [11:36:07.132] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:36:07.132] [bbotk]          <NA>         0.5 e2c621ea-fee4-4f8f-9018-1ae11bf941f4 
+INFO  [11:36:07.838] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:07.895] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:07.902] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:09.325] [mlr3]  Finished benchmark 
+INFO  [11:36:09.385] [bbotk] Result of batch 50: 
+INFO  [11:36:09.386] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:36:09.386] [bbotk]                   8              3653     0.05754088        0.499 -0.6990516 
+INFO  [11:36:09.386] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:36:09.386] [bbotk]          <NA>         0.5 5f1c78d7-7628-40fa-8753-ffa9ce78e411 
+INFO  [11:36:10.299] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:10.352] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:10.359] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:11.695] [mlr3]  Finished benchmark 
+INFO  [11:36:11.759] [bbotk] Result of batch 51: 
+INFO  [11:36:11.761] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:36:11.761] [bbotk]                   8              4430      0.3679421        0.652 -0.6960891 
+INFO  [11:36:11.761] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:36:11.761] [bbotk]          <NA>         0.5 d953c007-e687-46d9-afc6-0435cb6e0f9c 
+INFO  [11:36:12.501] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:12.557] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:12.563] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:36:14.076] [mlr3]  Finished benchmark 
+INFO  [11:36:14.139] [bbotk] Result of batch 52: 
+INFO  [11:36:14.141] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:36:14.141] [bbotk]                   6              3002      0.4323084        0.521 -0.694563 
+INFO  [11:36:14.141] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:36:14.141] [bbotk]          <NA>         0.5 2993bd0e-9eca-4d55-a75e-5523e7c9f386 
+INFO  [11:36:14.888] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:36:14.940] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:36:14.947] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:38:58.574] [mlr3]  Finished benchmark 
+INFO  [11:38:58.638] [bbotk] Result of batch 53: 
+INFO  [11:38:58.640] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:38:58.640] [bbotk]                   4              1891      0.2036864        0.544 -0.6871319 
+INFO  [11:38:58.640] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:38:58.640] [bbotk]          <NA>   0.9688316 dcb835e6-8a0d-477f-82f7-27172b2e6753 
+INFO  [11:38:59.595] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:38:59.651] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:38:59.658] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:01.406] [mlr3]  Finished benchmark 
+INFO  [11:39:01.470] [bbotk] Result of batch 54: 
+INFO  [11:39:01.472] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:39:01.472] [bbotk]                   8              1329      0.2385179        0.676 -0.6934792 
+INFO  [11:39:01.472] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:39:01.472] [bbotk]          <NA>         0.5 9ea37377-4472-4477-83f4-f8cfe6532877 
+INFO  [11:39:02.309] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:39:02.365] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:39:02.372] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:39:04.051] [mlr3]  Finished benchmark 
+INFO  [11:39:04.111] [bbotk] Result of batch 55: 
+INFO  [11:39:04.113] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:39:04.113] [bbotk]                   6               225      0.3217012        0.542 -0.6929404 
+INFO  [11:39:04.113] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:39:04.113] [bbotk]          <NA>         0.5 11d28799-dfcc-4946-9f0d-513751563b97 
+INFO  [11:39:04.864] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:39:04.920] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:39:04.926] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:50.441] [mlr3]  Finished benchmark 
+INFO  [11:42:50.509] [bbotk] Result of batch 56: 
+INFO  [11:42:50.511] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:42:50.511] [bbotk]                   3              3131      0.4157496        0.522 -0.692527 
+INFO  [11:42:50.511] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:42:50.511] [bbotk]          <NA>   0.9678772 285f930e-c279-4e85-8064-3d2dc7037923 
+INFO  [11:42:51.428] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:51.485] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:51.492] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:53.003] [mlr3]  Finished benchmark 
+INFO  [11:42:53.063] [bbotk] Result of batch 57: 
+INFO  [11:42:53.065] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:42:53.065] [bbotk]                   8              2575      0.1104109        0.716 -0.6871323 
+INFO  [11:42:53.065] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:42:53.065] [bbotk]          <NA>         0.5 f06c722d-8cc9-459e-89a4-834ce19e6daf 
+INFO  [11:42:53.959] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:54.012] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:54.018] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:55.618] [mlr3]  Finished benchmark 
+INFO  [11:42:55.684] [bbotk] Result of batch 58: 
+INFO  [11:42:55.686] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:42:55.686] [bbotk]                   7               428      0.1903035         0.65 -0.6925023 
+INFO  [11:42:55.686] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:42:55.686] [bbotk]          <NA>         0.5 0adedc4f-6c8d-45c1-88b6-090955a90008 
+INFO  [11:42:56.433] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:56.488] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:56.495] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:42:58.016] [mlr3]  Finished benchmark 
+INFO  [11:42:58.084] [bbotk] Result of batch 59: 
+INFO  [11:42:58.086] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:42:58.086] [bbotk]                  10              1067      0.4359941        0.528 -0.6922357 
+INFO  [11:42:58.086] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:42:58.086] [bbotk]          <NA>         0.5 98c3868f-b4e5-49cd-a0ce-885bbd78720c 
+INFO  [11:42:58.861] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:42:58.918] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:42:58.925] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:00.330] [mlr3]  Finished benchmark 
+INFO  [11:43:00.395] [bbotk] Result of batch 60: 
+INFO  [11:43:00.397] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:00.397] [bbotk]                   5               691      0.2998233        0.552 -0.6922132 
+INFO  [11:43:00.397] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:00.397] [bbotk]          <NA>         0.5 95df9432-48a6-49b5-bf95-b8ddeca3f14b 
+INFO  [11:43:01.130] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:01.185] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:01.192] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:03.023] [mlr3]  Finished benchmark 
+INFO  [11:43:03.084] [bbotk] Result of batch 61: 
+INFO  [11:43:03.086] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:03.086] [bbotk]                   8              1258      0.2727263        0.529 -0.6878279 
+INFO  [11:43:03.086] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:03.086] [bbotk]          <NA>         0.5 4a7d2240-ef3f-440e-a00b-5c641b0fa20e 
+INFO  [11:43:03.868] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:03.923] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:03.929] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:05.280] [mlr3]  Finished benchmark 
+INFO  [11:43:05.344] [bbotk] Result of batch 62: 
+INFO  [11:43:05.346] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:05.346] [bbotk]                   9               438      0.3168578        0.552 -0.6911779 
+INFO  [11:43:05.346] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:05.346] [bbotk]          <NA>         0.5 8c848045-5c20-4395-ae40-ca6ba844667c 
+INFO  [11:43:06.145] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:06.200] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:06.206] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:07.459] [mlr3]  Finished benchmark 
+INFO  [11:43:07.519] [bbotk] Result of batch 63: 
+INFO  [11:43:07.520] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:43:07.520] [bbotk]                   8               633       0.459535        0.543 -0.692212 
+INFO  [11:43:07.520] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:07.520] [bbotk]          <NA>         0.5 2fd0a052-9932-4d9b-8d62-9a7283309a73 
+INFO  [11:43:08.329] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:08.383] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:08.389] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:10.565] [mlr3]  Finished benchmark 
+INFO  [11:43:10.626] [bbotk] Result of batch 64: 
+INFO  [11:43:10.628] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:10.628] [bbotk]                  10              3381     0.08657435        0.566 -0.6897974 
+INFO  [11:43:10.628] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:10.628] [bbotk]          <NA>         0.5 3e917638-b671-426e-bb02-4d45ee635e07 
+INFO  [11:43:11.564] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:11.609] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:11.615] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:13.182] [mlr3]  Finished benchmark 
+INFO  [11:43:13.243] [bbotk] Result of batch 65: 
+INFO  [11:43:13.245] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:43:13.245] [bbotk]                   5              4717      0.1296004        0.549 -0.689179 
+INFO  [11:43:13.245] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:13.245] [bbotk]          <NA>         0.5 ceedbb9b-73e7-427d-964b-db464bd1b2b0 
+INFO  [11:43:14.032] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:14.086] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:14.093] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:15.723] [mlr3]  Finished benchmark 
+INFO  [11:43:15.782] [bbotk] Result of batch 66: 
+INFO  [11:43:15.784] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:15.784] [bbotk]                   9              2212       0.448725        0.527 -0.6937394 
+INFO  [11:43:15.784] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:15.784] [bbotk]          <NA>         0.5 fbb60a4e-33ff-4551-bfe2-3bed41fc7e83 
+INFO  [11:43:16.562] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:16.615] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:16.621] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:17.912] [mlr3]  Finished benchmark 
+INFO  [11:43:17.972] [bbotk] Result of batch 67: 
+INFO  [11:43:17.974] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:17.974] [bbotk]                   6              1004      0.1894188         0.55 -0.6887503 
+INFO  [11:43:17.974] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:17.974] [bbotk]          <NA>         0.5 9e54e1b6-fea6-4e26-afb8-68dc23c95b88 
+INFO  [11:43:18.847] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:18.900] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:18.906] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:20.955] [mlr3]  Finished benchmark 
+INFO  [11:43:21.015] [bbotk] Result of batch 68: 
+INFO  [11:43:21.016] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:21.016] [bbotk]                   7              2877      0.2244678        0.565 -0.6874689 
+INFO  [11:43:21.016] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:21.016] [bbotk]          <NA>         0.5 6c544454-49b2-4e20-9a30-87f92ac0c411 
+INFO  [11:43:21.919] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:21.971] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:21.977] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:23.249] [mlr3]  Finished benchmark 
+INFO  [11:43:23.310] [bbotk] Result of batch 69: 
+INFO  [11:43:23.311] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:23.311] [bbotk]                   9              4959      0.2662933         0.69 -0.6802441 
+INFO  [11:43:23.311] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:23.311] [bbotk]          <NA>         0.5 85961ca5-52b0-4ab7-986d-a8ea35d0a6f2 
+INFO  [11:43:24.202] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:24.254] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:24.260] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:25.770] [mlr3]  Finished benchmark 
+INFO  [11:43:25.829] [bbotk] Result of batch 70: 
+INFO  [11:43:25.831] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:43:25.831] [bbotk]                  10              4061      0.3798189        0.657 -0.688386 
+INFO  [11:43:25.831] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:25.831] [bbotk]          <NA>         0.5 123d6835-93ff-4b4c-b29a-a42e143855d2 
+INFO  [11:43:26.862] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:26.915] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:26.922] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:43:28.465] [mlr3]  Finished benchmark 
+INFO  [11:43:28.526] [bbotk] Result of batch 71: 
+INFO  [11:43:28.528] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:43:28.528] [bbotk]                   6              3912      0.1007889        0.744 -0.6867635 
+INFO  [11:43:28.528] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:43:28.528] [bbotk]          <NA>         0.5 fccfd5f1-bb97-48e3-9368-e3005b157767 
+INFO  [11:43:29.483] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:43:29.540] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:43:29.547] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:47:57.836] [mlr3]  Finished benchmark 
+INFO  [11:47:57.900] [bbotk] Result of batch 72: 
+INFO  [11:47:57.902] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:47:57.902] [bbotk]                   4              4042      0.1595634        0.714 -0.6869174 
+INFO  [11:47:57.902] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:47:57.902] [bbotk]          <NA>   0.9698296 d4f6d04b-731a-4225-86f4-85fc75a35889 
+INFO  [11:47:59.029] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:47:59.086] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:47:59.093] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:00.793] [mlr3]  Finished benchmark 
+INFO  [11:48:00.860] [bbotk] Result of batch 73: 
+INFO  [11:48:00.862] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:48:00.862] [bbotk]                   7              3026        0.36523        0.673 -0.686926 
+INFO  [11:48:00.862] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:48:00.862] [bbotk]          <NA>         0.5 066a3d64-52d8-4a4e-a7de-004c9a4b5fff 
+INFO  [11:48:01.658] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:01.715] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:01.722] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:52.789] [mlr3]  Finished benchmark 
+INFO  [11:48:52.853] [bbotk] Result of batch 74: 
+INFO  [11:48:52.855] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:48:52.855] [bbotk]                   3               316      0.1608691        0.568 -0.686612 
+INFO  [11:48:52.855] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:48:52.855] [bbotk]          <NA>   0.9582952 79ef14f7-864c-49e6-8aba-f69c3ec3fe85 
+INFO  [11:48:53.648] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:53.704] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:53.841] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:55.125] [mlr3]  Finished benchmark 
+INFO  [11:48:55.185] [bbotk] Result of batch 75: 
+INFO  [11:48:55.186] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:48:55.186] [bbotk]                   5               668      0.3421902        0.565 -0.6880445 
+INFO  [11:48:55.186] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:48:55.186] [bbotk]          <NA>         0.5 a0e2e326-348b-4a35-b71c-3f6970e7cecc 
+INFO  [11:48:55.951] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:56.006] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:56.013] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:48:57.358] [mlr3]  Finished benchmark 
+INFO  [11:48:57.419] [bbotk] Result of batch 76: 
+INFO  [11:48:57.421] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:48:57.421] [bbotk]                   7              4862      0.1280468        0.562 -0.6782416 
+INFO  [11:48:57.421] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:48:57.421] [bbotk]          <NA>         0.5 b0dcf55f-77c8-4eb4-8b2a-e0af3bafe335 
+INFO  [11:48:58.216] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:48:58.270] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:48:58.277] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:50:29.866] [mlr3]  Finished benchmark 
+INFO  [11:50:29.930] [bbotk] Result of batch 77: 
+INFO  [11:50:29.932] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:50:29.932] [bbotk]                   3               951     0.07881878        0.558 -0.686867 
+INFO  [11:50:29.932] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:50:29.932] [bbotk]          <NA>   0.9598575 086275d8-bbf5-47db-8cea-ae3a9cc0956b 
+INFO  [11:50:30.786] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:50:30.841] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:50:30.848] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:50:32.100] [mlr3]  Finished benchmark 
+INFO  [11:50:32.162] [bbotk] Result of batch 78: 
+INFO  [11:50:32.164] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:50:32.164] [bbotk]                   6              1337     0.09055615        0.608 -0.6873311 
+INFO  [11:50:32.164] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:50:32.164] [bbotk]          <NA>         0.5 cc32acd3-ce70-4caf-a455-14a53b92d509 
+INFO  [11:50:32.973] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:50:33.028] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:50:33.034] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:50:34.410] [mlr3]  Finished benchmark 
+INFO  [11:50:34.472] [bbotk] Result of batch 79: 
+INFO  [11:50:34.473] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:50:34.473] [bbotk]                   7              3285       0.294611          0.6 -0.6758342 
+INFO  [11:50:34.473] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:50:34.473] [bbotk]          <NA>         0.5 dc9fe385-90d9-43ea-851f-d11aaf2aaef9 
+INFO  [11:50:35.472] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:50:35.526] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:50:35.532] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:51:24.885] [mlr3]  Finished benchmark 
+INFO  [11:51:24.948] [bbotk] Result of batch 80: 
+INFO  [11:51:24.950] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:51:24.950] [bbotk]                   4               353     0.07036982        0.754 -0.6870143 
+INFO  [11:51:24.950] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:51:24.950] [bbotk]          <NA>   0.9589001 2359cfc5-d772-4bce-bf51-47a576529105 
+INFO  [11:51:25.926] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:51:25.979] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:51:25.986] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:51:27.628] [mlr3]  Finished benchmark 
+INFO  [11:51:27.694] [bbotk] Result of batch 81: 
+INFO  [11:51:27.696] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:51:27.696] [bbotk]                   6              1610      0.1937792        0.734 -0.6876582 
+INFO  [11:51:27.696] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:51:27.696] [bbotk]          <NA>         0.5 8bc9b85d-fa4d-47e1-84d8-fad25c011dd6 
+INFO  [11:51:28.725] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:51:28.783] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:51:28.790] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:52.747] [mlr3]  Finished benchmark 
+INFO  [11:52:52.810] [bbotk] Result of batch 82: 
+INFO  [11:52:52.812] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:52:52.812] [bbotk]                   3               626      0.3373414         0.73 -0.6869659 
+INFO  [11:52:52.812] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:52:52.812] [bbotk]          <NA>   0.9635988 e087bc68-e6d3-4ccd-a5eb-5fb3fe9614f9 
+INFO  [11:52:53.604] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:53.657] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:53.664] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:55.191] [mlr3]  Finished benchmark 
+INFO  [11:52:55.251] [bbotk] Result of batch 83: 
+INFO  [11:52:55.253] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:52:55.253] [bbotk]                   6               741      0.1156145        0.585 -0.676737 
+INFO  [11:52:55.253] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:52:55.253] [bbotk]          <NA>         0.5 3d3f76c6-1376-4b68-a2a2-59f890854781 
+INFO  [11:52:56.242] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:56.298] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:56.360] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:52:58.022] [mlr3]  Finished benchmark 
+INFO  [11:52:58.089] [bbotk] Result of batch 84: 
+INFO  [11:52:58.091] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:52:58.091] [bbotk]                  10               827      0.4957993         0.58 -0.6878676 
+INFO  [11:52:58.091] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:52:58.091] [bbotk]          <NA>         0.5 97bd0e73-2430-4d77-b7b4-8f08ca127bcf 
+INFO  [11:52:58.931] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:52:58.991] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:52:59.040] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:53:00.484] [mlr3]  Finished benchmark 
+INFO  [11:53:00.554] [bbotk] Result of batch 85: 
+INFO  [11:53:00.556] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [11:53:00.556] [bbotk]                   7              3304      0.2346714        0.592 -0.687241 
+INFO  [11:53:00.556] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:53:00.556] [bbotk]          <NA>         0.5 29092e32-1fbf-4831-adc5-07c9c6b58989 
+INFO  [11:53:01.405] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:53:01.464] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:53:01.513] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:54:48.516] [mlr3]  Finished benchmark 
+INFO  [11:54:48.580] [bbotk] Result of batch 86: 
+INFO  [11:54:48.581] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:54:48.581] [bbotk]                   3              1139      0.1683289        0.592 -0.6867397 
+INFO  [11:54:48.581] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:54:48.581] [bbotk]          <NA>   0.9633907 0abeed5c-4601-448b-a217-7521d68a0eeb 
+INFO  [11:54:49.541] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:54:49.596] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:54:49.603] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:53.250] [mlr3]  Finished benchmark 
+INFO  [11:58:53.314] [bbotk] Result of batch 87: 
+INFO  [11:58:53.316] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:58:53.316] [bbotk]                   3              3916     0.05609165        0.737 -0.6755099 
+INFO  [11:58:53.316] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:58:53.316] [bbotk]          <NA>   0.9638579 7a1ec250-3be5-4244-9dcb-c8957f2d0376 
+INFO  [11:58:54.169] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:58:54.305] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:58:54.311] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:55.716] [mlr3]  Finished benchmark 
+INFO  [11:58:55.782] [bbotk] Result of batch 88: 
+INFO  [11:58:55.784] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:58:55.784] [bbotk]                   6              3913      0.3474511        0.589 -0.6892796 
+INFO  [11:58:55.784] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:58:55.784] [bbotk]          <NA>         0.5 e06c63cf-4238-48c7-8d5b-9e0ebf9f5f8b 
+INFO  [11:58:56.694] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:58:56.737] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:58:56.743] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:58:58.384] [mlr3]  Finished benchmark 
+INFO  [11:58:58.444] [bbotk] Result of batch 89: 
+INFO  [11:58:58.445] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:58:58.445] [bbotk]                   5               797      0.2555202        0.598 -0.6882598 
+INFO  [11:58:58.445] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:58:58.445] [bbotk]          <NA>         0.5 ed32f618-885d-4884-9a56-223236d77176 
+INFO  [11:58:59.358] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:58:59.413] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:58:59.419] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:59:00.634] [mlr3]  Finished benchmark 
+INFO  [11:59:00.696] [bbotk] Result of batch 90: 
+INFO  [11:59:00.697] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:59:00.697] [bbotk]                   5              4799      0.2094554        0.643 -0.6888818 
+INFO  [11:59:00.697] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:59:00.697] [bbotk]          <NA>         0.5 87c15c22-eb23-4310-a68d-5b6ca4b1bcc4 
+INFO  [11:59:01.770] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:59:01.823] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:59:01.830] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [11:59:03.043] [mlr3]  Finished benchmark 
+INFO  [11:59:03.105] [bbotk] Result of batch 91: 
+INFO  [11:59:03.106] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [11:59:03.106] [bbotk]                   5              1983     0.08738919        0.731 -0.6881295 
+INFO  [11:59:03.106] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [11:59:03.106] [bbotk]          <NA>         0.5 872d619c-3337-4e1d-a090-b587d2f510c8 
+INFO  [11:59:04.150] [bbotk] Evaluating 1 configuration(s) 
+INFO  [11:59:04.205] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [11:59:04.212] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:01:45.050] [mlr3]  Finished benchmark 
+INFO  [12:01:45.115] [bbotk] Result of batch 92: 
+INFO  [12:01:45.117] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:01:45.117] [bbotk]                   3              2016      0.3357879        0.745 -0.6875477 
+INFO  [12:01:45.117] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:01:45.117] [bbotk]          <NA>    0.966742 9e869566-b665-44ab-ad5c-7781e743bbc9 
+INFO  [12:01:46.170] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:01:46.224] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:01:46.231] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:01:48.028] [mlr3]  Finished benchmark 
+INFO  [12:01:48.093] [bbotk] Result of batch 93: 
+INFO  [12:01:48.094] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:01:48.094] [bbotk]                  10              2278      0.4904114         0.74 -0.688818 
+INFO  [12:01:48.094] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:01:48.094] [bbotk]          <NA>         0.5 f266f3bd-8acf-4b9b-94d6-a5368609bc9d 
+INFO  [12:01:49.237] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:01:49.293] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:01:49.300] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:01:50.603] [mlr3]  Finished benchmark 
+INFO  [12:01:50.664] [bbotk] Result of batch 94: 
+INFO  [12:01:50.665] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:01:50.665] [bbotk]                   9              3773      0.4610203        0.791 -0.687504 
+INFO  [12:01:50.665] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:01:50.665] [bbotk]          <NA>         0.5 c1c504d7-1f80-45fc-90a1-a0724cea976c 
+INFO  [12:01:51.822] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:01:51.876] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:01:51.882] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:03:29.181] [mlr3]  Finished benchmark 
+INFO  [12:03:29.247] [bbotk] Result of batch 95: 
+INFO  [12:03:29.249] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:03:29.249] [bbotk]                   3               982      0.1426681        0.784 -0.6873412 
+INFO  [12:03:29.249] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:03:29.249] [bbotk]          <NA>   0.9622595 686d61c1-0d91-40ff-b0a7-9adfeb9f2699 
+INFO  [12:03:30.154] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:03:30.209] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:03:30.217] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:30.314] [mlr3]  Finished benchmark 
+INFO  [12:05:30.379] [bbotk] Result of batch 96: 
+INFO  [12:05:30.380] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:05:30.380] [bbotk]                   4              1007      0.4655551        0.633 -0.6891009 
+INFO  [12:05:30.380] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:30.380] [bbotk]          <NA>   0.9692254 6274dc4b-03e3-4c60-8c3e-00293310a0c2 
+INFO  [12:05:31.424] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:31.479] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:31.486] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:33.311] [mlr3]  Finished benchmark 
+INFO  [12:05:33.374] [bbotk] Result of batch 97: 
+INFO  [12:05:33.376] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:05:33.376] [bbotk]                   5              2677      0.3135776        0.772 -0.6898204 
+INFO  [12:05:33.376] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:33.376] [bbotk]          <NA>         0.5 768f7bd3-82e0-4606-be05-ae35f61f6974 
+INFO  [12:05:34.240] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:34.295] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:34.301] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:35.597] [mlr3]  Finished benchmark 
+INFO  [12:05:35.659] [bbotk] Result of batch 98: 
+INFO  [12:05:35.661] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:05:35.661] [bbotk]                   5              4751     0.07814728        0.604 -0.6765537 
+INFO  [12:05:35.661] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:35.661] [bbotk]          <NA>         0.5 77a5d8d6-52ed-4153-981d-eebc0e6a9be2 
+INFO  [12:05:36.548] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:36.602] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:36.609] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:38.014] [mlr3]  Finished benchmark 
+INFO  [12:05:38.077] [bbotk] Result of batch 99: 
+INFO  [12:05:38.078] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:05:38.078] [bbotk]                   7              4801      0.4180309         0.62 -0.6896042 
+INFO  [12:05:38.078] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:38.078] [bbotk]          <NA>         0.5 e61e4e8d-dce6-45ba-b7a5-20da708342bf 
+INFO  [12:05:39.027] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:39.081] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:39.088] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:40.752] [mlr3]  Finished benchmark 
+INFO  [12:05:40.813] [bbotk] Result of batch 100: 
+INFO  [12:05:40.814] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:05:40.814] [bbotk]                   6              3932        0.33719        0.638 -0.688995 
+INFO  [12:05:40.814] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:40.814] [bbotk]          <NA>         0.5 0d0b2765-5584-4e50-b59b-7ee7e9bbd216 
+INFO  [12:05:41.822] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:41.875] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:41.882] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:44.006] [mlr3]  Finished benchmark 
+INFO  [12:05:44.066] [bbotk] Result of batch 101: 
+INFO  [12:05:44.067] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:05:44.067] [bbotk]                   6              3885        0.22492        0.705 -0.689614 
+INFO  [12:05:44.067] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:44.067] [bbotk]          <NA>         0.5 de1da540-b597-44d6-86a8-1cb361ea634d 
+INFO  [12:05:45.006] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:45.059] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:45.065] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:46.951] [mlr3]  Finished benchmark 
+INFO  [12:05:47.013] [bbotk] Result of batch 102: 
+INFO  [12:05:47.015] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:05:47.015] [bbotk]                   9              1178      0.2723459        0.654 -0.6892236 
+INFO  [12:05:47.015] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:47.015] [bbotk]          <NA>         0.5 1a9f4136-7916-4d27-b401-58e60641968f 
+INFO  [12:05:47.944] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:48.000] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:48.007] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:05:49.667] [mlr3]  Finished benchmark 
+INFO  [12:05:49.730] [bbotk] Result of batch 103: 
+INFO  [12:05:49.732] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:05:49.732] [bbotk]                   6              4656      0.0976937        0.657 -0.6890312 
+INFO  [12:05:49.732] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:05:49.732] [bbotk]          <NA>         0.5 f68cbcb7-eb51-4fe0-ae35-53ec157ad1ed 
+INFO  [12:05:50.788] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:05:50.843] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:05:50.849] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:11.325] [mlr3]  Finished benchmark 
+INFO  [12:08:11.390] [bbotk] Result of batch 104: 
+INFO  [12:08:11.391] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:08:11.391] [bbotk]                   3              1662      0.3699645        0.798 -0.6751635 
+INFO  [12:08:11.391] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:11.391] [bbotk]          <NA>   0.9665525 ab08bdc6-947e-46c8-ac11-33019a049848 
+INFO  [12:08:12.330] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:12.382] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:12.389] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:14.175] [mlr3]  Finished benchmark 
+INFO  [12:08:14.243] [bbotk] Result of batch 105: 
+INFO  [12:08:14.245] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:08:14.245] [bbotk]                   8              4425      0.3370063        0.631 -0.6894248 
+INFO  [12:08:14.245] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:14.245] [bbotk]          <NA>         0.5 f613a138-cecc-4121-9ec3-5333ada59ff7 
+INFO  [12:08:15.183] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:15.241] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:15.248] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:17.106] [mlr3]  Finished benchmark 
+INFO  [12:08:17.169] [bbotk] Result of batch 106: 
+INFO  [12:08:17.171] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:08:17.171] [bbotk]                   7              4621      0.3973022        0.637 -0.6895898 
+INFO  [12:08:17.171] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:17.171] [bbotk]          <NA>         0.5 8f7d1bd0-0330-49de-bafb-978840543853 
+INFO  [12:08:18.095] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:18.151] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:18.157] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:19.391] [mlr3]  Finished benchmark 
+INFO  [12:08:19.456] [bbotk] Result of batch 107: 
+INFO  [12:08:19.457] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:08:19.457] [bbotk]                   9              4854      0.4412959        0.659 -0.6752806 
+INFO  [12:08:19.457] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:19.457] [bbotk]          <NA>         0.5 f7b268d7-8b4b-4b03-9708-441cb2477976 
+INFO  [12:08:20.400] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:20.451] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:20.457] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:21.712] [mlr3]  Finished benchmark 
+INFO  [12:08:21.774] [bbotk] Result of batch 108: 
+INFO  [12:08:21.775] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:08:21.775] [bbotk]                   5              4220      0.4713496        0.657 -0.688851 
+INFO  [12:08:21.775] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:21.775] [bbotk]          <NA>         0.5 c348a1a9-41a9-4060-9ec6-af94940231be 
+INFO  [12:08:22.682] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:22.733] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:22.739] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:24.030] [mlr3]  Finished benchmark 
+INFO  [12:08:24.091] [bbotk] Result of batch 109: 
+INFO  [12:08:24.092] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:08:24.092] [bbotk]                  10              1505     0.04747796        0.649  -0.68852 
+INFO  [12:08:24.092] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:24.092] [bbotk]          <NA>         0.5 1e3efe08-033e-4404-80cd-d55f9929abd8 
+INFO  [12:08:25.052] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:25.105] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:25.111] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:08:26.609] [mlr3]  Finished benchmark 
+INFO  [12:08:26.673] [bbotk] Result of batch 110: 
+INFO  [12:08:26.675] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:08:26.675] [bbotk]                  10              3202       0.363471        0.651 -0.6880379 
+INFO  [12:08:26.675] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:08:26.675] [bbotk]          <NA>         0.5 c5c73705-1a67-4fab-8f25-66c0e546e7d8 
+INFO  [12:08:27.707] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:08:27.764] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:08:27.771] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:41.586] [mlr3]  Finished benchmark 
+INFO  [12:12:41.651] [bbotk] Result of batch 111: 
+INFO  [12:12:41.653] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:12:41.653] [bbotk]                   3              3886      0.3252764        0.647 -0.6874543 
+INFO  [12:12:41.653] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:12:41.653] [bbotk]          <NA>   0.9678383 421c3287-aa8c-4b4e-8e90-ceba8d919392 
+INFO  [12:12:42.745] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:42.800] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:42.865] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:44.696] [mlr3]  Finished benchmark 
+INFO  [12:12:44.757] [bbotk] Result of batch 112: 
+INFO  [12:12:44.759] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:12:44.759] [bbotk]                   7              2727      0.1025244        0.822 -0.6885432 
+INFO  [12:12:44.759] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:12:44.759] [bbotk]          <NA>         0.5 19e28754-ab17-4fa0-8b10-ea9b16aa011b 
+INFO  [12:12:45.712] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:45.762] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:45.769] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:47.031] [mlr3]  Finished benchmark 
+INFO  [12:12:47.093] [bbotk] Result of batch 113: 
+INFO  [12:12:47.095] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:12:47.095] [bbotk]                   5              2906      0.2242831        0.701 -0.6885093 
+INFO  [12:12:47.095] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:12:47.095] [bbotk]          <NA>         0.5 436f0135-cad4-4cdc-bebe-7507cf514b28 
+INFO  [12:12:47.992] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:48.046] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:48.052] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:12:49.842] [mlr3]  Finished benchmark 
+INFO  [12:12:49.903] [bbotk] Result of batch 114: 
+INFO  [12:12:49.905] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:12:49.905] [bbotk]                   9              2897      0.2928192        0.661 -0.6876852 
+INFO  [12:12:49.905] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:12:49.905] [bbotk]          <NA>         0.5 c22946be-2551-40e0-a88e-b7066206aa7a 
+INFO  [12:12:50.857] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:12:50.912] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:12:50.919] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:17:39.589] [mlr3]  Finished benchmark 
+INFO  [12:17:39.652] [bbotk] Result of batch 115: 
+INFO  [12:17:39.654] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:17:39.654] [bbotk]                   3              4594      0.3140282        0.675 -0.6879574 
+INFO  [12:17:39.654] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:17:39.654] [bbotk]          <NA>   0.9680498 bf378bbd-e042-4160-8d3c-6f279da1818d 
+INFO  [12:17:40.588] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:17:40.642] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:17:40.649] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:17:42.425] [mlr3]  Finished benchmark 
+INFO  [12:17:42.490] [bbotk] Result of batch 116: 
+INFO  [12:17:42.492] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:17:42.492] [bbotk]                   5              1365      0.1432243        0.672 -0.6746521 
+INFO  [12:17:42.492] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:17:42.492] [bbotk]          <NA>         0.5 fbd87205-6a97-47fa-8941-d072f250aad6 
+INFO  [12:17:43.472] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:17:43.530] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:17:43.537] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:17:44.882] [mlr3]  Finished benchmark 
+INFO  [12:17:44.944] [bbotk] Result of batch 117: 
+INFO  [12:17:44.945] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:17:44.945] [bbotk]                   9              3361      0.3064466        0.672 -0.6881503 
+INFO  [12:17:44.945] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:17:44.945] [bbotk]          <NA>         0.5 6e9a75ae-7895-4391-82d0-7e1d5f44655e 
+INFO  [12:17:45.879] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:17:45.935] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:17:45.942] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:20:59.217] [mlr3]  Finished benchmark 
+INFO  [12:20:59.282] [bbotk] Result of batch 118: 
+INFO  [12:20:59.284] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:20:59.284] [bbotk]                   3              2841      0.2108489        0.688 -0.6888801 
+INFO  [12:20:59.284] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:20:59.284] [bbotk]          <NA>    0.966503 470208ac-0e77-4bad-bb59-b4ea800384f6 
+INFO  [12:21:00.451] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:21:00.505] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:21:00.647] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:22:14.930] [mlr3]  Finished benchmark 
+INFO  [12:22:14.994] [bbotk] Result of batch 119: 
+INFO  [12:22:14.996] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:22:14.996] [bbotk]                   4               532      0.1439138        0.683 -0.6892977 
+INFO  [12:22:14.996] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:22:14.996] [bbotk]          <NA>   0.9642709 7c18beaf-87e5-41a2-9baf-559dce4932be 
+INFO  [12:22:15.914] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:22:16.028] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:22:16.035] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:22:17.776] [mlr3]  Finished benchmark 
+INFO  [12:22:17.836] [bbotk] Result of batch 120: 
+INFO  [12:22:17.838] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:22:17.838] [bbotk]                   6              3889      0.0828388        0.658 -0.6752034 
+INFO  [12:22:17.838] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:22:17.838] [bbotk]          <NA>         0.5 2d411e8d-1657-4cde-a091-37c0717c70c6 
+INFO  [12:22:18.945] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:22:18.999] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:22:19.006] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:22:20.342] [mlr3]  Finished benchmark 
+INFO  [12:22:20.409] [bbotk] Result of batch 121: 
+INFO  [12:22:20.411] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:22:20.411] [bbotk]                   9              2143      0.2513526        0.808 -0.6893303 
+INFO  [12:22:20.411] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:22:20.411] [bbotk]          <NA>         0.5 16bb4cc9-1848-4bd5-b930-5577ea8f11dd 
+INFO  [12:22:21.364] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:22:21.420] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:22:21.427] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:22:22.656] [mlr3]  Finished benchmark 
+INFO  [12:22:22.717] [bbotk] Result of batch 122: 
+INFO  [12:22:22.718] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:22:22.718] [bbotk]                   8              3280      0.3244776        0.681 -0.6748393 
+INFO  [12:22:22.718] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:22:22.718] [bbotk]          <NA>         0.5 8de86af3-b458-4a3b-9bb6-99a94f87f048 
+INFO  [12:22:23.682] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:22:23.735] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:22:23.742] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:22:24.988] [mlr3]  Finished benchmark 
+INFO  [12:22:25.050] [bbotk] Result of batch 123: 
+INFO  [12:22:25.052] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time crit.vals 
+INFO  [12:22:25.052] [bbotk]                  10              2132      0.2690154        0.694 -0.674687 
+INFO  [12:22:25.052] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:22:25.052] [bbotk]          <NA>         0.5 1dd53ac5-37c5-48e8-b2cd-f02475d987ad 
+INFO  [12:22:26.112] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:22:26.167] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:22:26.173] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:27:09.153] [mlr3]  Finished benchmark 
+INFO  [12:27:09.217] [bbotk] Result of batch 124: 
+INFO  [12:27:09.219] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:27:09.219] [bbotk]                   4              4248      0.3385029        0.692 -0.6891429 
+INFO  [12:27:09.219] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:27:09.219] [bbotk]          <NA>   0.9710018 76697a70-d51f-4d07-ae0b-55995cb35a81 
+INFO  [12:27:10.395] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:27:10.449] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:27:10.456] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:27:12.047] [mlr3]  Finished benchmark 
+INFO  [12:27:12.167] [bbotk] Result of batch 125: 
+INFO  [12:27:12.169] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:27:12.169] [bbotk]                   5              2202      0.1019576        0.861 -0.6895066 
+INFO  [12:27:12.169] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:27:12.169] [bbotk]          <NA>         0.5 750d4d04-903a-4ea1-939b-11e3c7917e99 
+INFO  [12:27:13.117] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:27:13.174] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:27:13.180] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:27:14.952] [mlr3]  Finished benchmark 
+INFO  [12:27:15.016] [bbotk] Result of batch 126: 
+INFO  [12:27:15.018] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:27:15.018] [bbotk]                  10              2273      0.3214339        0.677 -0.6752185 
+INFO  [12:27:15.018] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:27:15.018] [bbotk]          <NA>         0.5 95b62b98-60a8-45ad-906e-3f5f04a8ce6c 
+INFO  [12:27:16.032] [bbotk] Evaluating 1 configuration(s) 
+INFO  [12:27:16.086] [mlr3]  Running benchmark with 1 resampling iterations 
+INFO  [12:27:16.093] [mlr3]  Applying learner 'removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.ps_gamboost' on task 'Task 168335: MiniBooNE (Supervised Classification)' (iter 1/1) 
+INFO  [12:27:17.338] [mlr3]  Finished benchmark 
+INFO  [12:27:17.400] [bbotk] Result of batch 127: 
+INFO  [12:27:17.402] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu propose.time  crit.vals 
+INFO  [12:27:17.402] [bbotk]                   8              2692     0.09509416        0.691 -0.6892741 
+INFO  [12:27:17.402] [bbotk]  errors.model classif.auc                                uhash 
+INFO  [12:27:17.402] [bbotk]          <NA>         0.5 535d0b63-dfae-4144-8fca-a25aba814b01 
+INFO  [12:27:17.483] [bbotk] Finished optimizing after 150 evaluation(s) 
+INFO  [12:27:17.485] [bbotk] Result: 
+INFO  [12:27:17.487] [bbotk]  ps_gamboost.dfbase ps_gamboost.mstop ps_gamboost.nu learner_param_vals 
+INFO  [12:27:17.487] [bbotk]                   4              4475        0.34527         <list[15]> 
+INFO  [12:27:17.487] [bbotk]   x_domain classif.auc 
+INFO  [12:27:17.487] [bbotk]  <list[3]>   0.9710979 
+INFO  [12:40:59.013] [mlr3]  Finished benchmark 

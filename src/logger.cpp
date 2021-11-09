@@ -409,7 +409,6 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
     //arma::mat temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
     //_sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
   //}
-
   double temp_risk = _sh_ptr_oob_response->calculateEmpiricalRisk(_sh_ptr_loss);
   _oob_risk.push_back(temp_risk);
 }

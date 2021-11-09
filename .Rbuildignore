@@ -30,6 +30,8 @@ paper
 temp
 pkgdown
 Readme.*
+temp
+pkgdown
 CODE_OF_CONDUCT.md
 CONTRIBUTING.md
 CONTRIBUTORS.md
@@ -42,3 +44,4 @@ cran-comments.md
 ^LICENSE\.md$
 ^cran-comments\.md$
 man/figures/*
+.lintr

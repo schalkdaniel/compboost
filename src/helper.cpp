@@ -28,7 +28,7 @@ namespace helper
 
 void debugPrint (const std::string msg)
 {
-  if (_DEBUG_PRINT) { std::cout << msg << std::endl; }
+  if (_DEBUG_PRINT) { Rcpp::Rcout << msg << std::endl; }
 }
 
 /**
@@ -268,7 +268,7 @@ std::string getMatStatus (const arma::mat& X)
 
 void printMatStatus (const arma::mat& X, const std::string message)
 {
-  std::cout << message << getMatStatus(X) << std::endl;
+  Rcpp::Rcout << message << getMatStatus(X) << std::endl;
 }
 
 arma::mat solveCholesky (const arma::mat& U, const arma::mat& y)

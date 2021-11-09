@@ -1,0 +1,9 @@
+INFO  [08:45:13.972] Retrieving JSON {url: https://www.openml.org/api/v1/json/task/9977, authenticated: FALSE}
+INFO  [08:45:14.182] Retrieving JSON {url: https://www.openml.org/api/v1/json/data/1486, authenticated: FALSE}
+1 / 1 
+
+>> [2021-05-09 08:45:21]  BENCHMARK:
+	>> [2021-05-09 08:45:21] Starting benchmark
+    >> [2021-05-09 15:18:40] Finish benchmark in 23598.61 seconds
+    >> [2021-05-09 15:18:40] Aggregate results and store data
+    >> [2021-05-09 15:18:40] Save /home/debian/repos/compboost/benchmark/mlr-bmr/res-results/bmr-2021-05-09-task9977-classif_lrn_ranger.Rda

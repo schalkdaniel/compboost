@@ -40,7 +40,7 @@ Loss::Loss (const std::string task_id)
 Loss::Loss (const std::string task_id, const arma::mat& custom_offset)
   : _task_id           ( task_id ),
     _custom_offset     ( custom_offset ),
-    _use_custom_offset ( true)
+    _use_custom_offset ( true )
 { }
 
 std::string Loss::getTaskId () const { return _task_id; }
@@ -402,6 +402,9 @@ LossBinomial::LossBinomial (const double custom_offset)
     Rcpp::stop("LossBinomial allows just values between -1 and 1 as offset. Continuing with default offset.");
   }
 }
+LossBinomial::LossBinomial (const arma::mat& custom_offset)
+  : Loss ("binary_classif", custom_offset)
+{ }
 
 LossBinomial::LossBinomial (const arma::mat& custom_offset)
   : Loss ("binary_classif", custom_offset)
@@ -517,8 +520,9 @@ arma::mat LossCustom::gradient (const arma::mat& true_value, const arma::mat& pr
 arma::mat LossCustom::constantInitializer (const arma::mat& true_value) const
 {
   Rcpp::NumericVector out = _initFun(true_value);
-  arma::mat out_single(1, 1);
-  out_single.fill(out[0]);
+  arma::mat out_single = out;
+  //arma::mat out_single(1, 1);
+  //out_single.fill(out[0]);
   return out_single;
 }
 

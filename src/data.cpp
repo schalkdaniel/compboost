@@ -130,6 +130,7 @@ InMemoryData::InMemoryData (const std::string data_identifier, const arma::sp_ma
 // void InMemoryData::setData (const arma::mat& transformed_data) { data_mat = transformed_data; }
 // Todo! Autotransform sparse to dense and ALWAYS return a dense matrix
 arma::mat InMemoryData::getData () const { return Data::getDenseData(); }
+unsigned int InMemoryData::nrow() const { return Data::getDenseData().n_rows; }
 
 unsigned int InMemoryData::getNObs () const {
   if (_use_sparse) {
@@ -171,6 +172,11 @@ unsigned int BinnedData::getNObs () const {
 }
 
 
+unsigned int CategoricalData::nrow () const
+{
+  return _classes.n_rows;
+}
+
 // CategoricalDataRaw:
 // ---------------------------------
 
@@ -185,7 +191,8 @@ arma::mat CategoricalDataRaw::getData () const {
   return Data::getDenseData();
 }
 
-std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; };
+std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; }
+unsigned int CategoricalDataRaw::nrow ( ) const { return _raw_data.size(); }
 
 unsigned int CategoricalDataRaw::getNObs () const {
   return _raw_data.size();

@@ -79,6 +79,10 @@
 #'   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
 #'     Fraction of how much data are used to calculate the out of bag risk.
 #'   }
+#'   \item{\code{stop_args}}{[\code{list(2)}]\cr
+#'     List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+#'     from setting `oob_fraction`.
+#'   }
 #' }
 #'
 #' \strong{For cboost$addLogger()}:
@@ -455,6 +459,17 @@ Compboost = R6::R6Class("Compboost",
       # `addBaselearners` are registered here:
       self$bl_factory_list = BlearnerFactoryList$new()
 
+      # Check and set stop args:
+      scount = 0
+      if (! is.null(stop_args$oob_offset)) scount = 1
+      if (length(stop_args) > scount) {
+        for (nm in c("patience", "eps_for_break")) {
+          if (! nm %in% names(stop_args)) stop("Cannot find ", nm, " in 'stop_args'")
+        }
+        checkmate::assertCount(stop_args$patience, positive = TRUE)
+        checkmate::assertNumeric(stop_args$eps_for_break, len = 1L)
+      }
+      self$stop_args = stop_args
     },
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       private$l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
@@ -920,8 +935,6 @@ Compboost = R6::R6Class("Compboost",
     },
     addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, ...) {
 
-      lvls = unlist(unique(data_column))
-
       if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalRidge") {
         private$bl_list[[id]] = list()
         private$bl_list[[id]]$feature = feature
@@ -931,6 +944,7 @@ Compboost = R6::R6Class("Compboost",
         self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)
         private$bl_list[[id]]$source = NULL
       } else {
+        lvls = unlist(unique(data_column))
         # Create dummy variable for each category and use that vector as data matrix. Hence,
         # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
         # base-learners (unbiased feature selection).
@@ -955,7 +969,6 @@ Compboost = R6::R6Class("Compboost",
 
             self$bl_factory_list$registerFactory(private$bl_list[[cat_feat_id]]$factory)
             private$bl_list[[cat_feat_id]]$source = NULL
-
           } else {
             private$addSingleNumericBl(data_columns = as.matrix(as.integer(data_column == lvl)),
               feature = paste(feature, lvl, sep = "_"), id_fac = id_fac, id = cat_feat_id,

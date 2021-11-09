@@ -26,19 +26,31 @@ namespace binning
 /**
  * \brief Calculate vector of bins of specific size
  *
- * This function returns a vector of equally spaced points of length n_bins.
+ * This function returns a vector of quantiles of length n_bins.
  *
  * \param x `arma::vec` Vector that should be discretized.
  *
  * \param n_bins `unsigned int` Number of unique points for binning the vector x.
  *
+ * \param n_bins `unsigned int` Number of unique points for binning the vector x.
+ *
  * \returns `arma::vec` Vector of discretized x.
  */
-arma::vec binVectorCustom (const arma::vec& x, const unsigned int bin_root)
+arma::vec binVectorCustom (const arma::vec& x, const unsigned int bin_root, const std::string method)
 {
-  // TODO: Check if n_bins is set correctly
-  const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
-  return arma::linspace(arma::min(x), arma::max(x), n_bins);
+  std::string bin_method = method;
+  if ((method != "linear") && (method != "quantile")) {
+    std::string bin_method = "linear";
+  }
+  if (bin_method == "linear") {
+    const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
+    return arma::linspace(arma::min(x), arma::max(x), n_bins);
+  }
+  if (bin_method == "quantile"){
+    const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
+    const arma::vec quants = arma::linspace(0, 1, n_bins);
+    return arma::quantile(x, quants);
+  }
 }
 
 
@@ -56,7 +68,7 @@ arma::vec binVectorCustom (const arma::vec& x, const unsigned int bin_root)
  */
 arma::vec binVector (const arma::vec& x)
 {
-  return binVectorCustom(x, 2);
+  return binVectorCustom(x, 2, "quanitle");
 }
 
 

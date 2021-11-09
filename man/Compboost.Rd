@@ -88,6 +88,10 @@ cboost$plotBlearnerTraces(value = 1, n_legend = 5L)
   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
     Fraction of how much data are used to calculate the out of bag risk.
   }
+  \item{\code{stop_args}}{[\code{list(2)}]\cr
+    List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+    from setting `oob_fraction`.
+  }
 }
 
 \strong{For cboost$addLogger()}:

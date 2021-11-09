@@ -1,0 +1,2 @@
+Error in benchmark(design_classif, store_models = TRUE) : 
+  Assertion on 'design' failed: Must have at least 1 rows, but has 0 rows.

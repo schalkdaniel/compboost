@@ -28,7 +28,7 @@
 namespace binning {
 
 // Calculate binned vector and index vector:
-arma::vec  binVectorCustom      (const arma::vec&, const unsigned int);
+arma::vec  binVectorCustom      (const arma::vec&, const unsigned int, const std::string);
 arma::vec  binVector            (const arma::vec&);
 arma::uvec calculateIndexVector (const arma::vec&, const arma::vec&);
 
