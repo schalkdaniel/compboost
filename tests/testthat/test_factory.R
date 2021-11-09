@@ -3,9 +3,9 @@ context("Factories of 'compboost'")
 test_that("polynomial factory works", {
 
   # Data X and response y:
-  X_linear = 1:10
-  X_cubic  = X_linear^3
-
+  X_linear    = 1:10
+  X_quadratic = X_linear^2
+  X_cubic     = X_linear^3
   y = 3 * X_linear + rnorm(10, 0, 2)
 
   expect_silent({ data_source = InMemoryData$new(as.matrix(X_linear), "my_variable") })
@@ -21,7 +21,7 @@ test_that("polynomial factory works", {
     list(degree = 3, intercept = FALSE)) })
 
   mod_linear = lm(y ~ 0 + X_linear)
-  mod_cubic  = lm(y ~ 0 + X_cubic)
+  mod_cubic  = lm(y ~ 0 + X_linear + X_quadratic + X_cubic)
 
   expect_equal(
     linear_factory$getData(),
@@ -29,15 +29,7 @@ test_that("polynomial factory works", {
   )
   expect_equal(
     cubic_factory$getData(),
-    as.matrix(mod_cubic$model[["X_cubic"]])
-  )
-  expect_equal(
-    linear_factory$getData(),
-    linear_factory$transformData(data_source$getData())
-  )
-  expect_equal(
-    cubic_factory$getData(),
-    cubic_factory$transformData(data_source$getData())
+    unname(as.matrix(mod_cubic$model[, -1]))
   )
 })
 
@@ -71,30 +63,26 @@ test_that("custom factory works", {
     custom_factory$getData(),
     instantiateDataFun(X)
   )
-  expect_equal(
-    custom_factory$getData(),
-    custom_factory$transformData(data_source$getData())
-  )
 })
 
 
-test_that("custom cpp factory works", {
-
-  expect_output(Rcpp::sourceCpp(code = getCustomCppExample()))
-
-  set.seed(pi)
-  X = matrix(1:10, ncol = 1)
-  y = 3 * as.numeric(X) + rnorm(10, 0, 2)
-
-  expect_silent({ data_source = InMemoryData$new(X, "my_variable_name") })
-  expect_silent({
-    custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
-      list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
-        predict_ptr = predictFunSetter()))
-  })
-  expect_equal(custom_cpp_factory$getData(), X)
-  expect_equal(
-    custom_cpp_factory$getData(),
-    custom_cpp_factory$transformData(data_source$getData())
-  )
-})
+#test_that("custom cpp factory works", {
+#
+#  expect_output(Rcpp::sourceCpp(code = getCustomCppExample()))
+#
+#  set.seed(pi)
+#  X = matrix(1:10, ncol = 1)
+#  y = 3 * as.numeric(X) + rnorm(10, 0, 2)
+#
+#  expect_silent({ data_source = InMemoryData$new(X, "my_variable_name") })
+#  expect_silent({
+#    custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
+#      list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
+#        predict_ptr = predictFunSetter()))
+#  })
+#  expect_equal(custom_cpp_factory$getData(), X)
+#  expect_equal(
+#    custom_cpp_factory$getData(),
+#    custom_cpp_factory$transformData(data_source$getData())
+#  )
+#})

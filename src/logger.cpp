@@ -398,17 +398,9 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
   } else {
     temp_oob_prediction = sh_ptr_blearner->predict(it_oob_data_inst->second);
   }
-  _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
+  _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction,
+    _oob_data_map, _sh_ptr_oob_response));
 
-  // Check, whether the data object is present or not:
-  //std::map<std::string, std::shared_ptr<data::Data>>::iterator it_oob_data = _oob_data_map.find(blearner_id);
-  //if (it_oob_data != _oob_data_map.end()) {
-    //std::shared_ptr<data::Data> oob_blearner_data = it_oob_data->second;
-
-    // Predict this data using the selected baselearner:
-    //arma::mat temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
-    //_sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
-  //}
   double temp_risk = _sh_ptr_oob_response->calculateEmpiricalRisk(_sh_ptr_loss);
   _oob_risk.push_back(temp_risk);
 }

@@ -410,7 +410,7 @@ Compboost = R6::R6Class("Compboost",
 
       if (! "eps_for_break" %in% names(stop_args)) stop_args[["eps_for_break"]] = 0
       if (! "patience" %in% names(stop_args)) stop_args[["patience"]] = 10L
-      private$stop_args = stop_args
+
       self$id = deparse(substitute(data))
       data = droplevels(as.data.frame(data))
 
@@ -449,6 +449,7 @@ Compboost = R6::R6Class("Compboost",
       self$optimizer = optimizer
       self$loss = loss
       self$learning_rate = learning_rate
+
       if (self$use_early_stopping || (! is.null(self$oob_fraction))) {
         self$data_oob = data[private$test_idx, !colnames(data) %in% target, drop = FALSE]
         self$response_oob = data[private$test_idx, self$target]#, "oob_response")
@@ -469,7 +470,7 @@ Compboost = R6::R6Class("Compboost",
         checkmate::assertCount(stop_args$patience, positive = TRUE)
         checkmate::assertNumeric(stop_args$eps_for_break, len = 1L)
       }
-      self$stop_args = stop_args
+      private$stop_args = stop_args
     },
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       private$l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
@@ -931,14 +932,13 @@ Compboost = R6::R6Class("Compboost",
 
       self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)
       private$bl_list[[id]]$source = NULL
-
     },
     addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, ...) {
 
+      private$bl_list[[id]] = list()
+      private$bl_list[[id]]$source = CategoricalDataRaw$new(as.character(data_column[[feature]]), feature)
       if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalRidge") {
-        private$bl_list[[id]] = list()
         private$bl_list[[id]]$feature = feature
-        private$bl_list[[id]]$source = CategoricalDataRaw$new(as.character(data_column[[feature]]), feature)
         private$bl_list[[id]]$factory = BaselearnerCategoricalRidge$new(private$bl_list[[id]]$source, id_fac, list(...))
 
         self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)
@@ -954,18 +954,11 @@ Compboost = R6::R6Class("Compboost",
 
           if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalBinary") {
             private$bl_list[[cat_feat_id]] = list()
-            if (data_source@.Data == "Rcpp_InMemoryData") {
-              # If data source is InMemoryData use the sparse option to reduce memory load:
-              private$bl_list[[cat_feat_id]]$source = data_source$new(
-                cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"), TRUE)
-            } else {
-              private$bl_list[[cat_feat_id]]$source = data_source$new(
-                cbind(as.integer(data_column == lvl)), paste(feature, collapse = "_"))
-            }
 
-            private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
+            #private$bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
+            private$bl_list[[cat_feat_id]]$feature = feature
             private$bl_list[[cat_feat_id]]$factory = bl_factory$new(
-              private$bl_list[[cat_feat_id]]$source, paste0(lvl, "_", id_fac))
+              private$bl_list[[id]]$source, paste0(lvl, "_", id_fac))
 
             self$bl_factory_list$registerFactory(private$bl_list[[cat_feat_id]]$factory)
             private$bl_list[[cat_feat_id]]$source = NULL

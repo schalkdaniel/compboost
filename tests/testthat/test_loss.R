@@ -58,8 +58,8 @@ test_that("Custom loss works", {
 })
 
 
-test_that("Custom cpp loss works", {
-  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
-  expect_silent({ custom_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
-  expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())) })
-})
+#test_that("Custom cpp loss works", {
+  #expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
+  #expect_silent({ custom_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
+  #expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())) })
+#})

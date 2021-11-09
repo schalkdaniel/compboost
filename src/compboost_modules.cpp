@@ -524,9 +524,10 @@ public:
 
     std::string blearner_type_temp = "spline_degree_" + std::to_string(degree);
 
-    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp, data_source.getDataObj(),
-      internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["df"], internal_arg_list["differences"], true,
-      internal_arg_list["bin_root"], internal_arg_list["bin_method"], internal_arg_list["cache_type"]);
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type_temp,
+      data_source.getDataObj(), internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"],
+      internal_arg_list["df"], internal_arg_list["differences"], true, internal_arg_list["bin_root"],
+      internal_arg_list["cache_type"]);
   }
 
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, const std::string& blearner_type, Rcpp::List arg_list)
@@ -535,7 +536,7 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerPSplineFactory>(blearner_type, data_source.getDataObj(),
       internal_arg_list["degree"], internal_arg_list["n_knots"], internal_arg_list["penalty"], internal_arg_list["df"], internal_arg_list["differences"], true,
-      internal_arg_list["bin_root"], internal_arg_list["bin_method"], internal_arg_list["cache_type"]);
+      internal_arg_list["bin_root"], internal_arg_list["cache_type"]);
   }
 
   void summarizeFactory ()

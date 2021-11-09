@@ -42,15 +42,13 @@ arma::vec binVectorCustom (const arma::vec& x, const unsigned int bin_root, cons
   if ((method != "linear") && (method != "quantile")) {
     std::string bin_method = "linear";
   }
-  if (bin_method == "linear") {
-    const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
-    return arma::linspace(arma::min(x), arma::max(x), n_bins);
-  }
-  if (bin_method == "quantile"){
+  if (bin_method == "quantile") {
     const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
     const arma::vec quants = arma::linspace(0, 1, n_bins);
     return arma::quantile(x, quants);
   }
+  const unsigned int n_bins = std::floor(std::pow(x.size(), 1.0/bin_root));
+  return arma::linspace(arma::min(x), arma::max(x), n_bins);
 }
 
 

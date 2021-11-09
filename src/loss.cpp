@@ -406,10 +406,6 @@ LossBinomial::LossBinomial (const arma::mat& custom_offset)
   : Loss ("binary_classif", custom_offset)
 { }
 
-LossBinomial::LossBinomial (const arma::mat& custom_offset)
-  : Loss ("binary_classif", custom_offset)
-{ }
-
 /**
 * \brief Definition of the loss function (see description of the class)
 *

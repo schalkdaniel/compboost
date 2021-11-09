@@ -44,7 +44,7 @@ sbindata initPolynomialData (const sdata& raw_data, const std::shared_ptr<Polyno
   if (attributes->bin_root == 0) { // don't use binning
     sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier());
   } else {             // use binning
-    arma::colvec bins = binning::binVectorCustom(mraw, attributes->bin_root);
+    arma::colvec bins = binning::binVectorCustom(mraw, attributes->bin_root, "linear");
     sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier(), attributes->bin_root, mraw, bins);
     mraw = bins;
   }
@@ -87,7 +87,7 @@ sbindata initPSplineData (const sdata& raw_data, const std::shared_ptr<PSplineAt
   if (attributes->bin_root == 0) { // don't use binning
     sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier());
   } else {             // use binning
-    arma::colvec bins = binning::binVectorCustom(mraw, attributes->bin_root);
+    arma::colvec bins = binning::binVectorCustom(mraw, attributes->bin_root, "linear");
     sh_ptr_bindata = std::make_shared<data::BinnedData>(raw_data->getDataIdentifier(), attributes->bin_root, mraw, bins);
     mraw = bins;
   }

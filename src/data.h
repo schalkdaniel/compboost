@@ -148,7 +148,6 @@ private:
 public:
   CategoricalDataRaw (const std::string, const std::vector<std::string>&);
 
-  unsigned int             nrow       () const;
   arma::mat                getData    () const;
   unsigned int             getNObs    () const;
   std::vector<std::string> getRawData () const;
