@@ -74,16 +74,18 @@ test_that("compboost does the same as mboost", {
   df = mtcars
   df$hp2 = df[["hp"]]^2
 
-  X_hp = as.matrix(df[["hp"]], ncol = 1)
-  X_wt = as.matrix(df[["wt"]], ncol = 1)
+  X_hp  = as.matrix(df[["hp"]], ncol = 1)
+  X_hp2 = as.matrix(df[["hp2"]], ncol = 1)
+  X_wt  = as.matrix(df[["wt"]], ncol = 1)
 
   y = df[["mpg"]]
   response = ResponseRegr$new("mpg", as.matrix(y))
 
-  expect_silent({ data_source_hp = InMemoryData$new(X_hp, "hp") })
-  expect_silent({ data_source_wt = InMemoryData$new(X_wt, "wt") })
+  expect_silent({ data_source_hp  = InMemoryData$new(X_hp, "hp") })
+  expect_silent({ data_source_hp2 = InMemoryData$new(X_hp2, "hp2") })
+  expect_silent({ data_source_wt  = InMemoryData$new(X_wt, "wt") })
 
-  eval_oob_test = list(data_source_hp, data_source_wt)
+  eval_oob_test = list(data_source_hp, data_source_wt, data_source_hp2)
 
   learning_rate = 0.05
   iter_max = 500
@@ -92,8 +94,8 @@ test_that("compboost does the same as mboost", {
     list(degree = 1, intercept = FALSE)) })
   expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
-    list(degree = 2, intercept = FALSE)) })
+  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp2,
+    list(degree = 1, intercept = FALSE)) })
   expect_silent({ factory_list = BlearnerFactoryList$new() })
 
   # Register factorys:
@@ -130,6 +132,7 @@ test_that("compboost does the same as mboost", {
       control = boost_control(mstop = iter_max, nu = learning_rate)
     )
   })
+
   # Create vector of selected baselearner:
   # --------------------------------------
 
@@ -138,27 +141,15 @@ test_that("compboost does the same as mboost", {
     table = c(
       "hp_polynomial_degree_1",
       "wt_polynomial_degree_1",
-      "hp_polynomial_degree_2"
+      "hp2_polynomial_degree_1"
     )
   )
   expect_equal(predict(mod), cboost$getPrediction(FALSE))
   expect_equal(mod$xselect(), cboost_xselect)
-  expect_equal(
-    unname(
-      unlist(
-        mod$coef()[
-          order(
-            unlist(
-              lapply(names(unlist(mod$coef()[1:3])), function (x) {
-                strsplit(x, "[.]")[[1]][2]
-              })
-            )
-          )
-        ]
-      )
-    ),
-    unname(unlist(cboost$getEstimatedParameter()))
-  )
+  expect_true(all(round(as.vector(unlist(coef(mod))), 4) %in%
+    round(as.vector(unlist(cboost$getEstimatedParameter())), 4)
+  ))
+  expect_equal(cboost$getOffset()[1], attr(coef(mod), "offset"))
   expect_equal(dim(cboost$getLoggerData()$logger_data), c(500, 2))
   expect_equal(cboost$getLoggerData()$logger_data[, 1], 1:500)
   expect_equal(length(cboost$getLoggerData()$logger_data[, 2]), 500)
@@ -173,23 +164,9 @@ test_that("compboost does the same as mboost", {
       control = boost_control(mstop = 200, nu = learning_rate)
     )
   })
-
-  expect_equal(
-    unname(
-      unlist(
-        mod_reduced$coef()[
-          order(
-            unlist(
-              lapply(names(unlist(mod_reduced$coef()[1:3])), function (x) {
-                strsplit(x, "[.]")[[1]][2]
-              })
-            )
-          )
-          ]
-      )
-    ),
-    unname(unlist(cboost$getParameterAtIteration(200)))
-  )
+  expect_true(all(round(as.vector(unlist(coef(mod_reduced))), 4) %in%
+    round(as.vector(unlist(cboost$getParameterAtIteration(200))), 4)
+  ))
 
   idx = 2:4 * 120
   matrix_compare = matrix(NA_real_, nrow = 3, ncol = 3)

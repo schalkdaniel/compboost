@@ -20,6 +20,7 @@
 
 #include "helper.h"
 
+//bool _DEBUG_PRINT = false;
 bool _DEBUG_PRINT = false;
 
 namespace helper
@@ -27,7 +28,7 @@ namespace helper
 
 void debugPrint (const std::string msg)
 {
-  if (_DEBUG_PRINT) { std::cout << msg << std::endl; }
+  if (_DEBUG_PRINT) { Rcpp::Rcout << msg << std::endl; }
 }
 
 /**
@@ -267,7 +268,7 @@ std::string getMatStatus (const arma::mat& X)
 
 void printMatStatus (const arma::mat& X, const std::string message)
 {
-  std::cout << message << getMatStatus(X) << std::endl;
+  Rcpp::Rcout << message << getMatStatus(X) << std::endl;
 }
 
 arma::mat solveCholesky (const arma::mat& U, const arma::mat& y)
@@ -285,6 +286,9 @@ arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, cons
 
   /* if (mat_cache.first == "inverse")  {*/ return mat_cache.second * y; //}
 }
+
+
+
 
 // template<typename SH_PTR>
 // inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)

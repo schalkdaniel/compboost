@@ -152,6 +152,7 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int degree,
 {
   unsigned int n_cols =  knots.size() - (degree + 1);
 
+
   // Index for binary search:
   unsigned int idx;
   // Variable for value on which the basis should be computed:
@@ -160,10 +161,11 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int degree,
   // Frame for output:
   arma::mat spline_basis(values.size(), n_cols, arma::fill::zeros);
 
+  arma::vec values_filtered = filterKnotRange(values, knots(degree), knots(knots.size() - (degree + 1)));
   // Inserting rowwise. This loop creates the basis functions for each row:
-  for (unsigned int actual_row = 0; actual_row < values.size(); actual_row++) {
+  for (unsigned int actual_row = 0; actual_row < values_filtered.size(); actual_row++) {
 
-    x = values(actual_row);
+    x = values_filtered(actual_row);
 
     // Index of x within the konts:
     idx = findSpan(x, knots);
@@ -222,17 +224,19 @@ arma::mat createSplineBasis (const arma::vec& values, const unsigned int degree,
 arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned int degree,
   const arma::vec& knots)
 {
+  arma::vec values_filtered = filterKnotRange(values, knots(degree), knots(knots.size() - (degree + 1)));
+  //
   // Allocate memory for index matrix and values of the sparse matrix:
-  arma::umat idx_sparse(2, (degree + 1) * values.size(), arma::fill::zeros);
-  arma::vec insert_values((degree + 1) * values.size(), arma::fill::zeros);
+  arma::umat idx_sparse(2, (degree + 1) * values_filtered.size(), arma::fill::zeros);
+  arma::vec insert_values((degree + 1) * values_filtered.size(), arma::fill::zeros);
 
   double x; // Value to store single numbers of values
   unsigned int idx; // Number of span in which x lies (boundaries given by knots)
   unsigned int idx_insert; // Index where the basis and indexes for sparse matrices are inserted
 
-  for (unsigned int actual_row = 0; actual_row < values.size(); actual_row++) {
+  for (unsigned int actual_row = 0; actual_row < values_filtered.size(); actual_row++) {
 
-    x = values(actual_row);
+    x = values_filtered(actual_row);
 
     // Sparse output vector of bases:
     arma::mat full_base(1, knots.size() - (degree + 1));
@@ -280,7 +284,7 @@ arma::sp_mat createSparseSplineBasis (const arma::vec& values, const unsigned in
     }
   }
   // Create sparse matrix:
-  arma::sp_mat out(idx_sparse, insert_values, values.size(), knots.size() - (degree + 1));
+  arma::sp_mat out(idx_sparse, insert_values, values_filtered.size(), knots.size() - (degree + 1));
 
   return out;
 }

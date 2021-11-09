@@ -82,9 +82,9 @@ LoggerIteration::LoggerIteration (const std::string logger_id, const bool is_sto
  * \param learning_rate `double` lerning rate of the `current_iteration`
  *
  */
-void LoggerIteration::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
-  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerIteration::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
   _iterations.push_back(current_iteration);
 }
@@ -223,9 +223,9 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string logger_id, const bool is_sto
  * \param sh_ptr_optimizer `std::shared_ptr<optimizer::Optimizer>` optimizer used to find the best base-learner
  *
  */
-void LoggerInbagRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
-  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerInbagRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
   double temp_risk = sh_ptr_response->calculateEmpiricalRisk(_sh_ptr_loss);
 
@@ -329,13 +329,13 @@ std::string LoggerInbagRisk::printLoggerStatus () const
 
 LoggerOobRisk::LoggerOobRisk (const std::string logger_id, const bool is_stopper,
   const std::shared_ptr<loss::Loss> sh_ptr_loss, const double eps_for_break,
-  const unsigned int patience, const std::map<std::string, std::shared_ptr<data::Data>> oob_data,
+  const unsigned int patience, const std::map<std::string, std::shared_ptr<data::Data>> oob_data_map,
   std::shared_ptr<response::Response> oob_response)
   : Logger::Logger       ( is_stopper, "inbag_risk", logger_id),
     _sh_ptr_loss         ( sh_ptr_loss ),
     _eps_for_break       ( eps_for_break ),
     _patience            ( patience ),
-    _oob_data            ( oob_data ),
+    _oob_data_map        ( oob_data_map ),
     _sh_ptr_oob_response ( oob_response )
 { }
 
@@ -374,30 +374,33 @@ LoggerOobRisk::LoggerOobRisk (const std::string logger_id, const bool is_stopper
  * \param sh_ptr_optimizer `std::shared_ptr<optimizer::Optimizer>` optimizer used to find the best base-learner
  *
  */
-void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
-  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
+
   if (current_iteration == 1) {
-    _sh_ptr_oob_response->constantInitialization(sh_ptr_response->getInitialization());
+    _sh_ptr_oob_response->constantInitialization(_sh_ptr_loss);
     _sh_ptr_oob_response->initializePrediction();
   }
-
   std::string blearner_id = sh_ptr_blearner->getDataIdentifier();
-
 
   // Get data of corresponding selected baselearner. E.g. iteration 100 linear
   // baselearner of feature x_7, then get the data of feature x_7:
-
-  // Check, whether the data object is present or not:
-  std::map<std::string, std::shared_ptr<data::Data>>::iterator it_oob_data = _oob_data.find(blearner_id);
-  if (it_oob_data != _oob_data.end()) {
-    std::shared_ptr<data::Data> oob_blearner_data = it_oob_data->second;
-
-    // Predict this data using the selected baselearner:
-    arma::mat temp_oob_prediction = sh_ptr_blearner->predict(oob_blearner_data);
-    _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction));
+  std::string factory_id = sh_ptr_blearner->getDataIdentifier() + "_" + sh_ptr_blearner->getBaselearnerType();
+  auto it_oob_data_inst = _oob_data_map_inst.find(factory_id);
+  arma::mat temp_oob_prediction;
+  if (it_oob_data_inst == _oob_data_map_inst.end()) {
+    auto itf = factory_list.getFactoryMap().find(factory_id);
+    auto insert = std::pair<std::string, std::shared_ptr<data::Data>>(factory_id, itf->second->instantiateData(_oob_data_map));
+    _oob_data_map_inst.insert(insert);
+    temp_oob_prediction = sh_ptr_blearner->predict(insert.second);
+  } else {
+    temp_oob_prediction = sh_ptr_blearner->predict(it_oob_data_inst->second);
   }
+  _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction,
+    _oob_data_map, _sh_ptr_oob_response));
+
   double temp_risk = _sh_ptr_oob_response->calculateEmpiricalRisk(_sh_ptr_loss);
   _oob_risk.push_back(temp_risk);
 }
@@ -545,9 +548,9 @@ LoggerTime::LoggerTime (const std::string logger_id, const bool is_stopper,
  * \param sh_ptr_optimizer `std::shared_ptr<optimizer::Optimizer>` optimizer used to find the best base-learner
  *
  */
-void LoggerTime::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response> sh_ptr_response,
-  const std::shared_ptr<blearner::Baselearner> sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer)
+void LoggerTime::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
+  const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
 {
   if (_current_time.size() == 0) {
     _init_time = std::chrono::steady_clock::now();

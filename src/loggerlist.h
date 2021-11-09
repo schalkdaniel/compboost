@@ -29,6 +29,7 @@
 #include "logger.h"
 #include "response.h"
 #include "optimizer.h"
+#include "baselearner_factory_list.h"
 
 typedef std::map<std::string, std::shared_ptr<logger::Logger>>  logger_map;
 typedef std::pair<std::string, std::shared_ptr<logger::Logger>> logger_pair;
@@ -54,7 +55,7 @@ public:
   // Other member functions
   void logCurrent (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&);
+    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
 
   void printLoggerStatus     (const double) const;
   void printRegisteredLogger ()             const;

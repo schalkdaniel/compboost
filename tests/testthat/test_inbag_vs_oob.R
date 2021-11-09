@@ -22,7 +22,7 @@ test_that("Internal oob is the same as the logger", {
   for (feature_name in setdiff(names(df), target_var)) {
     if (feature_name %in% char_vars) {
       cboost$addBaselearner(feature = feature_name, id = "category",
-        bl_factory = BaselearnerPolynomial, intercept = FALSE)
+        bl_factory = BaselearnerCategoricalRidge, df = 1)
     } else {
       cboost$addBaselearner(feature = feature_name, id = "spline",
         bl_factory = BaselearnerPSpline, degree = 3, n_knots = 10)
@@ -46,12 +46,12 @@ test_that("Internal oob is the same as the logger", {
   }))
   expect_equal(rownames(df)[idx_train], rownames(cboost1$data))
   expect_equal(rownames(df)[idx_test], rownames(cboost1$data_oob))
-  expect_equal(cboost$getLoggerData(), cboost1$getLoggerData())
+  expect_equal(cboost$getLoggerData(), cboost1$getLoggerData()[, c("_iterations", "oob_risk", "baselearner", "train_risk")])
 
-  gg = cboost$plotInbagVsOobRisk()
-  gg1 = cboost1$plotInbagVsOobRisk()
+  #gg = cboost$plotInbagVsOobRisk()
+  #gg1 = cboost1$plotInbagVsOobRisk()
 
-  expect_true(inherits(gg, "ggplot"))
-  expect_true(inherits(gg1, "ggplot"))
-  expect_equal(gg, gg1)
+  #expect_true(inherits(gg, "ggplot"))
+  #expect_true(inherits(gg1, "ggplot"))
+  #expect_equal(gg, gg1)
 })

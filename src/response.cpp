@@ -57,13 +57,25 @@ void Response::setPredictionScores (const arma::mat& scores, const unsigned int 
   _iteration = iter;
 }
 
-std::string Response::getTargetName       () const { return _target_name; }
-std::string Response::getTaskIdentifier   () const { return _task_id; }
-arma::mat   Response::getResponse         () const { return _response; }
-arma::mat   Response::getWeights          () const { return _weights; }
-arma::mat   Response::getInitialization   () const { return _initialization; }
-arma::mat   Response::getPseudoResiduals  () const { return _pseudo_residuals; }
-arma::mat   Response::getPredictionScores () const { return _prediction_scores; }
+void Response::setPredictionScoresTemp1 (const arma::mat& new_temp_scores)
+{
+  _prediction_scores_temp1 = new_temp_scores;
+}
+
+void Response::setPredictionScoresTemp2 (const arma::mat& new_temp_scores)
+{
+  _prediction_scores_temp2 = new_temp_scores;
+}
+
+std::string Response::getTargetName            () const { return _target_name; }
+std::string Response::getTaskIdentifier        () const { return _task_id; }
+arma::mat   Response::getResponse              () const { return _response; }
+arma::mat   Response::getWeights               () const { return _weights; }
+arma::mat   Response::getInitialization        () const { return _initialization; }
+arma::mat   Response::getPseudoResiduals       () const { return _pseudo_residuals; }
+arma::mat   Response::getPredictionScores      () const { return _prediction_scores; }
+arma::mat   Response::getPredictionScoresTemp1 () const { return _prediction_scores_temp1; }
+arma::mat   Response::getPredictionScoresTemp2 () const { return _prediction_scores_temp2; }
 
 
 void Response::checkLossCompatibility (const std::shared_ptr<loss::Loss>& sh_ptr_loss) const
@@ -127,9 +139,10 @@ double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_p
 {
   checkLossCompatibility(sh_ptr_loss);
   if (_use_weights) {
-    return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, getPredictionTransform(), _weights);
+    //return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, getPredictionTransform(), _weights);
+    return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, _prediction_scores, _weights);
   } else {
-    return sh_ptr_loss->calculateEmpiricalRisk(_response, getPredictionTransform());
+    return sh_ptr_loss->calculateEmpiricalRisk(_response, _prediction_scores);
   }
 }
 
@@ -160,10 +173,25 @@ arma::mat ResponseRegr::calculateInitialPrediction (const arma::mat& response) c
   if (! _is_initialized) {
      Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
-  // Use just first element to correctly use .fill:
-  init.fill(_initialization[0]);
+  if (_initialization.n_rows > 1) {
+    init = _initialization;
+  } else {
+    // Use just first element to correctly use .fill:
+    init.fill(_initialization[0]);
+  }
   return init;
 }
+//{
+  //arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  //if (! _is_initialized) {
+     //Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  //}
+   ////Use just first element to correctly use .fill:
+  //init.fill(_initialization[0]);
+  //return init;
+//}
+
 
 void ResponseRegr::initializePrediction ()
 {
@@ -228,10 +256,24 @@ arma::mat ResponseBinaryClassif::calculateInitialPrediction (const arma::mat& re
   if (! _is_initialized) {
      Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
   }
-  // Use just first element to correctly use .fill:
-  init.fill(_initialization[0]);
+  if (_initialization.n_rows > 1) {
+    init = _initialization;
+  } else {
+    // Use just first element to correctly use .fill:
+    init.fill(_initialization[0]);
+  }
   return init;
 }
+//{
+  //arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  //if (! _is_initialized) {
+     //Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  //}
+   ////Use just first element to correctly use .fill:
+  //init.fill(_initialization[0]);
+  //return init;
+//}
 
 void ResponseBinaryClassif::initializePrediction ()
 {

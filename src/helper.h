@@ -76,6 +76,7 @@ inline arma::mat predictBinaryIndex (const arma::uvec& idx, const unsigned int n
 }
 
 
+
 } // namespace helper
 
 # endif // HELPER_H_

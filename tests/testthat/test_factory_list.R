@@ -7,41 +7,40 @@ test_that("factory list works", {
 
   X_hp = as.matrix(df[["hp"]], ncol = 1)
   X_wt = as.matrix(df[["wt"]], ncol = 1)
-  X_wt = cbind(1, X_wt)
 
   expect_silent({ data_source_hp = InMemoryData$new(X_hp, "hp") })
   expect_silent({ data_source_wt = InMemoryData$new(X_wt, "wt") })
 
   expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
-    list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp,
+  expect_silent({ quadratic_factory_wt = BaselearnerPolynomial$new(data_source_wt,
     list(degree = 2, intercept = FALSE)) })
   expect_silent({ pow5_factory_hp = BaselearnerPolynomial$new(data_source_hp,
     list(degree = 5, intercept = FALSE)) })
   expect_silent({ factory_list = BlearnerFactoryList$new() })
   expect_silent(factory_list$registerFactory(linear_factory_hp))
-  expect_silent(factory_list$registerFactory(linear_factory_wt))
-  expect_silent(factory_list$registerFactory(quadratic_factory_hp))
+  expect_silent(factory_list$registerFactory(quadratic_factory_wt))
   expect_silent(factory_list$registerFactory(pow5_factory_hp))
 
   factory_names = c(
     "hp_polynomial_degree_1",
-    "wt_polynomial_degree_1x11",
-    "wt_polynomial_degree_1x12",
-    "hp_polynomial_degree_2",
-    "hp_polynomial_degree_5"
+    "wt_polynomial_degree_2x11",
+    "wt_polynomial_degree_2x12",
+    "hp_polynomial_degree_5x11",
+    "hp_polynomial_degree_5x12",
+    "hp_polynomial_degree_5x13",
+    "hp_polynomial_degree_5x14",
+    "hp_polynomial_degree_5x15"
   )
   model_frame = cbind(
-    X_hp, X_wt, X_hp^2, X_hp^5
+    X_hp, X_wt, X_wt^2, X_hp, X_hp^2, X_hp^3, X_hp^4, X_hp^5
   )
   model_frame   = model_frame[, order(factory_names)]
   factory_names = sort(factory_names)
 
   expect_equal(factory_list$getModelFrame()$colnames, factory_names)
   expect_equal(factory_list$getModelFrame()$model_frame, model_frame)
-  expect_equal(factory_list$getNumberOfRegisteredFactories(), 4)
+  expect_equal(factory_list$getNumberOfRegisteredFactories(), 3)
 
   expect_silent(factory_list$clearRegisteredFactories())
 

@@ -29,6 +29,7 @@
 #include "response.h"
 #include "splines.h"
 #include "binning.h"
+#include "init.h"
 
 namespace blearner {
 
@@ -49,7 +50,7 @@ public:
   virtual void         train             (const arma::mat&)                          = 0;
   virtual arma::mat    predict           ()                                    const = 0;
   virtual arma::mat    predict           (const std::shared_ptr<data::Data>&)  const = 0;
-  virtual arma::mat    instantiateData   (const arma::mat&)                    const = 0;
+  //virtual arma::mat    instantiateData   (const arma::mat&)                    const = 0;
   virtual std::string  getDataIdentifier ()                                    const = 0;
 
   // Getter/Setter
@@ -70,17 +71,21 @@ public:
 class BaselearnerPolynomial : public Baselearner
 {
 private:
-  const std::shared_ptr<data::Data>  _sh_ptr_data;
-  const unsigned int                 _degree;
-  const bool                         _intercept;
+  const std::shared_ptr<data::BinnedData>           _sh_ptr_bindata;
+  const std::shared_ptr<init::PolynomialAttributes> _attributes;
+
+  //const unsigned int                 _degree;
+  //const bool                         _intercept;
 
 public:
-  BaselearnerPolynomial (const std::string, const std::shared_ptr<data::Data>&, const unsigned int, const bool);
+  //BaselearnerPolynomial (const std::string, const std::shared_ptr<data::Data>&, const unsigned int, const bool);
+  BaselearnerPolynomial (const std::string, const std::shared_ptr<data::BinnedData>&);
+  BaselearnerPolynomial (const std::string, const std::shared_ptr<data::BinnedData>&, const std::shared_ptr<init::PolynomialAttributes>&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
-  arma::mat    instantiateData   (const arma::mat&)                    const;
+  //arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
   ~BaselearnerPolynomial ();
@@ -101,20 +106,60 @@ public:
 class BaselearnerPSpline : public Baselearner
 {
 private:
-  const std::shared_ptr<data::PSplineData> _sh_ptr_psdata;
+  const std::shared_ptr<data::BinnedData>        _sh_ptr_bindata;
+  //const std::shared_ptr<init::PSplineAttributes> _attributes;
 
 public:
-  BaselearnerPSpline (const std::string, const std::shared_ptr<data::PSplineData>&);
+  BaselearnerPSpline (const std::string, const std::shared_ptr<data::BinnedData>&);//, const std::shared_ptr<init::PSplineAttributes>&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
-  arma::mat    instantiateData   (const arma::mat&)                    const;
+  //arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
   ~BaselearnerPSpline ();
 };
 
+// BaselearnerTensor:
+// ------------------------------------
+
+class BaselearnerTensor : public Baselearner
+{
+private:
+  const std::shared_ptr<data::Data> _sh_ptr_data;
+  //const std::shared_ptr<init::PSplineAttributes> _attributes;
+
+public:
+  BaselearnerTensor (const std::string, const std::shared_ptr<data::Data>&);
+
+  void         train             (const arma::mat&);
+  arma::mat    predict           ()                                    const;
+  arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
+  std::string  getDataIdentifier ()                                    const;
+
+  ~BaselearnerTensor ();
+};
+
+// BaselearnerCentered:
+// ------------------------------------
+
+class BaselearnerCentered : public Baselearner
+{
+private:
+  const std::shared_ptr<data::Data> _sh_ptr_data;
+  //const std::shared_ptr<init::PSplineAttributes> _attributes;
+
+public:
+  BaselearnerCentered (const std::string, const std::shared_ptr<data::Data>&);
+
+  void         train             (const arma::mat&);
+  arma::mat    predict           ()                                    const;
+  arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
+  std::string  getDataIdentifier ()                                    const;
+
+  ~BaselearnerCentered ();
+};
 
 // BaselearnerCategoricalRidge:
 // ------------------------------------
@@ -122,15 +167,15 @@ public:
 class BaselearnerCategoricalRidge : public Baselearner
 {
 private:
-  const std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
+  const std::shared_ptr<data::Data> _sh_ptr_data;
 
 public:
-  BaselearnerCategoricalRidge (const std::string, const std::shared_ptr<data::CategoricalData>&);
+  BaselearnerCategoricalRidge (const std::string, const std::shared_ptr<data::Data>&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
-  arma::mat    instantiateData   (const arma::mat&)                    const;
+  //arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
   ~BaselearnerCategoricalRidge ();
@@ -144,15 +189,15 @@ public:
 class BaselearnerCategoricalBinary : public Baselearner
 {
 private:
-  const std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
+  const std::shared_ptr<data::Data> _sh_ptr_data;
 
 public:
-  BaselearnerCategoricalBinary (const std::string, const std::shared_ptr<data::CategoricalBinaryData>&);
+  BaselearnerCategoricalBinary (const std::string, const std::shared_ptr<data::Data>&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
-  arma::mat    instantiateData   (const arma::mat&)                    const;
+  //arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
   ~BaselearnerCategoricalBinary ();
@@ -165,8 +210,8 @@ public:
 class BaselearnerCustom : public Baselearner
 {
 private:
-  const std::shared_ptr<data::Data> _sh_ptr_data;
-
+  const std::shared_ptr<data::Data>       _sh_ptr_data;
+  //std::shared_ptr<init::CustomAttributes> _attributes;
   SEXP _model;
 
   const Rcpp::Function _instantiateDataFun;
@@ -178,10 +223,12 @@ public:
   BaselearnerCustom (const std::string, const std::shared_ptr<data::Data>&, Rcpp::Function,
     Rcpp::Function, Rcpp::Function, Rcpp::Function);
 
+  //BaselearnerCustom (const std::string, const std::shared_ptr<data::Data>&, const std::shared_ptr<init::CustomAttributes>&);
+
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
-  arma::mat    instantiateData   (const arma::mat&)                    const;
+  //arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
   ~BaselearnerCustom ();
@@ -198,19 +245,20 @@ typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& p
 class BaselearnerCustomCpp : public Baselearner
 {
 private:
-  const std::shared_ptr<data::Data> _sh_ptr_data;
+  const std::shared_ptr<data::Data>                _sh_ptr_data;
+  const std::shared_ptr<init::CustomCppAttributes> _attributes;
 
-  instantiateDataFunPtr _instantiateDataFun;
-  trainFunPtr           _trainFun;
-  predictFunPtr         _predictFun;
+  //instantiateDataFunPtr _instantiateDataFun;
+  //trainFunPtr           _trainFun;
+  //predictFunPtr         _predictFun;
 
 public:
-  BaselearnerCustomCpp (const std::string, const std::shared_ptr<data::Data>&, SEXP, SEXP, SEXP);
+  BaselearnerCustomCpp (const std::string, const std::shared_ptr<data::Data>&, const std::shared_ptr<init::CustomCppAttributes>&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                                    const;
   arma::mat    predict           (const std::shared_ptr<data::Data>&)  const;
-  arma::mat    instantiateData   (const arma::mat&)                    const;
+  //arma::mat    instantiateData   (const arma::mat&)                    const;
   std::string  getDataIdentifier ()                                    const;
 
   ~BaselearnerCustomCpp ();

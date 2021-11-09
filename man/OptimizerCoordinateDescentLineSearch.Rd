@@ -16,6 +16,17 @@ a line search to find the optimal step size in each iteration.
 
 \preformatted{
 OptimizerCoordinateDescentLineSearch$new()
+OptimizerCoordinateDescentLineSearch$new(ncores)
+}
+}
+
+\section{Arguments}{
+
+\describe{
+\item{\code{ncores} [\code{integer(1)}]}{
+  Number of cores used to fit the algorithm. Note that number of used cores
+  should be smaller or equal the number of base learner.
+}
 }
 }
 

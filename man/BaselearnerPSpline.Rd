@@ -15,7 +15,7 @@
 
 \preformatted{
 BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
-  differences, df))
+  differences, df, n_bins, bin_method))
 }
 }
 
@@ -44,6 +44,10 @@ BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
   If set to a value greater than zero, binning is applied and reduces the number of used
   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
   to set \code{bin_root = 2}.
+}
+\item{\code{bin_method} [\code{character(1)}]}{
+  Method used for spacing knot points. Options are linear (equally spaced grid) or
+  quantile (knot points based on quantiles).
 }
 }
 }

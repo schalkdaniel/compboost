@@ -17,15 +17,6 @@ test_that("Regression response works correctly", {
   expect_error(response$calculateEmpiricalRisk(loss_false))
 
   expect_error({ response = ResponseRegr$new(id, X, cbind(weights, weights)) })
-
-  idx = 3:8
-  expect_silent(response$filter(idx))
-  expect_equal(response$getResponse(), X[idx, , drop = FALSE])
-  expect_equal(response$getPrediction(), (X * 0)[idx, , drop = FALSE])
-  expect_equal(response$getPredictionTransform(), (X * 0)[idx, , drop = FALSE])
-  expect_equal(response$getPredictionResponse(), (X * 0)[idx, , drop = FALSE])
-
-  expect_error(response$filter(1:100))
 })
 
 test_that("Regression response with weights works correctly", {
@@ -59,7 +50,7 @@ test_that("Binary classification response works correctly", {
   expect_equal(response$getPrediction(), X_correct * 0)
   expect_equal(response$getPredictionTransform(), sigmoid)
   expect_equal(response$getPredictionResponse(), pred_response)
-  expect_equal(response$calculateEmpiricalRisk(loss), mean(log(1 + exp(-2 * X_correct * response$getPredictionTransform()))))
+  expect_equal(response$calculateEmpiricalRisk(loss), mean(log(1 + exp(-2 * X_correct * response$getPrediction()))))
   expect_equal(response$getPositiveClass(), "pos")
   expect_equal(unname(response$getClassTable()), as.numeric(table(response_vec)))
   expect_error({ response = ResponseRegr$new(id, X, cbind(weights, weights)) })
@@ -86,5 +77,5 @@ test_that("Binary classification response with weights works correctly", {
 
   expect_silent({ response = ResponseBinaryClassif$new(target, "pos", response_vec, weights) })
   expect_equal(response$getWeights(), weights)
-  expect_equal(response$calculateEmpiricalRisk(loss), mean(weights * log(1 + exp(-2 * X_correct * response$getPredictionTransform()))))
+  expect_equal(response$calculateEmpiricalRisk(loss), mean(weights * log(1 + exp(-2 * X_correct * response$getPrediction()))))
 })

@@ -61,10 +61,9 @@ boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(
 			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data_source,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "category", BaselearnerPolynomial, data_source,
-				degree = 1, intercept = FALSE)
+			model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source)
 		}
 	}
 	model$train(iterations, trace)
-	return (model)
+	return(model)
 }

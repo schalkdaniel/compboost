@@ -15,6 +15,17 @@ the base-learner with the smallest SSE.
 
 \preformatted{
 OptimizerCoordinateDescent$new()
+OptimizerCoordinateDescent$new(ncores)
+}
+}
+
+\section{Arguments}{
+
+\describe{
+\item{\code{ncores} [\code{integer(1)}]}{
+  Number of cores used to fit the algorithm. Note that number of used cores
+  should be smaller or equal the number of base learner.
+}
 }
 }
 

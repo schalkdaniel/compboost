@@ -1,0 +1,340 @@
+    nr      resample_result                                            task_id
+ 1:  1 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 2:  2 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 3:  3 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 4:  4 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 5:  5 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 6:  6 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 7:  7 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 8:  8 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+ 9:  9 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+10: 10 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+11: 11 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+12: 12 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+13: 13 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+14: 14 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+15: 15 <ResampleResult[21]>       Task 7592: adult (Supervised Classification)
+16: 16 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+17: 17 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+18: 18 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+19: 19 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+20: 20 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+21: 21 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+22: 22 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+23: 23 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+24: 24 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+25: 25 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+26: 26 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+27: 27 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+28: 28 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+29: 29 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+30: 30 <ResampleResult[21]> Task 168335: MiniBooNE (Supervised Classification)
+    nr      resample_result                                            task_id
+                                                                                                        learner_id resampling_id iters classif.auc time_train
+ 1: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9107159          0
+ 2: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9067710          0
+ 3: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9106679          0
+ 4: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9107226          0
+ 5: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9107018          0
+ 6: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9132784          0
+ 7: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.8982708          0
+ 8: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9132598          0
+ 9: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9133648          0
+10: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9132857          0
+11: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9132895          0
+12: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.8982698          0
+13: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9132522          0
+14: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9133705          0
+15: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9132692          0
+16: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9639384          0
+17: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.8292071          0
+18: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9639256          0
+19: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9467464          0
+20: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9639276          0
+21: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9724771          0
+22: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.8307975          0
+23: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9724750          0
+24: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9581354          0
+25: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9724547          0
+26: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9724771          0
+27: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.8307975          0
+28: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9724750          0
+29: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9581354          0
+30: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost            cv     3   0.9724547          0
+                                                                                                        learner_id resampling_id iters classif.auc time_train
+                                   uhash nr              task                                            task_id            learner
+ 1: cf559043-83e8-4599-b4ac-df081b4a9e2a  1 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 2: cf559043-83e8-4599-b4ac-df081b4a9e2a  1 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 3: cf559043-83e8-4599-b4ac-df081b4a9e2a  1 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 4: 6041a5eb-3bbd-439b-b2b4-432d9f7859c4  2 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 5: 6041a5eb-3bbd-439b-b2b4-432d9f7859c4  2 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 6: 6041a5eb-3bbd-439b-b2b4-432d9f7859c4  2 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 7: 6437af0b-650f-4ec6-ac03-c25121c66ee1  3 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 8: 6437af0b-650f-4ec6-ac03-c25121c66ee1  3 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+ 9: 6437af0b-650f-4ec6-ac03-c25121c66ee1  3 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+10: 4a8b3b5d-e66c-4a31-85f5-18ae07336ad1  4 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+11: 4a8b3b5d-e66c-4a31-85f5-18ae07336ad1  4 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+12: 4a8b3b5d-e66c-4a31-85f5-18ae07336ad1  4 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+13: 3e71ee5e-9650-44a5-8127-000f3e24095f  5 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+14: 3e71ee5e-9650-44a5-8127-000f3e24095f  5 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+15: 3e71ee5e-9650-44a5-8127-000f3e24095f  5 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+16: c919b37c-a123-46dc-a534-94a61fd0e382  6 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+17: c919b37c-a123-46dc-a534-94a61fd0e382  6 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+18: c919b37c-a123-46dc-a534-94a61fd0e382  6 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+19: a8bf3803-da88-48df-9acc-8c9628f3190f  7 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+20: a8bf3803-da88-48df-9acc-8c9628f3190f  7 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+21: a8bf3803-da88-48df-9acc-8c9628f3190f  7 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+22: 43f1d480-11fa-464e-aa97-cc27241603b7  8 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+23: 43f1d480-11fa-464e-aa97-cc27241603b7  8 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+24: 43f1d480-11fa-464e-aa97-cc27241603b7  8 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+25: f1386f2e-7556-4870-bffb-6bfc68f9e32c  9 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+26: f1386f2e-7556-4870-bffb-6bfc68f9e32c  9 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+27: f1386f2e-7556-4870-bffb-6bfc68f9e32c  9 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+28: 29606db3-2cf6-4f73-9859-6f1a1b4e0c51 10 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+29: 29606db3-2cf6-4f73-9859-6f1a1b4e0c51 10 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+30: 29606db3-2cf6-4f73-9859-6f1a1b4e0c51 10 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+31: 3ae47d98-bd6c-4a25-b9fb-a4a458457f66 11 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+32: 3ae47d98-bd6c-4a25-b9fb-a4a458457f66 11 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+33: 3ae47d98-bd6c-4a25-b9fb-a4a458457f66 11 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+34: 3172ebd6-2a4a-4695-9e6f-f640c06d36fc 12 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+35: 3172ebd6-2a4a-4695-9e6f-f640c06d36fc 12 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+36: 3172ebd6-2a4a-4695-9e6f-f640c06d36fc 12 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+37: 1656e9ec-9f26-4df1-a977-d057850c8c71 13 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+38: 1656e9ec-9f26-4df1-a977-d057850c8c71 13 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+39: 1656e9ec-9f26-4df1-a977-d057850c8c71 13 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+40: 10c7772d-eccb-4b90-8ba2-d8f16762a440 14 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+41: 10c7772d-eccb-4b90-8ba2-d8f16762a440 14 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+42: 10c7772d-eccb-4b90-8ba2-d8f16762a440 14 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+43: dcae5e3f-66be-44f5-8560-a7c129dae913 15 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+44: dcae5e3f-66be-44f5-8560-a7c129dae913 15 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+45: dcae5e3f-66be-44f5-8560-a7c129dae913 15 <TaskClassif[45]>       Task 7592: adult (Supervised Classification) <GraphLearner[33]>
+46: ff7e9c71-2cce-4ffc-b01b-86577eb8eba8 16 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+47: ff7e9c71-2cce-4ffc-b01b-86577eb8eba8 16 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+48: ff7e9c71-2cce-4ffc-b01b-86577eb8eba8 16 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+49: e026cbcc-6b0b-4812-bf60-78171d7cdd85 17 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+50: e026cbcc-6b0b-4812-bf60-78171d7cdd85 17 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+51: e026cbcc-6b0b-4812-bf60-78171d7cdd85 17 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+52: 8a14ad6c-fcba-4b89-b119-1368e383b8c6 18 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+53: 8a14ad6c-fcba-4b89-b119-1368e383b8c6 18 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+54: 8a14ad6c-fcba-4b89-b119-1368e383b8c6 18 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+55: 3f4d5376-6a57-4e45-93d8-34f2f67031fa 19 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+56: 3f4d5376-6a57-4e45-93d8-34f2f67031fa 19 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+57: 3f4d5376-6a57-4e45-93d8-34f2f67031fa 19 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+58: d8114b45-de7e-40e2-858b-4cbc3c4638d8 20 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+59: d8114b45-de7e-40e2-858b-4cbc3c4638d8 20 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+60: d8114b45-de7e-40e2-858b-4cbc3c4638d8 20 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+61: 32a9e8ab-da0f-4588-80f9-d8b6ba44908b 21 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+62: 32a9e8ab-da0f-4588-80f9-d8b6ba44908b 21 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+63: 32a9e8ab-da0f-4588-80f9-d8b6ba44908b 21 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+64: d9fdc662-988a-41c8-88ca-86d128a40beb 22 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+65: d9fdc662-988a-41c8-88ca-86d128a40beb 22 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+66: d9fdc662-988a-41c8-88ca-86d128a40beb 22 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+67: 1a1d4aa0-0c36-4dbf-9cb4-49f60385f69c 23 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+68: 1a1d4aa0-0c36-4dbf-9cb4-49f60385f69c 23 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+69: 1a1d4aa0-0c36-4dbf-9cb4-49f60385f69c 23 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+70: a8da71b8-eb64-4a33-9a6b-d73069a951f6 24 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+71: a8da71b8-eb64-4a33-9a6b-d73069a951f6 24 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+72: a8da71b8-eb64-4a33-9a6b-d73069a951f6 24 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+73: a780318f-2051-494e-8b6d-b71396068ceb 25 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+74: a780318f-2051-494e-8b6d-b71396068ceb 25 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+75: a780318f-2051-494e-8b6d-b71396068ceb 25 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+76: 82b9342a-a136-4288-a8a6-7c4395065ad6 26 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+77: 82b9342a-a136-4288-a8a6-7c4395065ad6 26 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+78: 82b9342a-a136-4288-a8a6-7c4395065ad6 26 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+79: 974bbfe8-b43e-436d-a911-06f751b4d908 27 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+80: 974bbfe8-b43e-436d-a911-06f751b4d908 27 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+81: 974bbfe8-b43e-436d-a911-06f751b4d908 27 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+82: 50b267a6-fd15-4ad8-9163-a4da7c280f5e 28 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+83: 50b267a6-fd15-4ad8-9163-a4da7c280f5e 28 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+84: 50b267a6-fd15-4ad8-9163-a4da7c280f5e 28 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+85: 92e89b81-085c-4aa4-86c0-6445e78219e0 29 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+86: 92e89b81-085c-4aa4-86c0-6445e78219e0 29 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+87: 92e89b81-085c-4aa4-86c0-6445e78219e0 29 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+88: 47554fb1-1459-41e2-8926-5bebfd29bbd0 30 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+89: 47554fb1-1459-41e2-8926-5bebfd29bbd0 30 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+90: 47554fb1-1459-41e2-8926-5bebfd29bbd0 30 <TaskClassif[45]> Task 168335: MiniBooNE (Supervised Classification) <GraphLearner[33]>
+                                   uhash nr              task                                            task_id            learner
+                                                                                                        learner_id         resampling resampling_id iteration              prediction
+ 1: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+ 2: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+ 3: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+ 4: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+ 5: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+ 6: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+ 7: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+ 8: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+ 9: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+10: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+11: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+12: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+13: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+14: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+15: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+16: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+17: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+18: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+19: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+20: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+21: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+22: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+23: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+24: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+25: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+26: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+27: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+28: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+29: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+30: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+31: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+32: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+33: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+34: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+35: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+36: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+37: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+38: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+39: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+40: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+41: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+42: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+43: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+44: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+45: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+46: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+47: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+48: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+49: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+50: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+51: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+52: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+53: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+54: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+55: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+56: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+57: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+58: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+59: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+60: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+61: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+62: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+63: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+64: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+65: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+66: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+67: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+68: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+69: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+70: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+71: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+72: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+73: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+74: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+75: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+76: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+77: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+78: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+79: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+80: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+81: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+82: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+83: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+84: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+85: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+86: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+87: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+88: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         1 <PredictionClassif[19]>
+89: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         2 <PredictionClassif[19]>
+90: removeconstants_before.imputemedian_num.imputemode_fct.collapsefactors.removeconstants_after.classif.compboost <ResamplingCV[19]>            cv         3 <PredictionClassif[19]>
+                                                                                                        learner_id         resampling resampling_id iteration              prediction
+    classif.auc time_train
+ 1:   0.9118679     18.097
+ 2:   0.9086277     18.288
+ 3:   0.9116520     18.949
+ 4:   0.9074532     17.072
+ 5:   0.9044446     16.949
+ 6:   0.9084151     14.787
+ 7:   0.9117481     96.196
+ 8:   0.9086052     98.244
+ 9:   0.9116503    100.160
+10:   0.9118823     15.358
+11:   0.9086424     15.709
+12:   0.9116431     16.105
+13:   0.9118679     83.738
+14:   0.9085862     83.732
+15:   0.9116511     87.403
+16:   0.9144138     27.368
+17:   0.9114295     27.405
+18:   0.9139919     28.003
+19:   0.8993269     20.707
+20:   0.8964899     23.742
+21:   0.8989957     22.793
+22:   0.9143740    107.896
+23:   0.9114121    110.454
+24:   0.9139933    108.156
+25:   0.9145946     22.661
+26:   0.9114794     21.121
+27:   0.9140205     20.980
+28:   0.9144084     93.068
+29:   0.9114529     93.482
+30:   0.9139958     94.541
+31:   0.9144138     27.750
+32:   0.9114627     28.331
+33:   0.9139919     29.096
+34:   0.8993269     22.429
+35:   0.8964869     21.571
+36:   0.8989957     21.691
+37:   0.9143740    107.295
+38:   0.9113892    108.251
+39:   0.9139933    107.432
+40:   0.9145946     21.349
+41:   0.9114966     20.893
+42:   0.9140205     22.045
+43:   0.9144084     95.571
+44:   0.9114032     93.263
+45:   0.9139958     93.681
+46:   0.9639279     63.591
+47:   0.9638920     64.953
+48:   0.9639954     67.860
+49:   0.9643426     28.323
+50:   0.5592070     27.766
+51:   0.9640716     28.026
+52:   0.9639152   2007.489
+53:   0.9638875   2018.702
+54:   0.9639743   2007.237
+55:   0.9472913     24.699
+56:   0.9468888     25.450
+57:   0.9460592     25.036
+58:   0.9639149   4028.721
+59:   0.9638806   4012.069
+60:   0.9639873   4050.940
+61:   0.9727387    121.516
+62:   0.9722081    129.800
+63:   0.9724846    124.845
+64:   0.9724691     39.336
+65:   0.5479075     37.566
+66:   0.9720159     37.243
+67:   0.9727570   2072.152
+68:   0.9721896   2076.436
+69:   0.9724785   2078.401
+70:   0.9582220     35.970
+71:   0.9582912     35.527
+72:   0.9578930     34.446
+73:   0.9727074   4087.390
+74:   0.9721880   4087.880
+75:   0.9724688   4089.703
+76:   0.9727387    122.610
+77:   0.9722081    126.766
+78:   0.9724846    127.944
+79:   0.9724691     39.986
+80:   0.5479075     36.279
+81:   0.9720159     37.961
+82:   0.9727570   2065.972
+83:   0.9721896   2070.206
+84:   0.9724785   2076.481
+85:   0.9582220     36.566
+86:   0.9582912     35.773
+87:   0.9578930     35.499
+88:   0.9727074   4071.667
+89:   0.9721880   4083.073
+90:   0.9724688   4088.980
+    classif.auc time_train

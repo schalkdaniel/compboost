@@ -24,9 +24,13 @@ cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(
 
 cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 
-cbboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
+cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 
-cbboost$train(iteration = 100, trace = -1)
+cboost$addTensor(features, id, data_source = InMemoryData, ...)
+
+cboost$addComponents(feature, id, data_source = InMemoryData, ...)
+
+cboost$train(iteration = 100, trace = -1)
 
 cboost$getCurrentIteration()
 
@@ -83,6 +87,10 @@ cboost$plotBlearnerTraces(value = 1, n_legend = 5L)
   }
   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
     Fraction of how much data are used to calculate the out of bag risk.
+  }
+  \item{\code{stop_args}}{[\code{list(2)}]\cr
+    List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+    from setting `oob_fraction`.
   }
 }
 

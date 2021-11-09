@@ -51,8 +51,17 @@
 #include "splines.h"
 #include "binning.h"
 #include "demmler_reinsch.h"
+#include "helper.h"
+#include "init.h"
 
 namespace blearnerfactory {
+
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::shared_ptr<data::BinnedData> sbindata;
+typedef std::map<std::string, sdata> mdata;
+
+// Helper:
+sdata extractDataFromMap (const std::shared_ptr<data::Data>&, const mdata&);
 
 // -------------------------------------------------------------------------- //
 // Abstract 'BaselearnerFactory' class:
@@ -61,18 +70,21 @@ namespace blearnerfactory {
 class BaselearnerFactory
 {
 protected:
-  const std::string                  _blearner_type;
-  const std::shared_ptr<data::Data>  _sh_ptr_data_source;
+  const std::string  _blearner_type;
+  const sdata        _sh_ptr_data_source;
 
 public:
   BaselearnerFactory (const std::string);
-  BaselearnerFactory (const std::string, const std::shared_ptr<data::Data>);
+  BaselearnerFactory (const std::string, const sdata&);
 
   // Virtual methods
-  virtual arma::mat  instantiateData          (const arma::mat&) const = 0;
+  virtual bool       usesSparse               ()                 const = 0;
+  virtual sdata      instantiateData          (const mdata&)     const = 0;
+  virtual sdata      getInstantiatedData      ()                 const = 0;
   virtual arma::mat  getData                  ()                 const = 0;
   virtual arma::mat  calculateLinearPredictor (const arma::mat&) const = 0;
-  virtual arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const = 0;
+  virtual arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const = 0;
+  //virtual arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const = 0;
 
   virtual std::string getDataIdentifier   () const;
   virtual std::shared_ptr<blearner::Baselearner>  createBaselearner () = 0;
@@ -94,18 +106,23 @@ public:
 class BaselearnerPolynomialFactory : public BaselearnerFactory
 {
 private:
-  const unsigned int           _degree;
-  const bool                   _intercept;
-  std::shared_ptr<data::Data>  _sh_ptr_data_target;
+  sbindata _sh_ptr_bindata;
+  const std::shared_ptr<init::PolynomialAttributes> _attributes = std::make_shared<init::PolynomialAttributes>();
+
+  //const unsigned int           _degree;
+  //const bool                   _intercept;
 
 public:
   BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
-    const unsigned int, const bool);
+    const unsigned int, const bool, const unsigned int);
 
-  arma::mat  instantiateData          (const arma::mat&) const;
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
   arma::mat  getData                  ()                 const;
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
-  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  //arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
@@ -117,19 +134,86 @@ public:
 class BaselearnerPSplineFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::PSplineData> _sh_ptr_psdata;
+  sbindata _sh_ptr_bindata;
+  std::shared_ptr<init::PSplineAttributes> _attributes = std::make_shared<init::PSplineAttributes>();
 
 public:
-  BaselearnerPSplineFactory (const std::string, std::shared_ptr<data::Data>, const unsigned int,
-    const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int, const std::string);
+  BaselearnerPSplineFactory (const std::string, const std::shared_ptr<data::Data>&, const unsigned int,
+    const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int,
+    const std::string);
 
-  arma::mat  instantiateData          (const arma::mat&) const;
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
   arma::mat  getData                  ()                 const;
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
-  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  //arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
+
+
+// BaselearnerTensorFactory:
+// ------------------------------------------------
+
+
+class BaselearnerTensorFactory : public BaselearnerFactory
+{
+private:
+  // the data is stored in a psdata object:
+  std::shared_ptr<data::Data> _sh_ptr_data;
+
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner1;
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner2;
+
+public:
+  BaselearnerTensorFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
+    std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
+  arma::mat  getData                  ()                 const;
+  arma::mat  calculateLinearPredictor (const arma::mat&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+
+  std::shared_ptr<blearner::Baselearner> createBaselearner ();
+
+  //std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory> > getFactories () const;
+};
+
+
+// BaselearnerTensorFactory:
+// ------------------------------------------------
+
+
+class BaselearnerCenteredFactory : public BaselearnerFactory
+{
+private:
+  std::shared_ptr<init::CenteredAttributes> _attributes = std::make_shared<init::CenteredAttributes>();
+  std::shared_ptr<data::BinnedData> _sh_ptr_bindata;
+
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner1;
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner2;
+
+public:
+  BaselearnerCenteredFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
+    std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
+  arma::mat  getData                  ()                 const;
+  arma::mat  calculateLinearPredictor (const arma::mat&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  arma::mat  getRotation              ()                 const;
+
+  std::shared_ptr<blearner::Baselearner> createBaselearner ();
+
+  //std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory> > getFactories () const;
+};
+
 
 
 // BaselearnerCategoricalRidgeFactory:
@@ -138,20 +222,25 @@ public:
 class BaselearnerCategoricalRidgeFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<data::CategoricalData> _sh_ptr_cdata;
+  sdata _sh_ptr_data;
+  std::shared_ptr<init::RidgeAttributes> _attributes = std::make_shared<init::RidgeAttributes>();
 
 public:
-  BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalData>&);
-  BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalData>&, const double);
+  //BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalData>&);
+  BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalDataRaw>&, const double);
 
-  arma::mat  instantiateData          (const arma::mat&) const;
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
   arma::mat  getData                  ()                 const;
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
-  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  //arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
 
+  std::map<std::string, unsigned int> getDictionary () const;
 };
 
 
@@ -161,17 +250,22 @@ public:
 class BaselearnerCategoricalBinaryFactory : public BaselearnerFactory
 {
 private:
-  const std::string _class;
-  const std::shared_ptr<data::CategoricalData>       _sh_ptr_cdata;
-  const std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
+  sdata _sh_ptr_data;
+  std::shared_ptr<init::BinaryAttributes> _attributes = std::make_shared<init::BinaryAttributes>();
+
+  //const std::shared_ptr<data::CategoricalData>       _sh_ptr_cdata;
+  //const std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
 
 public:
-  BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalData>&);
+  BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalDataRaw>&);
 
-  arma::mat  instantiateData          (const arma::mat&) const;
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
   arma::mat  getData                  ()                 const;
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
-  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  //arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
@@ -184,7 +278,8 @@ public:
 class BaselearnerCustomFactory : public BaselearnerFactory
 {
 private:
-  const std::shared_ptr<data::Data> _sh_ptr_data_target;
+  std::shared_ptr<data::Data> _sh_ptr_data;
+  //std::shared_ptr<init::CustomAttributes> _attributes;
 
   const Rcpp::Function _instantiateDataFun;
   const Rcpp::Function _trainFun;
@@ -196,10 +291,13 @@ public:
   BaselearnerCustomFactory (const std::string, const std::shared_ptr<data::Data>,
     const Rcpp::Function, const Rcpp::Function, const Rcpp::Function, const Rcpp::Function);
 
-  arma::mat  instantiateData          (const arma::mat&) const;
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
   arma::mat  getData                  ()                 const;
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
-  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  //arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };
@@ -208,24 +306,29 @@ public:
 // -----------------------------
 
 typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
+typedef arma::mat (*trainFunPtr) (const arma::mat& y, const arma::mat& X);
+typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& parameter);
 
 class BaselearnerCustomCppFactory : public BaselearnerFactory
 {
 private:
-  const std::shared_ptr<data::Data> _sh_ptr_data_target;
+  std::shared_ptr<data::Data> _sh_ptr_data;
+  std::shared_ptr<init::CustomCppAttributes> _attributes = std::make_shared<init::CustomCppAttributes>();
 
-  const SEXP _instantiateDataFun;
-  const SEXP _trainFun;
-  const SEXP _predictFun;
+  //const SEXP _instantiateDataFun;
+  //const SEXP _trainFun;
+  //const SEXP _predictFun;
 
 public:
-  BaselearnerCustomCppFactory (const std::string, const std::shared_ptr<data::Data>,
-    const SEXP, const SEXP, const SEXP);
+  BaselearnerCustomCppFactory (const std::string, const std::shared_ptr<data::Data>, SEXP, SEXP, SEXP);
 
-  arma::mat  instantiateData          (const arma::mat&) const;
+  bool       usesSparse               ()                 const;
+  sdata      instantiateData          (const mdata&)     const;
+  sdata      getInstantiatedData      ()                 const;
   arma::mat  getData                  ()                 const;
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
-  arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
+  arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
+  //arma::mat  calculateLinearPredictor (const arma::mat&, const std::shared_ptr<data::Data>&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
 };

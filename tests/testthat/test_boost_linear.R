@@ -2,10 +2,10 @@ context("Wrapper boostLinear works")
 
 test_that("boostLinear function works", {
 	expect_output({
-	  mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()) 
+	  mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
   })
 
-	expect_length(mod$getBaselearnerNames(), 6)
+	expect_length(mod$getBaselearnerNames(), ncol(iris) - 1)
   expect_length(mod$getSelectedBaselearner(), 100)
   expect_length(mod$getInbagRisk(), 101)
   expect_length(mod$predict(), nrow(iris))
