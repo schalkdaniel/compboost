@@ -79,6 +79,7 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
   oob_fraction = NULL, bin_root = 0, bin_method = "linear", cache_type = "inverse",
   stop_args = list(), df_cat = 1, stop_time = "microseconds", additional_risk_logs = list())
 {
+  #browser()
   model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
     learning_rate = learning_rate, oob_fraction = oob_fraction, stop_args)
   features = setdiff(colnames(data), model$response$getTargetName())

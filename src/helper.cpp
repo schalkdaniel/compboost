@@ -20,6 +20,7 @@
 
 #include "helper.h"
 
+//bool _DEBUG_PRINT = false;
 bool _DEBUG_PRINT = false;
 
 namespace helper
@@ -285,6 +286,9 @@ arma::mat cboostSolver (const std::pair<std::string, arma::mat>& mat_cache, cons
 
   /* if (mat_cache.first == "inverse")  {*/ return mat_cache.second * y; //}
 }
+
+
+
 
 // template<typename SH_PTR>
 // inline unsigned int countSharedPointer (const SH_PTR& sh_ptr)

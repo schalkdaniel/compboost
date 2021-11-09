@@ -153,7 +153,7 @@ arma::mat binnedMatMult (const arma::mat& X, const arma::uvec& k, const arma::ve
  *
  * \param w `arma::vec` Vector of weights that are accumulated.
  *
- * \return `arma::mat` Matrix Product $X^TWX$.
+ * \return `arma::mat` Matrix Product $X^TWy$.
  */
 
 arma::mat binnedMatMultResponse (const arma::mat& X, const arma::vec& y,  const arma::uvec& k, const arma::vec& w)
@@ -176,6 +176,22 @@ arma::mat binnedMatMultResponse (const arma::mat& X, const arma::vec& y,  const 
   }
   return wcum * X;
 }
+
+arma::mat binnedPrediction (const arma::mat& X, const arma::mat& param, const arma::uvec& k)
+{
+  unsigned int n = k.size();
+  unsigned int ind;
+
+  arma::colvec out(n, arma::fill::zeros);
+  arma::mat temp = X * param;
+
+  for (unsigned int i = 0; i < n; i++) {
+     ind = k(i);
+     out(i) = temp(ind);
+  }
+  return out;
+}
+
 
 
 /**

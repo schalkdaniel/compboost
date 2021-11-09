@@ -142,7 +142,6 @@ double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_p
     //return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, getPredictionTransform(), _weights);
     return sh_ptr_loss->calculateWeightedEmpiricalRisk(_response, _prediction_scores, _weights);
   } else {
-    //return sh_ptr_loss->calculateEmpiricalRisk(_response, getPredictionTransform());
     return sh_ptr_loss->calculateEmpiricalRisk(_response, _prediction_scores);
   }
 }
@@ -182,6 +181,17 @@ arma::mat ResponseRegr::calculateInitialPrediction (const arma::mat& response) c
   }
   return init;
 }
+//{
+  //arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  //if (! _is_initialized) {
+     //Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  //}
+   ////Use just first element to correctly use .fill:
+  //init.fill(_initialization[0]);
+  //return init;
+//}
+
 
 void ResponseRegr::initializePrediction ()
 {
@@ -254,6 +264,16 @@ arma::mat ResponseBinaryClassif::calculateInitialPrediction (const arma::mat& re
   }
   return init;
 }
+//{
+  //arma::mat init(response.n_rows, response.n_cols, arma::fill::zeros);
+
+  //if (! _is_initialized) {
+     //Rcpp::stop("Response is not initialized, call 'constantInitialization()' first.");
+  //}
+   ////Use just first element to correctly use .fill:
+  //init.fill(_initialization[0]);
+  //return init;
+//}
 
 void ResponseBinaryClassif::initializePrediction ()
 {

@@ -39,9 +39,7 @@ For an introduction and overview about the functionality visit the
 
 #### CRAN version:
 
-``` r
-install.packages("compboost")
-```
+Currently no CRAN version. The package will be soon updated and uploaded to CRAN again.
 
 #### Developer version:
 

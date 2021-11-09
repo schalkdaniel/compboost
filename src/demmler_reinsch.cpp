@@ -56,8 +56,21 @@ double demmlerReinsch (const arma::mat& XtX, const arma::mat& penalty_mat, const
   // if (df == XtX_rank) {
   //   Rcpp::warning(\"Degrees of freedom matches rank of matrix, hence lambda is set to 0.\");
   // }
-  arma::mat cholesky = arma::chol(XtX + penalty_mat * eps);
-  arma::mat cholesky_inv = arma::inv(cholesky);
+  arma::mat cholesky;
+  try {
+    cholesky = arma::chol(XtX + penalty_mat * eps);
+  } catch (const std::exception& e) {
+    std::string msg = "From demmlerReinsch: Trying cholesky decomposition of XtX." + std::string(e.what());
+    throw std::runtime_error(msg);
+  }
+
+  arma::mat cholesky_inv;
+  try {
+    cholesky_inv = arma::inv(cholesky);
+  } catch (const std::exception& e) {
+    std::string msg = "From demmlerReinsch: Trying to invert XtX." + std::string(e.what());
+    throw std::runtime_error(msg);
+  }
 
   arma::mat Ld  = cholesky_inv.t() * penalty_mat * cholesky_inv;
 
