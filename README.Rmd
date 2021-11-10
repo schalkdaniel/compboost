@@ -112,9 +112,9 @@ str(params)
 
 cboost$train(3000)
 
-cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
-  ggthemes::theme_tufte() +
-  ggplot2::scale_color_brewer(palette = "Spectral")
+#cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
+#  ggthemes::theme_tufte() +
+#  ggplot2::scale_color_brewer(palette = "Spectral")
 ```
 <p align="center">
   <img src="Readme_files/cboost-1.png" width="70%" />

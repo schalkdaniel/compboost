@@ -33,7 +33,7 @@ LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 }
 
 \examples{
-\donttest{
+\dontrun{
 # Load loss functions:
 Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 

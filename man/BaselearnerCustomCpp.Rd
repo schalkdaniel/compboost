@@ -59,7 +59,7 @@ BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
 }
 
 \examples{
-\donttest{
+\dontrun{
 # Sample data:
 data_mat = cbind(1, 1:10)
 y = 2 + 3 * 1:10
@@ -80,6 +80,5 @@ custom_cpp_factory$getData()
 
 # Summarize factory:
 custom_cpp_factory$summarizeFactory()
-
 }
 }

@@ -515,7 +515,7 @@ NULL
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Sample data:
 #' data_mat = cbind(1, 1:10)
 #' y = 2 + 3 * 1:10
@@ -536,7 +536,6 @@ NULL
 #'
 #' # Summarize factory:
 #' custom_cpp_factory$summarizeFactory()
-#'
 #' }
 #' @export BaselearnerCustomCpp
 NULL
@@ -936,7 +935,7 @@ NULL
 #' }
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Load loss functions:
 #' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 #'
