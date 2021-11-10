@@ -23,20 +23,6 @@ test_that("Tensors with S4 API exported by the modules (registration, training, 
   x3 = runif(1000L)
   x4 = runif(1000L)
 
-  knots1 = compboostSplines::createKnots(x1, 10, 3)
-  X1test = compboostSplines::createSplineBasis(x1, 3, knots1)
-  knots2 = compboostSplines::createKnots(x2, 20, 3)
-  X2test = compboostSplines::createSplineBasis(x2, 3, knots2)
-  knots3 = compboostSplines::createKnots(x3, 20, 3)
-  X3test = compboostSplines::createSplineBasis(x3, 3, knots3)
-  knots4 = compboostSplines::createKnots(x4, 20, 3)
-  X4test = compboostSplines::createSplineBasis(x4, 3, knots4)
-
-  tensors = list(
-    x1_x2_tensor = rowWiseKronecker(X1test, X2test),
-    x3_x4_tensor = rowWiseKronecker(X3test, X4test)
-  )
-
   f1  = function(x1, x2) (1 - x1) * x2^2 + x1 * sin(pi * x2)
   f2 = function(x1, x2) x1^2 + x2^2
   y  = f1(x1, x2) + f2(x3, x4) + rnorm(1000L, 0, 0.1)
@@ -55,6 +41,17 @@ test_that("Tensors with S4 API exported by the modules (registration, training, 
   fac3 = BaselearnerPSpline$new(ds3, "spline", list(df = 4))
   fac4 = BaselearnerPSpline$new(ds4, "spline", list(df = 4))
   fac5 = BaselearnerCategoricalRidge$new(ds5, "category")
+
+  # Get spline designs from factories:
+  X1test = t(fac1$getData())
+  X2test = t(fac2$getData())
+  X3test = t(fac3$getData())
+  X4test = t(fac4$getData())
+
+  tensors = list(
+    x1_x2_tensor = rowWiseKronecker(X1test, X2test),
+    x3_x4_tensor = rowWiseKronecker(X3test, X4test)
+  )
 
   fl = BlearnerFactoryList$new()
 

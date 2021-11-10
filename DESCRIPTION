@@ -43,8 +43,6 @@ Suggests:
   gridExtra,
   ggrepel,
   covr,
-Remotes:
-  schalkdaniel/compboostSplines
 RcppModules:
   baselearner_module,
   compboost_module,

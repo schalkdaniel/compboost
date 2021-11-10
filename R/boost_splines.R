@@ -72,8 +72,6 @@
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
 #' mod$predict()
-#' mod$plot("Sepal.Width_spline")
-#' mod$plotInbagVsOobRisk()
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,

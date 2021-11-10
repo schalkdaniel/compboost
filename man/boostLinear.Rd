@@ -77,6 +77,4 @@ mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())
 mod$predict()
-mod$plot("Sepal.Width_linear")
-mod$plotInbagVsOobRisk()
 }
