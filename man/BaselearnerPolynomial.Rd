@@ -51,8 +51,6 @@ BaselearnerPolynomial$new(data_source, blearner_type, list(degree, intercept))
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modeling.}
-\item{\code{transformData(X)}}{Transform a data matrix as defined within the
-  factory. The argument has to be a matrix with one column.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
@@ -76,9 +74,5 @@ lin_factory_int$getData()
 
 # Summarize factory:
 lin_factory$summarizeFactory()
-
-# Transform data manually:
-lin_factory$transformData(data_mat)
-lin_factory_int$transformData(data_mat)
 
 }

@@ -54,8 +54,6 @@ BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modeling.}
-\item{\code{transformData(X)}}{Transform a data matrix as defined within the
-  factory. The argument has to be a matrix with one column.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
@@ -83,7 +81,5 @@ custom_cpp_factory$getData()
 # Summarize factory:
 custom_cpp_factory$summarizeFactory()
 
-# Transform data manually:
-custom_cpp_factory$transformData(data_mat)
 }
 }

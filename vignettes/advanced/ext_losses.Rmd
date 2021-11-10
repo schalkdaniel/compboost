@@ -10,7 +10,8 @@ vignette: >
 ```{r, echo=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = FALSE
   # fig.path = "Readme_files/"
 )
 
@@ -107,15 +108,15 @@ cboost$train(100, trace = 0)
 
 For this example we are using the `iris` dataset with `Sepal.Length` as target to keep it simple. We now want to replicate the quadratic loss. This is done by exposing external pointer to `R` that holds the function definition which then passed to the `LossCustomCpp` class.
 
-A general advise is to write a `.cpp` file that contains the whole definition. This file then just needs to be sourced by `Rcpp::sourceCpp()`. 
+A general advise is to write a `.cpp` file that contains the whole definition. This file then just needs to be sourced by `Rcpp::sourceCpp()`.
 
 To be able to expose that functions we have to declare the head first:
 
 ```cpp
-// [[Rcpp::depends(RcppArmadillo)]]                                                               
-#include <RcppArmadillo.h>                                                                        
-                                                                                                    
-typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);       
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+
+typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
 typedef arma::mat (*gradFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
 typedef double (*constInitFunPtr) (const arma::mat& true_value);
 ```
@@ -131,7 +132,7 @@ As the type definition already indicates, the `C++` function must have the follo
 $$L(y,f) = -0.5 \left(y - f\right)^2$$
 
 ```cpp
-arma::mat lossFun (const arma::mat& true_value, const arma::mat& prediction)                      
+arma::mat lossFun (const arma::mat& true_value, const arma::mat& prediction)
 {
 return arma::pow(true_value - prediction, 2) / 2;
 }
@@ -139,7 +140,7 @@ return arma::pow(true_value - prediction, 2) / 2;
 
 ### The gradient of the loss function
 
-$$\frac{\partial}{\partial f} L(y,f) = f - y$$ 
+$$\frac{\partial}{\partial f} L(y,f) = f - y$$
 
 ```cpp
 arma::mat gradFun (const arma::mat& true_value, const arma::mat& prediction)
@@ -207,6 +208,6 @@ my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSe
 
 Finally, we use the custom loss to train our model:
 ```{r}
-cboost = boostSplines(data = iris, target = "Sepal.Length", 
+cboost = boostSplines(data = iris, target = "Sepal.Length",
   loss = my_cpp_loss, trace = 25)
 ```

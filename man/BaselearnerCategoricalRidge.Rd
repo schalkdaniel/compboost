@@ -38,14 +38,13 @@ BaselearnerCategoricalRidge$new(data_source, list(df))
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modeling.}
-\item{\code{transformData(X)}}{This class does is not allowed to transform data. This is due to the internal structure.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
 
 \examples{
 x = sample(c("one","two"), 20, TRUE)
-ds = CategoricalData$new(x, "cat")
+ds = CategoricalDataRaw$new(x, "cat")
 bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
 
 bl$getData()

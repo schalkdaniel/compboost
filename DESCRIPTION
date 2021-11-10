@@ -30,19 +30,21 @@ LinkingTo:
   RcppArmadillo,
   BH
 Suggests:
-    RcppArmadillo (>= 0.9.100.5.0),
-    ggplot2,
-    pkgdown,
-    testthat,
-    rpart,
-    mboost,
-    knitr,
-    rmarkdown,
-    titanic,
-    mlr,
-    gridExtra,
-    ggrepel,
-    covr
+  RcppArmadillo (>= 0.9.100.5.0),
+  ggplot2,
+  pkgdown,
+  testthat,
+  rpart,
+  mboost,
+  knitr,
+  rmarkdown,
+  titanic,
+  mlr,
+  gridExtra,
+  ggrepel,
+  covr,
+Remotes:
+  schalkdaniel/compboostSplines
 RcppModules:
   baselearner_module,
   compboost_module,
