@@ -4,8 +4,7 @@
 # compboost: Fast and Flexible Component-Wise Boosting Framework <a href='https://danielschalk.com/compboost/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 [![R-CMD-check](https://github.com/schalkdaniel/compboost/workflows/R-CMD-check/badge.svg)](https://github.com/schalkdaniel/compboost/actions)
-[![Coverage
-Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master)
+[![codecov](https://codecov.io/gh/schalkdaniel/compboost/branch/main/graph/badge.svg?token=t3Xxoxz1T2)](https://codecov.io/gh/schalkdaniel/compboost)
 [![License: LGPL
 v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost)
@@ -109,9 +108,7 @@ cboost$addBaselearner(feature = "pregnant_cat", id = "category", bl_factory = Ba
 
 # Check all registered base-learner:
 cboost$getBaselearnerNames()
-#> [1] "pressure_spline"           "age_spline"               
-#> [3] "pregnant_cat_category"     "pregnant_cat_yes_category"
-#> [5] "pregnant_cat_no_category"
+#> [1] "pressure_spline"           "age_spline"                "pregnant_cat_category"     "pregnant_cat_yes_category" "pregnant_cat_no_category"
 
 # Train model:
 cboost$train(1000L, trace = 200L)
@@ -134,9 +131,7 @@ cboost
 #> 
 
 cboost$getBaselearnerNames()
-#> [1] "pressure_spline"           "age_spline"               
-#> [3] "pregnant_cat_category"     "pregnant_cat_yes_category"
-#> [5] "pregnant_cat_no_category"
+#> [1] "pressure_spline"           "age_spline"                "pregnant_cat_category"     "pregnant_cat_yes_category" "pregnant_cat_no_category"
 
 selected_features = cboost$getSelectedBaselearner()
 table(selected_features)
@@ -230,18 +225,8 @@ To cite `compboost` in publications, please use:
 ### On your local machine
 
 In order to test the pacakge functionality you can use devtools to test
-the pacakge on your local machine:
+the package on your local machine:
 
 ``` r
 devtools::test()
 ```
-
-### Using docker
-
-You can test the package locally using docker and the [`compboost-test`
-repository](https://hub.docker.com/r/schalkdaniel/compboost-test/):
-
-  - Latest `R` release: `docker run schalkdaniel/compboost-test`
-
-  - Latest `R` devel build: `docker run
-    schalkdaniel/compboost-test:devel`
