@@ -151,8 +151,6 @@ NULL
 #' \describe{
 #' \item{\code{getData()}}{Get the data matrix of the target data which is used
 #'   for modeling.}
-#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-#'   factory. The argument has to be a matrix with one column.}
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
@@ -174,10 +172,6 @@ NULL
 #'
 #' # Summarize factory:
 #' lin_factory$summarizeFactory()
-#'
-#' # Transform data manually:
-#' lin_factory$transformData(data_mat)
-#' lin_factory_int$transformData(data_mat)
 #'
 #' @export BaselearnerPolynomial
 NULL
@@ -240,8 +234,6 @@ NULL
 #' \describe{
 #' \item{\code{getData()}}{Get the data matrix of the target data which is used
 #'   for modeling.}
-#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-#'   factory. The argument has to be a matrix with one column.}
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
@@ -261,9 +253,6 @@ NULL
 #'
 #' # Summarize factory:
 #' spline_factory$summarizeFactory()
-#'
-#' # Transform data manually:
-#' spline_factory$transformData(data_mat)
 #'
 #' @export BaselearnerPSpline
 NULL
@@ -320,12 +309,11 @@ NULL
 #' \describe{
 #' \item{\code{getData()}}{Get the data matrix of the target data which is used
 #'   for modeling.}
-#' \item{\code{transformData(X)}}{This class does is not allowed to transform data. This is due to the internal structure.}
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
 #' x = sample(c("one","two"), 20, TRUE)
-#' ds = CategoricalData$new(x, "cat")
+#' ds = CategoricalDataRaw$new(x, "cat")
 #' bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
 #'
 #' bl$getData()
@@ -363,15 +351,11 @@ NULL
 #' \describe{
 #' \item{\code{getData()}}{Get the data matrix of the target data which is used
 #'   for modeling.}
-#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-#'   factory. The argument has to be a matrix with one column. In case of the categorical
-#'   binary base-learner this is the index of non-zero elements concatinated with the
-#'   number of observations. This helps to fully reconstruct the original feature by using less memory. This also speed up computation time.}
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
 #' x = sample(c("one","two"), 20, TRUE)
-#' ds = CategoricalData$new(x, "cat")
+#' ds = CategoricalDataRaw$new(x, "cat")
 #' bl = BaselearnerCategoricalRidge$new(ds, "one")
 #'
 #' bl$getData()
@@ -447,8 +431,6 @@ NULL
 #' \describe{
 #' \item{\code{getData()}}{Get the data matrix of the target data which is used
 #'   for modeling.}
-#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-#'   factory. The argument has to be a matrix with one column.}
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
@@ -483,9 +465,6 @@ NULL
 #'
 #' # Summarize factory:
 #' custom_lin_factory$summarizeFactory()
-#'
-#' # Transform data manually:
-#' custom_lin_factory$transformData(data_mat)
 #'
 #' @export BaselearnerCustom
 NULL
@@ -533,12 +512,10 @@ NULL
 #' \describe{
 #' \item{\code{getData()}}{Get the data matrix of the target data which is used
 #'   for modeling.}
-#' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-#'   factory. The argument has to be a matrix with one column.}
 #' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 #' }
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Sample data:
 #' data_mat = cbind(1, 1:10)
 #' y = 2 + 3 * 1:10
@@ -559,9 +536,6 @@ NULL
 #'
 #' # Summarize factory:
 #' custom_cpp_factory$summarizeFactory()
-#'
-#' # Transform data manually:
-#' custom_cpp_factory$transformData(data_mat)
 #' }
 #' @export BaselearnerCustomCpp
 NULL
@@ -961,7 +935,7 @@ NULL
 #' }
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Load loss functions:
 #' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 #'

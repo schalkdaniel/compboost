@@ -16,11 +16,7 @@ library(compboost)
 
 # compboost: Fast and Flexible Component-Wise Boosting Framework <a href='https://danielschalk.com/compboost/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
-<!-- New actions badge
-[![R-CMD-check](https://github.com/schalkdaniel/compboost/workflows/R-CMD-check/badge.svg)](https://github.com/schalkdaniel/compboost/actions)
- -->
-
-[![Build Status](https://travis-ci.org/schalkdaniel/compboost.svg?branch=master)](https://travis-ci.org/schalkdaniel/compboost) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/schalkdaniel/compboost?branch=master&svg=true)](https://ci.appveyor.com/project/schalkdaniel/compboost) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master) [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](#license) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![Dependencies](https://tinyverse.netlify.com/badge/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
+[![R-CMD-check](https://github.com/schalkdaniel/compboost/workflows/R-CMD-check/badge.svg)](https://github.com/schalkdaniel/compboost/actions) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![Dependencies](https://tinyverse.netlify.com/badge/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
 [Documentation](https://danielschalk.com/compboost/) |
 [Contributors](CONTRIBUTORS.md) |
@@ -116,9 +112,9 @@ str(params)
 
 cboost$train(3000)
 
-cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
-  ggthemes::theme_tufte() +
-  ggplot2::scale_color_brewer(palette = "Spectral")
+#cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
+#  ggthemes::theme_tufte() +
+#  ggplot2::scale_color_brewer(palette = "Spectral")
 ```
 <p align="center">
   <img src="Readme_files/cboost-1.png" width="70%" />
@@ -153,23 +149,8 @@ To cite `compboost` in publications, please use:
 
 ### On your local machine
 
-In order to test the pacakge functionality you can use devtools to test the pacakge on your local machine:
+In order to test the pacakge functionality you can use devtools to test the package on your local machine:
 
 ```{r, eval=FALSE}
 devtools::test()
 ```
-
-
-### Using docker
-
-You can test the package locally using docker and the [`compboost-test` repository](https://hub.docker.com/r/schalkdaniel/compboost-test/):
-
--   Latest `R` release:
-    ```
-    docker run schalkdaniel/compboost-test
-    ```
-
--   Latest `R` devel build:
-    ```
-    docker run schalkdaniel/compboost-test:devel
-    ```

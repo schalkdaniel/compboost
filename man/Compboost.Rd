@@ -377,7 +377,4 @@ cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
 cboost$train(1000)
 
 table(cboost$getSelectedBaselearner())
-cboost$plot("hp_spline")
-cboost$plotInbagVsOobRisk()
-cboost$plotBlearnerTraces()
 }

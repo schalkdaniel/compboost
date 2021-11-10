@@ -38,19 +38,16 @@ BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modeling.}
-\item{\code{transformData(X)}}{Transform a data matrix as defined within the
-  factory. The argument has to be a matrix with one column. In case of the categorical
-  binary base-learner this is the index of non-zero elements concatinated with the
-  number of observations. This helps to fully reconstruct the original feature by using less memory. This also speed up computation time.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
 
 \examples{
 x = sample(c("one","two"), 20, TRUE)
-ds = CategoricalData$new(x, "cat")
+ds = CategoricalDataRaw$new(x, "cat")
 bl = BaselearnerCategoricalRidge$new(ds, "one")
 
 bl$getData()
 bl$summarizeFactory()
+
 }

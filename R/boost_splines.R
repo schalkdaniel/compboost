@@ -61,6 +61,10 @@
 #'   from setting `oob_fraction`.
 #' @param df_cat [\code{numeric(1)}]\cr
 #'   Degrees of freedom of the categorical base-learner.
+#' @param stop_time [\code{character(1)}]\cr
+#'   Unit of measured time.
+#' @param additional_risk_logs [\code{list(Logger)}]\cr
+#'   Additional logger passed to the `Compboost` object.
 #' @examples
 #' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -68,8 +72,6 @@
 #' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
 #' mod$predict()
-#' mod$plot("Sepal.Width_spline")
-#' mod$plotInbagVsOobRisk()
 #' @export
 boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,

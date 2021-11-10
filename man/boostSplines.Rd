@@ -22,7 +22,9 @@ boostSplines(
   bin_root = 0,
   cache_type = "inverse",
   stop_args = list(),
-  df_cat = 1
+  df_cat = 1,
+  stop_time = "microseconds",
+  additional_risk_logs = list()
 )
 }
 \arguments{
@@ -76,7 +78,7 @@ just in memory training is supported.}
 \item{oob_fraction}{[\code{numeric(1)}]\cr
 Fraction of how much data we want to use to track the out of bag risk.}
 
-\item{bin_root}{[\code{integer(1)}+]\cr
+\item{bin_root}{[\code{integer(1)}]\cr
 If set to a value greater than zero, binning is applied and reduces the number of used
 x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
 to set \code{bin_root = 2}.}
@@ -93,6 +95,12 @@ from setting `oob_fraction`.}
 
 \item{df_cat}{[\code{numeric(1)}]\cr
 Degrees of freedom of the categorical base-learner.}
+
+\item{stop_time}{[\code{character(1)}]\cr
+Unit of measured time.}
+
+\item{additional_risk_logs}{[\code{list(Logger)}]\cr
+Additional logger passed to the `Compboost` object.}
 }
 \value{
 A model of the \code{Compboost} class. This model is an \code{R6} object
@@ -116,6 +124,4 @@ mod$getBaselearnerNames()
 mod$getEstimatedCoef()
 table(mod$getSelectedBaselearner())
 mod$predict()
-mod$plot("Sepal.Width_spline")
-mod$plotInbagVsOobRisk()
 }

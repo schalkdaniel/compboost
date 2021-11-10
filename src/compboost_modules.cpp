@@ -279,7 +279,6 @@ public:
   arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
   std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-  //arma::mat transformData (const arma::mat& newdata) { return sh_ptr_blearner_factory->instantiateData(newdata); }
 
   std::string getFeatureName () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
 
@@ -329,8 +328,6 @@ protected:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
 //'   for modeling.}
-//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-//'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
@@ -352,10 +349,6 @@ protected:
 //'
 //' # Summarize factory:
 //' lin_factory$summarizeFactory()
-//'
-//' # Transform data manually:
-//' lin_factory$transformData(data_mat)
-//' lin_factory_int$transformData(data_mat)
 //'
 //' @export BaselearnerPolynomial
 class BaselearnerPolynomialFactoryWrapper : public BaselearnerFactoryWrapper
@@ -474,8 +467,6 @@ public:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
 //'   for modeling.}
-//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-//'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
@@ -495,9 +486,6 @@ public:
 //'
 //' # Summarize factory:
 //' spline_factory$summarizeFactory()
-//'
-//' # Transform data manually:
-//' spline_factory$transformData(data_mat)
 //'
 //' @export BaselearnerPSpline
 class BaselearnerPSplineFactoryWrapper : public BaselearnerFactoryWrapper
@@ -652,12 +640,11 @@ public:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
 //'   for modeling.}
-//' \item{\code{transformData(X)}}{This class does is not allowed to transform data. This is due to the internal structure.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
 //' x = sample(c("one","two"), 20, TRUE)
-//' ds = CategoricalData$new(x, "cat")
+//' ds = CategoricalDataRaw$new(x, "cat")
 //' bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
 //'
 //' bl$getData()
@@ -728,15 +715,11 @@ public:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
 //'   for modeling.}
-//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-//'   factory. The argument has to be a matrix with one column. In case of the categorical
-//'   binary base-learner this is the index of non-zero elements concatinated with the
-//'   number of observations. This helps to fully reconstruct the original feature by using less memory. This also speed up computation time.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
 //' x = sample(c("one","two"), 20, TRUE)
-//' ds = CategoricalData$new(x, "cat")
+//' ds = CategoricalDataRaw$new(x, "cat")
 //' bl = BaselearnerCategoricalRidge$new(ds, "one")
 //'
 //' bl$getData()
@@ -833,8 +816,6 @@ public:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
 //'   for modeling.}
-//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-//'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
@@ -869,9 +850,6 @@ public:
 //'
 //' # Summarize factory:
 //' custom_lin_factory$summarizeFactory()
-//'
-//' # Transform data manually:
-//' custom_lin_factory$transformData(data_mat)
 //'
 //' @export BaselearnerCustom
 class BaselearnerCustomFactoryWrapper : public BaselearnerFactoryWrapper
@@ -960,12 +938,10 @@ public:
 //' \describe{
 //' \item{\code{getData()}}{Get the data matrix of the target data which is used
 //'   for modeling.}
-//' \item{\code{transformData(X)}}{Transform a data matrix as defined within the
-//'   factory. The argument has to be a matrix with one column.}
 //' \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 //' }
 //' @examples
-//' \donttest{
+//' \dontrun{
 //' # Sample data:
 //' data_mat = cbind(1, 1:10)
 //' y = 2 + 3 * 1:10
@@ -986,9 +962,6 @@ public:
 //'
 //' # Summarize factory:
 //' custom_cpp_factory$summarizeFactory()
-//'
-//' # Transform data manually:
-//' custom_cpp_factory$transformData(data_mat)
 //' }
 //' @export BaselearnerCustomCpp
 class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
@@ -1042,7 +1015,6 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor ("Create BaselearnerFactory class")
 
     .method("getData",        &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
-    //.method("transformData",  &BaselearnerFactoryWrapper::transformData, "Transform data to the dataset used within the learner")
     .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature used for the base-learner")
   ;
 
@@ -1640,7 +1612,7 @@ public:
 //' }
 //'
 //' @examples
-//' \donttest{
+//' \dontrun{
 //' # Load loss functions:
 //' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
 //'

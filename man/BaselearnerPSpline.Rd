@@ -69,8 +69,6 @@ BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
   for modeling.}
-\item{\code{transformData(X)}}{Transform a data matrix as defined within the
-  factory. The argument has to be a matrix with one column.}
 \item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
 }
 }
@@ -92,8 +90,5 @@ spline_factory$getData()
 
 # Summarize factory:
 spline_factory$summarizeFactory()
-
-# Transform data manually:
-spline_factory$transformData(data_mat)
 
 }
