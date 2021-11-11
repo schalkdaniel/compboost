@@ -3010,6 +3010,11 @@ public:
     );
   }
 
+
+  arma::mat predictFactoryTrainData (const std::string& factory_id) { return unique_ptr_cboost->predictFactory(factory_id); }
+
+  std::map<std::string, arma::mat> predictIndividualTrainData () { return unique_ptr_cboost->predictIndividual(); }
+
   std::map<std::string, arma::mat> predictIndividual (Rcpp::List& newdata)
   {
     std::map<std::string, std::shared_ptr<data::Data>> data_map;
@@ -3071,6 +3076,8 @@ RCPP_MODULE (compboost_module)
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated parameter")
     .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
+    .method("predictFactoryTrainData", &CompboostWrapper::predictFactoryTrainData, "Get linear predictor of one base learnern on the train data")
+    .method("predictIndividualTrainData", &CompboostWrapper::predictIndividualTrainData, "Get linear predictor for each feature on the train data")
     .method("predictIndividual", &CompboostWrapper::predictIndividual, "Get linear predictor for each feature on new data")
     .method("predict", &CompboostWrapper::predict, "Predict new data")
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Summarize compboost object.")
