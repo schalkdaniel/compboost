@@ -25,6 +25,7 @@
 #' plotPEUni(cboost, "Sepal.Width")
 #' @export
 plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
+  if (! requireNamespace("ggplot2", quietly = TRUE)) stop("Please install ggplot2 to create plots.")
   checkmate::assertClass(cboost, "Compboost")
   if (is.null(cboost$model))
     stop("Model has not been trained!")
@@ -105,6 +106,7 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
 #' plotBaselearner(cboost, "Sepal.Width_spline")
 #' @export
 plotBaselearner = function(cboost, blname, npoints = 100L) {
+  if (! requireNamespace("ggplot2", quietly = TRUE)) stop("Please install ggplot2 to create plots.")
   checkmate::assertClass(cboost, "Compboost")
   if (is.null(cboost$model))
     stop("Model has not been trained!")

@@ -1,4 +1,4 @@
-context("Plotting Univariate effects works")
+context("Plot function produce a ggplot")
 
 test_that("plotting univariate partial effects works", {
   expect_silent({
@@ -63,3 +63,43 @@ test_that("base learner traces can be plotted", {
   cboost$model = NULL
   expect_error(plotBaselearnerTraces(cboost))
 })
+
+test_that("individual predictions can be plotted", {
+
+  expect_silent({
+    cboost = Compboost$new(data = iris, target = "Petal.Length",
+      loss = LossQuadratic$new())
+  })
+  expect_silent({ cboost$addComponents("Sepal.Width", df = 3) })
+  expect_silent({ cboost$addComponents("Sepal.Length", df = 3) })
+  expect_silent({ cboost$addComponents("Petal.Width", df = 3) })
+  expect_silent({ cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge) })
+  expect_output({ cboost$train(500L)})
+  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,]) })
+  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], offset = FALSE) })
+  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], colbreaks = NULL) })
+  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], collabels = NULL) })
+  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], colbreaks = NULL, collabels = NULL) })
+  expect_true({ inherits(gg, "ggplot")})
+
+  expect_error(plotIndividualContribution(cboost, iris))
+  expect_error(plotIndividualContribution(cboost, collabels = c("a", "b", "c")))
+
+  cboost$model = NULL
+  expect_error(plotIndividualContribution(cboost))
+})
+
+test_that("risk plotting works", {
+
+  expect_output({ cboost_no_valdat = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()) })
+  expect_output({ cboost_valdat = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob_fraction = 0.3) })
+
+  expect_silent({ gg1 = plotRisk(cboost_no_valdat) })
+  expect_silent({ gg2 = plotRisk(cboost_valdat) })
+  expect_true({ inherits(gg1, "ggplot")})
+  expect_true({ inherits(gg2, "ggplot")})
+
+  cboost_no_valdat$model = NULL
+  expect_error(plotRisk(cboost_no_valdat))
+})
+

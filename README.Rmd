@@ -68,6 +68,14 @@ cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic
 plotPEUni(cboost, "Petal.Length")
 ```
 
+Plotting function:
+- `plotPEUni`
+- `plotBaselearner`
+- `plotBaselearnerTraces`
+- `plotIndividualContribution`
+- `plotRisk`
+- `plotPETensor`
+
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
 

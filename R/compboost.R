@@ -832,33 +832,6 @@ Compboost = R6::R6Class("Compboost",
         ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
       return(gg)
-    },
-    plotInbagVsOobRisk = function() {
-      checkModelPlotAvailability(self)
-
-      inbag_trace = self$getInbagRisk()
-      oob_data = self$getLoggerData()
-
-      if ("oob_risk" %in% names(oob_data)) {
-        oob_trace = oob_data[["oob_risk"]]
-
-        df_risk = data.frame(
-          risk = c(inbag_trace, oob_trace),
-          type = rep(c("inbag", "oob"), times = c(length(inbag_trace), length(oob_trace))),
-          iter = c(seq_along(inbag_trace), seq_along(oob_trace))
-        )
-
-        gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk, color = type))
-      } else {
-        warning("Model was not trained with an out of bag risk logger called 'oob_risk'.")
-        df_risk = data.frame(iter = seq_along(inbag_trace), risk = inbag_trace)
-        gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk))
-      }
-      gg = gg + ggplot2::geom_line(size = 1.1) +
-        ggplot2::xlab("Iteration") +
-        ggplot2::ylab("Risk")
-
-      return(gg)
     }
   ),
   private = list(
