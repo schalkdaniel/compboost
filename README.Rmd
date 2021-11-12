@@ -63,65 +63,13 @@ The examples are rendered using <code>compboost `r packageVersion("compboost")`<
 The fastest way to train a `Compboost` model is to use the wrapper functions `boostLinear()` or `boostSplines()`:
 ```{r, results="hide", warnings=FALSE}
 cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
+
+# Visualize partial effect of `Petal.Width`
+plotPEUni(cboost, "Petal.Length")
 ```
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
-<!--
-
-To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
-
-```{r cboost, fig.show="hide", out.width="70%"}
-library(compboost)
-
-# Check installed version:
-packageVersion("compboost")
-
-# Load data set with binary classification task:
-data(PimaIndiansDiabetes, package = "mlbench")
-# Create categorical feature:
-PimaIndiansDiabetes$pregnant_cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
-
-# Define Compboost object:
-cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossBinomial$new())
-cboost
-
-# Add p-spline base-learner with default parameter:
-cboost$addBaselearner(feature = "pressure", id = "spline", bl_factory = BaselearnerPSpline)
-
-# Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl_factory = BaselearnerPSpline, degree = 3,
-  n_knots = 10, penalty = 4, differences = 2)
-
-# Add categorical feature (as single linear base-learner):
-cboost$addBaselearner(feature = "pregnant_cat", id = "category", bl_factory = BaselearnerPolynomial,
-  degree = 1, intercept = FALSE)
-
-# Check all registered base-learner:
-cboost$getBaselearnerNames()
-
-# Train model:
-cboost$train(1000L, trace = 200L)
-cboost
-
-cboost$getBaselearnerNames()
-
-selected_features = cboost$getSelectedBaselearner()
-table(selected_features)
-
-params = cboost$getEstimatedCoef()
-str(params)
-
-cboost$train(3000)
-
-#cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
-#  ggthemes::theme_tufte() +
-#  ggplot2::scale_color_brewer(palette = "Spectral")
-```
-<p align="center">
-  <img src="Readme_files/cboost-1.png" width="70%" />
-</p>
- -->
 
 ## Benchmark
 

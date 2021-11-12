@@ -1191,15 +1191,9 @@ public:
     );
   }
 
-  unsigned int getNumberOfRegisteredFactories ()
-  {
-    return obj.getFactoryMap().size();
-  }
-
-  std::vector<std::string> getRegisteredFactoryNames ()
-  {
-    return obj.getRegisteredFactoryNames();
-  }
+  unsigned int getNumberOfRegisteredFactories () { return obj.getFactoryMap().size(); }
+  std::vector<std::string> getRegisteredFactoryNames () { return obj.getRegisteredFactoryNames(); }
+  std::vector<std::string> getDataNames () { return obj.getDataNames(); }
 
   // Nothing needs to be done since we allocate the object on the stack
   ~BlearnerFactoryListWrapper () {}
@@ -1219,6 +1213,7 @@ RCPP_MODULE (baselearner_list_module)
     .method("getModelFrame", &BlearnerFactoryListWrapper::getModelFrame, "Get the data used for modeling")
     .method("getNumberOfRegisteredFactories", &BlearnerFactoryListWrapper::getNumberOfRegisteredFactories, "Get number of registered factories. Main purpose is for testing.")
     .method("getRegisteredFactoryNames", &BlearnerFactoryListWrapper::getRegisteredFactoryNames, "Get names of registered factories")
+    .method("getDataNames", &BlearnerFactoryListWrapper::getDataNames, "Get names of data of registered factories")
   ;
 }
 
@@ -3013,6 +3008,17 @@ public:
 
   arma::mat predictFactoryTrainData (const std::string& factory_id) { return unique_ptr_cboost->predictFactory(factory_id); }
 
+  arma::mat predictFactoryNewData (const std::string& factory_id, const Rcpp::List& newdata) {
+    std::map<std::string, std::shared_ptr<data::Data>> data_map;
+
+    for (unsigned int i = 0; i < newdata.size(); i++) {
+      DataWrapper* temp = newdata[i];
+      data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
+    }
+
+    return unique_ptr_cboost->predictFactory(factory_id, data_map);
+  }
+
   std::map<std::string, arma::mat> predictIndividualTrainData () { return unique_ptr_cboost->predictIndividual(); }
 
   std::map<std::string, arma::mat> predictIndividual (Rcpp::List& newdata)
@@ -3077,6 +3083,7 @@ RCPP_MODULE (compboost_module)
     .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
     .method("predictFactoryTrainData", &CompboostWrapper::predictFactoryTrainData, "Get linear predictor of one base learnern on the train data")
+    .method("predictFactoryNewData", &CompboostWrapper::predictFactoryNewData, "Get linear predictor of one base learnern on new data")
     .method("predictIndividualTrainData", &CompboostWrapper::predictIndividualTrainData, "Get linear predictor for each feature on the train data")
     .method("predictIndividual", &CompboostWrapper::predictIndividual, "Get linear predictor for each feature on new data")
     .method("predict", &CompboostWrapper::predict, "Predict new data")
