@@ -125,7 +125,6 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
     ggplot2::xlab("Contribution to predicted value") +
     ggplot2::labs(color = "", fill = "") +
     ggplot2::scale_y_continuous(labels = df_plt$label, breaks = df_plt$bl_num) +
-    ggplot2::theme_minimal() +
     ggplot2::ggtitle("Prediction", subtitle)
   return(gg)
 }

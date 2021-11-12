@@ -147,25 +147,6 @@ cboost$calculateFeatureImportance(num_feats = NULL)
   	 Data to predict on. If newdata equals \code{NULL} predictions on the training data are returned.
   }
 }
-\strong{For cboost$plot()}:
-\describe{
-  \item{\code{blearner_name}}{[\code{character(1)}]\cr
-  	 Character name of the base-learner to plot the contribution to the response. Available choices for
-    \code{blearner_name} use \code{cboost$getBaselearnerNames()}.
-  }
-  \item{\code{iters}}{[\code{integer()}]\cr
-  	 Integer vector containing the iterations the user wants to visualize.
-  }
-  \item{\code{from}}{[\code{numeric(1)}]\cr
-  	 Lower bound for the x axis (should be smaller than \code{to}).
-  }
-  \item{\code{to}}{[\code{numeric(1)}]\cr
-  	 Upper bound for the x axis (should be greater than \code{from}).
-  }
-  \item{\code{length_out}}{[\code{integer(1)}]\cr
-  	 Number of equidistant points between \code{from} and \code{to} used for plotting.
-  }
-}
 }
 
 \section{Details}{

@@ -118,4 +118,55 @@ test_that("feature importance plotting works", {
   expect_error(plotFeatureImportance(cboost))
 })
 
+test_that("bivariate tensors are working", {
+  iris$g2 = sample(LETTERS[1:10], 150, TRUE)
 
+  expect_silent({
+    cboost = Compboost$new(data = iris, target = "Petal.Length",
+      loss = LossQuadratic$new())
+
+    cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
+    cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
+    cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
+    cboost$addBaselearner("g2", "ridge", BaselearnerCategoricalRidge)
+  })
+
+  expect_silent({cboost$addTensor("Sepal.Width", "Sepal.Length", df = 4) })
+  expect_output(cboost$train(100L))
+
+  expect_silent({ gg = plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor") })
+  expect_silent({ gg = plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor", npoints = 10L) })
+  expect_silent({ gg = plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor", nbins = NULL) })
+  expect_true({inherits(gg, "ggplot")})
+
+  expect_silent({
+    cboost = Compboost$new(data = iris, target = "Petal.Length",
+      loss = LossQuadratic$new())
+
+    cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
+    cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
+    cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
+    cboost$addBaselearner("g2", "ridge", BaselearnerCategoricalRidge)
+  })
+  expect_silent({ cboost$addTensor("Sepal.Width", "Species", df = 4) })
+  expect_output(cboost$train(100L))
+
+  expect_silent({ gg = plotTensor(cboost, "Sepal.Width_Species_tensor") })
+  expect_true({inherits(gg, "ggplot")})
+
+
+  expect_silent({
+    cboost = Compboost$new(data = iris, target = "Petal.Length",
+      loss = LossQuadratic$new())
+
+    cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
+    cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
+    cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
+    cboost$addBaselearner("g2", "ridge", BaselearnerCategoricalRidge)
+  })
+  expect_silent({ cboost$addTensor("g2", "Species", df = 4) })
+  expect_output(cboost$train(100L))
+
+  expect_silent({ gg = plotTensor(cboost, "g2_Species_tensor", nbins = NULL) })
+  expect_true({inherits(gg, "ggplot")})
+})
