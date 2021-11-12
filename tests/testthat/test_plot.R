@@ -42,3 +42,24 @@ test_that("base learner works", {
   cboost$model = NULL
   expect_error(plotBaselearner(cboost, "Petal.Width_spline"))
 })
+
+test_that("base learner traces can be plotted", {
+
+  expect_silent({
+    cboost = Compboost$new(data = iris, target = "Petal.Length",
+      loss = LossQuadratic$new())
+  })
+  expect_silent({ cboost$addComponents("Sepal.Width", df = 3) })
+  expect_silent({ cboost$addComponents("Sepal.Length", df = 3) })
+  expect_silent({ cboost$addComponents("Petal.Width", df = 3) })
+  expect_silent({ cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge) })
+  expect_output({ cboost$train(500L)})
+  expect_silent({ gg = plotBaselearnerTraces(cboost) })
+  expect_true({ inherits(gg, "ggplot")})
+
+  expect_error(plotBaselearnerTraces(cboost, value = 1:2))
+  expect_error(plotBaselearnerTraces(cboost, n_legend = "bla"))
+
+  cboost$model = NULL
+  expect_error(plotBaselearnerTraces(cboost))
+})

@@ -40,20 +40,11 @@
 #'
 #' cboost$getEstimatedCoef()
 #'
-#' cboost$plot(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000)
-#'
 #' cboost$getBaselearnerNames()
 #'
 #' cboost$getLoggerData()
 #'
 #' cboost$calculateFeatureImportance(num_feats = NULL)
-#'
-#' cboost$plotFeatureImportance(num_feats = NULL)
-#'
-#' cboost$plotInbagVsOobRisk()
-#'
-#' cboost$plotBlearnerTraces(value = 1, n_legend = 5L)
-#'
 #' }
 #' @section Arguments:
 #' \strong{For Compboost$new()}:
@@ -344,14 +335,10 @@
 #'   \item{\code{predict}}{method to predict on a trained object.}
 #'   \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
 #'   \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
-#'   \item{\code{plot}}{method to plot individual feature effects.}
 #'   \item{\code{getBaselearnerNames}}{method to get the names of the registered factories.}
 #'   \item{\code{prepareData}}{method to prepare data to track the out of bag risk of an arbitrary loss/performance function.}
 #'   \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
 #'   \item{\code{calculateFeatureImportance}}{method to calculate feature importance.}
-#'   \item{\code{plotFeatureImportance}}{method to plot the feature importance calculated by \code{calulateFeatureImportance}.}
-#'   \item{\code{plotInbagVsOobRisk}}{method to plot the inbag vs the out of bag behavior. This is just applicable if a logger with name \code{oob_logger} was registered. This is automatically done if the \code{oob_fraction} is set.}
-#'   \item{\code{plotBlearnerTraces}}{method to plot traces how the base-learner are selected in combination with a measure of interest, e.g. how the empirical risk was minimized throughout the selection process.}
 #' }
 #'
 #' @examples
@@ -784,14 +771,6 @@ Compboost = R6::R6Class("Compboost",
       }
       return(NULL)
     },
-    plot = function(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000) {
-      checkModelPlotAvailability(self)
-
-      gg = plotFeatEffect(cboost_obj = self, bl_list = private$bl_list, blearner_name = blearner_name,
-        iters = iters, from = from, to = to, length_out = length_out)
-
-      return(gg)
-    },
     getBaselearnerNames = function() {
       return(names(private$bl_list))
     },
@@ -880,9 +859,6 @@ Compboost = R6::R6Class("Compboost",
         ggplot2::ylab("Risk")
 
       return(gg)
-    },
-    plotBlearnerTraces = function(value = 1L, n_legend = 5L) {
-      plotBlearnerTraces(cboost_obj = self, value = value, n_legend = n_legend)
     }
   ),
   private = list(
