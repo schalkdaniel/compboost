@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -12,11 +12,17 @@ knitr::opts_chunk$set(
 )
 
 library(compboost)
+ggplot2::theme_set(ggthemes::theme_tufte())
+ggplot = function(...) ggplot2::ggplot(...) + scale_color_brewer(palette = "Set1")
+
+set.seed(31415)
 ```
 
 # compboost: Fast and Flexible Component-Wise Boosting Framework <a href='https://danielschalk.com/compboost/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
-[![R-CMD-check](https://github.com/schalkdaniel/compboost/workflows/R-CMD-check/badge.svg)](https://github.com/schalkdaniel/compboost/actions) [![Coverage Status](https://coveralls.io/repos/github/schalkdaniel/compboost/badge.svg?branch=master)](https://coveralls.io/github/schalkdaniel/compboost?branch=master) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![Dependencies](https://tinyverse.netlify.com/badge/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
+[![R-CMD-check](https://github.com/schalkdaniel/compboost/workflows/R-CMD-check/badge.svg)](https://github.com/schalkdaniel/compboost/actions)
+[![codecov](https://codecov.io/gh/schalkdaniel/compboost/branch/main/graph/badge.svg?token=t3Xxoxz1T2)](https://codecov.io/gh/schalkdaniel/compboost)
+ [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost) [![Dependencies](https://tinyverse.netlify.com/badge/compboost)](https://cran.r-project.org/package=compboost) [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
 [Documentation](https://danielschalk.com/compboost/) |
 [Contributors](CONTRIBUTORS.md) |
@@ -59,67 +65,20 @@ devtools::install_github("schalkdaniel/compboost")
 The examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 
 The fastest way to train a `Compboost` model is to use the wrapper functions `boostLinear()` or `boostSplines()`:
-```{r, results="hide", warnings=FALSE}
-cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
+```{r, results="hide", warning=FALSE, fig.width=10, fig.height=2, out.width="100%", }
+cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
+  oob_fraction = 0.3, iterations = 500L, trace = 100L)
+
+gridExtra::grid.arrange(
+  plotRisk(cboost),
+  plotPEUni(cboost, "Petal.Length"),
+  plotIndividualContribution(cboost, iris[70, ], offset = FALSE),
+  ncol = 3L
+)
 ```
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
-<!--
-
-To be as flexible as possible one should use the `R6` API do define base-learner, losses, stopping criteria, or optimizer as desired. Another option is to use wrapper functions as described on the [project page](https://schalkdaniel.github.io/compboost/).
-
-```{r cboost, fig.show="hide", out.width="70%"}
-library(compboost)
-
-# Check installed version:
-packageVersion("compboost")
-
-# Load data set with binary classification task:
-data(PimaIndiansDiabetes, package = "mlbench")
-# Create categorical feature:
-PimaIndiansDiabetes$pregnant_cat = ifelse(PimaIndiansDiabetes$pregnant == 0, "no", "yes")
-
-# Define Compboost object:
-cboost = Compboost$new(data = PimaIndiansDiabetes, target = "diabetes", loss = LossBinomial$new())
-cboost
-
-# Add p-spline base-learner with default parameter:
-cboost$addBaselearner(feature = "pressure", id = "spline", bl_factory = BaselearnerPSpline)
-
-# Add another p-spline learner with custom parameters:
-cboost$addBaselearner(feature = "age", id = "spline", bl_factory = BaselearnerPSpline, degree = 3,
-  n_knots = 10, penalty = 4, differences = 2)
-
-# Add categorical feature (as single linear base-learner):
-cboost$addBaselearner(feature = "pregnant_cat", id = "category", bl_factory = BaselearnerPolynomial,
-  degree = 1, intercept = FALSE)
-
-# Check all registered base-learner:
-cboost$getBaselearnerNames()
-
-# Train model:
-cboost$train(1000L, trace = 200L)
-cboost
-
-cboost$getBaselearnerNames()
-
-selected_features = cboost$getSelectedBaselearner()
-table(selected_features)
-
-params = cboost$getEstimatedCoef()
-str(params)
-
-cboost$train(3000)
-
-#cboost$plot("age_spline", iters = c(100, 500, 1000, 2000, 3000)) +
-#  ggthemes::theme_tufte() +
-#  ggplot2::scale_color_brewer(palette = "Spectral")
-```
-<p align="center">
-  <img src="Readme_files/cboost-1.png" width="70%" />
-</p>
- -->
 
 ## Benchmark
 

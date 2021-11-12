@@ -42,6 +42,7 @@ public:
   blearner_factory_map                            getFactoryMap ()             const;
   std::pair<std::vector<std::string>, arma::mat>  getModelFrame ()             const;
   std::vector<std::string>                        getRegisteredFactoryNames () const;
+  std::vector<std::string>                        getDataNames ()              const;
 
   // Other member functions
   void registerBaselearnerFactory (const std::string, const std::shared_ptr<blearnerfactory::BaselearnerFactory>);

@@ -96,4 +96,15 @@ std::vector<std::string> BaselearnerFactoryList::getRegisteredFactoryNames () co
   return factory_names;
 }
 
+std::vector<std::string> BaselearnerFactoryList::getDataNames () const
+{
+  std::vector<std::string> dnames;
+  std::string fname;
+  for (auto& it : _factory_map) {
+    dnames.push_back(it.second->getDataIdentifier());
+  }
+  return dnames;
+
+}
+
 } // namespace blearnerlist

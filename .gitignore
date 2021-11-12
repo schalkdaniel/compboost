@@ -19,3 +19,5 @@ benchmark/benchmark.R
 /revdep/.cache.rds
 docs
 temp
+/doc/
+/Meta/

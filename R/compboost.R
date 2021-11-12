@@ -40,20 +40,11 @@
 #'
 #' cboost$getEstimatedCoef()
 #'
-#' cboost$plot(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000)
-#'
 #' cboost$getBaselearnerNames()
 #'
 #' cboost$getLoggerData()
 #'
 #' cboost$calculateFeatureImportance(num_feats = NULL)
-#'
-#' cboost$plotFeatureImportance(num_feats = NULL)
-#'
-#' cboost$plotInbagVsOobRisk()
-#'
-#' cboost$plotBlearnerTraces(value = 1, n_legend = 5L)
-#'
 #' }
 #' @section Arguments:
 #' \strong{For Compboost$new()}:
@@ -145,41 +136,6 @@
 #' \describe{
 #'   \item{\code{newdata}}{[\code{data.frame()}]\cr
 #'   	 Data to predict on. If newdata equals \code{NULL} predictions on the training data are returned.
-#'   }
-#' }
-#' \strong{For cboost$plot()}:
-#' \describe{
-#'   \item{\code{blearner_name}}{[\code{character(1)}]\cr
-#'   	 Character name of the base-learner to plot the contribution to the response. Available choices for
-#'     \code{blearner_name} use \code{cboost$getBaselearnerNames()}.
-#'   }
-#'   \item{\code{iters}}{[\code{integer()}]\cr
-#'   	 Integer vector containing the iterations the user wants to visualize.
-#'   }
-#'   \item{\code{from}}{[\code{numeric(1)}]\cr
-#'   	 Lower bound for the x axis (should be smaller than \code{to}).
-#'   }
-#'   \item{\code{to}}{[\code{numeric(1)}]\cr
-#'   	 Upper bound for the x axis (should be greater than \code{from}).
-#'   }
-#'   \item{\code{length_out}}{[\code{integer(1)}]\cr
-#'   	 Number of equidistant points between \code{from} and \code{to} used for plotting.
-#'   }
-#' }
-#' \strong{For cboost$calculateFeatureImportance() and cboost$plotFeatureImportance()}:
-#' \describe{
-#'   \item{\code{num_feats}}{[\code{integer(1)}]\cr
-#'     Number of features for which the Importance will be returned.
-#'   }
-#' }
-#' \strong{For cboost$plotBlearnerTraces}:
-#' \describe{
-#'   \item{\code{value}}{[\code{numeric()}]\cr
-#'     Numeric value of length 1 or same length as the number iterations which is accumulated by the selected base-learner.
-#'   }
-#'   \item{\code{n_legend}}{[\code{integer(1L)}]\cr
-#'     Number of how many base-learner are highlighted (base-learner are highlighted by choosing the top \code{n_legend}
-#'     accumulated values).
 #'   }
 #' }
 #' @section Details:
@@ -344,14 +300,10 @@
 #'   \item{\code{predict}}{method to predict on a trained object.}
 #'   \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
 #'   \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
-#'   \item{\code{plot}}{method to plot individual feature effects.}
 #'   \item{\code{getBaselearnerNames}}{method to get the names of the registered factories.}
 #'   \item{\code{prepareData}}{method to prepare data to track the out of bag risk of an arbitrary loss/performance function.}
 #'   \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
 #'   \item{\code{calculateFeatureImportance}}{method to calculate feature importance.}
-#'   \item{\code{plotFeatureImportance}}{method to plot the feature importance calculated by \code{calulateFeatureImportance}.}
-#'   \item{\code{plotInbagVsOobRisk}}{method to plot the inbag vs the out of bag behavior. This is just applicable if a logger with name \code{oob_logger} was registered. This is automatically done if the \code{oob_fraction} is set.}
-#'   \item{\code{plotBlearnerTraces}}{method to plot traces how the base-learner are selected in combination with a measure of interest, e.g. how the empirical risk was minimized throughout the selection process.}
 #' }
 #'
 #' @examples
@@ -784,14 +736,6 @@ Compboost = R6::R6Class("Compboost",
       }
       return(NULL)
     },
-    plot = function(blearner_name = NULL, iters = NULL, from = NULL, to = NULL, length_out = 1000) {
-      checkModelPlotAvailability(self)
-
-      gg = plotFeatEffect(cboost_obj = self, bl_list = private$bl_list, blearner_name = blearner_name,
-        iters = iters, from = from, to = to, length_out = length_out)
-
-      return(gg)
-    },
     getBaselearnerNames = function() {
       return(names(private$bl_list))
     },
@@ -839,50 +783,6 @@ Compboost = R6::R6Class("Compboost",
 
       out = blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ]
       return(out)
-    },
-    plotFeatureImportance = function(num_feats = NULL, aggregate_bl_by_feat = FALSE) {
-
-      checkModelPlotAvailability(self)
-
-      df_vip = self$calculateFeatureImportance(num_feats, aggregate_bl_by_feat)
-
-      ## First column containing the names contains the base learner or the feature depending on the aggregation.
-      ## Therefore, set a general baselearner column used for ggplot:
-      df_vip$baselearner = df_vip[[1]]
-      gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
-        ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
-
-      return(gg)
-    },
-    plotInbagVsOobRisk = function() {
-      checkModelPlotAvailability(self)
-
-      inbag_trace = self$getInbagRisk()
-      oob_data = self$getLoggerData()
-
-      if ("oob_risk" %in% names(oob_data)) {
-        oob_trace = oob_data[["oob_risk"]]
-
-        df_risk = data.frame(
-          risk = c(inbag_trace, oob_trace),
-          type = rep(c("inbag", "oob"), times = c(length(inbag_trace), length(oob_trace))),
-          iter = c(seq_along(inbag_trace), seq_along(oob_trace))
-        )
-
-        gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk, color = type))
-      } else {
-        warning("Model was not trained with an out of bag risk logger called 'oob_risk'.")
-        df_risk = data.frame(iter = seq_along(inbag_trace), risk = inbag_trace)
-        gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk))
-      }
-      gg = gg + ggplot2::geom_line(size = 1.1) +
-        ggplot2::xlab("Iteration") +
-        ggplot2::ylab("Risk")
-
-      return(gg)
-    },
-    plotBlearnerTraces = function(value = 1L, n_legend = 5L) {
-      plotBlearnerTraces(cboost_obj = self, value = value, n_legend = n_legend)
     }
   ),
   private = list(
