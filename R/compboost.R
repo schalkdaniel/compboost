@@ -138,41 +138,6 @@
 #'   	 Data to predict on. If newdata equals \code{NULL} predictions on the training data are returned.
 #'   }
 #' }
-#' \strong{For cboost$plot()}:
-#' \describe{
-#'   \item{\code{blearner_name}}{[\code{character(1)}]\cr
-#'   	 Character name of the base-learner to plot the contribution to the response. Available choices for
-#'     \code{blearner_name} use \code{cboost$getBaselearnerNames()}.
-#'   }
-#'   \item{\code{iters}}{[\code{integer()}]\cr
-#'   	 Integer vector containing the iterations the user wants to visualize.
-#'   }
-#'   \item{\code{from}}{[\code{numeric(1)}]\cr
-#'   	 Lower bound for the x axis (should be smaller than \code{to}).
-#'   }
-#'   \item{\code{to}}{[\code{numeric(1)}]\cr
-#'   	 Upper bound for the x axis (should be greater than \code{from}).
-#'   }
-#'   \item{\code{length_out}}{[\code{integer(1)}]\cr
-#'   	 Number of equidistant points between \code{from} and \code{to} used for plotting.
-#'   }
-#' }
-#' \strong{For cboost$calculateFeatureImportance() and cboost$plotFeatureImportance()}:
-#' \describe{
-#'   \item{\code{num_feats}}{[\code{integer(1)}]\cr
-#'     Number of features for which the Importance will be returned.
-#'   }
-#' }
-#' \strong{For cboost$plotBlearnerTraces}:
-#' \describe{
-#'   \item{\code{value}}{[\code{numeric()}]\cr
-#'     Numeric value of length 1 or same length as the number iterations which is accumulated by the selected base-learner.
-#'   }
-#'   \item{\code{n_legend}}{[\code{integer(1L)}]\cr
-#'     Number of how many base-learner are highlighted (base-learner are highlighted by choosing the top \code{n_legend}
-#'     accumulated values).
-#'   }
-#' }
 #' @section Details:
 #'   \strong{Loss}\cr
 #'   Available choices for the loss are:
@@ -818,20 +783,6 @@ Compboost = R6::R6Class("Compboost",
 
       out = blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ]
       return(out)
-    },
-    plotFeatureImportance = function(num_feats = NULL, aggregate_bl_by_feat = FALSE) {
-
-      checkModelPlotAvailability(self)
-
-      df_vip = self$calculateFeatureImportance(num_feats, aggregate_bl_by_feat)
-
-      ## First column containing the names contains the base learner or the feature depending on the aggregation.
-      ## Therefore, set a general baselearner column used for ggplot:
-      df_vip$baselearner = df_vip[[1]]
-      gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
-        ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
-
-      return(gg)
     }
   ),
   private = list(

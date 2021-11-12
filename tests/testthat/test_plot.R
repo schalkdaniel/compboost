@@ -103,3 +103,19 @@ test_that("risk plotting works", {
   expect_error(plotRisk(cboost_no_valdat))
 })
 
+test_that("feature importance plotting works", {
+
+  expect_output({ cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()) })
+
+  expect_silent({ gg = plotFeatureImportance(cboost) })
+  expect_silent({ gg = plotFeatureImportance(cboost, num_feats = 2) })
+  expect_silent({ gg = plotFeatureImportance(cboost, aggregate = FALSE) })
+
+  expect_error({ plotFeatureImportance(cboost, num_feats = 100) })
+  expect_error({ plotFeatureImportance(cboost, aggregate = 4) })
+
+  cboost$model = NULL
+  expect_error(plotFeatureImportance(cboost))
+})
+
+
