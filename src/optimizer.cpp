@@ -519,9 +519,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
     lr_mom = _momentum * learning_rate / weight_param;
   }
 
-  //std::cout << "Momentum param from optimize: " << sh_ptr_blearner_mom->getDataIdentifier() << lr_mom * sh_ptr_blearner_mom->getParameter();
   _pred_momentum = _pred_momentum + lr_mom * sh_ptr_blearner_mom->predict();
-  //std::cout << "Insert momentum blearner";
   _momentum_blearnertrack.insertBaselearner(sh_ptr_blearner_mom, lr_mom);
 
   insert_id = sh_ptr_blearner_mom->getDataIdentifier() + "_" + sh_ptr_blearner_mom->getBaselearnerType();
