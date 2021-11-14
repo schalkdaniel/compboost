@@ -28,9 +28,9 @@ namespace logger
 // -------------------------------------------------------------------------- //
 
 Logger::Logger (const bool is_stopper, const std::string logger_type, const std::string logger_id)
-  : _is_stopper  ( is_stopper ),
-    _logger_type ( logger_type ),
-    _logger_id   ( logger_id )
+  : _logger_type ( logger_type ),
+    _logger_id   ( logger_id ),
+    _is_stopper  ( is_stopper )
 { }
 
 void Logger::setIsStopper (const bool is_stopper) { _is_stopper = is_stopper; }
@@ -390,14 +390,16 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
   std::string factory_id = sh_ptr_blearner->getDataIdentifier() + "_" + sh_ptr_blearner->getBaselearnerType();
   auto it_oob_data_inst = _oob_data_map_inst.find(factory_id);
   arma::mat temp_oob_prediction;
+
+  auto itf = factory_list.getFactoryMap().find(factory_id);
   if (it_oob_data_inst == _oob_data_map_inst.end()) {
-    auto itf = factory_list.getFactoryMap().find(factory_id);
     auto insert = std::pair<std::string, std::shared_ptr<data::Data>>(factory_id, itf->second->instantiateData(_oob_data_map));
     _oob_data_map_inst.insert(insert);
     temp_oob_prediction = sh_ptr_blearner->predict(insert.second);
   } else {
     temp_oob_prediction = sh_ptr_blearner->predict(it_oob_data_inst->second);
   }
+
   _sh_ptr_oob_response->updatePrediction(sh_ptr_optimizer->calculateUpdate(learning_rate, step_size, temp_oob_prediction,
     _oob_data_map, _sh_ptr_oob_response));
 

@@ -34,19 +34,19 @@ Response::Response (const std::string target_name, const std::string task_id,
   : _target_name       ( target_name ),
     _task_id           ( task_id ),
     _response          ( response ),
-    _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
-    _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) )
+    _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
+    _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) )
 { }
 
 Response::Response (const std::string target_name, const std::string task_id,
   const arma::mat& response, const arma::mat& weights)
   : _target_name       ( target_name ),
     _task_id           ( task_id ),
+    _use_weights       ( true ),
     _response          ( response ),
-    _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
-    _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
     _weights           ( weights ),
-    _use_weights       ( true )
+    _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
+    _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) )
 { }
 
 void Response::setIteration (const unsigned int iter) { _iteration = iter; }
@@ -234,16 +234,16 @@ void ResponseRegr::filter (const arma::uvec& idx)
 
 ResponseBinaryClassif::ResponseBinaryClassif (const std::string target_name, const std::string pos_class, const std::vector<std::string>& response)
   : Response::Response ( target_name, "binary_classif", helper::stringVecToBinaryVec(response, pos_class) ),
-    _class_table ( helper::tableResponse(response) ),
-    _pos_class   ( pos_class )
+    _pos_class   ( pos_class ),
+    _class_table ( helper::tableResponse(response) )
 {
   helper::checkForBinaryClassif(response);
 }
 
 ResponseBinaryClassif::ResponseBinaryClassif (const std::string target_name, const std::string pos_class, const std::vector<std::string>& response, const arma::mat& weights)
   : Response::Response ( target_name, "binary_classif", helper::stringVecToBinaryVec(response, pos_class), weights ),
-    _class_table ( helper::tableResponse(response) ),
-    _pos_class   ( pos_class )
+    _pos_class   ( pos_class ),
+    _class_table ( helper::tableResponse(response) )
 {
   helper::checkForBinaryClassif(response);
   helper::checkMatrixDim(_response, weights);
