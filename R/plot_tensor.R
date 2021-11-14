@@ -11,7 +11,7 @@
 #'   Number of grid points per numerical feature. Note: For two numerical features
 #'   the overall number of grid points is \code{npoints^2}. For a numerical and
 #'   categorical feature it is \code{npoints * ncat} with \code{ncat} the number
-#'   of categories. For two categorical features \cote{ncat^2} grid points are
+#'   of categories. For two categorical features \code{ncat^2} grid points are
 #'   drawn.
 #' @param nbins [\code{logical(1L)}]\cr
 #'   Number of bins for the surface. Only applies in the case of two numerical features.

@@ -9,7 +9,7 @@
 #' @return \code{ggplot} object containing the graphic.
 #' @param cboost [\code{Compboost} class]\cr
 #'   A trained \code{Compboost} object.
-#' @param values [\code{numeric(1L) | numeric(length(cboost$getSelectedBaselearner()))}]\cr
+#' @param value [\code{numeric(1L) | numeric(length(cboost$getSelectedBaselearner()))}]\cr
 #'   Value used to show the base learner development w.r.t. to the value.
 #' @param n_legend [\code{integer(1L)}]\cr
 #'   Number of colored base learners added to the legend.
@@ -65,11 +65,12 @@ plotBaselearnerTraces = function(cboost, value = 1, n_legend = 5L) {
   }))
 
   gg = ggplot2::ggplot() +
-    ggplot2::geom_line(data = df_plot_top, ggplot2::aes(x = iters, y = value, color = blearner), show.legend = FALSE) +
-    ggplot2::geom_line(data = df_plot_nottop, ggplot2::aes(x = iters, y = value, group = blearner),
+    ggplot2::geom_line(data = df_plot_top, ggplot2::aes_string(x = "iters", y = "value", color = "blearner"),
+      show.legend = FALSE) +
+    ggplot2::geom_line(data = df_plot_nottop, ggplot2::aes_string(x = "iters", y = "value", group = "blearner"),
       alpha = 0.2, show.legend = FALSE) +
-    ggrepel::geom_label_repel(data = df_label, ggplot2::aes(x = iters, y = value, label = round(value, 4),
-      fill = blearner), colour = "white", fontface = "bold", show.legend = TRUE) +
+    ggrepel::geom_label_repel(data = df_label, ggplot2::aes_string(x = "iters", y = "value", label = "round(value, 4)",
+      fill = "blearner"), colour = "white", fontface = "bold", show.legend = TRUE) +
     ggplot2::xlab("Iteration") +
     ggplot2::ylab("Cumulated Value\nof Included Base-Learner") +
     ggplot2::scale_fill_discrete(name = paste0("Top ", n_legend, " Base-Learner")) +

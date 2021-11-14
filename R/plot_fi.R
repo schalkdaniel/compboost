@@ -34,7 +34,7 @@ plotFeatureImportance = function(cboost, num_feats = NULL, aggregate = TRUE) {
   ## First column containing the names contains the base learner or the feature depending on the aggregation.
   ## Therefore, set a general baselearner column used for ggplot:
   df_vip$baselearner = df_vip[[1]]
-  gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
+  gg = ggplot2::ggplot(df_vip, ggplot2::aes_string(x = "reorder(baselearner, risk_reduction)", y = "risk_reduction")) +
     ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
   return(gg)

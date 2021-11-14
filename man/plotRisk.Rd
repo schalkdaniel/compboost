@@ -18,9 +18,11 @@ This function visualizes the risk during training. If validation data are given,
 the train risk is plotted against the validation risk.
 }
 \examples{
-cboost_no_valdat = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new())
+cboost_no_valdat = boostSplines(data = iris, target = "Sepal.Length",
+  loss = LossQuadratic$new())
 plotRisk(cboost_no_valdat)
 
-cboost_valdat = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob_fraction = 0.3)
+cboost_valdat = boostSplines(data = iris, target = "Sepal.Length",
+  loss = LossQuadratic$new(), oob_fraction = 0.3)
 plotRisk(cboost_valdat)
 }
