@@ -47,8 +47,8 @@ jobs:
 
       - uses: r-lib/actions/setup-pandoc@v1
 
-      - name: If macOS Install OpenMP
-        if: matrix.os == 'macOS-latest'
+      - name: Install OpenMP if macOS-latest
+        if: startsWith(matrix.os, 'macOS')
         run: |
           wget https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/openmp-11.0.0.src.tar.xz
           tar -xf openmp-11.0.0.src.tar.xz
