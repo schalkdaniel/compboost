@@ -198,56 +198,56 @@ A trained <code>Compboost</code> object.</p></td>
     <pre class="examples"><span class='r-in'><span class='va'>cboost_no_valdat</span> <span class='op'>=</span> <span class='fu'><a href='boostSplines.html'>boostSplines</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>iris</span>, target <span class='op'>=</span> <span class='st'>"Sepal.Length"</span>,</span>
 <span class='r-in'>  loss <span class='op'>=</span> <span class='va'><a href='LossQuadratic.html'>LossQuadratic</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   1/100   risk = 0.31  time = 0   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   2/100   risk = 0.29  time = 126   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   4/100   risk = 0.25  time = 283   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   6/100   risk = 0.21  time = 462   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   8/100   risk = 0.18  time = 608   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  10/100   risk = 0.16  time = 754   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  12/100   risk = 0.14  time = 904   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  14/100   risk = 0.13  time = 1048   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  16/100   risk = 0.11  time = 1194   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  18/100   risk = 0.1  time = 1347   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  20/100   risk = 0.095  time = 1494   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  22/100   risk = 0.088  time = 1640   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  24/100   risk = 0.083  time = 1791   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  26/100   risk = 0.078  time = 1937   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  28/100   risk = 0.074  time = 2086   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  30/100   risk = 0.071  time = 2242   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  32/100   risk = 0.069  time = 2381   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  34/100   risk = 0.067  time = 2520   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  36/100   risk = 0.065  time = 2660   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  38/100   risk = 0.063  time = 2800   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  40/100   risk = 0.062  time = 2938   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  42/100   risk = 0.061  time = 3077   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  44/100   risk = 0.06  time = 3217   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  46/100   risk = 0.059  time = 3357   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  48/100   risk = 0.058  time = 3497   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  50/100   risk = 0.057  time = 3636   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  52/100   risk = 0.056  time = 3774   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  54/100   risk = 0.056  time = 3914   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  56/100   risk = 0.055  time = 4054   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  58/100   risk = 0.054  time = 4194   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  60/100   risk = 0.054  time = 4333   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  62/100   risk = 0.053  time = 4474   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  64/100   risk = 0.052  time = 4613   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  66/100   risk = 0.052  time = 4754   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  68/100   risk = 0.051  time = 4898   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  70/100   risk = 0.051  time = 5038   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  72/100   risk = 0.051  time = 5179   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  74/100   risk = 0.05  time = 5321   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  76/100   risk = 0.05  time = 5462   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  78/100   risk = 0.049  time = 5629   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  80/100   risk = 0.049  time = 5782   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  82/100   risk = 0.049  time = 5937   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  84/100   risk = 0.048  time = 6087   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  86/100   risk = 0.048  time = 6483   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  88/100   risk = 0.048  time = 9168   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  90/100   risk = 0.048  time = 9335   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  92/100   risk = 0.047  time = 9495   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  94/100   risk = 0.047  time = 9651   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  96/100   risk = 0.047  time = 9808   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  98/100   risk = 0.047  time = 9965   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100/100   risk = 0.046  time = 10119   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2/100   risk = 0.29  time = 122   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4/100   risk = 0.25  time = 322   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   6/100   risk = 0.21  time = 971   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   8/100   risk = 0.18  time = 1151   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10/100   risk = 0.16  time = 1317   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  12/100   risk = 0.14  time = 1481   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  14/100   risk = 0.13  time = 1676   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  16/100   risk = 0.11  time = 1842   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  18/100   risk = 0.1  time = 2006   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  20/100   risk = 0.095  time = 2170   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  22/100   risk = 0.088  time = 2333   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  24/100   risk = 0.083  time = 2494   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  26/100   risk = 0.078  time = 2655   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  28/100   risk = 0.074  time = 2818   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  30/100   risk = 0.071  time = 2999   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  32/100   risk = 0.069  time = 3178   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  34/100   risk = 0.067  time = 3345   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  36/100   risk = 0.065  time = 3510   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  38/100   risk = 0.063  time = 3675   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  40/100   risk = 0.062  time = 3857   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  42/100   risk = 0.061  time = 4017   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  44/100   risk = 0.06  time = 4178   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  46/100   risk = 0.059  time = 4358   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  48/100   risk = 0.058  time = 4524   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  50/100   risk = 0.057  time = 4692   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  52/100   risk = 0.056  time = 4859   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  54/100   risk = 0.056  time = 5027   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  56/100   risk = 0.055  time = 5198   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  58/100   risk = 0.054  time = 5365   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  60/100   risk = 0.054  time = 5533   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  62/100   risk = 0.053  time = 5941   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  64/100   risk = 0.052  time = 6300   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  66/100   risk = 0.052  time = 6479   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  68/100   risk = 0.051  time = 6851   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  70/100   risk = 0.051  time = 7237   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  72/100   risk = 0.051  time = 7623   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  74/100   risk = 0.05  time = 7950   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  76/100   risk = 0.05  time = 8164   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  78/100   risk = 0.049  time = 8532   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  80/100   risk = 0.049  time = 8900   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  82/100   risk = 0.049  time = 9284   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  84/100   risk = 0.048  time = 9643   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  86/100   risk = 0.048  time = 9834   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  88/100   risk = 0.048  time = 10217   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  90/100   risk = 0.048  time = 10654   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  92/100   risk = 0.047  time = 11058   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  94/100   risk = 0.047  time = 11484   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  96/100   risk = 0.047  time = 12128   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  98/100   risk = 0.047  time = 12317   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100/100   risk = 0.046  time = 12700   </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Train 100 iterations in 0 Seconds.</span>
@@ -259,56 +259,56 @@ A trained <code>Compboost</code> object.</p></td>
 <span class='r-in'><span class='va'>cboost_valdat</span> <span class='op'>=</span> <span class='fu'><a href='boostSplines.html'>boostSplines</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>iris</span>, target <span class='op'>=</span> <span class='st'>"Sepal.Length"</span>,</span>
 <span class='r-in'>  loss <span class='op'>=</span> <span class='va'><a href='LossQuadratic.html'>LossQuadratic</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>, oob_fraction <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>   1/100   risk = 0.31  oob_risk = 0.31   time = 0   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   2/100   risk = 0.29  oob_risk = 0.29   time = 99   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   4/100   risk = 0.24  oob_risk = 0.25   time = 228   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   6/100   risk = 0.21  oob_risk = 0.22   time = 358   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>   8/100   risk = 0.18  oob_risk = 0.2   time = 481   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  10/100   risk = 0.16  oob_risk = 0.18   time = 606   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  12/100   risk = 0.14  oob_risk = 0.17   time = 731   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  14/100   risk = 0.12  oob_risk = 0.15   time = 851   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  16/100   risk = 0.11  oob_risk = 0.14   time = 974   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  18/100   risk = 0.098  oob_risk = 0.14   time = 1109   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  20/100   risk = 0.089  oob_risk = 0.13   time = 1226   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  22/100   risk = 0.082  oob_risk = 0.12   time = 1363   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  24/100   risk = 0.077  oob_risk = 0.12   time = 1489   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  26/100   risk = 0.072  oob_risk = 0.12   time = 1614   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  28/100   risk = 0.069  oob_risk = 0.11   time = 1738   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  30/100   risk = 0.066  oob_risk = 0.11   time = 1862   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  32/100   risk = 0.063  oob_risk = 0.11   time = 2011   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  34/100   risk = 0.061  oob_risk = 0.11   time = 2140   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  36/100   risk = 0.059  oob_risk = 0.11   time = 2293   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  38/100   risk = 0.058  oob_risk = 0.11   time = 2419   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  40/100   risk = 0.056  oob_risk = 0.11   time = 2545   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  42/100   risk = 0.055  oob_risk = 0.1   time = 2682   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  44/100   risk = 0.054  oob_risk = 0.1   time = 2802   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  46/100   risk = 0.053  oob_risk = 0.1   time = 2924   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  48/100   risk = 0.052  oob_risk = 0.1   time = 3050   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  50/100   risk = 0.051  oob_risk = 0.1   time = 3171   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  52/100   risk = 0.05  oob_risk = 0.1   time = 3312   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  54/100   risk = 0.049  oob_risk = 0.1   time = 3457   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  56/100   risk = 0.048  oob_risk = 0.1   time = 3586   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  58/100   risk = 0.047  oob_risk = 0.1   time = 3717   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  60/100   risk = 0.047  oob_risk = 0.1   time = 3845   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  62/100   risk = 0.046  oob_risk = 0.1   time = 3970   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  64/100   risk = 0.046  oob_risk = 0.1   time = 4097   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  66/100   risk = 0.045  oob_risk = 0.1   time = 4226   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  68/100   risk = 0.045  oob_risk = 0.1   time = 4353   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  70/100   risk = 0.044  oob_risk = 0.1   time = 4481   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  72/100   risk = 0.044  oob_risk = 0.1   time = 4608   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  74/100   risk = 0.043  oob_risk = 0.099   time = 4735   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  76/100   risk = 0.043  oob_risk = 0.099   time = 4958   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  78/100   risk = 0.043  oob_risk = 0.099   time = 5085   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  80/100   risk = 0.042  oob_risk = 0.099   time = 5213   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  82/100   risk = 0.042  oob_risk = 0.099   time = 5340   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  84/100   risk = 0.042  oob_risk = 0.099   time = 5468   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  86/100   risk = 0.042  oob_risk = 0.099   time = 5597   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  88/100   risk = 0.041  oob_risk = 0.099   time = 5724   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  90/100   risk = 0.041  oob_risk = 0.099   time = 5853   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  92/100   risk = 0.041  oob_risk = 0.099   time = 5983   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  94/100   risk = 0.041  oob_risk = 0.099   time = 6113   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  96/100   risk = 0.04  oob_risk = 0.099   time = 6241   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  98/100   risk = 0.04  oob_risk = 0.099   time = 6371   </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 100/100   risk = 0.04  oob_risk = 0.098   time = 6500   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2/100   risk = 0.29  oob_risk = 0.29   time = 125   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4/100   risk = 0.24  oob_risk = 0.25   time = 270   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   6/100   risk = 0.21  oob_risk = 0.22   time = 417   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   8/100   risk = 0.18  oob_risk = 0.2   time = 552   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10/100   risk = 0.16  oob_risk = 0.18   time = 687   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  12/100   risk = 0.14  oob_risk = 0.17   time = 823   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  14/100   risk = 0.12  oob_risk = 0.15   time = 956   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  16/100   risk = 0.11  oob_risk = 0.14   time = 1095   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  18/100   risk = 0.098  oob_risk = 0.14   time = 1233   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  20/100   risk = 0.089  oob_risk = 0.13   time = 1367   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  22/100   risk = 0.082  oob_risk = 0.12   time = 1500   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  24/100   risk = 0.077  oob_risk = 0.12   time = 1658   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  26/100   risk = 0.072  oob_risk = 0.12   time = 1796   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  28/100   risk = 0.069  oob_risk = 0.11   time = 1932   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  30/100   risk = 0.066  oob_risk = 0.11   time = 2069   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  32/100   risk = 0.063  oob_risk = 0.11   time = 2237   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  34/100   risk = 0.061  oob_risk = 0.11   time = 2384   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  36/100   risk = 0.059  oob_risk = 0.11   time = 2550   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  38/100   risk = 0.058  oob_risk = 0.11   time = 2696   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  40/100   risk = 0.056  oob_risk = 0.11   time = 2844   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  42/100   risk = 0.055  oob_risk = 0.1   time = 2987   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  44/100   risk = 0.054  oob_risk = 0.1   time = 3129   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  46/100   risk = 0.053  oob_risk = 0.1   time = 3269   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  48/100   risk = 0.052  oob_risk = 0.1   time = 3410   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  50/100   risk = 0.051  oob_risk = 0.1   time = 3549   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  52/100   risk = 0.05  oob_risk = 0.1   time = 3688   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  54/100   risk = 0.049  oob_risk = 0.1   time = 3826   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  56/100   risk = 0.048  oob_risk = 0.1   time = 3966   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  58/100   risk = 0.047  oob_risk = 0.1   time = 4107   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  60/100   risk = 0.047  oob_risk = 0.1   time = 4248   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  62/100   risk = 0.046  oob_risk = 0.1   time = 4390   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  64/100   risk = 0.046  oob_risk = 0.1   time = 4532   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  66/100   risk = 0.045  oob_risk = 0.1   time = 4688   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  68/100   risk = 0.045  oob_risk = 0.1   time = 4839   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  70/100   risk = 0.044  oob_risk = 0.1   time = 4983   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  72/100   risk = 0.044  oob_risk = 0.1   time = 5128   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  74/100   risk = 0.043  oob_risk = 0.099   time = 5274   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  76/100   risk = 0.043  oob_risk = 0.099   time = 5420   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  78/100   risk = 0.043  oob_risk = 0.099   time = 5562   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  80/100   risk = 0.042  oob_risk = 0.099   time = 5725   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  82/100   risk = 0.042  oob_risk = 0.099   time = 5869   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  84/100   risk = 0.042  oob_risk = 0.099   time = 6011   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  86/100   risk = 0.042  oob_risk = 0.099   time = 6153   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  88/100   risk = 0.041  oob_risk = 0.099   time = 6293   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  90/100   risk = 0.041  oob_risk = 0.099   time = 6435   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  92/100   risk = 0.041  oob_risk = 0.099   time = 6575   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  94/100   risk = 0.041  oob_risk = 0.099   time = 6716   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  96/100   risk = 0.04  oob_risk = 0.099   time = 6855   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  98/100   risk = 0.04  oob_risk = 0.099   time = 6996   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100/100   risk = 0.04  oob_risk = 0.098   time = 7138   </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> Train 100 iterations in 0 Seconds.</span>
