@@ -222,27 +222,27 @@
 <a href="#train-model-and-access-elements" class="anchor"></a>Train Model and Access Elements</h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.67  oob_risk = 0.64   time = 0   </span>
-<span class="co">#&gt;  100/2000   risk = 0.47  oob_risk = 0.6   time = 9848   </span>
-<span class="co">#&gt;  200/2000   risk = 0.48  oob_risk = 0.66   time = 20167   </span>
-<span class="co">#&gt;  300/2000   risk = 0.49  oob_risk = 0.7   time = 32532   </span>
-<span class="co">#&gt;  400/2000   risk = 0.5  oob_risk = 0.73   time = 44450   </span>
-<span class="co">#&gt;  500/2000   risk = 0.5  oob_risk = 0.75   time = 56867   </span>
-<span class="co">#&gt;  600/2000   risk = 0.51  oob_risk = 0.77   time = 71201   </span>
-<span class="co">#&gt;  700/2000   risk = 0.51  oob_risk = 0.78   time = 84107   </span>
-<span class="co">#&gt;  800/2000   risk = 0.51  oob_risk = 0.79   time = 98226   </span>
-<span class="co">#&gt;  900/2000   risk = 0.51  oob_risk = 0.8   time = 113734   </span>
-<span class="co">#&gt; 1000/2000   risk = 0.51  oob_risk = 0.8   time = 129471   </span>
-<span class="co">#&gt; 1100/2000   risk = 0.51  oob_risk = 0.81   time = 146310   </span>
-<span class="co">#&gt; 1200/2000   risk = 0.52  oob_risk = 0.81   time = 163734   </span>
-<span class="co">#&gt; 1300/2000   risk = 0.52  oob_risk = 0.81   time = 181700   </span>
-<span class="co">#&gt; 1400/2000   risk = 0.52  oob_risk = 0.82   time = 200922   </span>
-<span class="co">#&gt; 1500/2000   risk = 0.52  oob_risk = 0.82   time = 220279   </span>
-<span class="co">#&gt; 1600/2000   risk = 0.52  oob_risk = 0.82   time = 239114   </span>
-<span class="co">#&gt; 1700/2000   risk = 0.52  oob_risk = 0.82   time = 259528   </span>
-<span class="co">#&gt; 1800/2000   risk = 0.52  oob_risk = 0.82   time = 283530   </span>
-<span class="co">#&gt; 1900/2000   risk = 0.52  oob_risk = 0.82   time = 307156   </span>
-<span class="co">#&gt; 2000/2000   risk = 0.52  oob_risk = 0.83   time = 330693   </span>
+<span class="co">#&gt;    1/2000   risk = 0.66  oob_risk = 0.67   time = 0   </span>
+<span class="co">#&gt;  100/2000   risk = 0.48  oob_risk = 0.57   time = 10910   </span>
+<span class="co">#&gt;  200/2000   risk = 0.48  oob_risk = 0.61   time = 21285   </span>
+<span class="co">#&gt;  300/2000   risk = 0.49  oob_risk = 0.64   time = 33481   </span>
+<span class="co">#&gt;  400/2000   risk = 0.5  oob_risk = 0.66   time = 44975   </span>
+<span class="co">#&gt;  500/2000   risk = 0.51  oob_risk = 0.68   time = 56708   </span>
+<span class="co">#&gt;  600/2000   risk = 0.51  oob_risk = 0.69   time = 68461   </span>
+<span class="co">#&gt;  700/2000   risk = 0.51  oob_risk = 0.7   time = 82633   </span>
+<span class="co">#&gt;  800/2000   risk = 0.51  oob_risk = 0.7   time = 96096   </span>
+<span class="co">#&gt;  900/2000   risk = 0.52  oob_risk = 0.71   time = 109090   </span>
+<span class="co">#&gt; 1000/2000   risk = 0.52  oob_risk = 0.71   time = 122530   </span>
+<span class="co">#&gt; 1100/2000   risk = 0.52  oob_risk = 0.71   time = 137654   </span>
+<span class="co">#&gt; 1200/2000   risk = 0.52  oob_risk = 0.71   time = 151639   </span>
+<span class="co">#&gt; 1300/2000   risk = 0.52  oob_risk = 0.71   time = 166017   </span>
+<span class="co">#&gt; 1400/2000   risk = 0.52  oob_risk = 0.72   time = 180514   </span>
+<span class="co">#&gt; 1500/2000   risk = 0.52  oob_risk = 0.72   time = 196575   </span>
+<span class="co">#&gt; 1600/2000   risk = 0.52  oob_risk = 0.72   time = 213111   </span>
+<span class="co">#&gt; 1700/2000   risk = 0.52  oob_risk = 0.72   time = 228878   </span>
+<span class="co">#&gt; 1800/2000   risk = 0.52  oob_risk = 0.72   time = 245114   </span>
+<span class="co">#&gt; 1900/2000   risk = 0.52  oob_risk = 0.72   time = 261406   </span>
+<span class="co">#&gt; 2000/2000   risk = 0.52  oob_risk = 0.72   time = 278226   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Train 2000 iterations in 0 Seconds.</span>
@@ -258,37 +258,37 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; List of 4</span>
-<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -8.626 -0.75 -1.583 0.695 1.853 ...</span>
+<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -7.566 -0.251 -0.787 2.945 0.483 ...</span>
 <span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.731 0.286 -0.591 -1.415 -1.857 ...</span>
+<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.685 0.379 -1.023 -1.635 -1.569 ...</span>
 <span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] 1.11 -1.51</span>
+<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] 1.08 -1.38</span>
 <span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
 <span class="co">#&gt;   .. ..$ : chr [1:2] "male" "female"</span>
 <span class="co">#&gt;   .. ..$ : NULL</span>
 <span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span>
-<span class="co">#&gt;  $ offset     : num 0.149</span>
+<span class="co">#&gt;  $ offset     : num 0.211</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:2001] 0.682 0.666 0.651 0.638 0.625 ...</span>
+<span class="co">#&gt;  num [1:2001] 0.671 0.657 0.643 0.631 0.619 ...</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:500, 1] 2.273 -2.483 1.556 0.163 -1.116 ...</span></code></pre></div>
+<span class="co">#&gt;  num [1:500, 1] 2.443 -2.231 -0.355 1.501 0.739 ...</span></code></pre></div>
 <p>To obtain a vector of the selected base-learners just call <code>$getSelectedBaselearner()</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Age_spline Fare_spline   Sex_ridge </span>
-<span class="co">#&gt;        1501         268         231</span></code></pre></div>
+<span class="co">#&gt;        1417         364         219</span></code></pre></div>
 <p>We can also access the predictions directly from the response object <code>cboost$response</code> and <code>cboost$response_oob</code>. Note that <code>$response_oob</code> was created automatically when defining an <code>oob_fraction</code> within the constructor:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">oob_label</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getResponse</span><span class="op">(</span><span class="op">)</span>
 <span class="va">oob_pred</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getPredictionResponse</span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span>true_label <span class="op">=</span> <span class="va">oob_label</span>, predicted <span class="op">=</span> <span class="va">oob_pred</span><span class="op">)</span>
 <span class="co">#&gt;           predicted</span>
-<span class="co">#&gt; true_label  -1   1</span>
-<span class="co">#&gt;         -1  49  28</span>
-<span class="co">#&gt;         1   29 108</span></code></pre></div>
+<span class="co">#&gt; true_label -1  1</span>
+<span class="co">#&gt;         -1 63 29</span>
+<span class="co">#&gt;         1  28 94</span></code></pre></div>
 </div>
 <div id="visualizing-inbag-vs--out-of-bag-behavior" class="section level2">
 <h2 class="hasAnchor">
@@ -308,41 +308,41 @@
 <span class="co">#&gt; You have already trained 2000 iterations.</span>
 <span class="co">#&gt; Train 1000 additional iterations.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; 2025/3000   risk = 0.52  oob_risk = 0.83   time = 336888   </span>
-<span class="co">#&gt; 2100/3000   risk = 0.52  oob_risk = 0.83   time = 357175   </span>
-<span class="co">#&gt; 2175/3000   risk = 0.52  oob_risk = 0.83   time = 375931   </span>
-<span class="co">#&gt; 2250/3000   risk = 0.52  oob_risk = 0.83   time = 395058   </span>
-<span class="co">#&gt; 2325/3000   risk = 0.52  oob_risk = 0.83   time = 414430   </span>
-<span class="co">#&gt; 2400/3000   risk = 0.52  oob_risk = 0.83   time = 434567   </span>
-<span class="co">#&gt; 2475/3000   risk = 0.51  oob_risk = 0.83   time = 454491   </span>
-<span class="co">#&gt; 2550/3000   risk = 0.51  oob_risk = 0.83   time = 476025   </span>
-<span class="co">#&gt; 2625/3000   risk = 0.51  oob_risk = 0.83   time = 498066   </span>
-<span class="co">#&gt; 2700/3000   risk = 0.51  oob_risk = 0.83   time = 524605   </span>
-<span class="co">#&gt; 2775/3000   risk = 0.51  oob_risk = 0.83   time = 549110   </span>
-<span class="co">#&gt; 2850/3000   risk = 0.51  oob_risk = 0.84   time = 574175   </span>
-<span class="co">#&gt; 2925/3000   risk = 0.51  oob_risk = 0.84   time = 599975   </span>
-<span class="co">#&gt; 3000/3000   risk = 0.51  oob_risk = 0.84   time = 627332</span>
+<span class="co">#&gt; 2025/3000   risk = 0.52  oob_risk = 0.72   time = 283329   </span>
+<span class="co">#&gt; 2100/3000   risk = 0.52  oob_risk = 0.72   time = 296316   </span>
+<span class="co">#&gt; 2175/3000   risk = 0.52  oob_risk = 0.72   time = 309740   </span>
+<span class="co">#&gt; 2250/3000   risk = 0.52  oob_risk = 0.72   time = 324043   </span>
+<span class="co">#&gt; 2325/3000   risk = 0.52  oob_risk = 0.72   time = 337572   </span>
+<span class="co">#&gt; 2400/3000   risk = 0.52  oob_risk = 0.72   time = 351418   </span>
+<span class="co">#&gt; 2475/3000   risk = 0.52  oob_risk = 0.72   time = 365476   </span>
+<span class="co">#&gt; 2550/3000   risk = 0.52  oob_risk = 0.72   time = 379450   </span>
+<span class="co">#&gt; 2625/3000   risk = 0.52  oob_risk = 0.72   time = 394984   </span>
+<span class="co">#&gt; 2700/3000   risk = 0.52  oob_risk = 0.72   time = 409547   </span>
+<span class="co">#&gt; 2775/3000   risk = 0.52  oob_risk = 0.72   time = 424182   </span>
+<span class="co">#&gt; 2850/3000   risk = 0.52  oob_risk = 0.72   time = 439131   </span>
+<span class="co">#&gt; 2925/3000   risk = 0.52  oob_risk = 0.72   time = 454171   </span>
+<span class="co">#&gt; 3000/3000   risk = 0.52  oob_risk = 0.73   time = 469645</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; List of 4</span>
-<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -12.299 -0.102 -1.832 0.716 1.936 ...</span>
+<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -10.815 0.449 -1.191 3.174 0.326 ...</span>
 <span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.757 0.288 -0.591 -1.434 -1.894 ...</span>
+<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.653 0.403 -1.047 -1.68 -1.624 ...</span>
 <span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] 1.11 -1.52</span>
+<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] 1.09 -1.39</span>
 <span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
 <span class="co">#&gt;   .. ..$ : chr [1:2] "male" "female"</span>
 <span class="co">#&gt;   .. ..$ : NULL</span>
 <span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span>
-<span class="co">#&gt;  $ offset     : num 0.149</span>
+<span class="co">#&gt;  $ offset     : num 0.211</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:3001] 0.682 0.666 0.651 0.638 0.625 ...</span>
+<span class="co">#&gt;  num [1:3001] 0.671 0.657 0.643 0.631 0.619 ...</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  Age_spline Fare_spline   Sex_ridge </span>
-<span class="co">#&gt;        2459         299         242</span></code></pre></div>
+<span class="co">#&gt;        2301         461         238</span></code></pre></div>
 </div>
 <div id="visualizing-base-learner" class="section level2">
 <h2 class="hasAnchor">

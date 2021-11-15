@@ -185,13 +185,12 @@
 
 <span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
 <span class="co">#&gt;    1/2000   risk = 0.66  time = 0   </span>
-<span class="co">#&gt;  100/2000   risk = 0.5  time = 9773   </span>
-<span class="co">#&gt;  200/2000   risk = 0.51  time = 21241   </span>
-<span class="co">#&gt;  300/2000   risk = 0.52  time = 36546   </span>
-<span class="co">#&gt;  400/2000   risk = 0.53  time = 48313   </span>
+<span class="co">#&gt;  100/2000   risk = 0.5  time = 9540   </span>
+<span class="co">#&gt;  200/2000   risk = 0.51  time = 23660   </span>
+<span class="co">#&gt;  300/2000   risk = 0.52  time = 37950   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Train 415 iterations in 0 Seconds.</span>
+<span class="co">#&gt; Train 383 iterations in 0 Seconds.</span>
 <span class="co">#&gt; Final risk based on the train set: 0.53</span>
 <span class="va">cboost</span>
 <span class="co">#&gt; </span>
@@ -200,16 +199,16 @@
 <span class="co">#&gt;   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span></code></pre></div>
-<p>As we can see, the fittings is stopped after 415 and not after 2000 iterations as specified in train. Taking a look at the logger data, we can see that the last entry exceeds the 50000 microseconds and therefore triggers the stopping criteria:</p>
+<p>As we can see, the fittings is stopped after 383 and not after 2000 iterations as specified in train. Taking a look at the logger data, we can see that the last entry exceeds the 50000 microseconds and therefore triggers the stopping criteria:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt;     _iterations  time baselearner train_risk</span>
-<span class="co">#&gt; 411         410 49403  Age_spline  0.5290672</span>
-<span class="co">#&gt; 412         411 49520   Sex_ridge  0.5293965</span>
-<span class="co">#&gt; 413         412 49651 Fare_spline  0.5294358</span>
-<span class="co">#&gt; 414         413 49777  Age_spline  0.5294166</span>
-<span class="co">#&gt; 415         414 49898  Age_spline  0.5293975</span>
-<span class="co">#&gt; 416         415 50025  Age_spline  0.5293785</span></code></pre></div>
+<span class="co">#&gt; 379         378 49532 Fare_spline  0.5278253</span>
+<span class="co">#&gt; 380         379 49643  Age_spline  0.5278053</span>
+<span class="co">#&gt; 381         380 49755  Age_spline  0.5277855</span>
+<span class="co">#&gt; 382         381 49866 Fare_spline  0.5278278</span>
+<span class="co">#&gt; 383         382 49971   Sex_ridge  0.5281762</span>
+<span class="co">#&gt; 384         383 50081  Age_spline  0.5281562</span></code></pre></div>
 </div>
 </div>
 <div id="loss-based-early-stopping" class="section level2">
