@@ -72,11 +72,11 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
 
   if (individual) {
     gg = gg +
-      pfun(data = df_ind, mapping = ggplot2::aes(x = x, y = y, color = bl), alpha = 0.6) +
-      pfun(data = df_agg, mapping = ggplot2::aes(x = x, y = y, color = "Aggregated Contribution"), size = 1.2) +
+      pfun(data = df_ind, mapping = ggplot2::aes_string(x = "x", y = "y", color = "bl"), alpha = 0.6) +
+      pfun(data = df_agg, mapping = ggplot2::aes_string(x = "x", y = "y", color = "'Aggregated Contribution'"), size = 1.2) +
       ggplot2::labs(color = "Baselearner")
   } else {
-    gg = gg + pfun(data = df_agg, mapping = ggplot2::aes(x = x, y = y)) +
+    gg = gg + pfun(data = df_agg, mapping = ggplot2::aes_string(x = "x", y = "y")) +
       ggplot2::labs(color = "Baselearner")
   }
   gg = gg + ggplot2::xlab(feat) +
@@ -103,7 +103,7 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
 #' cboost$addComponents("Sepal.Width")
 #' cboost$train(500L)
 #' plotBaselearner(cboost, "Sepal.Width_linear")
-#' plotBaselearner(cboost, "Sepal.Width_spline")
+#' plotBaselearner(cboost, "Sepal.Width_spline_centered")
 #' @export
 plotBaselearner = function(cboost, blname, npoints = 100L) {
   if (! requireNamespace("ggplot2", quietly = TRUE)) stop("Please install ggplot2 to create plots.")
@@ -117,7 +117,7 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
   checkmate::assertChoice(x = blname, choices = cboost$getBaselearnerNames())
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
 
-  feats = cboost$bl_factory_list$getDataNames()
+  feats = unique(cboost$bl_factory_list$getDataNames())
   feat  = feats[vapply(feats, FUN.VALUE = logical(1L), FUN = function(feat) grepl(feat, blname))]
 
   x = cboost$data[[feat]]
@@ -132,7 +132,7 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
   newdat = suppressWarnings(cboost$prepareData(df_plt))
   df_plt = data.frame(x = x, y = cboost$model$predictFactoryNewData(blname, newdat))
 
-  gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes(x = x, y = y)) +
+  gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes_string(x = "x", y = "y")) +
     ggplot2::xlab(feat) +
     ggplot2::ylab("Contribution to\nprediction scroes")
 

@@ -1,0 +1,128 @@
+---
+title: "Visualizing a compboost model"
+output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualizing a compboost model}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8,
+  fig.height = 4,
+  fig.align = "center"
+  # fig.path = "Readme_files/"
+)
+library(ggplot2)
+library(compboost)
+
+theme_set(ggthemes::theme_tufte())
+```
+
+`Compboost` comes with a variety of function to get deeper insights into a fitted model. Using these function allows to get different views on the model.
+
+## Fit `compboost`
+
+The data set we use is `mpg`:
+```{r, echo=FALSE}
+knitr::kable(head(mtcars))
+```
+
+We want to model the miles per gallon (`mpg`). As features we include the linear and centered spline of `hp`, `wt`, and `qsec`. Additionally, we add a categorical base learner for the number of cylinders `cyl`:
+```{r}
+mtcars$cyl = as.factor(mtcars$cyl)
+
+set.seed(31415)
+cboost = Compboost$new(data = mtcars, target = "mpg", learning_rate = 0.02,
+  loss = LossQuadratic$new(), oob_fraction = 0.2)
+
+cboost$addComponents("hp", df = 4)
+cboost$addComponents("wt", df = 4)
+cboost$addComponents("qsec", df = 4)
+cboost$addBaselearner("cyl", "ridge", BaselearnerCategoricalRidge, df = 4)
+
+cboost$train(500L, trace = 100L)
+```
+
+## Visualize risk, feature importance, and selection traces
+
+A first start when analyzing a component wise boosting model is to take a look at the train and validation risk:
+```{r}
+plotRisk(cboost)
+```
+
+As we can see, the best validation risk is at iteration `r which.min(cboost$getLoggerData()[["oob_risk"]])`. Hence, we should set the model to this iteration:
+```{r}
+m_optimal = which.min(cboost$getLoggerData()[["oob_risk"]])
+cboost$train(m_optimal)
+```
+
+Next, we are interested in the top base learners/features:
+```{r}
+plotFeatureImportance(cboost)
+```
+
+The last thing we can do to get a more general overview of the model is to have a look how the features/base learners were included into the model:
+```{r}
+plotBaselearnerTraces(cboost)
+```
+
+## Visualize base learner and partial effects
+
+Next, we want to deep dive into the effect of individual features or base learners. Therefore, we can plot the partial effects of the most important feature `wt`:
+```{r}
+plotPEUni(cboost, "wt")
+```
+
+We observe a clear negative trend, meaning that an increasing weight indicates lower `mpg`. Additionally, we can visualize individual base learners. For example the only categorical feature `cyl`:
+```{r}
+plotBaselearner(cboost, "cyl_ridge")
+```
+
+Here, we observe that 4 cylinder indicates a positive contribution to `mpg` while 6 and 8 cylinder are reducing it.
+
+## Visualizing individual predictions
+
+Next, we want to calculate predictions. But, we also want to have the specific contribution each feature has to the prediction. Therefore we take a look at the first observation in the validation data set:
+```{r}
+plotIndividualContribution(cboost, newdata = cboost$data_oob[1,])
+```
+
+As we can see, the prediction is dominated by the offset. To remove it from the figure we set `offset = FALSE`:
+```{r}
+plotIndividualContribution(cboost, newdata = cboost$data_oob[1,], offset = FALSE)
+```
+
+The `wt` and `hp` do have a positive contribution to the predicted score which means the car requires less fuel while the 6 cylinder slightly increases the `mpg` prediction. Overall, the car has a positive difference compared to the offset of `r cboost$model$getOffset()`.
+
+
+## Visualizing tensor products
+
+The last possibility of visualizing information of the model are interactions that are included as tensors. Therefore, we have to add tensors into the model:
+```{r}
+mtcars$vs = as.factor(mtcars$vs)
+mtcars$gear = as.factor(mtcars$gear)
+
+set.seed(31415)
+cboost = Compboost$new(data = mtcars, target = "mpg",
+  loss = LossQuadratic$new(), oob_fraction = 0.2)
+
+cboost$addTensor("wt", "qsec", df = 4)
+cboost$addTensor("hp", "cyl", df = 4)
+cboost$addTensor("gear", "vs", df = 4)
+
+cboost$train(500L, trace = 100L)
+table(cboost$getSelectedBaselearner())
+```
+
+Depending on the feature combination (numeric - numeric, numeric - categorical, categorical - categorical) a different visualization technique is used:
+```{r, fig.width=10}
+gg1 = plotTensor(cboost, "wt_qsec_tensor") + ggtitle("Num - Num")
+gg2 = plotTensor(cboost, "hp_cyl_tensor") + ggtitle("Num - Cat")
+gg3 = plotTensor(cboost, "gear_vs_tensor") + ggtitle("Cat - Cat")
+
+gridExtra::grid.arrange(gg1, gg2, gg3, ncol = 3L)
+```

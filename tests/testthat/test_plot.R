@@ -119,7 +119,8 @@ test_that("feature importance plotting works", {
 })
 
 test_that("bivariate tensors are working", {
-  iris$g2 = sample(LETTERS[1:10], 150, TRUE)
+  set.seed(31415)
+  iris$g2 = sample(LETTERS[1:3], 150, TRUE)
 
   expect_silent({
     cboost = Compboost$new(data = iris, target = "Petal.Length",

@@ -10,11 +10,11 @@ plotBaselearnerTraces(cboost, value = 1, n_legend = 5L)
 \item{cboost}{[\code{Compboost} class]\cr
 A trained \code{Compboost} object.}
 
+\item{value}{[\code{numeric(1L) | numeric(length(cboost$getSelectedBaselearner()))}]\cr
+Value used to show the base learner development w.r.t. to the value.}
+
 \item{n_legend}{[\code{integer(1L)}]\cr
 Number of colored base learners added to the legend.}
-
-\item{values}{[\code{numeric(1L) | numeric(length(cboost$getSelectedBaselearner()))}]\cr
-Value used to show the base learner development w.r.t. to the value.}
 }
 \value{
 \code{ggplot} object containing the graphic.

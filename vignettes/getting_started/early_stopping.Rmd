@@ -2,7 +2,7 @@
 title: "Early Stopping"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Early stopping with compboost}
+  %\VignetteIndexEntry{Early Stopping}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -49,7 +49,7 @@ cboost = Compboost$new(data = df[idx_train, ], target = "Survived", loss = LossB
 
 cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 cboost$addBaselearner("Fare", "spline", BaselearnerPSpline)
-cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = FALSE)
+cboost$addBaselearner("Sex", "ridge", BaselearnerCategoricalRidge)
 ```
 
 
@@ -84,7 +84,7 @@ cboost = Compboost$new(data = df[idx_train, ], target = "Survived", loss = LossB
 
 cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 cboost$addBaselearner("Fare", "spline", BaselearnerPSpline)
-cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = FALSE)
+cboost$addBaselearner("Sex", "ridge", BaselearnerCategoricalRidge)
 ```
 
 In machine learning we often like to stop when the best model performance is reached. Especially in boosting, which may tend to overfit, we need either tuning or early stopping to determine what is a good number of iterations $m$ to get a good model performance. A well-known procedure is to log the out of bag (oob) behavior of the model and stop after this starts to get worse. This is how the oob early stopping is implemented in `compboost`. The parameter we need to specify are
@@ -152,7 +152,7 @@ cboost = Compboost$new(data = df[idx_train, ], target = "Survived", loss = LossB
 
 cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 cboost$addBaselearner("Fare", "spline", BaselearnerPSpline)
-cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial, intercept = FALSE)
+cboost$addBaselearner("Sex", "ridge", BaselearnerCategoricalRidge)
 
 oob_response = cboost$prepareResponse(df$Survived[idx_test])
 oob_data = cboost$prepareData(df[idx_test,])

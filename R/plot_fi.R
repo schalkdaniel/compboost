@@ -28,13 +28,22 @@ plotFeatureImportance = function(cboost, num_feats = NULL, aggregate = TRUE) {
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  if (is.null(num_feats)) num_feats = length(unique(cboost$getSelectedBaselearner()))
+  if (is.null(num_feats)) {
+    df_tmp = data.frame(
+      feat = cboost$bl_factory_list$getDataNames(),
+      bl   = cboost$bl_factory_list$getRegisteredFactoryNames())
+
+    bl_sel = unique(cboost$getSelectedBaselearner())
+
+    df_tmp = df_tmp[df_tmp$bl %in% bl_sel, ]
+    num_feats = length(unique(df_tmp$feat))
+  }
   df_vip = cboost$calculateFeatureImportance(num_feats, aggregate)
 
   ## First column containing the names contains the base learner or the feature depending on the aggregation.
   ## Therefore, set a general baselearner column used for ggplot:
   df_vip$baselearner = df_vip[[1]]
-  gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
+  gg = ggplot2::ggplot(df_vip, ggplot2::aes_string(x = "reorder(baselearner, risk_reduction)", y = "risk_reduction")) +
     ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
   return(gg)

@@ -60,6 +60,8 @@ for (fn in fcat) cboost$addBaselearner(fn, "ridge", BaselearnerCategoricalRidge)
 cboost$train(500L)
 cbreaks = c(-Inf, -0.1, 0.1, Inf)
 clabs   = c("bad", "middle", "good")
-plotIndividualContribution(cboost, dat[10, ], colbreaks = cbreaks, collabels = clabs)
-plotIndividualContribution(cboost, dat[10, ], offset = FALSE, colbreaks = cbreaks, collabels = clabs)
+plotIndividualContribution(cboost, dat[10, ], colbreaks = cbreaks,
+  collabels = clabs)
+plotIndividualContribution(cboost, dat[10, ], offset = FALSE,
+  colbreaks = cbreaks, collabels = clabs)
 }

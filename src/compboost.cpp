@@ -34,8 +34,8 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
     _sh_ptr_response    ( sh_ptr_response ),
     _sh_ptr_optimizer   ( sh_ptr_optimizer ),
     _sh_ptr_loss        ( sh_ptr_loss ),
-    _factory_list       ( factory_list ),
     _sh_ptr_loggerlist  ( sh_ptr_loggerlist ),
+    _factory_list       ( factory_list ),
     _blearner_track     ( blearnertrack::BaselearnerTrack(learning_rate) )
 {
   _sh_ptr_response->constantInitialization(sh_ptr_loss);

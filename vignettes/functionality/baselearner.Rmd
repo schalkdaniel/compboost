@@ -1,7 +1,8 @@
 ---
+title: "Base learner functionality"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Base-learner functionality}
+  %\VignetteIndexEntry{Base learner functionality}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
