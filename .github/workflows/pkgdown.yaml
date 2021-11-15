@@ -25,9 +25,10 @@ jobs:
         with:
           extra-packages: |
             pkgdown
-            ggthemes
-            tidyr
           needs: website
+
+      - name: R packages
+        run: Rscript -e 'install.packages(c("ggthemes", "tidyr"))'
 
       - name: Deploy package
         run: |
