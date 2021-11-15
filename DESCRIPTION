@@ -42,6 +42,7 @@ Suggests:
   mlr,
   gridExtra,
   ggrepel,
+  ggthemes,
   covr,
 RcppModules:
   baselearner_module,
