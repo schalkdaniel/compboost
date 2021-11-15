@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Extending compboost: Losses • compboost</title>
+<title>Extending compboost with losses • compboost</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Extending compboost: Losses">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Extending compboost with losses">
 <meta property="og:description" content="compboost">
 <meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -76,12 +79,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
-    <li>
       <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
   </ul>
@@ -111,7 +108,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,10 +122,10 @@
 
       
 
-      </header><div class="row">
+      </header><script src="ext_losses_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Extending compboost: Losses</h1>
+      <h1 data-toc-skip>Extending compboost with losses</h1>
             
       
       
@@ -220,9 +217,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">VonBort</span>, <span class="st">"deaths"</span>, loss <span class="op">=</span> <span class="va">my.poisson.loss</span><span class="op">)</span>
 <span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">100</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-<span class="co">#&gt; Train 100 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: -0.58</span></code></pre></div>
+<span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">100</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="define-a-new-loss-with-c" class="section level2">
@@ -232,12 +227,12 @@
 <p>For this example we are using the <code>iris</code> dataset with <code>Sepal.Length</code> as target to keep it simple. We now want to replicate the quadratic loss. This is done by exposing external pointer to <code>R</code> that holds the function definition which then passed to the <code>LossCustomCpp</code> class.</p>
 <p>A general advise is to write a <code>.cpp</code> file that contains the whole definition. This file then just needs to be sourced by <code><a href="https://rdrr.io/pkg/Rcpp/man/sourceCpp.html">Rcpp::sourceCpp()</a></code>.</p>
 <p>To be able to expose that functions we have to declare the head first:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">// [[Rcpp::depends(RcppArmadillo)]]                                                               </span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="pp">#include </span><span class="im">&lt;RcppArmadillo.h&gt;</span><span class="pp">                                                                        </span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">                                                                                                    </a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">typedef</span> arma::mat (*lossFunPtr) (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction);       </a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="kw">typedef</span> arma::mat (*gradFunPtr) (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction);</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="kw">typedef</span> <span class="dt">double</span> (*constInitFunPtr) (<span class="at">const</span> arma::mat&amp; true_value);</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">// [[Rcpp::depends(RcppArmadillo)]]</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="pp">#include </span><span class="im">&lt;RcppArmadillo.h&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">typedef</span> arma::mat (*lossFunPtr) (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction);</span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="kw">typedef</span> arma::mat (*gradFunPtr) (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction);</span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="kw">typedef</span> <span class="dt">double</span> (*constInitFunPtr) (<span class="at">const</span> arma::mat&amp; true_value);</span></code></pre></div>
 <p>As the type definition already indicates, the <code>C++</code> function must have the following signatures:</p>
 <ul>
 <li>loss: <code>arma::mat lossFun (const arma::mat&amp; truth, const arma::mat&amp; response)</code>
@@ -251,51 +246,51 @@
 <h3 class="hasAnchor">
 <a href="#the-loss-function-1" class="anchor"></a>The loss function</h3>
 <p><span class="math display">\[L(y,f) = -0.5 \left(y - f\right)^2\]</span></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb8-1" data-line-number="1">arma::mat lossFun (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction)                      </a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">{</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="cf">return</span> arma::pow(true_value - prediction, <span class="dv">2</span>) / <span class="dv">2</span>;</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1"></a>arma::mat lossFun (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>{</span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="cf">return</span> arma::pow(true_value - prediction, <span class="dv">2</span>) / <span class="dv">2</span>;</span>
+<span id="cb8-4"><a href="#cb8-4"></a>}</span></code></pre></div>
 </div>
 <div id="the-gradient-of-the-loss-function-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-gradient-of-the-loss-function-1" class="anchor"></a>The gradient of the loss function</h3>
 <p><span class="math display">\[\frac{\partial}{\partial f} L(y,f) = f - y\]</span></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb9-1" data-line-number="1">arma::mat gradFun (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction)</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">{</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="cf">return</span> prediction - true_value;</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1"></a>arma::mat gradFun (<span class="at">const</span> arma::mat&amp; true_value, <span class="at">const</span> arma::mat&amp; prediction)</span>
+<span id="cb9-2"><a href="#cb9-2"></a>{</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="cf">return</span> prediction - true_value;</span>
+<span id="cb9-4"><a href="#cb9-4"></a>}</span></code></pre></div>
 </div>
 <div id="the-constant-initialization-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#the-constant-initialization-1" class="anchor"></a>The constant initialization</h3>
 <p><span class="math display">\[\mathsf{arg min}_{c\in\mathbb{R}} \sum_{i = 1}^n L\left(y^{(i)}, c\right) = \bar{y}\]</span></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="dt">double</span> constInitFun (<span class="at">const</span> arma::mat&amp; true_value)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">{</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="cf">return</span> arma::accu(true_value) / true_value.size();</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">}</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1"></a><span class="dt">double</span> constInitFun (<span class="at">const</span> arma::mat&amp; true_value)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>{</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="cf">return</span> arma::accu(true_value) / true_value.size();</span>
+<span id="cb10-4"><a href="#cb10-4"></a>}</span></code></pre></div>
 </div>
 <div id="exposing-external-pointer" class="section level3">
 <h3 class="hasAnchor">
 <a href="#exposing-external-pointer" class="anchor"></a>Exposing external pointer</h3>
 <p>Now wrap the function to an XPtr. This one stores the pointer to the function and can be used as parameter for the <code>LossCustomCpp</code>.</p>
 <p>Note that it isn’t necessary to export the upper functions since we are interested in exporting the pointer not the function.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co">// [[Rcpp::export]]</span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">Rcpp::XPtr&lt;lossFunPtr&gt; lossFunSetter ()</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">{</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">  <span class="cf">return</span> Rcpp::XPtr&lt;lossFunPtr&gt; (<span class="kw">new</span> lossFunPtr (&amp;lossFun));</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">// [[Rcpp::export]]</span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">Rcpp::XPtr&lt;gradFunPtr&gt; gradFunSetter ()</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">{</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">  <span class="cf">return</span> Rcpp::XPtr&lt;gradFunPtr&gt; (<span class="kw">new</span> gradFunPtr (&amp;gradFun));</a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">}</a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">// [[Rcpp::export]]</span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14">Rcpp::XPtr&lt;constInitFunPtr&gt; constInitFunSetter ()</a>
-<a class="sourceLine" id="cb11-15" data-line-number="15">{</a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">  <span class="cf">return</span> Rcpp::XPtr&lt;constInitFunPtr&gt; (<span class="kw">new</span> constInitFunPtr (&amp;constInitFun));</a>
-<a class="sourceLine" id="cb11-17" data-line-number="17">}</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>Rcpp::XPtr&lt;lossFunPtr&gt; lossFunSetter ()</span>
+<span id="cb11-3"><a href="#cb11-3"></a>{</span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="cf">return</span> Rcpp::XPtr&lt;lossFunPtr&gt; (<span class="kw">new</span> lossFunPtr (&amp;lossFun));</span>
+<span id="cb11-5"><a href="#cb11-5"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6"></a></span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>Rcpp::XPtr&lt;gradFunPtr&gt; gradFunSetter ()</span>
+<span id="cb11-9"><a href="#cb11-9"></a>{</span>
+<span id="cb11-10"><a href="#cb11-10"></a>  <span class="cf">return</span> Rcpp::XPtr&lt;gradFunPtr&gt; (<span class="kw">new</span> gradFunPtr (&amp;gradFun));</span>
+<span id="cb11-11"><a href="#cb11-11"></a>}</span>
+<span id="cb11-12"><a href="#cb11-12"></a></span>
+<span id="cb11-13"><a href="#cb11-13"></a><span class="co">// [[Rcpp::export]]</span></span>
+<span id="cb11-14"><a href="#cb11-14"></a>Rcpp::XPtr&lt;constInitFunPtr&gt; constInitFunSetter ()</span>
+<span id="cb11-15"><a href="#cb11-15"></a>{</span>
+<span id="cb11-16"><a href="#cb11-16"></a>  <span class="cf">return</span> Rcpp::XPtr&lt;constInitFunPtr&gt; (<span class="kw">new</span> constInitFunPtr (&amp;constInitFun));</span>
+<span id="cb11-17"><a href="#cb11-17"></a>}</span></code></pre></div>
 </div>
 <div id="define-the-loss-1" class="section level3">
 <h3 class="hasAnchor">
@@ -303,11 +298,8 @@
 <p>After exposing the function we can get the pointer to the function by calling it:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">lossFunSetter</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; &lt;pointer: 0x55a52d95be40&gt;</span>
 <span class="fu">gradFunSetter</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; &lt;pointer: 0x55a52f3027a0&gt;</span>
-<span class="fu">constInitFunSetter</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; &lt;pointer: 0x55a52f3aa6b0&gt;</span></code></pre></div>
+<span class="fu">constInitFunSetter</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>This can now passed to the <code>LossCustomCpp</code> class:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">my_cpp_loss</span> <span class="op">=</span> <span class="va"><a href="../../reference/LossCustomCpp.html">LossCustomCpp</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu">lossFunSetter</span><span class="op">(</span><span class="op">)</span>, <span class="fu">gradFunSetter</span><span class="op">(</span><span class="op">)</span>, <span class="fu">constInitFunSetter</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -317,17 +309,8 @@
 <a href="#train-a-model-1" class="anchor"></a>Train a model</h3>
 <p>Finally, we use the custom loss to train our model:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">iris</span>, target <span class="op">=</span> <span class="st">"Sepal.Length"</span>, 
-  loss <span class="op">=</span> <span class="va">my_cpp_loss</span>, trace <span class="op">=</span> <span class="fl">25</span><span class="op">)</span>
-<span class="co">#&gt;   1/100   risk = 0.31  </span>
-<span class="co">#&gt;  25/100   risk = 0.08  </span>
-<span class="co">#&gt;  50/100   risk = 0.057  </span>
-<span class="co">#&gt;  75/100   risk = 0.05  </span>
-<span class="co">#&gt; 100/100   risk = 0.046  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Train 100 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.046</span></code></pre></div>
+<code class="sourceCode R"><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">iris</span>, target <span class="op">=</span> <span class="st">"Sepal.Length"</span>,
+  loss <span class="op">=</span> <span class="va">my_cpp_loss</span>, trace <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>

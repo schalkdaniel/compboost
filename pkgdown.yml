@@ -1,4 +1,4 @@
-pandoc: '2.2'
+pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -11,8 +11,9 @@ articles:
   getting_started/object_references: object_references.html
   getting_started/robust_regression: robust_regression.html
   getting_started/use_case: use_case.html
+  getting_started/visualizations: visualizations.html
   use_case: use_case.html
-last_built: 2021-05-04T08:25Z
+last_built: 2021-11-15T15:03Z
 urls:
   reference: https://schalkdaniel.github.io/compboost//reference
   article: https://schalkdaniel.github.io/compboost//articles

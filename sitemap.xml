@@ -10,6 +10,9 @@
     <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCategoricalRidge.html</loc>
   </url>
   <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCentered.html</loc>
+  </url>
+  <url>
     <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCustom.html</loc>
   </url>
   <url>
@@ -22,10 +25,10 @@
     <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerPolynomial.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BlearnerFactoryList.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerTensor.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/CategoricalData.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost//reference/BlearnerFactoryList.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//reference/CategoricalDataRaw.html</loc>
@@ -76,10 +79,16 @@
     <loc>https://schalkdaniel.github.io/compboost//reference/LossQuantile.html</loc>
   </url>
   <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerAGBM.html</loc>
+  </url>
+  <url>
     <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerCoordinateDescent.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerCoordinateDescentLineSearch.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerCosineAnnealing.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//reference/ResponseBinaryClassif.html</loc>
@@ -95,6 +104,27 @@
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//reference/getCustomCppExample.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotBaselearner.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotBaselearnerTraces.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotFeatureImportance.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotIndividualContribution.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotPEUni.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotRisk.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//reference/plotTensor.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//articles/advanced/ext_losses.html</loc>
@@ -122,6 +152,9 @@
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/use_case.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/visualizations.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost//articles/use_case.html</loc>

@@ -107,6 +107,9 @@
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -116,12 +119,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -152,7 +149,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -207,6 +204,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="BaselearnerCentered.html">BaselearnerCentered</a></code> </p>
+        </td>
+        <td><p>Base-learner factory to make regression using centered base learner</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="BaselearnerCustom.html">BaselearnerCustom</a></code> </p>
         </td>
         <td><p>Create custom base-learner factory by using R functions.</p></td>
@@ -232,15 +235,15 @@ pointer.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="BlearnerFactoryList.html">BlearnerFactoryList</a></code> </p>
+          <p><code><a href="BaselearnerTensor.html">BaselearnerTensor</a></code> </p>
         </td>
-        <td><p>Base-learner factory list to define the set of base-learners</p></td>
+        <td><p>Base-learner factory to make regression using tensor products</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="CategoricalData.html">CategoricalData</a></code> </p>
+          <p><code><a href="BlearnerFactoryList.html">BlearnerFactoryList</a></code> </p>
         </td>
-        <td><p>Data class for character variables</p></td>
+        <td><p>Base-learner factory list to define the set of base-learners</p></td>
       </tr><tr>
         
         <td>
@@ -340,6 +343,12 @@ pointer.</p></td>
       </tr><tr>
         
         <td>
+          <p><code><a href="OptimizerAGBM.html">OptimizerAGBM</a></code> </p>
+        </td>
+        <td><p>Nesterov momentum</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></code> </p>
         </td>
         <td><p>Coordinate Descent</p></td>
@@ -349,6 +358,12 @@ pointer.</p></td>
           <p><code><a href="OptimizerCoordinateDescentLineSearch.html">OptimizerCoordinateDescentLineSearch</a></code> </p>
         </td>
         <td><p>Coordinate Descent with line search</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="OptimizerCosineAnnealing.html">OptimizerCosineAnnealing</a></code> </p>
+        </td>
+        <td><p>Coordinate Descent with Cosine Annealing</p></td>
       </tr><tr>
         
         <td>
@@ -379,6 +394,48 @@ pointer.</p></td>
           <p><code><a href="getCustomCppExample.html">getCustomCppExample()</a></code> </p>
         </td>
         <td><p>Get C++ example script to define a custom cpp logger</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotBaselearner.html">plotBaselearner()</a></code> </p>
+        </td>
+        <td><p>Visualize contribution of one base learner</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotBaselearnerTraces.html">plotBaselearnerTraces()</a></code> </p>
+        </td>
+        <td><p>Visualize base learner traces</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotFeatureImportance.html">plotFeatureImportance()</a></code> </p>
+        </td>
+        <td><p>Visualize the feature importance</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotIndividualContribution.html">plotIndividualContribution()</a></code> </p>
+        </td>
+        <td><p>Decompose the predicted value based on the given features</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotPEUni.html">plotPEUni()</a></code> </p>
+        </td>
+        <td><p>Visualize partial effect of a feature</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotRisk.html">plotRisk()</a></code> </p>
+        </td>
+        <td><p>Visualize the risk</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="plotTensor.html">plotTensor()</a></code> </p>
+        </td>
+        <td><p>Visualize bivariate tensor products</p></td>
       </tr>
     </tbody>
     </table>

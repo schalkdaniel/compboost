@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -76,12 +79,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
-    <li>
       <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
   </ul>
@@ -111,7 +108,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,7 +122,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="early_stopping_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Early Stopping</h1>
@@ -168,7 +165,7 @@
 
 <span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
 <span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"categorical"</span>, <span class="va">BaselearnerPolynomial</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="early-stopping-in-compboost" class="section level2">
 <h2 class="hasAnchor">
@@ -187,38 +184,32 @@
   max_time <span class="op">=</span> <span class="fl">50000</span>, time_unit <span class="op">=</span> <span class="st">"microseconds"</span><span class="op">)</span>
 
 <span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.72  time = 0   </span>
-<span class="co">#&gt;  100/2000   risk = 0.65  time = 13014   </span>
-<span class="co">#&gt;  200/2000   risk = 0.63  time = 26911   </span>
-<span class="co">#&gt;  300/2000   risk = 0.62  time = 40634   </span>
+<span class="co">#&gt;    1/2000   risk = 0.66  time = 0   </span>
+<span class="co">#&gt;  100/2000   risk = 0.5  time = 9773   </span>
+<span class="co">#&gt;  200/2000   risk = 0.51  time = 21241   </span>
+<span class="co">#&gt;  300/2000   risk = 0.52  time = 36546   </span>
+<span class="co">#&gt;  400/2000   risk = 0.53  time = 48313   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Train 366 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.61</span>
+<span class="co">#&gt; Train 415 iterations in 0 Seconds.</span>
+<span class="co">#&gt; Final risk based on the train set: 0.53</span>
 <span class="va">cboost</span>
-<span class="co">#&gt; Component-Wise Gradient Boosting</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Trained on df[idx_train, ] with target Survived</span>
-<span class="co">#&gt; Number of base-learners: 4</span>
-<span class="co">#&gt; Learning rate: 0.05</span>
-<span class="co">#&gt; Iterations: 366</span>
-<span class="co">#&gt; Offset: 0.2115</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; LossBinomial Loss:</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span></code></pre></div>
-<p>As we can see, the fittings is stopped after 366 and not after 2000 iterations as specified in train. Taking a look at the logger data, we can see that the last entry exceeds the 50000 microseconds and therefore triggers the stopping criteria:</p>
+<p>As we can see, the fittings is stopped after 415 and not after 2000 iterations as specified in train. Taking a look at the logger data, we can see that the last entry exceeds the 50000 microseconds and therefore triggers the stopping criteria:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;     _iterations  time</span>
-<span class="co">#&gt; 361         361 49299</span>
-<span class="co">#&gt; 362         362 49443</span>
-<span class="co">#&gt; 363         363 49588</span>
-<span class="co">#&gt; 364         364 49731</span>
-<span class="co">#&gt; 365         365 49874</span>
-<span class="co">#&gt; 366         366 50011</span></code></pre></div>
+<span class="co">#&gt;     _iterations  time baselearner train_risk</span>
+<span class="co">#&gt; 411         410 49403  Age_spline  0.5290672</span>
+<span class="co">#&gt; 412         411 49520   Sex_ridge  0.5293965</span>
+<span class="co">#&gt; 413         412 49651 Fare_spline  0.5294358</span>
+<span class="co">#&gt; 414         413 49777  Age_spline  0.5294166</span>
+<span class="co">#&gt; 415         414 49898  Age_spline  0.5293975</span>
+<span class="co">#&gt; 416         415 50025  Age_spline  0.5293785</span></code></pre></div>
 </div>
 </div>
 <div id="loss-based-early-stopping" class="section level2">
@@ -243,51 +234,51 @@
   oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span>
 
 <span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.72  oob = 0.78   </span>
-<span class="co">#&gt;  100/2000   risk = 0.65  oob = 0.71   </span>
-<span class="co">#&gt;  200/2000   risk = 0.63  oob = 0.68   </span>
-<span class="co">#&gt;  300/2000   risk = 0.62  oob = 0.67   </span>
+<span class="co">#&gt;    1/2000   risk = 0.66  oob = 0.67   </span>
+<span class="co">#&gt;  100/2000   risk = 0.5  oob = 0.47   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Train 398 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.61</span></code></pre></div>
+<span class="co">#&gt; Train 125 iterations in 0 Seconds.</span>
+<span class="co">#&gt; Final risk based on the train set: 0.5</span></code></pre></div>
 <p><strong>Note:</strong> The use of <code>eps_for_break = 0</code> is a hard constrain to continue the training just until the oob risk starts to increase.</p>
 <p>Taking a look at the logger data tells us that we stop exactly after the first five differences are bigger than zero (the oob risk of these iterations are bigger than the previous ones):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="co">#&gt;     _iterations       oob</span>
-<span class="co">#&gt; 389         389 0.6700508</span>
-<span class="co">#&gt; 390         390 0.6700859</span>
-<span class="co">#&gt; 391         391 0.6701123</span>
-<span class="co">#&gt; 392         392 0.6701460</span>
-<span class="co">#&gt; 393         393 0.6698638</span>
-<span class="co">#&gt; 394         394 0.6698994</span>
-<span class="co">#&gt; 395         395 0.6699271</span>
-<span class="co">#&gt; 396         396 0.6699613</span>
-<span class="co">#&gt; 397         397 0.6699958</span>
-<span class="co">#&gt; 398         398 0.6700271</span>
+<span class="co">#&gt;     _iterations       oob baselearner train_risk</span>
+<span class="co">#&gt; 117         116 0.4708294   Sex_ridge  0.5027095</span>
+<span class="co">#&gt; 118         117 0.4708469 Fare_spline  0.5026381</span>
+<span class="co">#&gt; 119         118 0.4708365  Age_spline  0.5022909</span>
+<span class="co">#&gt; 120         119 0.4710961   Sex_ridge  0.5030829</span>
+<span class="co">#&gt; 121         120 0.4710920  Age_spline  0.5027519</span>
+<span class="co">#&gt; 122         121 0.4711234 Fare_spline  0.5026907</span>
+<span class="co">#&gt; 123         122 0.4711277  Age_spline  0.5023771</span>
+<span class="co">#&gt; 124         123 0.4711744 Fare_spline  0.5023290</span>
+<span class="co">#&gt; 125         124 0.4714304   Sex_ridge  0.5031084</span>
+<span class="co">#&gt; 126         125 0.4714378  Age_spline  0.5028085</span>
 <span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">oob</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1]  3.504889e-05  2.641978e-05  3.371506e-05 -2.822312e-04  3.561970e-05</span>
-<span class="co">#&gt; [6]  2.766762e-05  3.426787e-05  3.451050e-05  3.128015e-05</span></code></pre></div>
+<span class="co">#&gt; [1]  1.751405e-05 -1.043817e-05  2.596370e-04 -4.076452e-06  3.136728e-05</span>
+<span class="co">#&gt; [6]  4.324726e-06  4.669298e-05  2.559763e-04  7.429030e-06</span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="early_stopping_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>Taking a look at 2000 iterations shows that we have stopped quite good:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; You have already trained 398 iterations.</span>
-<span class="co">#&gt; Train 1602 additional iterations.</span>
+<span class="co">#&gt; You have already trained 125 iterations.</span>
+<span class="co">#&gt; Train 1875 additional iterations.</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="early_stopping_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 <p><strong>Note:</strong> It could happen that the model’s oob behavior increases locally for a few iterations and then starts to decrease again. To capture this we need the “patience” parameter which waits for, lets say, 5 iterations and breaks just if all 5 iterations fulfill the criteria. Setting this parameter to one can lead to very unstable results:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -302,7 +293,7 @@
 
 <span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
 <span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"categorical"</span>, <span class="va">BaselearnerPolynomial</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span>
 
 <span class="va">oob_response</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareResponse</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span><span class="op">[</span><span class="va">idx_test</span><span class="op">]</span><span class="op">)</span>
 <span class="va">oob_data</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareData</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">idx_test</span>,<span class="op">]</span><span class="op">)</span>
@@ -312,15 +303,16 @@
   oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span>
 
 <span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-<span class="co">#&gt; Train 30 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.69</span>
+<span class="co">#&gt; Train 65 iterations in 0 Seconds.</span>
+<span class="co">#&gt; Final risk based on the train set: 0.51</span>
 
 
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="early_stopping_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div id="further-comments-on-risk-logging" class="section level3">
@@ -344,7 +336,7 @@
 <em>globally</em>: The algorithm stops after <strong>all</strong> stopping criteria are reached</li>
 </ul>
 </li>
-<li>Some arguments are ignored when the logger is not set as stopper, e.g. <code>max_time</code> from the time logger</li>
+<li>Some arguments are ignored when the logger is not set as stopper, e.g. <code>max_time</code> from the time logger</li>
 <li>The logger functionality is summarized <a href="https://danielschalk.com/compboost/articles/functionality/logger.html">here</a>
 </li>
 </ul>

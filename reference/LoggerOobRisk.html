@@ -110,6 +110,9 @@ see the use case or extending compboost vignette." />
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -119,12 +122,6 @@ see the use case or extending compboost vignette." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -155,7 +152,7 @@ see the use case or extending compboost vignette." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -202,11 +199,11 @@ see the use case or extending compboost vignette.</p>
     
 
 <dl>
-<dt><code>logger_id</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Unique identifier of the logger.</p></dd>
-<dt><code>use_as_stopper</code> [<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]</dt><dd><p>Boolean to indicate if the logger should also be used as stopper.</p></dd>
+<dt><code>logger_id</code> [<code>character(1)</code>]</dt><dd><p>Unique identifier of the logger.</p></dd>
+<dt><code>use_as_stopper</code> [<code>logical(1)</code>]</dt><dd><p>Boolean to indicate if the logger should also be used as stopper.</p></dd>
 <dt><code>used_loss</code> [<code>Loss</code> object]</dt><dd><p>The loss used to calculate the empirical risk by taking the mean of the
   returned defined loss within the loss object.</p></dd>
-<dt><code>eps_for_break</code> [<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]</dt><dd><p>This argument is used if the loss is also used as stopper. If the relative
+<dt><code>eps_for_break</code> [<code>numeric(1)</code>]</dt><dd><p>This argument is used if the loss is also used as stopper. If the relative
   improvement of the logged inbag risk falls above this boundary the stopper
   returns <code>TRUE</code>.</p></dd>
 <dt><code>oob_data</code> [<code>list</code>]</dt><dd><p>A list which contains data source objects which corresponds to the
@@ -262,31 +259,33 @@ $$</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Define data:</span>
-<span class='va'>X1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>X2</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span><span class='op'>)</span>
-<span class='va'>data_source1</span> <span class='op'>=</span> <span class='va'><a href='InMemoryData.html'>InMemoryData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>X1</span>, <span class='st'>"x1"</span><span class='op'>)</span>
-<span class='va'>data_source2</span> <span class='op'>=</span> <span class='va'><a href='InMemoryData.html'>InMemoryData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>X2</span>, <span class='st'>"x2"</span><span class='op'>)</span>
-
-<span class='va'>oob_list</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>data_source1</span>, <span class='va'>data_source2</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
-<span class='va'>y_oob</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span>
-
-<span class='co'># Used loss:</span>
-<span class='va'>log_bin</span> <span class='op'>=</span> <span class='va'><a href='LossBinomial.html'>LossBinomial</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># Define response object of oob data:</span>
-<span class='va'>oob_response</span> <span class='op'>=</span> <span class='va'><a href='ResponseRegr.html'>ResponseRegr</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"oob_response"</span>, <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>y_oob</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># Define logger:</span>
-<span class='va'>log_oob_risk</span> <span class='op'>=</span> <span class='va'>LoggerOobRisk</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"oob"</span>, <span class='cn'>FALSE</span>, <span class='va'>log_bin</span>, <span class='fl'>0.05</span>, <span class='fl'>5</span>, <span class='va'>oob_list</span>, <span class='va'>oob_response</span><span class='op'>)</span>
-
-<span class='co'># Summarize logger:</span>
-<span class='va'>log_oob_risk</span><span class='op'>$</span><span class='fu'>summarizeLogger</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Out of bag risk logger:
-#&gt; 	- Use logger as stopper: 0</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Define data:</span></span>
+<span class='r-in'><span class='va'>X1</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>X2</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>:</span><span class='fl'>1</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_source1</span> <span class='op'>=</span> <span class='va'><a href='InMemoryData.html'>InMemoryData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>X1</span>, <span class='st'>"x1"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data_source2</span> <span class='op'>=</span> <span class='va'><a href='InMemoryData.html'>InMemoryData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>X2</span>, <span class='st'>"x2"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>oob_list</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>data_source1</span>, <span class='va'>data_source2</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y_oob</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Used loss:</span></span>
+<span class='r-in'><span class='va'>log_bin</span> <span class='op'>=</span> <span class='va'><a href='LossBinomial.html'>LossBinomial</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Define response object of oob data:</span></span>
+<span class='r-in'><span class='va'>oob_response</span> <span class='op'>=</span> <span class='va'><a href='ResponseRegr.html'>ResponseRegr</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"oob_response"</span>, <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>y_oob</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Define logger:</span></span>
+<span class='r-in'><span class='va'>log_oob_risk</span> <span class='op'>=</span> <span class='va'>LoggerOobRisk</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"oob"</span>, <span class='cn'>FALSE</span>, <span class='va'>log_bin</span>, <span class='fl'>0.05</span>, <span class='fl'>5</span>, <span class='va'>oob_list</span>, <span class='va'>oob_response</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Summarize logger:</span></span>
+<span class='r-in'><span class='va'>log_oob_risk</span><span class='op'>$</span><span class='fu'>summarizeLogger</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Out of bag risk logger:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	- Epsilon used to stop algorithm: 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	- Use logger as stopper: 1</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

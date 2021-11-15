@@ -115,6 +115,9 @@ microseconds
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -124,12 +127,6 @@ microseconds
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -160,7 +157,7 @@ microseconds
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -211,11 +208,11 @@ that time. There are three time units available for logging:</p><ul>
     
 
 <dl>
-<dt><code>logger_id</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Unique identifier of the logger.</p></dd>
-<dt><code>use_as_stopper</code> [<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]</dt><dd><p>Boolean to indicate if the logger should also be used as stopper.</p></dd>
-<dt><code>max_time</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>If the logger is used as stopper this argument contains the maximal time
+<dt><code>logger_id</code> [<code>character(1)</code>]</dt><dd><p>Unique identifier of the logger.</p></dd>
+<dt><code>use_as_stopper</code> [<code>logical(1)</code>]</dt><dd><p>Boolean to indicate if the logger should also be used as stopper.</p></dd>
+<dt><code>max_time</code> [<code>integer(1)</code>]</dt><dd><p>If the logger is used as stopper this argument contains the maximal time
   which are available to train the model.</p></dd>
-<dt><code>time_unit</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Character to specify the time unit. Possible choices are <code>minutes</code>,
+<dt><code>time_unit</code> [<code>character(1)</code>]</dt><dd><p>Character to specify the time unit. Possible choices are <code>minutes</code>,
   <code>seconds</code> or <code>microseconds</code></p></dd>
 
 </dl>
@@ -236,14 +233,15 @@ that time. There are three time units available for logging:</p><ul>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Define logger:</span>
-<span class='va'>log_time</span> <span class='op'>=</span> <span class='va'>LoggerTime</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"time_minutes"</span>, <span class='cn'>FALSE</span>, <span class='fl'>20</span>, <span class='st'>"minutes"</span><span class='op'>)</span>
-
-<span class='co'># Summarize logger:</span>
-<span class='va'>log_time</span><span class='op'>$</span><span class='fu'>summarizeLogger</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Time logger:
-#&gt; 	- Tracked time unit: minutes</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Define logger:</span></span>
+<span class='r-in'><span class='va'>log_time</span> <span class='op'>=</span> <span class='va'>LoggerTime</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"time_minutes"</span>, <span class='cn'>FALSE</span>, <span class='fl'>20</span>, <span class='st'>"minutes"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Summarize logger:</span></span>
+<span class='r-in'><span class='va'>log_time</span><span class='op'>$</span><span class='fu'>summarizeLogger</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Time logger:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	- Tracked time unit: minutes</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

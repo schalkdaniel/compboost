@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>First Use-Case • compboost</title>
+<title>Use-case • compboost</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="First Use-Case">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Use-case">
 <meta property="og:description" content="compboost">
 <meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -76,12 +79,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
-    <li>
       <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
   </ul>
@@ -111,7 +108,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,10 +122,10 @@
 
       
 
-      </header><div class="row">
+      </header><script src="use_case_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>First Use-Case</h1>
+      <h1 data-toc-skip>Use-case</h1>
             
       
       
@@ -197,15 +194,13 @@
 <div id="categorical-features" class="section level3">
 <h3 class="hasAnchor">
 <a href="#categorical-features" class="anchor"></a>Categorical Features</h3>
-<p>When adding categorical features, each group is added as single base-learner. Do also note that we don’t want an intercept here:</p>
+<p>When adding categorical features, we include the feature using a dummy coding with a ridge penalty::</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"categorical"</span>, <span class="va">BaselearnerPolynomial</span>,
-  intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></code></pre></div>
 <p>Finally, we can get all registered factories:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">getBaselearnerNames</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Age_spline"             "Age_linear"             "Fare_spline"           </span>
-<span class="co">#&gt; [4] "Sex_female_categorical" "Sex_male_categorical"</span></code></pre></div>
+<span class="co">#&gt; [1] "Age_spline"  "Age_linear"  "Fare_spline" "Sex_ridge"</span></code></pre></div>
 </div>
 </div>
 <div id="define-logger" class="section level2">
@@ -227,39 +222,32 @@
 <a href="#train-model-and-access-elements" class="anchor"></a>Train Model and Access Elements</h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.73  oob_risk = 0.73   time = 0   </span>
-<span class="co">#&gt;  100/2000   risk = 0.66  oob_risk = 0.66   time = 14221   </span>
-<span class="co">#&gt;  200/2000   risk = 0.64  oob_risk = 0.64   time = 29367   </span>
-<span class="co">#&gt;  300/2000   risk = 0.62  oob_risk = 0.63   time = 44788   </span>
-<span class="co">#&gt;  400/2000   risk = 0.62  oob_risk = 0.63   time = 60776   </span>
-<span class="co">#&gt;  500/2000   risk = 0.61  oob_risk = 0.63   time = 77189   </span>
-<span class="co">#&gt;  600/2000   risk = 0.61  oob_risk = 0.63   time = 94338   </span>
-<span class="co">#&gt;  700/2000   risk = 0.61  oob_risk = 0.62   time = 111718   </span>
-<span class="co">#&gt;  800/2000   risk = 0.61  oob_risk = 0.62   time = 129521   </span>
-<span class="co">#&gt;  900/2000   risk = 0.61  oob_risk = 0.62   time = 147811   </span>
-<span class="co">#&gt; 1000/2000   risk = 0.61  oob_risk = 0.62   time = 168096   </span>
-<span class="co">#&gt; 1100/2000   risk = 0.61  oob_risk = 0.62   time = 187106   </span>
-<span class="co">#&gt; 1200/2000   risk = 0.6  oob_risk = 0.62   time = 207724   </span>
-<span class="co">#&gt; 1300/2000   risk = 0.6  oob_risk = 0.62   time = 227431   </span>
-<span class="co">#&gt; 1400/2000   risk = 0.6  oob_risk = 0.62   time = 247489   </span>
-<span class="co">#&gt; 1500/2000   risk = 0.6  oob_risk = 0.62   time = 268042   </span>
-<span class="co">#&gt; 1600/2000   risk = 0.6  oob_risk = 0.62   time = 288961   </span>
-<span class="co">#&gt; 1700/2000   risk = 0.6  oob_risk = 0.62   time = 310243   </span>
-<span class="co">#&gt; 1800/2000   risk = 0.6  oob_risk = 0.62   time = 331781   </span>
-<span class="co">#&gt; 1900/2000   risk = 0.6  oob_risk = 0.62   time = 355006   </span>
-<span class="co">#&gt; 2000/2000   risk = 0.6  oob_risk = 0.62   time = 377719   </span>
+<span class="co">#&gt;    1/2000   risk = 0.67  oob_risk = 0.64   time = 0   </span>
+<span class="co">#&gt;  100/2000   risk = 0.47  oob_risk = 0.6   time = 9848   </span>
+<span class="co">#&gt;  200/2000   risk = 0.48  oob_risk = 0.66   time = 20167   </span>
+<span class="co">#&gt;  300/2000   risk = 0.49  oob_risk = 0.7   time = 32532   </span>
+<span class="co">#&gt;  400/2000   risk = 0.5  oob_risk = 0.73   time = 44450   </span>
+<span class="co">#&gt;  500/2000   risk = 0.5  oob_risk = 0.75   time = 56867   </span>
+<span class="co">#&gt;  600/2000   risk = 0.51  oob_risk = 0.77   time = 71201   </span>
+<span class="co">#&gt;  700/2000   risk = 0.51  oob_risk = 0.78   time = 84107   </span>
+<span class="co">#&gt;  800/2000   risk = 0.51  oob_risk = 0.79   time = 98226   </span>
+<span class="co">#&gt;  900/2000   risk = 0.51  oob_risk = 0.8   time = 113734   </span>
+<span class="co">#&gt; 1000/2000   risk = 0.51  oob_risk = 0.8   time = 129471   </span>
+<span class="co">#&gt; 1100/2000   risk = 0.51  oob_risk = 0.81   time = 146310   </span>
+<span class="co">#&gt; 1200/2000   risk = 0.52  oob_risk = 0.81   time = 163734   </span>
+<span class="co">#&gt; 1300/2000   risk = 0.52  oob_risk = 0.81   time = 181700   </span>
+<span class="co">#&gt; 1400/2000   risk = 0.52  oob_risk = 0.82   time = 200922   </span>
+<span class="co">#&gt; 1500/2000   risk = 0.52  oob_risk = 0.82   time = 220279   </span>
+<span class="co">#&gt; 1600/2000   risk = 0.52  oob_risk = 0.82   time = 239114   </span>
+<span class="co">#&gt; 1700/2000   risk = 0.52  oob_risk = 0.82   time = 259528   </span>
+<span class="co">#&gt; 1800/2000   risk = 0.52  oob_risk = 0.82   time = 283530   </span>
+<span class="co">#&gt; 1900/2000   risk = 0.52  oob_risk = 0.82   time = 307156   </span>
+<span class="co">#&gt; 2000/2000   risk = 0.52  oob_risk = 0.83   time = 330693   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Train 2000 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.6</span>
+<span class="co">#&gt; Final risk based on the train set: 0.52</span>
 <span class="va">cboost</span>
-<span class="co">#&gt; Component-Wise Gradient Boosting</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Trained on df_train with target Survived</span>
-<span class="co">#&gt; Number of base-learners: 5</span>
-<span class="co">#&gt; Learning rate: 0.05</span>
-<span class="co">#&gt; Iterations: 2000</span>
-<span class="co">#&gt; Offset: 0.1861</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; LossBinomial Loss:</span>
 <span class="co">#&gt; </span>
@@ -269,26 +257,29 @@
 <p>Objects of the <code>Compboost</code> class do have member functions such as <code>$getEstimatedCoef()</code>, <code>$getInbagRisk()</code> or <code>$predict()</code> to access the results:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; List of 5</span>
-<span class="co">#&gt;  $ Age_spline            : num [1:24, 1] -4.138 -0.764 -2.536 1.246 1.86 ...</span>
-<span class="co">#&gt;  $ Fare_spline           : num [1:17, 1] 1.166 0.484 -0.349 -1.445 -1.641 ...</span>
-<span class="co">#&gt;  $ Sex_female_categorical: num [1, 1] -1.51</span>
-<span class="co">#&gt;  $ Sex_male_categorical  : num [1, 1] 0.681</span>
-<span class="co">#&gt;  $ offset                : num 0.186</span>
+<span class="co">#&gt; List of 4</span>
+<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -8.626 -0.75 -1.583 0.695 1.853 ...</span>
+<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
+<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.731 0.286 -0.591 -1.415 -1.857 ...</span>
+<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
+<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] 1.11 -1.51</span>
+<span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
+<span class="co">#&gt;   .. ..$ : chr [1:2] "male" "female"</span>
+<span class="co">#&gt;   .. ..$ : NULL</span>
+<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span>
+<span class="co">#&gt;  $ offset     : num 0.149</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:2001] 0.735 0.735 0.735 0.733 0.733 ...</span>
+<span class="co">#&gt;  num [1:2001] 0.682 0.666 0.651 0.638 0.625 ...</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:500, 1] -0.845 -2.11 1.171 1.195 -0.762 ...</span></code></pre></div>
+<span class="co">#&gt;  num [1:500, 1] 2.273 -2.483 1.556 0.163 -1.116 ...</span></code></pre></div>
 <p>To obtain a vector of the selected base-learners just call <code>$getSelectedBaselearner()</code></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;             Age_spline            Fare_spline Sex_female_categorical </span>
-<span class="co">#&gt;                   1156                    492                    278 </span>
-<span class="co">#&gt;   Sex_male_categorical </span>
-<span class="co">#&gt;                     74</span></code></pre></div>
+<span class="co">#&gt;  Age_spline Fare_spline   Sex_ridge </span>
+<span class="co">#&gt;        1501         268         231</span></code></pre></div>
 <p>We can also access the predictions directly from the response object <code>cboost$response</code> and <code>cboost$response_oob</code>. Note that <code>$response_oob</code> was created automatically when defining an <code>oob_fraction</code> within the constructor:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">oob_label</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getResponse</span><span class="op">(</span><span class="op">)</span>
@@ -296,14 +287,15 @@
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span>true_label <span class="op">=</span> <span class="va">oob_label</span>, predicted <span class="op">=</span> <span class="va">oob_pred</span><span class="op">)</span>
 <span class="co">#&gt;           predicted</span>
 <span class="co">#&gt; true_label  -1   1</span>
-<span class="co">#&gt;         -1  60  26</span>
-<span class="co">#&gt;         1   22 106</span></code></pre></div>
+<span class="co">#&gt;         -1  49  28</span>
+<span class="co">#&gt;         1   29 108</span></code></pre></div>
 </div>
-<div id="visualizing-inbag-vs-out-of-bag-behavior" class="section level2">
+<div id="visualizing-inbag-vs--out-of-bag-behavior" class="section level2">
 <h2 class="hasAnchor">
-<a href="#visualizing-inbag-vs-out-of-bag-behavior" class="anchor"></a>Visualizing Inbag vs. Out-Of-Bag Behavior</h2>
+<a href="#visualizing-inbag-vs--out-of-bag-behavior" class="anchor"></a>Visualizing Inbag vs. Out-Of-Bag Behavior</h2>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">plotInbagVsOobRisk</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/plotRisk.html">plotRisk</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">)</span>
+<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="use_case_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div id="retrain-the-model" class="section level2">
@@ -316,51 +308,48 @@
 <span class="co">#&gt; You have already trained 2000 iterations.</span>
 <span class="co">#&gt; Train 1000 additional iterations.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; 2025/3000   risk = 0.6  oob_risk = 0.62   time = 383565   </span>
-<span class="co">#&gt; 2100/3000   risk = 0.6  oob_risk = 0.62   time = 400792   </span>
-<span class="co">#&gt; 2175/3000   risk = 0.6  oob_risk = 0.62   time = 418235   </span>
-<span class="co">#&gt; 2250/3000   risk = 0.6  oob_risk = 0.62   time = 436754   </span>
-<span class="co">#&gt; 2325/3000   risk = 0.6  oob_risk = 0.62   time = 454523   </span>
-<span class="co">#&gt; 2400/3000   risk = 0.6  oob_risk = 0.62   time = 472664   </span>
-<span class="co">#&gt; 2475/3000   risk = 0.6  oob_risk = 0.62   time = 491741   </span>
-<span class="co">#&gt; 2550/3000   risk = 0.6  oob_risk = 0.62   time = 510149   </span>
-<span class="co">#&gt; 2625/3000   risk = 0.6  oob_risk = 0.62   time = 528716   </span>
-<span class="co">#&gt; 2700/3000   risk = 0.6  oob_risk = 0.62   time = 547658   </span>
-<span class="co">#&gt; 2775/3000   risk = 0.6  oob_risk = 0.62   time = 566612   </span>
-<span class="co">#&gt; 2850/3000   risk = 0.6  oob_risk = 0.62   time = 585846   </span>
-<span class="co">#&gt; 2925/3000   risk = 0.6  oob_risk = 0.62   time = 605350   </span>
-<span class="co">#&gt; 3000/3000   risk = 0.6  oob_risk = 0.62   time = 624893</span>
+<span class="co">#&gt; 2025/3000   risk = 0.52  oob_risk = 0.83   time = 336888   </span>
+<span class="co">#&gt; 2100/3000   risk = 0.52  oob_risk = 0.83   time = 357175   </span>
+<span class="co">#&gt; 2175/3000   risk = 0.52  oob_risk = 0.83   time = 375931   </span>
+<span class="co">#&gt; 2250/3000   risk = 0.52  oob_risk = 0.83   time = 395058   </span>
+<span class="co">#&gt; 2325/3000   risk = 0.52  oob_risk = 0.83   time = 414430   </span>
+<span class="co">#&gt; 2400/3000   risk = 0.52  oob_risk = 0.83   time = 434567   </span>
+<span class="co">#&gt; 2475/3000   risk = 0.51  oob_risk = 0.83   time = 454491   </span>
+<span class="co">#&gt; 2550/3000   risk = 0.51  oob_risk = 0.83   time = 476025   </span>
+<span class="co">#&gt; 2625/3000   risk = 0.51  oob_risk = 0.83   time = 498066   </span>
+<span class="co">#&gt; 2700/3000   risk = 0.51  oob_risk = 0.83   time = 524605   </span>
+<span class="co">#&gt; 2775/3000   risk = 0.51  oob_risk = 0.83   time = 549110   </span>
+<span class="co">#&gt; 2850/3000   risk = 0.51  oob_risk = 0.84   time = 574175   </span>
+<span class="co">#&gt; 2925/3000   risk = 0.51  oob_risk = 0.84   time = 599975   </span>
+<span class="co">#&gt; 3000/3000   risk = 0.51  oob_risk = 0.84   time = 627332</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; List of 5</span>
-<span class="co">#&gt;  $ Age_spline            : num [1:24, 1] -6.978 -0.123 -2.918 1.455 1.724 ...</span>
-<span class="co">#&gt;  $ Fare_spline           : num [1:17, 1] 1.139 0.495 -0.344 -1.465 -1.671 ...</span>
-<span class="co">#&gt;  $ Sex_female_categorical: num [1, 1] -1.52</span>
-<span class="co">#&gt;  $ Sex_male_categorical  : num [1, 1] 0.681</span>
-<span class="co">#&gt;  $ offset                : num 0.186</span>
+<span class="co">#&gt; List of 4</span>
+<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -12.299 -0.102 -1.832 0.716 1.936 ...</span>
+<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
+<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.757 0.288 -0.591 -1.434 -1.894 ...</span>
+<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
+<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] 1.11 -1.52</span>
+<span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
+<span class="co">#&gt;   .. ..$ : chr [1:2] "male" "female"</span>
+<span class="co">#&gt;   .. ..$ : NULL</span>
+<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span>
+<span class="co">#&gt;  $ offset     : num 0.149</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:3001] 0.735 0.735 0.735 0.733 0.733 ...</span>
+<span class="co">#&gt;  num [1:3001] 0.682 0.666 0.651 0.638 0.625 ...</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;             Age_spline            Fare_spline Sex_female_categorical </span>
-<span class="co">#&gt;                   2055                    578                    293 </span>
-<span class="co">#&gt;   Sex_male_categorical </span>
-<span class="co">#&gt;                     74</span></code></pre></div>
+<span class="co">#&gt;  Age_spline Fare_spline   Sex_ridge </span>
+<span class="co">#&gt;        2459         299         242</span></code></pre></div>
 </div>
 <div id="visualizing-base-learner" class="section level2">
 <h2 class="hasAnchor">
 <a href="#visualizing-base-learner" class="anchor"></a>Visualizing Base-Learner</h2>
 <p>To visualize a base-learner it is important to exactly use a name from <code>$getBaselearnerNames()</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gg1</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span><span class="st">"Age_spline"</span><span class="op">)</span>
-<span class="va">gg2</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span><span class="st">"Age_spline"</span>, iters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">1500</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="use_case_files/figure-html/unnamed-chunk-17-1.png" width="600px" height="400px" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gg1</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span><span class="st">"Age_spline"</span><span class="op">)</span>
-<span class="va">gg2</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">plot</span><span class="op">(</span><span class="st">"Age_spline"</span>, iters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">100</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">1500</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="use_case_files/figure-html/unnamed-chunk-19-1.png" width="600px" height="400px" style="display: block; margin: auto;"></p>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/plotBaselearner.html">plotBaselearner</a></span><span class="op">(</span><span class="va">cboost</span>, <span class="st">"Age_spline"</span><span class="op">)</span></code></pre></div>
 </div>
   </div>
 

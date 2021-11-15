@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Qunatile/Robust Regression • compboost</title>
+<title>Quantile/Robust regression • compboost</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Qunatile/Robust Regression">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Quantile/Robust regression">
 <meta property="og:description" content="compboost">
 <meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -76,12 +79,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
-    <li>
       <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
   </ul>
@@ -111,7 +108,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,10 +122,10 @@
 
       
 
-      </header><div class="row">
+      </header><script src="robust_regression_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Qunatile/Robust Regression</h1>
+      <h1 data-toc-skip>Quantile/Robust regression</h1>
             
       
       
@@ -170,7 +167,7 @@ h = \left\{
 <span class="va">y</span><span class="op">[</span><span class="va">outlier_idx</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">noutlier</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">noutlier</span>, <span class="va">outlier_mean</span>, <span class="fl">1</span><span class="op">)</span>
 
 <span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></code></pre></div>
-<pre><code>#&gt; Warning: Removed 21 rows containing missing values (geom_point).</code></pre>
+<pre><code>#&gt; Warning: Removed 20 rows containing missing values (geom_point).</code></pre>
 <p><img src="robust_regression_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
 <div id="how-to-use-in-compboost" class="section level2">
@@ -196,12 +193,12 @@ h = \left\{
 <p>The <code>loss_quantile90</code> loss object can now be used to define and train a new <code>Compboost</code> object:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost_quantile50</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va">loss_quantile50</span>, iterations <span class="op">=</span> <span class="fl">1000L</span>, trace <span class="op">=</span> <span class="fl">200L</span><span class="op">)</span>
-<span class="co">#&gt;    1/1000   risk = 2e+04  </span>
-<span class="co">#&gt;  200/1000   risk = 2e+04  </span>
-<span class="co">#&gt;  400/1000   risk = 2e+04  </span>
-<span class="co">#&gt;  600/1000   risk = 2e+04  </span>
-<span class="co">#&gt;  800/1000   risk = 2e+04  </span>
-<span class="co">#&gt; 1000/1000   risk = 2e+04  </span>
+<span class="co">#&gt;    1/1000   risk = 2e+04  time = 0   </span>
+<span class="co">#&gt;  200/1000   risk = 2e+04  time = 15983   </span>
+<span class="co">#&gt;  400/1000   risk = 2e+04  time = 35213   </span>
+<span class="co">#&gt;  600/1000   risk = 2e+04  time = 54346   </span>
+<span class="co">#&gt;  800/1000   risk = 2e+04  time = 74901   </span>
+<span class="co">#&gt; 1000/1000   risk = 2e+04  time = 100130   </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span>
@@ -210,7 +207,7 @@ h = \left\{
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost_mean</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossQuadratic.html">LossQuadratic</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000L</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 9.8e+09</span>
+<span class="co">#&gt; Final risk based on the train set: 9.7e+09</span>
 
 <span class="va">df_plot</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   feature <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="va">x</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,
@@ -232,7 +229,7 @@ h = \left\{
   <span class="fu">ggthemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggthemes/man/theme_tufte.html">theme_tufte</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">gg1</span>, <span class="va">gg2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 21 rows containing missing values (geom_point).</span>
+<span class="co">#&gt; Warning: Removed 20 rows containing missing values (geom_point).</span>
 <span class="co">#&gt; Warning: Removed 1000 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="robust_regression_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>It is clear to see that boosting with the quadratic loss is quite sensitive against outliers. Of course, this example is very exaggerated to show the effect of boosting the median.</p>
@@ -244,16 +241,16 @@ h = \left\{
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossQuadratic.html">LossQuadratic</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 9.8e+09</span>
+<span class="co">#&gt; Final risk based on the train set: 9.7e+09</span>
 <span class="va">cboost_10</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 2.5e+04</span>
+<span class="co">#&gt; Final risk based on the train set: 2.8e+04</span>
 <span class="va">cboost_50</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span>
 <span class="co">#&gt; Final risk based on the train set: 2e+04</span>
 <span class="va">cboost_90</span> <span class="op">=</span> <span class="fu"><a href="../../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.9</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
 <span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 1.5e+04</span>
+<span class="co">#&gt; Final risk based on the train set: 1.2e+04</span>
 
 <span class="va">df_pred</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
   feat <span class="op">=</span> <span class="va">x</span>,
@@ -285,7 +282,7 @@ h = \left\{
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Real target range (without outliers)"</span><span class="op">)</span>
 
 <span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">gg1</span>, <span class="va">gg2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 84 rows containing missing values (geom_point).</span>
+<span class="co">#&gt; Warning: Removed 80 rows containing missing values (geom_point).</span>
 <span class="co">#&gt; Warning: Removed 1000 row(s) containing missing values (geom_path).</span></code></pre></div>
 <p><img src="robust_regression_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;"></p>
 </div>

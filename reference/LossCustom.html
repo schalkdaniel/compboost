@@ -109,6 +109,9 @@ Rcpp::Function to set R functions." />
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -118,12 +121,6 @@ Rcpp::Function to set R functions." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -154,7 +151,7 @@ Rcpp::Function to set R functions." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -227,24 +224,24 @@ Rcpp::Function to set R functions." />
   initialization.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Loss function:</span>
-<span class='va'>myLoss</span> <span class='op'>=</span> <span class='kw'>function</span> <span class='op'>(</span><span class='va'>true_values</span>, <span class='va'>prediction</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span> <span class='op'>(</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>true_values</span> <span class='op'>-</span> <span class='va'>prediction</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># Gradient of loss function:</span>
-<span class='va'>myGradient</span> <span class='op'>=</span> <span class='kw'>function</span> <span class='op'>(</span><span class='va'>true_values</span>, <span class='va'>prediction</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span> <span class='op'>(</span><span class='va'>prediction</span> <span class='op'>-</span> <span class='va'>true_values</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='co'># Constant initialization:</span>
-<span class='va'>myConstInit</span> <span class='op'>=</span> <span class='kw'>function</span> <span class='op'>(</span><span class='va'>true_values</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>true_values</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># Create new custom quadratic loss:</span>
-<span class='va'>my_loss</span> <span class='op'>=</span> <span class='va'>LossCustom</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>myLoss</span>, <span class='va'>myGradient</span>, <span class='va'>myConstInit</span><span class='op'>)</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='co'># Loss function:</span></span>
+<span class='r-in'><span class='va'>myLoss</span> <span class='op'>=</span> <span class='kw'>function</span> <span class='op'>(</span><span class='va'>true_values</span>, <span class='va'>prediction</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span> <span class='op'>(</span><span class='fl'>0.5</span> <span class='op'>*</span> <span class='op'>(</span><span class='va'>true_values</span> <span class='op'>-</span> <span class='va'>prediction</span><span class='op'>)</span><span class='op'>^</span><span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># Gradient of loss function:</span></span>
+<span class='r-in'><span class='va'>myGradient</span> <span class='op'>=</span> <span class='kw'>function</span> <span class='op'>(</span><span class='va'>true_values</span>, <span class='va'>prediction</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span> <span class='op'>(</span><span class='va'>prediction</span> <span class='op'>-</span> <span class='va'>true_values</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='co'># Constant initialization:</span></span>
+<span class='r-in'><span class='va'>myConstInit</span> <span class='op'>=</span> <span class='kw'>function</span> <span class='op'>(</span><span class='va'>true_values</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='kw'><a href='https://rdrr.io/r/base/function.html'>return</a></span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>true_values</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Create new custom quadratic loss:</span></span>
+<span class='r-in'><span class='va'>my_loss</span> <span class='op'>=</span> <span class='va'>LossCustom</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>myLoss</span>, <span class='va'>myGradient</span>, <span class='va'>myConstInit</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

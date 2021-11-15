@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>What is component-wise boosting? • compboost</title>
+<title>About component-wise boosting • compboost</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
@@ -17,7 +17,7 @@
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="What is component-wise boosting?">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="About component-wise boosting">
 <meta property="og:description" content="compboost">
 <meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -66,6 +66,9 @@
     <li>
       <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -76,12 +79,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
-    <li>
       <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
   </ul>
@@ -111,7 +108,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -125,10 +122,10 @@
 
       
 
-      </header><div class="row">
+      </header><script src="about_cboosting_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>What is component-wise boosting?</h1>
+      <h1 data-toc-skip>About component-wise boosting</h1>
             
       
       
@@ -143,7 +140,7 @@ b_j(x, \theta^{[m]}) + b_j(x, \theta^{[m^\prime]}) = b_j(x, \theta^{[m]} + \thet
 \]</span> So, instead of boosting trees like <code>xgboost</code>, model-based boosting uses a selection of important base-learners, each with estimated parameters.</p>
 <p>The ordinary way of finding good base-learners is done by a greedy search. Therefore, in each iteration, all base-learners are fitted to the so-called pseudo residuals in the current iteration that act as a kind of error of the actual model. A new base-learner is then selected by choosing the base-learner with the smallest empirical risk <span class="math inline">\(\mathcal{R}_\text{emp}\)</span>. <!--
 <center>
-<img src="/home/travis/build/schalkdaniel/compboost/vignettes/getting_started/cboost_gif_bright.svg" width="70%">
+<img src="/home/runner/work/compboost/compboost/vignettes/getting_started/cboost_gif_bright.svg" width="70%">
 </center>
 --></p>
 <p>The illustration above uses three base-learners <span class="math inline">\(b_1\)</span>, <span class="math inline">\(b_2\)</span>, and <span class="math inline">\(b_3\)</span>. You can think of each base-learner as a wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more frequently than another base-learner, it indicates that this base-learner (or feature) is more important. To get a sparser model in terms of selected features there is also a learning rate <span class="math inline">\(\beta\)</span> to shrink the parameter in each iteration. The learning rate corresponds to the step size used in gradient descent. The three models within each iteration of the illustration are: <span class="math display">\[

@@ -111,6 +111,9 @@ with the most S4 classes." />
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -120,12 +123,6 @@ with the most S4 classes." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -156,7 +153,7 @@ with the most S4 classes." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -204,9 +201,13 @@ with the most <code>S4</code> classes.</p>
 
 <span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addLogger</span><span class='op'>(</span><span class='va'>logger</span>, use_as_stopper <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>logger_id</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='va'>cbboost</span><span class='op'>$</span><span class='fu'>addBaselearner</span><span class='op'>(</span><span class='va'>feature</span>, <span class='va'>id</span>, <span class='va'>bl_factory</span>, data_source <span class='op'>=</span> <span class='va'>InMemoryData</span>, <span class='va'>...</span><span class='op'>)</span>
+<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addBaselearner</span><span class='op'>(</span><span class='va'>feature</span>, <span class='va'>id</span>, <span class='va'>bl_factory</span>, data_source <span class='op'>=</span> <span class='va'>InMemoryData</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='va'>cbboost</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span>iteration <span class='op'>=</span> <span class='fl'>100</span>, trace <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addTensor</span><span class='op'>(</span><span class='va'>features</span>, <span class='va'>id</span>, data_source <span class='op'>=</span> <span class='va'>InMemoryData</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addComponents</span><span class='op'>(</span><span class='va'>feature</span>, <span class='va'>id</span>, data_source <span class='op'>=</span> <span class='va'>InMemoryData</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span>iteration <span class='op'>=</span> <span class='fl'>100</span>, trace <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span>
 
 <span class='va'>cboost</span><span class='op'>$</span><span class='fu'>getCurrentIteration</span><span class='op'>(</span><span class='op'>)</span>
 
@@ -222,20 +223,11 @@ with the most <code>S4</code> classes.</p>
 
 <span class='va'>cboost</span><span class='op'>$</span><span class='fu'>getEstimatedCoef</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span>blearner_name <span class='op'>=</span> <span class='cn'>NULL</span>, iters <span class='op'>=</span> <span class='cn'>NULL</span>, from <span class='op'>=</span> <span class='cn'>NULL</span>, to <span class='op'>=</span> <span class='cn'>NULL</span>, length_out <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span>
-
 <span class='va'>cboost</span><span class='op'>$</span><span class='fu'>getBaselearnerNames</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='va'>cboost</span><span class='op'>$</span><span class='fu'>getLoggerData</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='va'>cboost</span><span class='op'>$</span><span class='fu'>calculateFeatureImportance</span><span class='op'>(</span>num_feats <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plotFeatureImportance</span><span class='op'>(</span>num_feats <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
-
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plotInbagVsOobRisk</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plotBlearnerTraces</span><span class='op'>(</span>value <span class='op'>=</span> <span class='fl'>1</span>, n_legend <span class='op'>=</span> <span class='fl'>5L</span><span class='op'>)</span>
-
 </pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -245,7 +237,7 @@ with the most <code>S4</code> classes.</p>
 <p><strong>For Compboost$new()</strong>:</p><dl>
   <dt><code>data</code></dt><dd><p>[<code>data.frame</code>]<br />
     A data frame containing the data (features as well as target).</p></dd>
-  <dt><code>target</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> or <code>S4 Response</code>]<br />
+  <dt><code>target</code></dt><dd><p>[<code>character(1)</code> or <code>S4 Response</code>]<br />
     Character value containing the target variable or <code>Response</code> object. Note that the loss has to match the
     data type of the target.</p></dd>
   <dt><code>optimizer</code></dt><dd><p>[<code>S4 Optimizer</code>]<br />
@@ -254,10 +246,13 @@ with the most <code>S4</code> classes.</p>
   <dt><code>loss</code></dt><dd><p>[<code>S4 Loss</code>]<br />
     Initialized <code>S4 Loss</code> object exposed by Rcpp which is used to calculate the risk and pseudo
     residuals (e.g. <code>LossQuadratic$new()</code>).</p></dd>
-  <dt><code>learning_rage</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+  <dt><code>learning_rage</code></dt><dd><p>[<code>numeric(1)</code>]<br />
     Learning rate to shrink the new parameters in each iteration.</p></dd>
-  <dt><code>oob_fraction</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+  <dt><code>oob_fraction</code></dt><dd><p>[<code>numeric(1)</code>]<br />
     Fraction of how much data are used to calculate the out of bag risk.</p></dd>
+  <dt><code>stop_args</code></dt><dd><p>[<code>list(2)</code>]<br />
+    List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
+    from setting `oob_fraction`.</p></dd>
 
 </dl>
 
@@ -265,10 +260,10 @@ with the most <code>S4</code> classes.</p>
   <dt><code>logger</code></dt><dd><p>[<code>S4 Logger</code>]<br />
     Uninitialized <code>S4 Logger</code> class object that is registered in the model.
     See the details for possible choices.</p></dd>
-  <dt><code>use_as_stopper</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br />
+  <dt><code>use_as_stopper</code></dt><dd><p>[<code>logical(1)</code>]<br />
     Logical value indicating whether the new logger should also be used as stopper
     (early stopping). Default value is <code>FALSE</code>.</p></dd>
-  <dt><code>logger_id</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
+  <dt><code>logger_id</code></dt><dd><p>[<code>character(1)</code>]<br />
     Id of the new logger. This is necessary to be able to register multiple logger.</p></dd>
   <dt></dt><dd><p><code>...</code><br />
     Further arguments passed to the constructor of the <code>S4 Logger</code> class specified in
@@ -280,7 +275,7 @@ with the most <code>S4</code> classes.</p>
   <dt><code>feature</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character()</a></code>]<br />
     Vector of column names that are used as input data matrix for a single base-learner. Note that not
     every base-learner supports the use of multiple features (e.g. the spline base-learner does not).</p></dd>
-  <dt><code>id</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
+  <dt><code>id</code></dt><dd><p>[<code>character(1)</code>]<br />
     Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.</p></dd>
   <dt><code>bl_factory</code></dt><dd><p>[<code>S4 Factory</code>]<br />
     Uninitialized base-learner factory given as <code>S4 Factory</code> class. See the details
@@ -295,11 +290,11 @@ with the most <code>S4</code> classes.</p>
 </dl>
 
 <p><strong>For cboost$train()</strong>:</p><dl>
-  <dt><code>iteration</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br />
+  <dt><code>iteration</code></dt><dd><p>[<code>integer(1)</code>]<br />
     Number of iterations that are trained. If the model is already trained it sets to the given number
     by going back to already trained base-learners or it trains new ones. Note: This function defines an
     iteration logger with the id <code>_iterations</code> which is used as stopper for the new training.</p></dd>
-  <dt><code>trace</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br />
+  <dt><code>trace</code></dt><dd><p>[<code>integer(1)</code>]<br />
     Integer indicating after how many iterations a trace should be printed. Specifying <code>trace = 10</code>, then every
     10th iteration is printed. If you do not want to print the trace set <code>trace = 0</code>. Default is
     -1 which means that in total 40 iterations are printed.</p></dd>
@@ -309,30 +304,6 @@ with the most <code>S4</code> classes.</p>
 <p><strong>For cboost$predict()</strong>:</p><dl>
   <dt><code>newdata</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/data.frame.html'>data.frame()</a></code>]<br />
   	 Data to predict on. If newdata equals <code>NULL</code> predictions on the training data are returned.</p></dd>
-
-</dl><p><strong>For cboost$plot()</strong>:</p><dl>
-  <dt><code>blearner_name</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]<br />
-  	 Character name of the base-learner to plot the contribution to the response. Available choices for
-    <code>blearner_name</code> use <code>cboost$getBaselearnerNames()</code>.</p></dd>
-  <dt><code>iters</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer()</a></code>]<br />
-  	 Integer vector containing the iterations the user wants to visualize.</p></dd>
-  <dt><code>from</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
-  	 Lower bound for the x axis (should be smaller than <code>to</code>).</p></dd>
-  <dt><code>to</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
-  	 Upper bound for the x axis (should be greater than <code>from</code>).</p></dd>
-  <dt><code>length_out</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br />
-  	 Number of equidistant points between <code>from</code> and <code>to</code> used for plotting.</p></dd>
-
-</dl><p><strong>For cboost$calculateFeatureImportance() and cboost$plotFeatureImportance()</strong>:</p><dl>
-  <dt><code>num_feats</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br />
-    Number of features for which the Importance will be returned.</p></dd>
-
-</dl><p><strong>For cboost$plotBlearnerTraces</strong>:</p><dl>
-  <dt><code>value</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric()</a></code>]<br />
-    Numeric value of length 1 or same length as the number iterations which is accumulated by the selected base-learner.</p></dd>
-  <dt><code>n_legend</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1L)</a></code>]<br />
-    Number of how many base-learner are highlighted (base-learner are highlighted by choosing the top <code>n_legend</code>
-    accumulated values).</p></dd>
 
 </dl>
 
@@ -345,12 +316,12 @@ with the most <code>S4</code> classes.</p>
 <li><p><code>LossQuadratic</code> (Regression)</p></li>
 <li><p><code>LossAbsolute</code> (Regression)</p></li>
 <li><p><code>LossQuantile</code> (Regression)</p><dl>
-        <dt><code>quantile</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+        <dt><code>quantile</code></dt><dd><p>[<code>numeric(1)</code>]<br />
           Quantile that is boosted.</p></dd>
       
 </dl></li>
 <li><p><code>LossHuber</code> (Regression)</p><dl>
-        <dt><code>delta</code></dt><dd><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+        <dt><code>delta</code></dt><dd><p>[<code>numeric(1)</code>]<br />
           Defining the interval [-d,d] around 0 for quadratic approximation.</p></dd>
       
 </dl></li>
@@ -360,32 +331,32 @@ with the most <code>S4</code> classes.</p>
 <p><strong>Logger</strong><br />
   Available choices for the logger are:</p><ul>
 <li><p><code>LoggerIteration</code>: Logs the current iteration. Additional arguments:</p><dl>
-        <dt><code>max_iterations</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>Maximal number of iterations.</p></dd>
+        <dt><code>max_iterations</code> [<code>integer(1)</code>]</dt><dd><p>Maximal number of iterations.</p></dd>
       
 </dl></li>
 <li><p><code>LoggerTime</code>: Logs the elapsed time. Additional arguments:</p><dl>
-        <dt><code>max_time</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>Maximal time for the computation.</p></dd>
-        <dt><code>time_unit</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Character to specify the time unit. Possible choices are <code>minutes</code>, <code>seconds</code>, or <code>microseconds</code>.</p></dd>
+        <dt><code>max_time</code> [<code>integer(1)</code>]</dt><dd><p>Maximal time for the computation.</p></dd>
+        <dt><code>time_unit</code> [<code>character(1)</code>]</dt><dd><p>Character to specify the time unit. Possible choices are <code>minutes</code>, <code>seconds</code>, or <code>microseconds</code>.</p></dd>
       
 </dl></li>
 <li><p><code>LoggerInbagRisk</code>:</p><dl>
         <dt><code>used_loss</code> [<code>S4 Loss</code>]</dt><dd><p>Loss as initialized <code>S4 Loss</code> which is used to calculate the empirical risk. See the
           details for possible choices.</p></dd>
-        <dt><code>eps_for_break</code> [<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]</dt><dd><p>This argument is used if the logger is also used as stopper. If the relative improvement
+        <dt><code>eps_for_break</code> [<code>numeric(1)</code>]</dt><dd><p>This argument is used if the logger is also used as stopper. If the relative improvement
           of the logged inbag risk falls below this boundary, then the stopper breaks the algorithm.</p></dd>
-        <dt><code>patience</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>Specifying, how many iteration should fall consecutively below <code>eps_for_break</code> before we stop.</p></dd>
+        <dt><code>patience</code> [<code>integer(1)</code>]</dt><dd><p>Specifying, how many iteration should fall consecutively below <code>eps_for_break</code> before we stop.</p></dd>
       
 </dl></li>
 <li><p><code>LoggerOobRisk</code>:</p><dl>
         <dt><code>used_loss</code> [<code>S4 Loss</code>]</dt><dd><p>Loss as initialized <code>S4 Loss</code> which is used to calculate the empirical risk. See the
           details for possible choices.</p></dd>
-        <dt><code>eps_for_break</code> [<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]</dt><dd><p>This argument is used if the logger is also used as stopper. If the relative improvement
+        <dt><code>eps_for_break</code> [<code>numeric(1)</code>]</dt><dd><p>This argument is used if the logger is also used as stopper. If the relative improvement
           of the logged inbag risk falls above this boundary the stopper breaks the algorithm.</p></dd>
         <dt><code>oob_data</code> [<code>list</code>]</dt><dd><p>A list which contains data source objects which corresponds to the source data of each registered factory.
           The source data objects should contain the out of bag data. This data is then used to calculate the
           new predictions in each iteration.</p></dd>
         <dt><code>oob_response</code> [<code>vector</code>]</dt><dd><p>Vector which contains the response for the out of bag data given within <code>oob_data</code>.</p></dd>
-        <dt><code>patience</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>Specifying, how many iteration should fall consecutively below <code>eps_for_break</code> before we stop.</p></dd>
+        <dt><code>patience</code> [<code>integer(1)</code>]</dt><dd><p>Specifying, how many iteration should fall consecutively below <code>eps_for_break</code> before we stop.</p></dd>
       
 </dl></li>
 </ul>
@@ -401,18 +372,18 @@ with the most <code>S4</code> classes.</p>
 <dl>
   <dt><code>data</code> [<code>data.frame</code>]</dt><dd><p>Data used for training the algorithm.</p></dd>
   <dt><code>data_oob</code> [<code>data.frame</code>]</dt><dd><p>Data used for out of bag tracking.</p></dd>
-  <dt><code>oob_fraction</code> [<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]</dt><dd><p>Fraction of how much data are used to track the out of bag risk.</p></dd>
+  <dt><code>oob_fraction</code> [<code>numeric(1)</code>]</dt><dd><p>Fraction of how much data are used to track the out of bag risk.</p></dd>
   <dt><code>response</code> [<code>vector</code>]</dt><dd><p>Response object that is created or passed in target for training the model.</p></dd>
   <dt><code>response_oob</code> [<code>vector</code>]</dt><dd><p>Response object that is created by specifying the <code>oob_fraction</code> to evaluate each iteration.</p></dd>
-  <dt><code>target</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Name of the target variable.</p></dd>
-  <dt><code>id</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Name of the given dataset.</p></dd>
+  <dt><code>target</code> [<code>character(1)</code>]</dt><dd><p>Name of the target variable.</p></dd>
+  <dt><code>id</code> [<code>character(1)</code>]</dt><dd><p>Name of the given dataset.</p></dd>
   <dt><code>optimizer</code> [<code>S4 Optimizer</code>]</dt><dd><p>Optimizer used within the fitting process.</p></dd>
   <dt><code>loss</code> [<code>S4 Loss</code>]</dt><dd><p>Loss used to calculate pseudo residuals and empirical risk.</p></dd>
-  <dt><code>learning_rate</code> [<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]</dt><dd><p>Learning rate used to shrink the estimated parameter in each iteration.</p></dd>
+  <dt><code>learning_rate</code> [<code>numeric(1)</code>]</dt><dd><p>Learning rate used to shrink the estimated parameter in each iteration.</p></dd>
   <dt><code>model</code> [<code>S4 Compboost_internal</code>]</dt><dd><p><code>S4 Compboost_internal</code> class object from which the main operations (such as train) are called.</p></dd>
   <dt><code>bl_factory_list</code> [<code>S4 FactoryList</code>]</dt><dd><p>List of all registered factories represented as <code>S4 FactoryList</code> class.</p></dd>
-  <dt><code>positive_category</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>Character containing the name of the positive class in the case of (binary) classification.</p></dd>
-  <dt><code>stop_if_all_stoppers_fulfilled</code> [<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]</dt><dd><p>Logical indicating whether all stopper should be used simultaneously or if it is sufficient
+  <dt><code>positive_category</code> [<code>character(1)</code>]</dt><dd><p>Character containing the name of the positive class in the case of (binary) classification.</p></dd>
+  <dt><code>stop_if_all_stoppers_fulfilled</code> [<code>logical(1)</code>]</dt><dd><p>Logical indicating whether all stopper should be used simultaneously or if it is sufficient
     to just use the first stopper to stop the algorithm.</p></dd>
 
 </dl>
@@ -429,77 +400,72 @@ with the most <code>S4</code> classes.</p>
   <dt><code>predict</code></dt><dd><p>method to predict on a trained object.</p></dd>
   <dt><code>getSelectedBaselearner</code></dt><dd><p>method to get a character vector of selected base-learner.</p></dd>
   <dt><code>getEstimatedCoef</code></dt><dd><p>method to get a list of estimated coefficient of each selected base-learner.</p></dd>
-  <dt><code>plot</code></dt><dd><p>method to plot individual feature effects.</p></dd>
   <dt><code>getBaselearnerNames</code></dt><dd><p>method to get the names of the registered factories.</p></dd>
   <dt><code>prepareData</code></dt><dd><p>method to prepare data to track the out of bag risk of an arbitrary loss/performance function.</p></dd>
   <dt><code>getLoggerData</code></dt><dd><p>method to the the logged data from all registered logger.</p></dd>
   <dt><code>calculateFeatureImportance</code></dt><dd><p>method to calculate feature importance.</p></dd>
-  <dt><code>plotFeatureImportance</code></dt><dd><p>method to plot the feature importance calculated by <code>calulateFeatureImportance</code>.</p></dd>
-  <dt><code>plotInbagVsOobRisk</code></dt><dd><p>method to plot the inbag vs the out of bag behavior. This is just applicable if a logger with name <code>oob_logger</code> was registered. This is automatically done if the <code>oob_fraction</code> is set.</p></dd>
-  <dt><code>plotBlearnerTraces</code></dt><dd><p>method to plot traces how the base-learner are selected in combination with a measure of interest, e.g. how the empirical risk was minimized throughout the selection process.</p></dd>
 
 </dl>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>cboost</span> <span class='op'>=</span> <span class='va'>Compboost</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mpg"</span>, loss <span class='op'>=</span> <span class='va'><a href='LossQuadratic.html'>LossQuadratic</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>, oob_fraction <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addBaselearner</span><span class='op'>(</span><span class='st'>"hp"</span>, <span class='st'>"spline"</span>, <span class='va'>BaselearnerPSpline</span>, degree <span class='op'>=</span> <span class='fl'>3</span>,
-  n_knots <span class='op'>=</span> <span class='fl'>10</span>, penalty <span class='op'>=</span> <span class='fl'>2</span>, differences <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addBaselearner</span><span class='op'>(</span><span class='st'>"wt"</span>, <span class='st'>"spline"</span>, <span class='va'>BaselearnerPSpline</span><span class='op'>)</span>
-<span class='va'>cboost</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='fl'>1000</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    1/1000   risk = 19  oob_risk = 10   
-#&gt;   25/1000   risk = 3.7  oob_risk = 2.9   
-#&gt;   50/1000   risk = 2  oob_risk = 1.8   
-#&gt;   75/1000   risk = 1.8  oob_risk = 1.7   
-#&gt;  100/1000   risk = 1.7  oob_risk = 1.7   
-#&gt;  125/1000   risk = 1.6  oob_risk = 1.9   
-#&gt;  150/1000   risk = 1.6  oob_risk = 2   
-#&gt;  175/1000   risk = 1.6  oob_risk = 2.1   
-#&gt;  200/1000   risk = 1.6  oob_risk = 2.2   
-#&gt;  225/1000   risk = 1.5  oob_risk = 2.3   
-#&gt;  250/1000   risk = 1.5  oob_risk = 2.4   
-#&gt;  275/1000   risk = 1.5  oob_risk = 2.5   
-#&gt;  300/1000   risk = 1.5  oob_risk = 2.5   
-#&gt;  325/1000   risk = 1.5  oob_risk = 2.6   
-#&gt;  350/1000   risk = 1.5  oob_risk = 2.6   
-#&gt;  375/1000   risk = 1.5  oob_risk = 2.6   
-#&gt;  400/1000   risk = 1.5  oob_risk = 2.7   
-#&gt;  425/1000   risk = 1.5  oob_risk = 2.7   
-#&gt;  450/1000   risk = 1.4  oob_risk = 2.7   
-#&gt;  475/1000   risk = 1.4  oob_risk = 2.7   
-#&gt;  500/1000   risk = 1.4  oob_risk = 2.7   
-#&gt;  525/1000   risk = 1.4  oob_risk = 2.7   
-#&gt;  550/1000   risk = 1.4  oob_risk = 2.7   
-#&gt;  575/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  600/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  625/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  650/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  675/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  700/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  725/1000   risk = 1.4  oob_risk = 2.8   
-#&gt;  750/1000   risk = 1.3  oob_risk = 2.8   
-#&gt;  775/1000   risk = 1.3  oob_risk = 2.8   
-#&gt;  800/1000   risk = 1.3  oob_risk = 2.8   
-#&gt;  825/1000   risk = 1.3  oob_risk = 2.8   
-#&gt;  850/1000   risk = 1.3  oob_risk = 2.8   
-#&gt;  875/1000   risk = 1.3  oob_risk = 2.9   
-#&gt;  900/1000   risk = 1.3  oob_risk = 2.9   
-#&gt;  925/1000   risk = 1.3  oob_risk = 2.9   
-#&gt;  950/1000   risk = 1.3  oob_risk = 2.9   
-#&gt;  975/1000   risk = 1.3  oob_risk = 2.9   
-#&gt; 1000/1000   risk = 1.3  oob_risk = 2.9   
-#&gt; 
-#&gt; 
-#&gt; Train 1000 iterations in 0 Seconds.
-#&gt; Final risk based on the train set: 1.3
-#&gt; </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>getSelectedBaselearner</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; hp_spline wt_spline 
-#&gt;       199       801 </div><div class='input'><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span><span class='st'>"hp_spline"</span><span class='op'>)</span>
-</div><div class='img'><img src='Compboost-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plotInbagVsOobRisk</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='Compboost-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>plotBlearnerTraces</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='Compboost-3.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>cboost</span> <span class='op'>=</span> <span class='va'>Compboost</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mpg"</span>, loss <span class='op'>=</span> <span class='va'><a href='LossQuadratic.html'>LossQuadratic</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>, oob_fraction <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addBaselearner</span><span class='op'>(</span><span class='st'>"hp"</span>, <span class='st'>"spline"</span>, <span class='va'>BaselearnerPSpline</span>, degree <span class='op'>=</span> <span class='fl'>3</span>,</span>
+<span class='r-in'>  n_knots <span class='op'>=</span> <span class='fl'>10</span>, penalty <span class='op'>=</span> <span class='fl'>2</span>, differences <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>addBaselearner</span><span class='op'>(</span><span class='st'>"wt"</span>, <span class='st'>"spline"</span>, <span class='va'>BaselearnerPSpline</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>train</span><span class='op'>(</span><span class='fl'>1000</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    1/1000   risk = 18  oob_risk = 13   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   25/1000   risk = 3.5  oob_risk = 2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   50/1000   risk = 1.8  oob_risk = 1.5   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   75/1000   risk = 1.5  oob_risk = 1.7   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  100/1000   risk = 1.4  oob_risk = 1.9   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  125/1000   risk = 1.3  oob_risk = 2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  150/1000   risk = 1.3  oob_risk = 2.1   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  175/1000   risk = 1.2  oob_risk = 2.2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  200/1000   risk = 1.2  oob_risk = 2.3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  225/1000   risk = 1.1  oob_risk = 2.4   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  250/1000   risk = 1.1  oob_risk = 2.5   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  275/1000   risk = 1  oob_risk = 2.6   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  300/1000   risk = 1  oob_risk = 2.7   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  325/1000   risk = 0.97  oob_risk = 2.8   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  350/1000   risk = 0.95  oob_risk = 3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  375/1000   risk = 0.92  oob_risk = 3.1   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  400/1000   risk = 0.9  oob_risk = 3.2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  425/1000   risk = 0.88  oob_risk = 3.3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  450/1000   risk = 0.86  oob_risk = 3.4   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  475/1000   risk = 0.85  oob_risk = 3.5   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  500/1000   risk = 0.83  oob_risk = 3.6   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  525/1000   risk = 0.82  oob_risk = 3.7   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  550/1000   risk = 0.8  oob_risk = 3.8   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  575/1000   risk = 0.79  oob_risk = 3.9   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  600/1000   risk = 0.78  oob_risk = 4   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  625/1000   risk = 0.77  oob_risk = 4.1   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  650/1000   risk = 0.76  oob_risk = 4.2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  675/1000   risk = 0.75  oob_risk = 4.3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  700/1000   risk = 0.74  oob_risk = 4.3   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  725/1000   risk = 0.73  oob_risk = 4.4   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  750/1000   risk = 0.72  oob_risk = 4.5   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  775/1000   risk = 0.72  oob_risk = 4.6   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  800/1000   risk = 0.71  oob_risk = 4.7   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  825/1000   risk = 0.7  oob_risk = 4.7   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  850/1000   risk = 0.7  oob_risk = 4.8   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  875/1000   risk = 0.69  oob_risk = 4.9   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  900/1000   risk = 0.68  oob_risk = 4.9   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  925/1000   risk = 0.68  oob_risk = 5   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  950/1000   risk = 0.67  oob_risk = 5.1   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  975/1000   risk = 0.67  oob_risk = 5.1   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1000/1000   risk = 0.66  oob_risk = 5.2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Train 1000 iterations in 0 Seconds.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Final risk based on the train set: 0.66</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>cboost</span><span class='op'>$</span><span class='fu'>getSelectedBaselearner</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> hp_spline wt_spline </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       280       720 </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

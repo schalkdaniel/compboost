@@ -109,6 +109,9 @@ fitting process." />
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -118,12 +121,6 @@ fitting process." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -154,7 +151,7 @@ fitting process." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -197,22 +194,24 @@ fitting process.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>response_regr</span> <span class='op'>=</span> <span class='va'>ResponseRegr</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"target"</span>, <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>response_regr</span><span class='op'>$</span><span class='fu'>getResponse</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;             [,1]
-#&gt;  [1,]  1.7869131
-#&gt;  [2,]  0.4978505
-#&gt;  [3,] -1.9666172
-#&gt;  [4,]  0.7013559
-#&gt;  [5,] -0.4727914
-#&gt;  [6,] -1.0678237
-#&gt;  [7,] -0.2179749
-#&gt;  [8,] -1.0260044
-#&gt;  [9,] -0.7288912
-#&gt; [10,] -0.6250393</div><div class='input'><span class='va'>response_regr</span><span class='op'>$</span><span class='fu'>getTargetName</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "target"</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='va'>response_regr</span> <span class='op'>=</span> <span class='va'>ResponseRegr</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='st'>"target"</span>, <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>response_regr</span><span class='op'>$</span><span class='fu'>getResponse</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>             [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]  1.7869131</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]  0.4978505</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,] -1.9666172</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]  0.7013559</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,] -0.4727914</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,] -1.0678237</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,] -0.2179749</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,] -1.0260044</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,] -0.7288912</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,] -0.6250393</span>
+<span class='r-in'><span class='va'>response_regr</span><span class='op'>$</span><span class='fu'>getTargetName</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "target"</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -111,6 +111,9 @@ does also train the model." />
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -120,12 +123,6 @@ does also train the model." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -156,7 +153,7 @@ does also train the model." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -208,7 +205,7 @@ A data frame containing the data.</p></td>
     </tr>
     <tr>
       <th>target</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code> or <code>Response</code> class]<br />
+      <td><p>[<code>character(1)</code> or <code>Response</code> class]<br />
 Character value containing the target variable or response object. Note that the loss must match the
 data type of the target.</p></td>
     </tr>
@@ -226,24 +223,24 @@ residuals (e.g. <code>LossQuadratic$new()</code>).</p></td>
     </tr>
     <tr>
       <th>learning_rate</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+      <td><p>[<code>numeric(1)</code>]<br />
 Learning rate to shrink the parameter in each step.</p></td>
     </tr>
     <tr>
       <th>iterations</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br />
+      <td><p>[<code>integer(1)</code>]<br />
 Number of iterations that are trained.</p></td>
     </tr>
     <tr>
       <th>trace</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]<br />
+      <td><p>[<code>integer(1)</code>]<br />
 Integer indicating how often a trace should be printed. Specifying <code>trace = 10</code>, then every
 10th iteration is printed. If no trace should be printed set <code>trace = 0</code>. Default is
 -1 which means that in total 40 iterations are printed.</p></td>
     </tr>
     <tr>
       <th>intercept</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/logical.html'>logical(1)</a></code>]<br />
+      <td><p>[<code>logical(1)</code>]<br />
 Internally used by <code>BaselearnerPolynomial</code>. This logical value indicates if
 each feature should get an intercept or not (default is <code>TRUE</code>).</p></td>
     </tr>
@@ -255,7 +252,7 @@ just in memory training is supported.</p></td>
     </tr>
     <tr>
       <th>oob_fraction</th>
-      <td><p>[<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]<br />
+      <td><p>[<code>numeric(1)</code>]<br />
 Fraction of how much data are used to track the out of bag risk.</p></td>
     </tr>
     </table>
@@ -271,191 +268,197 @@ Fraction of how much data are used to track the out of bag risk.</p></td>
 used for further analyses (see <code><a href='Compboost.html'>?Compboost</a></code> for details).</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>mod</span> <span class='op'>=</span> <span class='fu'>boostLinear</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>iris</span>, target <span class='op'>=</span> <span class='st'>"Sepal.Length"</span>, loss <span class='op'>=</span> <span class='va'><a href='LossQuadratic.html'>LossQuadratic</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>,
-  oob_fraction <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;   1/100   risk = 0.32  oob_risk = 0.29   
-#&gt;   2/100   risk = 0.3  oob_risk = 0.27   
-#&gt;   4/100   risk = 0.26  oob_risk = 0.23   
-#&gt;   6/100   risk = 0.23  oob_risk = 0.2   
-#&gt;   8/100   risk = 0.2  oob_risk = 0.18   
-#&gt;  10/100   risk = 0.18  oob_risk = 0.16   
-#&gt;  12/100   risk = 0.16  oob_risk = 0.14   
-#&gt;  14/100   risk = 0.15  oob_risk = 0.13   
-#&gt;  16/100   risk = 0.14  oob_risk = 0.12   
-#&gt;  18/100   risk = 0.13  oob_risk = 0.11   
-#&gt;  20/100   risk = 0.12  oob_risk = 0.1   
-#&gt;  22/100   risk = 0.11  oob_risk = 0.098   
-#&gt;  24/100   risk = 0.11  oob_risk = 0.093   
-#&gt;  26/100   risk = 0.1  oob_risk = 0.09   
-#&gt;  28/100   risk = 0.099  oob_risk = 0.087   
-#&gt;  30/100   risk = 0.097  oob_risk = 0.084   
-#&gt;  32/100   risk = 0.094  oob_risk = 0.083   
-#&gt;  34/100   risk = 0.092  oob_risk = 0.08   
-#&gt;  36/100   risk = 0.091  oob_risk = 0.078   
-#&gt;  38/100   risk = 0.089  oob_risk = 0.076   
-#&gt;  40/100   risk = 0.087  oob_risk = 0.074   
-#&gt;  42/100   risk = 0.086  oob_risk = 0.072   
-#&gt;  44/100   risk = 0.084  oob_risk = 0.071   
-#&gt;  46/100   risk = 0.083  oob_risk = 0.069   
-#&gt;  48/100   risk = 0.081  oob_risk = 0.067   
-#&gt;  50/100   risk = 0.08  oob_risk = 0.066   
-#&gt;  52/100   risk = 0.079  oob_risk = 0.065   
-#&gt;  54/100   risk = 0.078  oob_risk = 0.063   
-#&gt;  56/100   risk = 0.077  oob_risk = 0.062   
-#&gt;  58/100   risk = 0.076  oob_risk = 0.061   
-#&gt;  60/100   risk = 0.075  oob_risk = 0.06   
-#&gt;  62/100   risk = 0.074  oob_risk = 0.059   
-#&gt;  64/100   risk = 0.073  oob_risk = 0.058   
-#&gt;  66/100   risk = 0.073  oob_risk = 0.057   
-#&gt;  68/100   risk = 0.072  oob_risk = 0.056   
-#&gt;  70/100   risk = 0.071  oob_risk = 0.055   
-#&gt;  72/100   risk = 0.07  oob_risk = 0.055   
-#&gt;  74/100   risk = 0.07  oob_risk = 0.054   
-#&gt;  76/100   risk = 0.069  oob_risk = 0.053   
-#&gt;  78/100   risk = 0.069  oob_risk = 0.053   
-#&gt;  80/100   risk = 0.068  oob_risk = 0.052   
-#&gt;  82/100   risk = 0.068  oob_risk = 0.052   
-#&gt;  84/100   risk = 0.067  oob_risk = 0.051   
-#&gt;  86/100   risk = 0.067  oob_risk = 0.051   
-#&gt;  88/100   risk = 0.066  oob_risk = 0.05   
-#&gt;  90/100   risk = 0.066  oob_risk = 0.05   
-#&gt;  92/100   risk = 0.066  oob_risk = 0.049   
-#&gt;  94/100   risk = 0.065  oob_risk = 0.049   
-#&gt;  96/100   risk = 0.065  oob_risk = 0.048   
-#&gt;  98/100   risk = 0.065  oob_risk = 0.048   
-#&gt; 100/100   risk = 0.064  oob_risk = 0.048   
-#&gt; 
-#&gt; 
-#&gt; Train 100 iterations in 0 Seconds.
-#&gt; Final risk based on the train set: 0.064
-#&gt; </div><div class='input'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>getBaselearnerNames</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Sepal.Width_linear"          "Petal.Length_linear"        
-#&gt; [3] "Petal.Width_linear"          "Species_setosa_category"    
-#&gt; [5] "Species_versicolor_category" "Species_virginica_category" </div><div class='input'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>getEstimatedCoef</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $Petal.Length_linear
-#&gt;            [,1]
-#&gt; [1,] -1.6141315
-#&gt; [2,]  0.4206597
-#&gt; 
-#&gt; $Sepal.Width_linear
-#&gt;            [,1]
-#&gt; [1,] -1.1423498
-#&gt; [2,]  0.3755377
-#&gt; 
-#&gt; $offset
-#&gt; [1] 5.871429
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>mod</span><span class='op'>$</span><span class='fu'>getSelectedBaselearner</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; Petal.Length_linear  Sepal.Width_linear 
-#&gt;                  66                  34 </div><div class='input'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;            [,1]
-#&gt;   [1,] 5.018253
-#&gt;   [2,] 4.830484
-#&gt;   [3,] 4.863525
-#&gt;   [4,] 5.055806
-#&gt;   [5,] 4.980699
-#&gt;   [6,] 5.022765
-#&gt;   [7,] 4.792930
-#&gt;   [8,] 4.910104
-#&gt;   [9,] 5.135426
-#&gt;  [10,] 5.064831
-#&gt;  [11,] 4.704286
-#&gt;  [12,] 5.121890
-#&gt;  [13,] 5.126402
-#&gt;  [14,] 5.018253
-#&gt;  [15,] 5.257112
-#&gt;  [16,] 5.172980
-#&gt;  [17,] 4.887543
-#&gt;  [18,] 5.069343
-#&gt;  [19,] 4.914616
-#&gt;  [20,] 5.064831
-#&gt;  [21,] 5.060319
-#&gt;  [22,] 4.980699
-#&gt;  [23,] 5.285641
-#&gt;  [24,] 4.821459
-#&gt;  [25,] 4.976187
-#&gt;  [26,] 4.525542
-#&gt;  [27,] 4.863525
-#&gt;  [28,] 5.102385
-#&gt;  [29,] 5.341244
-#&gt;  [30,] 4.830484
-#&gt;  [31,] 5.215046
-#&gt;  [32,] 4.905591
-#&gt;  [33,] 5.135426
-#&gt;  [34,] 6.293769
-#&gt;  [35,] 5.661323
-#&gt;  [36,] 6.101488
-#&gt;  [37,] 6.059422
-#&gt;  [38,] 6.331322
-#&gt;  [39,] 5.404415
-#&gt;  [40,] 6.139041
-#&gt;  [41,] 5.338332
-#&gt;  [42,] 6.008331
-#&gt;  [43,] 6.181107
-#&gt;  [44,] 5.718382
-#&gt;  [45,] 6.130017
-#&gt;  [46,] 6.134529
-#&gt;  [47,] 5.853604
-#&gt;  [48,] 5.694364
-#&gt;  [49,] 6.335835
-#&gt;  [50,] 6.115024
-#&gt;  [51,] 6.143553
-#&gt;  [52,] 6.012843
-#&gt;  [53,] 6.185619
-#&gt;  [54,] 6.344859
-#&gt;  [55,] 6.096975
-#&gt;  [56,] 5.563654
-#&gt;  [57,] 5.572679
-#&gt;  [58,] 5.769472
-#&gt;  [59,] 6.274264
-#&gt;  [60,] 6.134529
-#&gt;  [61,] 5.829587
-#&gt;  [62,] 6.176595
-#&gt;  [63,] 5.773984
-#&gt;  [64,] 5.895670
-#&gt;  [65,] 6.008331
-#&gt;  [66,] 6.012843
-#&gt;  [67,] 5.315771
-#&gt;  [68,] 5.891158
-#&gt;  [69,] 6.878180
-#&gt;  [70,] 6.274264
-#&gt;  [71,] 6.723453
-#&gt;  [72,] 6.559701
-#&gt;  [73,] 6.681387
-#&gt;  [74,] 7.017915
-#&gt;  [75,] 5.946760
-#&gt;  [76,] 6.854163
-#&gt;  [77,] 6.493618
-#&gt;  [78,] 6.462032
-#&gt;  [79,] 6.157090
-#&gt;  [80,] 6.555189
-#&gt;  [81,] 6.993897
-#&gt;  [82,] 6.044429
-#&gt;  [83,] 6.714428
-#&gt;  [84,] 6.227685
-#&gt;  [85,] 6.984873
-#&gt;  [86,] 6.190132
-#&gt;  [87,] 6.751982
-#&gt;  [88,] 6.840626
-#&gt;  [89,] 6.185619
-#&gt;  [90,] 6.302793
-#&gt;  [91,] 6.522147
-#&gt;  [92,] 6.732477
-#&gt;  [93,] 7.234213
-#&gt;  [94,] 6.311817
-#&gt;  [95,] 6.807585
-#&gt;  [96,] 6.747470
-#&gt;  [97,] 6.592743
-#&gt;  [98,] 6.260727
-#&gt;  [99,] 6.550677
-#&gt; [100,] 6.424479
-#&gt; [101,] 6.274264
-#&gt; [102,] 6.798560
-#&gt; [103,] 6.751982
-#&gt; [104,] 6.428991
-#&gt; [105,] 6.663338</div><div class='input'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>plot</span><span class='op'>(</span><span class='st'>"Sepal.Width_linear"</span><span class='op'>)</span>
-</div><div class='img'><img src='boostLinear-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>plotInbagVsOobRisk</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='boostLinear-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>mod</span> <span class='op'>=</span> <span class='fu'>boostLinear</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>iris</span>, target <span class='op'>=</span> <span class='st'>"Sepal.Length"</span>, loss <span class='op'>=</span> <span class='va'><a href='LossQuadratic.html'>LossQuadratic</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>  oob_fraction <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   1/100   risk = 0.32  oob_risk = 0.29   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   2/100   risk = 0.3  oob_risk = 0.27   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   4/100   risk = 0.26  oob_risk = 0.23   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   6/100   risk = 0.23  oob_risk = 0.2   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   8/100   risk = 0.2  oob_risk = 0.18   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  10/100   risk = 0.18  oob_risk = 0.16   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  12/100   risk = 0.16  oob_risk = 0.14   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  14/100   risk = 0.15  oob_risk = 0.13   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  16/100   risk = 0.14  oob_risk = 0.12   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  18/100   risk = 0.13  oob_risk = 0.11   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  20/100   risk = 0.12  oob_risk = 0.11   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  22/100   risk = 0.11  oob_risk = 0.1   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  24/100   risk = 0.11  oob_risk = 0.096   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  26/100   risk = 0.1  oob_risk = 0.093   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  28/100   risk = 0.099  oob_risk = 0.09   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  30/100   risk = 0.097  oob_risk = 0.088   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  32/100   risk = 0.094  oob_risk = 0.086   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  34/100   risk = 0.092  oob_risk = 0.084   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  36/100   risk = 0.091  oob_risk = 0.082   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  38/100   risk = 0.089  oob_risk = 0.08   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  40/100   risk = 0.087  oob_risk = 0.078   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  42/100   risk = 0.086  oob_risk = 0.076   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  44/100   risk = 0.084  oob_risk = 0.075   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  46/100   risk = 0.083  oob_risk = 0.073   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  48/100   risk = 0.081  oob_risk = 0.071   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  50/100   risk = 0.08  oob_risk = 0.07   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  52/100   risk = 0.079  oob_risk = 0.069   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  54/100   risk = 0.078  oob_risk = 0.067   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  56/100   risk = 0.077  oob_risk = 0.066   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  58/100   risk = 0.076  oob_risk = 0.065   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  60/100   risk = 0.075  oob_risk = 0.064   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  62/100   risk = 0.074  oob_risk = 0.063   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  64/100   risk = 0.073  oob_risk = 0.062   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  66/100   risk = 0.073  oob_risk = 0.061   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  68/100   risk = 0.072  oob_risk = 0.06   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  70/100   risk = 0.071  oob_risk = 0.06   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  72/100   risk = 0.07  oob_risk = 0.059   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  74/100   risk = 0.07  oob_risk = 0.058   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  76/100   risk = 0.069  oob_risk = 0.057   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  78/100   risk = 0.069  oob_risk = 0.057   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  80/100   risk = 0.068  oob_risk = 0.056   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  82/100   risk = 0.068  oob_risk = 0.056   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  84/100   risk = 0.067  oob_risk = 0.055   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  86/100   risk = 0.067  oob_risk = 0.055   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  88/100   risk = 0.066  oob_risk = 0.054   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  90/100   risk = 0.066  oob_risk = 0.054   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  92/100   risk = 0.066  oob_risk = 0.053   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  94/100   risk = 0.065  oob_risk = 0.053   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  96/100   risk = 0.065  oob_risk = 0.053   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  98/100   risk = 0.065  oob_risk = 0.052   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100/100   risk = 0.064  oob_risk = 0.052   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Train 100 iterations in 0 Seconds.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Final risk based on the train set: 0.064</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>getBaselearnerNames</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Sepal.Width_linear"  "Petal.Length_linear" "Petal.Width_linear" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4] "Species_ridge"      </span>
+<span class='r-in'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>getEstimatedCoef</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Petal.Length_linear</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] -1.6141315</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]  0.4206597</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"blclass")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Rcpp_BaselearnerPolynomial"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $Sepal.Width_linear</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] -1.1423498</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]  0.3755377</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"blclass")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Rcpp_BaselearnerPolynomial"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $offset</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 5.871429</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>mod</span><span class='op'>$</span><span class='fu'>getSelectedBaselearner</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Petal.Length_linear  Sepal.Width_linear </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  66                  34 </span>
+<span class='r-in'><span class='va'>mod</span><span class='op'>$</span><span class='fu'>predict</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1,] 5.018253</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [2,] 4.830484</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [3,] 4.863525</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [4,] 5.055806</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [5,] 4.980699</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [6,] 5.022765</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7,] 4.792930</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [8,] 4.910104</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [9,] 5.135426</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [10,] 5.064831</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [11,] 4.704286</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [12,] 5.121890</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13,] 5.126402</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [14,] 5.018253</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [15,] 5.257112</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [16,] 5.172980</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [17,] 4.887543</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [18,] 5.069343</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19,] 4.914616</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [20,] 5.064831</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [21,] 5.060319</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [22,] 4.980699</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [23,] 5.285641</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [24,] 4.821459</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25,] 4.976187</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [26,] 4.525542</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [27,] 4.863525</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [28,] 5.102385</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [29,] 5.341244</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [30,] 4.830484</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31,] 5.215046</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [32,] 4.905591</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [33,] 5.135426</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [34,] 6.293769</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [35,] 5.661323</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [36,] 6.101488</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37,] 6.059422</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [38,] 6.331322</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [39,] 5.404415</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [40,] 6.139041</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [41,] 5.338332</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [42,] 6.008331</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43,] 6.181107</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [44,] 5.718382</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [45,] 6.130017</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [46,] 6.134529</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [47,] 5.853604</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [48,] 5.694364</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49,] 6.335835</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [50,] 6.115024</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [51,] 6.143553</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [52,] 6.012843</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [53,] 6.185619</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [54,] 6.344859</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55,] 6.096975</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [56,] 5.563654</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [57,] 5.572679</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [58,] 5.769472</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [59,] 6.274264</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [60,] 6.134529</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61,] 5.829587</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [62,] 6.176595</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [63,] 5.773984</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [64,] 5.895670</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [65,] 6.008331</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [66,] 6.012843</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67,] 5.315771</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [68,] 5.891158</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [69,] 6.878180</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [70,] 6.274264</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [71,] 6.723453</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [72,] 6.559701</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73,] 6.681387</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [74,] 7.017915</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [75,] 5.946760</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [76,] 6.854163</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [77,] 6.493618</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [78,] 6.462032</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79,] 6.157090</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [80,] 6.555189</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [81,] 6.993897</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [82,] 6.044429</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [83,] 6.714428</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [84,] 6.227685</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85,] 6.984873</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [86,] 6.190132</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [87,] 6.751982</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [88,] 6.840626</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [89,] 6.185619</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [90,] 6.302793</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91,] 6.522147</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [92,] 6.732477</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [93,] 7.234213</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [94,] 6.311817</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [95,] 6.807585</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [96,] 6.747470</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97,] 6.592743</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [98,] 6.260727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [99,] 6.550677</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [100,] 6.424479</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [101,] 6.274264</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [102,] 6.798560</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [103,] 6.751982</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [104,] 6.428991</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [105,] 6.663338</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

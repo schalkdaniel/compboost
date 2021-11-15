@@ -110,6 +110,9 @@
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -119,12 +122,6 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -155,7 +152,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -194,7 +191,7 @@
 
 <pre>
 <span class='va'>BaselearnerPSpline</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_source</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>degree</span>, <span class='va'>n_knots</span>, <span class='va'>penalty</span>,
-  <span class='va'>differences</span>, <span class='va'>df</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='va'>differences</span>, <span class='va'>df</span>, <span class='va'>n_bins</span>, <span class='va'>bin_method</span><span class='op'>)</span><span class='op'>)</span>
 </pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>arguments</h2>
@@ -203,16 +200,18 @@
 
 <dl>
 <dt><code>data_source</code> [<code>data</code> object]</dt><dd><p>data object which contains the source data.</p></dd>
-<dt><code>degree</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>degree of the spline functions to interpolate the knots.</p></dd>
-<dt><code>n_knots</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>number of <strong>inner knots</strong>. to prevent weird behavior on the edges
+<dt><code>degree</code> [<code>integer(1)</code>]</dt><dd><p>degree of the spline functions to interpolate the knots.</p></dd>
+<dt><code>n_knots</code> [<code>integer(1)</code>]</dt><dd><p>number of <strong>inner knots</strong>. to prevent weird behavior on the edges
   the inner knots are expanded by \(\mathrm{degree} - 1\) additional knots.</p></dd>
-<dt><code>penalty</code> [<code><a href='https://rdrr.io/r/base/numeric.html'>numeric(1)</a></code>]</dt><dd><p>positive numeric value to specify the penalty parameter. setting the
+<dt><code>penalty</code> [<code>numeric(1)</code>]</dt><dd><p>positive numeric value to specify the penalty parameter. setting the
   penalty to 0 ordinary b-splines are used for the fitting.</p></dd>
-<dt><code>differences</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>the number of differences which are penalized. a higher value leads to
+<dt><code>differences</code> [<code>integer(1)</code>]</dt><dd><p>the number of differences which are penalized. a higher value leads to
   smoother curves.</p></dd>
-<dt><code>bin_root</code> [<code><a href='https://rdrr.io/r/base/integer.html'>integer(1)</a></code>]</dt><dd><p>If set to a value greater than zero, binning is applied and reduces the number of used
+<dt><code>bin_root</code> [<code>integer(1)</code>]</dt><dd><p>If set to a value greater than zero, binning is applied and reduces the number of used
   x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
   to set <code>bin_root = 2</code>.</p></dd>
+<dt><code>bin_method</code> [<code>character(1)</code>]</dt><dd><p>Method used for spacing knot points. Options are linear (equally spaced grid) or
+  quantile (knot points based on quantiles).</p></dd>
 
 </dl>
 
@@ -235,59 +234,51 @@
 <dl>
 <dt><code>getData()</code></dt><dd><p>Get the data matrix of the target data which is used
   for modeling.</p></dd>
-<dt><code>transformData(X)</code></dt><dd><p>Transform a data matrix as defined within the
-  factory. The argument has to be a matrix with one column.</p></dd>
 <dt><code>summarizeFactory()</code></dt><dd><p>Summarize the base-learner factory object.</p></dd>
 
 </dl>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Sample data:</span>
-<span class='va'>data_mat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-<span class='va'>y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-
-<span class='co'># Create new data object:</span>
-<span class='va'>data_source</span> <span class='op'>=</span> <span class='va'><a href='InMemoryData.html'>InMemoryData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_mat</span>, <span class='st'>"my_data_name"</span><span class='op'>)</span>
-
-<span class='co'># Create new linear base-learner:</span>
-<span class='va'>spline_factory</span> <span class='op'>=</span> <span class='va'>BaselearnerPSpline</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_source</span>,
-  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>degree <span class='op'>=</span> <span class='fl'>3</span>, n_knots <span class='op'>=</span> <span class='fl'>4</span>, penalty <span class='op'>=</span> <span class='fl'>2</span>, differences <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># Get the transformed data:</span>
-<span class='va'>spline_factory</span><span class='op'>$</span><span class='fu'>getData</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      [,1]
-#&gt; [1,]    0</div><div class='input'>
-<span class='co'># Summarize factory:</span>
-<span class='va'>spline_factory</span><span class='op'>$</span><span class='fu'>summarizeFactory</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Spline factory of degree 3
-#&gt; 	- Name of the used data: my_data_name
-#&gt; 	- Factory creates the following base-learner: spline_degree_3</div><div class='input'>
-<span class='co'># Transform data manually:</span>
-<span class='va'>spline_factory</span><span class='op'>$</span><span class='fu'>transformData</span><span class='op'>(</span><span class='va'>data_mat</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;             [,1]       [,2]        [,3]         [,4]         [,5]        [,6]
-#&gt;  [1,] 0.16666667 0.66666667 0.166666667 0.0000000000 0.0000000000 0.000000000
-#&gt;  [2,] 0.01463192 0.44375857 0.513031550 0.0285779607 0.0000000000 0.000000000
-#&gt;  [3,] 0.00000000 0.11705533 0.655006859 0.2277091907 0.0002286237 0.000000000
-#&gt;  [4,] 0.00000000 0.00617284 0.370370370 0.5740740741 0.0493827160 0.000000000
-#&gt;  [5,] 0.00000000 0.00000000 0.078417924 0.6227709191 0.2969821674 0.001828989
-#&gt;  [6,] 0.00000000 0.00000000 0.001828989 0.2969821674 0.6227709191 0.078417924
-#&gt;  [7,] 0.00000000 0.00000000 0.000000000 0.0493827160 0.5740740741 0.370370370
-#&gt;  [8,] 0.00000000 0.00000000 0.000000000 0.0002286237 0.2277091907 0.655006859
-#&gt;  [9,] 0.00000000 0.00000000 0.000000000 0.0000000000 0.0285779607 0.513031550
-#&gt; [10,] 0.00000000 0.00000000 0.000000000 0.0000000000 0.0000000000 0.166666667
-#&gt;             [,7]       [,8]
-#&gt;  [1,] 0.00000000 0.00000000
-#&gt;  [2,] 0.00000000 0.00000000
-#&gt;  [3,] 0.00000000 0.00000000
-#&gt;  [4,] 0.00000000 0.00000000
-#&gt;  [5,] 0.00000000 0.00000000
-#&gt;  [6,] 0.00000000 0.00000000
-#&gt;  [7,] 0.00617284 0.00000000
-#&gt;  [8,] 0.11705533 0.00000000
-#&gt;  [9,] 0.44375857 0.01463192
-#&gt; [10,] 0.66666667 0.16666667</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Sample data:</span></span>
+<span class='r-in'><span class='va'>data_mat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>y</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Trig.html'>sin</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Create new data object:</span></span>
+<span class='r-in'><span class='va'>data_source</span> <span class='op'>=</span> <span class='va'><a href='InMemoryData.html'>InMemoryData</a></span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_mat</span>, <span class='st'>"my_data_name"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Create new linear base-learner:</span></span>
+<span class='r-in'><span class='va'>spline_factory</span> <span class='op'>=</span> <span class='va'>BaselearnerPSpline</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_source</span>,</span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>degree <span class='op'>=</span> <span class='fl'>3</span>, n_knots <span class='op'>=</span> <span class='fl'>4</span>, penalty <span class='op'>=</span> <span class='fl'>2</span>, differences <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Get the transformed data:</span></span>
+<span class='r-in'><span class='va'>spline_factory</span><span class='op'>$</span><span class='fu'>getData</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           [,1]       [,2]         [,3]       [,4]        [,5]        [,6]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 0.1666667 0.01463192 0.0000000000 0.00000000 0.000000000 0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 0.6666667 0.44375857 0.1170553269 0.00617284 0.000000000 0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 0.1666667 0.51303155 0.6550068587 0.37037037 0.078417924 0.001828989</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 0.0000000 0.02857796 0.2277091907 0.57407407 0.622770919 0.296982167</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 0.0000000 0.00000000 0.0002286237 0.04938272 0.296982167 0.622770919</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [6,] 0.0000000 0.00000000 0.0000000000 0.00000000 0.001828989 0.078417924</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [7,] 0.0000000 0.00000000 0.0000000000 0.00000000 0.000000000 0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [8,] 0.0000000 0.00000000 0.0000000000 0.00000000 0.000000000 0.000000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>            [,7]         [,8]       [,9]     [,10]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,] 0.00000000 0.0000000000 0.00000000 0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,] 0.00000000 0.0000000000 0.00000000 0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,] 0.00000000 0.0000000000 0.00000000 0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,] 0.04938272 0.0002286237 0.00000000 0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,] 0.57407407 0.2277091907 0.02857796 0.0000000</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [6,] 0.37037037 0.6550068587 0.51303155 0.1666667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [7,] 0.00617284 0.1170553269 0.44375857 0.6666667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [8,] 0.00000000 0.0000000000 0.01463192 0.1666667</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Summarize factory:</span></span>
+<span class='r-in'><span class='va'>spline_factory</span><span class='op'>$</span><span class='fu'>summarizeFactory</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Spline factory of degree 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	- Name of the used data: my_data_name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 	- Factory creates the following base-learner: spline_degree_3</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

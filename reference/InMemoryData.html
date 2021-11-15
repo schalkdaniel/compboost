@@ -111,6 +111,9 @@ any arguments." />
     <li>
       <a href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
     </li>
+    <li>
+      <a href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -120,12 +123,6 @@ any arguments." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/advanced/ext_losses.html">Extending Losses</a>
-    </li>
-    <li>
-      <a href="../articles/advanced/ext_blearner.html">Extending Base-Learner</a>
-    </li>
     <li>
       <a href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
     </li>
@@ -156,7 +153,7 @@ any arguments." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/schalkdaniel/compboost">
-    <span class="fas fa-github fa-lg"></span>
+    <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -206,7 +203,7 @@ any arguments.</p>
 <dl>
 <dt><code>data_mat</code> [<code>matrix</code>]</dt><dd><p>Matrix containing the source data. This source data is later transformed
   to obtain the design matrix a base-learner uses for training.</p></dd>
-<dt><code>data_identifier</code> [<code><a href='https://rdrr.io/r/base/character.html'>character(1)</a></code>]</dt><dd><p>The name for the data specified in <code>data_mat</code>. Note that it is
+<dt><code>data_identifier</code> [<code>character(1)</code>]</dt><dd><p>The name for the data specified in <code>data_mat</code>. Note that it is
   important to have the same data names for train and evaluation data.</p></dd>
 
 </dl>
@@ -239,27 +236,29 @@ any arguments.</p>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Sample data:</span>
-<span class='va'>data_mat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span>
-
-<span class='co'># Create new data object:</span>
-<span class='va'>data_obj</span> <span class='op'>=</span> <span class='va'>InMemoryData</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_mat</span>, <span class='st'>"my_data_name"</span><span class='op'>)</span>
-
-<span class='co'># Get data and identifier:</span>
-<span class='va'>data_obj</span><span class='op'>$</span><span class='fu'>getData</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;       [,1]
-#&gt;  [1,]    1
-#&gt;  [2,]    2
-#&gt;  [3,]    3
-#&gt;  [4,]    4
-#&gt;  [5,]    5
-#&gt;  [6,]    6
-#&gt;  [7,]    7
-#&gt;  [8,]    8
-#&gt;  [9,]    9
-#&gt; [10,]   10</div><div class='input'><span class='va'>data_obj</span><span class='op'>$</span><span class='fu'>getIdentifier</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "my_data_name"</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Sample data:</span></span>
+<span class='r-in'><span class='va'>data_mat</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Create new data object:</span></span>
+<span class='r-in'><span class='va'>data_obj</span> <span class='op'>=</span> <span class='va'>InMemoryData</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>data_mat</span>, <span class='st'>"my_data_name"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Get data and identifier:</span></span>
+<span class='r-in'><span class='va'>data_obj</span><span class='op'>$</span><span class='fu'>getData</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       [,1]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1,]    1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [2,]    2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [3,]    3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [4,]    4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5,]    5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6,]    6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [7,]    7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [8,]    8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9,]    9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [10,]   10</span>
+<span class='r-in'><span class='va'>data_obj</span><span class='op'>$</span><span class='fu'>getIdentifier</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "my_data_name"</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
