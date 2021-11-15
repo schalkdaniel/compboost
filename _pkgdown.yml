@@ -19,12 +19,10 @@ navbar:
         href: articles/getting_started/robust_regression.html
       - text: Reference Based Objects of Compboost
         href: articles/getting_started/object_references.html
+      - text: Visualizing Compboost
+        href: articles/getting_started/visualizations.html
   - text: Advanced Topics
     menu:
-      - text: Extending Losses
-        href: articles/advanced/ext_losses.html
-      - text: Extending Base-Learner
-        href: articles/advanced/ext_blearner.html
       - text: Logging Performance Measures
         href: articles/advanced/log_performance.html
   - text: Functionality

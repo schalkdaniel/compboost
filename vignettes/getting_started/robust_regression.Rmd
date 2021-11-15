@@ -1,8 +1,8 @@
 ---
-title: "Qunatile/Robust Regression"
+title: "Quantile/Robust regression"
 output: html_vignette
 vignette: >
-  %\VignetteIndexEntry{Quantile regression with compboost}
+  %\VignetteIndexEntry{Quantile/Robust regression}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

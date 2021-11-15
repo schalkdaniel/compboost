@@ -1,5 +1,5 @@
 ---
-title: "Extending compboost: Losses"
+title: "Extending compboost with losses"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Extending compboost with losses}

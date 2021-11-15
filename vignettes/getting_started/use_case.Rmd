@@ -1,8 +1,8 @@
 ---
-title: "First Use-Case"
+title: "Use-case"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{First use-case using compboost}
+  %\VignetteIndexEntry{Use-case}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -68,10 +68,9 @@ cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
 
 ### Categorical Features
 
-When adding categorical features, each group is added as single base-learner. Do also note that we don't want an intercept here:
+When adding categorical features, we include the feature using a dummy coding with a ridge penalty::
 ```{r}
-cboost$addBaselearner("Sex", "categorical", BaselearnerPolynomial,
-  intercept = FALSE)
+cboost$addBaselearner("Sex", "ridge", BaselearnerCategoricalRidge)
 ```
 
 Finally, we can get all registered factories:
@@ -127,7 +126,7 @@ table(true_label = oob_label, predicted = oob_pred)
 ## Visualizing Inbag vs. Out-Of-Bag Behavior
 
 ```{r}
-cboost$plotInbagVsOobRisk()
+plotRisk(cboost)
 ```
 
 ## Retrain the Model
@@ -147,23 +146,5 @@ table(cboost$getSelectedBaselearner())
 
 To visualize a base-learner it is important to exactly use a name from `$getBaselearnerNames()`:
 ```{r, eval=FALSE}
-gg1 = cboost$plot("Age_spline")
-gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
-```
-```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
-gg1 = cboost$plot("Age_spline")
-gg2 = cboost$plot("Age_spline", iters = c(200, 500, 1000, 1500))
-
-gridExtra::grid.arrange(gg1, gg2, ncol = 2)
-```
-
-```{r, eval=FALSE}
-gg1 = cboost$plot("Age_spline")
-gg2 = cboost$plot("Age_spline", iters = c(50, 100, 500, 1000, 1500))
-```
-```{r,echo=FALSE, warning=FALSE, fig.align="center", fig.width=7, fig.height=4.6, out.width="600px",out.height="400px"}
-gg1 = cboost$plot("Fare_spline")
-gg2 = cboost$plot("Fare_spline", iters = c(200, 500, 1000, 1500))
-
-gridExtra::grid.arrange(gg1, gg2, ncol = 2)
+plotBaselearner(cboost, "Age_spline")
 ```

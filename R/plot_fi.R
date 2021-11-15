@@ -28,7 +28,16 @@ plotFeatureImportance = function(cboost, num_feats = NULL, aggregate = TRUE) {
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  if (is.null(num_feats)) num_feats = length(unique(cboost$getSelectedBaselearner()))
+  if (is.null(num_feats)) {
+    df_tmp = data.frame(
+      feat = cboost$bl_factory_list$getDataNames(),
+      bl   = cboost$bl_factory_list$getRegisteredFactoryNames())
+
+    bl_sel = unique(cboost$getSelectedBaselearner())
+
+    df_tmp = df_tmp[df_tmp$bl %in% bl_sel, ]
+    num_feats = length(unique(df_tmp$feat))
+  }
   df_vip = cboost$calculateFeatureImportance(num_feats, aggregate)
 
   ## First column containing the names contains the base learner or the feature depending on the aggregation.
