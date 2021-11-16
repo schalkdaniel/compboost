@@ -31,7 +31,7 @@ double calculateDegreesOfFreedom (const double x, const arma::vec& singular_valu
 
 double calculateDegreesOfFreedomRidge (const double x, const arma::vec& table, const double degrees_of_freedom)
 {
-  return arma::accu(table / (table + x)) - degrees_of_freedom;
+  return arma::accu((table % (table + 2 * x)) / arma::pow(table + x, 2)) - degrees_of_freedom;
 }
 
 

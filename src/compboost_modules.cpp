@@ -277,6 +277,7 @@ public:
   virtual ~BaselearnerFactoryWrapper () {}
 
   arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
+  arma::mat getPenalty () { return sh_ptr_blearner_factory->getInstantiatedData()->getPenaltyMat(); }
   std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
 
@@ -1015,6 +1016,7 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor ("Create BaselearnerFactory class")
 
     .method("getData",        &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
+    .method("getPenalty",     &BaselearnerFactoryWrapper::getPenalty, "Get the penalty matrix used within the learner")
     .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature used for the base-learner")
   ;
 
