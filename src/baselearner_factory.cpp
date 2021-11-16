@@ -518,15 +518,15 @@ BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const st
 
 
   arma::mat penalty_mat_dummy = arma::diagmat(arma::vec(_attributes->dictionary.size(), arma::fill::ones));
-  arma::mat xtx(_sh_ptr_data->getSparseData() * _sh_ptr_data->getSparseData().t());
+  arma::vec xtx_diag(arma::diagvec((_sh_ptr_data->getSparseData() * _sh_ptr_data->getSparseData().t())));
 
   double penalty = 0;
   if (df > 0) {
     // penalty = nrows / df - 1;
-    penalty = dro::demmlerReinsch(xtx, penalty_mat_dummy, df);
+    penalty = dro::demmlerReinschRidge(xtx_diag, df);
   }
   _sh_ptr_data->setPenaltyMat(penalty * penalty_mat_dummy);
-  arma::vec temp_XtX_inv = 1 / (arma::diagvec(xtx) + penalty);
+  arma::vec temp_XtX_inv = 1 / (xtx_diag + penalty);
   _sh_ptr_data->setCache("identity", temp_XtX_inv);
 }
 bool BaselearnerCategoricalRidgeFactory::usesSparse () const { return true; }
