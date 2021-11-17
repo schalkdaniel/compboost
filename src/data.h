@@ -40,6 +40,8 @@ class Data
 {
 private:
   const std::string _data_identifier = "";
+  double            _penalty = 0;
+  double            _df = 1;
   arma::mat         _penalty_mat = arma::mat (1, 1, arma::fill::zeros);
 
   std::pair<std::string, arma::mat> _mat_cache;
@@ -71,6 +73,7 @@ public:
   std::string                       getCacheType      () const;
   arma::mat                         getCacheMat       () const;
   arma::mat                         getDenseData      () const;
+  double                            getPenalty        () const;
   arma::mat                         getPenaltyMat     () const;
   arma::sp_mat                      getSparseData     () const;
   arma::uvec                        getBinningIndex   () const;
@@ -81,6 +84,7 @@ public:
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
   void setCacheCustom (const std::string, const arma::mat&);
+  void setPenalty     (const double);
   void setPenaltyMat  (const arma::mat&);
   void setIndexVector (const arma::uvec&);
 

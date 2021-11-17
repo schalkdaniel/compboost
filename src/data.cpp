@@ -68,6 +68,7 @@ void Data::setCacheCustom (const std::string ctype, const arma::mat& X)
 
 void Data::setDenseData  (const arma::mat& X)    { _use_sparse = false; _data_mat = X; }
 void Data::setSparseData (const arma::sp_mat& X) { _use_sparse = true; _sparse_data_mat = X; }
+void Data::setPenalty    (const penalty pen)     { _penalty = pen; }
 void Data::setPenaltyMat (const arma::mat& D)    { _penalty_mat = D; }
 
 void Data::setCache (const std::string cache_type, const arma::mat& xtx)
@@ -102,6 +103,7 @@ arma::mat Data::getDenseData () const
   }
 }
 
+double       Data::getPenalty       () const { return _penalty; }
 arma::mat    Data::getPenaltyMat    () const { return _penalty_mat; }
 arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
 arma::uvec   Data::getBinningIndex  () const { return _bin_idx; }
