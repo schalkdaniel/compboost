@@ -50,19 +50,12 @@ sbindata initPolynomialData (const sdata& raw_data, const std::shared_ptr<Polyno
   }
 
   arma::mat   out;
-  //if (attributes->degree == 1) {
-    //if (attributes->use_intercept) {
-      //out = arma::mat(mraw.n_rows, 1, arma::fill::ones);
-    //}
-    //out = arma::join_rows(out, mraw);
-  //} else {
-    if (attributes->use_intercept) {
-      out = arma::mat(mraw.n_rows, 1, arma::fill::ones);
-    }
-    for (unsigned int i = 0; i < attributes->degree; i++) {
-      out = arma::join_rows(out, arma::pow(mraw, i+1));
-    }
-  //}
+  if (attributes->use_intercept) {
+    out = arma::mat(mraw.n_rows, 1, arma::fill::ones);
+  }
+  for (unsigned int i = 0; i < attributes->degree; i++) {
+    out = arma::join_rows(out, arma::pow(mraw, i+1));
+  }
 
   sh_ptr_bindata->setDenseData(out);
   return sh_ptr_bindata;

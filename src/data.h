@@ -40,7 +40,6 @@ class Data
 {
 private:
   const std::string _data_identifier = "";
-  arma::mat         _penalty_mat = arma::mat (1, 1, arma::fill::zeros);
 
   std::pair<std::string, arma::mat> _mat_cache;
 
@@ -62,8 +61,9 @@ protected:
 
 public:
   // Virtual functions
-  virtual arma::mat    getData () const = 0;
-  virtual unsigned int getNObs () const = 0;
+  virtual arma::mat    getData  () const = 0;
+  virtual unsigned int getNObs  () const = 0;
+  virtual unsigned int getNCols () const = 0;
 
   // Getter/Setter
   std::string                       getDataIdentifier () const;
@@ -71,7 +71,6 @@ public:
   std::string                       getCacheType      () const;
   arma::mat                         getCacheMat       () const;
   arma::mat                         getDenseData      () const;
-  arma::mat                         getPenaltyMat     () const;
   arma::sp_mat                      getSparseData     () const;
   arma::uvec                        getBinningIndex   () const;
   bool                              usesSparseMatrix  () const;
@@ -81,7 +80,6 @@ public:
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
   void setCacheCustom (const std::string, const arma::mat&);
-  void setPenaltyMat  (const arma::mat&);
   void setIndexVector (const arma::uvec&);
 
 
@@ -104,9 +102,9 @@ public:
   InMemoryData (const std::string, const arma::mat&);
   InMemoryData (const std::string, const arma::sp_mat&);
 
-  // void setData (const arma::mat&);
-  arma::mat getData() const;
-  unsigned int getNObs () const;
+  arma::mat getData     () const;
+  unsigned int getNObs  () const;
+  unsigned int getNCols () const;
 
   // Destructor
   ~InMemoryData ();
@@ -127,13 +125,9 @@ public:
   BinnedData (const std::string);
   BinnedData (const std::string, const unsigned int, const arma::vec&, const arma::vec&);
 
-  arma::mat    getData         () const;
-  unsigned int getNObs         () const;
-
-  //void setBinRoot     (const unsigned int&);
-  //void setIndexVector (const arma::uvec&);
-  //void setIndexVector (const arma::vec&, const arma::vec&);
-  //void setData        (const arma::mat&);
+  arma::mat    getData  () const;
+  unsigned int getNObs  () const;
+  unsigned int getNCols () const;
 };
 
 
@@ -150,6 +144,7 @@ public:
 
   arma::mat                getData    () const;
   unsigned int             getNObs    () const;
+  unsigned int             getNCols   () const;
   std::vector<std::string> getRawData () const;
 };
 
