@@ -28,8 +28,10 @@
 namespace dro {
 
 double calculateDegreesOfFreedom (const double, const arma::vec&, const double);
+double calculateDegreesOfFreedomRidge (const double, const arma::vec&, const double);
 double findLambdaWithToms748 (const arma::vec&, const double, const double = 0., const double = 1e15);
-double demmlerReinsch (const arma::mat&, const arma::mat&, const double);
+double demmlerReinschRidge (const arma::vec&, const double, const double = 0., const double = 1e15);
+double demmlerReinsch (const arma::mat&, const arma::mat&, const double, const double eps = 1e-9);
 
 } // namespace dro
 

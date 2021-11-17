@@ -276,11 +276,13 @@ public:
   std::shared_ptr<blearnerfactory::BaselearnerFactory> getFactory () { return sh_ptr_blearner_factory; }
   virtual ~BaselearnerFactoryWrapper () {}
 
-  arma::mat getData () { return sh_ptr_blearner_factory->getData(); }
-  std::string getDataIdentifier () { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  arma::mat   getData            () { return sh_ptr_blearner_factory->getData(); }
+  double      getDF              () { return sh_ptr_blearner_factory->getDF(); }
+  double      getPenalty         () { return sh_ptr_blearner_factory->getPenalty(); }
+  arma::mat   getPenaltyMat      () { return sh_ptr_blearner_factory->getPenaltyMat(); }
+  std::string getDataIdentifier  () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-
-  std::string getFeatureName () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string getFeatureName     () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
 
 protected:
   std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory;
@@ -564,6 +566,17 @@ public:
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerTensorFactory>(blearner_type_temp, ptr_blearner1,
       ptr_blearner2);
+  }
+  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc, bool anistrop)
+  {
+    // We need to converse the SEXP from the element to an integer:
+    std::string blearner_type_temp = blc;
+
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner1 = blearner1.getFactory();
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
+
+    sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerTensorFactory>(blearner_type_temp, ptr_blearner1,
+      ptr_blearner2, anistrop);
   }
 
   void summarizeFactory ()
@@ -1015,6 +1028,9 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor ("Create BaselearnerFactory class")
 
     .method("getData",        &BaselearnerFactoryWrapper::getData, "Get the data used within the learner")
+    .method("getDF",          &BaselearnerFactoryWrapper::getDF, "Get the degrees of freedom used within the learner")
+    .method("getPenalty",     &BaselearnerFactoryWrapper::getPenalty, "Get the penalty used within the learner")
+    .method("getPenaltyMat",  &BaselearnerFactoryWrapper::getPenaltyMat, "Get the penalty matrix used within the learner")
     .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature used for the base-learner")
   ;
 
@@ -1054,6 +1070,7 @@ RCPP_MODULE (baselearner_factory_module)
   class_<BaselearnerTensorFactoryWrapper> ("BaselearnerTensor")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string> ()
+    .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string, bool> ()
 
     .method("summarizeFactory", &BaselearnerTensorFactoryWrapper::summarizeFactory, "Summarize Factory")
   ;

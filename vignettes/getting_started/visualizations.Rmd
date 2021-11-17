@@ -11,9 +11,10 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 8,
-  fig.height = 4,
-  fig.align = "center"
+  fig.width = 6,
+  fig.height = 3,
+  fig.align = "center",
+  out.width = "50%"
   # fig.path = "Readme_files/"
 )
 library(ggplot2)
@@ -119,7 +120,7 @@ table(cboost$getSelectedBaselearner())
 ```
 
 Depending on the feature combination (numeric - numeric, numeric - categorical, categorical - categorical) a different visualization technique is used:
-```{r, fig.width=10}
+```{r, fig.width=20, fig.height=5, out.width="100%"}
 gg1 = plotTensor(cboost, "wt_qsec_tensor") + ggtitle("Num - Num")
 gg2 = plotTensor(cboost, "hp_cyl_tensor") + ggtitle("Num - Cat")
 gg3 = plotTensor(cboost, "gear_vs_tensor") + ggtitle("Cat - Cat")

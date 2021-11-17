@@ -37,6 +37,9 @@ typedef std::shared_ptr<data::Data> sdata;
 typedef std::shared_ptr<data::BinnedData> sbindata;
 
 struct PolynomialAttributes {
+  double df;
+  double penalty;
+  arma::mat penalty_mat;
   unsigned int degree;
   bool use_intercept;
   unsigned int bin_root;
@@ -45,30 +48,31 @@ struct PolynomialAttributes {
     : degree ( _degree ), use_intercept ( _use_intercept ) {};
 };
 struct PSplineAttributes {
+  double df;
+  double penalty;
+  arma::mat penalty_mat;
   unsigned int degree;
   unsigned int n_knots;
-  double penalty;
-  double df;
   unsigned int differences;
   bool use_sparse_matrices;
   unsigned int bin_root;
   arma::mat knots;
 };
 struct RidgeAttributes {
+  double df;
+  double penalty;
+  arma::mat penalty_mat;
   std::map<std::string, unsigned int> dictionary;
 };
 struct BinaryAttributes {
   std::string cls;
 };
+struct TensorAttributes {
+  double penalty;
+};
 struct CenteredAttributes {
   arma::mat rotation;
 };
-//struct CustomAttributes {
-  //Rcpp::Function instantiateDataFun;
-  //Rcpp::Function trainFun;
-  //Rcpp::Function predictFun;
-  //Rcpp::Function extractParameter;
-//};
 
 typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
 typedef arma::mat (*trainFunPtr) (const arma::mat& y, const arma::mat& X);
