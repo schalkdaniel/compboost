@@ -68,8 +68,6 @@ void Data::setCacheCustom (const std::string ctype, const arma::mat& X)
 
 void Data::setDenseData  (const arma::mat& X)    { _use_sparse = false; _data_mat = X; }
 void Data::setSparseData (const arma::sp_mat& X) { _use_sparse = true; _sparse_data_mat = X; }
-void Data::setPenalty    (const penalty pen)     { _penalty = pen; }
-void Data::setPenaltyMat (const arma::mat& D)    { _penalty_mat = D; }
 
 void Data::setCache (const std::string cache_type, const arma::mat& xtx)
 {
@@ -103,8 +101,6 @@ arma::mat Data::getDenseData () const
   }
 }
 
-double       Data::getPenalty       () const { return _penalty; }
-arma::mat    Data::getPenaltyMat    () const { return _penalty_mat; }
 arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
 arma::uvec   Data::getBinningIndex  () const { return _bin_idx; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
@@ -141,8 +137,15 @@ unsigned int InMemoryData::getNObs () const {
   }
 }
 
-InMemoryData::~InMemoryData () {}
+unsigned int InMemoryData::getNCols () const {
+  if (_use_sparse) {
+    return _sparse_data_mat.n_rows;
+  } else {
+    return _data_mat.n_cols;
+  }
+}
 
+InMemoryData::~InMemoryData () {}
 
 // BinnedData:
 // ------------------------------
@@ -158,19 +161,25 @@ BinnedData::BinnedData (const std::string data_identifier, const unsigned int bi
   _bin_idx     = binning::calculateIndexVector(x, x_bins);
 }
 
-arma::mat  BinnedData::getData         () const { return Data::getDenseData(); }
-//bool       BinnedData::usesBinning     () const { return _use_binning; }
-
-//void BinnedData::setBinRoot (const unsigned int& bin_root)
-//{
-  //_bin_root = bin_root;
-  //_use_binning = bin_root > 0;
-//}
-
+arma::mat BinnedData::getData () const { return Data::getDenseData(); }
 
 unsigned int BinnedData::getNObs () const {
-  return _bin_idx.n_rows;
+  if (_use_sparse) {
+    return _sparse_data_mat.n_cols;
+  } else {
+    return _data_mat.n_rows;
+  }
 }
+
+unsigned int BinnedData::getNCols () const {
+  if (_use_sparse) {
+    return _sparse_data_mat.n_rows;
+  } else {
+    return _data_mat.n_cols;
+  }
+}
+
+
 
 // CategoricalDataRaw:
 // ---------------------------------
@@ -190,6 +199,10 @@ std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_d
 
 unsigned int CategoricalDataRaw::getNObs () const {
   return _raw_data.size();
+}
+
+unsigned int CategoricalDataRaw::getNCols () const {
+  return 1;
 }
 
 } // namespace data
