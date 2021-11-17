@@ -91,7 +91,7 @@ arma::mat penaltySumKronecker (const arma::mat& Pa, const arma::mat& Pb)
   arma::mat eyePb = arma::diagmat( arma::vec(Pb.n_cols, arma::fill::ones) );
 
   // sum of Kroneckers with diagonal marices
-  out = arma::kron(Pb, eyePa) + arma::kron(eyePb, Pa);
+  out = arma::kron(Pa, eyePb) + arma::kron(eyePa, Pb);
 
   return out;
 }
