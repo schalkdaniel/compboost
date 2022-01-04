@@ -785,6 +785,12 @@ Compboost = R6::R6Class("Compboost",
       return(out)
     }
   ),
+  active = list(
+    baselearner_list = function(x) {
+      if (! missing(x)) stop("Cannot set the base learner list!")
+      return(private$bl_list)
+    }
+  ),
   private = list(
     # Lists of single logger and base-learner factories. Necessary to prevent the factories from the
     # garbage collector which deallocates all the data from the heap and couses R to crash.
