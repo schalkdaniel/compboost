@@ -22,8 +22,10 @@
 #define DEMMLER_REINSCH_H_
 
 #include <RcppArmadillo.h>
-#include <boost/math/tools/toms748_solve.hpp>
 #include <functional>
+
+#include <boost/cstdint.hpp>
+#include <boost/math/tools/toms748_solve.hpp>
 
 namespace dro {
 
