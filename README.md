@@ -36,9 +36,13 @@ For an introduction and overview about the functionality visit the
 
 #### CRAN version:
 
+Because of ongoing bigger updates of the software it is currently not available on CRAN.
+
+<!--
 ``` r
 install.packages("compboost")
 ```
+-->
 
 #### Developer version:
 
