@@ -26,6 +26,7 @@
 #include <RcppArmadillo.h>
 #include <memory>
 
+#include <boost/cstdint.hpp>
 #include <boost/math/tools/minima.hpp>
 
 namespace lossoptim

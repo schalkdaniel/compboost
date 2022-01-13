@@ -22,6 +22,7 @@
 #define LINE_SEARCH_H_
 
 #include <RcppArmadillo.h>
+#include <boost/cstdint.hpp>
 #include <boost/math/tools/minima.hpp>
 
 #include "loss.h"
