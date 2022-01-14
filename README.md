@@ -75,9 +75,11 @@ page](https://danielschalk.com/compboost/articles/getting_started/use_case.html)
 
 ### Tuning compboost using mlr3
 
-For convenient possibility to tune `compboost`, a mlr3 learner is
-included in this package. Furthermore, the tuning can be easily done
-using the `mlr3tuningspaces` package:
+For convenient possibility to tune `compboost`, a
+[`mlr3`](https://github.com/mlr-org/mlr3) learner is included in this
+package. Furthermore, the tuning can be easily done using the
+[`mlr3tuningspaces`](https://github.com/mlr-org/mlr3tuningspaces)
+package:
 
 ``` r
 library(mlr3tuningspaces)
