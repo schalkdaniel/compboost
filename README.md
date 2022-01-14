@@ -36,13 +36,9 @@ For an introduction and overview about the functionality visit the
 
 #### CRAN version:
 
-Because of ongoing bigger updates of the software it is currently not available on CRAN.
-
-<!--
 ``` r
 install.packages("compboost")
 ```
--->
 
 #### Developer version:
 
@@ -51,6 +47,8 @@ devtools::install_github("schalkdaniel/compboost")
 ```
 
 ## Examples
+
+### Using the compboost API
 
 The examples are rendered using <code>compboost 0.1.1</code>.
 
@@ -74,6 +72,31 @@ gridExtra::grid.arrange(
 For more extensive examples and how to use the `R6` interface visit the
 [project
 page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
+
+### Tuning compboost using mlr3
+
+For convenient possibility to tune `compboost`, a mlr3 learner is
+included in this package. Furthermore, the tuning can be easily done
+using the `mlr3tuningspaces` package:
+
+``` r
+library(mlr3tuningspaces)
+
+# tune learner with default search space
+instance = tune(
+  method = "random_search",
+  task = tsk("sonar"),
+  learner = lts(lrn("classif.compboost", predict_type = "prob")),
+  resampling = rsmp("holdout"),
+  measure = msr("classif.auc"),
+  term_evals = 5
+)
+
+# best performing hyperparameter configuration
+instance$result
+#>    iterations learning_rate    df df_cat learner_param_vals  x_domain classif.auc
+#> 1:       2875        0.2774 1.288    2.1          <list[4]> <list[4]>       0.739
+```
 
 ## Benchmark
 
