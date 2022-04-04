@@ -134,11 +134,12 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
 
   gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes_string(x = "x", y = "y")) +
     ggplot2::xlab(feat) +
-    ggplot2::ylab("Contribution to\nprediction scroes")
+    ggplot2::ylab("Contribution to\nprediction scores")
 
   if (! is.numeric(x)) {
     gg = gg + ggplot2::geom_boxplot()
   } else {
     gg = gg + ggplot2::geom_line()
   }
+  return(gg)
 }
