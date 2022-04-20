@@ -6,7 +6,7 @@ test_that("Prediction of individual feature contribution works", {
       iterations = 2000L)
   })
   expect_silent({ ind_pred = mod$model$predictIndividualTrainData() })
-  expect_silent({ pred = mod$getEstimatedCoef()$offset + Reduce("+", ind_pred) })
+  expect_silent({ pred = mod$getCoef()$offset + Reduce("+", ind_pred) })
   expect_equal(pred, as.vector(mod$predict()))
   expect_equal(pred, as.vector(mod$predict(iris)))
   expect_equal(mod$model$predictIndividualTrainData(), mod$model$predictIndividual(mod$prepareData(iris)))

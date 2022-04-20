@@ -46,6 +46,6 @@ test_that("If parallel speed up the algorithm", {
     expect_true(tail(cboost1$getLoggerData()$time, n = 1) > tail(cboost2$getLoggerData()$time, n = 1))
     expect_equal(cboost1$getSelectedBaselearner(), cboost2$getSelectedBaselearner())
     expect_equal(cboost1$predict(), cboost2$predict())
-    expect_equal(cboost1$getEstimatedCoef(), cboost2$getEstimatedCoef())
+    expect_equal(cboost1$getCoef(), cboost2$getCoef())
   }
 })

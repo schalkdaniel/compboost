@@ -710,17 +710,17 @@ Compboost = R6::R6Class("Compboost",
         return(self$model$getPrediction(as_response))
       } else {
         if (private$p_boost_intercept) {
-          tmp = cbind(newdata, intercept = 1)
+          newdata = cbind(newdata, intercept = 1)
         }
-        return(self$model$predict(self$prepareData(tmp), as_response))
+        return(self$model$predict(self$prepareData(newdata), as_response))
       }
     },
     predictIndividual = function(newdata) {
       checkmate::assertDataFrame(newdata, null.ok = FALSE, min.rows = 1)
       if (private$p_boost_intercept) {
-        tmp = cbind(newdata, intercept = 1)
+        newdata = cbind(newdata, intercept = 1)
       }
-      return(self$model$predictIndividual(self$prepareData(tmp)))
+      return(self$model$predictIndividual(self$prepareData(newdata)))
     },
     getInbagRisk = function() {
       if (! is.null(self$model)) {
