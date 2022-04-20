@@ -680,6 +680,10 @@ Compboost = R6::R6Class("Compboost",
     },
     prepareData = function(newdata) {
       bl_features = unique(unlist(lapply(private$bl_list, function(x) x$feature)))
+
+      if (private$p_boost_intercept)
+        newdata = cbind(newdata, intercept = 1)
+
       nuisance = lapply(bl_features, function(blf) {
         if (! blf %in% names(newdata))
           warning("Missing feature ", blf, " in newdata. Note that this feature will be ignored in predictions.")
@@ -709,17 +713,11 @@ Compboost = R6::R6Class("Compboost",
       if (is.null(newdata)) {
         return(self$model$getPrediction(as_response))
       } else {
-        if (private$p_boost_intercept) {
-          newdata = cbind(newdata, intercept = 1)
-        }
         return(self$model$predict(self$prepareData(newdata), as_response))
       }
     },
     predictIndividual = function(newdata) {
       checkmate::assertDataFrame(newdata, null.ok = FALSE, min.rows = 1)
-      if (private$p_boost_intercept) {
-        newdata = cbind(newdata, intercept = 1)
-      }
       return(self$model$predictIndividual(self$prepareData(newdata)))
     },
     getInbagRisk = function() {
