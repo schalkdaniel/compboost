@@ -24,6 +24,8 @@ cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(
 
 cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 
+cboost$addIntercept(data_source = InMemoryData)
+
 cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 
 cboost$addTensor(features, id, data_source = InMemoryData, ...)
@@ -45,6 +47,8 @@ cboost$getInbagRisk()
 cboost$getSelectedBaselearner()
 
 cboost$getEstimatedCoef()
+
+cboost$getCoef()
 
 cboost$getBaselearnerNames()
 
@@ -101,6 +105,16 @@ cboost$calculateFeatureImportance(num_feats = NULL)
   \item{}{\code{...}\cr
     Further arguments passed to the constructor of the \code{S4 Logger} class specified in
     \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration}).
+  }
+}
+
+\strong{For cboost$addIntercept()}:
+\describe{
+  \item{\code{id}}{[\code{character(1)}]\cr
+    Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
+  }
+  \item{\code{data_source}}{[\code{S4 Data}]\cr
+    Data source object. Just in memory data objects are supported at the moment.
   }
 }
 
@@ -308,12 +322,14 @@ cboost$calculateFeatureImportance(num_feats = NULL)
 
 \describe{
   \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
+  \item{\code{addIntercept}}{method to add an intercept base-learner to the algorithm (Note: This is just possible before the training).}
   \item{\code{addBaselearner}}{method to add a new base-learner to the algorithm (Note: This is just possible before the training).}
   \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
   \item{\code{train}}{method to train the algorithm.}
   \item{\code{predict}}{method to predict on a trained object.}
   \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
-  \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
+  \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner. Depricated, use `getCoef` instead.}
+  \item{\code{getCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
   \item{\code{getBaselearnerNames}}{method to get the names of the registered factories.}
   \item{\code{prepareData}}{method to prepare data to track the out of bag risk of an arbitrary loss/performance function.}
   \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}

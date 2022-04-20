@@ -73,6 +73,9 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
   else
     df_bls  = data.frame(bl = blnames, feat = feats)
 
+  if (cboost$boost_intercept)
+    newdata = cbind(newdata, intercept = 1)
+
   nuisance = lapply(unique(feats), function(fn) {
     checkmate::assertChoice(fn, choices = colnames(newdata))
   })

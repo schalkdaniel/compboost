@@ -1,5 +1,10 @@
 # Release Notes
 
+- **20.04.2022** \
+  Adding a new "intercept base learner". This base learner can be used to additionally add an intercept. This makes sense if, e.g. linear functions without intercept are added.
+
+- **20.04.2022**\
+  A lot happens until the last entry. The development was done more in a rush without prober documentation. In the future, a bigger update will come containing an updated documentation and a method to store models.
 
 - **30.04.2020** \
   Refactoring core code basis:
@@ -8,11 +13,11 @@
       - Simplification of constructing classes by using a more flexible class inheritance structure.
 
 - **24.04.2020** \
-  It is now possible to choose between to solvers for fitting the base-learner. The two options are the Cholesky 
+  It is now possible to choose between to solvers for fitting the base-learner. The two options are the Cholesky
   decomposition and to use the inverse.
 
 - **15.04.2020** \
-  A new base-learner `BaselearnerCategoricalBinary` is now available. This base-learner reduces the memory load and inproves
+  A new base-learner `BaselearnerCategoricalBinary` is now available. This base-learner reduces the memory load and improves
   the runtime.
 
 - **03.04.2020** \

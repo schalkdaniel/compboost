@@ -18,6 +18,8 @@
 #'
 #' cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
 #'
+#' cboost$addIntercept(data_source = InMemoryData)
+#'
 #' cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 #'
 #' cboost$addTensor(features, id, data_source = InMemoryData, ...)
@@ -39,6 +41,8 @@
 #' cboost$getSelectedBaselearner()
 #'
 #' cboost$getEstimatedCoef()
+#'
+#' cboost$getCoef()
 #'
 #' cboost$getBaselearnerNames()
 #'
@@ -92,6 +96,16 @@
 #'   \item{}{\code{...}\cr
 #'     Further arguments passed to the constructor of the \code{S4 Logger} class specified in
 #'     \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration}).
+#'   }
+#' }
+#'
+#' \strong{For cboost$addIntercept()}:
+#' \describe{
+#'   \item{\code{id}}{[\code{character(1)}]\cr
+#'     Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
+#'   }
+#'   \item{\code{data_source}}{[\code{S4 Data}]\cr
+#'     Data source object. Just in memory data objects are supported at the moment.
 #'   }
 #' }
 #'
@@ -294,12 +308,14 @@
 #' @section Methods:
 #' \describe{
 #'   \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
+#'   \item{\code{addIntercept}}{method to add an intercept base-learner to the algorithm (Note: This is just possible before the training).}
 #'   \item{\code{addBaselearner}}{method to add a new base-learner to the algorithm (Note: This is just possible before the training).}
 #'   \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 #'   \item{\code{train}}{method to train the algorithm.}
 #'   \item{\code{predict}}{method to predict on a trained object.}
 #'   \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
-#'   \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
+#'   \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner. Depricated, use `getCoef` instead.}
+#'   \item{\code{getCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
 #'   \item{\code{getBaselearnerNames}}{method to get the names of the registered factories.}
 #'   \item{\code{prepareData}}{method to prepare data to track the out of bag risk of an arbitrary loss/performance function.}
 #'   \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
@@ -431,6 +447,19 @@ Compboost = R6::R6Class("Compboost",
         return(0)
       }
     },
+    addIntercept = function(id = "intercept", data_source = InMemoryData) {
+      id_int = paste0(id, "_")
+      private$p_boost_intercept = TRUE
+      private$bl_list[[id_int]] = list()
+      private$bl_list[[id_int]]$source = data_source$new(as.matrix(rep(1, nrow(self$data))), "intercept")
+      private$bl_list[[id_int]]$feature = "intercept"
+      private$bl_list[[id_int]]$factory = BaselearnerPolynomial$new(private$bl_list[[id_int]]$source, "",
+        list(degree = 1, intercept = FALSE))
+
+      self$bl_factory_list$registerFactory(private$bl_list[[id_int]]$factory)
+      private$bl_list[[id_int]]$source = NULL
+
+    },
     addBaselearner = function(feature, id, bl_factory, data_source = InMemoryData, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -558,7 +587,7 @@ Compboost = R6::R6Class("Compboost",
         stop("No registered components! Use `addComponent(feat)` instead of `addBaselearner`.")
       }
 
-      cf = self$getEstimatedCoef()
+      cf = self$getCoef()
 
       out = lapply(private$components, function(cp) {
 
@@ -659,7 +688,7 @@ Compboost = R6::R6Class("Compboost",
 
       blf_in_newdata = bl_features[bl_features %in% names(newdata)]
       out = lapply(blf_in_newdata, function(blf) {
-        if (!is.numeric(newdata[[blf]])) {
+        if (! is.numeric(newdata[[blf]])) {
           new_sources[[blf]] = CategoricalDataRaw$new(newdata[[blf]], blf)
         } else {
           new_sources[[blf]] = InMemoryData$new(cbind(newdata[[blf]]), blf)
@@ -680,12 +709,18 @@ Compboost = R6::R6Class("Compboost",
       if (is.null(newdata)) {
         return(self$model$getPrediction(as_response))
       } else {
-        return(self$model$predict(self$prepareData(newdata), as_response))
+        if (private$p_boost_intercept) {
+          tmp = cbind(newdata, intercept = 1)
+        }
+        return(self$model$predict(self$prepareData(tmp), as_response))
       }
     },
     predictIndividual = function(newdata) {
       checkmate::assertDataFrame(newdata, null.ok = FALSE, min.rows = 1)
-      return(self$model$predictIndividual(self$prepareData(newdata)))
+      if (private$p_boost_intercept) {
+        tmp = cbind(newdata, intercept = 1)
+      }
+      return(self$model$predictIndividual(self$prepareData(tmp)))
     },
     getInbagRisk = function() {
       if (! is.null(self$model)) {
@@ -719,7 +754,25 @@ Compboost = R6::R6Class("Compboost",
       print(p)
       print(self$loss)
     },
+    getCoef = function() {
+      bl_classes = vapply(private$bl_list, function(bl) class(bl$factory), character(1L))
+      bl_cat = bl_classes[grepl("Categorical", bl_classes)]
+      if (! is.null(self$model)) {
+        pars = self$model$getEstimatedParameter()
+        for (blc in intersect(names(bl_cat), names(pars))) {
+          dict = private$bl_list[[blc]]$factory$getDictionary()
+          rownames(pars[[blc]]) = names(sort(dict))
+        }
+        for (i in seq_along(pars)) {
+          bln = names(pars)[i]
+          attr(pars[[bln]], "blclass") = unname(bl_classes[bln])
+        }
+        return(c(pars, offset = self$model$getOffset()))
+      }
+      return(NULL)
+    },
     getEstimatedCoef = function() {
+      message("Depricated, use `getCoef` instead.")
       bl_classes = vapply(private$bl_list, function(bl) class(bl$factory), character(1L))
       bl_cat = bl_classes[grepl("Categorical", bl_classes)]
       if (! is.null(self$model)) {
@@ -787,8 +840,12 @@ Compboost = R6::R6Class("Compboost",
   ),
   active = list(
     baselearner_list = function(x) {
-      if (! missing(x)) stop("Cannot set the base learner list!")
+      if (! missing(x)) stop("`baselearner_list` is read only.")
       return(private$bl_list)
+    },
+    boost_intercept = function(x) {
+      if (! missing(x)) stop("`boost_intercept` is read only.")
+      return(private$p_boost_intercept)
     }
   ),
   private = list(
@@ -801,6 +858,7 @@ Compboost = R6::R6Class("Compboost",
     test_idx = NULL,
     train_idx = NULL,
     components = list(),
+    p_boost_intercept = FALSE,
 
     initializeModel = function() {
 
