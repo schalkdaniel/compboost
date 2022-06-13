@@ -51,6 +51,9 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   blnames = cboost$bl_factory_list$getRegisteredFactoryNames()
   blnames = blnames[feats == feat]
 
+  blsel   = unique(cboost$getSelectedBaselearner())
+  blnames = blnames[blnames %in% blsel]
+
   ll_plt = lapply(blnames, function(bln) {
     data.frame(
       x  = x,
