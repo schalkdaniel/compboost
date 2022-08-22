@@ -28,6 +28,8 @@ cboost$addIntercept(data_source = InMemoryData)
 
 cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 
+cboost$rmBaselearner(blname)
+
 cboost$addTensor(features, id, data_source = InMemoryData, ...)
 
 cboost$addComponents(feature, id, data_source = InMemoryData, ...)
@@ -138,6 +140,13 @@ cboost$calculateFeatureImportance(num_feats = NULL)
     Further arguments passed to the constructor of the \code{S4 Factory} class specified in
     \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
     of the \code{S4} classes.
+  }
+}
+
+\strong{For cboost$rmBaselearner()}:
+\describe{
+  \item{\code{blname}}{[\code{character()}]\cr
+    Name of the base learner to remove.
   }
 }
 
@@ -324,6 +333,7 @@ cboost$calculateFeatureImportance(num_feats = NULL)
   \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
   \item{\code{addIntercept}}{method to add an intercept base-learner to the algorithm (Note: This is just possible before the training).}
   \item{\code{addBaselearner}}{method to add a new base-learner to the algorithm (Note: This is just possible before the training).}
+  \item{\code{rmBaselearner}}{method to remove a base-learner.}
   \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
   \item{\code{train}}{method to train the algorithm.}
   \item{\code{predict}}{method to predict on a trained object.}

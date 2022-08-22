@@ -46,6 +46,7 @@ public:
 
   // Other member functions
   void registerBaselearnerFactory (const std::string, const std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+  void rmBaselearnerFactory       (const std::string);
   void printRegisteredFactories   () const;
   void clearMap                   ();
 };

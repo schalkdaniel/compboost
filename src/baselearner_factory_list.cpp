@@ -38,6 +38,18 @@ void BaselearnerFactoryList::registerBaselearnerFactory (const std::string facto
   }
 }
 
+void BaselearnerFactoryList::rmBaselearnerFactory (const std::string factory_id)
+{
+  // Create iterator and check if learner is registered:
+  std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>>::iterator it = _factory_map.find(factory_id);
+
+  if (it == _factory_map.end()) {
+    throw std::out_of_range(factory_id + " is not registered in map");
+  } else {
+    _factory_map.erase(factory_id);
+  }
+}
+
 void BaselearnerFactoryList::printRegisteredFactories () const
 {
   // Check if any factory is registered:

@@ -289,7 +289,7 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
   } else {
     penalty_mat = tensors::penaltySumKronecker(bl1_pen * _blearner1->getPenalty(), bl2_pen * _blearner2->getPenalty());
     // This is just a "placeholder" to get back the individual penalties via division:
-    _attributes->penalty = _blearner1->getPenalty() * _blearner1->getPenalty();
+    _attributes->penalty = _blearner1->getPenalty() * _blearner2->getPenalty();
   }
   _sh_ptr_data->setCache("cholesky", temp_xtx + penalty_mat);
 }

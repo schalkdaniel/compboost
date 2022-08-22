@@ -22,7 +22,9 @@
 #'
 #' cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 #'
-#' cboost$addTensor(features, id, data_source = InMemoryData, ...)
+#' cboost$rmBaselearner(blname)
+#'
+#' cboost$addTensor(feature1, feature2, anistrop = FALSE, ...)
 #'
 #' cboost$addComponents(feature, id, data_source = InMemoryData, ...)
 #'
@@ -129,6 +131,13 @@
 #'     Further arguments passed to the constructor of the \code{S4 Factory} class specified in
 #'     \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
 #'     of the \code{S4} classes.
+#'   }
+#' }
+#'
+#' \strong{For cboost$rmBaselearner()}:
+#' \describe{
+#'   \item{\code{blname}}{[\code{character()}]\cr
+#'     Name of the base learner to remove.
 #'   }
 #' }
 #'
@@ -310,6 +319,7 @@
 #'   \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
 #'   \item{\code{addIntercept}}{method to add an intercept base-learner to the algorithm (Note: This is just possible before the training).}
 #'   \item{\code{addBaselearner}}{method to add a new base-learner to the algorithm (Note: This is just possible before the training).}
+#'   \item{\code{rmBaselearner}}{method to remove a base-learner.}
 #'   \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
 #'   \item{\code{train}}{method to train the algorithm.}
 #'   \item{\code{predict}}{method to predict on a trained object.}
@@ -482,7 +492,12 @@ Compboost = R6::R6Class("Compboost",
         private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
       }
     },
-    addTensor = function(feature1, feature2, ...) {
+    rmBaselearner = function(blname) {
+      checkmate::assertChoice(blname, choices = names(private$bl_list))
+
+      self$bl_factory_list$rmBaselearnerFactory(factory_id)
+    },
+    addTensor = function(feature1, feature2, df1 = NULL, df2 = NULL, anistrop = FALSE, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
       }
@@ -498,32 +513,45 @@ Compboost = R6::R6Class("Compboost",
       }
 
       args = list(...)
-      if ("df" %in% args)
-        argc = list(df = args$df)
-      else
-        argc = list()
+      if ("df" %in% names(args))
+        warning("'df' were specified in '...', please use df1 and df2 to specify the degrees of freedom.")
+
+      args1 = args2 = args
+      if (! is.null(df1)) {
+        args1$df = df1
+        argc1 = list(df = df1)
+      } else {
+        argc1 = list()
+      }
+
+      if (! is.null(df2)) {
+        args2$df = df2
+        argc2 = list(df = df2)
+      } else {
+        argc2 = list()
+      }
 
       x1 = self$data[[feature1]]
       #checkmate::assertNumeric(x1)
       if (is.numeric(x1)) {
         ds1 = InMemoryData$new(cbind(x1), feature1)
-        fac1 = BaselearnerPSpline$new(ds1, "spline", args)
+        fac1 = BaselearnerPSpline$new(ds1, "spline", args1)
       } else {
         ds1 = CategoricalDataRaw$new(x1, feature1)
-        fac1 = BaselearnerCategoricalRidge$new(ds1, "categorical", argc)
+        fac1 = BaselearnerCategoricalRidge$new(ds1, "categorical", argc1)
       }
 
       x2 = self$data[[feature2]]
       #checkmate::assertNumeric(x2)
       if (is.numeric(x2)) {
         ds2 = InMemoryData$new(cbind(x2), feature2)
-        fac2 = BaselearnerPSpline$new(ds2, "spline", args)
+        fac2 = BaselearnerPSpline$new(ds2, "spline", args2)
       } else {
         ds2 = CategoricalDataRaw$new(x2, feature2)
-        fac2 = BaselearnerCategoricalRidge$new(ds2, "categorical", argc)
+        fac2 = BaselearnerCategoricalRidge$new(ds2, "categorical", argc2)
       }
 
-      tensor = BaselearnerTensor$new(fac1, fac2, "tensor")
+      tensor = BaselearnerTensor$new(fac1, fac2, "tensor", anistrop)
 
       # Register tensor:
       id = paste0(feature1, "_", feature2, "_tensor")

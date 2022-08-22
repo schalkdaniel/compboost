@@ -1183,6 +1183,11 @@ public:
     obj.registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
   }
 
+  void rmFactory (const std::string factory_id)
+  {
+    obj.rmBaselearnerFactory(factory_id);
+  }
+
   void printRegisteredFactories ()
   {
     obj.printRegisteredFactories();
@@ -1225,6 +1230,7 @@ RCPP_MODULE (baselearner_list_module)
   class_<BlearnerFactoryListWrapper> ("BlearnerFactoryList")
     .constructor ()
     .method("registerFactory", &BlearnerFactoryListWrapper::registerFactory, "Register new factory")
+    .method("rmFactory", &BlearnerFactoryListWrapper::rmFactory, "Remove factory")
     .method("printRegisteredFactories", &BlearnerFactoryListWrapper::printRegisteredFactories, "Print all registered factories")
     .method("clearRegisteredFactories", &BlearnerFactoryListWrapper::clearRegisteredFactories, "Clear factory map")
     .method("getModelFrame", &BlearnerFactoryListWrapper::getModelFrame, "Get the data used for modeling")
