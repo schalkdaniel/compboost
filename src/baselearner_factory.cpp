@@ -282,7 +282,7 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
   // Calculate penalty matrix:
   double df = _blearner1->getDF() * _blearner2->getDF();
   arma::mat penalty_mat;
-  if (_anistrop) {
+  if (! _anistrop) {
     penalty_mat = tensors::penaltySumKronecker(bl1_pen, bl2_pen);
     _attributes->penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
     penalty_mat = penalty_mat * _attributes->penalty;
