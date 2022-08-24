@@ -416,7 +416,7 @@ LossBinomial::LossBinomial (const arma::mat& custom_offset)
 */
 arma::mat LossBinomial::loss (const arma::mat& true_value, const arma::mat& prediction) const
 {
-  return arma::log(1 + arma::exp(-2 * true_value % prediction));
+  return arma::log(1 + arma::exp(-true_value % prediction));
 }
 
 /**
@@ -429,7 +429,7 @@ arma::mat LossBinomial::loss (const arma::mat& true_value, const arma::mat& pred
 */
 arma::mat LossBinomial::gradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
-  return -2 * true_value / (1 + arma::exp(true_value % prediction));
+  return -true_value / (1 + arma::exp(true_value % prediction));
 }
 
 /**
