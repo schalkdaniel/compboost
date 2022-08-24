@@ -445,8 +445,7 @@ arma::mat LossBinomial::constantInitializer (const arma::mat& true_value) const
 
   double p = arma::accu(true_value + 1) / (2 * true_value.size());
   arma::mat out(1, 1);
-  out.fill(:E
-           jkjkstd::log(p / (1 - p)));
+  out.fill(std::log(p / (1 - p)));
 
   return out;
 }
