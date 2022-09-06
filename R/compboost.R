@@ -629,7 +629,7 @@ Compboost = R6::R6Class("Compboost",
         } else {
           n_knots = cp$hp_spline[["n_knots"]]
         }
-        cp[["knots"]]    = compboostSplines::createKnots(self$data[[cp$feature]], n_knots, degree)
+        cp[["knots"]]    = cpsp::createKnots(self$data[[cp$feature]], n_knots, degree)
         cp[["degree"]]   = degree
         cp[["rotation"]] = private$bl_list[[cp$spline_id]]$factory$getRotation()
 
@@ -655,7 +655,7 @@ Compboost = R6::R6Class("Compboost",
           if (is.na(cp$coef_splines[1])) {
             pred_spline = rep(0, length(x))
           } else {
-            basis       = compboostSplines::createSparseSplineBasis(x, cp$degree, cp$knots)
+            basis       = cpsp::createSparseSplineBasis(x, cp$degree, cp$knots)
             pred_spline = as.numeric(basis %*% cp$rotation %*% cp$coef_splines)
           }
           return(list(linear = pred_lin, nonlinear = pred_spline))
