@@ -267,8 +267,8 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
     _anistrop  ( anistrop )
 {
   // Get data from both learners
-  arma::mat bl1_pen = _blearner1->getPenaltyMat();
-  arma::mat bl2_pen = _blearner2->getPenaltyMat();
+  arma::mat bl1_penmat = _blearner1->getPenaltyMat();
+  arma::mat bl2_penmat = _blearner2->getPenaltyMat();
 
   // PASS instantiated data of factories to initTensorData
   _sh_ptr_data = init::initTensorData(_blearner1->getInstantiatedData(), _blearner2->getInstantiatedData());
@@ -283,11 +283,11 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
   double df = _blearner1->getDF() * _blearner2->getDF();
   arma::mat penalty_mat;
   if (! _anistrop) {
-    penalty_mat = tensors::penaltySumKronecker(bl1_pen, bl2_pen);
+    penalty_mat = tensors::penaltySumKronecker(bl1_penmat, bl2_penmat);
     _attributes->penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
     penalty_mat = penalty_mat * _attributes->penalty;
   } else {
-    penalty_mat = tensors::penaltySumKronecker(bl1_pen * _blearner1->getPenalty(), bl2_pen * _blearner2->getPenalty());
+    penalty_mat = tensors::penaltySumKronecker(bl1_penmat * _blearner1->getPenalty(), bl2_penmat * _blearner2->getPenalty());
     // This is just a "placeholder" to get back the individual penalties via division:
     _attributes->penalty = _blearner1->getPenalty() * _blearner2->getPenalty();
   }
@@ -333,14 +333,17 @@ double BaselearnerTensorFactory::getPenalty () const
 }
 arma::mat BaselearnerTensorFactory::getPenaltyMat () const
 {
-  arma::mat bl1_pen = _blearner1->getPenaltyMat();
-  arma::mat bl2_pen = _blearner2->getPenaltyMat();
+  arma::mat bl1_penmat = _blearner1->getPenaltyMat();
+  arma::mat bl2_penmat = _blearner2->getPenaltyMat();
+
+  double bl1_pen = _blearner1->getPenalty();
+  double bl2_pen = _blearner2->getPenalty();
 
   arma::mat penalty_mat;
-  if (_anistrop) {
-    penalty_mat = tensors::penaltySumKronecker(bl1_pen, bl2_pen);
+  if (! _anistrop) {
+    penalty_mat = tensors::penaltySumKronecker(bl1_penmat, bl2_penmat);
   } else {
-    penalty_mat = tensors::penaltySumKronecker(bl1_pen * _blearner1->getPenalty(), bl2_pen * _blearner2->getPenalty());
+    penalty_mat = tensors::penaltySumKronecker(bl1_pen * bl1_penmat, bl2_pen * bl2_penmat);
   }
   return penalty_mat;
 }
