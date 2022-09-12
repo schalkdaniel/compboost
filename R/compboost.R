@@ -12,7 +12,8 @@
 #' # Constructor
 #'
 #' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-#'   learning_rate = 0.05, oob_fraction = NULL)
+#'   learning_rate = 0.05, positive = NULL, oob_fraction = NULL, use_early_stopping = FALSE,
+#'   test_idx = NULL, stop_args = list(eps_for_break = 0, patience = 10L))
 #'
 #' # Member functions
 #'
@@ -73,8 +74,18 @@
 #'   \item{\code{learning_rage}}{[\code{numeric(1)}]\cr
 #'     Learning rate to shrink the new parameters in each iteration.
 #'   }
+#'   \item{\code{positive}}{[\code{character(1)}]\cr
+#'     Name of the positive class in the case of binary classification.
+#'   }
 #'   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
 #'     Fraction of how much data are used to calculate the out of bag risk.
+#'   }
+#'   \item{\code{use_early_stopping}}{[\code{logical(1)}]\cr
+#'     Flag to indicate whether early stopping is used or not. The stopping criteria is defined in `stop_args`.
+#'   }
+#'   \item{\code{test_idx}}{[\code{integer()}]\cr
+#'     Instead of randomly drawing `oob_fraction` points for the test set, one can pass a pre-defined index vector
+#'     to put data into the test set.
 #'   }
 #'   \item{\code{stop_args}}{[\code{list(2)}]\cr
 #'     List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
@@ -363,14 +374,26 @@ Compboost = R6::R6Class("Compboost",
     logs = NULL,
 
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-      learning_rate = 0.05, oob_fraction = NULL, use_early_stopping = FALSE, test_idx = NULL,
-      stop_args = list(eps_for_break = 0, patience = 10L)) {
+      learning_rate = 0.05, positive = NULL, oob_fraction = NULL, use_early_stopping = FALSE,
+      test_idx = NULL, stop_args = list(eps_for_break = 0, patience = 10L)) {
 
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
       checkmate::assertLogical(use_early_stopping, any.missing = FALSE, len = 1L)
       checkmate::assertInteger(test_idx, null.ok = TRUE, upper = nrow(data), unique = TRUE)
+
+      if (! is.null(positive)) {
+        x = data[[target]]
+        ct = class(data[[target]])
+        if (! inherits(ct, c("character", "factor")))
+          stop("Target must be of class `character` or `factor` if `positive` is specified. Target class is: ", cl)
+
+        nux = length(unique(x))
+        if (nux != 2)
+          stop("Just binary classification is supported. The target has ", nux, " classes.")
+      }
+      checkmate::assertChoice(positive, unique(data[[target]]), null.ok = TRUE)
 
       if (any(is.na(test_idx))) stop("No missing values allowed in `test_idx`.")
       if (! isRcppClass(target, "Response")) {
@@ -409,7 +432,7 @@ Compboost = R6::R6Class("Compboost",
         # With .vectorToRespone we are very restricted to the task types.
         # We can just guess for regression or classification. For every
         # other task one should use the Response interface!
-        self$response = vectorToResponse(data[[target]][private$train_idx], target)
+        self$response = vectorToResponse(data[[target]][private$train_idx], target, positive)
       } else {
         assertRcppClass(target, "Response")
         if (nrow(target$getResponse()) != nrow(data))
