@@ -381,7 +381,7 @@ Compboost = R6::R6Class("Compboost",
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
       checkmate::assertLogical(use_early_stopping, any.missing = FALSE, len = 1L)
-      checkmate::assertInteger(test_idx, null.ok = TRUE, upper = nrow(data), unique = TRUE)
+      checkmate::assertInteger(test_idx, null.ok = TRUE, upper = nrow(data), unique = TRUE, any.missing = FALSE)
 
       if (! is.null(positive)) {
         x = data[[target]]
@@ -395,7 +395,6 @@ Compboost = R6::R6Class("Compboost",
       }
       checkmate::assertChoice(positive, unique(data[[target]]), null.ok = TRUE)
 
-      if (any(is.na(test_idx))) stop("No missing values allowed in `test_idx`.")
       if (! isRcppClass(target, "Response")) {
         if (! target %in% names(data)) {
           stop("The target ", target, " is not present within the data")
@@ -448,7 +447,7 @@ Compboost = R6::R6Class("Compboost",
       self$loss = loss
       self$learning_rate = learning_rate
 
-      if (self$use_early_stopping || (! is.null(self$oob_fraction))) {
+      if (self$use_early_stopping || (! is.null(self$oob_fraction) || (! is.null(test_idx)))) {
         self$data_oob = data[private$test_idx, !colnames(data) %in% target, drop = FALSE]
         self$response_oob = data[private$test_idx, self$target]#, "oob_response")
         self$response_oob = self$prepareResponse(self$response_oob)
@@ -716,7 +715,7 @@ Compboost = R6::R6Class("Compboost",
             self$addLogger(LoggerIteration, TRUE, logger_id = "_iterations", iter.max = iteration)
           }
         }
-        if (self$use_early_stopping || (! is.null(self$oob_fraction))) private$addOobLogger()
+        if (self$use_early_stopping || (! is.null(self$oob_fraction) || (! is.null(private$test_idx)))) private$addOobLogger()
         # After calling `initializeModel` it isn't possible to add base-learner or logger.
         private$initializeModel()
       }
@@ -927,7 +926,7 @@ Compboost = R6::R6Class("Compboost",
         loss_oob = eval(parse(text = paste0(gsub("Rcpp_", "", class(self$loss)), "$new()")))
         control = "new loss"
       }
-      if (self$use_early_stopping || (! is.null(self$oob_fraction))) {
+      if (self$use_early_stopping || (! is.null(self$oob_fraction)) || (! is.null(private$test_idx))) {
         self$addLogger(logger = LoggerOobRisk, use_as_stopper = self$use_early_stopping, logger_id = "oob_risk",
           used.loss = loss_oob, eps.for.break = private$stop_args$eps_for_break, patience = private$stop_args$patience,
           oob_data = self$prepareData(self$data_oob), oob.response = self$response_oob)
