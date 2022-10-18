@@ -42,7 +42,13 @@ plotTensor = function(cboost, tname, npoints = 100L, nbins = 15L) {
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  checkmate::assertChoice(x = tname, choices = unique(cboost$getSelectedBaselearner()))
+  blsel = unique(cboost$getSelectedBaselearner())
+  if (! checkmate::testChoice(x = tname, choices = blsel)) {
+    stop("Tensor base learner '", tname, "' was not selected. The selected base learner are {",
+      paste(paste0("'", blsel, "'"), collapse = ","), "}. Maybe you misspelled the base learner",
+      "or did not train long enough.")
+  }
+
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
   checkmate::assertIntegerish(x = nbins, len = 1L, lower = 5L, null.ok = TRUE)
 

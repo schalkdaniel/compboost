@@ -277,8 +277,8 @@ public:
   virtual ~BaselearnerFactoryWrapper () {}
 
   arma::mat   getData            () { return sh_ptr_blearner_factory->getData(); }
-  double      getDF              () { return sh_ptr_blearner_factory->getDF(); }
-  double      getPenalty         () { return sh_ptr_blearner_factory->getPenalty(); }
+  arma::vec   getDF              () { return sh_ptr_blearner_factory->getDF(); }
+  arma::vec   getPenalty         () { return sh_ptr_blearner_factory->getPenalty(); }
   arma::mat   getPenaltyMat      () { return sh_ptr_blearner_factory->getPenaltyMat(); }
   std::string getDataIdentifier  () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
@@ -567,7 +567,7 @@ public:
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerTensorFactory>(blearner_type_temp, ptr_blearner1,
       ptr_blearner2);
   }
-  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc, bool anistrop)
+  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc, bool anisotrop)
   {
     // We need to converse the SEXP from the element to an integer:
     std::string blearner_type_temp = blc;
@@ -576,7 +576,7 @@ public:
     std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
 
     sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerTensorFactory>(blearner_type_temp, ptr_blearner1,
-      ptr_blearner2, anistrop);
+      ptr_blearner2, anisotrop);
   }
 
   void summarizeFactory ()

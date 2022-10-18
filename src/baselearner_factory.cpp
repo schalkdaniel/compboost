@@ -121,8 +121,8 @@ bool      BaselearnerPolynomialFactory::usesSparse          () const { return fa
 sdata     BaselearnerPolynomialFactory::getInstantiatedData () const { return _sh_ptr_bindata; }
 arma::mat BaselearnerPolynomialFactory::getData             () const { return _sh_ptr_bindata->getDenseData(); }
 
-double    BaselearnerPolynomialFactory::getDF               () const { return _attributes->df; }
-double    BaselearnerPolynomialFactory::getPenalty          () const { return _attributes->penalty; }
+arma::vec BaselearnerPolynomialFactory::getDF               () const { return arma::vec(1, arma::fill::value(_attributes->df)); }
+arma::vec BaselearnerPolynomialFactory::getPenalty          () const { return arma::vec(1, arma::fill::value(_attributes->penalty)); }
 arma::mat BaselearnerPolynomialFactory::getPenaltyMat       () const { return _attributes->penalty_mat; }
 
 arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -228,8 +228,8 @@ sdata BaselearnerPSplineFactory::instantiateData (const mdata& data_map) const
 }
 
 arma::mat BaselearnerPSplineFactory::getData       () const { return arma::mat(_sh_ptr_bindata->getSparseData()); }
-double    BaselearnerPSplineFactory::getDF         () const { return _attributes->df; }
-double    BaselearnerPSplineFactory::getPenalty    () const { return _attributes->penalty; }
+arma::vec BaselearnerPSplineFactory::getDF         () const { return arma::vec(1, arma::fill::value(_attributes->df)); }
+arma::vec BaselearnerPSplineFactory::getPenalty    () const { return arma::vec(1, arma::fill::value(_attributes->penalty)); }
 arma::mat BaselearnerPSplineFactory::getPenaltyMat () const { return _attributes->penalty_mat; }
 
 
@@ -260,11 +260,11 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselear
 
 BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_type,
     std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner1,
-    std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner2, const bool anistrop)
+    std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner2, const bool isotrop)
   : BaselearnerFactory (blearner_type, std::make_shared<data::InMemoryData>(blearner1->getDataIdentifier() + "_" + blearner2->getDataIdentifier())),
     _blearner1 ( blearner1 ),
     _blearner2 ( blearner2 ),
-    _anistrop  ( anistrop )
+    _isotrop  ( isotrop )
 {
   // Get data from both learners
   arma::mat bl1_penmat = _blearner1->getPenaltyMat();
@@ -280,16 +280,23 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
    temp_xtx = _sh_ptr_data->getDenseData().t() * _sh_ptr_data->getDenseData();
   }
   // Calculate penalty matrix:
-  double df = _blearner1->getDF() * _blearner2->getDF();
+  double df = arma::as_scalar(_blearner1->getDF() * _blearner2->getDF());
   arma::mat penalty_mat;
-  if (! _anistrop) {
+  if (_isotrop) {
     penalty_mat = tensors::penaltySumKronecker(bl1_penmat, bl2_penmat);
-    _attributes->penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
+
+    try {
+      _attributes->penalty = dro::demmlerReinsch(temp_xtx, penalty_mat, df);
+    } catch (const std::exception& e) {
+      std::string msg = "From constructor of BaselearnerTensorFactory with data '" + _sh_ptr_data->getDataIdentifier() +
+        "': Try to run demmlerDemmlerReinsch" + std::string(e.what());
+      throw msg;
+    }
+
     penalty_mat = penalty_mat * _attributes->penalty;
   } else {
-    penalty_mat = tensors::penaltySumKronecker(bl1_penmat * _blearner1->getPenalty(), bl2_penmat * _blearner2->getPenalty());
-    // This is just a "placeholder" to get back the individual penalties via division:
-    _attributes->penalty = _blearner1->getPenalty() * _blearner2->getPenalty();
+    penalty_mat = tensors::penaltySumKronecker(bl1_penmat * arma::as_scalar(_blearner1->getPenalty()), bl2_penmat * arma::as_scalar(_blearner2->getPenalty()));
+    _attributes->penalty = arma::as_scalar(_blearner1->getPenalty() * _blearner2->getPenalty());
   }
   _sh_ptr_data->setCache("cholesky", temp_xtx + penalty_mat);
 }
@@ -323,24 +330,40 @@ arma::mat BaselearnerTensorFactory::getData () const
   return out;
 }
 
-double BaselearnerTensorFactory::getDF () const
+arma::vec BaselearnerTensorFactory::getDF () const
 {
-  return _blearner1->getDF() * _blearner2->getDF();
+  arma::vec df;
+  if (_isotrop) {
+    df = arma::vec(1, arma::fill::value(arma::as_scalar(_blearner1->getDF()) * arma::as_scalar(_blearner2->getDF())));
+  } else {
+    df = {
+      arma::as_scalar(_blearner1->getDF()),
+      arma::as_scalar(_blearner2->getDF()) };
+  }
+  return df;
 }
-double BaselearnerTensorFactory::getPenalty () const
+arma::vec BaselearnerTensorFactory::getPenalty () const
 {
-  return _attributes->penalty;
+  arma::vec pen;
+  if (_isotrop) {
+      pen = arma::vec(1, arma::fill::value(_attributes->penalty));
+  } else {
+    pen = {
+      arma::as_scalar(_blearner1->getPenalty()),
+      arma::as_scalar(_blearner2->getPenalty()) };
+  }
+  return pen;
 }
 arma::mat BaselearnerTensorFactory::getPenaltyMat () const
 {
   arma::mat bl1_penmat = _blearner1->getPenaltyMat();
   arma::mat bl2_penmat = _blearner2->getPenaltyMat();
 
-  double bl1_pen = _blearner1->getPenalty();
-  double bl2_pen = _blearner2->getPenalty();
+  double bl1_pen = arma::as_scalar(_blearner1->getPenalty());
+  double bl2_pen = arma::as_scalar(_blearner2->getPenalty());
 
   arma::mat penalty_mat;
-  if (! _anistrop) {
+  if (_isotrop) {
     penalty_mat = tensors::penaltySumKronecker(bl1_penmat, bl2_penmat);
   } else {
     penalty_mat = tensors::penaltySumKronecker(bl1_pen * bl1_penmat, bl2_pen * bl2_penmat);
@@ -451,8 +474,15 @@ arma::mat BaselearnerCenteredFactory::getData () const
 {
   return _sh_ptr_bindata->getDenseData();
 }
-double    BaselearnerCenteredFactory::getDF      () const { return _blearner1->getDF() - _blearner2->getDF(); }
-double    BaselearnerCenteredFactory::getPenalty () const { return _blearner1->getPenalty(); }
+arma::vec BaselearnerCenteredFactory::getDF      () const {
+  double df1 = arma::as_scalar(_blearner1->getDF());
+  double df2 = arma::as_scalar(_blearner2->getDF());
+  return arma::vec(1, arma::fill::value(df1 - df2));
+}
+
+arma::vec BaselearnerCenteredFactory::getPenalty () const {
+  return arma::vec(1, arma::fill::value(arma::as_scalar(_blearner1->getPenalty())));
+}
 
 arma::mat BaselearnerCenteredFactory::getPenaltyMat () const
 {
@@ -532,8 +562,8 @@ sdata BaselearnerCategoricalRidgeFactory::instantiateData (const mdata& data_map
 }
 
 arma::mat BaselearnerCategoricalRidgeFactory::getData       () const { return arma::mat(_sh_ptr_data->getSparseData()); }
-double    BaselearnerCategoricalRidgeFactory::getDF         () const { return _attributes->df; }
-double    BaselearnerCategoricalRidgeFactory::getPenalty    () const { return _attributes->penalty; }
+arma::vec BaselearnerCategoricalRidgeFactory::getDF         () const { return arma::vec(1, arma::fill::value(_attributes->df)); }
+arma::vec BaselearnerCategoricalRidgeFactory::getPenalty    () const { return arma::vec(1, arma::fill::value(_attributes->penalty)); }
 arma::mat BaselearnerCategoricalRidgeFactory::getPenaltyMat () const { return _attributes->penalty_mat; }
 
 arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -594,8 +624,8 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalBinaryFactory::crea
 }
 
 arma::mat BaselearnerCategoricalBinaryFactory::getData       () const { return arma::mat(_sh_ptr_data->getSparseData()); }
-double    BaselearnerCategoricalBinaryFactory::getDF         () const { return 1; }
-double    BaselearnerCategoricalBinaryFactory::getPenalty    () const { return 0; }
+arma::vec BaselearnerCategoricalBinaryFactory::getDF         () const { return arma::vec(1, arma::fill::ones); }
+arma::vec BaselearnerCategoricalBinaryFactory::getPenalty    () const { return arma::vec(1, arma::fill::zeros); }
 arma::mat BaselearnerCategoricalBinaryFactory::getPenaltyMat () const { return arma::mat(1, 1, arma::fill::ones); }
 
 arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -656,8 +686,8 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCustomFactory::createBaselearn
 }
 
 arma::mat BaselearnerCustomFactory::getData       () const { return _sh_ptr_data->getDenseData(); }
-double    BaselearnerCustomFactory::getDF         () const { return _sh_ptr_data->getNCols(); }
-double    BaselearnerCustomFactory::getPenalty    () const { return 0; }
+arma::vec BaselearnerCustomFactory::getDF         () const { return arma::vec(1, arma::fill::value(_sh_ptr_data->getNCols())); }
+arma::vec BaselearnerCustomFactory::getPenalty    () const { return arma::vec(1, arma::fill::zeros); }
 arma::mat BaselearnerCustomFactory::getPenaltyMat () const { return arma::diagmat( arma::vec(_sh_ptr_data->getNCols(), arma::fill::ones) ); }
 
 arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -723,8 +753,8 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCustomCppFactory::createBasele
 }
 
 arma::mat BaselearnerCustomCppFactory::getData       () const { return _sh_ptr_data->getDenseData(); }
-double    BaselearnerCustomCppFactory::getDF         () const { return _sh_ptr_data->getNCols(); }
-double    BaselearnerCustomCppFactory::getPenalty    () const { return 0; }
+arma::vec BaselearnerCustomCppFactory::getDF         () const { return arma::vec(1, arma::fill::value(_sh_ptr_data->getNCols())); }
+arma::vec BaselearnerCustomCppFactory::getPenalty    () const { return arma::vec(1, arma::fill::zeros); }
 arma::mat BaselearnerCustomCppFactory::getPenaltyMat () const { return arma::diagmat( arma::vec(_sh_ptr_data->getNCols(), arma::fill::ones) ); }
 
 arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param) const

@@ -25,7 +25,7 @@
 #'
 #' cboost$rmBaselearner(blname)
 #'
-#' cboost$addTensor(feature1, feature2, anistrop = FALSE, ...)
+#' cboost$addTensor(feature1, feature2, isotrop = FALSE, ...)
 #'
 #' cboost$addComponents(feature, id, data_source = InMemoryData, ...)
 #'
@@ -519,7 +519,7 @@ Compboost = R6::R6Class("Compboost",
 
       self$bl_factory_list$rmBaselearnerFactory(factory_id)
     },
-    addTensor = function(feature1, feature2, df1 = NULL, df2 = NULL, anistrop = FALSE, ...) {
+    addTensor = function(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
       }
@@ -573,7 +573,7 @@ Compboost = R6::R6Class("Compboost",
         fac2 = BaselearnerCategoricalRidge$new(ds2, "categorical", argc2)
       }
 
-      tensor = BaselearnerTensor$new(fac1, fac2, "tensor", anistrop)
+      tensor = BaselearnerTensor$new(fac1, fac2, "tensor", isotrop)
 
       # Register tensor:
       id = paste0(feature1, "_", feature2, "_tensor")

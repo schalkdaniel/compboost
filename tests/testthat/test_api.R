@@ -341,7 +341,7 @@ test_that("training with binomial loss works", {
 
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
-  expect_equal(cboost$getCoef()$offset, 0.5 * log(sum(hp_classes > 0)/ sum(hp_classes < 0)))
+  expect_equal(cboost$getCoef()$offset, log(sum(hp_classes > 0) / sum(hp_classes < 0)))
   expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(as_response = TRUE))
   expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, as_response = TRUE))
 

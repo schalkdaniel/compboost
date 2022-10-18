@@ -132,7 +132,7 @@ test_that("bivariate tensors are working", {
     cboost$addBaselearner("g2", "ridge", BaselearnerCategoricalRidge)
   })
 
-  expect_silent({cboost$addTensor("Sepal.Width", "Sepal.Length", df = 4) })
+  expect_silent({cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4) })
   expect_output(cboost$train(100L))
 
   expect_silent({ gg = plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor") })
@@ -149,8 +149,8 @@ test_that("bivariate tensors are working", {
     cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
     cboost$addBaselearner("g2", "ridge", BaselearnerCategoricalRidge)
   })
-  expect_silent({ cboost$addTensor("Sepal.Width", "Species", df = 4) })
-  expect_output(cboost$train(100L))
+  expect_silent({ cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2) })
+  expect_output(cboost$train(1000L))
 
   expect_silent({ gg = plotTensor(cboost, "Sepal.Width_Species_tensor") })
   expect_true({inherits(gg, "ggplot")})
@@ -165,9 +165,11 @@ test_that("bivariate tensors are working", {
     cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
     cboost$addBaselearner("g2", "ridge", BaselearnerCategoricalRidge)
   })
-  expect_silent({ cboost$addTensor("g2", "Species", df = 4) })
+  expect_silent({ cboost$addTensor("g2", "Species", df1 = 2, df2 = 2) })
   expect_output(cboost$train(100L))
+  expect_error(plotTensor(cboost, "g2_Species_tensor", nbins = NULL))
 
+  expect_output(cboost$train(1000L))
   expect_silent({ gg = plotTensor(cboost, "g2_Species_tensor", nbins = NULL) })
   expect_true({inherits(gg, "ggplot")})
 })

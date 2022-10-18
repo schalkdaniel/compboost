@@ -83,8 +83,8 @@ public:
 
   virtual sdata      getInstantiatedData ()                 const = 0;
   virtual arma::mat  getData             ()                 const = 0;
-  virtual double     getDF               ()                 const = 0;
-  virtual double     getPenalty          ()                 const = 0;
+  virtual arma::vec  getDF               ()                 const = 0;
+  virtual arma::vec  getPenalty          ()                 const = 0;
   virtual arma::mat  getPenaltyMat       ()                 const = 0;
 
   virtual arma::mat  calculateLinearPredictor (const arma::mat&) const = 0;
@@ -125,8 +125,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -155,8 +155,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -179,7 +179,7 @@ private:
 
   std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner1;
   std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner2;
-  const bool _anistrop;
+  const bool _isotrop;
 
 public:
   BaselearnerTensorFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
@@ -190,8 +190,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -225,8 +225,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -255,8 +255,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -289,8 +289,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -325,8 +325,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
@@ -360,8 +360,8 @@ public:
 
   sdata      getInstantiatedData  ()                 const;
   arma::mat  getData              ()                 const;
-  double     getDF                ()                 const;
-  double     getPenalty           ()                 const;
+  arma::vec  getDF                ()                 const;
+  arma::vec     getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
