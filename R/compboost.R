@@ -25,7 +25,7 @@
 #'
 #' cboost$rmBaselearner(blname)
 #'
-#' cboost$addTensor(feature1, feature2, isotrop = FALSE, ...)
+#' cboost$addTensor(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...)
 #'
 #' cboost$addComponents(feature, id, data_source = InMemoryData, ...)
 #'
@@ -1005,8 +1005,8 @@ Compboost = R6::R6Class("Compboost",
 
   #cboost$addBaselearner("x1", "spline", BaselearnerPSpline)
 
-  #cboost$addTensor("x1", "x2", n_knots = 10, df = 10)
-  #cboost$addTensor("x3", "x4", n_knots = 10, df = 10)
+  #cboost$addTensor("x1", "x2", n_knots = 10, df1 = 10, df2 = 10)
+  #cboost$addTensor("x3", "x4", n_knots = 10, df1 = 10, df2 = 10)
 
   #cboost$addLogger(LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob_risk",
     #used_loss = LossQuadratic$new(), eps_for_break = 0, patience = 5L, oob_data = cboost$prepareData(df[test_idx, ]),

@@ -69,12 +69,13 @@ The fastest way to train a `Compboost` model is to use the wrapper functions `bo
 cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
   oob_fraction = 0.3, iterations = 500L, trace = 100L)
 
-gridExtra::grid.arrange(
-  plotRisk(cboost),
-  plotPEUni(cboost, "Petal.Length"),
-  plotIndividualContribution(cboost, iris[70, ], offset = FALSE),
-  ncol = 3L
-)
+ggrisk = plotRisk(cboost)
+ggpe = plotPEUni(cboost, "Petal.Length")
+ggicont =  plotIndividualContribution(cboost, iris[70, ], offset = FALSE)
+
+library(patchtools)
+
+ggrisk + ggpe + ggicont
 ```
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).

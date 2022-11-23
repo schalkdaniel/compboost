@@ -23,10 +23,10 @@
 #' cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
 #' cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
 #' cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
-#' cboost$addTensor("Sepal.Width", "Sepal.Length", df = 4)
-#' cboost$addTensor("Sepal.Width", "Species", df = 4)
+#' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
+#' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
 #'
-#' cboost$train(100L)
+#' cboost$train(1000L)
 #'
 #' plotTensor(cboost, "Sepal.Width_Species_tensor")
 #' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")

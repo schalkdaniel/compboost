@@ -31,7 +31,7 @@ cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
 
 cboost$rmBaselearner(blname)
 
-cboost$addTensor(feature1, feature2, anistrop = FALSE, ...)
+cboost$addTensor(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...)
 
 cboost$addComponents(feature, id, data_source = InMemoryData, ...)
 
