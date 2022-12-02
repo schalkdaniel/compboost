@@ -106,6 +106,37 @@ arma::uvec   Data::getBinningIndex  () const { return _bin_idx; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
 bool         Data::usesBinning      () const { return _use_binning; }
 
+//json toJson (bool save_data) const
+//{
+  //json j = {
+    //{"private", {
+      //{"_data_identifier", _data_identifier},
+      //{"_mat_cache", {
+        //{"type", _mat_cache.first},
+        //{"mat", armaMatToJson(_mat_cache.second)},
+      //}},
+    //}},
+    //{"protected", {
+      //{"_use_sparse", _use_sparse},
+      //{"_use_binning", _use_binning},
+      //{"_data_mat", armaMatToJson(_data_mat)};
+      //{"_bin_idx", armaMatToJson(_bin_idx)};
+      //{"_sp_data_mat", armaSpMatToJson(_sparse_data_mat)};
+    //}}
+  //};
+  //if (save_data) {
+    //if (_use_sparse) {
+      //j["protected"]["_sparse_data_mat"] = armaMatToJson(_sparse_data_mat);
+    //} else {
+      //j["protected"]["_data_mat"] = armaMatToJson(_data_mat);
+    //}
+    //if (_use_binning) {
+      //j["protected"]["_bin_idx"] = armaMatToJson(_bin_idx);
+    //}
+  //}
+  //return j;
+//}
+
 // -------------------------------------------------------------------------- //
 // Data implementations:
 // -------------------------------------------------------------------------- //

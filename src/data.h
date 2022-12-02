@@ -26,8 +26,11 @@
 #include "splines.h"
 #include "helper.h"
 
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
+//#include <fsteam>
+//#include <include/json.hpp>
+//using json = nlohmann::json;
 
 namespace data
 {
@@ -64,6 +67,7 @@ public:
   virtual arma::mat    getData  () const = 0;
   virtual unsigned int getNObs  () const = 0;
   virtual unsigned int getNCols () const = 0;
+  //virtual void         toJson   () const = 0;
 
   // Getter/Setter
   std::string                       getDataIdentifier () const;
@@ -75,6 +79,7 @@ public:
   arma::uvec                        getBinningIndex   () const;
   bool                              usesSparseMatrix  () const;
   bool                              usesBinning       () const;
+  //json                              toJson            () const;
 
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
@@ -105,6 +110,10 @@ public:
   arma::mat getData     () const;
   unsigned int getNObs  () const;
   unsigned int getNCols () const;
+
+  // Member to store data to JSON and constructor to load from JSON:
+  //void toJson (const std::string) const;
+  //inMemoryData (const json j);
 
   // Destructor
   ~InMemoryData ();

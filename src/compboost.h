@@ -52,12 +52,17 @@
 #define COMPBOOST_H_
 
 #include <memory>
+#include <sstream>
+#include <fstream>
 
 #include "baselearner_track.h"
 #include "optimizer.h"
 #include "loss.h"
 #include "loggerlist.h"
 #include "response.h"
+
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace cboost {
 
@@ -102,6 +107,9 @@ public:
   arma::vec  predict            (const std::map<std::string, std::shared_ptr<data::Data>>&, const bool&) const;
   void       setToIteration     (const unsigned int&, const unsigned int&);
   void       summarizeCompboost () const;
+
+  // Save JSON, to load use the respective constructor:
+  void saveJson (std::string) const;
 
   arma::mat predictFactory (const std::string&) const;
   arma::mat predictFactory (const std::string&, const std::map<std::string, std::shared_ptr<data::Data>>&) const;

@@ -305,6 +305,27 @@ void Compboost::summarizeCompboost () const
   Rcpp::Rcout << std::endl;
 }
 
+void Compboost::saveJson (std::string file) const
+{
+  json j = {
+    {"learning_rate",     _learning_rate},
+    {"is_global_stopper", _is_global_stopper},
+    {"is_trained",        _is_trained},
+    {"current_iter",      _current_iter},
+    {"risk",              _risk},
+
+    {"response",     nullptr}, //std::shared_ptr<response::Response>.toJson()
+    {"optimizer",    nullptr}, //std::shared_ptr<optimizer::Optimizer>.toJson()
+    {"loss",         nullptr}, //std::shared_ptr<loss::Loss>.toJson()
+    {"loggerlist",   nullptr}, //std::shared_ptr<loggerlist::LoggerList>.toJson()
+    {"factory_list", nullptr}, //blearnerlist::BaselearnerFactoryList.toJson()
+    {"baselearner",  nullptr}  //blearnertrack::BaselearnerTrack.toJson()
+  };
+
+  std::ofstream o(file);
+  o << j.dump(2) << std::endl;
+}
+
 // Destructor:
 Compboost::~Compboost () {}
 

@@ -3072,6 +3072,7 @@ public:
   arma::mat getOffset () { return unique_ptr_cboost->getOffset(); }
   std::vector<double> getRiskVector () { return unique_ptr_cboost->getRiskVector(); }
   void setToIteration (const unsigned int& k, const unsigned int& trace) { unique_ptr_cboost->setToIteration(k, trace); }
+  void saveJson(std::string file) { unique_ptr_cboost->saveJson(file); }
 
   ~CompboostWrapper () {}
 
@@ -3113,6 +3114,7 @@ RCPP_MODULE (compboost_module)
     .method("summarizeCompboost",    &CompboostWrapper::summarizeCompboost, "Summarize compboost object.")
     .method("isTrained", &CompboostWrapper::isTrained, "Status of algorithm if it is already trained.")
     .method("setToIteration", &CompboostWrapper::setToIteration, "Set state of the model to a given iteration")
+    .method("saveJson", &CompboostWrapper::saveJson, "Save the model to a JSON file")
     .method("getOffset", &CompboostWrapper::getOffset, "Get offset.")
     .method("getRiskVector", &CompboostWrapper::getRiskVector, "Get the risk vector.")
   ;
