@@ -73,7 +73,7 @@ ggrisk = plotRisk(cboost)
 ggpe = plotPEUni(cboost, "Petal.Length")
 ggicont =  plotIndividualContribution(cboost, iris[70, ], offset = FALSE)
 
-library(patchtools)
+library(patchwork)
 
 ggrisk + ggpe + ggicont
 ```
