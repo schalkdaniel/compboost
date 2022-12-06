@@ -22,7 +22,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v2
       - name: Install rmarkdown and devtools
         run: |
-          Rscript -e 'install.packages(c("rmarkdown", "devtools", "patchwork"))'
+          Rscript -e 'install.packages(c("rmarkdown", "devtools", "patchwork", "ggthemes"))'
           Rscript -e 'devtools::install()'
       - name: Render README
         run: Rscript -e 'rmarkdown::render("README.Rmd")'
