@@ -83,7 +83,8 @@ For more extensive examples and how to use the `R6` interface visit the [project
 
 ## Benchmark
 
-To get an idea of the performance of compboost, we have conduct a small benchmark in which compboost is compared with mboost. For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+- A small benchmark was conducted to compare `compboost` with [`mboost`](https://cran.r-project.org/web/packages/mboost/index.html). For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+- A bigger benchmark with adaptions to increase the runtime and memory efficiency can be found [here](https://doi.org/10.1080/10618600.2022.2116446).
 
 ## Citing
 
