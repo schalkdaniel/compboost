@@ -1,349 +1,15 @@
-#' Compboost API
+#' Component-wise boosting
 #'
-#' \code{Compboost} wraps the \code{S4} class system exposed by \code{Rcpp} to make defining
-#' objects, adding objects, the training, calculating predictions, and plotting much easier.
-#' As already mentioned, the \code{Compboost R6} class is just a wrapper and compatible
-#' with the most \code{S4} classes.
+#' This class wraps the `S4` class system exposed by `Rcpp` to fit a component-wise
+#' boosting model. The two convenient wrapper [boostLinear()] and [boostSplines()] are
+#' also creating objects of this class.
 #'
-#' @format \code{\link{R6Class}} object.
-#' @name Compboost
-#' @section Usage:
-#' \preformatted{
-#' # Constructor
+#' Visualizing the internals see [plotBaselearnerTraces()], [plotBaselearner()], [plotFeatureImportance()],
+#' [plotPEUni()], [plotTensor()], and [plotRisk()]. Visualizing the contribution for
+#' one new observation see [plotIndividualContribution()].
 #'
-#' cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-#'   learning_rate = 0.05, positive = NULL, oob_fraction = NULL, use_early_stopping = FALSE,
-#'   test_idx = NULL, stop_args = list(eps_for_break = 0, patience = 10L))
-#'
-#' # Member functions
-#'
-#' cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
-#'
-#' cboost$addIntercept(data_source = InMemoryData)
-#'
-#' cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
-#'
-#' cboost$rmBaselearner(blname)
-#'
-#' cboost$addTensor(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...)
-#'
-#' cboost$addComponents(feature, id, data_source = InMemoryData, ...)
-#'
-#' cboost$train(iteration = 100, trace = -1)
-#'
-#' cboost$getCurrentIteration()
-#'
-#' cboost$prepareData(newdata)
-#'
-#' cboost$prepareResponse(response)
-#'
-#' cboost$predict(newdata = NULL, as_response = FALSE)
-#'
-#' cboost$getInbagRisk()
-#'
-#' cboost$getSelectedBaselearner()
-#'
-#' cboost$getEstimatedCoef()
-#'
-#' cboost$getCoef()
-#'
-#' cboost$getBaselearnerNames()
-#'
-#' cboost$getLoggerData()
-#'
-#' cboost$calculateFeatureImportance(num_feats = NULL)
-#' }
-#' @section Arguments:
-#' \strong{For Compboost$new()}:
-#' \describe{
-#'   \item{\code{data}}{[\code{data.frame}]\cr
-#'     A data frame containing the data (features as well as target).
-#'   }
-#'   \item{\code{target}}{[\code{character(1)} or \code{S4 Response}]\cr
-#'     Character value containing the target variable or \code{Response} object. Note that the loss has to match the
-#'     data type of the target.
-#'   }
-#'   \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
-#'     An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
-#'     to specify how features are selected in each iteration.
-#'   }
-#'   \item{\code{loss}}{[\code{S4 Loss}]\cr
-#'     Initialized \code{S4 Loss} object exposed by Rcpp which is used to calculate the risk and pseudo
-#'     residuals (e.g. \code{LossQuadratic$new()}).
-#'   }
-#'   \item{\code{learning_rage}}{[\code{numeric(1)}]\cr
-#'     Learning rate to shrink the new parameters in each iteration.
-#'   }
-#'   \item{\code{positive}}{[\code{character(1)}]\cr
-#'     Name of the positive class in the case of binary classification.
-#'   }
-#'   \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
-#'     Fraction of how much data are used to calculate the out of bag risk.
-#'   }
-#'   \item{\code{use_early_stopping}}{[\code{logical(1)}]\cr
-#'     Flag to indicate whether early stopping is used or not. The stopping criteria is defined in `stop_args`.
-#'   }
-#'   \item{\code{test_idx}}{[\code{integer()}]\cr
-#'     Instead of randomly drawing `oob_fraction` points for the test set, one can pass a pre-defined index vector
-#'     to put data into the test set.
-#'   }
-#'   \item{\code{stop_args}}{[\code{list(2)}]\cr
-#'     List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
-#'     from setting `oob_fraction`.
-#'   }
-#' }
-#'
-#' \strong{For cboost$addLogger()}:
-#' \describe{
-#'   \item{\code{logger}}{[\code{S4 Logger}]\cr
-#'     Uninitialized \code{S4 Logger} class object that is registered in the model.
-#'     See the details for possible choices.
-#'   }
-#'   \item{\code{use_as_stopper}}{[\code{logical(1)}]\cr
-#'     Logical value indicating whether the new logger should also be used as stopper
-#'     (early stopping). Default value is \code{FALSE}.
-#'   }
-#'   \item{\code{logger_id}}{[\code{character(1)}]\cr
-#'     Id of the new logger. This is necessary to be able to register multiple logger.
-#'   }
-#'   \item{}{\code{...}\cr
-#'     Further arguments passed to the constructor of the \code{S4 Logger} class specified in
-#'     \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration}).
-#'   }
-#' }
-#'
-#' \strong{For cboost$addIntercept()}:
-#' \describe{
-#'   \item{\code{id}}{[\code{character(1)}]\cr
-#'     Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
-#'   }
-#'   \item{\code{data_source}}{[\code{S4 Data}]\cr
-#'     Data source object. Just in memory data objects are supported at the moment.
-#'   }
-#' }
-#'
-#' \strong{For cboost$addBaselearner()}:
-#' \describe{
-#'   \item{\code{feature}}{[\code{character()}]\cr
-#'     Vector of column names that are used as input data matrix for a single base-learner. Note that not
-#'     every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
-#'   }
-#'   \item{\code{id}}{[\code{character(1)}]\cr
-#'     Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
-#'   }
-#'   \item{\code{bl_factory}}{[\code{S4 Factory}]\cr
-#'     Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
-#'     for possible choices.
-#'   }
-#'   \item{\code{data_source}}{[\code{S4 Data}]\cr
-#'     Data source object. Just in memory data objects are supported at the moment.
-#'   }
-#'   \item{}{\code{...}\cr
-#'     Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-#'     \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
-#'     of the \code{S4} classes.
-#'   }
-#' }
-#'
-#' \strong{For cboost$rmBaselearner()}:
-#' \describe{
-#'   \item{\code{blname}}{[\code{character()}]\cr
-#'     Name of the base learner to remove.
-#'   }
-#' }
-#'
-#' \strong{For cboost$train()}:
-#' \describe{
-#'   \item{\code{iteration}}{[\code{integer(1)}]\cr
-#'     Number of iterations that are trained. If the model is already trained it sets to the given number
-#'     by going back to already trained base-learners or it trains new ones. Note: This function defines an
-#'     iteration logger with the id \code{_iterations} which is used as stopper for the new training.
-#'   }
-#'   \item{\code{trace}}{[\code{integer(1)}]\cr
-#'     Integer indicating after how many iterations a trace should be printed. Specifying \code{trace = 10}, then every
-#'     10th iteration is printed. If you do not want to print the trace set \code{trace = 0}. Default is
-#'     -1 which means that in total 40 iterations are printed.
-#'   }
-#' }
-#'
-#' \strong{For cboost$predict()}:
-#' \describe{
-#'   \item{\code{newdata}}{[\code{data.frame()}]\cr
-#'   	 Data to predict on. If newdata equals \code{NULL} predictions on the training data are returned.
-#'   }
-#' }
-#' @section Details:
-#'   \strong{Loss}\cr
-#'   Available choices for the loss are:
-#' 	 \itemize{
-#'     \item
-#'       \code{LossQuadratic} (Regression)
-#'
-#'     \item
-#'       \code{LossAbsolute} (Regression)
-#'
-#'     \item
-#'       \code{LossQuantile} (Regression)
-#'       \describe{
-#'         \item{\code{quantile}}{[\code{numeric(1)}]\cr
-#'           Quantile that is boosted.
-#'         }
-#'       }
-#'
-#'     \item
-#'       \code{LossHuber} (Regression)
-#'       \describe{
-#'         \item{\code{delta}}{[\code{numeric(1)}]\cr
-#'           Defining the interval [-d,d] around 0 for quadratic approximation.
-#'         }
-#'       }
-#'
-#'     \item
-#'       \code{LossBinomial} (Binary Classification)
-#'
-#'     \item
-#'       \code{LossCustom} (Custom)
-#'
-#      \item
-#        \code{LossCustomCpp} (Custom)
-#'   }
-#'   (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}))
-#'
-#'   \strong{Logger}\cr
-#'   Available choices for the logger are:
-#'   \itemize{
-#'     \item
-#'       \code{LoggerIteration}: Logs the current iteration. Additional arguments:
-#'       \describe{
-#'         \item{\code{max_iterations} [\code{integer(1)}]}{
-#'           Maximal number of iterations.
-#'         }
-#'       }
-#'
-#'     \item
-#'       \code{LoggerTime}: Logs the elapsed time. Additional arguments:
-#'       \describe{
-#'         \item{\code{max_time} [\code{integer(1)}]}{
-#'           Maximal time for the computation.
-#'         }
-#'         \item{\code{time_unit} [\code{character(1)}]}{
-#'           Character to specify the time unit. Possible choices are \code{minutes}, \code{seconds}, or \code{microseconds}.
-#'         }
-#'       }
-#'
-#'     \item
-#'       \code{LoggerInbagRisk}:
-#'       \describe{
-#'         \item{\code{used_loss} [\code{S4 Loss}]}{
-#'           Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
-#'           details for possible choices.
-#'         }
-#'         \item{\code{eps_for_break} [\code{numeric(1)}]}{
-#'           This argument is used if the logger is also used as stopper. If the relative improvement
-#'           of the logged inbag risk falls below this boundary, then the stopper breaks the algorithm.
-#'         }
-#'         \item{\code{patience} [\code{integer(1)}]}{
-#'           Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
-#'         }
-#'       }
-#'
-#'     \item
-#'       \code{LoggerOobRisk}:
-#'       \describe{
-#'         \item{\code{used_loss} [\code{S4 Loss}]}{
-#'           Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
-#'           details for possible choices.
-#'         }
-#'         \item{\code{eps_for_break} [\code{numeric(1)}]}{
-#'           This argument is used if the logger is also used as stopper. If the relative improvement
-#'           of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
-#'         }
-#'         \item{\code{oob_data} [\code{list}]}{
-#'           A list which contains data source objects which corresponds to the source data of each registered factory.
-#'           The source data objects should contain the out of bag data. This data is then used to calculate the
-#'           new predictions in each iteration.
-#'         }
-#'         \item{\code{oob_response} [\code{vector}]}{
-#'           Vector which contains the response for the out of bag data given within \code{oob_data}.
-#'         }
-#'         \item{\code{patience} [\code{integer(1)}]}{
-#'           Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
-#'         }
-#'       }
-#'     }
-#'
-#'   \strong{Note}:
-#'   \itemize{
-#'     \item
-#'       Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}.
-#'   }
-#'
-#' @section Fields:
-#' \describe{
-#'   \item{\code{data} [\code{data.frame}]}{
-#'     Data used for training the algorithm.
-#'   }
-#'   \item{\code{data_oob} [\code{data.frame}]}{
-#'     Data used for out of bag tracking.
-#'   }
-#'   \item{\code{oob_fraction} [\code{numeric(1)}]}{
-#'     Fraction of how much data are used to track the out of bag risk.
-#'   }
-#'   \item{\code{response} [\code{vector}]}{
-#'     Response object that is created or passed in target for training the model.
-#'   }
-#'   \item{\code{response_oob} [\code{vector}]}{
-#'     Response object that is created by specifying the \code{oob_fraction} to evaluate each iteration.
-#'   }
-#'   \item{\code{target} [\code{character(1)}]}{
-#'   	 Name of the target variable.
-#'   }
-#'   \item{\code{id} [\code{character(1)}]}{
-#'   	 Name of the given dataset.
-#'   }
-#'   \item{\code{optimizer} [\code{S4 Optimizer}]}{
-#'     Optimizer used within the fitting process.
-#'   }
-#'   \item{\code{loss} [\code{S4 Loss}]}{
-#'     Loss used to calculate pseudo residuals and empirical risk.
-#'   }
-#'   \item{\code{learning_rate} [\code{numeric(1)}]}{
-#'     Learning rate used to shrink the estimated parameter in each iteration.
-#'   }
-#'   \item{\code{model} [\code{S4 Compboost_internal}]}{
-#'     \code{S4 Compboost_internal} class object from which the main operations (such as train) are called.
-#'   }
-#'   \item{\code{bl_factory_list} [\code{S4 FactoryList}]}{
-#'     List of all registered factories represented as \code{S4 FactoryList} class.
-#'   }
-#'   \item{\code{positive_category} [\code{character(1)}]}{
-#'     Character containing the name of the positive class in the case of (binary) classification.
-#'   }
-#'   \item{\code{stop_if_all_stoppers_fulfilled} [\code{logical(1)}]}{
-#'     Logical indicating whether all stopper should be used simultaneously or if it is sufficient
-#'     to just use the first stopper to stop the algorithm.
-#'   }
-#' }
-#'
-#' @section Methods:
-#' \describe{
-#'   \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
-#'   \item{\code{addIntercept}}{method to add an intercept base-learner to the algorithm (Note: This is just possible before the training).}
-#'   \item{\code{addBaselearner}}{method to add a new base-learner to the algorithm (Note: This is just possible before the training).}
-#'   \item{\code{rmBaselearner}}{method to remove a base-learner.}
-#'   \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
-#'   \item{\code{train}}{method to train the algorithm.}
-#'   \item{\code{predict}}{method to predict on a trained object.}
-#'   \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
-#'   \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner. Depricated, use `getCoef` instead.}
-#'   \item{\code{getCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
-#'   \item{\code{getBaselearnerNames}}{method to get the names of the registered factories.}
-#'   \item{\code{prepareData}}{method to prepare data to track the out of bag risk of an arbitrary loss/performance function.}
-#'   \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
-#'   \item{\code{calculateFeatureImportance}}{method to calculate feature importance.}
-#' }
-#'
-#' @examples
+#' @export
+#' @exapmles
 #' cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
 #' cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
 #'   n_knots = 10, penalty = 2, differences = 2)
@@ -351,37 +17,115 @@
 #' cboost$train(1000)
 #'
 #' table(cboost$getSelectedBaselearner())
-NULL
-
-#' @export
 Compboost = R6::R6Class("Compboost",
   public = list(
+
+    #' @field data (`data.frame`)\cr
+    #' The data used for training the model. Note: If `oob_fraction` is set, the
+    #' input data is split into `data` and `data_oob`. Hence, `data` contains a
+    #' subset of the input data to train the model.
     data = NULL,
+
+    #' @field data_oob (`data.frame`)\cr
+    #' An out-of-bag data set used for risk logging or early stopping. `data_oob`
+    #' is split from the input data (see the `data` field).
     data_oob = NULL,
+
+    #' @field oob_fraction (`numeric(1)`)\cr
+    #' The fraction of `nrow(input data)` defining the number of observations in
+    #' `data_oob`.
     oob_fraction = NULL,
+
+    #' @field response ([ResponseRegr] | [ResponseBinaryClassif])\cr
+    #' A `S4` response object. See `?ResponseRegr` or `?ResponseBinaryClassif` for help.
+    #' This object holds the current prediction, pseudo residuals and functions to
+    #' transform scores. Note: This response corresponds to the `data` field and holds
+    #' the predictions for that `data.frame`.
     response = NULL,
+
+    #' @field response_oob ([ResponseRegr] | [ResponseBinaryClassif])\cr
+    #' A `S4` response object. See `?ResponseRegr` or `?ResponseBinaryClassif` for help.
+    #' Same as `response` but for `data_oob`.
     response_oob = NULL,
+
+    #' @field target (`character(1)`)\cr
+    #' Name of the target variable in `data`.
     target = NULL,
+
+    #' @field (`character(1)`)\cr
+    #' Name of the data object defined in `$new(data, ...)`.
     id = NULL,
+
+    #' @template field-optimizer
     optimizer = NULL,
+
+    #' @template field-loss
     loss = NULL,
+
+    #' @field learning_rate (`numeric(1)`)\cr
+    #' The learning rate of the model. Note: Some optimizer do dynamically vary the learning rate.
     learning_rate = NULL,
+
+    #' @field model ([Compboost_internal])\cr
+    #' The internal Compboost object exported from `Rcpp`. See `?Compboost_internal` for details.
     model = NULL,
+
+    #' @field bl_factory_list ([BlearnerFactoryList)\cr
+    #' A container with all base learners. See `?BlearnerFactoryList` for details.
     bl_factory_list = NULL,
-    positive_category = NULL,
-    stop_if_all_stoppers_fulfilled = FALSE,
+
+    #' @field positive (`character(1)`)\cr
+    #' The positive class in the case of binary classification.
+    positive = NULL,
+
+    #' @field stop_all (`logical(1)`)\cr
+    #' Indicator whether all stopper must return `TRUE` to early stop the algorithm.
+    #' Comparable to `all()` if `stop_all = TRUE` and `any()` if `stop_all = FALSE`.
+    stop_all = FALSE,
+
+    #' @field use_early_stopping (`logical(1)`)\cr
+    #' Indicator whether early stopping should be used or not.
     use_early_stopping = FALSE,
+
+    #' @field logs (`data.frame`)\cr
+    #' Basic information such as risk, selected base learner etc. about each iteration.
+    #' If `oob_data` is set, further information about the validation/oob risk is also logged.
+    #' The same applies for time logging etc.
     logs = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param data (`data.frame`)\cr
+    #' The data set to build the object. Note: This data set is completely used for training if `is.null(idx_oob)`.
+    #' Otherwise, the data set is split into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
+    #' @param target (`character(1)`)\cr
+    #' Character indicating the name of the target variable.
+    #' @template param-optimizer
+    #' @template param-loss
+    #' @param learning_rate (`numeric(1)`)\cr
+    #' Learning rate of the model (default is `0.05`).
+    #' @param positive (`character(1)`)\cr
+    #' The name of the positive class (in the case of binary classification).
+    #' @param oob_fraction (`numeric(1)`)\cr
+    #' The fraction of `nrow(input data)` defining the number of observations in
+    #' `data_oob`. This argument is ignored if `idx_oob` is set.
+    #' @param use_early_stopping (`logical(1)`)\cr
+    #' Indicator whether early stopping should be used or not.
+    #' @param idx_oob (`integer()`)\cr
+    #' An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
+    #' Note: `oob_fraction` is ignored if this argument is set.
+    #' @param stop_args (`list(integer(1), integer(1))`)\cr
+    #' `list` containing two elements `patience` and `eps_for_break` which are used for early stopping.
     initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
       learning_rate = 0.05, positive = NULL, oob_fraction = NULL, use_early_stopping = FALSE,
-      test_idx = NULL, stop_args = list(eps_for_break = 0, patience = 10L)) {
+      idx_oob = NULL, stop_args = list(eps_for_break = 0, patience = 10L)) {
 
       checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
       checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
       checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
       checkmate::assertLogical(use_early_stopping, any.missing = FALSE, len = 1L)
-      checkmate::assertInteger(test_idx, null.ok = TRUE, upper = nrow(data), unique = TRUE, any.missing = FALSE)
+      checkmate::assertInteger(idx_oob, null.ok = TRUE, upper = nrow(data), unique = TRUE, any.missing = FALSE)
 
       if (! is.null(positive)) {
         x = data[[target]]
@@ -411,17 +155,17 @@ Compboost = R6::R6Class("Compboost",
       self$id = deparse(substitute(data))
       data = droplevels(as.data.frame(data))
 
-      if ((! is.null(test_idx)) || (! is.null(oob_fraction))) {
-        if (is.null(test_idx)) {
-          private$test_idx = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+      if ((! is.null(idx_oob)) || (! is.null(oob_fraction))) {
+        if (is.null(idx_oob)) {
+          private$idx_oob = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
         } else {
-          private$test_idx = test_idx
+          private$idx_oob = idx_oob
         }
-        if ((! is.null(test_idx)) && (! is.null(oob_fraction))) {
+        if ((! is.null(idx_oob)) && (! is.null(oob_fraction))) {
           warning("`oob_fraction` is ignored when a specific test index is given.")
         }
       }
-      private$train_idx = setdiff(seq_len(nrow(data)), private$test_idx)
+      private$train_idx = setdiff(seq_len(nrow(data)), private$idx_oob)
 
       if (is.character(target)) {
         checkmate::assertCharacter(target)
@@ -447,9 +191,9 @@ Compboost = R6::R6Class("Compboost",
       self$loss = loss
       self$learning_rate = learning_rate
 
-      if (self$use_early_stopping || (! is.null(self$oob_fraction) || (! is.null(test_idx)))) {
-        self$data_oob = data[private$test_idx, !colnames(data) %in% target, drop = FALSE]
-        self$response_oob = data[private$test_idx, self$target]#, "oob_response")
+      if (self$use_early_stopping || (! is.null(self$oob_fraction) || (! is.null(idx_oob)))) {
+        self$data_oob = data[private$idx_oob, !colnames(data) %in% target, drop = FALSE]
+        self$response_oob = data[private$idx_oob, self$target]#, "oob_response")
         self$response_oob = self$prepareResponse(self$response_oob)
       }
 
@@ -469,9 +213,27 @@ Compboost = R6::R6Class("Compboost",
       }
       private$stop_args = stop_args
     },
+
+    #' @description
+    #' Add a logger to the model.
+    #'
+    #' @param logger ([LoggerIteration] | [LoggerTime] | [LoggerInbagRisk] | [LoggerOobRisk])\cr
+    #' The uninitialized logger.
+    #' @param use_as_stopper (`logical(1)`)\cr
+    #' Indicator defining the logger as stopper considering it for early stopping.
+    #' @param logger_id (`character(1)`)\cr
+    #' The id of the logger. This allows to define two logger of the same type (`e.g. risk logging`) but with different arguments.
+    #' @param ...\cr
+    #' Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       private$l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
     },
+
+    #' @description
+    #' Get the number of the current iteration.
+    #'
+    #' @return
+    #' `integer(1)` value.
     getCurrentIteration = function() {
       if (!is.null(self$model) && self$model$isTrained()) {
         return(length(self$model$getSelectedBaselearner()))
@@ -479,6 +241,15 @@ Compboost = R6::R6Class("Compboost",
         return(0)
       }
     },
+
+    #' @description
+    #' This functions adds a base learner that adjusts the intercept (if selected).
+    #' Adding an intercept base learner may be necessary, e.g., when adding linear effects
+    #' without intercept.
+    #'
+    #' @param id (`character(1)`)\cr
+    #' The id of the base learner (default is `"intercept"`).
+    #' @template param-data_source
     addIntercept = function(id = "intercept", data_source = InMemoryData) {
       id_int = paste0(id, "_")
       private$p_boost_intercept = TRUE
@@ -490,8 +261,21 @@ Compboost = R6::R6Class("Compboost",
 
       self$bl_factory_list$registerFactory(private$bl_list[[id_int]]$factory)
       private$bl_list[[id_int]]$source = NULL
-
     },
+
+    #' @description
+    #' Add a base learner of one feature to the model that is considered in each iteration.
+    #' Using `$addBaselearner()` just allows including univariate features. See `$addTensor()` for
+    #' bivariate effect modelling.
+    #'
+    #' @template param-feature
+    #' @param id (`character(1)`)\cr
+    #' The name of the base learner.
+    #' @param bl_factory ([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
+    #' Uninitialized base learner class. See the respective help page for details.
+    #' @template param-data_source
+    #' @param ... \cr
+    #' Further argument spassed to the `$new(...)` constructor of `bl_factory`.
     addBaselearner = function(feature, id, bl_factory, data_source = InMemoryData, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -514,11 +298,39 @@ Compboost = R6::R6Class("Compboost",
         private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
       }
     },
+
+    #' @description
+    #' Remove a base learner from the model.
+    #'
+    #' @param blname (`character(1)`)\cr
+    #' Name of the base learner that should be removed. Must be an element of `$getBaselearnerNames()`.
     rmBaselearner = function(blname) {
       checkmate::assertChoice(blname, choices = names(private$bl_list))
 
       self$bl_factory_list$rmBaselearnerFactory(factory_id)
     },
+
+    #' @description
+    #' Add a row-wise tensor product of features. Note: The base learner are pre-defined
+    #' by the type of the feature. Numerical features uses a `BaselearnerPSpline` while categorical
+    #' features are included using a `BaselearnerCategoricalRidge` base learner.
+    #' To include an arbitrary tensor product requires to use the `S4` API with using
+    #' `BaselearnerTensor` on two base learners of any type.
+    #'
+    #' @param feature1 (`character(1)`)\cr
+    #' Name of the first feature. Must be an element of `names(data)`.
+    #' @param feature2 (`character(1)`)\cr
+    #' Name of the second feature. Must be an element of `names(data)`.
+    #' @param df1 (`numeric(1)`)\cr
+    #' The degrees of freedom used for the first base learner.
+    #' @param df2 (`numeric(1)`)\cr
+    #' The degrees of freedom used for the first base learner.
+    #' @param isotrop (`logical(1)`)\cr
+    #' Indicator how the two penalties should be combined, if `isotrop == TRUE`,
+    #' the total degrees of freedom are uniformly distributed over the dimensions while
+    #' `isotrop == FALSE` allows to define how strong each of the two dimensions is penalized.
+    #' @param ... \cr
+    #' Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
     addTensor = function(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -582,6 +394,20 @@ Compboost = R6::R6Class("Compboost",
       private$bl_list[[id]]$factory = tensor
       self$bl_factory_list$registerFactory(private$bl_list[[id]]$factory)
     },
+
+    #' @description
+    #' Add an effect with individual components. A linear term is added as well as
+    #' a non-linear term without the linear effect. This ensures that the linear
+    #' component is selected prior to the non-linear effect. The non-linear effect
+    #' is only included if a deviation from a linear effect is required.
+    #'
+    #' Note: Internally, a [BaselearnerPolynomial] with degree one and a [BaselearnerCentered] is added.
+    #' Centering a base learner makes the design matrix dense and hence memory is filled very fast.
+    #' Considering binning may be an option to reduce the memory consumption.
+    #'
+    #' @template param-feature
+    #' @param ... \cr
+    #' Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
     addComponents = function(feature, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -628,6 +454,19 @@ Compboost = R6::R6Class("Compboost",
 
       private$components[[feature]] = list(feature = feature, linear_id = id_lin, spline_id = id_sp, hp_spline = list(...))
     },
+
+    #' @description
+    #' This function extracts all information from components added with `$addComponents()`
+    #' that defines a model. The result is an `S3` object of class
+    #' `compboostExtract` that can be used for very basic operations such as
+    #' predicting.
+    #'
+    #' Note: At the moment it is not possible to save the whole [Compboost] object
+    #' and reuse it later. Using `$extractComponents()` gives the opportunity to
+    #' "save" the minimal amount of data that defines the model.
+    #'
+    #' @return
+    #' `list` with all components.
     extractComponents = function() {
 
       if (is.null(self$model)) {
@@ -688,6 +527,17 @@ Compboost = R6::R6Class("Compboost",
       class(out) = "compboostExtract"
       return(out)
     },
+
+    #' @description
+    #' Start fitting a model.
+    #'
+    #' @param iteration (`integer(1)`)\cr
+    #' The maximal number of iteration. The algorithm can be stopped earlier
+    #' if early stopping is active.
+    #' @param trace (`integer(1)`)\cr
+    #' The number of integers after which the status of the fitting is printed to the screen.
+    #' The default `trace = -1` internally uses `trace = round(iteration / 40)`.
+    #' To silently fit the model use `trace = 0`.
     train = function(iteration = 100, trace = -1) {
 
       if (self$bl_factory_list$getNumberOfRegisteredFactories() == 0) {
@@ -715,7 +565,7 @@ Compboost = R6::R6Class("Compboost",
             self$addLogger(LoggerIteration, TRUE, logger_id = "_iterations", iter.max = iteration)
           }
         }
-        if (self$use_early_stopping || (! is.null(self$oob_fraction) || (! is.null(private$test_idx)))) private$addOobLogger()
+        if (self$use_early_stopping || (! is.null(self$oob_fraction) || (! is.null(private$idx_oob)))) private$addOobLogger()
         # After calling `initializeModel` it isn't possible to add base-learner or logger.
         private$initializeModel()
       }
@@ -728,6 +578,19 @@ Compboost = R6::R6Class("Compboost",
       }
       return(invisible(NULL))
     },
+
+    #' @description
+    #' Internally, each base learner is build on a [InMemoryData] object. Some
+    #' methods (e.g. adding a [LoggerOobRisk]) requires to pass the data as
+    #' `list(InMemoryData | CategoricalDataRaw)` with data objects as elements.
+    #' This function converts the given `data.frame` into that format.
+    #'
+    #' @template param-newdata
+    #'
+    #' @return
+    #' `list(InMemoryData | CategoricalDataRaw)` with data container as elements.
+    #' Numeric features are wrapped by [InMemoryData] while categorical features
+    #' are included with [CategoricalDataRaw].
     prepareData = function(newdata) {
       bl_features = unique(unlist(lapply(private$bl_list, function(x) x$feature)))
 
@@ -751,6 +614,17 @@ Compboost = R6::R6Class("Compboost",
       names(out) = blf_in_newdata
       return(out)
     },
+
+    #' @description
+    #' Same as for `$prepareData()` but for the response. Internally, `vectorToResponse()` is
+    #' used to generate a [ResponseRegr] or [ResponseBinaryClassif] object.
+    #'
+    #' @param resonse (`vector()`)\cr
+    #' A vector of type `numberic` or `categorical` that is transformed to an
+    #' response object.
+    #'
+    #' @return
+    #' [ResponseRegr] | [ResponseBinaryClassif] object.
     prepareResponse = function(response) {
       pos_class = NULL
       if (grepl(pattern = "ResponseBinaryClassif", x = class(self$response)))
@@ -758,6 +632,17 @@ Compboost = R6::R6Class("Compboost",
 
       return(vectorToResponse(vec = response, target = self$target, pos_class = pos_class))
     },
+
+    #' @description
+    #' Calculate predictions.
+    #'
+    #' @template param-newdata
+    #' @param as_response (`logical(1)`)\cr
+    #' In the case of binary classification, `as_response = TRUE` returns predictions as
+    #' response, i.e. classes.
+    #'
+    #' @return
+    #' Vector of predictions.
     predict = function(newdata = NULL, as_response = FALSE) {
       checkmate::assertDataFrame(newdata, null.ok = TRUE, min.rows = 1)
       if (is.null(newdata)) {
@@ -766,10 +651,26 @@ Compboost = R6::R6Class("Compboost",
         return(self$model$predict(self$prepareData(newdata), as_response))
       }
     },
+
+    #' @description
+    #' While `$predict()` returns the sum of all base learner predictions, this function
+    #' returns a `list` with the predictions for each base learner.
+    #'
+    #' @template param-newdata
+    #'
+    #' @return
+    #' Named `list()` with the included base learner names as names and the base learner
+    #' predictions as elements.
     predictIndividual = function(newdata) {
       checkmate::assertDataFrame(newdata, null.ok = FALSE, min.rows = 1)
       return(self$model$predictIndividual(self$prepareData(newdata)))
     },
+
+    #' @description
+    #' Return the training risk of each iteration.
+    #'
+    #' @return
+    #' `numeric()` vector of risk values or `NULL` if `$train()` was not called previously.
     getInbagRisk = function() {
       if (! is.null(self$model)) {
         # Return the risk + intercept, hence the current iteration + 1:
@@ -777,11 +678,23 @@ Compboost = R6::R6Class("Compboost",
       }
       return(NULL)
     },
+
+    #' @description
+    #' Get a vector with the name of the selected base learner of each iteration.
+    #'
+    #' @return
+    #' `character()` vector of base learner names.
     getSelectedBaselearner = function() {
       if (!is.null(self$model))
         return(self$model$getSelectedBaselearner())
       return(NULL)
     },
+
+    #' @description
+    #' Printer of the object.
+    #'
+    #' @return
+    #' Invisibly returns the object.
     print = function() {
       p = glue::glue("\n
         Component-Wise Gradient Boosting\n
@@ -791,8 +704,8 @@ Compboost = R6::R6Class("Compboost",
         Iterations: {self$getCurrentIteration()}
         ")
 
-      if (! is.null(self$positive_category))
-        p = glue::glue(p, "\nPositive class: {self$positive_category}")
+      if (! is.null(self$positive))
+        p = glue::glue(p, "\nPositive class: {self$positive}")
 
       if (! is.null(self$model)){
         offset = round(self$model$getOffset(), 4)
@@ -801,7 +714,15 @@ Compboost = R6::R6Class("Compboost",
       }
       print(p)
       print(self$loss)
+
+      return(invisible(self))
     },
+
+    #' @description
+    #' Get the estimated coefficients.
+    #'
+    #' @return
+    #' `list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
     getCoef = function() {
       bl_classes = vapply(private$bl_list, function(bl) class(bl$factory), character(1L))
       bl_cat = bl_classes[grepl("Categorical", bl_classes)]
@@ -819,8 +740,14 @@ Compboost = R6::R6Class("Compboost",
       }
       return(NULL)
     },
+    #' @description
+    #' DEPRICATED use `$getCoef()` instead.
+    #' Get the estimated coefficients.
+    #'
+    #' @return
+    #' `list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
     getEstimatedCoef = function() {
-      message("Depricated, use `getCoef` instead.")
+      message("Depricated, use `$getCoef()` instead.")
       bl_classes = vapply(private$bl_list, function(bl) class(bl$factory), character(1L))
       bl_cat = bl_classes[grepl("Categorical", bl_classes)]
       if (! is.null(self$model)) {
@@ -837,9 +764,21 @@ Compboost = R6::R6Class("Compboost",
       }
       return(NULL)
     },
+
+    #' @description
+    #' Get the names of the registered base learners.
+    #'
+    #' @return
+    #' `charcter()` of base learner names.
     getBaselearnerNames = function() {
       return(names(private$bl_list))
     },
+
+    #' @description
+    #' Get the logged information.
+    #'
+    #' @return
+    #' `data.frame` of logging information.
     getLoggerData = function() {
       checkModelPlotAvailability(self, check_ggplot = FALSE)
 
@@ -858,6 +797,23 @@ Compboost = R6::R6Class("Compboost",
       }
       return(self$logs)
     },
+
+    #' @description
+    #' Calculate feature important based on the training risk. Note that early
+    #' stopping should be used to get adequate importance measures.
+    #'
+    #' @param num_feats (`integer(1)`)\cr
+    #' The number considered features, the `num_feats` most important feature names and
+    #' the respective value is returned.
+    #' @param aggregate_bl_by_feat (`logical(1)`)\cr
+    #' Indicator whether the importance is aggregated based on feature level. For example,
+    #' adding components included two different base learners for the same feature. If
+    #' `aggregate_bl_by_feat == TRUE`, the importance of these two base learners is aggregated
+    #' instead of considering them individually.
+    #'
+    #' @return
+    #' Named `numeric()` vector of length `num_feats` (if at least `num_feats` were selected)
+    #' with importance values as elements.
     calculateFeatureImportance = function(num_feats = NULL, aggregate_bl_by_feat = FALSE) {
       checkModelPlotAvailability(self, check_ggplot = FALSE)
 
@@ -887,6 +843,7 @@ Compboost = R6::R6Class("Compboost",
     }
   ),
   active = list(
+    ##### CONTINUE HERE WITH DOCUMENTATION
     baselearner_list = function(x) {
       if (! missing(x)) stop("`baselearner_list` is read only.")
       return(private$bl_list)
@@ -903,7 +860,7 @@ Compboost = R6::R6Class("Compboost",
     bl_list = list(),
     logger_list = list(),
     stop_args = list(),
-    test_idx = NULL,
+    idx_oob = NULL,
     train_idx = NULL,
     components = list(),
     p_boost_intercept = FALSE,
@@ -914,7 +871,7 @@ Compboost = R6::R6Class("Compboost",
       lapply(private$l_list, function(logger) private$logger_list$registerLogger(logger))
 
       self$model = Compboost_internal$new(self$response, self$learning_rate,
-        self$stop_if_all_stoppers_fulfilled, self$bl_factory_list, self$loss,
+        self$stop_all, self$bl_factory_list, self$loss,
         private$logger_list, self$optimizer)
     },
     addOobLogger = function() {
@@ -926,7 +883,7 @@ Compboost = R6::R6Class("Compboost",
         loss_oob = eval(parse(text = paste0(gsub("Rcpp_", "", class(self$loss)), "$new()")))
         control = "new loss"
       }
-      if (self$use_early_stopping || (! is.null(self$oob_fraction)) || (! is.null(private$test_idx))) {
+      if (self$use_early_stopping || (! is.null(self$oob_fraction)) || (! is.null(private$idx_oob))) {
         self$addLogger(logger = LoggerOobRisk, use_as_stopper = self$use_early_stopping, logger_id = "oob_risk",
           used.loss = loss_oob, eps.for.break = private$stop_args$eps_for_break, patience = private$stop_args$patience,
           oob_data = self$prepareData(self$data_oob), oob.response = self$response_oob)
@@ -1009,8 +966,8 @@ Compboost = R6::R6Class("Compboost",
   #cboost$addTensor("x3", "x4", n_knots = 10, df1 = 10, df2 = 10)
 
   #cboost$addLogger(LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob_risk",
-    #used_loss = LossQuadratic$new(), eps_for_break = 0, patience = 5L, oob_data = cboost$prepareData(df[test_idx, ]),
-    #oob_response = cboost$prepareResponse(df$y[test_idx]))
+    #used_loss = LossQuadratic$new(), eps_for_break = 0, patience = 5L, oob_data = cboost$prepareData(df[idx_oob, ]),
+    #oob_response = cboost$prepareResponse(df$y[idx_oob]))
 
   #cboost$train(500)
 
