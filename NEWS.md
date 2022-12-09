@@ -1,5 +1,8 @@
 # Release Notes
 
+- **09.12.2022** \
+  Re-writing the documentation for the `Compboost` class.
+
 - **20.04.2022** \
   Adding a new "intercept base learner". This base learner can be used to additionally add an intercept. This makes sense if, e.g. linear functions without intercept are added.
 
