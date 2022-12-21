@@ -345,6 +345,9 @@ arma::mat BaselearnerTensorFactory::getPenaltyMat () const
   return penalty_mat;
 }
 
+std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl1 () const { return _blearner1; }
+std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl2 () const { return _blearner2; }
+
 arma::mat BaselearnerTensorFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   if (_sh_ptr_data->usesSparseMatrix()) {
