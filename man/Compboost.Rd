@@ -2,368 +2,804 @@
 % Please edit documentation in R/compboost.R
 \name{Compboost}
 \alias{Compboost}
-\title{Compboost API}
-\format{
-\code{\link{R6Class}} object.
-}
+\title{Component-wise boosting}
 \description{
-\code{Compboost} wraps the \code{S4} class system exposed by \code{Rcpp} to make defining
-objects, adding objects, the training, calculating predictions, and plotting much easier.
-As already mentioned, the \code{Compboost R6} class is just a wrapper and compatible
-with the most \code{S4} classes.
+Component-wise boosting
+
+Component-wise boosting
 }
-\section{Usage}{
+\details{
+This class wraps the `S4` class system exposed by `Rcpp` to fit a component-wise
+boosting model. The two convenient wrapper [boostLinear()] and [boostSplines()] are
+also creating objects of this class.
 
-\preformatted{
-# Constructor
-
-cboost = Compboost$new(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-  learning_rate = 0.05, positive = NULL, oob_fraction = NULL, use_early_stopping = FALSE,
-  test_idx = NULL, stop_args = list(eps_for_break = 0, patience = 10L))
-
-# Member functions
-
-cboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)
-
-cboost$addIntercept(data_source = InMemoryData)
-
-cboost$addBaselearner(feature, id, bl_factory, data_source = InMemoryData, ...)
-
-cboost$rmBaselearner(blname)
-
-cboost$addTensor(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...)
-
-cboost$addComponents(feature, id, data_source = InMemoryData, ...)
-
-cboost$train(iteration = 100, trace = -1)
-
-cboost$getCurrentIteration()
-
-cboost$prepareData(newdata)
-
-cboost$prepareResponse(response)
-
-cboost$predict(newdata = NULL, as_response = FALSE)
-
-cboost$getInbagRisk()
-
-cboost$getSelectedBaselearner()
-
-cboost$getEstimatedCoef()
-
-cboost$getCoef()
-
-cboost$getBaselearnerNames()
-
-cboost$getLoggerData()
-
-cboost$calculateFeatureImportance(num_feats = NULL)
+Visualizing the internals see [plotBaselearnerTraces()], [plotBaselearner()], [plotFeatureImportance()],
+[plotPEUni()], [plotTensor()], and [plotRisk()]. Visualizing the contribution for
+one new observation see [plotIndividualContribution()].
 }
-}
-
-\section{Arguments}{
-
-\strong{For Compboost$new()}:
-\describe{
-  \item{\code{data}}{[\code{data.frame}]\cr
-    A data frame containing the data (features as well as target).
-  }
-  \item{\code{target}}{[\code{character(1)} or \code{S4 Response}]\cr
-    Character value containing the target variable or \code{Response} object. Note that the loss has to match the
-    data type of the target.
-  }
-  \item{\code{optimizer}}{[\code{S4 Optimizer}]\cr
-    An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
-    to specify how features are selected in each iteration.
-  }
-  \item{\code{loss}}{[\code{S4 Loss}]\cr
-    Initialized \code{S4 Loss} object exposed by Rcpp which is used to calculate the risk and pseudo
-    residuals (e.g. \code{LossQuadratic$new()}).
-  }
-  \item{\code{learning_rage}}{[\code{numeric(1)}]\cr
-    Learning rate to shrink the new parameters in each iteration.
-  }
-  \item{\code{positive}}{[\code{character(1)}]\cr
-    Name of the positive class in the case of binary classification.
-  }
-  \item{\code{oob_fraction}}{[\code{numeric(1)}]\cr
-    Fraction of how much data are used to calculate the out of bag risk.
-  }
-  \item{\code{use_early_stopping}}{[\code{logical(1)}]\cr
-    Flag to indicate whether early stopping is used or not. The stopping criteria is defined in `stop_args`.
-  }
-  \item{\code{test_idx}}{[\code{integer()}]\cr
-    Instead of randomly drawing `oob_fraction` points for the test set, one can pass a pre-defined index vector
-    to put data into the test set.
-  }
-  \item{\code{stop_args}}{[\code{list(2)}]\cr
-    List containing two elements `patience` and `eps_for_break` which can be set to use early stopping on the left out data
-    from setting `oob_fraction`.
-  }
-}
-
-\strong{For cboost$addLogger()}:
-\describe{
-  \item{\code{logger}}{[\code{S4 Logger}]\cr
-    Uninitialized \code{S4 Logger} class object that is registered in the model.
-    See the details for possible choices.
-  }
-  \item{\code{use_as_stopper}}{[\code{logical(1)}]\cr
-    Logical value indicating whether the new logger should also be used as stopper
-    (early stopping). Default value is \code{FALSE}.
-  }
-  \item{\code{logger_id}}{[\code{character(1)}]\cr
-    Id of the new logger. This is necessary to be able to register multiple logger.
-  }
-  \item{}{\code{...}\cr
-    Further arguments passed to the constructor of the \code{S4 Logger} class specified in
-    \code{logger}. For possible arguments see details or the help pages (e.g. \code{?LoggerIteration}).
-  }
-}
-
-\strong{For cboost$addIntercept()}:
-\describe{
-  \item{\code{id}}{[\code{character(1)}]\cr
-    Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
-  }
-  \item{\code{data_source}}{[\code{S4 Data}]\cr
-    Data source object. Just in memory data objects are supported at the moment.
-  }
-}
-
-\strong{For cboost$addBaselearner()}:
-\describe{
-  \item{\code{feature}}{[\code{character()}]\cr
-    Vector of column names that are used as input data matrix for a single base-learner. Note that not
-    every base-learner supports the use of multiple features (e.g. the spline base-learner does not).
-  }
-  \item{\code{id}}{[\code{character(1)}]\cr
-    Id of the base-learners. This is necessary since it is possible to define multiple learners using equal features.
-  }
-  \item{\code{bl_factory}}{[\code{S4 Factory}]\cr
-    Uninitialized base-learner factory given as \code{S4 Factory} class. See the details
-    for possible choices.
-  }
-  \item{\code{data_source}}{[\code{S4 Data}]\cr
-    Data source object. Just in memory data objects are supported at the moment.
-  }
-  \item{}{\code{...}\cr
-    Further arguments passed to the constructor of the \code{S4 Factory} class specified in
-    \code{bl_factory}. For possible arguments see the help pages (e.g. \code{?BaselearnerPSplineFactory})
-    of the \code{S4} classes.
-  }
-}
-
-\strong{For cboost$rmBaselearner()}:
-\describe{
-  \item{\code{blname}}{[\code{character()}]\cr
-    Name of the base learner to remove.
-  }
-}
-
-\strong{For cboost$train()}:
-\describe{
-  \item{\code{iteration}}{[\code{integer(1)}]\cr
-    Number of iterations that are trained. If the model is already trained it sets to the given number
-    by going back to already trained base-learners or it trains new ones. Note: This function defines an
-    iteration logger with the id \code{_iterations} which is used as stopper for the new training.
-  }
-  \item{\code{trace}}{[\code{integer(1)}]\cr
-    Integer indicating after how many iterations a trace should be printed. Specifying \code{trace = 10}, then every
-    10th iteration is printed. If you do not want to print the trace set \code{trace = 0}. Default is
-    -1 which means that in total 40 iterations are printed.
-  }
-}
-
-\strong{For cboost$predict()}:
-\describe{
-  \item{\code{newdata}}{[\code{data.frame()}]\cr
-  	 Data to predict on. If newdata equals \code{NULL} predictions on the training data are returned.
-  }
-}
-}
-
-\section{Details}{
-
-  \strong{Loss}\cr
-  Available choices for the loss are:
-	 \itemize{
-    \item
-      \code{LossQuadratic} (Regression)
-
-    \item
-      \code{LossAbsolute} (Regression)
-
-    \item
-      \code{LossQuantile} (Regression)
-      \describe{
-        \item{\code{quantile}}{[\code{numeric(1)}]\cr
-          Quantile that is boosted.
-        }
-      }
-
-    \item
-      \code{LossHuber} (Regression)
-      \describe{
-        \item{\code{delta}}{[\code{numeric(1)}]\cr
-          Defining the interval [-d,d] around 0 for quadratic approximation.
-        }
-      }
-
-    \item
-      \code{LossBinomial} (Binary Classification)
-
-    \item
-      \code{LossCustom} (Custom)
-
-  }
-  (For each loss take also a look at the help pages (e.g. \code{?LossBinomial}))
-
-  \strong{Logger}\cr
-  Available choices for the logger are:
-  \itemize{
-    \item
-      \code{LoggerIteration}: Logs the current iteration. Additional arguments:
-      \describe{
-        \item{\code{max_iterations} [\code{integer(1)}]}{
-          Maximal number of iterations.
-        }
-      }
-
-    \item
-      \code{LoggerTime}: Logs the elapsed time. Additional arguments:
-      \describe{
-        \item{\code{max_time} [\code{integer(1)}]}{
-          Maximal time for the computation.
-        }
-        \item{\code{time_unit} [\code{character(1)}]}{
-          Character to specify the time unit. Possible choices are \code{minutes}, \code{seconds}, or \code{microseconds}.
-        }
-      }
-
-    \item
-      \code{LoggerInbagRisk}:
-      \describe{
-        \item{\code{used_loss} [\code{S4 Loss}]}{
-          Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
-          details for possible choices.
-        }
-        \item{\code{eps_for_break} [\code{numeric(1)}]}{
-          This argument is used if the logger is also used as stopper. If the relative improvement
-          of the logged inbag risk falls below this boundary, then the stopper breaks the algorithm.
-        }
-        \item{\code{patience} [\code{integer(1)}]}{
-          Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
-        }
-      }
-
-    \item
-      \code{LoggerOobRisk}:
-      \describe{
-        \item{\code{used_loss} [\code{S4 Loss}]}{
-          Loss as initialized \code{S4 Loss} which is used to calculate the empirical risk. See the
-          details for possible choices.
-        }
-        \item{\code{eps_for_break} [\code{numeric(1)}]}{
-          This argument is used if the logger is also used as stopper. If the relative improvement
-          of the logged inbag risk falls above this boundary the stopper breaks the algorithm.
-        }
-        \item{\code{oob_data} [\code{list}]}{
-          A list which contains data source objects which corresponds to the source data of each registered factory.
-          The source data objects should contain the out of bag data. This data is then used to calculate the
-          new predictions in each iteration.
-        }
-        \item{\code{oob_response} [\code{vector}]}{
-          Vector which contains the response for the out of bag data given within \code{oob_data}.
-        }
-        \item{\code{patience} [\code{integer(1)}]}{
-          Specifying, how many iteration should fall consecutively below \code{eps_for_break} before we stop.
-        }
-      }
-    }
-
-  \strong{Note}:
-  \itemize{
-    \item
-      Even if you do not use the logger as stopper you have to define the arguments such as \code{max_time}.
-  }
-}
-
-\section{Fields}{
-
-\describe{
-  \item{\code{data} [\code{data.frame}]}{
-    Data used for training the algorithm.
-  }
-  \item{\code{data_oob} [\code{data.frame}]}{
-    Data used for out of bag tracking.
-  }
-  \item{\code{oob_fraction} [\code{numeric(1)}]}{
-    Fraction of how much data are used to track the out of bag risk.
-  }
-  \item{\code{response} [\code{vector}]}{
-    Response object that is created or passed in target for training the model.
-  }
-  \item{\code{response_oob} [\code{vector}]}{
-    Response object that is created by specifying the \code{oob_fraction} to evaluate each iteration.
-  }
-  \item{\code{target} [\code{character(1)}]}{
-  	 Name of the target variable.
-  }
-  \item{\code{id} [\code{character(1)}]}{
-  	 Name of the given dataset.
-  }
-  \item{\code{optimizer} [\code{S4 Optimizer}]}{
-    Optimizer used within the fitting process.
-  }
-  \item{\code{loss} [\code{S4 Loss}]}{
-    Loss used to calculate pseudo residuals and empirical risk.
-  }
-  \item{\code{learning_rate} [\code{numeric(1)}]}{
-    Learning rate used to shrink the estimated parameter in each iteration.
-  }
-  \item{\code{model} [\code{S4 Compboost_internal}]}{
-    \code{S4 Compboost_internal} class object from which the main operations (such as train) are called.
-  }
-  \item{\code{bl_factory_list} [\code{S4 FactoryList}]}{
-    List of all registered factories represented as \code{S4 FactoryList} class.
-  }
-  \item{\code{positive_category} [\code{character(1)}]}{
-    Character containing the name of the positive class in the case of (binary) classification.
-  }
-  \item{\code{stop_if_all_stoppers_fulfilled} [\code{logical(1)}]}{
-    Logical indicating whether all stopper should be used simultaneously or if it is sufficient
-    to just use the first stopper to stop the algorithm.
-  }
-}
-}
-
-\section{Methods}{
-
-\describe{
-  \item{\code{addLogger}}{method to add a logger to the algorithm (Note: This is just possible before the training).}
-  \item{\code{addIntercept}}{method to add an intercept base-learner to the algorithm (Note: This is just possible before the training).}
-  \item{\code{addBaselearner}}{method to add a new base-learner to the algorithm (Note: This is just possible before the training).}
-  \item{\code{rmBaselearner}}{method to remove a base-learner.}
-  \item{\code{getCurrentIteration}}{method to get the current iteration on which the algorithm is set.}
-  \item{\code{train}}{method to train the algorithm.}
-  \item{\code{predict}}{method to predict on a trained object.}
-  \item{\code{getSelectedBaselearner}}{method to get a character vector of selected base-learner.}
-  \item{\code{getEstimatedCoef}}{method to get a list of estimated coefficient of each selected base-learner. Depricated, use `getCoef` instead.}
-  \item{\code{getCoef}}{method to get a list of estimated coefficient of each selected base-learner.}
-  \item{\code{getBaselearnerNames}}{method to get the names of the registered factories.}
-  \item{\code{prepareData}}{method to prepare data to track the out of bag risk of an arbitrary loss/performance function.}
-  \item{\code{getLoggerData}}{method to the the logged data from all registered logger.}
-  \item{\code{calculateFeatureImportance}}{method to calculate feature importance.}
-}
-}
-
 \examples{
 cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
 cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
-  n_knots = 10, penalty = 2, differences = 2)
+  n_knots = 10, df = 3, differences = 2)
 cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
 cboost$train(1000)
 
 table(cboost$getSelectedBaselearner())
+head(cboost$logs)
+names(cboost$baselearner_list)
+
+# Access information about the a base learner in the list:
+cboost$baselearner_list$hp_spline$factory$getDF()
+cboost$baselearner_list$hp_spline$factory$getPenalty()
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{data}}{(`data.frame`)\cr
+The data used for training the model. Note: If `oob_fraction` is set, the
+input data is split into `data` and `data_oob`. Hence, `data` contains a
+subset of the input data to train the model.}
+
+\item{\code{data_oob}}{(`data.frame`)\cr
+An out-of-bag data set used for risk logging or early stopping. `data_oob`
+is split from the input data (see the `data` field).}
+
+\item{\code{oob_fraction}}{(`numeric(1)`)\cr
+The fraction of `nrow(input data)` defining the number of observations in
+`data_oob`.}
+
+\item{\code{response}}{([ResponseRegr] | [ResponseBinaryClassif])\cr
+A `S4` response object. See `?ResponseRegr` or `?ResponseBinaryClassif` for help.
+This object holds the current prediction, pseudo residuals and functions to
+transform scores. Note: This response corresponds to the `data` field and holds
+the predictions for that `data.frame`.}
+
+\item{\code{response_oob}}{([ResponseRegr] | [ResponseBinaryClassif])\cr
+A `S4` response object. See `?ResponseRegr` or `?ResponseBinaryClassif` for help.
+Same as `response` but for `data_oob`.}
+
+\item{\code{target}}{(`character(1)`)\cr
+Name of the target variable in `data`.}
+
+\item{\code{id}}{(`character(1)`)\cr
+Name of the data object defined in `$new(data, ...)`.}
+
+\item{\code{optimizer}}{([OptimizerCoordinateDescent] | [OptimizerCoordinateDescentLineSearch] | [OptimizerAGBM] | [OptimizerCosineAnnealing])\cr
+An initialized `S4` optimizer object (requires to call `Optimizer*.new(..)`.
+See the respective help page for further information.}
+
+\item{\code{loss}}{([LossQuadratic] | [LossBinomial] | [LossHuber] | [LossAbsolute] | [LossQuantile])\cr
+An initialized `S4` loss object (requires to call `Loss*$new(...)`).
+See the respective help page for further information.}
+
+\item{\code{learning_rate}}{(`numeric(1)`)\cr
+The learning rate of the model. Note: Some optimizer do dynamically vary the learning rate.}
+
+\item{\code{model}}{([Compboost_internal])\cr
+The internal Compboost object exported from `Rcpp`. See `?Compboost_internal` for details.}
+
+\item{\code{bl_factory_list}}{([BlearnerFactoryList)\cr
+A container with all base learners. See `?BlearnerFactoryList` for details.}
+
+\item{\code{positive}}{(`character(1)`)\cr
+The positive class in the case of binary classification.}
+
+\item{\code{stop_all}}{(`logical(1)`)\cr
+Indicator whether all stopper must return `TRUE` to early stop the algorithm.
+Comparable to `all()` if `stop_all = TRUE` and `any()` if `stop_all = FALSE`.}
+
+\item{\code{early_stop}}{(`logical(1)`)\cr
+Indicator whether early stopping should be used or not.}
+
+\item{\code{l_list}}{(`list()`)\cr
+A `list` containing the uninitialized raw logger classes, e.g. [LoggerIteration], [LoggerInbagRisk], etc.}
+
+\item{\code{bl_list}}{(`list()`)\cr
+Named `list` with names `$getBaselearnerNames()`. Each elements contains
+
+* `"feature"` (`character(1)`): The name of the feature from `data`.
+* `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.}
+
+\item{\code{l_list}}{([LoggerList])\cr
+The raw [LoggerList] object (see `?LoggerList` for details). Used to manage
+the base learners.}
+
+\item{\code{stop_args}}{(`list()`)\cr
+List of the arguments used to early stop the algorithm. The possible elements are:
+* `"eps_for_break"`: See `?LoggerOobRisk` for details.
+* `"patience"`: Number of consecutive iterations after which is stopped if the loss didn't get better.
+* `"loss_oob"`: Initialized loss object (see the `loss` field for details).}
+
+\item{\code{p_idx_oob}}{(see field `idx_oob`).}
+
+\item{\code{p_idx_train}}{(see field `idx_train`).}
+
+\item{\code{components}}{(`list()`)\cr
+A list containing all linear and non-linear component for the feature added via `$addComponent()`.}
+
+\item{\code{p_boost_intercept}}{(see field `boost_intercept).}
+
+\item{\code{p_logs}}{(see field `logs`).}
+}
+\if{html}{\out{</div>}}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{baselearner_list}}{(`list()`)\cr
+Named `list` with names `$getBaselearnerNames()`. Each elements contains
+
+* `"feature"` (`character(1)`): The name of the feature from `data`.
+* `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.}
+
+\item{\code{boost_intercept}}{(`logical(1)`)\cr
+Logical value indicating whether an intercept base learner was added with `$addIntercept()` or not.}
+
+\item{\code{logs}}{(`data.frame`)\cr
+Basic information such as risk, selected base learner etc. about each iteration.
+If `oob_data` is set, further information about the validation/oob risk is also logged.
+The same applies for time logging etc. Note: Using the field `logs` internally is set and updated
+after each call to `$getLoggerData()`. Hence, it cashes the logged data set instead of
+recalculating the data set as it is done for `$getLoggerData()`.}
+
+\item{\code{idx_oob}}{(`integer()`)\cr
+An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
+Note: `oob_fraction` is ignored if this argument is set.}
+
+\item{\code{idx_train}}{(`integer()`)\cr
+An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
+Note: `oob_fraction` is ignored if this argument is set.}
+
+\item{\code{l_list}}{(`list()`)\cr
+A `list` containing the uninitialized raw logger classes, e.g. [LoggerIteration], [LoggerInbagRisk], etc.}
+
+\item{\code{bl_list}}{(`list()`)\cr
+Named `list` with names `$getBaselearnerNames()`. Each elements contains
+
+* `"feature"` (`character(1)`): The name of the feature from `data`.
+* `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.}
+
+\item{\code{l_list}}{([LoggerList])\cr
+The raw [LoggerList] object (see `?LoggerList` for details). Used to manage
+the base learners.}
+
+\item{\code{stop_args}}{(`list()`)\cr
+List of the arguments used to early stop the algorithm. The possible elements are:
+* `"eps_for_break"`: See `?LoggerOobRisk` for details.
+* `"patience"`: Number of consecutive iterations after which is stopped if the loss didn't get better.
+* `"loss_oob"`: Initialized loss object (see the `loss` field for details).}
+
+\item{\code{p_idx_oob}}{(see field `idx_oob`).}
+
+\item{\code{p_idx_train}}{(see field `idx_train`).}
+
+\item{\code{components}}{(`list()`)\cr
+A list containing all linear and non-linear component for the feature added via `$addComponent()`.}
+
+\item{\code{p_boost_intercept}}{(see field `boost_intercept).}
+
+\item{\code{p_logs}}{(see field `logs`).}
+}
+\if{html}{\out{</div>}}
+}
+\section{Methods}{
+\subsection{Public methods}{
+\itemize{
+\item \href{#method-new}{\code{Compboost$new()}}
+\item \href{#method-addLogger}{\code{Compboost$addLogger()}}
+\item \href{#method-getCurrentIteration}{\code{Compboost$getCurrentIteration()}}
+\item \href{#method-addIntercept}{\code{Compboost$addIntercept()}}
+\item \href{#method-addBaselearner}{\code{Compboost$addBaselearner()}}
+\item \href{#method-rmBaselearner}{\code{Compboost$rmBaselearner()}}
+\item \href{#method-addTensor}{\code{Compboost$addTensor()}}
+\item \href{#method-addComponents}{\code{Compboost$addComponents()}}
+\item \href{#method-extractComponents}{\code{Compboost$extractComponents()}}
+\item \href{#method-train}{\code{Compboost$train()}}
+\item \href{#method-prepareData}{\code{Compboost$prepareData()}}
+\item \href{#method-prepareResponse}{\code{Compboost$prepareResponse()}}
+\item \href{#method-predict}{\code{Compboost$predict()}}
+\item \href{#method-predictIndividual}{\code{Compboost$predictIndividual()}}
+\item \href{#method-getInbagRisk}{\code{Compboost$getInbagRisk()}}
+\item \href{#method-getSelectedBaselearner}{\code{Compboost$getSelectedBaselearner()}}
+\item \href{#method-print}{\code{Compboost$print()}}
+\item \href{#method-getCoef}{\code{Compboost$getCoef()}}
+\item \href{#method-getEstimatedCoef}{\code{Compboost$getEstimatedCoef()}}
+\item \href{#method-getBaselearnerNames}{\code{Compboost$getBaselearnerNames()}}
+\item \href{#method-getLoggerData}{\code{Compboost$getLoggerData()}}
+\item \href{#method-calculateFeatureImportance}{\code{Compboost$calculateFeatureImportance()}}
+\item \href{#method-clone}{\code{Compboost$clone()}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
+\subsection{Method \code{new()}}{
+Creates a new instance of this [R6][R6::R6Class] class.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$new(
+  data,
+  target,
+  optimizer = OptimizerCoordinateDescent$new(),
+  loss,
+  learning_rate = 0.05,
+  positive = NULL,
+  oob_fraction = NULL,
+  early_stop = FALSE,
+  idx_oob = NULL,
+  stop_args = list(eps_for_break = 0, patience = 10L)
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{data}}{(`data.frame`)\cr
+The data set to build the object. Note: This data set is completely used for training if `is.null(idx_oob)`.
+Otherwise, the data set is split into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.}
+
+\item{\code{target}}{(`character(1)`)\cr
+Character indicating the name of the target variable.}
+
+\item{\code{optimizer}}{([OptimizerCoordinateDescent] | [OptimizerCoordinateDescentLineSearch] | [OptimizerAGBM] | [OptimizerCosineAnnealing])\cr
+An initialized `S4` optimizer object (requires to call `Optimizer*.new(..)`.
+See the respective help page for further information.}
+
+\item{\code{loss}}{([LossQuadratic] | [LossBinomial] | [LossHuber] | [LossAbsolute] | [LossQuantile])\cr
+An initialized `S4` loss object (requires to call `Loss*$new(...)`).
+See the respective help page for further information.}
+
+\item{\code{learning_rate}}{(`numeric(1)`)\cr
+Learning rate of the model (default is `0.05`).}
+
+\item{\code{positive}}{(`character(1)`)\cr
+The name of the positive class (in the case of binary classification).}
+
+\item{\code{oob_fraction}}{(`numeric(1)`)\cr
+The fraction of `nrow(input data)` defining the number of observations in
+`data_oob`. This argument is ignored if `idx_oob` is set.}
+
+\item{\code{early_stop}}{(`logical(1)`)\cr
+Indicator whether early stopping should be used or not.}
+
+\item{\code{idx_oob}}{(`integer()`)\cr
+An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
+Note: `oob_fraction` is ignored if this argument is set.}
+
+\item{\code{stop_args}}{(`list(integer(1), integer(1))`)\cr
+`list` containing two elements `patience` and `eps_for_break` which are used for early stopping.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-addLogger"></a>}}
+\if{latex}{\out{\hypertarget{method-addLogger}{}}}
+\subsection{Method \code{addLogger()}}{
+Add a logger to the model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$addLogger(logger, use_as_stopper = FALSE, logger_id, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{logger}}{([LoggerIteration] | [LoggerTime] | [LoggerInbagRisk] | [LoggerOobRisk])\cr
+The uninitialized logger.}
+
+\item{\code{use_as_stopper}}{(`logical(1)`)\cr
+Indicator defining the logger as stopper considering it for early stopping.}
+
+\item{\code{logger_id}}{(`character(1)`)\cr
+The id of the logger. This allows to define two logger of the same type (`e.g. risk logging`) but with different arguments.}
+
+\item{\code{...\cr}}{Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getCurrentIteration"></a>}}
+\if{latex}{\out{\hypertarget{method-getCurrentIteration}{}}}
+\subsection{Method \code{getCurrentIteration()}}{
+Get the number of the current iteration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getCurrentIteration()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`integer(1)` value.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-addIntercept"></a>}}
+\if{latex}{\out{\hypertarget{method-addIntercept}{}}}
+\subsection{Method \code{addIntercept()}}{
+This functions adds a base learner that adjusts the intercept (if selected).
+Adding an intercept base learner may be necessary, e.g., when adding linear effects
+without intercept.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$addIntercept(id = "intercept", data_source = InMemoryData)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(`character(1)`)\cr
+The id of the base learner (default is `"intercept"`).}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-addBaselearner"></a>}}
+\if{latex}{\out{\hypertarget{method-addBaselearner}{}}}
+\subsection{Method \code{addBaselearner()}}{
+Add a base learner of one feature to the model that is considered in each iteration.
+Using `$addBaselearner()` just allows including univariate features. See `$addTensor()` for
+bivariate effect modelling and `$addComponents()` for an effect decomposition.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$addBaselearner(
+  feature,
+  id,
+  bl_factory,
+  data_source = InMemoryData,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{feature}}{(`character(1)`)\cr
+Name of the feature, must be a column in `data`.}
+
+\item{\code{feature}}{(`character(1)`)\cr
+Name of the feature, must be a column in `data`.}
+
+\item{\code{id}}{(`character(1)`)\cr
+The name of the base learner.}
+
+\item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
+Uninitialized base learner class. See the respective help page for details.}
+
+\item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
+Uninitialized base learner class. See the respective help page for details.}
+
+\item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
+Uninitialized base learner class. See the respective help page for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{data_source}}{([InMemoryData])\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see `?InMemorydata` for details.}
+
+\item{\code{...}}{\cr
+Further argument spassed to the `$new(...)` constructor of `bl_factory`.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-rmBaselearner"></a>}}
+\if{latex}{\out{\hypertarget{method-rmBaselearner}{}}}
+\subsection{Method \code{rmBaselearner()}}{
+Remove a base learner from the model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$rmBaselearner(blname)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{blname}}{(`character(1)`)\cr
+Name of the base learner that should be removed. Must be an element of `$getBaselearnerNames()`.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-addTensor"></a>}}
+\if{latex}{\out{\hypertarget{method-addTensor}{}}}
+\subsection{Method \code{addTensor()}}{
+Add a row-wise tensor product of features. Note: The base learner are pre-defined
+by the type of the feature. Numerical features uses a `BaselearnerPSpline` while categorical
+features are included using a `BaselearnerCategoricalRidge` base learner.
+To include an arbitrary tensor product requires to use the `S4` API with using
+`BaselearnerTensor` on two base learners of any type.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$addTensor(
+  feature1,
+  feature2,
+  df1 = NULL,
+  df2 = NULL,
+  isotrop = FALSE,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{feature1}}{(`character(1)`)\cr
+Name of the first feature. Must be an element of `names(data)`.}
+
+\item{\code{feature2}}{(`character(1)`)\cr
+Name of the second feature. Must be an element of `names(data)`.}
+
+\item{\code{df1}}{(`numeric(1)`)\cr
+The degrees of freedom used for the first base learner.}
+
+\item{\code{df2}}{(`numeric(1)`)\cr
+The degrees of freedom used for the first base learner.}
+
+\item{\code{isotrop}}{(`logical(1)`)\cr
+Indicator how the two penalties should be combined, if `isotrop == TRUE`,
+the total degrees of freedom are uniformly distributed over the dimensions while
+`isotrop == FALSE` allows to define how strong each of the two dimensions is penalized.}
+
+\item{\code{...}}{\cr
+Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-addComponents"></a>}}
+\if{latex}{\out{\hypertarget{method-addComponents}{}}}
+\subsection{Method \code{addComponents()}}{
+Add an effect with individual components. A linear term is added as well as
+a non-linear term without the linear effect. This ensures that the linear
+component is selected prior to the non-linear effect. The non-linear effect
+is only included if a deviation from a linear effect is required.
+
+Note: Internally, a [BaselearnerPolynomial] with degree one and a [BaselearnerCentered] is added.
+Centering a base learner makes the design matrix dense and hence memory is filled very fast.
+Considering binning may be an option to reduce the memory consumption.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$addComponents(feature, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{feature}}{(`character(1)`)\cr
+Name of the feature, must be a column in `data`.}
+
+\item{\code{feature}}{(`character(1)`)\cr
+Name of the feature, must be a column in `data`.}
+
+\item{\code{...}}{\cr
+Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-extractComponents"></a>}}
+\if{latex}{\out{\hypertarget{method-extractComponents}{}}}
+\subsection{Method \code{extractComponents()}}{
+This function extracts all information from components added with `$addComponents()`
+that defines a model. The result is an `S3` object of class
+`compboostExtract` that can be used for very basic operations such as
+predicting.
+
+Note: At the moment it is not possible to save the whole [Compboost] object
+and reuse it later. Using `$extractComponents()` gives the opportunity to
+"save" the minimal amount of data that defines the model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$extractComponents()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`list` with all components.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-train"></a>}}
+\if{latex}{\out{\hypertarget{method-train}{}}}
+\subsection{Method \code{train()}}{
+Start fitting a model.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$train(iteration = 100, trace = -1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{iteration}}{(`integer(1)`)\cr
+The maximal number of iteration. The algorithm can be stopped earlier
+if early stopping is active.}
+
+\item{\code{trace}}{(`integer(1)`)\cr
+The number of integers after which the status of the fitting is printed to the screen.
+The default `trace = -1` internally uses `trace = round(iteration / 40)`.
+To silently fit the model use `trace = 0`.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-prepareData"></a>}}
+\if{latex}{\out{\hypertarget{method-prepareData}{}}}
+\subsection{Method \code{prepareData()}}{
+Internally, each base learner is build on a [InMemoryData] object. Some
+methods (e.g. adding a [LoggerOobRisk]) requires to pass the data as
+`list(InMemoryData | CategoricalDataRaw)` with data objects as elements.
+This function converts the given `data.frame` into that format.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$prepareData(newdata)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+`list(InMemoryData | CategoricalDataRaw)` with data container as elements.
+Numeric features are wrapped by [InMemoryData] while categorical features
+are included with [CategoricalDataRaw].
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-prepareResponse"></a>}}
+\if{latex}{\out{\hypertarget{method-prepareResponse}{}}}
+\subsection{Method \code{prepareResponse()}}{
+Same as for `$prepareData()` but for the response. Internally, `vectorToResponse()` is
+used to generate a [ResponseRegr] or [ResponseBinaryClassif] object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$prepareResponse(response)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{resonse}}{(`vector()`)\cr
+A vector of type `numberic` or `categorical` that is transformed to an
+response object.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+[ResponseRegr] | [ResponseBinaryClassif] object.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-predict}{}}}
+\subsection{Method \code{predict()}}{
+Calculate predictions.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$predict(newdata = NULL, as_response = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{as_response}}{(`logical(1)`)\cr
+In the case of binary classification, `as_response = TRUE` returns predictions as
+response, i.e. classes.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Vector of predictions.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-predictIndividual"></a>}}
+\if{latex}{\out{\hypertarget{method-predictIndividual}{}}}
+\subsection{Method \code{predictIndividual()}}{
+While `$predict()` returns the sum of all base learner predictions, this function
+returns a `list` with the predictions for each base learner.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$predictIndividual(newdata)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Named `list()` with the included base learner names as names and the base learner
+predictions as elements.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getInbagRisk"></a>}}
+\if{latex}{\out{\hypertarget{method-getInbagRisk}{}}}
+\subsection{Method \code{getInbagRisk()}}{
+Return the training risk of each iteration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getInbagRisk()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`numeric()` vector of risk values or `NULL` if `$train()` was not called previously.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getSelectedBaselearner"></a>}}
+\if{latex}{\out{\hypertarget{method-getSelectedBaselearner}{}}}
+\subsection{Method \code{getSelectedBaselearner()}}{
+Get a vector with the name of the selected base learner of each iteration.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getSelectedBaselearner()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`character()` vector of base learner names.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
+\subsection{Method \code{print()}}{
+Printer of the object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$print()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+Invisibly returns the object.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getCoef"></a>}}
+\if{latex}{\out{\hypertarget{method-getCoef}{}}}
+\subsection{Method \code{getCoef()}}{
+Get the estimated coefficients.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getCoef()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getEstimatedCoef"></a>}}
+\if{latex}{\out{\hypertarget{method-getEstimatedCoef}{}}}
+\subsection{Method \code{getEstimatedCoef()}}{
+DEPRICATED use `$getCoef()` instead.
+Get the estimated coefficients.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getEstimatedCoef()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getBaselearnerNames"></a>}}
+\if{latex}{\out{\hypertarget{method-getBaselearnerNames}{}}}
+\subsection{Method \code{getBaselearnerNames()}}{
+Get the names of the registered base learners.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getBaselearnerNames()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`charcter()` of base learner names.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-getLoggerData"></a>}}
+\if{latex}{\out{\hypertarget{method-getLoggerData}{}}}
+\subsection{Method \code{getLoggerData()}}{
+Get the logged information.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$getLoggerData()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+`data.frame` of logging information.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-calculateFeatureImportance"></a>}}
+\if{latex}{\out{\hypertarget{method-calculateFeatureImportance}{}}}
+\subsection{Method \code{calculateFeatureImportance()}}{
+Calculate feature important based on the training risk. Note that early
+stopping should be used to get adequate importance measures.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$calculateFeatureImportance(
+  num_feats = NULL,
+  aggregate_bl_by_feat = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{num_feats}}{(`integer(1)`)\cr
+The number considered features, the `num_feats` most important feature names and
+the respective value is returned.}
+
+\item{\code{aggregate_bl_by_feat}}{(`logical(1)`)\cr
+Indicator whether the importance is aggregated based on feature level. For example,
+adding components included two different base learners for the same feature. If
+`aggregate_bl_by_feat == TRUE`, the importance of these two base learners is aggregated
+instead of considering them individually.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Named `numeric()` vector of length `num_feats` (if at least `num_feats` were selected)
+with importance values as elements.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
+\subsection{Method \code{clone()}}{
+The objects of this class are cloneable with this method.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$clone(deep = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{deep}}{Whether to make a deep clone.}
+}
+\if{html}{\out{</div>}}
+}
+}
 }
