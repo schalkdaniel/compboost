@@ -221,7 +221,7 @@ Compboost = R6::R6Class("Compboost",
     #' Indicator defining the logger as stopper considering it for early stopping.
     #' @param logger_id (`character(1)`)\cr
     #' The id of the logger. This allows to define two logger of the same type (`e.g. risk logging`) but with different arguments.
-    #' @param ...\cr
+    #' @param ... \cr
     #' Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       private$p_l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
@@ -616,7 +616,7 @@ Compboost = R6::R6Class("Compboost",
     #' Same as for `$prepareData()` but for the response. Internally, `vectorToResponse()` is
     #' used to generate a [ResponseRegr] or [ResponseBinaryClassif] object.
     #'
-    #' @param resonse (`vector()`)\cr
+    #' @param response (`vector()`)\cr
     #' A vector of type `numberic` or `categorical` that is transformed to an
     #' response object.
     #'
@@ -661,6 +661,47 @@ Compboost = R6::R6Class("Compboost",
     predictIndividual = function(newdata) {
       checkmate::assertDataFrame(newdata, null.ok = FALSE, min.rows = 1)
       return(self$model$predictIndividual(self$prepareData(newdata)))
+    },
+
+    #' @description
+    #' Get design matrices of all (or a subset) base learners for a new `data.frame`.
+    #'
+    #' @template param-newdata
+    #' @param blnames (`character()`)\cr
+    #' Names of the base learners for which the design matrices are returned. If
+    #' `is.null(blnames)`, compboost tries to guess all base learners that were
+    #' constructed based on the feature names of `newdata`.
+    #'
+    #' @return
+    #' `list(matrix | Matrix::Matrix)` matrices as elements.
+    transformData = function(newdata, blnames = NULL) {
+      if (is.null(self$model)) stop("Model must be trained first.")
+
+      nnew = names(newdata)
+      ndat = setdiff(names(self$data), self$target)
+      checkmate::assertCharacter(blnames, null.ok = TRUE)
+      if (! is.null(blnames)) {
+        nuisance = lapply(blnames, checkmate::assertChoice, choices = nnew)
+      }
+      unused_cols = nnew[! nnew %in% ndat]
+      if (length(unused_cols) > 0) {
+        warning(sprintf("Unused features '%s' in 'newdata' are ignored.", paste(unused_cols, collapse = ", ")))
+        newdata = newdata[, setdiff(nnew, unused_cols)]
+        nnew = names(newdata)
+      }
+
+      nuisance = lapply(nnew, checkmate::assertChoice, choices = ndat)
+
+      ndat = self$prepareData(newdata)
+      lout = lapply(private$p_bl_list, function(bl) {
+        if (all(bl$feature %in% nnew)) {
+          return(bl$factory$transformData(ndat)$design)
+        } else {
+          return(NULL)
+        }
+      })
+      names(lout) = names(private$p_bl_list)
+      return(lout)
     },
 
     #' @description
@@ -890,47 +931,47 @@ Compboost = R6::R6Class("Compboost",
   ), # end active
 
   private = list(
-    #' @field l_list (`list()`)\cr
-    #' A `list` containing the uninitialized raw logger classes, e.g. [LoggerIteration], [LoggerInbagRisk], etc.
+    # @field p_l_list (`list()`)\cr
+    # A `list` containing the uninitialized raw logger classes, e.g. [LoggerIteration], [LoggerInbagRisk], etc.
     p_l_list = list(),
 
-    #' @field bl_list (`list()`)\cr
-    #' Named `list` with names `$getBaselearnerNames()`. Each elements contains
-    #'
-    #' * `"feature"` (`character(1)`): The name of the feature from `data`.
-    #' * `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.
+    # @field p_bl_list (`list()`)\cr
+    # Named `list` with names `$getBaselearnerNames()`. Each elements contains
+    #
+    # * `"feature"` (`character(1)`): The name of the feature from `data`.
+    # * `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.
     p_bl_list = list(),
 
-    #' @field l_list ([LoggerList])\cr
-    #' The raw [LoggerList] object (see `?LoggerList` for details). Used to manage
-    #' the base learners.
+    # @field p_logger_list ([LoggerList])\cr
+    # The raw [LoggerList] object (see `?LoggerList` for details). Used to manage
+    # the base learners.
     p_logger_list = list(),
 
-    #' @field stop_args (`list()`)\cr
-    #' List of the arguments used to early stop the algorithm. The possible elements are:
-    #' * `"eps_for_break"`: See `?LoggerOobRisk` for details.
-    #' * `"patience"`: Number of consecutive iterations after which is stopped if the loss didn't get better.
-    #' * `"loss_oob"`: Initialized loss object (see the `loss` field for details).
+    # @field p_stop_args (`list()`)\cr
+    # List of the arguments used to early stop the algorithm. The possible elements are:
+    # * `"eps_for_break"`: See `?LoggerOobRisk` for details.
+    # * `"patience"`: Number of consecutive iterations after which is stopped if the loss didn't get better.
+    # * `"loss_oob"`: Initialized loss object (see the `loss` field for details).
     p_stop_args = list(),
 
-    #' @field p_idx_oob (see field `idx_oob`).
+    # @field p_idx_oob (see field `idx_oob`).
     p_idx_oob = NULL,
 
-    #' @field p_idx_train (see field `idx_train`).
+    # @field p_idx_train (see field `idx_train`).
     p_idx_train = NULL,
 
-    #' @field components (`list()`)\cr
-    #' A list containing all linear and non-linear component for the feature added via `$addComponent()`.
+    # @field p_components (`list()`)\cr
+    # A list containing all linear and non-linear component for the feature added via `$addComponent()`.
     p_components = list(),
 
-    #' @field p_boost_intercept (see field `boost_intercept).
+    # @field p_boost_intercept (see field `boost_intercept).
     p_boost_intercept = FALSE,
 
-    #' @field p_logs (see field `logs`).
+    # @field p_logs (see field `logs`).
     p_logs = NULL,
 
-    #' @description
-    #' Initialize the model by calling the `$new()` constructor of the [Compboost_internal] object.
+    # @description
+    # Initialize the model by calling the `$new()` constructor of the [Compboost_internal] object.
     initializeModel = function() {
 
       private$p_logger_list = LoggerList$new()
@@ -941,8 +982,8 @@ Compboost = R6::R6Class("Compboost",
         private$p_logger_list, self$optimizer)
     },
 
-    #' @description
-    #' Wrapper to add a logger for tracking the validation risk.
+    # @description
+    # Wrapper to add a logger for tracking the validation risk.
     addOobLogger = function() {
       if ("loss_oob" %in% names(private$p_stop_args)) {
         loss_oob = private$p_stop_args$loss_oob
@@ -958,21 +999,22 @@ Compboost = R6::R6Class("Compboost",
           oob_data = self$prepareData(self$data_oob), oob.response = self$response_oob)
       }
     },
-    #' @description
-    #' Wrapper to add a numerical base learner.
-    #'
-    #' @param data_columns (`matrix()`)\cr
-    #' The raw data columns from `data` as matrix.
-    #' @param feature (`character()`)\cr
-    #' The feature names of the columns in `data_columns`.
-    #' @param id_fac (`character(1)`)\cr
-    #' The identifier of the base learner used to define the raw factory.
-    #' @param id (`character(1)`)\cr
-    #' The identifier of the base learner in the `list()` of base learners.
-    #' @template param-bl_factory
-    #' @template param-data_source
-    #' @param ... \cr
-    #' Additional arguments passed to the `$new(...)` call of `bl_factory`.
+
+    # @description
+    # Wrapper to add a numerical base learner.
+    #
+    # @param data_columns (`matrix()`)\cr
+    # The raw data columns from `data` as matrix.
+    # @param feature (`character()`)\cr
+    # The feature names of the columns in `data_columns`.
+    # @param id_fac (`character(1)`)\cr
+    # The identifier of the base learner used to define the raw factory.
+    # @param id (`character(1)`)\cr
+    # The identifier of the base learner in the `list()` of base learners.
+    # @template param-bl_factory
+    # @template param-data_source
+    # @param ... \cr
+    # Additional arguments passed to the `$new(...)` call of `bl_factory`.
     addSingleNumericBl = function(data_columns, feature, id_fac, id, bl_factory, data_source, ...) {
 
       private$p_bl_list[[id]] = list()
@@ -984,21 +1026,21 @@ Compboost = R6::R6Class("Compboost",
       private$p_bl_list[[id]]$source = NULL
     },
 
-    #' @description
-    #' Wrapper to add a categorical base learner.
-    #'
-    #' @param data_column (`data.frame()`)\cr
-    #' The raw data column from `data`.
-    #' @param feature (`character()`)\cr
-    #' The feature names of the columns in `data_columns`.
-    #' @param id_fac (`character(1)`)\cr
-    #' The identifier of the base learner used to define the raw factory.
-    #' @param id (`character(1)`)\cr
-    #' The identifier of the base learner in the `list()` of base learners.
-    #' @template param-bl_factory
-    #' @template param-data_source
-    #' @param ... \cr
-    #' Additional arguments passed to the `$new(...)` call of `bl_factory`.
+    # @description
+    # Wrapper to add a categorical base learner.
+    #
+    # @param data_column (`data.frame()`)\cr
+    # The raw data column from `data`.
+    # @param feature (`character()`)\cr
+    # The feature names of the columns in `data_columns`.
+    # @param id_fac (`character(1)`)\cr
+    # The identifier of the base learner used to define the raw factory.
+    # @param id (`character(1)`)\cr
+    # The identifier of the base learner in the `list()` of base learners.
+    # @template param-bl_factory
+    # @template param-data_source
+    # @param ... \cr
+    # Additional arguments passed to the `$new(...)` call of `bl_factory`.
     addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, ...) {
 
       private$p_bl_list[[id]] = list()
@@ -1045,30 +1087,3 @@ Compboost = R6::R6Class("Compboost",
     }
   ) # end private
 ) # end Compboost
-
-  #x1 = runif(1000L)
-  #x2 = runif(1000L)
-  #x3 = runif(1000L)
-  #x4 = runif(1000L)
-
-  #f1  = function(x1, x2) (1 - x1) * x2^2 + x1 * sin(pi * x2)
-  #f2 = function(x1, x2) x1^2 + x2^2
-  #y  = f1(x1, x2) + f2(x3, x4) + rnorm(1000L, 0, 0.1)
-
-  #df = data.frame(x1, x2, x3, x4, y)
-
-  #cboost = Compboost$new(data = df, target = "y", loss = LossQuadratic$new(), learning_rate = 0.1)
-  #cboost = Compboost$new(data = df, target = "y", loss = LossQuadratic$new(), learning_rate = 0.1, oob_fraction = 0.33)
-
-  #cboost$addBaselearner("x1", "spline", BaselearnerPSpline)
-
-  #cboost$addTensor("x1", "x2", n_knots = 10, df1 = 10, df2 = 10)
-  #cboost$addTensor("x3", "x4", n_knots = 10, df1 = 10, df2 = 10)
-
-  #cboost$addLogger(LoggerOobRisk, use_as_stopper = TRUE, logger_id = "oob_risk",
-    #used_loss = LossQuadratic$new(), eps_for_break = 0, patience = 5L, oob_data = cboost$prepareData(df[idx_oob, ]),
-    #oob_response = cboost$prepareResponse(df$y[idx_oob]))
-
-  #cboost$train(500)
-
-
