@@ -533,3 +533,14 @@ test_that("retraining of compboost logs correctly", {
   expect_equal(cboost$getLoggerData(), cboost1$getLoggerData())
   expect_equal(cboost$getInbagRisk(), cboost1$getInbagRisk())
 })
+
+test_that("transform newdata works", {
+  cboost = boostSplines(iris, "Sepal.Length", loss = LossQuadratic$new())
+  ndat = cboost$prepareData(iris)
+
+  mats = expect_warning(cboost$transformData(iris))
+  for (bln in names(mats)) {
+    expect_equal(mats[[bln]], cboost$baselearner_list[[bln]]$factory$transformData(ndat)$design)
+    expect_equal(t(as.matrix(mats[[bln]])), cboost$baselearner_list[[bln]]$factory$getData())
+  }
+})

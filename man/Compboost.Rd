@@ -90,36 +90,6 @@ Comparable to `all()` if `stop_all = TRUE` and `any()` if `stop_all = FALSE`.}
 
 \item{\code{early_stop}}{(`logical(1)`)\cr
 Indicator whether early stopping should be used or not.}
-
-\item{\code{l_list}}{(`list()`)\cr
-A `list` containing the uninitialized raw logger classes, e.g. [LoggerIteration], [LoggerInbagRisk], etc.}
-
-\item{\code{bl_list}}{(`list()`)\cr
-Named `list` with names `$getBaselearnerNames()`. Each elements contains
-
-* `"feature"` (`character(1)`): The name of the feature from `data`.
-* `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.}
-
-\item{\code{l_list}}{([LoggerList])\cr
-The raw [LoggerList] object (see `?LoggerList` for details). Used to manage
-the base learners.}
-
-\item{\code{stop_args}}{(`list()`)\cr
-List of the arguments used to early stop the algorithm. The possible elements are:
-* `"eps_for_break"`: See `?LoggerOobRisk` for details.
-* `"patience"`: Number of consecutive iterations after which is stopped if the loss didn't get better.
-* `"loss_oob"`: Initialized loss object (see the `loss` field for details).}
-
-\item{\code{p_idx_oob}}{(see field `idx_oob`).}
-
-\item{\code{p_idx_train}}{(see field `idx_train`).}
-
-\item{\code{components}}{(`list()`)\cr
-A list containing all linear and non-linear component for the feature added via `$addComponent()`.}
-
-\item{\code{p_boost_intercept}}{(see field `boost_intercept).}
-
-\item{\code{p_logs}}{(see field `logs`).}
 }
 \if{html}{\out{</div>}}
 }
@@ -149,36 +119,6 @@ Note: `oob_fraction` is ignored if this argument is set.}
 \item{\code{idx_train}}{(`integer()`)\cr
 An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
 Note: `oob_fraction` is ignored if this argument is set.}
-
-\item{\code{l_list}}{(`list()`)\cr
-A `list` containing the uninitialized raw logger classes, e.g. [LoggerIteration], [LoggerInbagRisk], etc.}
-
-\item{\code{bl_list}}{(`list()`)\cr
-Named `list` with names `$getBaselearnerNames()`. Each elements contains
-
-* `"feature"` (`character(1)`): The name of the feature from `data`.
-* `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.}
-
-\item{\code{l_list}}{([LoggerList])\cr
-The raw [LoggerList] object (see `?LoggerList` for details). Used to manage
-the base learners.}
-
-\item{\code{stop_args}}{(`list()`)\cr
-List of the arguments used to early stop the algorithm. The possible elements are:
-* `"eps_for_break"`: See `?LoggerOobRisk` for details.
-* `"patience"`: Number of consecutive iterations after which is stopped if the loss didn't get better.
-* `"loss_oob"`: Initialized loss object (see the `loss` field for details).}
-
-\item{\code{p_idx_oob}}{(see field `idx_oob`).}
-
-\item{\code{p_idx_train}}{(see field `idx_train`).}
-
-\item{\code{components}}{(`list()`)\cr
-A list containing all linear and non-linear component for the feature added via `$addComponent()`.}
-
-\item{\code{p_boost_intercept}}{(see field `boost_intercept).}
-
-\item{\code{p_logs}}{(see field `logs`).}
 }
 \if{html}{\out{</div>}}
 }
@@ -199,6 +139,7 @@ A list containing all linear and non-linear component for the feature added via 
 \item \href{#method-prepareResponse}{\code{Compboost$prepareResponse()}}
 \item \href{#method-predict}{\code{Compboost$predict()}}
 \item \href{#method-predictIndividual}{\code{Compboost$predictIndividual()}}
+\item \href{#method-transformData}{\code{Compboost$transformData()}}
 \item \href{#method-getInbagRisk}{\code{Compboost$getInbagRisk()}}
 \item \href{#method-getSelectedBaselearner}{\code{Compboost$getSelectedBaselearner()}}
 \item \href{#method-print}{\code{Compboost$print()}}
@@ -292,7 +233,8 @@ Indicator defining the logger as stopper considering it for early stopping.}
 \item{\code{logger_id}}{(`character(1)`)\cr
 The id of the logger. This allows to define two logger of the same type (`e.g. risk logging`) but with different arguments.}
 
-\item{\code{...\cr}}{Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.}
+\item{\code{...}}{\cr
+Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.}
 }
 \if{html}{\out{</div>}}
 }
@@ -326,14 +268,6 @@ without intercept.
 \describe{
 \item{\code{id}}{(`character(1)`)\cr
 The id of the base learner (default is `"intercept"`).}
-
-\item{\code{data_source}}{([InMemoryData])\cr
-Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
-
-\item{\code{data_source}}{([InMemoryData])\cr
-Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
 
 \item{\code{data_source}}{([InMemoryData])\cr
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
@@ -377,20 +311,6 @@ The name of the base learner.}
 
 \item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
 Uninitialized base learner class. See the respective help page for details.}
-
-\item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
-Uninitialized base learner class. See the respective help page for details.}
-
-\item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
-Uninitialized base learner class. See the respective help page for details.}
-
-\item{\code{data_source}}{([InMemoryData])\cr
-Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
-
-\item{\code{data_source}}{([InMemoryData])\cr
-Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
 
 \item{\code{data_source}}{([InMemoryData])\cr
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
@@ -568,6 +488,9 @@ New data set of the same structure as `data`.}
 
 \item{\code{newdata}}{(`data.frame`)\cr
 New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
 }
 \if{html}{\out{</div>}}
 }
@@ -590,7 +513,7 @@ used to generate a [ResponseRegr] or [ResponseBinaryClassif] object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{resonse}}{(`vector()`)\cr
+\item{\code{response}}{(`vector()`)\cr
 A vector of type `numberic` or `categorical` that is transformed to an
 response object.}
 }
@@ -612,6 +535,9 @@ Calculate predictions.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
 \item{\code{newdata}}{(`data.frame`)\cr
 New data set of the same structure as `data`.}
 
@@ -652,12 +578,50 @@ New data set of the same structure as `data`.}
 
 \item{\code{newdata}}{(`data.frame`)\cr
 New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
 Named `list()` with the included base learner names as names and the base learner
 predictions as elements.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-transformData"></a>}}
+\if{latex}{\out{\hypertarget{method-transformData}{}}}
+\subsection{Method \code{transformData()}}{
+Get design matrices of all (or a subset) base learners for a new `data.frame`.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$transformData(newdata, blnames = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{newdata}}{(`data.frame`)\cr
+New data set of the same structure as `data`.}
+
+\item{\code{blnames}}{(`character()`)\cr
+Names of the base learners for which the design matrices are returned. If
+`is.null(blnames)`, compboost tries to guess all base learners that were
+constructed based on the feature names of `newdata`.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+`list(matrix | Matrix::Matrix)` matrices as elements.
 }
 }
 \if{html}{\out{<hr>}}
