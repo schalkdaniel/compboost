@@ -103,11 +103,11 @@ plotTensorNumNum = function(cboost, tname, df, nbins) {
   gg = ggplot2::ggplot()
   if (is.null(nbins)) {
     gg = gg +
-      ggplot2::geom_raster(data = df, ggplot2::aes_string(x = feats[1], y = feats[2], fill = "y")) +
+      ggplot2::geom_raster(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data[[feats[2]]], fill = y)) +
       ggplot2::labs(fill = "")
   } else {
     gg = gg +
-      ggplot2::geom_contour_filled(data = df, ggplot2::aes_string(x = feats[1], y = feats[2], z = "y"), bins = nbins) +
+      ggplot2::geom_contour_filled(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data[[feats[2]]], z = y), bins = nbins) +
       ggplot2::labs(fill = "")
   }
   return(gg)
@@ -119,7 +119,7 @@ plotTensorNumCat = function(cboost, tname, df) {
 
   df$y = cboost$model$predictFactoryNewData(tname, ll_ds)
 
-  ggplot2::ggplot(data = df, ggplot2::aes_string(x = feats[1], y = "y", color = feats[2])) +
+  ggplot2::ggplot(data = df, ggplot2::aes(x = .data[[feats[1]]], y = y, color = .data[[feats[2]]])) +
     ggplot2::geom_line() +
     ggplot2::ylab("Contribution to prediction")
 }
@@ -129,7 +129,7 @@ plotTensorCatCat = function(cboost, tname, df) {
   feats = colnames(df)
 
   df$y = cboost$model$predictFactoryNewData(tname, ll_ds)
-  ggplot2::ggplot(data = df, ggplot2::aes_string(x = feats[1], y = feats[2], fill = "y")) +
+  ggplot2::ggplot(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data[[feats[2]]], fill = y)) +
     ggplot2::geom_tile(color = "white") +
     ggplot2::labs(fill = "")
 }
