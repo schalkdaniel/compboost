@@ -1,7 +1,7 @@
 context("Compboost parallel")
 
 test_that("If parallel speed up the algorithm", {
-  if (parallel::detectCores() > 2) {
+  if ((parallel::detectCores() > 2) && (Sys.info()["sysname"] != "Darwin")) {
 
     feats = 40
     n = 10000

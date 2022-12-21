@@ -68,21 +68,27 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   if (length(blnames) == 1) individual = FALSE
 
   gg = ggplot2::ggplot()
-  if (is.numeric(x))
-    pfun = ggplot2::geom_line
-  else
-    pfun = ggplot2::geom_boxplot
-
   if (individual) {
-    gg = gg +
-      pfun(data = df_ind, mapping = ggplot2::aes(x = x, y = y, color = bl), alpha = 0.6) +
-      pfun(data = df_agg, mapping = ggplot2::aes(x = x, y = y, color = 'Aggregated Contribution'), size = 1.2) +
-      ggplot2::labs(color = "Baselearner")
+    if (is.numeric(x)) {
+      gg = gg +
+        ggplot2::geom_line(data = df_ind, mapping = ggplot2::aes(x = x, y = y, color = bl), linewidth = 0.6) +
+        ggplot2::geom_line(data = df_agg, mapping = ggplot2::aes(x = x, y = y, color = 'Aggregated Contribution'), linewidth = 1.2)
+    } else {
+      gg = gg +
+        ggplot2::geom_boxplot(data = df_ind, mapping = ggplot2::aes(x = x, y = y, color = bl), alpha = 0.6) +
+        ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = x, y = y, color = 'Aggregated Contribution'), size = 1.2)
+    }
+      gg = gg + ggplot2::labs(color = "Baselearner")
   } else {
-    gg = gg + pfun(data = df_agg, mapping = ggplot2::aes(x = x, y = y)) +
-      ggplot2::labs(color = "Baselearner")
+    if (is.numeric(x)) {
+      gg = gg + ggplo2::geom_line(data = df_agg, mapping = ggplot2::aes(x = x, y = y))
+    } else {
+      gg = gg + ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = x, y = y))
+    }
   }
-  gg = gg + ggplot2::xlab(feat) +
+  gg = gg +
+    ggplot2::labs(color = "Baselearner") +
+    ggplot2::xlab(feat) +
     ggplot2::ylab("Contribution to\nprediction scroes")
 
   return(gg)
