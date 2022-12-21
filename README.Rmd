@@ -80,7 +80,6 @@ ggrisk + ggpe + ggicont
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
-
 ## Benchmark
 
 - A small benchmark was conducted to compare `compboost` with [`mboost`](https://cran.r-project.org/web/packages/mboost/index.html). For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).

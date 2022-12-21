@@ -24,7 +24,8 @@ Imports:
   methods,
   glue,
   R6,
-  checkmate
+  checkmate,
+  Matrix
 LinkingTo:
   Rcpp,
   RcppArmadillo,

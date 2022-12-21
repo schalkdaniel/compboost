@@ -111,7 +111,6 @@ class BaselearnerPolynomialFactory : public BaselearnerFactory
 {
 private:
   sbindata _sh_ptr_bindata;
-  const std::shared_ptr<init::PolynomialAttributes> _attributes = std::make_shared<init::PolynomialAttributes>();
 
   //const unsigned int           _degree;
   //const bool                   _intercept;
@@ -119,6 +118,8 @@ private:
 public:
   BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
     const unsigned int, const bool, const unsigned int, const double = 0, const double = 0);
+
+  std::shared_ptr<init::PolynomialAttributes> _attributes = std::make_shared<init::PolynomialAttributes>();
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -143,12 +144,13 @@ class BaselearnerPSplineFactory : public BaselearnerFactory
 {
 private:
   sbindata _sh_ptr_bindata;
-  std::shared_ptr<init::PSplineAttributes> _attributes = std::make_shared<init::PSplineAttributes>();
 
 public:
   BaselearnerPSplineFactory (const std::string, const std::shared_ptr<data::Data>&, const unsigned int,
     const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int,
     const std::string);
+
+  std::shared_ptr<init::PSplineAttributes> _attributes = std::make_shared<init::PSplineAttributes>();
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -194,6 +196,9 @@ public:
   arma::vec  getPenalty           ()                 const;
   arma::mat  getPenaltyMat        ()                 const;
 
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> getBl1 () const;
+  std::shared_ptr<blearnerfactory::BaselearnerFactory> getBl2 () const;
+
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
@@ -210,7 +215,6 @@ public:
 class BaselearnerCenteredFactory : public BaselearnerFactory
 {
 private:
-  std::shared_ptr<init::CenteredAttributes> _attributes = std::make_shared<init::CenteredAttributes>();
   std::shared_ptr<data::BinnedData> _sh_ptr_bindata;
 
   std::shared_ptr<blearnerfactory::BaselearnerFactory> _blearner1;
@@ -219,6 +223,8 @@ private:
 public:
   BaselearnerCenteredFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+
+  std::shared_ptr<init::CenteredAttributes> _attributes = std::make_shared<init::CenteredAttributes>();
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -245,9 +251,10 @@ class BaselearnerCategoricalRidgeFactory : public BaselearnerFactory
 {
 private:
   sdata _sh_ptr_data;
-  std::shared_ptr<init::RidgeAttributes> _attributes = std::make_shared<init::RidgeAttributes>();
 
 public:
+  std::shared_ptr<init::RidgeAttributes> _attributes = std::make_shared<init::RidgeAttributes>();
+
   BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalDataRaw>&, const double = 0, const double = 0);
 
   bool       usesSparse           ()                 const;
@@ -276,12 +283,13 @@ class BaselearnerCategoricalBinaryFactory : public BaselearnerFactory
 {
 private:
   sdata _sh_ptr_data;
-  std::shared_ptr<init::BinaryAttributes> _attributes = std::make_shared<init::BinaryAttributes>();
 
   //const std::shared_ptr<data::CategoricalData>       _sh_ptr_cdata;
   //const std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
 
 public:
+  std::shared_ptr<init::BinaryAttributes> _attributes = std::make_shared<init::BinaryAttributes>();
+
   BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalDataRaw>&);
 
   bool       usesSparse           ()                 const;

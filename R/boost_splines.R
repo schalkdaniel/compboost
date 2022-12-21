@@ -25,7 +25,8 @@
 #' @param learning_rate [\code{numeric(1)}]\cr
 #'   Learning rate to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
-#'   Number of iterations that are trained.
+#'   Number of iterations that are trained. If `iterations == 0`, the untrained object is returned. This
+#'   can be useful if other base learners (e.g. an interaction via a tensor base learner) are added.
 #' @param trace [\code{integer(1)}]\cr
 #'   Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 #'   10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
@@ -114,6 +115,8 @@ boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new
         oob_response = model$prepareResponse(ndat[[target]]))
     }
   }
+  if (iterations == 0) return(model)
+
   model$train(iterations, trace)
   return(model)
 }
