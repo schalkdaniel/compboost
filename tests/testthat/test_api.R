@@ -223,13 +223,13 @@ test_that("custom base-learner works through api", {
 
 test_that("custom loss works through api", {
 
-  myLossFun = function (true_value, prediction) { return(0.5 * (true_value - prediction)^2) }
-  myGradientFun = function (true_value, prediction) { return(prediction - true_value) }
-  myConstantInitializerFun = function (true_value) { mean.default(true_value) }
+  myLossFun = function(true_value, prediction) return(0.5 * (true_value - prediction)^2)
+  myGradientFun = function(true_value, prediction) return(prediction - true_value)
+  myConstantInitializerFun = function(true_value) mean.default(true_value)
 
-  expect_silent({ custom_loss = LossCustom$new(myLossFun, myGradientFun, myConstantInitializerFun) })
-  expect_silent({ cboost = Compboost$new(mtcars, "mpg", loss = custom_loss) })
-  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)) })
+  custom_loss = expect_silent(LossCustom$new(myLossFun, myGradientFun, myConstantInitializerFun))
+  cboost = expect_silent(Compboost$new(mtcars, "mpg", loss = custom_loss))
+  expect_silent(Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE)))
   expect_silent({
     cboost$addBaselearner("hp", "linear", BaselearnerPolynomial, degree = 1,
       intercept = FALSE)
@@ -296,13 +296,10 @@ test_that("custom loss works through api", {
 
 test_that("training with absolute loss works", {
 
-  expect_silent({
-    cboost = Compboost$new(mtcars, "hp", loss = LossAbsolute$new())
-    cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
-      intercept = FALSE)
-  })
-  expect_output(cboost$train(100, trace = 33))
+  cboost = expect_silent(Compboost$new(mtcars, "hp", loss = LossAbsolute$new()))
 
+  expect_silent(cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,intercept = FALSE))
+  expect_output(cboost$train(100, trace = 33))
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
   expect_equal(cboost$getCoef()$offset, median(mtcars$hp))
@@ -312,12 +309,10 @@ test_that("training with absolute loss works", {
 
 test_that("training throws an error with pre-defined iteration logger", {
 
-  expect_silent({
-    cboost = Compboost$new(mtcars, "hp", loss = LossAbsolute$new())
-    cboost$addLogger(LoggerIteration, use_as_stopper = TRUE, "iteration", max_iter = 1000)
-    cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
-      intercept = FALSE)
-  })
+  cboost = expect_silent(Compboost$new(mtcars, "hp", loss = LossAbsolute$new()))
+
+  expect_silent(cboost$addLogger(LoggerIteration, use_as_stopper = TRUE, "iteration", max_iter = 1000))
+  expect_silent(cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
   expect_output(expect_warning(cboost$train(200)))
   expect_length(cboost$getInbagRisk(), 1001)
 })
@@ -327,43 +322,33 @@ test_that("training with binomial loss works", {
   hp_classes = ifelse(mtcars$hp > 150, 1, -1)
   mtcars$hp_cat = factor(hp_classes, levels = c(1, -1))
 
-  expect_error({ bin_loss = LossBinomial$new(2) })
-  expect_silent({ bin_loss = LossBinomial$new() })
+  expect_error(LossBinomial$new(2))
+  bin_loss = expect_silent(LossBinomial$new())
 
-  expect_silent({
-    cboost = Compboost$new(mtcars, "hp_cat", loss = bin_loss)
-    cboost$addBaselearner("hp", "linear", BaselearnerPolynomial, degree = 1,
-      intercept = FALSE)
-  })
+  cboost = expect_silent(Compboost$new(mtcars, "hp_cat", loss = bin_loss))
+  expect_silent(cboost$addBaselearner("hp", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
   expect_output(cboost$train(100, trace = 50))
-
   expect_output(cboost$print())
-
   expect_length(cboost$getSelectedBaselearner(), 100)
   expect_length(cboost$getInbagRisk(), 101)
   expect_equal(cboost$getCoef()$offset, log(sum(hp_classes > 0) / sum(hp_classes < 0)))
   expect_equal(1 / (1 + exp(-cboost$predict())), cboost$predict(as_response = TRUE))
   expect_equal(1 / (1 + exp(-cboost$predict(mtcars))), cboost$predict(mtcars, as_response = TRUE))
 
-  expect_silent({
-    cboost = Compboost$new(mtcars, "hp", loss = LossBinomial$new())
-    cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
-      intercept = FALSE)
-  })
+  cboost = expect_silent(Compboost$new(mtcars, "hp", loss = LossBinomial$new()))
+
+  expect_silent(cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
   expect_error(cboost$train(100, trace = 0))
 
   mtcars$hp_cat = ifelse(mtcars$hp > 150, 1, 0)
 
-  expect_silent({
-    cboost = Compboost$new(mtcars, "hp_cat", loss = LossBinomial$new())
-    cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1,
-      intercept = FALSE)
-  })
+  cboost = expect_silent(Compboost$new(mtcars, "hp_cat", loss = LossBinomial$new()))
+
+  expect_silent(cboost$addBaselearner("wt", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
   expect_error(cboost$train(100, trace = 5))
 
-  expect_error({ cboost = Compboost$new(iris, "Species", loss = LossBinomial$new()) })
-  expect_silent({ cboost = Compboost$new(iris[1:100, ], "Species", loss = LossBinomial$new()) })
-
+  expect_error(Compboost$new(iris, "Species", loss = LossBinomial$new()))
+  cboost = expect_silent(Compboost$new(iris[1:100, ], "Species", loss = LossBinomial$new()))
 })
 
 test_that("custom poisson family does the same as mboost", {
@@ -476,13 +461,11 @@ test_that("quadratic loss does the same as mboost", {
 
 
 test_that("default values are used by handler", {
-
   expect_silent({
     cboost = Compboost$new(iris, "Sepal.Width", loss = LossQuadratic$new())
   })
   expect_silent(cboost$addBaselearner("Sepal.Length", "linear", BaselearnerPolynomial))
   expect_silent(cboost$addBaselearner("Petal.Length", "spline", BaselearnerPSpline))
-
 })
 
 test_that("out of range values are set correctly", {
@@ -548,6 +531,7 @@ test_that("transform newdata works", {
   expect_error(cboost$transformData(iris, vselect))
 
   vselect = c("Sepal.Width_spline", "Petal.Width_spline")
+
   mats = expect_silent(cboost$transformData(iris[, -1], vselect))
   expect_equal(names(mats), vselect)
   for (bln in vselect) {

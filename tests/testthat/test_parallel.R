@@ -1,6 +1,6 @@
 context("Compboost parallel")
 
-test_that("If parallel speed up the algorithm", {
+test_that("If parallel execution speeds up the algorithm", {
   if ((parallel::detectCores() > 2) && (Sys.info()["sysname"] != "Darwin")) {
 
     feats = 40
@@ -9,35 +9,31 @@ test_that("If parallel speed up the algorithm", {
     mydata = as.data.frame(do.call(cbind, lapply(seq_len(feats + 1), function (x) { rnorm(n) })))
     names(mydata) = c("target", paste0("feat", seq_len(feats)))
 
-    expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
+     optimizer = expect_silent(OptimizerCoordinateDescent$new())
 
     time1 = proc.time()
 
-    expect_silent({
-      cboost1 = Compboost$new(data = mydata, target = "target", optimizer = optimizer,
-        loss = LossQuadratic$new(), learning_rate = 0.01)
-    })
+    cboost1 = expect_silent(Compboost$new(data = mydata, target = "target", optimizer = optimizer,
+      loss = LossQuadratic$new(), learning_rate = 0.01))
     nuisance = lapply(names(mydata)[-1], function (feat) cboost1$addBaselearner(feat, "spline", BaselearnerPSpline))
     cboost1$addLogger(logger = LoggerTime, use_as_stopper = FALSE, logger_id = "time",
       max_time = 0, time_unit = "seconds")
 
-    expect_output({ cboost1$train(mstop) })
+    expect_output(cboost1$train(mstop))
 
     time1 = (proc.time() - time1)[3]
 
-    expect_silent({ optimizer = OptimizerCoordinateDescent$new(2) })
+    optimizer = expect_silent(OptimizerCoordinateDescent$new(2))
 
     time2 = proc.time()
 
-    expect_silent({
-      cboost2 = Compboost$new(data = mydata, target = "target", optimizer = optimizer,
-        loss = LossQuadratic$new(), learning_rate = 0.01)
-    })
+    cboost2 = expect_silent(Compboost$new(data = mydata, target = "target", optimizer = optimizer,
+      loss = LossQuadratic$new(), learning_rate = 0.01))
     nuisance = lapply(names(mydata)[-1], function (feat) cboost2$addBaselearner(feat, "spline", BaselearnerPSpline))
     cboost2$addLogger(logger = LoggerTime, use_as_stopper = FALSE, logger_id = "time",
       max_time = 0, time_unit = "seconds")
 
-    expect_output({ cboost2$train(mstop) })
+    expect_output(cboost2$train(mstop))
 
     cboost2$train(mstop)
     time2 = (proc.time() - time2)[3]

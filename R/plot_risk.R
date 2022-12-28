@@ -43,7 +43,7 @@ plotRisk = function(cboost) {
     df_risk = data.frame(iter = seq_along(inbag_trace), risk = inbag_trace)
     gg = ggplot2::ggplot(stats::na.omit(df_risk), ggplot2::aes(x = .data$iter, y = .data$risk))
   }
-  gg = gg + ggplot2::geom_line(size = 1.1) +
+  gg = gg + ggplot2::geom_line(linewidth = 1.1) +
     ggplot2::xlab("Iteration") +
     ggplot2::ylab("Risk")
 
