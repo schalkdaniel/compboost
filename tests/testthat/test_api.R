@@ -543,4 +543,15 @@ test_that("transform newdata works", {
     expect_equal(mats[[bln]], cboost$baselearner_list[[bln]]$factory$transformData(ndat)$design)
     expect_equal(t(as.matrix(mats[[bln]])), cboost$baselearner_list[[bln]]$factory$getData())
   }
+
+  vselect = c("Sepal.Width_spline", "Petal.Width_spline_xy")
+  expect_error(cboost$transformData(iris, vselect))
+
+  vselect = c("Sepal.Width_spline", "Petal.Width_spline")
+  mats = expect_silent(cboost$transformData(iris[, -1], vselect))
+  expect_equal(names(mats), vselect)
+  for (bln in vselect) {
+    expect_equal(mats[[bln]], cboost$baselearner_list[[bln]]$factory$transformData(ndat)$design)
+    expect_equal(t(as.matrix(mats[[bln]])), cboost$baselearner_list[[bln]]$factory$getData())
+  }
 })

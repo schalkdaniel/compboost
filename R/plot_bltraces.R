@@ -64,13 +64,14 @@ plotBaselearnerTraces = function(cboost, value = 1, n_legend = 5L) {
     df_temp[which.max(df_temp$iters), ]
   }))
 
+  .data = ggplot2::.data
   gg = ggplot2::ggplot() +
-    ggplot2::geom_line(data = df_plot_top, ggplot2::aes(x = ggplot2::.data$iters, y = ggplot2::.data$value,
-      color = ggplot2::.data$blearner), show.legend = FALSE) +
-    ggplot2::geom_line(data = df_plot_nottop, ggplot2::aes(x = ggplot2::.data$iters, y = ggplot2::.data$value,
-      group = ggplot2::.data$blearner), alpha = 0.2, show.legend = FALSE) +
-    ggrepel::geom_label_repel(data = df_label, ggplot2::aes(x = ggplot2::.data$iters, y = ggplot2::.data$value,
-      label = round(ggplot2::.data$value, 4), fill = ggplot2::.data$blearner), colour = "white", fontface = "bold",
+    ggplot2::geom_line(data = df_plot_top, ggplot2::aes(x = .data$iters, y = .data$value,
+      color = .data$blearner), show.legend = FALSE) +
+    ggplot2::geom_line(data = df_plot_nottop, ggplot2::aes(x = .data$iters, y = .data$value,
+      group = .data$blearner), alpha = 0.2, show.legend = FALSE) +
+    ggrepel::geom_label_repel(data = df_label, ggplot2::aes(x = .data$iters, y = .data$value,
+      label = round(.data$value, 4), fill = .data$blearner), colour = "white", fontface = "bold",
       show.legend = TRUE) +
     ggplot2::xlab("Iteration") +
     ggplot2::ylab("Cumulated Value\nof Included Base-Learner") +

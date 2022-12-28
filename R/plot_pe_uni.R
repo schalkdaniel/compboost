@@ -3,8 +3,9 @@
 #' This function visualizes the contribution of a specific feature to the overall
 #' prediction score. If multiple base learner of the same features are included,
 #' they are all added to the graphic as well as the aggregated contribution. The
-#' difference to \code{plotBaselearner} is that all base learners are visualized while
-#' \code{plotBaselearner} only visualizes one specific base learner. The function
+#' difference to \code{plotBaselearner} is that potentially multiple base learners
+#' that are based on `feat` are aggregated and visualized while \code{plotBaselearner}
+#' only visualizes the contribution of one specific base learner. The function
 #' also automatically decides whether the given feature is numeric or categorical and
 #' chooses an appropriate technique (lines for numeric and horizontal lines for categorical).
 #'
@@ -67,27 +68,28 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
 
   if (length(blnames) == 1) individual = FALSE
 
+  .data = ggplot2::.data
   gg = ggplot2::ggplot()
   if (individual) {
     if (is.numeric(x)) {
       gg = gg +
-        ggplot2::geom_line(data = df_ind, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+        ggplot2::geom_line(data = df_ind, mapping = ggplot2::aes(x = .data$x, y = .data$y,
           color = .data$bl),  linewidth = 0.6) +
-        ggplot2::geom_line(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+        ggplot2::geom_line(data = df_agg, mapping = ggplot2::aes(x = .data$x, y = .data$y,
           color = 'Aggregated Contribution'), linewidth = 1.2)
     } else {
       gg = gg +
-        ggplot2::geom_boxplot(data = df_ind, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+        ggplot2::geom_boxplot(data = df_ind, mapping = ggplot2::aes(x = .data$x, y = .data$y,
           color = .data$bl), alpha = 0.6) +
-        ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+        ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = .data$x, y = .data$y,
           color = 'Aggregated Contribution'), size = 1.2)
     }
       gg = gg + ggplot2::labs(color = "Baselearner")
   } else {
     if (is.numeric(x)) {
-      gg = gg + ggplo2::geom_line(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y))
+      gg = gg + ggplot2::geom_line(data = df_agg, mapping = ggplot2::aes(x = .data$x, y = .data$y))
     } else {
-      gg = gg + ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y))
+      gg = gg + ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = .data$x, y = .data$y))
     }
   }
   gg = gg +
@@ -145,7 +147,8 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
   newdat = suppressWarnings(cboost$prepareData(df_plt))
   df_plt = data.frame(x = x, y = cboost$model$predictFactoryNewData(blname, newdat))
 
-  gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y)) +
+  .data = ggplot2::.data
+  gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes(x = .data$x, y = .data$y)) +
     ggplot2::xlab(feat) +
     ggplot2::ylab("Contribution to\nprediction scores")
 

@@ -681,26 +681,32 @@ Compboost = R6::R6Class("Compboost",
       ndat = setdiff(names(self$data), self$target)
       checkmate::assertCharacter(blnames, null.ok = TRUE)
       if (! is.null(blnames)) {
-        nuisance = lapply(blnames, checkmate::assertChoice, choices = nnew)
+        nuisance = lapply(blnames, checkmate::assertChoice, choices = names(private$p_bl_list))
       }
       unused_cols = nnew[! nnew %in% ndat]
       if (length(unused_cols) > 0) {
         warning(sprintf("Unused features '%s' in 'newdata' are ignored.", paste(unused_cols, collapse = ", ")))
-        newdata = newdata[, setdiff(nnew, unused_cols)]
+        newdata = newdata[, setdiff(nnew, unused_cols), drop = FALSE]
         nnew = names(newdata)
       }
 
       nuisance = lapply(nnew, checkmate::assertChoice, choices = ndat)
 
       ndat = self$prepareData(newdata)
-      lout = lapply(private$p_bl_list, function(bl) {
+      lout = lapply(names(private$p_bl_list), function(bln) {
+        bl = private$p_bl_list[[bln]]
         if (all(bl$feature %in% nnew)) {
-          return(bl$factory$transformData(ndat)$design)
+          if (bln %in% blnames) {
+            return(bl$factory$transformData(ndat)$design)
+          } else {
+            return(NULL)
+          }
         } else {
           return(NULL)
         }
       })
       names(lout) = names(private$p_bl_list)
+      lout[vapply(lout, is.null, logical(1))] = NULL
       return(lout)
     },
 
@@ -734,23 +740,25 @@ Compboost = R6::R6Class("Compboost",
     #' @return
     #' Invisibly returns the object.
     print = function() {
-      p = glue::glue("\n
-        Component-Wise Gradient Boosting\n
-        Trained on {self$id} with target {self$target}
-        Number of base-learners: {self$bl_factory_list$getNumberOfRegisteredFactories()}
-        Learning rate: {self$learning_rate}
-        Iterations: {self$getCurrentIteration()}
-        ")
+      p = sprintf(paste("\n",
+          "Component-Wise Gradient Boosting\n",
+          "Trained on %s with target %s",
+          "Number of base-learners: %s",
+          "Learning rate: %s",
+          "Iterations: %s\n", sep = "\n"),
+        self$id, self$target, self$bl_factory_list$getNumberOfRegisteredFactories(),
+        self$learning_rate, self$getCurrentIteration())
 
       if (! is.null(self$positive))
-        p = glue::glue(p, "\nPositive class: {self$positive}")
+        p = paste0(p, sprintf("\nPositive class: %s", self$positive))
 
       if (! is.null(self$model)){
         offset = round(self$model$getOffset(), 4)
         if (length(offset) == 1)
-          p = glue::glue(p, "\nOffset: {}")
+          p = paste0(p, sprintf("\nOffset: %s", offset))
       }
-      print(p)
+      cat(p)
+      cat("\n\n")
       print(self$loss)
 
       return(invisible(self))

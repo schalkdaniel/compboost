@@ -22,7 +22,6 @@ Depends:
 Imports:
   Rcpp (>= 0.11.2),
   methods,
-  glue,
   R6,
   checkmate,
   Matrix
