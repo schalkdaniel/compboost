@@ -27,7 +27,7 @@ plotBaselearnerTraces = function(cboost, value = 1, n_legend = 5L) {
 
   if (is.null(cboost$model)) stop("Model needs to be trained first.")
 
-  # Creating the base dataframe which is used to calculate the traces for the selected base-learner:
+  # Creating the base data.frame which is used to calculate the traces for the selected base-learner:
   bl       = as.factor(cboost$getSelectedBaselearner())
   df_plot  = data.frame(iters = seq_along(bl), blearner = bl, value = value)
 
@@ -65,12 +65,13 @@ plotBaselearnerTraces = function(cboost, value = 1, n_legend = 5L) {
   }))
 
   gg = ggplot2::ggplot() +
-    ggplot2::geom_line(data = df_plot_top, ggplot2::aes(x = iters, y = value, color = blearner),
-      show.legend = FALSE) +
-    ggplot2::geom_line(data = df_plot_nottop, ggplot2::aes(x = iters, y = value, group = blearner),
-      alpha = 0.2, show.legend = FALSE) +
-    ggrepel::geom_label_repel(data = df_label, ggplot2::aes(x = iters, y = value, label = round(value, 4),
-      fill = blearner), colour = "white", fontface = "bold", show.legend = TRUE) +
+    ggplot2::geom_line(data = df_plot_top, ggplot2::aes(x = ggplot2::.data$iters, y = ggplot2::.data$value,
+      color = ggplot2::.data$blearner), show.legend = FALSE) +
+    ggplot2::geom_line(data = df_plot_nottop, ggplot2::aes(x = ggplot2::.data$iters, y = ggplot2::.data$value,
+      group = ggplot2::.data$blearner), alpha = 0.2, show.legend = FALSE) +
+    ggrepel::geom_label_repel(data = df_label, ggplot2::aes(x = ggplot2::.data$iters, y = ggplot2::.data$value,
+      label = round(ggplot2::.data$value, 4), fill = ggplot2::.data$blearner), colour = "white", fontface = "bold",
+      show.legend = TRUE) +
     ggplot2::xlab("Iteration") +
     ggplot2::ylab("Cumulated Value\nof Included Base-Learner") +
     ggplot2::scale_fill_discrete(name = paste0("Top ", n_legend, " Base-Learner")) +

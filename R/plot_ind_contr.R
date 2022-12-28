@@ -115,13 +115,14 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
   subtitle = paste0("Score: ", pred)
 
   if (is.null(colbreaks[1]))
-    gg = ggplot2::ggplot(df_plt, ggplot2::aes(x = value, y = bl_num))
+    gg = ggplot2::ggplot(df_plt, ggplot2::aes(x = ggplot2::.data$value, y = ggplot2::.data$bl_num))
   else
-    gg = ggplot2::ggplot(df_plt, ggplot2::aes(x = value, y = bl_num, color = cbreak, fill = cbreak))
+    gg = ggplot2::ggplot(df_plt, ggplot2::aes(x = ggplot2::.data$value, y = ggplot2::.data$bl_num,
+      color = ggplot2::.data$cbreak, fill = ggplot2::.data$cbreak))
 
   gg = gg +
     ggplot2::geom_vline(xintercept = 0, color = "dark grey", alpha = 0.6) +
-    ggplot2::geom_segment(ggplot2::aes(xend = 0, yend = bl_num)) +
+    ggplot2::geom_segment(ggplot2::aes(xend = 0, yend = ggplot2::.data$bl_num)) +
     ggplot2::geom_point() +
     ggplot2::ylab("") +
     ggplot2::xlab("Contribution to predicted value") +

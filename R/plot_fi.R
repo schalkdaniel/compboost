@@ -18,6 +18,7 @@
 #' @export
 plotFeatureImportance = function(cboost, num_feats = NULL, aggregate = TRUE) {
   if (! requireNamespace("ggplot2", quietly = TRUE)) stop("Please install ggplot2 to create plots.")
+
   checkmate::assertClass(cboost, "Compboost")
   checkmate::assertIntegerish(num_feats, len = 1L, null.ok = TRUE)
   checkmate::assertLogical(aggregate, len = 1L)
@@ -43,7 +44,8 @@ plotFeatureImportance = function(cboost, num_feats = NULL, aggregate = TRUE) {
   ## First column containing the names contains the base learner or the feature depending on the aggregation.
   ## Therefore, set a general baselearner column used for ggplot:
   df_vip$baselearner = df_vip[[1]]
-  gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(baselearner, risk_reduction), y = risk_reduction)) +
+  gg = ggplot2::ggplot(df_vip, ggplot2::aes(x = reorder(ggplot2::.data$baselearner, ggplot2::.data$risk_reduction),
+      y = ggplot2::.data$risk_reduction)) +
     ggplot2::geom_bar(stat = "identity") + ggplot2::coord_flip() + ggplot2::ylab("Importance") + ggplot2::xlab("")
 
   return(gg)

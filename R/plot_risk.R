@@ -37,10 +37,11 @@ plotRisk = function(cboost) {
       iter = c(seq_along(inbag_trace), seq_along(oob_trace))
     )
 
-    gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk, color = type))
+    gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = ggplot2::.data$iter, y = ggplot2::.data$risk,
+      color = ggplot2::.data$type))
   } else {
     df_risk = data.frame(iter = seq_along(inbag_trace), risk = inbag_trace)
-    gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = iter, y = risk))
+    gg = ggplot2::ggplot(df_risk, ggplot2::aes(x = ggplot2::.data$iter, y = ggplot2::.data$risk))
   }
   gg = gg + ggplot2::geom_line(size = 1.1) +
     ggplot2::xlab("Iteration") +

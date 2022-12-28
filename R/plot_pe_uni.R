@@ -71,19 +71,23 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   if (individual) {
     if (is.numeric(x)) {
       gg = gg +
-        ggplot2::geom_line(data = df_ind, mapping = ggplot2::aes(x = x, y = y, color = bl), linewidth = 0.6) +
-        ggplot2::geom_line(data = df_agg, mapping = ggplot2::aes(x = x, y = y, color = 'Aggregated Contribution'), linewidth = 1.2)
+        ggplot2::geom_line(data = df_ind, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+          color = .data$bl),  linewidth = 0.6) +
+        ggplot2::geom_line(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+          color = 'Aggregated Contribution'), linewidth = 1.2)
     } else {
       gg = gg +
-        ggplot2::geom_boxplot(data = df_ind, mapping = ggplot2::aes(x = x, y = y, color = bl), alpha = 0.6) +
-        ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = x, y = y, color = 'Aggregated Contribution'), size = 1.2)
+        ggplot2::geom_boxplot(data = df_ind, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+          color = .data$bl), alpha = 0.6) +
+        ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y,
+          color = 'Aggregated Contribution'), size = 1.2)
     }
       gg = gg + ggplot2::labs(color = "Baselearner")
   } else {
     if (is.numeric(x)) {
-      gg = gg + ggplo2::geom_line(data = df_agg, mapping = ggplot2::aes(x = x, y = y))
+      gg = gg + ggplo2::geom_line(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y))
     } else {
-      gg = gg + ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = x, y = y))
+      gg = gg + ggplot2::geom_boxplot(data = df_agg, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y))
     }
   }
   gg = gg +
@@ -141,7 +145,7 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
   newdat = suppressWarnings(cboost$prepareData(df_plt))
   df_plt = data.frame(x = x, y = cboost$model$predictFactoryNewData(blname, newdat))
 
-  gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes(x = x, y = y)) +
+  gg = ggplot2::ggplot(data = df_plt, mapping = ggplot2::aes(x = ggplot2::.data$x, y = ggplot2::.data$y)) +
     ggplot2::xlab(feat) +
     ggplot2::ylab("Contribution to\nprediction scores")
 
