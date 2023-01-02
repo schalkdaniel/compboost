@@ -536,6 +536,9 @@ test_that("transform newdata works", {
   expect_equal(names(mats), vselect)
   for (bln in vselect) {
     expect_equal(mats[[bln]], cboost$baselearner_list[[bln]]$factory$transformData(ndat)$design)
-    expect_equal(t(as.matrix(mats[[bln]])), cboost$baselearner_list[[bln]]$factory$getData())
+
+    xx = t(as.matrix(mats[[bln]]))
+    dimnames(xx) = NULL # Drop dimnames to fix tests for older versions of Matrix
+    expect_equal(xx, cboost$baselearner_list[[bln]]$factory$getData())
   }
 })
