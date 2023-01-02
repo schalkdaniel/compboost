@@ -24,7 +24,10 @@
 #include "RcppArmadillo.h"
 #include "loss.h"
 #include "helper.h"
-// #include "tensors.h"
+#include "mat_saver.h"
+
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace response
 {
@@ -56,6 +59,7 @@ protected:
 
   Response (const std::string, const std::string, const arma::mat&);
   Response (const std::string, const std::string, const arma::mat&, const arma::mat&);
+  Response (const json&);
 
 public:
   Response ();
@@ -66,7 +70,7 @@ public:
   virtual arma::mat calculateInitialPrediction (const arma::mat&) const = 0;
   virtual arma::mat getPredictionTransform     (const arma::mat&) const = 0;
   virtual arma::mat getPredictionResponse      (const arma::mat&) const = 0;
-
+  virtual json      toJson                     ()                 const = 0;
 
   // Setter/Getter
   void setIteration             (const unsigned int);
@@ -93,6 +97,8 @@ public:
   void constantInitialization (const std::shared_ptr<loss::Loss>&);
   void constantInitialization (const arma::mat&);
 
+  json baseToJson (const std::string) const;
+
   double calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>&) const;
 
   // Destructor
@@ -112,12 +118,14 @@ class ResponseRegr : public Response
 public:
   ResponseRegr (const std::string, const arma::mat&);
   ResponseRegr (const std::string, const arma::mat&, const arma::mat&);
+  ResponseRegr (const json&);
 
   void      initializePrediction       ();
   void      filter                     (const arma::uvec&);
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   arma::mat getPredictionTransform     (const arma::mat&) const;
   arma::mat getPredictionResponse      (const arma::mat&) const;
+  json      toJson                     ()                 const;
 };
 
 
@@ -134,12 +142,14 @@ private:
 public:
   ResponseBinaryClassif (const std::string, const std::string, const std::vector<std::string>&);
   ResponseBinaryClassif (const std::string, const std::string, const std::vector<std::string>&, const arma::mat&);
+  ResponseBinaryClassif (const json&);
 
   void      initializePrediction       ();
   void      filter                     (const arma::uvec&);
   arma::mat calculateInitialPrediction (const arma::mat&) const;
   arma::mat getPredictionTransform     (const arma::mat&) const;
   arma::mat getPredictionResponse      (const arma::mat&) const;
+  json      toJson                     ()                 const;
 
   void                                setThreshold     (const double);
   double                              getThreshold     () const;

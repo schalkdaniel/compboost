@@ -314,7 +314,7 @@ void Compboost::saveJson (std::string file) const
     {"current_iter",      _current_iter},
     {"risk",              _risk},
 
-    {"response",     nullptr}, //std::shared_ptr<response::Response>.toJson()
+    {"response",     _sh_ptr_response->toJson() },
     {"optimizer",    nullptr}, //std::shared_ptr<optimizer::Optimizer>.toJson()
     {"loss",         nullptr}, //std::shared_ptr<loss::Loss>.toJson()
     {"loggerlist",   nullptr}, //std::shared_ptr<loggerlist::LoggerList>.toJson()

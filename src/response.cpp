@@ -29,6 +29,7 @@ namespace response
 
 Response::Response () {}
 
+
 Response::Response (const std::string target_name, const std::string task_id,
   const arma::mat& response)
   : _target_name       ( target_name ),
@@ -48,6 +49,23 @@ Response::Response (const std::string target_name, const std::string task_id,
     _pseudo_residuals  ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) ),
     _prediction_scores ( arma::mat(response.n_rows, response.n_cols, arma::fill::zeros) )
 { }
+
+Response::Response (const json& j)
+  : _target_name       ( j["_target_name"] ),
+    _task_id           ( j["_task_id"] ),
+    _use_weights       ( j["_use_weights"] ),
+    _response          ( saver::jsonToArmaMat( j["_response"]) ),
+    _weights           ( saver::jsonToArmaMat( j["_weights"]) ),
+    _initialization    ( saver::jsonToArmaMat( j["_initialization"]) ),
+    _pseudo_residuals  ( saver::jsonToArmaMat( j["_pseudo_residuals"]) ),
+    _prediction_scores ( saver::jsonToArmaMat( j["_prediction_scores"]) ),
+    _prediction_scores_temp1 ( saver::jsonToArmaMat( j["_prediction_scores_temp1"]) ),
+    _prediction_scores_temp2 ( saver::jsonToArmaMat( j["_prediction_scores_temp2"]) ),
+    _iteration      ( j["_iteration"] ),
+    _is_initialized ( j["_is_initialized"] ),
+    _is_model_initialized ( j["_is_model_initialized"] )
+{ }
+
 
 void Response::setIteration (const unsigned int iter) { _iteration = iter; }
 
@@ -149,6 +167,31 @@ double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_p
 arma::mat Response::getPredictionTransform () const { return getPredictionTransform(_prediction_scores); }
 arma::mat Response::getPredictionResponse  () const { return getPredictionResponse(_prediction_scores); }
 
+json Response::baseToJson (const std::string cln) const
+{
+  json j = {
+    {"Class", cln},
+
+    {"_target_name", _target_name},
+    {"_task_id",     _task_id},
+    {"_use_weights", _use_weights},
+
+    {"_response",                saver::armaMatToJson(_response) },
+    {"_weights",                 saver::armaMatToJson(_weights) },
+    {"_initialization",          saver::armaMatToJson(_initialization) },
+    {"_pseudo_residuals",        saver::armaMatToJson(_pseudo_residuals) },
+    {"_prediction_scores",       saver::armaMatToJson(_prediction_scores) },
+    {"_prediction_scores_temp1", saver::armaMatToJson(_prediction_scores_temp1) },
+    {"_prediction_scores_temp2", saver::armaMatToJson(_prediction_scores_temp2) },
+
+    {"_iteration", _iteration},
+    {"_is_initialized", _is_initialized},
+    {"_is_model_initialized", _is_model_initialized}
+  };
+
+  return j;
+}
+
 // -------------------------------------------------------------------------- //
 // Response implementations:
 // -------------------------------------------------------------------------- //
@@ -165,6 +208,10 @@ ResponseRegr::ResponseRegr (const std::string target_name, const arma::mat& resp
 {
   helper::checkMatrixDim(response, weights);
 }
+
+ResponseRegr::ResponseRegr (const json& j)
+  : Response::Response(j)
+{ }
 
 arma::mat ResponseRegr::calculateInitialPrediction (const arma::mat& response) const
 {
@@ -228,6 +275,7 @@ void ResponseRegr::filter (const arma::uvec& idx)
   _prediction_scores = _prediction_scores.elem(idx);
 }
 
+json ResponseRegr::toJson() const { return baseToJson("ResponseRegr"); }
 
 // ResponseBinaryClassif
 // ------------------------------------
@@ -248,6 +296,14 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string target_name, con
   helper::checkForBinaryClassif(response);
   helper::checkMatrixDim(_response, weights);
 }
+
+ResponseBinaryClassif::ResponseBinaryClassif (const json& j)
+  : Response::Response(j),
+    _threshold   ( j["_threshold"] ),
+    _pos_class   ( j["_pos_class"] ),
+    _class_table ( j["_class_table"] )
+{ }
+
 
 arma::mat ResponseBinaryClassif::calculateInitialPrediction (const arma::mat& response) const
 {
@@ -321,6 +377,17 @@ void ResponseBinaryClassif::setThreshold (const double new_thresh)
 }
 
 double ResponseBinaryClassif::getThreshold () const { return _threshold; }
+
+json ResponseBinaryClassif::toJson() const
+{
+  json j = baseToJson("ResponseBinaryClassif");
+  j["_threshold"]   = _threshold;
+  j["_pos_class"]   = _pos_class;
+  j["_class_table"] = _class_table;
+
+  return j;
+}
+
 
 // Functional Data Response
 // ------------------------------------
