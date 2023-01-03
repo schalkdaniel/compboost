@@ -29,7 +29,11 @@
 #include "helper.h"
 #include "optimizer.h"
 #include "response.h"
+#include "mat_saver.h"
+#include "class_loader.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 // -------------------------------------------------------------------------- //
 //                                   DATA                                     //
@@ -1800,6 +1804,12 @@ public:
   {
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
   }
+
+  ResponseRegrWrapper (std::string file)
+  {
+    json j = saver::jsonLoader(file);
+    sh_ptr_response = cloader::jsonToResponse(j["response"]);
+  }
 };
 
 //' Create response object for binary classification.
@@ -1846,6 +1856,12 @@ public:
     sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, pos_class, response, weights);
   }
 
+  ResponseBinaryClassifWrapper (std::string file)
+  {
+    json j = saver::jsonLoader(file);
+    sh_ptr_response = cloader::jsonToResponse(j["response"]);
+  }
+
   double getThreshold () const
   {
     return std::static_pointer_cast<response::ResponseBinaryClassif>(sh_ptr_response)->getThreshold();
@@ -1888,6 +1904,7 @@ RCPP_MODULE (response_module)
     .constructor ()
     .constructor<std::string, arma::mat> ()
     .constructor<std::string, arma::mat, arma::mat> ()
+    .constructor<std::string> ()
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
@@ -1896,6 +1913,7 @@ RCPP_MODULE (response_module)
     .constructor ()
     .constructor<std::string, std::string, std::vector<std::string>> ()
     .constructor<std::string, std::string, std::vector<std::string>, arma::mat> ()
+    .constructor<std::string> ()
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
