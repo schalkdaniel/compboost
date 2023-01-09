@@ -38,4 +38,31 @@ std::shared_ptr<response::Response> jsonToResponse (const json& j)
   return r;
 }
 
+std::shared_ptr<loss::Loss> jsonToLoss (const json& j)
+{
+  std::shared_ptr<loss::Loss> l;
+
+  if (j["Class"] == "LossQuadratic") {
+    l = std::make_shared<loss::LossQuadratic>(j);
+  }
+  if (j["Class"] == "LossAbsolute") {
+    l = std::make_shared<loss::LossAbsolute>(j);
+  }
+  if (j["Class"] == "LossQuantile") {
+    l = std::make_shared<loss::LossQuantile>(j);
+  }
+  if (j["Class"] == "LossHuber") {
+    l = std::make_shared<loss::LossHuber>(j);
+  }
+  if (j["Class"] == "LossBinomial") {
+    l = std::make_shared<loss::LossBinomial>(j);
+  }
+  if (l == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return l;
+}
+
+
+
 } // namespace cloader

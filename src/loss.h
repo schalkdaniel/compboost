@@ -40,8 +40,10 @@
 #include <memory>
 
 #include "helper.h"
-// #include "lossoptim.h"
+#include "mat_saver.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace loss
 {
@@ -71,6 +73,7 @@ protected:
 
   Loss (const std::string);
   Loss (const std::string, const arma::mat&);
+  Loss (const json&);
 
 public:
   // Virtual functions
@@ -79,6 +82,8 @@ public:
 
   virtual arma::mat constantInitializer         (const arma::mat&)                   const = 0;
   virtual arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const = 0;
+
+  virtual json toJson () const = 0;
 
   // Setter/Getter
   std::string getTaskId () const;
@@ -92,6 +97,8 @@ public:
 
   arma::mat calculatePseudoResiduals         (const arma::mat&, const arma::mat&)                   const;
   arma::mat calculateWeightedPseudoResiduals (const arma::mat&, const arma::mat&, const arma::mat&) const;
+
+  json baseToJson (const std::string) const;
 
   // Destructor
   virtual ~Loss ();
@@ -148,12 +155,15 @@ public:
   LossQuadratic ();
   LossQuadratic (const double);
   LossQuadratic (const arma::mat&);
+  LossQuadratic (const json&);
 
   arma::mat loss     (const arma::mat&, const arma::mat&) const;
   arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 // LossAbsolute:
@@ -184,12 +194,15 @@ class LossAbsolute : public Loss
 public:
   LossAbsolute ();
   LossAbsolute (const double);
+  LossAbsolute (const json&);
 
   arma::mat loss     (const arma::mat&, const arma::mat&) const;
   arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 
@@ -204,6 +217,7 @@ private:
 public:
   LossQuantile (const double);
   LossQuantile (const double, const double);
+  LossQuantile (const json&);
 
   double getQuantile () const;
 
@@ -212,6 +226,8 @@ public:
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 
@@ -227,6 +243,7 @@ private:
 public:
   LossHuber (const double);
   LossHuber (const double, const double);
+  LossHuber (const json&);
 
   double getDelta () const;
 
@@ -235,6 +252,8 @@ public:
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 
@@ -278,12 +297,15 @@ public:
   LossBinomial ();
   LossBinomial (const double);
   LossBinomial (const arma::mat&);
+  LossBinomial (const json&);
 
   arma::mat loss     (const arma::mat&, const arma::mat&) const;
   arma::mat gradient (const arma::mat&, const arma::mat&) const;
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 // Custom loss:
@@ -318,6 +340,8 @@ public:
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 
@@ -358,6 +382,8 @@ public:
 
   arma::mat constantInitializer         (const arma::mat&)                   const;
   arma::mat weightedConstantInitializer (const arma::mat&, const arma::mat&) const;
+
+  json toJson () const;
 };
 
 } // namespace loss

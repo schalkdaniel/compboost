@@ -1256,10 +1256,16 @@ public:
   arma::mat calculatePseudoResiduals (const arma::mat& response, const arma::mat& pred) const {
     return sh_ptr_loss->calculatePseudoResiduals(response, pred);
   }
+  void loadFromJson (const std::string& file) {
+    json j = saver::jsonLoader(file);
+    sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+  }
+
   virtual ~LossWrapper () {}
 
 
 protected:
+
   std::shared_ptr<loss::Loss> sh_ptr_loss;
 };
 
@@ -1311,6 +1317,11 @@ public:
   LossQuadraticWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(); }
   LossQuadraticWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
   LossQuadraticWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
+  //LossQuadraticWrapper (std::string file)
+  //{
+    //json j = saver::jsonLoader(file);
+    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+  //}
 };
 
 //' Absolute loss for regression tasks.
@@ -1360,6 +1371,11 @@ class LossAbsoluteWrapper : public LossWrapper
 public:
   LossAbsoluteWrapper () { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(); }
   LossAbsoluteWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(custom_offset); }
+  //LossAbsoluteWrapper (std::string file)
+  //{
+    //json j = saver::jsonLoader(file);
+    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+  //}
 };
 
 //' Quantile loss for regression tasks.
@@ -1414,6 +1430,11 @@ public:
   LossQuantileWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuantile>(0.5); }
   LossQuantileWrapper (double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(quantile); }
   LossQuantileWrapper (double custom_offset, double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(custom_offset, quantile); }
+  //LossQuantileWrapper (std::string file)
+  //{
+    //json j = saver::jsonLoader(file);
+    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+  //}
 
   double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->getQuantile(); }
 };
@@ -1473,6 +1494,11 @@ public:
   LossHuberWrapper () { sh_ptr_loss = std::make_shared<loss::LossHuber>(1); }
   LossHuberWrapper (double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(delta); }
   LossHuberWrapper (double custom_offset, double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(custom_offset, delta); }
+  //LossHuberWrapper (std::string file)
+  //{
+    //json j = saver::jsonLoader(file);
+    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+  //}
 
   double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->getDelta(); }
 };
@@ -1529,7 +1555,13 @@ class LossBinomialWrapper : public LossWrapper
 public:
   LossBinomialWrapper () { sh_ptr_loss = std::make_shared<loss::LossBinomial>(); }
   LossBinomialWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
-  LossBinomialWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }};
+  LossBinomialWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
+  //LossBinomialWrapper (std::string file)
+  //{
+    //json j = saver::jsonLoader(file);
+    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+  //}
+};
 
 //' Create LossCustom by using R functions.
 //'
@@ -1690,6 +1722,7 @@ RCPP_MODULE (loss_module)
   class_<LossWrapper> ("Loss")
     .constructor ()
     .method("calculatePseudoResiduals", &LossWrapper::calculatePseudoResiduals)
+    .method ("loadFromJson", &LossWrapper::loadFromJson)
   ;
 
   class_<LossQuadraticWrapper> ("LossQuadratic")

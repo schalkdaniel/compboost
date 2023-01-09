@@ -28,6 +28,7 @@ using json = nlohmann::json;
 namespace cloader {
 
 std::shared_ptr<response::Response> jsonToResponse (const json&);
+std::shared_ptr<loss::Loss>         jsonToLoss     (const json&);
 
 } // namespace cloader
 

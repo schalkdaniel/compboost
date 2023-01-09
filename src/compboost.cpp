@@ -316,7 +316,7 @@ void Compboost::saveJson (std::string file) const
 
     {"response",     _sh_ptr_response->toJson() },
     {"optimizer",    nullptr}, //std::shared_ptr<optimizer::Optimizer>.toJson()
-    {"loss",         nullptr}, //std::shared_ptr<loss::Loss>.toJson()
+    {"loss",         _sh_ptr_loss->toJson() },
     {"loggerlist",   nullptr}, //std::shared_ptr<loggerlist::LoggerList>.toJson()
     {"factory_list", nullptr}, //blearnerlist::BaselearnerFactoryList.toJson()
     {"baselearner",  nullptr}  //blearnertrack::BaselearnerTrack.toJson()
