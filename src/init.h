@@ -30,6 +30,10 @@
 
 #include "data.h"
 #include "tensors.h"
+#include "mat_saver.h"
+
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace init {
 
@@ -43,10 +47,14 @@ struct PolynomialAttributes {
   unsigned int degree;
   bool use_intercept;
   unsigned int bin_root;
-  PolynomialAttributes () {};
-  PolynomialAttributes (const unsigned int _degree, const bool _use_intercept)
-    : degree ( _degree ), use_intercept ( _use_intercept ) {};
+
+  PolynomialAttributes ();
+  PolynomialAttributes (const unsigned int, const bool);
+  PolynomialAttributes (const json&);
+
+  json toJson () const;
 };
+
 struct PSplineAttributes {
   double df;
   double penalty;
@@ -57,31 +65,61 @@ struct PSplineAttributes {
   bool use_sparse_matrices;
   unsigned int bin_root;
   arma::mat knots;
+
+  PSplineAttributes ();
+  PSplineAttributes (const json&);
+
+  json toJson () const;
 };
+
 struct RidgeAttributes {
   double df;
   double penalty;
   arma::mat penalty_mat;
   std::map<std::string, unsigned int> dictionary;
+
+  RidgeAttributes ();
+  RidgeAttributes (const json&);
+
+  json toJson () const;
 };
+
 struct BinaryAttributes {
   std::string cls;
+
+  BinaryAttributes ();
+  BinaryAttributes (const json&);
+
+  json toJson () const;
 };
+
 struct TensorAttributes {
   double penalty;
+
+  TensorAttributes ();
+  TensorAttributes (const json&);
+
+  json toJson () const;
 };
+
 struct CenteredAttributes {
   arma::mat rotation;
+
+  CenteredAttributes ();
+  CenteredAttributes (const json&);
+
+  json toJson () const;
 };
 
 typedef arma::mat (*instantiateDataFunPtr) (const arma::mat& X);
-typedef arma::mat (*trainFunPtr) (const arma::mat& y, const arma::mat& X);
-typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& parameter);
+typedef arma::mat (*trainFunPtr)           (const arma::mat& y, const arma::mat& X);
+typedef arma::mat (*predictFunPtr)         (const arma::mat& newdata, const arma::mat& parameter);
 
 struct CustomCppAttributes {
- instantiateDataFunPtr instantiateDataFun;
- trainFunPtr trainFun;
- predictFunPtr predictFun;
+  instantiateDataFunPtr instantiateDataFun;
+  trainFunPtr trainFun;
+  predictFunPtr predictFun;
+  json toJson () const;
 };
 
 sbindata initPolynomialData (const sdata&, const std::shared_ptr<PolynomialAttributes>&);
