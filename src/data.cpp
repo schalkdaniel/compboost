@@ -23,6 +23,25 @@
 namespace data
 {
 
+std::shared_ptr<Data> jsonToData (const json& j)
+{
+  std::shared_ptr<Data> d;
+
+  if (j["Class"] == "InMemoryData") {
+    d = std::make_shared<InMemoryData>(j);
+  }
+  if (j["Class"] == "BinnedData") {
+    d = std::make_shared<BinnedData>(j);
+  }
+  if (j["Class"] == "CategoricalDataRaw") {
+    d = std::make_shared<CategoricalDataRaw>(j);
+  }
+  if (d == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return d;
+}
+
 Data::Data (const std::string data_identifier)
   : _data_identifier ( data_identifier )
 { }

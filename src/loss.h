@@ -104,6 +104,9 @@ public:
   virtual ~Loss ();
 };
 
+std::shared_ptr<Loss> jsonToLoss (const json&);
+
+
 } // namespace loss
 
 

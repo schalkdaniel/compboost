@@ -23,6 +23,23 @@
 namespace response
 {
 
+std::shared_ptr<Response> jsonToResponse (const json& j)
+{
+  std::shared_ptr<Response> r;
+
+  if (j["Class"] == "ResponseRegr") {
+    r = std::make_shared<ResponseRegr>(j);
+  }
+  if (j["Class"] == "ResponseBinaryClassif") {
+    r = std::make_shared<ResponseBinaryClassif>(j);
+  }
+  if (r == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return r;
+}
+
+
 // -------------------------------------------------------------------------- //
 // Abstract 'Response' class:
 // -------------------------------------------------------------------------- //

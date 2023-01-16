@@ -111,6 +111,7 @@ arma::mat jsonToArmaMat (const json& j)
   return out;
 }
 
+
 arma::sp_mat jsonToArmaSpMat (const json& j)
 {
   checkMatInJson(j, "arma::sp_mat");
@@ -144,7 +145,7 @@ json mapMatToJson (const std::map<std::string, arma::mat>& mmap)
   return j;
 }
 
-std::map<std::string, arma::mat> jsonToMatMap (const json& j)
+std::map<std::string, arma::mat> jsonToMapMat (const json& j)
 {
   std::map<std::string, arma::mat> omap;
   for (auto& it : j.items()) {
@@ -152,7 +153,6 @@ std::map<std::string, arma::mat> jsonToMatMap (const json& j)
   }
   return omap;
 }
-
 
 } // namespace saver
 

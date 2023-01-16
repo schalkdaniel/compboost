@@ -92,6 +92,7 @@ public:
   virtual ~Data () {};
 };
 
+std::shared_ptr<Data> jsonToData (const json&);
 
 // -------------------------------------------------------------------------- //
 // Data implementations:

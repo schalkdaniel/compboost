@@ -28,11 +28,12 @@
 
 #include <fstream>
 #include <sstream>
-#include "single_include/nlohmann/json.hpp"
 
+#include "single_include/nlohmann/json.hpp"
 using json = nlohmann::json;
 
-//#include <functional>
+// Don't include custom classes such as Baselearner, Data, etc. to avoid
+// the compilation from cyclical dependencies!
 
 namespace saver {
 
@@ -48,6 +49,7 @@ arma::mat    jsonToArmaMat   (const json&);
 arma::sp_mat jsonToArmaSpMat (const json&);
 arma::uvec   jsonToArmaUvec  (const json&);
 std::map<std::string, arma::mat> jsonToMapMat (const json&);
+
 
 } // namespace saver
 

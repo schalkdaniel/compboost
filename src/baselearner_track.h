@@ -24,8 +24,15 @@
 #include "baselearner.h"
 #include "baselearner_factory_list.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
 namespace blearnertrack
 {
+
+// FOR SAVING AND LOADING JSON:
+json blVecToJson     (const std::vector<std::shared_ptr<blearner::Baselearner>>&);
+std::vector<std::shared_ptr<blearner::Baselearner>> jsonToBlVec (const json&);
 
 class BaselearnerTrack
 {
@@ -37,7 +44,8 @@ private:
 
 public:
   BaselearnerTrack ();
-  BaselearnerTrack (double);
+  BaselearnerTrack (const double);
+  BaselearnerTrack (const json&);
 
   // Getter/Setter
   std::vector<std::shared_ptr<blearner::Baselearner>>  getBaselearnerVector             () const;
@@ -48,9 +56,10 @@ public:
   void setParameterMap (std::map<std::string, arma::mat>);
 
   // Other member functions
-  void insertBaselearner (std::shared_ptr<blearner::Baselearner>, const double& step_size);
+  void insertBaselearner      (std::shared_ptr<blearner::Baselearner>, const double& step_size);
   void clearBaselearnerVector ();
-  void setToIteration (const unsigned int&);
+  void setToIteration         (const unsigned int&);
+  json toJson                 () const;
 
   // Destructor:
   ~BaselearnerTrack ();

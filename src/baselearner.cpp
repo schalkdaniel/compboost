@@ -22,6 +22,35 @@
 
 namespace blearner {
 
+std::shared_ptr<Baselearner> jsonToBaselearner (const json& j)
+{
+  std::shared_ptr<Baselearner> bl;
+
+  if (j["Class"] == "BaselearnerPolynomial") {
+    bl = std::make_shared<BaselearnerPolynomial>(j);
+  }
+  if (j["Class"] == "BaselearnerPSpline") {
+    bl = std::make_shared<BaselearnerPSpline>(j);
+  }
+  if (j["Class"] == "BaselearnerTensor") {
+    bl = std::make_shared<BaselearnerTensor>(j);
+  }
+  if (j["Class"] == "BaselearnerCentered") {
+    bl = std::make_shared<BaselearnerCentered>(j);
+  }
+  if (j["Class"] == "BaselearnerCategoricalRidge") {
+    bl = std::make_shared<BaselearnerCategoricalRidge>(j);
+  }
+  if (j["Class"] == "BaselearnerCategoricalBinary") {
+    bl = std::make_shared<BaselearnerCategoricalBinary>(j);
+  }
+  if (bl == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return bl;
+}
+
+
 // -------------------------------------------------------------------------- //
 // Abstract 'Baselearner' class:
 // -------------------------------------------------------------------------- //
@@ -266,7 +295,7 @@ BaselearnerTensor::BaselearnerTensor (const std::string blearner_type, const std
 
 BaselearnerTensor::BaselearnerTensor (const json& j)
   : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( cloader::jsonToData(j["data"]) )
+    _sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 void BaselearnerTensor::train (const arma::mat& response)
@@ -325,7 +354,7 @@ BaselearnerCentered::BaselearnerCentered (const std::string blearner_type, const
 
 BaselearnerCentered::BaselearnerCentered (const json& j)
   : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( cloader::jsonToData(j["data"]) )
+    _sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 void BaselearnerCentered::train (const arma::mat& response)
@@ -379,7 +408,7 @@ BaselearnerCategoricalRidge::BaselearnerCategoricalRidge (const std::string blea
 
 BaselearnerCategoricalRidge::BaselearnerCategoricalRidge (const json& j)
   : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( cloader::jsonToData(j["data"]) )
+    _sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 void BaselearnerCategoricalRidge::train (const arma::mat& response)
@@ -430,7 +459,7 @@ BaselearnerCategoricalBinary::BaselearnerCategoricalBinary (const std::string bl
 
 BaselearnerCategoricalBinary::BaselearnerCategoricalBinary (const json& j)
   : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( cloader::jsonToData(j["data"]) )
+    _sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 

@@ -23,6 +23,32 @@
 namespace loss
 {
 
+std::shared_ptr<Loss> jsonToLoss (const json& j)
+{
+  std::shared_ptr<Loss> l;
+
+  if (j["Class"] == "LossQuadratic") {
+    l = std::make_shared<LossQuadratic>(j);
+  }
+  if (j["Class"] == "LossAbsolute") {
+    l = std::make_shared<LossAbsolute>(j);
+  }
+  if (j["Class"] == "LossQuantile") {
+    l = std::make_shared<LossQuantile>(j);
+  }
+  if (j["Class"] == "LossHuber") {
+    l = std::make_shared<LossHuber>(j);
+  }
+  if (j["Class"] == "LossBinomial") {
+    l = std::make_shared<LossBinomial>(j);
+  }
+  if (l == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return l;
+}
+
+
 arma::mat doubleToMat (const double x)
 {
   arma::mat temp(1,1);

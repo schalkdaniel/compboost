@@ -105,6 +105,8 @@ public:
   virtual ~Response () { };
 };
 
+std::shared_ptr<Response> jsonToResponse (const json&);
+
 
 // -------------------------------------------------------------------------- //
 // Response implementations:

@@ -30,7 +30,6 @@
 #include "optimizer.h"
 #include "response.h"
 #include "saver.h"
-#include "class_loader.h"
 
 #include "single_include/nlohmann/json.hpp"
 using json = nlohmann::json;
@@ -1260,7 +1259,7 @@ public:
   }
   void loadFromJson (const std::string& file) {
     json j = saver::jsonLoader(file);
-    sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+    sh_ptr_loss = loss::jsonToLoss(j["loss"]);
   }
 
   virtual ~LossWrapper () {}
@@ -1322,7 +1321,7 @@ public:
   //LossQuadraticWrapper (std::string file)
   //{
     //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
   //}
 };
 
@@ -1376,7 +1375,7 @@ public:
   //LossAbsoluteWrapper (std::string file)
   //{
     //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
   //}
 };
 
@@ -1435,7 +1434,7 @@ public:
   //LossQuantileWrapper (std::string file)
   //{
     //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
   //}
 
   double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->getQuantile(); }
@@ -1499,7 +1498,7 @@ public:
   //LossHuberWrapper (std::string file)
   //{
     //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
   //}
 
   double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->getDelta(); }
@@ -1561,7 +1560,7 @@ public:
   //LossBinomialWrapper (std::string file)
   //{
     //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = cloader::jsonToLoss(j["loss"]);
+    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
   //}
 };
 
@@ -1843,7 +1842,7 @@ public:
   ResponseRegrWrapper (std::string file)
   {
     json j = saver::jsonLoader(file);
-    sh_ptr_response = cloader::jsonToResponse(j["response"]);
+    sh_ptr_response = response::jsonToResponse(j["response"]);
   }
 };
 
@@ -1894,7 +1893,7 @@ public:
   ResponseBinaryClassifWrapper (std::string file)
   {
     json j = saver::jsonLoader(file);
-    sh_ptr_response = cloader::jsonToResponse(j["response"]);
+    sh_ptr_response = response::jsonToResponse(j["response"]);
   }
 
   double getThreshold () const

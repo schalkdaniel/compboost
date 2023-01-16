@@ -31,7 +31,6 @@
 #include "binning.h"
 #include "init.h"
 #include "saver.h"
-#include "class_loader.h"
 
 #include "single_include/nlohmann/json.hpp"
 using json = nlohmann::json;
@@ -68,6 +67,8 @@ public:
   // Destructor
   virtual ~Baselearner ();
 };
+
+std::shared_ptr<Baselearner> jsonToBaselearner (const json&);
 
 // -------------------------------------------------------------------------- //
 // Baselearner implementations:
