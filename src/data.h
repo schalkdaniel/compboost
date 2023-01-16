@@ -21,16 +21,16 @@
 #ifndef DATA_H_
 #define DATA_H_
 
+#include <utility>
+
 #include "RcppArmadillo.h"
 #include "binning.h"
 #include "splines.h"
 #include "helper.h"
+#include "saver.h"
 
-//#include <string>
-//#include <vector>
-//#include <fsteam>
-//#include <include/json.hpp>
-//using json = nlohmann::json;
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace data
 {
@@ -61,13 +61,14 @@ protected:
   Data (const std::string);
   Data (const std::string, const arma::mat&);
   Data (const std::string, const arma::sp_mat&);
+  Data (const json&);
 
 public:
   // Virtual functions
   virtual arma::mat    getData  () const = 0;
   virtual unsigned int getNObs  () const = 0;
   virtual unsigned int getNCols () const = 0;
-  //virtual void         toJson   () const = 0;
+  virtual json         toJson   () const = 0;
 
   // Getter/Setter
   std::string                       getDataIdentifier () const;
@@ -79,14 +80,13 @@ public:
   arma::uvec                        getBinningIndex   () const;
   bool                              usesSparseMatrix  () const;
   bool                              usesBinning       () const;
-  //json                              toJson            () const;
 
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
   void setCacheCustom (const std::string, const arma::mat&);
   void setIndexVector (const arma::uvec&);
-
+  json baseToJson     (const std::string) const;
 
   // Destructor
   virtual ~Data () {};
@@ -106,14 +106,12 @@ public:
   InMemoryData (const std::string);
   InMemoryData (const std::string, const arma::mat&);
   InMemoryData (const std::string, const arma::sp_mat&);
+  InMemoryData (const json&);
 
   arma::mat getData     () const;
   unsigned int getNObs  () const;
   unsigned int getNCols () const;
-
-  // Member to store data to JSON and constructor to load from JSON:
-  //void toJson (const std::string) const;
-  //inMemoryData (const json j);
+  json         toJson   () const;
 
   // Destructor
   ~InMemoryData ();
@@ -133,10 +131,12 @@ private:
 public:
   BinnedData (const std::string);
   BinnedData (const std::string, const unsigned int, const arma::vec&, const arma::vec&);
+  BinnedData (const json&);
 
   arma::mat    getData  () const;
   unsigned int getNObs  () const;
   unsigned int getNCols () const;
+  json         toJson   () const;
 };
 
 
@@ -150,11 +150,13 @@ private:
 
 public:
   CategoricalDataRaw (const std::string, const std::vector<std::string>&);
+  CategoricalDataRaw (const json&);
 
   arma::mat                getData    () const;
   unsigned int             getNObs    () const;
   unsigned int             getNCols   () const;
   std::vector<std::string> getRawData () const;
+  json                     toJson     () const;
 };
 
 

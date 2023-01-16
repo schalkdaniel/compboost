@@ -63,6 +63,25 @@ std::shared_ptr<loss::Loss> jsonToLoss (const json& j)
   return l;
 }
 
+std::shared_ptr<data::Data> jsonToData (const json& j)
+{
+  std::shared_ptr<data::Data> d;
+
+  if (j["Class"] == "InMemoryData") {
+    d = std::make_shared<data::InMemoryData>(j);
+  }
+  if (j["Class"] == "BinnedData") {
+    d = std::make_shared<data::BinnedData>(j);
+  }
+  if (j["Class"] == "CategoricalDataRaw") {
+    d = std::make_shared<data::CategoricalDataRaw>(j);
+  }
+  if (d == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return d;
+}
+
 
 
 } // namespace cloader

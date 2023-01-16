@@ -41,11 +41,12 @@ void checkMatInJson (const json&, const std::string);
 
 json armaMatToJson   (const arma::mat&);
 json armaSpMatToJson (const arma::sp_mat&);
+json armaUvecToJson  (const arma::uvec&);
 json mapMatToJson    (const std::map<std::string, arma::mat>&);
 
 arma::mat    jsonToArmaMat   (const json&);
 arma::sp_mat jsonToArmaSpMat (const json&);
-
+arma::uvec   jsonToArmaUvec  (const json&);
 std::map<std::string, arma::mat> jsonToMapMat (const json&);
 
 } // namespace saver

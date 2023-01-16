@@ -24,7 +24,7 @@
 #include "RcppArmadillo.h"
 #include "loss.h"
 #include "helper.h"
-#include "mat_saver.h"
+#include "saver.h"
 
 #include "single_include/nlohmann/json.hpp"
 using json = nlohmann::json;

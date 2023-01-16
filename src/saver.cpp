@@ -18,7 +18,7 @@
 //
 // =========================================================================== #
 
-#include "mat_saver.h"
+#include "saver.h"
 
 namespace saver {
 
@@ -70,7 +70,21 @@ json armaSpMatToJson (const arma::sp_mat& X)
   return j;
 }
 
-void checkMatInJson (const json& j, const std::string type) {
+json armaUvecToJson (const arma::uvec& u)
+{
+  std::stringstream ssout;
+  u.save(ssout, arma::arma_ascii);
+
+  json j = {
+    {"type", "arma::uvec"},
+    {"mat", ssout.str()}
+  };
+
+  return j;
+}
+
+void checkMatInJson (const json& j, const std::string type)
+{
   if (j.find("mat") == j.end()) {
     throw std::out_of_range("No element 'mat' in the JSON object");
   }
@@ -85,8 +99,8 @@ void checkMatInJson (const json& j, const std::string type) {
   }
 }
 
-arma::mat jsonToArmaMat (const json& j) {
-
+arma::mat jsonToArmaMat (const json& j)
+{
   checkMatInJson(j, "arma::mat");
 
   std::string mat_in = j["mat"];
@@ -97,8 +111,8 @@ arma::mat jsonToArmaMat (const json& j) {
   return out;
 }
 
-arma::sp_mat jsonToArmaSpMat (const json& j) {
-
+arma::sp_mat jsonToArmaSpMat (const json& j)
+{
   checkMatInJson(j, "arma::sp_mat");
 
   std::string mat_in = j["mat"];
@@ -109,7 +123,20 @@ arma::sp_mat jsonToArmaSpMat (const json& j) {
   return out;
 }
 
-json mapMatToJson (const std::map<std::string, arma::mat>& mmap) {
+arma::uvec jsonToArmaUvec (const json& j)
+{
+  checkMatInJson(j, "arma::uvec");
+
+  std::string vin = j["mat"];
+  std::istringstream vstream(vin);
+  arma::uvec out;
+  out.load(vstream, arma::arma_ascii);
+
+  return out;
+}
+
+json mapMatToJson (const std::map<std::string, arma::mat>& mmap)
+{
   json j;
   for (auto& it : mmap) {
     j[it.first] = armaMatToJson(it.second);
@@ -117,7 +144,8 @@ json mapMatToJson (const std::map<std::string, arma::mat>& mmap) {
   return j;
 }
 
-std::map<std::string, arma::mat> jsonToMatMap (const json& j) {
+std::map<std::string, arma::mat> jsonToMatMap (const json& j)
+{
   std::map<std::string, arma::mat> omap;
   for (auto& it : j.items()) {
     omap[it.key()] = jsonToArmaMat(it.value());

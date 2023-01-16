@@ -36,6 +36,9 @@
 #include "line_search.h"
 #include "helper.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
 #ifdef _OPENMP
 #include <omp.h>
 #endif

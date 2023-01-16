@@ -29,6 +29,7 @@ namespace cloader {
 
 std::shared_ptr<response::Response> jsonToResponse (const json&);
 std::shared_ptr<loss::Loss>         jsonToLoss     (const json&);
+std::shared_ptr<data::Data>         jsonToData     (const json&);
 
 } // namespace cloader
 

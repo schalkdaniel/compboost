@@ -23,7 +23,9 @@
 namespace data
 {
 
-Data::Data (const std::string data_identifier) : _data_identifier ( data_identifier ) { }
+Data::Data (const std::string data_identifier)
+  : _data_identifier ( data_identifier )
+{ }
 
 Data::Data (const std::string data_identifier, const arma::mat& data_mat)
   : _data_identifier ( data_identifier ),
@@ -34,6 +36,19 @@ Data::Data (const std::string data_identifier, const arma::sp_mat& sparse_data_m
   : _data_identifier ( data_identifier ),
     _use_sparse      ( true ),
     _sparse_data_mat ( sparse_data_mat )
+{ }
+
+Data::Data (const json& j)
+  : _data_identifier ( j["_data_identifier"] ),
+    _mat_cache       (std::make_pair(
+      j["_mat_cache"]["type"],
+      saver::jsonToArmaMat(j["_mat_cache"]["mat"])
+    )),
+    _use_sparse      ( j["_use_sparse"] ),
+    _use_binning     ( j["_use_binning"] ),
+    _data_mat        ( saver::jsonToArmaMat(j["_data_mat"]) ),
+    _bin_idx         ( saver::jsonToArmaUvec(j["_bin_idx"]) ),
+    _sparse_data_mat ( saver::jsonToArmaSpMat(j["_sparse_data_mat"]) )
 { }
 
 void Data::setCacheCholesky (const arma::mat& xtx)
@@ -106,36 +121,24 @@ arma::uvec   Data::getBinningIndex  () const { return _bin_idx; }
 bool         Data::usesSparseMatrix () const { return _use_sparse; }
 bool         Data::usesBinning      () const { return _use_binning; }
 
-//json toJson (bool save_data) const
-//{
-  //json j = {
-    //{"private", {
-      //{"_data_identifier", _data_identifier},
-      //{"_mat_cache", {
-        //{"type", _mat_cache.first},
-        //{"mat", armaMatToJson(_mat_cache.second)},
-      //}},
-    //}},
-    //{"protected", {
-      //{"_use_sparse", _use_sparse},
-      //{"_use_binning", _use_binning},
-      //{"_data_mat", armaMatToJson(_data_mat)};
-      //{"_bin_idx", armaMatToJson(_bin_idx)};
-      //{"_sp_data_mat", armaSpMatToJson(_sparse_data_mat)};
-    //}}
-  //};
-  //if (save_data) {
-    //if (_use_sparse) {
-      //j["protected"]["_sparse_data_mat"] = armaMatToJson(_sparse_data_mat);
-    //} else {
-      //j["protected"]["_data_mat"] = armaMatToJson(_data_mat);
-    //}
-    //if (_use_binning) {
-      //j["protected"]["_bin_idx"] = armaMatToJson(_bin_idx);
-    //}
-  //}
-  //return j;
-//}
+json Data::baseToJson (const std::string cln) const
+{
+  json j = {
+    {"Class", cln},
+
+    {"_data_identifier", _data_identifier},
+    {"_mat_cache", {
+      {"type", _mat_cache.first},
+      {"mat", saver::armaMatToJson(_mat_cache.second)}
+    }},
+    {"_use_sparse",      _use_sparse},
+    {"_use_binning",     _use_binning},
+    {"_data_mat",        saver::armaMatToJson(_data_mat)},
+    {"_bin_idx",         saver::armaUvecToJson(_bin_idx)},
+    {"_sparse_data_mat", saver::armaSpMatToJson(_sparse_data_mat)}
+  };
+  return j;
+}
 
 // -------------------------------------------------------------------------- //
 // Data implementations:
@@ -145,7 +148,7 @@ bool         Data::usesBinning      () const { return _use_binning; }
 // -----------------------
 
 InMemoryData::InMemoryData (const std::string data_identifier)
-  : Data::Data ( data_identifier )
+  : Data::Data ( std::string(data_identifier) )
 { }
 
 InMemoryData::InMemoryData (const std::string data_identifier, const arma::mat& raw_data)
@@ -156,11 +159,17 @@ InMemoryData::InMemoryData (const std::string data_identifier, const arma::sp_ma
   : Data::Data ( data_identifier, raw_sp_data )
 { }
 
-// void InMemoryData::setData (const arma::mat& transformed_data) { data_mat = transformed_data; }
-// Todo! Autotransform sparse to dense and ALWAYS return a dense matrix
-arma::mat InMemoryData::getData () const { return Data::getDenseData(); }
+InMemoryData::InMemoryData (const json& j)
+  : Data::Data ( j )
+{ }
 
-unsigned int InMemoryData::getNObs () const {
+arma::mat InMemoryData::getData () const
+{
+  return Data::getDenseData();
+}
+
+unsigned int InMemoryData::getNObs () const
+{
   if (_use_sparse) {
     return _sparse_data_mat.n_cols;
   } else {
@@ -168,12 +177,18 @@ unsigned int InMemoryData::getNObs () const {
   }
 }
 
-unsigned int InMemoryData::getNCols () const {
+unsigned int InMemoryData::getNCols () const
+{
   if (_use_sparse) {
     return _sparse_data_mat.n_rows;
   } else {
     return _data_mat.n_cols;
   }
+}
+
+json InMemoryData::toJson () const
+{
+  return Data::baseToJson("InMemoryData");
 }
 
 InMemoryData::~InMemoryData () {}
@@ -181,20 +196,29 @@ InMemoryData::~InMemoryData () {}
 // BinnedData:
 // ------------------------------
 BinnedData::BinnedData (const std::string data_identifier)
-  : Data ( data_identifier )
+  : Data::Data ( std::string(data_identifier) )
 { }
 
 BinnedData::BinnedData (const std::string data_identifier, const unsigned int bin_root, const arma::vec& x, const arma::vec& x_bins)
-  : Data         ( data_identifier),
-    _bin_root    ( bin_root )
+  : Data::Data ( data_identifier),
+    _bin_root  ( bin_root )
 {
   _use_binning = bin_root > 0;
   _bin_idx     = binning::calculateIndexVector(x, x_bins);
 }
 
-arma::mat BinnedData::getData () const { return Data::getDenseData(); }
+BinnedData::BinnedData (const json& j)
+  : Data::Data ( j ),
+    _bin_root  ( j["_bin_root"] )
+{ }
 
-unsigned int BinnedData::getNObs () const {
+arma::mat BinnedData::getData () const
+{
+  return Data::getDenseData();
+}
+
+unsigned int BinnedData::getNObs () const
+{
   if (_use_sparse) {
     return _sparse_data_mat.n_cols;
   } else {
@@ -202,7 +226,8 @@ unsigned int BinnedData::getNObs () const {
   }
 }
 
-unsigned int BinnedData::getNCols () const {
+unsigned int BinnedData::getNCols () const
+{
   if (_use_sparse) {
     return _sparse_data_mat.n_rows;
   } else {
@@ -210,14 +235,26 @@ unsigned int BinnedData::getNCols () const {
   }
 }
 
+json BinnedData::toJson () const
+{
+  json j = Data::baseToJson("BinnedData");
+  j["_bin_root"] = _bin_root;
+
+  return j;
+}
 
 
 // CategoricalDataRaw:
 // ---------------------------------
 
 CategoricalDataRaw::CategoricalDataRaw (const std::string data_identifier, const std::vector<std::string>& raw_data)
-  : Data      ( data_identifier ),
-    _raw_data ( raw_data )
+  : Data::Data ( std::string(data_identifier) ),
+    _raw_data  ( raw_data )
+{ }
+
+CategoricalDataRaw::CategoricalDataRaw (const json& j)
+  : Data::Data ( json(j) ),
+    _raw_data  ( j["_raw_data"].get<std::vector<std::string>>() )
 { }
 
 arma::mat CategoricalDataRaw::getData () const {
@@ -226,14 +263,28 @@ arma::mat CategoricalDataRaw::getData () const {
   return Data::getDenseData();
 }
 
-std::vector<std::string> CategoricalDataRaw::getRawData () const { return _raw_data; }
+std::vector<std::string> CategoricalDataRaw::getRawData () const
+{
+  return _raw_data;
+}
 
-unsigned int CategoricalDataRaw::getNObs () const {
+unsigned int CategoricalDataRaw::getNObs () const
+{
   return _raw_data.size();
 }
 
-unsigned int CategoricalDataRaw::getNCols () const {
+unsigned int CategoricalDataRaw::getNCols () const
+{
   return 1;
 }
+
+json CategoricalDataRaw::toJson () const
+{
+  json j = Data::baseToJson("CategoricalDataRaw");
+  j["_raw_data"] = _raw_data;
+
+  return j;
+}
+
 
 } // namespace data

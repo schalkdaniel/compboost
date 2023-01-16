@@ -29,7 +29,7 @@
 #include "helper.h"
 #include "optimizer.h"
 #include "response.h"
-#include "mat_saver.h"
+#include "saver.h"
 #include "class_loader.h"
 
 #include "single_include/nlohmann/json.hpp"
@@ -119,18 +119,16 @@ public:
 
   InMemoryDataWrapper ()
   {
-    sh_ptr_data = std::make_shared<data::InMemoryData>("");
+    sh_ptr_data = std::make_shared<data::InMemoryData>(std::string(""));
   }
 
   InMemoryDataWrapper (arma::mat data_mat, std::string data_identifier)
   {
-    // data_mat = data0;
     sh_ptr_data = std::make_shared<data::InMemoryData>(data_identifier, data_mat);
   }
 
   InMemoryDataWrapper (arma::mat data_mat, std::string data_identifier, bool use_sparse)
   {
-    // data_mat = data0;
     arma::sp_mat temp_sp_mat(data_mat);
     sh_ptr_data = std::make_shared<data::InMemoryData>(data_identifier, temp_sp_mat);
   }
@@ -139,7 +137,6 @@ public:
   {
     return sh_ptr_data->getDenseData();
   }
-
 
   std::string getIdentifier () const
   {
@@ -207,8 +204,15 @@ public:
     _sh_ptr_rawcdata = std::make_shared<data::CategoricalDataRaw>(data_identifier, str_classes);
   }
 
-  std::shared_ptr<data::CategoricalDataRaw> getCDataRawPtr () const { return _sh_ptr_rawcdata; }
-  std::shared_ptr<data::Data> getDataObj () { return _sh_ptr_rawcdata; }
+  std::shared_ptr<data::CategoricalDataRaw> getCDataRawPtr () const
+  {
+    return _sh_ptr_rawcdata;
+  }
+
+  std::shared_ptr<data::Data> getDataObj ()
+  {
+    return _sh_ptr_rawcdata;
+  }
 
   arma::mat getData () const
   {
@@ -262,8 +266,6 @@ RCPP_MODULE (data_module)
     .method("getRawData",    &CategoricalDataRawWrapper::getRawData, "Get raw data")
     .method("getIdentifier", &CategoricalDataRawWrapper::getIdentifier, "Get the data identifier")
   ;
-
-
 }
 
 

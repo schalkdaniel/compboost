@@ -15,6 +15,8 @@ test_that("Quadratic loss works", {
   expect_silent(ln$loadFromJson(file))
 
   expect_equal(class(ln), class(cboost$loss))
+
+  file.remove(file)
 })
 
 test_that("Absolute loss works", {
@@ -32,6 +34,8 @@ test_that("Absolute loss works", {
   expect_silent(ln$loadFromJson(file))
 
   expect_equal(class(ln), class(cboost$loss))
+
+  file.remove(file)
 })
 
 test_that("Quantile loss works", {
@@ -56,6 +60,8 @@ test_that("Quantile loss works", {
 
   expect_equal(class(ln), class(cboost$loss))
   expect_equal(ln$getQuantile(), cboost$loss$getQuantile())
+
+  file.remove(file)
 })
 
 test_that("Huber loss works", {
@@ -80,6 +86,8 @@ test_that("Huber loss works", {
 
   expect_equal(class(ln), class(cboost$loss))
   expect_equal(ln$getDelta(), cboost$loss$getDelta())
+
+  file.remove(file)
 })
 
 test_that("Binomial loss works", {
@@ -98,6 +106,8 @@ test_that("Binomial loss works", {
   expect_silent(ln$loadFromJson(file))
 
   expect_equal(class(ln), class(cboost$loss))
+
+  file.remove(file)
 })
 
 test_that("Custom loss works", {

@@ -182,8 +182,8 @@ json Response::baseToJson (const std::string cln) const
     {"_pseudo_residuals",        saver::armaMatToJson(_pseudo_residuals) },
     {"_prediction_scores",       saver::armaMatToJson(_prediction_scores) },
     {"_prediction_scores_temp1", saver::armaMatToJson(_prediction_scores_temp1) },
-    {"_prediction_scores_temp2", saver::armaMatToJson(_prediction_scores_temp2) },
 
+    {"_prediction_scores_temp2", saver::armaMatToJson(_prediction_scores_temp2) },
     {"_iteration", _iteration},
     {"_is_initialized", _is_initialized},
     {"_is_model_initialized", _is_model_initialized}
