@@ -119,4 +119,21 @@ std::vector<std::string> BaselearnerFactoryList::getDataNames () const
 
 }
 
+json BaselearnerFactoryList::factoryDataToJson (const bool save_source) const
+{
+  json j;
+  std::string id_dat;
+  std::shared_ptr<data::Data> sh_ptr_data;
+  for (auto& it : _factory_map) {
+    if (save_source) {
+      sh_ptr_data = it.second->getDataSource();
+    } else {
+      sh_ptr_data = it.second->getInstantiatedData();
+    }
+    id_dat = sh_ptr_data->getDataIdentifier();
+    j[id_dat] = sh_ptr_data->toJson();
+  }
+  return j;
+}
+
 } // namespace blearnerlist

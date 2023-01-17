@@ -314,12 +314,14 @@ void Compboost::saveJson (std::string file) const
     {"current_iter",      _current_iter},
     {"risk",              _risk},
 
-    {"response",          _sh_ptr_response->toJson() },
+    {"data_source",       _factory_list.factoryDataToJson(true)},
+    {"data_init",         _factory_list.factoryDataToJson()},
+    {"response",          _sh_ptr_response->toJson()},
     {"optimizer",         nullptr}, //std::shared_ptr<optimizer::Optimizer>.toJson()
-    {"loss",              _sh_ptr_loss->toJson() },
+    {"loss",              _sh_ptr_loss->toJson()},
     {"loggerlist",        nullptr}, //std::shared_ptr<loggerlist::LoggerList>.toJson()
-    {"factory_list",      nullptr}, //blearnerlist::BaselearnerFactoryList.toJson()
-    {"baselearner_track", _blearner_track.toJson() }
+    {"factory_list",      nullptr},//_factory_list.toJson()},
+    {"baselearner_track", _blearner_track.toJson()}
   };
 
   std::ofstream o(file);

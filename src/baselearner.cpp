@@ -108,7 +108,7 @@ BaselearnerPolynomial::BaselearnerPolynomial (const std::string blearner_type, c
 
 BaselearnerPolynomial::BaselearnerPolynomial (const json& j)
   : Baselearner::Baselearner ( j ),
-    _sh_ptr_bindata          ( std::make_shared<data::BinnedData>(j["data"]) ),
+    //_sh_ptr_bindata          ( std::make_shared<data::BinnedData>(j["data"]) ),
     _attributes              ( std::make_shared<init::PolynomialAttributes>(j["_attributes"]) )
 { }
 
@@ -184,7 +184,8 @@ std::string BaselearnerPolynomial::getDataIdentifier () const
 json BaselearnerPolynomial::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerPolynomial");
-  j["data"] = _sh_ptr_bindata->toJson();
+  j["id_data_init"] = _sh_ptr_bindata->getDataIdentifier();
+  //j["data"] = _sh_ptr_bindata->toJson();
   j["_attributes"] = _attributes->toJson();
 
   return j;
@@ -231,8 +232,8 @@ BaselearnerPSpline::BaselearnerPSpline (const std::string blearner_type, const s
 { }
 
 BaselearnerPSpline::BaselearnerPSpline (const json& j)
-  : Baselearner::Baselearner ( j ),
-    _sh_ptr_bindata          ( std::make_shared<data::BinnedData>(j["data"]) )
+  : Baselearner::Baselearner ( j )//,
+    //_sh_ptr_bindata          ( std::make_shared<data::BinnedData>(j["data"]) )
 { }
 
 void BaselearnerPSpline::train (const arma::mat& response)
@@ -276,7 +277,8 @@ std::string BaselearnerPSpline::getDataIdentifier () const
 json BaselearnerPSpline::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerPSpline");
-  j["data"] = _sh_ptr_bindata->toJson();
+  j["id_data_init"] = _sh_ptr_bindata->getDataIdentifier();
+  //j["data"] = _sh_ptr_bindata->toJson();
 
   return j;
 }
@@ -294,8 +296,8 @@ BaselearnerTensor::BaselearnerTensor (const std::string blearner_type, const std
 { }
 
 BaselearnerTensor::BaselearnerTensor (const json& j)
-  : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( data::jsonToData(j["data"]) )
+  : Baselearner::Baselearner ( j )//,
+    //_sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 void BaselearnerTensor::train (const arma::mat& response)
@@ -336,7 +338,8 @@ std::string BaselearnerTensor::getDataIdentifier () const
 json BaselearnerTensor::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerTensor");
-  j["data"] = _sh_ptr_data->toJson();
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier();
+  //j["data"] = _sh_ptr_data->toJson();
 
   return j;
 }
@@ -353,8 +356,8 @@ BaselearnerCentered::BaselearnerCentered (const std::string blearner_type, const
 { }
 
 BaselearnerCentered::BaselearnerCentered (const json& j)
-  : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( data::jsonToData(j["data"]) )
+  : Baselearner::Baselearner ( j )//,
+    //_sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 void BaselearnerCentered::train (const arma::mat& response)
@@ -389,7 +392,8 @@ std::string BaselearnerCentered::getDataIdentifier () const
 json BaselearnerCentered::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerCentered");
-  j["data"] = _sh_ptr_data->toJson();
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier();
+  //j["data"] = _sh_ptr_data->toJson();
 
   return j;
 }
@@ -407,8 +411,8 @@ BaselearnerCategoricalRidge::BaselearnerCategoricalRidge (const std::string blea
 { }
 
 BaselearnerCategoricalRidge::BaselearnerCategoricalRidge (const json& j)
-  : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( data::jsonToData(j["data"]) )
+  : Baselearner::Baselearner ( j )//,
+    //_sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 void BaselearnerCategoricalRidge::train (const arma::mat& response)
@@ -440,7 +444,8 @@ std::string BaselearnerCategoricalRidge::getDataIdentifier () const
 json BaselearnerCategoricalRidge::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerCategoricalRidge");
-  j["data"] = _sh_ptr_data->toJson();
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier();
+  //j["data"] = _sh_ptr_data->toJson();
 
   return j;
 }
@@ -458,8 +463,8 @@ BaselearnerCategoricalBinary::BaselearnerCategoricalBinary (const std::string bl
 { }
 
 BaselearnerCategoricalBinary::BaselearnerCategoricalBinary (const json& j)
-  : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( data::jsonToData(j["data"]) )
+  : Baselearner::Baselearner ( j )//,
+    //_sh_ptr_data             ( data::jsonToData(j["data"]) )
 { }
 
 
@@ -514,7 +519,8 @@ std::string BaselearnerCategoricalBinary::getDataIdentifier () const
 json BaselearnerCategoricalBinary::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerCategoricalBinary");
-  j["data"] = _sh_ptr_data->toJson();
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier();
+  //j["data"] = _sh_ptr_data->toJson();
 
   return j;
 }

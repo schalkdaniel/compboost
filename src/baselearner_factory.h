@@ -53,6 +53,10 @@
 #include "demmler_reinsch.h"
 #include "helper.h"
 #include "init.h"
+#include "saver.h"
+
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 namespace blearnerfactory {
 
@@ -76,6 +80,7 @@ protected:
 public:
   BaselearnerFactory (const std::string);
   BaselearnerFactory (const std::string, const sdata&);
+  BaselearnerFactory (const json&);
 
   // Virtual methods
   virtual bool       usesSparse           ()                 const = 0;
@@ -93,12 +98,19 @@ public:
   virtual std::string getDataIdentifier  () const;
   virtual std::shared_ptr<blearner::Baselearner>  createBaselearner () = 0;
 
+  virtual json toJson () const = 0;
+
   // Getter/Setter
+  sdata       getDataSource       () const;
   std::string getBaselearnerType  () const;
+
+  json baseToJson (const std::string) const;
 
   // Destructor:
   virtual ~BaselearnerFactory ();
 };
+
+std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json&);
 
 // -------------------------------------------------------------------------- //
 // BaselearnerFactory implementations:
@@ -113,12 +125,10 @@ private:
   sbindata _sh_ptr_bindata;
   const std::shared_ptr<init::PolynomialAttributes> _attributes = std::make_shared<init::PolynomialAttributes>();
 
-  //const unsigned int           _degree;
-  //const bool                   _intercept;
-
 public:
   BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
     const unsigned int, const bool, const unsigned int, const double = 0, const double = 0);
+  BaselearnerPolynomialFactory (const json&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -133,6 +143,7 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+  json toJson () const;
 };
 
 
@@ -149,6 +160,7 @@ public:
   BaselearnerPSplineFactory (const std::string, const std::shared_ptr<data::Data>&, const unsigned int,
     const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int,
     const std::string);
+  BaselearnerPSplineFactory (const json&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -163,6 +175,7 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+  json toJson () const;
 };
 
 
@@ -184,6 +197,7 @@ private:
 public:
   BaselearnerTensorFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>, const bool = false);
+  BaselearnerTensorFactory (const json&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -199,7 +213,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner> createBaselearner ();
 
-  //std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory> > getFactories () const;
+  json toJson () const;
 };
 
 
@@ -219,6 +233,7 @@ private:
 public:
   BaselearnerCenteredFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+  BaselearnerCenteredFactory (const json&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -234,6 +249,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner> createBaselearner ();
   arma::mat getRotation () const;
+  json toJson () const;
 };
 
 
@@ -249,6 +265,7 @@ private:
 
 public:
   BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalDataRaw>&, const double = 0, const double = 0);
+  BaselearnerCategoricalRidgeFactory (const json&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -266,6 +283,8 @@ public:
   std::string getDataIdentifier () const;
 
   std::map<std::string, unsigned int> getDictionary () const;
+
+  json toJson () const;
 };
 
 
@@ -278,11 +297,9 @@ private:
   sdata _sh_ptr_data;
   std::shared_ptr<init::BinaryAttributes> _attributes = std::make_shared<init::BinaryAttributes>();
 
-  //const std::shared_ptr<data::CategoricalData>       _sh_ptr_cdata;
-  //const std::shared_ptr<data::CategoricalBinaryData> _sh_ptr_bcdata;
-
 public:
   BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalDataRaw>&);
+  BaselearnerCategoricalBinaryFactory (const json&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -298,6 +315,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
+  json toJson () const;
 };
 
 
@@ -333,6 +351,7 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+  json toJson () const;
 };
 
 // BaselearnerCustomCppFactory:
@@ -368,6 +387,7 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
+  json toJson () const;
 };
 
 } // namespace blearnerfactory

@@ -25,6 +25,9 @@
 
 #include "baselearner_factory.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
 typedef std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>> blearner_factory_map;
 
 namespace blearnerlist
@@ -49,6 +52,8 @@ public:
   void rmBaselearnerFactory       (const std::string);
   void printRegisteredFactories   () const;
   void clearMap                   ();
+
+  json factoryDataToJson (const bool = false) const;
 };
 
 } // namespace blearnerlist

@@ -93,6 +93,7 @@ public:
 };
 
 std::shared_ptr<Data> jsonToData (const json&);
+std::map<std::string, std::shared_ptr<Data>> jsonToDataMap (const json&);
 
 // -------------------------------------------------------------------------- //
 // Data implementations:

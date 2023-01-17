@@ -42,6 +42,16 @@ std::shared_ptr<Data> jsonToData (const json& j)
   return d;
 }
 
+std::map<std::string, std::shared_ptr<Data>> jsonToDataMap (const json& j)
+{
+  std::map<std::string, std::shared_ptr<Data>> mdat;
+  for (auto& it : j.items()) {
+    mdat[it.key()] = jsonToData(it.value());
+  }
+  return mdat;
+}
+
+
 Data::Data (const std::string data_identifier)
   : _data_identifier ( data_identifier )
 { }
