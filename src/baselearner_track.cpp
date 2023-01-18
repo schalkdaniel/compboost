@@ -32,11 +32,11 @@ json blVecToJson (const std::vector<std::shared_ptr<blearner::Baselearner>>& blv
   return j;
 }
 
-std::vector<std::shared_ptr<blearner::Baselearner>> jsonToBlVec (const json& j)
+std::vector<std::shared_ptr<blearner::Baselearner>> jsonToBlVec (const json& j, const mdata& mdat)
 {
   std::vector<std::shared_ptr<blearner::Baselearner>> blv;
   for (auto& it : j) {
-    blv.push_back(blearner::jsonToBaselearner(it));
+    blv.push_back(blearner::jsonToBaselearner(it, mdat));
   }
   return blv;
 }
@@ -49,9 +49,9 @@ BaselearnerTrack::BaselearnerTrack (const double learning_rate)
   : _learning_rate ( learning_rate )
 { }
 
-BaselearnerTrack::BaselearnerTrack (const json& j)
-  : _learning_rate   ( j["_learning_rate"] ),
-    _blearner_vector ( jsonToBlVec(j["_blearner_vector"]) ),
+BaselearnerTrack::BaselearnerTrack (const json& j, const mdata& mdat)
+  : _learning_rate   ( j["_learning_rate"].get<double>() ),
+    _blearner_vector ( jsonToBlVec(j["_blearner_vector"].get<std::string>(), mdat) ),
     _parameter_map   ( saver::jsonToMapMat(j["_parameter_map"]) ),
     _step_sizes      ( j["_step_sizes"].get<std::vector<double>>() )
 { }

@@ -23,7 +23,7 @@
 namespace data
 {
 
-std::shared_ptr<Data> jsonToData (const json& j)
+sdata jsonToData (const json& j)
 {
   std::shared_ptr<Data> d;
 
@@ -42,7 +42,7 @@ std::shared_ptr<Data> jsonToData (const json& j)
   return d;
 }
 
-std::map<std::string, std::shared_ptr<Data>> jsonToDataMap (const json& j)
+mdata jsonToDataMap (const json& j)
 {
   std::map<std::string, std::shared_ptr<Data>> mdat;
   for (auto& it : j.items()) {
@@ -50,6 +50,25 @@ std::map<std::string, std::shared_ptr<Data>> jsonToDataMap (const json& j)
   }
   return mdat;
 }
+
+sdata extractDataFromMap (const std::string did, const mdata& mdat)
+{
+  auto it_data = mdat.find(did);
+  if (it_data == mdat.end()) {
+    std::string msg = "Cannot find data '" + did + "' in data map. Using 0 as linear predictor.";
+    throw std::logic_error(msg);
+  }
+  sdata dout = it_data->second;
+  return dout;
+}
+
+
+sdata extractDataFromMap (const sdata& sh_ptr_data, const mdata& mdat)
+{
+  std::string data_id = sh_ptr_data->getDataIdentifier();
+  return extractDataFromMap(data_id, mdat);
+}
+
 
 
 Data::Data (const std::string data_identifier)

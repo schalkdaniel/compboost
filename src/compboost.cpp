@@ -48,7 +48,6 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
 
 void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist)
 {
-
   if (_factory_list.getFactoryMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
@@ -243,7 +242,6 @@ std::map<std::string, arma::mat> Compboost::predictIndividual (const std::map<st
   return out;
 }
 
-
 arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::Data>>& data_map, const bool& as_response) const
 {
   arma::mat pred(data_map.begin()->second->getNObs(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
@@ -261,7 +259,6 @@ arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::
 
   return pred;
 }
-
 
 void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace)
 {
@@ -317,12 +314,18 @@ void Compboost::saveJson (std::string file) const
     {"data_source",       _factory_list.factoryDataToJson(true)},
     {"data_init",         _factory_list.factoryDataToJson()},
     {"response",          _sh_ptr_response->toJson()},
-    {"optimizer",         nullptr}, //std::shared_ptr<optimizer::Optimizer>.toJson()
+    {"optimizer",         _sh_ptr_optimizer->toJson()},
     {"loss",              _sh_ptr_loss->toJson()},
     {"loggerlist",        nullptr}, //std::shared_ptr<loggerlist::LoggerList>.toJson()
-    {"factory_list",      nullptr},//_factory_list.toJson()},
+    {"factory_list",      _factory_list.toJson()},
     {"baselearner_track", _blearner_track.toJson()}
   };
+
+  /* To load:
+   * load data map first
+   * Init baselearner list and trace as well as the optimizer by passing data map
+   * init the remaining stuff.
+   */
 
   std::ofstream o(file);
   o << j.dump(2) << std::endl;

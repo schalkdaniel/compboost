@@ -22,7 +22,7 @@
 
 namespace blearner {
 
-std::shared_ptr<Baselearner> jsonToBaselearner (const json& j)
+std::shared_ptr<Baselearner> jsonToBaselearner (const json& j, const mdata&)
 {
   std::shared_ptr<Baselearner> bl;
 

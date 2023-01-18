@@ -64,9 +64,6 @@ typedef std::shared_ptr<data::Data> sdata;
 typedef std::shared_ptr<data::BinnedData> sbindata;
 typedef std::map<std::string, sdata> mdata;
 
-// Helper:
-sdata extractDataFromMap (const std::shared_ptr<data::Data>&, const mdata&);
-
 // -------------------------------------------------------------------------- //
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
@@ -80,11 +77,11 @@ protected:
 public:
   BaselearnerFactory (const std::string);
   BaselearnerFactory (const std::string, const sdata&);
-  BaselearnerFactory (const json&);
+  BaselearnerFactory (const json&, const mdata&);
 
   // Virtual methods
-  virtual bool       usesSparse           ()                 const = 0;
-  virtual sdata      instantiateData      (const mdata&)     const = 0;
+  virtual bool       usesSparse           ()                const = 0;
+  virtual sdata      instantiateData      (const mdata&)    const = 0;
 
   virtual sdata      getInstantiatedData ()                 const = 0;
   virtual arma::mat  getData             ()                 const = 0;
@@ -110,7 +107,7 @@ public:
   virtual ~BaselearnerFactory ();
 };
 
-std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json&);
+std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json&, const mdata&);
 
 // -------------------------------------------------------------------------- //
 // BaselearnerFactory implementations:
@@ -128,7 +125,7 @@ private:
 public:
   BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
     const unsigned int, const bool, const unsigned int, const double = 0, const double = 0);
-  BaselearnerPolynomialFactory (const json&);
+  BaselearnerPolynomialFactory (const json&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -160,7 +157,7 @@ public:
   BaselearnerPSplineFactory (const std::string, const std::shared_ptr<data::Data>&, const unsigned int,
     const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int,
     const std::string);
-  BaselearnerPSplineFactory (const json&);
+  BaselearnerPSplineFactory (const json&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -197,7 +194,7 @@ private:
 public:
   BaselearnerTensorFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>, const bool = false);
-  BaselearnerTensorFactory (const json&);
+  BaselearnerTensorFactory (const json&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -217,7 +214,7 @@ public:
 };
 
 
-// BaselearnerTensorFactory:
+// BaselearnerCenteredFactory:
 // ------------------------------------------------
 
 
@@ -233,7 +230,7 @@ private:
 public:
   BaselearnerCenteredFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>);
-  BaselearnerCenteredFactory (const json&);
+  BaselearnerCenteredFactory (const json&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -265,7 +262,7 @@ private:
 
 public:
   BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalDataRaw>&, const double = 0, const double = 0);
-  BaselearnerCategoricalRidgeFactory (const json&);
+  BaselearnerCategoricalRidgeFactory (const json&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -299,7 +296,7 @@ private:
 
 public:
   BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalDataRaw>&);
-  BaselearnerCategoricalBinaryFactory (const json&);
+  BaselearnerCategoricalBinaryFactory (const json&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;

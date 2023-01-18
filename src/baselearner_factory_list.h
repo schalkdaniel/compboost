@@ -33,6 +33,9 @@ typedef std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactor
 namespace blearnerlist
 {
 
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::map<std::string, sdata> mdata;
+
 class BaselearnerFactoryList
 {
 private:
@@ -40,6 +43,7 @@ private:
 
 public:
   BaselearnerFactoryList ();
+  BaselearnerFactoryList (const json&, const mdata&);
 
   // Getter/Setter
   blearner_factory_map                            getFactoryMap ()             const;
@@ -53,8 +57,11 @@ public:
   void printRegisteredFactories   () const;
   void clearMap                   ();
 
+  json toJson            ()                   const;
   json factoryDataToJson (const bool = false) const;
 };
+
+blearner_factory_map jsonToBlFMap (const json&, const mdata&);
 
 } // namespace blearnerlist
 

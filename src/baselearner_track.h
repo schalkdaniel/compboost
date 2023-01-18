@@ -30,9 +30,13 @@ using json = nlohmann::json;
 namespace blearnertrack
 {
 
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::shared_ptr<data::BinnedData> sbindata;
+typedef std::map<std::string, sdata> mdata;
+
 // FOR SAVING AND LOADING JSON:
-json blVecToJson     (const std::vector<std::shared_ptr<blearner::Baselearner>>&);
-std::vector<std::shared_ptr<blearner::Baselearner>> jsonToBlVec (const json&);
+json blVecToJson  (const std::vector<std::shared_ptr<blearner::Baselearner>>&);
+std::vector<std::shared_ptr<blearner::Baselearner>> jsonToBlVec (const json&, const mdata&);
 
 class BaselearnerTrack
 {
@@ -45,7 +49,7 @@ private:
 public:
   BaselearnerTrack ();
   BaselearnerTrack (const double);
-  BaselearnerTrack (const json&);
+  BaselearnerTrack (const json&, const mdata&);
 
   // Getter/Setter
   std::vector<std::shared_ptr<blearner::Baselearner>>  getBaselearnerVector             () const;
