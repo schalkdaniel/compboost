@@ -28,19 +28,54 @@ namespace cboost {
 
 Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const double& learning_rate,
   const bool& is_global_stopper, std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer, std::shared_ptr<loss::Loss> sh_ptr_loss,
-  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist, blearnerlist::BaselearnerFactoryList factory_list)
-  : _learning_rate      ( learning_rate ),
-    _is_global_stopper  ( is_global_stopper ),
-    _sh_ptr_response    ( sh_ptr_response ),
-    _sh_ptr_optimizer   ( sh_ptr_optimizer ),
-    _sh_ptr_loss        ( sh_ptr_loss ),
-    _sh_ptr_loggerlist  ( sh_ptr_loggerlist ),
-    _factory_list       ( factory_list ),
-    _blearner_track     ( blearnertrack::BaselearnerTrack(learning_rate) )
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist, std::shared_ptr<blearnerlist::BaselearnerFactoryList> sh_ptr_factory_list)
+  : _learning_rate       ( learning_rate ),
+    _is_global_stopper   ( is_global_stopper ),
+    _sh_ptr_response     ( sh_ptr_response ),
+    _sh_ptr_optimizer    ( sh_ptr_optimizer ),
+    _sh_ptr_loss         ( sh_ptr_loss ),
+    _sh_ptr_loggerlist   ( sh_ptr_loggerlist ),
+    _sh_ptr_factory_list ( sh_ptr_factory_list ),
+    _blearner_track      ( blearnertrack::BaselearnerTrack(learning_rate) )
 {
   _sh_ptr_response->constantInitialization(sh_ptr_loss);
   _sh_ptr_response->initializePrediction();
 }
+
+Compboost::Compboost (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : _learning_rate     ( j["_learning_rate"].get<double>() ),
+    _is_global_stopper ( j["_is_global_stopper"].get<bool>() ),
+    _sh_ptr_response   ( response::jsonToResponse(j["_sh_ptr_response"]) ),
+    _sh_ptr_optimizer  ( optimizer::jsonToOptimizer(j["_sh_ptr_optimizer"], mdinit) ),
+    _sh_ptr_loss       ( loss::jsonToLoss(j["_sh_ptr_loss"]) ),
+    _sh_ptr_loggerlist ( std::make_shared<loggerlist::LoggerList>(j["_sh_ptr_loggerlist"]) ),
+    //_is_trained        ( [](json j) -> bool {
+        //std::cout << "Create '_is_trained'" << std::endl;
+        //return j["_is_trained"].get<bool>(); }(j) ),
+    _is_trained        ( j["_is_trained"].get<bool>() ),
+    //_current_iter      ( [](json j) -> unsigned int {
+        //std::cout << "Create '_current_iter'" << std::endl;
+        //return j["_current_iter"].get<unsigned int>(); }(j) ),
+    _current_iter      ( j["_current_iter"].get<unsigned int>() ),
+    //_risk              ( [](json j) -> std::vector<double> {
+        //std::cout << "Create '_risk'" << std::endl;
+        //return j["_risk"].get<std::vector<double>>(); }(j) ),
+    _risk              ( j["_risk"].get<std::vector<double>>() ),
+    //_sh_ptr_factory_list ( [](json j, mdata m1, mdata m2) -> std::shared_ptr<blearnerlist::BaselearnerFactoryList> {
+        //std::cout << "Create '_sh_ptr_factory_list'" << std::endl;
+        //return std::make_shared<blearnerlist::BaselearnerFactoryList>(j["_sh_ptr_factory_list"], m1, m2); }(j, mdsource, mdinit) ),
+    _sh_ptr_factory_list ( std::make_shared<blearnerlist::BaselearnerFactoryList>(j["_sh_ptr_factory_list"], mdsource, mdinit) ),
+    _blearner_track      ( blearnertrack::BaselearnerTrack(j["_blearner_track"], mdinit) )
+{ }
+
+Compboost::Compboost (const json& j)
+  : Compboost::Compboost (j, data::jsonToDataMap(j["data_source"]), data::jsonToDataMap(j["data_init"]))
+{ }
+
+Compboost::Compboost (const std::string file)
+  : Compboost::Compboost ( saver::jsonLoader(file) )
+{ }
+
 
 // --------------------------------------------------------------------------- #
 // Member functions:
@@ -48,7 +83,7 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
 
 void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist)
 {
-  if (_factory_list.getFactoryMap().size() == 0) {
+  if (_sh_ptr_factory_list->getFactoryMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
 
@@ -64,10 +99,10 @@ void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlis
     _sh_ptr_response->setIteration(_current_iter);
     _sh_ptr_response->updatePseudoResiduals(_sh_ptr_loss);
     _sh_ptr_optimizer->optimize(_current_iter, _learning_rate, _sh_ptr_loss, _sh_ptr_response,
-      _blearner_track, _factory_list);
+      _blearner_track, _sh_ptr_factory_list);
 
     sh_ptr_loggerlist->logCurrent(_current_iter, _sh_ptr_response, _blearner_track.getBaselearnerVector().back(),
-      _learning_rate, _sh_ptr_optimizer->getStepSize(_current_iter), _sh_ptr_optimizer, _factory_list);
+      _learning_rate, _sh_ptr_optimizer->getStepSize(_current_iter), _sh_ptr_optimizer, _sh_ptr_factory_list);
 
     // Calculate and log risk:
     _risk.push_back(_sh_ptr_response->calculateEmpiricalRisk(_sh_ptr_loss));
@@ -155,8 +190,13 @@ std::vector<std::string> Compboost::getSelectedBaselearner () const
   std::vector<std::string> selected_blearner_names;
 
   auto bl_track = _blearner_track.getBaselearnerVector();
+  std::string id_data;
+  std::string bl_type;
+
   for (unsigned int i = 0; i < _current_iter; i++) {
-    selected_blearner_names.push_back(bl_track[i]->getDataIdentifier() + "_" + bl_track[i]->getBaselearnerType());
+    id_data = bl_track[i]->getDataIdentifier();
+    bl_type = bl_track[i]->getBaselearnerType();
+    selected_blearner_names.push_back(id_data + "_" + bl_type);
   }
   return selected_blearner_names;
 }
@@ -183,7 +223,7 @@ arma::mat Compboost::predictFactory (const std::string& factory_id) const
   if (it_par_map == parameter_map.end())
     throw std::range_error("Cannot find factory in parameter map.");
 
-  auto fac_map = _factory_list.getFactoryMap();
+  auto fac_map = _sh_ptr_factory_list->getFactoryMap();
   auto it_fac  = fac_map.find(factory_id);
   if (it_fac == fac_map.end())
     throw std::range_error("Cannot find factory in factory map.");
@@ -222,7 +262,7 @@ arma::mat Compboost::predictFactory(const std::string& factory_id, const std::ma
   if (it_par_map == parameter_map.end())
     throw std::range_error("Cannot find factory in parameter map.");
 
-  auto fac_map = _factory_list.getFactoryMap();
+  auto fac_map = _sh_ptr_factory_list->getFactoryMap();
   auto it_fac  = fac_map.find(factory_id);
   if (it_fac == fac_map.end())
     throw std::range_error("Cannot find factory in factory map.");
@@ -286,8 +326,30 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
   helper::debugPrint("Finished 'Compboost::setToIteration'");
 }
 
-arma::mat Compboost::getOffset() const { return _sh_ptr_response->getInitialization(); }
-std::vector<double> Compboost::getRiskVector () const { return _risk; }
+arma::mat Compboost::getOffset() const
+{
+  return _sh_ptr_response->getInitialization();
+}
+
+std::vector<double> Compboost::getRiskVector () const
+{
+  return _risk;
+}
+
+double Compboost::getLearningRate () const
+{
+  return _learning_rate;
+}
+
+std::shared_ptr<blearnerlist::BaselearnerFactoryList> Compboost::getBaselearnerList () const
+{
+  return _sh_ptr_factory_list;
+}
+
+std::shared_ptr<optimizer::Optimizer> Compboost::getOptimizer () const
+{
+  return _sh_ptr_optimizer;
+}
 
 void Compboost::summarizeCompboost () const
 {
@@ -305,27 +367,23 @@ void Compboost::summarizeCompboost () const
 void Compboost::saveJson (std::string file) const
 {
   json j = {
-    {"learning_rate",     _learning_rate},
-    {"is_global_stopper", _is_global_stopper},
-    {"is_trained",        _is_trained},
-    {"current_iter",      _current_iter},
-    {"risk",              _risk},
+    {"_learning_rate",     _learning_rate},
+    {"_is_global_stopper", _is_global_stopper},
+    {"_is_trained",        _is_trained},
+    {"_current_iter",      _current_iter},
+    {"_risk",              _risk},
 
-    {"data_source",       _factory_list.factoryDataToJson(true)},
-    {"data_init",         _factory_list.factoryDataToJson()},
-    {"response",          _sh_ptr_response->toJson()},
-    {"optimizer",         _sh_ptr_optimizer->toJson()},
-    {"loss",              _sh_ptr_loss->toJson()},
-    {"loggerlist",        nullptr}, //std::shared_ptr<loggerlist::LoggerList>.toJson()
-    {"factory_list",      _factory_list.toJson()},
-    {"baselearner_track", _blearner_track.toJson()}
+    // Helper objects to load one data object per feature and use copy by reference:
+    {"data_source", _sh_ptr_factory_list->factoryDataToJson(true)},
+    {"data_init",   _sh_ptr_factory_list->factoryDataToJson()},
+
+    {"_sh_ptr_response",   _sh_ptr_response->toJson()},
+    {"_sh_ptr_optimizer",  _sh_ptr_optimizer->toJson()},
+    {"_sh_ptr_loss",       _sh_ptr_loss->toJson()},
+    {"_sh_ptr_loggerlist", _sh_ptr_loggerlist->toJson()},
+    {"_sh_ptr_factory_list", _sh_ptr_factory_list->toJson()},
+    {"_blearner_track",    _blearner_track.toJson()}
   };
-
-  /* To load:
-   * load data map first
-   * Init baselearner list and trace as well as the optimizer by passing data map
-   * init the remaining stuff.
-   */
 
   std::ofstream o(file);
   o << j.dump(2) << std::endl;

@@ -90,7 +90,7 @@ private:
 public:
   BaselearnerPolynomial (const std::string, const sbindata&);
   BaselearnerPolynomial (const std::string, const sbindata&, const std::shared_ptr<init::PolynomialAttributes>&);
-  BaselearnerPolynomial (const json&);
+  BaselearnerPolynomial (const json&, const mdata&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                  const;
@@ -120,7 +120,7 @@ private:
 
 public:
   BaselearnerPSpline (const std::string, const sbindata&);//, const std::shared_ptr<init::PSplineAttributes>&);
-  BaselearnerPSpline (const json&);
+  BaselearnerPSpline (const json&, const mdata&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                  const;
@@ -141,7 +141,7 @@ private:
 
 public:
   BaselearnerTensor (const std::string, const sdata&);
-  BaselearnerTensor (const json&);
+  BaselearnerTensor (const json&, const mdata&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                  const;
@@ -162,7 +162,7 @@ private:
 
 public:
   BaselearnerCentered (const std::string, const sdata&);
-  BaselearnerCentered (const json&);
+  BaselearnerCentered (const json&, const mdata&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                  const;
@@ -183,7 +183,7 @@ private:
 
 public:
   BaselearnerCategoricalRidge (const std::string, const sdata&);
-  BaselearnerCategoricalRidge (const json&);
+  BaselearnerCategoricalRidge (const json&, const mdata&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                  const;
@@ -206,7 +206,7 @@ private:
 
 public:
   BaselearnerCategoricalBinary (const std::string, const sdata&);
-  BaselearnerCategoricalBinary (const json&);
+  BaselearnerCategoricalBinary (const json&, const mdata&);
 
   void         train             (const arma::mat&);
   arma::mat    predict           ()                  const;

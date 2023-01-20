@@ -51,7 +51,7 @@ BaselearnerTrack::BaselearnerTrack (const double learning_rate)
 
 BaselearnerTrack::BaselearnerTrack (const json& j, const mdata& mdat)
   : _learning_rate   ( j["_learning_rate"].get<double>() ),
-    _blearner_vector ( jsonToBlVec(j["_blearner_vector"].get<std::string>(), mdat) ),
+    _blearner_vector ( jsonToBlVec(j["_blearner_vector"], mdat) ),
     _parameter_map   ( saver::jsonToMapMat(j["_parameter_map"]) ),
     _step_sizes      ( j["_step_sizes"].get<std::vector<double>>() )
 { }

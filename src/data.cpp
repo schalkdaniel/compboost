@@ -51,6 +51,20 @@ mdata jsonToDataMap (const json& j)
   return mdat;
 }
 
+json dataMapToJson (const mdata& mdat)
+{
+  json j;
+  std::string id_dat;
+  sdata sh_ptr_data;
+  for (auto& it : mdat) {
+    sh_ptr_data = it.second;
+    id_dat = sh_ptr_data->getDataIdentifier();
+    j[id_dat] = sh_ptr_data->toJson();
+  }
+  return j;
+}
+
+
 sdata extractDataFromMap (const std::string did, const mdata& mdat)
 {
   auto it_data = mdat.find(did);

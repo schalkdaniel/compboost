@@ -468,6 +468,7 @@ Compboost = R6::R6Class("Compboost",
         checkmate::assertNumeric(stop_args$eps_for_break, len = 1L)
       }
       private$stop_args = stop_args
+
     },
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       private$l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)

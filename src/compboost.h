@@ -60,9 +60,13 @@
 #include "loss.h"
 #include "loggerlist.h"
 #include "response.h"
+#include "saver.h"
 
 #include "single_include/nlohmann/json.hpp"
 using json = nlohmann::json;
+
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::map<std::string, sdata> mdata;
 
 namespace cboost {
 
@@ -82,12 +86,15 @@ private:
   unsigned int         _current_iter;
   std::vector<double>  _risk;
 
-  blearnerlist::BaselearnerFactoryList           _factory_list;
-  blearnertrack::BaselearnerTrack                _blearner_track;
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> _sh_ptr_factory_list;
+  blearnertrack::BaselearnerTrack      _blearner_track;
 
 public:
   Compboost (std::shared_ptr<response::Response>, const double&, const bool&, std::shared_ptr<optimizer::Optimizer>, std::shared_ptr<loss::Loss>,
-    std::shared_ptr<loggerlist::LoggerList>, blearnerlist::BaselearnerFactoryList);
+    std::shared_ptr<loggerlist::LoggerList>, std::shared_ptr<blearnerlist::BaselearnerFactoryList>);
+  Compboost (const json&, const mdata&, const mdata&);
+  Compboost (const json&);
+  Compboost (const std::string);
 
   // Getter/Setter
   arma::vec                                       getPrediction (const bool&)                    const;
@@ -98,6 +105,12 @@ public:
   std::pair<std::vector<std::string>, arma::mat>  getParameterMatrix ()                          const;
   arma::mat                                       getOffset ()                                   const;
   std::vector<double>                             getRiskVector ()                               const;
+
+  // To provide pointer for the modules:
+  double                                                getLearningRate ()   const;
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> getBaselearnerList() const;
+  std::shared_ptr<optimizer::Optimizer>                 getOptimizer()       const;
+
 
   // Other member functions
   void       train              (const unsigned int, const std::shared_ptr<loggerlist::LoggerList>);

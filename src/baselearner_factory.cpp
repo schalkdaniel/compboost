@@ -23,27 +23,27 @@
 namespace blearnerfactory {
 
 
-std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json& j, const mdata& mdat)
+std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
 {
   std::shared_ptr<BaselearnerFactory> blf;
 
   if (j["Class"] == "BaselearnerPolynomialFactory") {
-    blf = std::make_shared<BaselearnerPolynomialFactory>(j, mdat);
+    blf = std::make_shared<BaselearnerPolynomialFactory>(j, mdsource, mdinit);
   }
   if (j["Class"] == "BaselearnerPSplineFactory") {
-    blf = std::make_shared<BaselearnerPSplineFactory>(j, mdat);
+    blf = std::make_shared<BaselearnerPSplineFactory>(j, mdsource, mdinit);
   }
   if (j["Class"] == "BaselearnerTensorFactory") {
-    blf = std::make_shared<BaselearnerTensorFactory>(j, mdat);
+    blf = std::make_shared<BaselearnerTensorFactory>(j, mdsource, mdinit);
   }
   if (j["Class"] == "BaselearnerCenteredFactory") {
-    blf = std::make_shared<BaselearnerCenteredFactory>(j, mdat);
+    blf = std::make_shared<BaselearnerCenteredFactory>(j, mdsource, mdinit);
   }
   if (j["Class"] == "BaselearnerCategoricalRidgeFactory") {
-    blf = std::make_shared<BaselearnerCategoricalRidgeFactory>(j, mdat);
+    blf = std::make_shared<BaselearnerCategoricalRidgeFactory>(j, mdsource, mdinit);
   }
   if (j["Class"] == "BaselearnerCategoricalBinaryFactory") {
-    blf = std::make_shared<BaselearnerCategoricalBinaryFactory>(j, mdat);
+    blf = std::make_shared<BaselearnerCategoricalBinaryFactory>(j, mdsource, mdinit);
   }
   if (blf == nullptr) {
     throw std::logic_error("No known class in JSON");
@@ -158,9 +158,9 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string bl
   _attributes->bin_root = 0;
 }
 
-BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const json& j, const mdata& mdat)
-  : BaselearnerFactory::BaselearnerFactory ( j, mdat ),
-    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat)) ),
+BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
     _attributes     ( std::make_shared<init::PolynomialAttributes>(j["_attributes"]) )
 { }
 
@@ -276,9 +276,9 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
   _attributes->bin_root = 0;
 }
 
-BaselearnerPSplineFactory::BaselearnerPSplineFactory (const json& j, const mdata& mdat)
-  : BaselearnerFactory::BaselearnerFactory ( j, mdat ),
-    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat)) ),
+BaselearnerPSplineFactory::BaselearnerPSplineFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
     _attributes     ( std::make_shared<init::PSplineAttributes>(j["_attributes"]) )
 { }
 
@@ -385,20 +385,24 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
   _sh_ptr_data->setCache("cholesky", temp_xtx + penalty_mat);
 }
 
-BaselearnerTensorFactory::BaselearnerTensorFactory (const json& j, const mdata& mdat)
-  : BaselearnerFactory::BaselearnerFactory ( j, mdat ),
-    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat) ),
+BaselearnerTensorFactory::BaselearnerTensorFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit) ),
     _attributes  ( std::make_shared<init::TensorAttributes>(j["_attributes"])),
-    _blearner1   ( jsonToBaselearnerFactory(j["_blearner1"], mdat) ),
-    _blearner2   ( jsonToBaselearnerFactory(j["_blearner2"], mdat) ),
-    _isotrop     ( j["_isotrop"] )
+    _blearner1   ( jsonToBaselearnerFactory(j["_blearner1"], mdsource, mdinit) ),
+    _blearner2   ( jsonToBaselearnerFactory(j["_blearner2"], mdsource, mdinit) ),
+    _isotrop     ( j["_isotrop"].get<bool>() )
 { }
 
 bool BaselearnerTensorFactory::usesSparse () const
 {
   return _blearner1->usesSparse() | _blearner2->usesSparse();
 }
-sdata BaselearnerTensorFactory::getInstantiatedData () const { return _sh_ptr_data; }
+
+sdata BaselearnerTensorFactory::getInstantiatedData () const
+{
+  return _sh_ptr_data;
+}
 
 sdata BaselearnerTensorFactory::instantiateData (const mdata& data_map) const
 {
@@ -497,7 +501,6 @@ json BaselearnerTensorFactory::toJson () const
 {
   json j = BaselearnerFactory::baseToJson("BaselearnerTensorFactory");
   j["id_data_init"] = _sh_ptr_data->getDataIdentifier();
-  //j["_sh_ptr_data"] = _sh_ptr_data->toJson();
   j["_attributes"] = _attributes->toJson();
   j["blearner1"] = _blearner1->toJson();
   j["blearner2"] = _blearner2->toJson();
@@ -567,12 +570,12 @@ BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blear
   _sh_ptr_bindata->setCache(mcache.first, temp_xtx);
 }
 
-BaselearnerCenteredFactory::BaselearnerCenteredFactory (const json& j, const mdata& mdat)
-  : BaselearnerFactory::BaselearnerFactory ( j, mdat ),
+BaselearnerCenteredFactory::BaselearnerCenteredFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
     _attributes     ( std::make_shared<init::CenteredAttributes>(j["_attributes"]) ),
-    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat)) ),
-    _blearner1      ( jsonToBaselearnerFactory(j["_blearner1"], mdat) ),
-    _blearner2      ( jsonToBaselearnerFactory(j["_blearner2"], mdat) )
+    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
+    _blearner1      ( jsonToBaselearnerFactory(j["_blearner1"], mdsource, mdinit) ),
+    _blearner2      ( jsonToBaselearnerFactory(j["_blearner2"], mdsource, mdinit) )
 { }
 
 
@@ -691,9 +694,9 @@ BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const st
   _sh_ptr_data->setCache("identity", temp_XtX_inv);
 }
 
-BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const json& j, const mdata& mdat)
-  : BaselearnerFactory::BaselearnerFactory ( j, mdat ),
-    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat) ),
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit) ),
     _attributes  ( std::make_shared<init::RidgeAttributes>(j["_attributes"]) )
 { }
 
@@ -784,9 +787,9 @@ BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const 
   _sh_ptr_data->setCache("identity", xtx_inv);
 }
 
-BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const json& j, const mdata& mdat)
-  : BaselearnerFactory::BaselearnerFactory ( j, mdat ),
-    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat) ),
+BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit) ),
     _attributes  ( std::make_shared<init::BinaryAttributes>(j["_attributes"]) )
 { }
 

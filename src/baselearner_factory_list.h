@@ -43,7 +43,7 @@ private:
 
 public:
   BaselearnerFactoryList ();
-  BaselearnerFactoryList (const json&, const mdata&);
+  BaselearnerFactoryList (const json&, const mdata&, const mdata&);
 
   // Getter/Setter
   blearner_factory_map                            getFactoryMap ()             const;
@@ -61,7 +61,7 @@ public:
   json factoryDataToJson (const bool = false) const;
 };
 
-blearner_factory_map jsonToBlFMap (const json&, const mdata&);
+blearner_factory_map jsonToBlFMap (const json&, const mdata&, const mdata&);
 
 } // namespace blearnerlist
 

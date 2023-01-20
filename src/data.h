@@ -96,11 +96,11 @@ typedef std::shared_ptr<data::Data> sdata;
 typedef std::map<std::string, sdata> mdata;
 
 // Helper:
-std::shared_ptr<Data> jsonToData (const json&);
-std::map<std::string, std::shared_ptr<Data>> jsonToDataMap (const json&);
-
+sdata jsonToData (const json&);
+mdata jsonToDataMap (const json&);
+json dataMapToJson (const mdata&);
 sdata extractDataFromMap (const std::string, const mdata&);
-sdata extractDataFromMap (const std::shared_ptr<data::Data>&, const mdata&);
+sdata extractDataFromMap (const sdata&, const mdata&);
 
 // -------------------------------------------------------------------------- //
 // Data implementations:

@@ -21,6 +21,8 @@
 #ifndef COMPBOOST_MODULES_CPP_
 #define COMPBOOST_MODULES_CPP_
 
+#include <memory>
+
 #include "compboost.h"
 #include "baselearner_factory.h"
 #include "baselearner_factory_list.h"
@@ -1178,39 +1180,43 @@ class BlearnerFactoryListWrapper
 {
 private:
 
-  blearnerlist::BaselearnerFactoryList obj;
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> obj;
 
 public:
+
+  BlearnerFactoryListWrapper ()
+    : obj ( std::make_shared<blearnerlist::BaselearnerFactoryList>() )
+  { }
 
   void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
   {
     std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + "_" + my_factory_to_register.getFactory()->getBaselearnerType();
-    obj.registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
+    obj->registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
   }
 
   void rmFactory (const std::string factory_id)
   {
-    obj.rmBaselearnerFactory(factory_id);
+    obj->rmBaselearnerFactory(factory_id);
   }
 
   void printRegisteredFactories ()
   {
-    obj.printRegisteredFactories();
+    obj->printRegisteredFactories();
   }
 
   void clearRegisteredFactories ()
   {
-    obj.clearMap();
+    obj->clearMap();
   }
 
-  blearnerlist::BaselearnerFactoryList* getFactoryList ()
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> getFactoryList ()
   {
-    return &obj;
+    return obj;
   }
 
   Rcpp::List getModelFrame ()
   {
-    std::pair<std::vector<std::string>, arma::mat> raw_frame = obj.getModelFrame();
+    std::pair<std::vector<std::string>, arma::mat> raw_frame = obj->getModelFrame();
 
     return Rcpp::List::create(
       Rcpp::Named("colnames")    = raw_frame.first,
@@ -1218,9 +1224,9 @@ public:
     );
   }
 
-  unsigned int getNumberOfRegisteredFactories () { return obj.getFactoryMap().size(); }
-  std::vector<std::string> getRegisteredFactoryNames () { return obj.getRegisteredFactoryNames(); }
-  std::vector<std::string> getDataNames () { return obj.getDataNames(); }
+  unsigned int getNumberOfRegisteredFactories () { return obj->getFactoryMap().size(); }
+  std::vector<std::string> getRegisteredFactoryNames () { return obj->getRegisteredFactoryNames(); }
+  std::vector<std::string> getDataNames () { return obj->getDataNames(); }
 
   // Nothing needs to be done since we allocate the object on the stack
   ~BlearnerFactoryListWrapper () {}
@@ -2467,7 +2473,8 @@ private:
   std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist = std::make_shared<loggerlist::LoggerList>();
 
 public:
-  LoggerListWrapper () {};
+  LoggerListWrapper ()
+  { }
 
   std::shared_ptr<loggerlist::LoggerList> getLoggerList ()
   {
@@ -2560,9 +2567,8 @@ RCPP_MODULE(logger_module)
 class OptimizerWrapper
 {
 public:
-  OptimizerWrapper () {};
+  OptimizerWrapper () { }
   std::shared_ptr<optimizer::Optimizer> getOptimizer () { return sh_ptr_optimizer; }
-
   virtual ~OptimizerWrapper () {}
 
 protected:
@@ -2742,6 +2748,9 @@ public:
 class OptimizerAGBM: public OptimizerWrapper
 {
 public:
+  OptimizerAGBM () {
+    sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(0.1);
+  }
   OptimizerAGBM (double momentum) {
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum);
   }
@@ -2809,6 +2818,7 @@ RCPP_MODULE(optimizer_module)
 
   class_<OptimizerAGBM> ("OptimizerAGBM")
     .derives<OptimizerWrapper> ("Optimizer")
+    .constructor  ()
     .constructor <double> ()
     .constructor <double, unsigned int> ()
     .constructor <double, unsigned int, unsigned int> ()
@@ -3002,8 +3012,20 @@ RCPP_MODULE(optimizer_module)
 //' @export Compboost_internal
 class CompboostWrapper
 {
-public:
+private:
 
+  std::unique_ptr<cboost::Compboost> unique_ptr_cboost;
+
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> sh_ptr_blearner_list;
+  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
+  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
+
+  unsigned int max_iterations; // useless?
+  double learning_rate0;
+
+  bool is_trained = false;
+
+public:
   // Set data type in constructor to
   //   - arma::vec -> const arma::vec&
   //   - double    -> const double &
@@ -3013,15 +3035,29 @@ public:
     bool stop_if_all_stopper_fulfilled, BlearnerFactoryListWrapper& factory_list,
     LossWrapper& loss, LoggerListWrapper& logger_list, OptimizerWrapper& optimizer)
   {
+    learning_rate0       =  learning_rate;
+    sh_ptr_loggerlist    =  logger_list.getLoggerList();
+    sh_ptr_optimizer     =  optimizer.getOptimizer();
+    sh_ptr_blearner_list =  factory_list.getFactoryList();
 
-    learning_rate0     =  learning_rate;
-    sh_ptr_loggerlist  =  logger_list.getLoggerList();
-    sh_ptr_optimizer   =  optimizer.getOptimizer();
-    blearner_list_ptr  =  factory_list.getFactoryList();
+    //std::unique_ptr<cboost::Compboost> unique_ptr_cboost_temp(new cboost::Compboost(response.getResponseObj(), learning_rate0,
+      //stop_if_all_stopper_fulfilled, sh_ptr_optimizer, loss.getLoss(), sh_ptr_loggerlist, sh_ptr_blearner_list));
+    //unique_ptr_cboost = std::move(unique_ptr_cboost_temp);
 
-    std::unique_ptr<cboost::Compboost> unique_ptr_cboost_temp(new cboost::Compboost(response.getResponseObj(), learning_rate0,
-      stop_if_all_stopper_fulfilled, sh_ptr_optimizer, loss.getLoss(), sh_ptr_loggerlist, *blearner_list_ptr));
-    unique_ptr_cboost = std::move(unique_ptr_cboost_temp);
+    unique_ptr_cboost = std::make_unique<cboost::Compboost>(response.getResponseObj(), learning_rate0,
+      stop_if_all_stopper_fulfilled, sh_ptr_optimizer, loss.getLoss(), sh_ptr_loggerlist, sh_ptr_blearner_list);
+  }
+
+  CompboostWrapper (const std::string file)
+  {
+    unique_ptr_cboost = std::make_unique<cboost::Compboost>(file);
+
+    sh_ptr_blearner_list = unique_ptr_cboost->getBaselearnerList();
+    sh_ptr_loggerlist = unique_ptr_cboost->getLoggerList();
+    sh_ptr_optimizer = unique_ptr_cboost->getOptimizer();
+    learning_rate0 = unique_ptr_cboost->getLearningRate();
+
+    is_trained = true;
   }
 
   // Member functions
@@ -3031,9 +3067,20 @@ public:
     is_trained = true;
   }
 
-  void continueTraining (unsigned int trace) { unique_ptr_cboost->continueTraining(trace); }
-  arma::vec getPrediction (bool as_response) { return unique_ptr_cboost->getPrediction(as_response); }
-  std::vector<std::string> getSelectedBaselearner () { return unique_ptr_cboost->getSelectedBaselearner(); }
+  void continueTraining (unsigned int trace)
+  {
+    unique_ptr_cboost->continueTraining(trace);
+  }
+
+  arma::vec getPrediction (bool as_response)
+  {
+    return unique_ptr_cboost->getPrediction(as_response);
+  }
+
+  std::vector<std::string> getSelectedBaselearner ()
+  {
+    return unique_ptr_cboost->getSelectedBaselearner();
+  }
 
   Rcpp::List getLoggerData ()
   {
@@ -3127,19 +3174,6 @@ public:
   void saveJson(std::string file) { unique_ptr_cboost->saveJson(file); }
 
   ~CompboostWrapper () {}
-
-private:
-
-  std::unique_ptr<cboost::Compboost> unique_ptr_cboost;
-
-  blearnerlist::BaselearnerFactoryList* blearner_list_ptr;
-  std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist;
-  std::shared_ptr<optimizer::Optimizer> sh_ptr_optimizer;
-
-  unsigned int max_iterations;
-  double learning_rate0;
-
-  bool is_trained = false;
 };
 
 
@@ -3150,6 +3184,7 @@ RCPP_MODULE (compboost_module)
 
   class_<CompboostWrapper> ("Compboost_internal")
     .constructor<ResponseWrapper&, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
+    .constructor<std::string> ()
     .method("train", &CompboostWrapper::train, "Run component-wise boosting")
     .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")

@@ -22,6 +22,30 @@
 
 namespace optimizer {
 
+std::shared_ptr<Optimizer> jsonToOptimizer (const json& j, const mdata& mdat)
+{
+  std::shared_ptr<Optimizer> op;
+
+  if (j["Class"] == "OptimizerCoordinateDescent") {
+    op = std::make_shared<OptimizerCoordinateDescent>(j);
+  }
+  if (j["Class"] == "OptimizerCoordinateDescentLineSearch") {
+    op = std::make_shared<OptimizerCoordinateDescentLineSearch>(j);
+  }
+  if (j["Class"] == "OptimizerCosineAnnealing") {
+    op = std::make_shared<OptimizerCosineAnnealing>(j);
+  }
+  if (j["Class"] == "OptimizerAGBM") {
+    op = std::make_shared<OptimizerAGBM>(j, mdat);
+  }
+  if (op == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return op;
+}
+
+
+
 // -------------------------------------------------------------------------- //
 // Abstract 'Optimizer' class:
 // -------------------------------------------------------------------------- //
@@ -221,10 +245,10 @@ arma::mat OptimizerCoordinateDescent::calculateUpdate (const double learning_rat
 }
 
 void OptimizerCoordinateDescent::optimize (const unsigned int actual_iteration, const double learning_rate, const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
-  blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& factory_list)
+  blearnertrack::BaselearnerTrack& blearner_track, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   std::string temp_string = std::to_string(actual_iteration);
-  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, sh_ptr_response, factory_list.getFactoryMap());
+  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, sh_ptr_response, sh_ptr_factory_list->getFactoryMap());
 
   // Prediction is needed more often, use a temp vector to avoid multiple computations:
   arma::mat blearner_pred_temp = sh_ptr_blearner_selected->predict();
@@ -438,7 +462,7 @@ OptimizerAGBM::OptimizerAGBM (const json& j, const mdata& mdat)
     _acc_iters     ( j["_acc_iters"].get<unsigned int>() ),
     _bl_unique_id  ( j["_bl_unique_id"].get<std::vector<std::string>>() ),
     _aggr_parameter_map     (saver::jsonToMapMat(j["_aggr_parameter_map"]) ),
-    _momentum_blearnertrack ( blearnertrack::BaselearnerTrack(j, mdat) )
+    _momentum_blearnertrack ( blearnertrack::BaselearnerTrack(j["_momentum_blearnertrack"], mdat) )
 { }
 
 std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::string iteration_id,
@@ -548,7 +572,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::
 }
 
 void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double learning_rate, const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
-  blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& factory_list)
+  blearnertrack::BaselearnerTrack& blearner_track, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   arma::mat prediction_scores = sh_ptr_response->getPredictionScores();
   double weight_param = 2.0 / ((double)actual_iteration + 1.0);
@@ -565,7 +589,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
 
   // Find best base-learner w.r.t. pr_aggr
   temp_string = std::to_string(actual_iteration);
-  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, pr_aggr, factory_list.getFactoryMap());
+  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, pr_aggr, sh_ptr_factory_list->getFactoryMap());
 
   blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
 
@@ -583,7 +607,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
   }
 
   // Find best base-learner w.r.t. _pr_corr
-  auto sh_ptr_blearner_mom = findBestBaselearner(temp_string, _pr_corr, factory_list.getFactoryMap());
+  auto sh_ptr_blearner_mom = findBestBaselearner(temp_string, _pr_corr, sh_ptr_factory_list->getFactoryMap());
   //_momentum_blearner.push_back(sh_ptr_blearner_mom);
 
   // Update momentum model

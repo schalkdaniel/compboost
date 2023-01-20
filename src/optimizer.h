@@ -73,7 +73,7 @@ public:
 
   virtual void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
-    const blearnerlist::BaselearnerFactoryList&) = 0;
+    const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&) = 0;
 
   virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const = 0;
@@ -88,6 +88,9 @@ public:
   // Destructor
   virtual ~Optimizer ();
 };
+
+std::shared_ptr<Optimizer> jsonToOptimizer (const json&, const mdata&);
+
 
 // -------------------------------------------------------------------------- //
 // Optimizer implementations:
@@ -111,7 +114,7 @@ public:
 
   void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
-    const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const;
@@ -193,7 +196,7 @@ public:
 
   void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
-    const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const;

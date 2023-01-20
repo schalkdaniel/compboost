@@ -31,31 +31,36 @@
 #include "optimizer.h"
 #include "baselearner_factory_list.h"
 
-typedef std::map<std::string, std::shared_ptr<logger::Logger>>  logger_map;
-typedef std::pair<std::string, std::shared_ptr<logger::Logger>> logger_pair;
-typedef std::pair<std::vector<std::string>, arma::mat>          logger_data;
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
+typedef std::map<std::string, std::shared_ptr<logger::Logger>>  lmap;
+typedef std::pair<std::string, std::shared_ptr<logger::Logger>> lpair;
+typedef std::pair<std::vector<std::string>, arma::mat>          ldata;
+
 namespace loggerlist
 {
 
 class LoggerList
 {
 private:
-  logger_map   _logger_list;
+  lmap   _logger_list;
   unsigned int _sum_of_stopper = 0;
 
 public:
   LoggerList ();
+  LoggerList (const json&);
 
   // Setter/Getter
-  bool        getStopperStatus (const bool) const;
-  logger_map  getLoggerMap     ()           const;
-  logger_data getLoggerData    ()           const;
+  bool  getStopperStatus (const bool) const;
+  lmap  getLoggerMap     ()           const;
+  ldata getLoggerData    ()           const;
 
 
   // Other member functions
   void logCurrent (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<optimizer::Optimizer>&, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   void printLoggerStatus     (const double) const;
   void printRegisteredLogger ()             const;
@@ -65,9 +70,13 @@ public:
   void clearMap              ();
   void clearLoggerData       ();
 
+  json toJson () const;
+
   // Destructor
   ~LoggerList ();
 };
+
+lmap jsonToLMap (const json&);
 
 } // namespace loggerlist
 

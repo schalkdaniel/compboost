@@ -53,8 +53,16 @@
 #include "optimizer.h"
 #include "baselearner_factory_list.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
+#include "single_include/date.h"
+using namespace date;
+
 namespace logger
 {
+
+std::chrono::system_clock::time_point stringToChrono (const std::string);
 
 // -------------------------------------------------------------------------- //
 // Abstract 'Logger' class:
@@ -83,17 +91,19 @@ private:
 protected:
   bool _is_stopper = false;
   Logger (const bool, const std::string, const std::string);
+  Logger (const json&);
 
 public:
   // Virtual functions:
   virtual void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&) = 0;
+    const std::shared_ptr<optimizer::Optimizer>&, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&) = 0;
 
   virtual bool         reachedStopCriteria ()       = 0;
   virtual arma::vec    getLoggedData       () const = 0;
   virtual void         clearLoggerData     ()       = 0;
   virtual std::string  printLoggerStatus   () const = 0;
+  virtual json         toJson              () const = 0;
 
   // Setter/Getter
   void setIsStopper (const bool);
@@ -101,12 +111,13 @@ public:
   std::string getLoggerId   () const;
   std::string getLoggerType () const;
   bool        isStopper     () const;
+  json        baseToJson    (const std::string) const;
 
   // Destructor
   virtual ~Logger ();
-
 };
 
+std::shared_ptr<logger::Logger> jsonToLogger (const json&);
 
 // -------------------------------------------------------------------------- //
 // Logger implementations:
@@ -129,15 +140,17 @@ private:
 
 public:
   LoggerIteration (const std::string, const bool, const unsigned int);
+  LoggerIteration (const json&);
 
   void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<optimizer::Optimizer>&, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
+  json         toJson              () const;
 
   void updateMaxIterations (const unsigned int&);
 };
@@ -169,16 +182,17 @@ private:
 
 public:
   LoggerInbagRisk (const std::string, const bool, const std::shared_ptr<loss::Loss>, const double, const unsigned int);
-
+  LoggerInbagRisk (const json&);
 
   void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<optimizer::Optimizer>&, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
+  json         toJson              () const;
 };
 
 
@@ -215,15 +229,17 @@ private:
 public:
   LoggerOobRisk (const std::string, const bool, const std::shared_ptr<loss::Loss>, const double, const unsigned int,
     const std::map<std::string, std::shared_ptr<data::Data>>, const std::shared_ptr<response::Response>);
+  LoggerOobRisk (const json&);
 
   void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<optimizer::Optimizer>&, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
+  json         toJson              () const;
 };
 
 
@@ -245,7 +261,7 @@ public:
 class LoggerTime : public Logger
 {
 private:
-  std::chrono::steady_clock::time_point _init_time;
+  std::chrono::system_clock::time_point _init_time;
   std::vector<unsigned int>             _current_time;
   unsigned int                          _retrain_drift = 0;
 
@@ -254,15 +270,17 @@ private:
 
 public:
   LoggerTime (const std::string, const bool, const unsigned int, const std::string);
+  LoggerTime (const json&);
 
   void logStep (const unsigned int, const std::shared_ptr<response::Response>&,
     const std::shared_ptr<blearner::Baselearner>&, const double, const double,
-    const std::shared_ptr<optimizer::Optimizer>&, const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<optimizer::Optimizer>&, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   bool         reachedStopCriteria ();
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
+  json         toJson              () const;
 
   void reInitializeTime();
 

@@ -267,7 +267,10 @@ arma::mat LossAbsolute::weightedConstantInitializer (const arma::mat& true_value
   return constantInitializer(true_value);
 }
 
-json LossAbsolute::toJson () const { return baseToJson("LossQuadratic"); }
+json LossAbsolute::toJson () const
+{
+  return baseToJson("LossAbsolute");
+}
 
 // LossQuantile
 // -----------------------

@@ -25,8 +25,8 @@ namespace blearnerlist
 
 BaselearnerFactoryList::BaselearnerFactoryList () {}
 
-BaselearnerFactoryList::BaselearnerFactoryList (const json& j, const mdata& mdat)
-  : _factory_map ( jsonToBlFMap(j, mdat) )
+BaselearnerFactoryList::BaselearnerFactoryList (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : _factory_map ( jsonToBlFMap(j["_factory_map"], mdsource, mdinit) )
 { }
 
 void BaselearnerFactoryList::registerBaselearnerFactory (const std::string factory_id,
@@ -128,10 +128,11 @@ json BaselearnerFactoryList::toJson () const
   json j = {
     {"Class", "BaselearnerFactoryList"}
   };
+  json jff;
   for (auto& it : _factory_map) {
-    j[it.first] = it.second->toJson();
+    jff[it.first] = it.second->toJson();
   }
-
+  j["_factory_map"] = jff;
   return j;
 }
 
@@ -152,11 +153,11 @@ json BaselearnerFactoryList::factoryDataToJson (const bool save_source) const
   return j;
 }
 
-blearner_factory_map jsonToBlFMap (const json& j, const mdata& mdat)
+blearner_factory_map jsonToBlFMap (const json& j, const mdata& mdsource, const mdata& mdinit)
 {
   blearner_factory_map mfac;
   for (auto& it : j.items()) {
-    mfac[it.key()] = blearnerfactory::jsonToBaselearnerFactory(it.value(), mdat);
+    mfac[it.key()] = blearnerfactory::jsonToBaselearnerFactory(it.value(), mdsource, mdinit);
   }
   return mfac;
 }

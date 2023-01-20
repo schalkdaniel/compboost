@@ -107,7 +107,7 @@ public:
   virtual ~BaselearnerFactory ();
 };
 
-std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json&, const mdata&);
+std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json&, const mdata&, const mdata&);
 
 // -------------------------------------------------------------------------- //
 // BaselearnerFactory implementations:
@@ -125,7 +125,7 @@ private:
 public:
   BaselearnerPolynomialFactory (const std::string, std::shared_ptr<data::Data>,
     const unsigned int, const bool, const unsigned int, const double = 0, const double = 0);
-  BaselearnerPolynomialFactory (const json&, const mdata&);
+  BaselearnerPolynomialFactory (const json&, const mdata&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -157,7 +157,7 @@ public:
   BaselearnerPSplineFactory (const std::string, const std::shared_ptr<data::Data>&, const unsigned int,
     const unsigned int, const double, const double, const unsigned int, const bool, const unsigned int,
     const std::string);
-  BaselearnerPSplineFactory (const json&, const mdata&);
+  BaselearnerPSplineFactory (const json&, const mdata&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -194,7 +194,7 @@ private:
 public:
   BaselearnerTensorFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>, const bool = false);
-  BaselearnerTensorFactory (const json&, const mdata&);
+  BaselearnerTensorFactory (const json&, const mdata&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -230,7 +230,7 @@ private:
 public:
   BaselearnerCenteredFactory (const std::string&, std::shared_ptr<blearnerfactory::BaselearnerFactory>,
     std::shared_ptr<blearnerfactory::BaselearnerFactory>);
-  BaselearnerCenteredFactory (const json&, const mdata&);
+  BaselearnerCenteredFactory (const json&, const mdata&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -262,7 +262,7 @@ private:
 
 public:
   BaselearnerCategoricalRidgeFactory (const std::string, std::shared_ptr<data::CategoricalDataRaw>&, const double = 0, const double = 0);
-  BaselearnerCategoricalRidgeFactory (const json&, const mdata&);
+  BaselearnerCategoricalRidgeFactory (const json&, const mdata&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
@@ -296,7 +296,7 @@ private:
 
 public:
   BaselearnerCategoricalBinaryFactory (const std::string, const std::string, const std::shared_ptr<data::CategoricalDataRaw>&);
-  BaselearnerCategoricalBinaryFactory (const json&, const mdata&);
+  BaselearnerCategoricalBinaryFactory (const json&, const mdata&, const mdata&);
 
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
