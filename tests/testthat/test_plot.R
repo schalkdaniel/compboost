@@ -91,13 +91,14 @@ test_that("individual predictions can be plotted", {
 
 test_that("risk plotting works", {
 
-  expect_output({ cboost_no_valdat = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()) })
-  expect_output({ cboost_valdat = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob_fraction = 0.3) })
+  cboost_no_valdat = expect_output(boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()))
+  cboost_valdat = expect_output(boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(), oob_fraction = 0.3))
 
-  expect_silent({ gg1 = plotRisk(cboost_no_valdat) })
-  expect_silent({ gg2 = plotRisk(cboost_valdat) })
-  expect_true({ inherits(gg1, "ggplot")})
-  expect_true({ inherits(gg2, "ggplot")})
+  gg1 = expect_silent(plotRisk(cboost_no_valdat))
+  gg2 = expect_silent(plotRisk(cboost_valdat))
+
+  expect_true(inherits(gg1, "ggplot"))
+  expect_true(inherits(gg2, "ggplot"))
 
   cboost_no_valdat$model = NULL
   expect_error(plotRisk(cboost_no_valdat))
@@ -107,12 +108,12 @@ test_that("feature importance plotting works", {
 
   expect_output({ cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()) })
 
-  expect_silent({ gg = plotFeatureImportance(cboost) })
-  expect_silent({ gg = plotFeatureImportance(cboost, num_feats = 2) })
-  expect_silent({ gg = plotFeatureImportance(cboost, aggregate = FALSE) })
+  gg = expect_silent(plotFeatureImportance(cboost))
+  gg = expect_silent(plotFeatureImportance(cboost, num_feats = 2))
+  gg = expect_silent(plotFeatureImportance(cboost, aggregate = FALSE))
 
-  expect_error({ plotFeatureImportance(cboost, num_feats = 100) })
-  expect_error({ plotFeatureImportance(cboost, aggregate = 4) })
+  expect_error(plotFeatureImportance(cboost, num_feats = 100))
+  expect_error(plotFeatureImportance(cboost, aggregate = 4))
 
   cboost$model = NULL
   expect_error(plotFeatureImportance(cboost))

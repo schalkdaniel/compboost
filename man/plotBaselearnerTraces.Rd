@@ -28,7 +28,7 @@ evolves during the fitting process.
 }
 \examples{
 cboost = Compboost$new(data = iris, target = "Petal.Length",
-  loss = LossQuadratic$new())
+ loss = LossQuadratic$new())
 cboost$addComponents("Sepal.Width")
 cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
 cboost$train(500L)

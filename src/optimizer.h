@@ -176,7 +176,7 @@ private:
   arma::mat                _pred_momentum;
   arma::mat                _pred_aggr;
   arma::mat                _pr_corr;
-  const unsigned int       _acc_iters = INFINITY;
+  const unsigned int       _acc_iters = std::numeric_limits<unsigned int>::max();
   std::vector<std::string> _bl_unique_id;
 
   std::map<std::string, arma::mat> _aggr_parameter_map;

@@ -32,6 +32,7 @@
 #include "optimizer.h"
 #include "response.h"
 #include "saver.h"
+#include "init.h"
 
 #include "single_include/nlohmann/json.hpp"
 using json = nlohmann::json;
@@ -44,6 +45,7 @@ class DataWrapper
 {
 public:
   DataWrapper () {}
+  DataWrapper (std::shared_ptr<data::Data> ds) : sh_ptr_data(ds) {}
   virtual std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
   virtual ~DataWrapper () {}
 
@@ -232,9 +234,6 @@ public:
 };
 
 
-
-
-
 RCPP_EXPOSED_CLASS(DataWrapper)
 //RCPP_EXPOSED_CLASS(CategoricalDataWrapper)
 RCPP_EXPOSED_CLASS(CategoricalDataRawWrapper)
@@ -280,7 +279,11 @@ RCPP_MODULE (data_module)
 class BaselearnerFactoryWrapper
 {
 public:
+
+  BaselearnerFactoryWrapper () {}
+  BaselearnerFactoryWrapper (std::shared_ptr<blearnerfactory::BaselearnerFactory> bl) : sh_ptr_blearner_factory ( bl ) {}
   std::shared_ptr<blearnerfactory::BaselearnerFactory> getFactory () { return sh_ptr_blearner_factory; }
+
   virtual ~BaselearnerFactoryWrapper () {}
 
   arma::mat   getData            () { return sh_ptr_blearner_factory->getData(); }
@@ -290,6 +293,17 @@ public:
   std::string getDataIdentifier  () { return sh_ptr_blearner_factory->getDataIdentifier(); }
   std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
   std::string getFeatureName     () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
+
+  std::shared_ptr<data::Data> transform (Rcpp::List& newdata) const {
+    std::map<std::string, std::shared_ptr<data::Data>> data_map;
+
+    for (unsigned int i = 0; i < newdata.size(); i++) {
+      DataWrapper* temp = newdata[i];
+      data_map[ temp->getDataObj()->getDataIdentifier() ] = temp->getDataObj();
+    }
+
+    return sh_ptr_blearner_factory->instantiateData(data_map);
+  }
 
 protected:
   std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory;
@@ -366,8 +380,7 @@ private:
   Rcpp::List internal_arg_list = Rcpp::List::create(
     Rcpp::Named("degree") = 1,
     Rcpp::Named("intercept") = true,
-    Rcpp::Named("bin_root") = 0
-  );
+    Rcpp::Named("bin_root") = 0);
 
 public:
 
@@ -415,6 +428,26 @@ public:
     Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
+
+  Rcpp::List transformData (Rcpp::List& newdata) const {
+    std::shared_ptr<data::Data> dout = transform(newdata);
+    auto mout = Rcpp::List::create(
+      Rcpp::Named("design") = std::static_pointer_cast<data::BinnedData>(dout)->getDenseData());
+    return mout;
+  }
+
+  Rcpp::List getMeta () const {
+    auto fp = std::static_pointer_cast<blearnerfactory::BaselearnerPolynomialFactory>(sh_ptr_blearner_factory);
+    Rcpp::List lout = Rcpp::List::create(
+      Rcpp::Named("df") = fp->_attributes->df,
+      Rcpp::Named("penalty") = fp->_attributes->penalty,
+      Rcpp::Named("penalty_mat") = fp->_attributes->penalty_mat,
+      Rcpp::Named("degree") = fp->_attributes->degree,
+      Rcpp::Named("bin_root") = fp->_attributes->bin_root);
+
+    return lout;
+  }
+
 };
 
 
@@ -545,6 +578,32 @@ public:
     Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
+
+  Rcpp::List transformData (Rcpp::List& newdata) const {
+    std::shared_ptr<data::Data> dout = transform(newdata);
+
+    auto smat = std::static_pointer_cast<data::BinnedData>(dout)->getSparseData();
+    smat = arma::trans(smat); // This step is required, otherwise Rcpp complains about not knowing the data type. So
+                              // this: `Rcpp::List::create(Rcpp::Named("design") = smat.t());` is not possible.
+    auto mout = Rcpp::List::create(Rcpp::Named("design") = smat);
+    return mout;
+  }
+
+  Rcpp::List getMeta () const {
+    auto fp = std::static_pointer_cast<blearnerfactory::BaselearnerPSplineFactory>(sh_ptr_blearner_factory);
+    Rcpp::List lout = Rcpp::List::create(
+      Rcpp::Named("df") = fp->_attributes->df,
+      Rcpp::Named("penalty") = fp->_attributes->penalty,
+      Rcpp::Named("penalty_mat") = fp->_attributes->penalty_mat,
+      Rcpp::Named("degree") = fp->_attributes->degree,
+      Rcpp::Named("n_knots") = fp->_attributes->n_knots,
+      Rcpp::Named("differences") = fp->_attributes->differences,
+      Rcpp::Named("bin_root") = fp->_attributes->bin_root,
+      Rcpp::Named("knots") = fp->_attributes->knots);
+
+    return lout;
+  }
+
 };
 
 //' Base-learner factory to make regression using tensor products
@@ -560,10 +619,12 @@ public:
 class BaselearnerTensorFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
+  BaselearnerFactoryWrapper bl1;
+  BaselearnerFactoryWrapper bl2;
 
 public:
 
-  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc) : bl1 ( blearner1 ), bl2 ( blearner2 )
   {
     // We need to converse the SEXP from the element to an integer:
     std::string blearner_type_temp = blc;
@@ -590,6 +651,31 @@ public:
   {
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
+
+  Rcpp::List transformData (Rcpp::List& newdata) const {
+    auto dout = transform(newdata);
+    Rcpp::List mout;
+    if (dout->usesSparseMatrix()) {
+      auto smat = dout->getSparseData();
+      smat = arma::trans(smat); // This step is required, otherwise Rcpp complains about not knowing the data type. So
+                                // this: `Rcpp::List::create(Rcpp::Named("design") = smat.t());` is not possible.
+      mout = Rcpp::List::create(Rcpp::Named("design") = smat);
+    } else  {
+      mout = Rcpp::List::create(Rcpp::Named("design") = dout->getDenseData());
+    }
+    return mout;
+  }
+
+  Rcpp::List getMeta () const {
+    auto fp = std::static_pointer_cast<blearnerfactory::BaselearnerTensorFactory>(sh_ptr_blearner_factory);
+    Rcpp::List lout = Rcpp::List::create(
+      Rcpp::Named("df") = fp->getDF(),
+      Rcpp::Named("penalty") = fp->getPenalty(),
+      Rcpp::Named("penalty_mat") = fp->getPenaltyMat());
+      //Rcpp::Named("meta_bl1") = bl1.getMeta());
+
+    return lout;
+  }
 };
 
 //' Base-learner factory to make regression using centered base learner
@@ -604,9 +690,11 @@ public:
 class BaselearnerCenteredFactoryWrapper : public BaselearnerFactoryWrapper
 {
 private:
+  BaselearnerFactoryWrapper bl1;
+  BaselearnerFactoryWrapper bl2;
 
 public:
-  BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+  BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc) : bl1 ( blearner1 ), bl2 ( blearner2 )
   {
     // We need to converse the SEXP from the element to an integer:
     std::string blearner_type_temp = blc;
@@ -626,6 +714,26 @@ public:
   {
     return std::static_pointer_cast<blearnerfactory::BaselearnerCenteredFactory>(sh_ptr_blearner_factory)->getRotation();
   }
+
+  Rcpp::List transformData (Rcpp::List& newdata) const {
+    auto dout = transform(newdata);
+
+    auto mout = Rcpp::List::create(
+      Rcpp::Named("design") = std::static_pointer_cast<data::BinnedData>(dout)->getDenseData());
+    return mout;
+  }
+
+  Rcpp::List getMeta () const {
+    auto fp = std::static_pointer_cast<blearnerfactory::BaselearnerCenteredFactory>(sh_ptr_blearner_factory);
+    Rcpp::List lout = Rcpp::List::create(
+      Rcpp::Named("df") = fp->getDF(),
+      Rcpp::Named("penalty") = fp->getPenalty(),
+      Rcpp::Named("penalty_mat") = fp->getPenaltyMat(),
+      Rcpp::Named("rotation") = fp->getRotation());
+
+    return lout;
+  }
+
 };
 
 
@@ -703,6 +811,28 @@ public:
   {
     return std::static_pointer_cast<blearnerfactory::BaselearnerCategoricalRidgeFactory>(sh_ptr_blearner_factory)->getDictionary();
   }
+
+  Rcpp::List transformData (Rcpp::List& newdata) const {
+    auto dout = transform(newdata);
+
+    auto smat = dout->getSparseData();
+    smat = arma::trans(smat); // This step is required, otherwise Rcpp complains about not knowing the data type. So
+                              // this: `Rcpp::List::create(Rcpp::Named("design") = smat.t());` is not possible.
+    auto mout = Rcpp::List::create(Rcpp::Named("design") = smat);
+    return mout;
+  }
+
+  Rcpp::List getMeta () const {
+    auto fp = std::static_pointer_cast<blearnerfactory::BaselearnerCategoricalRidgeFactory>(sh_ptr_blearner_factory);
+    Rcpp::List lout = Rcpp::List::create(
+      Rcpp::Named("df") = fp->getDF(),
+      Rcpp::Named("penalty") = fp->getPenalty(),
+      Rcpp::Named("penalty_mat") = fp->getPenaltyMat(),
+      Rcpp::Named("dictionary") = fp->getDictionary());
+
+    return lout;
+  }
+
 };
 
 
@@ -767,6 +897,24 @@ public:
   {
     Rcpp::Rcout << "Categorical factory of category " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
   }
+
+  Rcpp::List transformData (Rcpp::List& newdata) const {
+    auto dout = transform(newdata);
+
+    auto smat = dout->getSparseData();
+    smat = arma::trans(smat); // This step is required, otherwise Rcpp complains about not knowing the data type. So
+                              // this: `Rcpp::List::create(Rcpp::Named("design") = smat.t());` is not possible.
+    auto mout = Rcpp::List::create(Rcpp::Named("design") = smat);
+    return mout;
+  }
+
+  Rcpp::List getMeta () const {
+    auto fp = std::static_pointer_cast<blearnerfactory::BaselearnerCategoricalBinaryFactory>(sh_ptr_blearner_factory);
+    Rcpp::List lout = Rcpp::List::create(Rcpp::Named("class") = fp->_attributes->cls);
+
+    return lout;
+  }
+
 };
 
 //' Create custom base-learner factory by using R functions.
@@ -1047,6 +1195,8 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerPolynomialFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("transformData",    &BaselearnerPolynomialFactoryWrapper::transformData, "Calculate basis functions of the base learner")
+    .method("getMeta",          &BaselearnerPolynomialFactoryWrapper::getMeta, "Get meta data used for fitting the base learner")
   ;
 
  class_<BaselearnerCategoricalRidgeFactoryWrapper> ("BaselearnerCategoricalRidge")
@@ -1056,6 +1206,8 @@ RCPP_MODULE (baselearner_factory_module)
 
     .method("summarizeFactory", &BaselearnerCategoricalRidgeFactoryWrapper::summarizeFactory, "Summarize Factory")
     .method("getDictionary",    &BaselearnerCategoricalRidgeFactoryWrapper::getDictionary, "Summarize Factory")
+    .method("transformData",    &BaselearnerCategoricalRidgeFactoryWrapper::transformData, "Calculate basis functions of the base learner")
+    .method("getMeta",          &BaselearnerCategoricalRidgeFactoryWrapper::getMeta, "Get meta data used for fitting the base learner")
   ;
 
  class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")
@@ -1064,6 +1216,8 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<const CategoricalDataRawWrapper&, std::string, std::string> ()
 
     .method("summarizeFactory", &BaselearnerCategoricalBinaryFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("transformData",    &BaselearnerCategoricalBinaryFactoryWrapper::transformData, "Calculate basis functions of the base learner")
+    .method("getMeta",          &BaselearnerCategoricalBinaryFactoryWrapper::getMeta, "Get meta data used for fitting the base learner")
   ;
 
   class_<BaselearnerCenteredFactoryWrapper> ("BaselearnerCentered")
@@ -1072,6 +1226,8 @@ RCPP_MODULE (baselearner_factory_module)
 
     .method("summarizeFactory", &BaselearnerCenteredFactoryWrapper::summarizeFactory, "Summarize Factory")
     .method("getRotation",      &BaselearnerCenteredFactoryWrapper::getRotation, "Get rotation matrix for centering")
+    .method("transformData",    &BaselearnerCenteredFactoryWrapper::transformData, "Calculate basis functions of the base learner")
+    .method("getMeta",          &BaselearnerCenteredFactoryWrapper::getMeta, "Get meta data used for fitting the base learner")
   ;
 
   class_<BaselearnerTensorFactoryWrapper> ("BaselearnerTensor")
@@ -1080,6 +1236,8 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string, bool> ()
 
     .method("summarizeFactory", &BaselearnerTensorFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("transformData",    &BaselearnerTensorFactoryWrapper::transformData, "Calculate basis functions of the base learner")
+    .method("getMeta",          &BaselearnerTensorFactoryWrapper::getMeta, "Get meta data used for fitting the base learner")
   ;
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
@@ -1088,8 +1246,13 @@ RCPP_MODULE (baselearner_factory_module)
     .constructor<DataWrapper&, std::string, Rcpp::List> ()
 
     .method("summarizeFactory", &BaselearnerPSplineFactoryWrapper::summarizeFactory, "Summarize Factory")
+    .method("transformData",    &BaselearnerPSplineFactoryWrapper::transformData, "Calculate basis functions of the base learner")
+    .method("getMeta",          &BaselearnerPSplineFactoryWrapper::getMeta, "Get meta data used for fitting the base learner")
   ;
 
+
+  // CUSTOM BASE LEARNERS
+  // ------------------------------------------------------------------------
   class_<BaselearnerCustomFactoryWrapper> ("BaselearnerCustom")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, Rcpp::List> ()
