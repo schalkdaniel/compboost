@@ -95,13 +95,15 @@ public:
   virtual std::string getDataIdentifier  () const;
   virtual std::shared_ptr<blearner::Baselearner>  createBaselearner () = 0;
 
-  virtual json toJson () const = 0;
+  virtual json toJson            ()           const = 0;
+  virtual json extractDataToJson (const bool) const = 0;
 
   // Getter/Setter
   sdata       getDataSource       () const;
   std::string getBaselearnerType  () const;
 
-  json baseToJson (const std::string) const;
+  json dataSourceToJson ()                  const;
+  json baseToJson       (const std::string) const;
 
   // Destructor:
   virtual ~BaselearnerFactory ();
@@ -141,6 +143,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 
@@ -173,6 +176,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 
@@ -211,6 +215,7 @@ public:
   std::shared_ptr<blearner::Baselearner> createBaselearner ();
 
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 
@@ -247,6 +252,7 @@ public:
   std::shared_ptr<blearner::Baselearner> createBaselearner ();
   arma::mat getRotation () const;
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 
@@ -282,6 +288,7 @@ public:
   std::map<std::string, unsigned int> getDictionary () const;
 
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 
@@ -313,6 +320,7 @@ public:
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::string getDataIdentifier () const;
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 
@@ -349,6 +357,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 // BaselearnerCustomCppFactory:
@@ -385,6 +394,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
+  json extractDataToJson (const bool) const;
 };
 
 } // namespace blearnerfactory

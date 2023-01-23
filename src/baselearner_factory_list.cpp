@@ -139,16 +139,13 @@ json BaselearnerFactoryList::toJson () const
 json BaselearnerFactoryList::factoryDataToJson (const bool save_source) const
 {
   json j;
-  std::string id_dat;
-  std::shared_ptr<data::Data> sh_ptr_data;
+  json jsub;
+
   for (auto& it : _factory_map) {
-    if (save_source) {
-      sh_ptr_data = it.second->getDataSource();
-    } else {
-      sh_ptr_data = it.second->getInstantiatedData();
+    jsub = it.second->extractDataToJson(save_source);
+    for (auto& it : jsub.items()) {
+      j[it.key()] = it.value();
     }
-    id_dat = sh_ptr_data->getDataIdentifier();
-    j[id_dat] = sh_ptr_data->toJson();
   }
   return j;
 }

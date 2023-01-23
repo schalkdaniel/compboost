@@ -1,4 +1,4 @@
-testCboostJson = function(cboost, cboost2, new_iter = NULL) {
+testCboostJson = function(cboost, cboost2, new_iter = NULL, blp = "Petal.Length_spline") {
 
   old_iter = cboost$getCurrentIteration()
   if (! is.null(new_iter)) {
@@ -28,8 +28,7 @@ testCboostJson = function(cboost, cboost2, new_iter = NULL) {
     expect_equal(cboost2$getEstimatedParameter(), cboost2$getParameterAtIteration(new_iter))
   }
 
-  expect_equal(cboost$model$predictFactoryTrainData("Petal.Length_spline"),
-    cboost2$predictFactoryTrainData("Petal.Length_spline"))
+  expect_equal(cboost$model$predictFactoryTrainData(blp), cboost2$predictFactoryTrainData(blp))
   expect_equal(cboost$model$predictIndividualTrainData(), cboost2$predictIndividualTrainData())
 
   if (is.null(new_iter)) {
@@ -38,7 +37,6 @@ testCboostJson = function(cboost, cboost2, new_iter = NULL) {
 
   dl = cboost$prepareData(iris)
 
-  expect_equal(cboost$model$predictFactoryNewData("Petal.Length_spline", dl),
-    cboost2$predictFactoryNewData("Petal.Length_spline", dl))
+  expect_equal(cboost$model$predictFactoryNewData(blp, dl), cboost2$predictFactoryNewData(blp, dl))
   expect_equal(cboost$model$predictIndividual(dl), cboost2$predictIndividual(dl))
 }
