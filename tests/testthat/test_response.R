@@ -84,7 +84,7 @@ test_that("Loading response from JSON works", {
 
   ## REGRESSION:
   cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossQuadratic$new()))
-  file = "temp/cboost.json"
+  file = "cboost.json"
 
   expect_silent(cboost$model$saveJson(file))
   expect_true(file.exists(file))
@@ -98,7 +98,6 @@ test_that("Loading response from JSON works", {
 
   ## BINARY CLASSIFICATION:
   cboost = expect_output(boostSplines(iris[1:100, ], "Species", loss = LossBinomial$new()))
-  file = "temp/cboost.json"
 
   expect_silent(cboost$model$saveJson(file))
   expect_true(file.exists(file))
@@ -112,4 +111,6 @@ test_that("Loading response from JSON works", {
   expect_equal(r$getThreshold(), cboost$response$getThreshold())
   expect_equal(r$getPositiveClass(), cboost$response$getPositiveClass())
   expect_equal(r$getClassTable(), cboost$response$getClassTable())
+
+  file.remove(file)
 })

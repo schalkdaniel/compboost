@@ -1428,7 +1428,7 @@ public:
   }
   void loadFromJson (const std::string& file) {
     json j = saver::jsonLoader(file);
-    sh_ptr_loss = loss::jsonToLoss(j["loss"]);
+    sh_ptr_loss = loss::jsonToLoss(j["_sh_ptr_loss"]);
   }
 
   virtual ~LossWrapper () {}
@@ -2011,7 +2011,7 @@ public:
   ResponseRegrWrapper (std::string file)
   {
     json j = saver::jsonLoader(file);
-    sh_ptr_response = response::jsonToResponse(j["response"]);
+    sh_ptr_response = response::jsonToResponse(j["_sh_ptr_response"]);
   }
 };
 
@@ -2062,7 +2062,7 @@ public:
   ResponseBinaryClassifWrapper (std::string file)
   {
     json j = saver::jsonLoader(file);
-    sh_ptr_response = response::jsonToResponse(j["response"]);
+    sh_ptr_response = response::jsonToResponse(j["_sh_ptr_response"]);
   }
 
   double getThreshold () const
