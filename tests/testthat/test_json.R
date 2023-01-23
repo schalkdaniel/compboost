@@ -99,6 +99,5 @@ test_that("complex base learner", {
   testCboostJson(cboost, cboost2, 40, blp = "Petal.Length_spline_centered")
   testCboostJson(cboost, cboost2, 1000, blp = "Petal.Length_spline_centered")
 
-
   file.remove(file)
 })
