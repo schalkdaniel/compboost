@@ -433,7 +433,7 @@ LoggerOobRisk::LoggerOobRisk (const json& j)
     _oob_prediction ( saver::jsonToArmaMat(j["_oob_prediction"]) ),
     _oob_data_map   ( data::jsonToDataMap(j["_oob_data_map"]) ),
     _oob_data_map_inst   ( data::jsonToDataMap(j["_oob_data_map_inst"]) ),
-    _sh_ptr_oob_response ( response::jsonToResponse(j["_sh_ptr_response"]) )
+    _sh_ptr_oob_response ( response::jsonToResponse(j["_sh_ptr_oob_response"]) )
 { }
 
 /**

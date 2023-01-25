@@ -74,7 +74,7 @@
 #' table(mod$getSelectedBaselearner())
 #' mod$predict()
 #' @export
-boostSplines = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
+boostSplines = function(data, target, optimizer = NULL, loss = NULL,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, cache_type = "inverse",

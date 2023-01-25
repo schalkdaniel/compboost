@@ -110,6 +110,7 @@ public:
   double                                                getLearningRate ()   const;
   std::shared_ptr<blearnerlist::BaselearnerFactoryList> getBaselearnerList() const;
   std::shared_ptr<optimizer::Optimizer>                 getOptimizer()       const;
+  std::shared_ptr<response::Response>                   getResponse()       const;
 
 
   // Other member functions

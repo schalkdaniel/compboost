@@ -1954,10 +1954,12 @@ class ResponseWrapper
 {
 public:
   ResponseWrapper () {}
+  ResponseWrapper (std::shared_ptr<response::Response> r) : sh_ptr_response ( r ) {}
 
   std::shared_ptr<response::Response> getResponseObj () { return sh_ptr_response; }
 
   std::string getTargetName () const { return sh_ptr_response->getTargetName(); }
+  std::string getResponseType () const { return sh_ptr_response->getTaskIdentifier(); }
   arma::mat getResponse () const { return sh_ptr_response->getResponse(); }
   arma::mat getWeights () const { return sh_ptr_response->getWeights(); }
   arma::mat getPrediction () const { return sh_ptr_response->getPredictionScores(); }
@@ -2008,11 +2010,9 @@ public:
     sh_ptr_response = std::make_shared<response::ResponseRegr>(target_name, response, weights);
   }
 
-  ResponseRegrWrapper (std::string file)
-  {
-    json j = saver::jsonLoader(file);
-    sh_ptr_response = response::jsonToResponse(j["_sh_ptr_response"]);
-  }
+  ResponseRegrWrapper (ResponseWrapper r)
+    : ResponseWrapper::ResponseWrapper(std::static_pointer_cast<response::ResponseRegr>(r.getResponseObj()))
+  { }
 };
 
 //' Create response object for binary classification.
@@ -2059,11 +2059,15 @@ public:
     sh_ptr_response = std::make_shared<response::ResponseBinaryClassif>(target_name, pos_class, response, weights);
   }
 
-  ResponseBinaryClassifWrapper (std::string file)
-  {
-    json j = saver::jsonLoader(file);
-    sh_ptr_response = response::jsonToResponse(j["_sh_ptr_response"]);
-  }
+  //ResponseBinaryClassifWrapper (std::string file)
+  //{
+    //json j = saver::jsonLoader(file);
+    //sh_ptr_response = response::jsonToResponse(j["_sh_ptr_response"]);
+  //}
+
+  ResponseBinaryClassifWrapper (ResponseWrapper r)
+    : ResponseWrapper::ResponseWrapper(std::static_pointer_cast<response::ResponseBinaryClassif>(r.getResponseObj()))
+  { }
 
   double getThreshold () const
   {
@@ -2093,6 +2097,7 @@ RCPP_MODULE (response_module)
 
     .method("getTargetName",          &ResponseWrapper::getTargetName, "Get the name of the target variable")
     .method("getResponse",            &ResponseWrapper::getResponse, "Get the original response")
+    .method("getResponseType",        &ResponseWrapper::getResponseType, "Get the original response")
     .method("getWeights",             &ResponseWrapper::getWeights, "Get the weights")
     .method("getPrediction",          &ResponseWrapper::getPrediction, "Get prediction scores")
     .method("getPredictionTransform", &ResponseWrapper::getPredictionTransform, "Get transformed prediction scores")
@@ -2107,7 +2112,7 @@ RCPP_MODULE (response_module)
     .constructor ()
     .constructor<std::string, arma::mat> ()
     .constructor<std::string, arma::mat, arma::mat> ()
-    .constructor<std::string> ()
+    .constructor<ResponseWrapper> ()
   ;
 
   class_<ResponseBinaryClassifWrapper> ("ResponseBinaryClassif")
@@ -2116,7 +2121,7 @@ RCPP_MODULE (response_module)
     .constructor ()
     .constructor<std::string, std::string, std::vector<std::string>> ()
     .constructor<std::string, std::string, std::vector<std::string>, arma::mat> ()
-    .constructor<std::string> ()
+    .constructor<ResponseWrapper> ()
 
     .method("getThreshold",           &ResponseBinaryClassifWrapper::getThreshold, "Get threshold used to transform scores to labels")
     .method("setThreshold",           &ResponseBinaryClassifWrapper::setThreshold, "Set threshold used to transform scores to labels")
@@ -3240,6 +3245,11 @@ public:
     return unique_ptr_cboost->getPrediction(as_response);
   }
 
+  double getLearningRate () const
+  {
+    return unique_ptr_cboost->getLearningRate();
+  }
+
   std::vector<std::string> getSelectedBaselearner ()
   {
     return unique_ptr_cboost->getSelectedBaselearner();
@@ -3329,6 +3339,12 @@ public:
     return unique_ptr_cboost->predict(data_map, as_response);
   }
 
+  ResponseWrapper getResponse ()
+  {
+    ResponseWrapper out(unique_ptr_cboost->getResponse());
+    return out;
+  }
+
   void summarizeCompboost () { unique_ptr_cboost->summarizeCompboost(); }
   bool isTrained () { return is_trained; }
   arma::mat getOffset () { return unique_ptr_cboost->getOffset(); }
@@ -3349,15 +3365,17 @@ RCPP_MODULE (compboost_module)
     .constructor<ResponseWrapper&, double, bool, BlearnerFactoryListWrapper&, LossWrapper&, LoggerListWrapper&, OptimizerWrapper&> ()
     .constructor<std::string> ()
     .method("train", &CompboostWrapper::train, "Run component-wise boosting")
-    .method("continueTraining", &CompboostWrapper::continueTraining, "Continue Training")
+    .method("continueTraining", &CompboostWrapper::continueTraining, "Continue training")
+    .method("getLearningRate", &CompboostWrapper::getLearningRate, "Get learning rate")
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected base-learner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
+    .method("getResponse", &CompboostWrapper::getResponse, "Get the response object")
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated parameter")
     .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
-    .method("predictFactoryTrainData", &CompboostWrapper::predictFactoryTrainData, "Get linear predictor of one base learnern on the train data")
-    .method("predictFactoryNewData", &CompboostWrapper::predictFactoryNewData, "Get linear predictor of one base learnern on new data")
+    .method("predictFactoryTrainData", &CompboostWrapper::predictFactoryTrainData, "Get linear predictor of one base learner on the train data")
+    .method("predictFactoryNewData", &CompboostWrapper::predictFactoryNewData, "Get linear predictor of one base learner on new data")
     .method("predictIndividualTrainData", &CompboostWrapper::predictIndividualTrainData, "Get linear predictor for each feature on the train data")
     .method("predictIndividual", &CompboostWrapper::predictIndividual, "Get linear predictor for each feature on new data")
     .method("predict", &CompboostWrapper::predict, "Predict new data")

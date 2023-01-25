@@ -351,6 +351,12 @@ std::shared_ptr<optimizer::Optimizer> Compboost::getOptimizer () const
   return _sh_ptr_optimizer;
 }
 
+std::shared_ptr<response::Response> Compboost::getResponse() const
+{
+  return _sh_ptr_response;
+}
+
+
 void Compboost::summarizeCompboost () const
 {
   Rcpp::Rcout << "Compboost object with:" << std::endl;
@@ -377,12 +383,12 @@ void Compboost::saveJson (std::string file) const
     {"data_source", _sh_ptr_factory_list->factoryDataToJson(true)},
     {"data_init",   _sh_ptr_factory_list->factoryDataToJson()},
 
-    {"_sh_ptr_response",   _sh_ptr_response->toJson()},
-    {"_sh_ptr_optimizer",  _sh_ptr_optimizer->toJson()},
-    {"_sh_ptr_loss",       _sh_ptr_loss->toJson()},
-    {"_sh_ptr_loggerlist", _sh_ptr_loggerlist->toJson()},
+    {"_sh_ptr_response",     _sh_ptr_response->toJson()},
+    {"_sh_ptr_optimizer",    _sh_ptr_optimizer->toJson()},
+    {"_sh_ptr_loss",         _sh_ptr_loss->toJson()},
+    {"_sh_ptr_loggerlist",   _sh_ptr_loggerlist->toJson()},
     {"_sh_ptr_factory_list", _sh_ptr_factory_list->toJson()},
-    {"_blearner_track",    _blearner_track.toJson()}
+    {"_blearner_track",      _blearner_track.toJson()}
   };
 
   std::ofstream o(file);

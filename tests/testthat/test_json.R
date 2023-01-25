@@ -101,3 +101,17 @@ test_that("complex base learner", {
 
   file.remove(file)
 })
+
+test_that("training with validation logger works", {
+  file = "cboost.json"
+
+  cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossAbsolute$new(),
+    oob_fraction = 0.3, stop_args = list(patience = 5, eps_for_break = 0)))
+
+  expect_silent(cboost$model$saveJson(file))
+  cboost2 = expect_silent(Compboost_internal$new(file))
+
+  testCboostJson(cboost, cboost2)
+  testCboostJson(cboost, cboost2, 10)
+  testCboostJson(cboost, cboost2, 1000)
+})
