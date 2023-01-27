@@ -89,7 +89,7 @@ Indicator whether all stopper must return `TRUE` to early stop the algorithm.
 Comparable to `all()` if `stop_all = TRUE` and `any()` if `stop_all = FALSE`.}
 
 \item{\code{early_stop}}{(`logical(1)`)\cr
-Indicator whether early stopping should be used or not.}
+Indicator whether early stopping is used or not.}
 }
 \if{html}{\out{</div>}}
 }
@@ -158,16 +158,17 @@ Note: `oob_fraction` is ignored if this argument is set.}
 Creates a new instance of this [R6][R6::R6Class] class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$new(
-  data,
-  target,
-  optimizer = OptimizerCoordinateDescent$new(),
-  loss,
+  data = NULL,
+  target = NULL,
+  optimizer = NULL,
+  loss = NULL,
   learning_rate = 0.05,
   positive = NULL,
   oob_fraction = NULL,
   early_stop = FALSE,
   idx_oob = NULL,
-  stop_args = list(eps_for_break = 0, patience = 10L)
+  stop_args = list(eps_for_break = 0, patience = 10L),
+  file = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -208,6 +209,9 @@ Note: `oob_fraction` is ignored if this argument is set.}
 
 \item{\code{stop_args}}{(`list(integer(1), integer(1))`)\cr
 `list` containing two elements `patience` and `eps_for_break` which are used for early stopping.}
+
+\item{\code{file}}{(`character(1`)\cr
+File from which a model should be loaded. If `NULL`, `data` and `target` must be defined.}
 }
 \if{html}{\out{</div>}}
 }

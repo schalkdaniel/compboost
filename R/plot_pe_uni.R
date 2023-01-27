@@ -34,7 +34,7 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  feats = cboost$bl_factory_list$getDataNames()
+  feats = unique(cboost$bl_factory_list$getDataNames())
   checkmate::assertChoice(x = feat, choices = feats)
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
   checkmate::assertLogical(x = individual, len = 1L)
@@ -49,8 +49,14 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   names(df_plt) = feat
 
   newdat  = suppressWarnings(cboost$prepareData(df_plt))
-  blnames = cboost$bl_factory_list$getRegisteredFactoryNames()
-  blnames = blnames[feats == feat]
+
+  blnames = lapply(cboost$model$getFactoryMap(), function(blf) {
+    feat %in% blf$getFeatureName()
+  })
+  blnames = names(blnames)[unlist(blnames)]
+
+  #blnames = cboost$bl_factory_list$getRegisteredFactoryNames()
+  #blnames = blnames[feats == feat]
 
   blsel   = unique(cboost$getSelectedBaselearner())
   blnames = blnames[blnames %in% blsel]

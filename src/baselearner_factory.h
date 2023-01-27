@@ -83,24 +83,27 @@ public:
   virtual bool       usesSparse           ()                const = 0;
   virtual sdata      instantiateData      (const mdata&)    const = 0;
 
-  virtual sdata      getInstantiatedData ()                 const = 0;
-  virtual arma::mat  getData             ()                 const = 0;
-  virtual arma::vec  getDF               ()                 const = 0;
-  virtual arma::vec  getPenalty          ()                 const = 0;
-  virtual arma::mat  getPenaltyMat       ()                 const = 0;
+  virtual sdata       getInstantiatedData ()                 const = 0;
+  virtual arma::mat   getData             ()                 const = 0;
+  virtual arma::vec   getDF               ()                 const = 0;
+  virtual arma::vec   getPenalty          ()                 const = 0;
+  virtual arma::mat   getPenaltyMat       ()                 const = 0;
+  virtual std::string getBaseModelName    ()                 const = 0;
 
   virtual arma::mat  calculateLinearPredictor (const arma::mat&) const = 0;
   virtual arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const = 0;
 
-  virtual std::string getDataIdentifier  () const;
+  virtual std::vector<std::string>                getDataIdentifier () const;
   virtual std::shared_ptr<blearner::Baselearner>  createBaselearner () = 0;
 
   virtual json toJson            ()           const = 0;
   virtual json extractDataToJson (const bool) const = 0;
 
   // Getter/Setter
-  sdata       getDataSource       () const;
-  std::string getBaselearnerType  () const;
+  sdata              getDataSource       () const;
+  std::string        getBaselearnerType  () const;
+
+  virtual std::vector<sdata> getVecDataSource () const;
 
   json dataSourceToJson ()                  const;
   json baseToJson       (const std::string) const;
@@ -133,11 +136,12 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata       getInstantiatedData () const;
+  arma::mat   getData             () const;
+  arma::vec   getDF               () const;
+  arma::vec   getPenalty          () const;
+  arma::mat   getPenaltyMat       () const;
+  std::string getBaseModelName    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -167,11 +171,12 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata       getInstantiatedData () const;
+  arma::mat   getData             () const;
+  arma::vec   getDF               () const;
+  arma::vec   getPenalty          () const;
+  arma::mat   getPenaltyMat       () const;
+  std::string getBaseModelName    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -205,11 +210,14 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata                    getInstantiatedData () const;
+  arma::mat                getData             () const;
+  arma::vec                getDF               () const;
+  arma::vec                getPenalty          () const;
+  arma::mat                getPenaltyMat       () const;
+  std::string              getBaseModelName    () const;
+  std::vector<std::string> getDataIdentifier   () const;
+  std::vector<sdata>       getVecDataSource    () const;
 
   std::shared_ptr<blearnerfactory::BaselearnerFactory> getBl1 () const;
   std::shared_ptr<blearnerfactory::BaselearnerFactory> getBl2 () const;
@@ -246,11 +254,14 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata                    getInstantiatedData () const;
+  arma::mat                getData             () const;
+  arma::vec                getDF               () const;
+  arma::vec                getPenalty          () const;
+  arma::mat                getPenaltyMat       () const;
+  std::string              getBaseModelName    () const;
+  std::vector<std::string> getDataIdentifier   () const;
+  std::vector<sdata>       getVecDataSource    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -280,17 +291,18 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata       getInstantiatedData () const;
+  arma::mat   getData             () const;
+  arma::vec   getDF               () const;
+  arma::vec   getPenalty          () const;
+  arma::mat   getPenaltyMat       () const;
+  std::string getBaseModelName    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
-  std::string getDataIdentifier () const;
+  std::vector<std::string> getDataIdentifier () const;
 
   std::map<std::string, unsigned int> getDictionary () const;
 
@@ -316,17 +328,18 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata       getInstantiatedData () const;
+  arma::mat   getData             () const;
+  arma::vec   getDF               () const;
+  arma::vec   getPenalty          () const;
+  arma::mat   getPenaltyMat       () const;
+  std::string getBaseModelName    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
-  std::string getDataIdentifier () const;
+  std::vector<std::string> getDataIdentifier () const;
   json toJson () const;
   json extractDataToJson (const bool) const;
 };
@@ -354,11 +367,12 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec  getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata       getInstantiatedData () const;
+  arma::mat   getData             () const;
+  arma::vec   getDF               () const;
+  arma::vec   getPenalty          () const;
+  arma::mat   getPenaltyMat       () const;
+  std::string getBaseModelName    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -391,11 +405,12 @@ public:
   bool       usesSparse           ()                 const;
   sdata      instantiateData      (const mdata&)     const;
 
-  sdata      getInstantiatedData  ()                 const;
-  arma::mat  getData              ()                 const;
-  arma::vec  getDF                ()                 const;
-  arma::vec     getPenalty           ()                 const;
-  arma::mat  getPenaltyMat        ()                 const;
+  sdata       getInstantiatedData () const;
+  arma::mat   getData             () const;
+  arma::vec   getDF               () const;
+  arma::vec   getPenalty          () const;
+  arma::mat   getPenaltyMat       () const;
+  std::string getBaseModelName    () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;

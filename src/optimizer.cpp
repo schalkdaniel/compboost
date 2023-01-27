@@ -59,7 +59,8 @@ Optimizer::Optimizer (const unsigned int num_threads)
 
 Optimizer::Optimizer (const json& j)
   : _step_sizes  ( j["_step_sizes"].get<std::vector<double>>() ),
-    _num_threads ( j["_num_threads"] )
+    _num_threads ( j["_num_threads"] ),
+    _type        ( j["_type"] )
 { }
 
 std::map<std::string, arma::mat> Optimizer::getParameterAtIteration (const unsigned int k, const double lr, blearnertrack::BaselearnerTrack& bl_track) const
@@ -100,12 +101,18 @@ std::map<std::string, arma::mat> Optimizer::getParameterAtIteration (const unsig
   }
 }
 
+std::string Optimizer::getType () const
+{
+  return _type;
+}
+
 json Optimizer::baseToJson (const std::string cln) const
 {
   json j = {
     {"Class",        cln},
     {"_step_sizes",  _step_sizes },
-    {"_num_threads", _num_threads}
+    {"_num_threads", _num_threads},
+    {"_type",        _type}
   };
   return j;
 }
@@ -124,12 +131,14 @@ Optimizer::~Optimizer () { }
 OptimizerCoordinateDescent::OptimizerCoordinateDescent ()
 {
   _step_sizes.assign(1, 1.0);
+  _type = "coo_descent";
 }
 
 OptimizerCoordinateDescent::OptimizerCoordinateDescent (const unsigned int num_threads)
   : Optimizer::Optimizer ( num_threads )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "coo_descent";
 }
 
 OptimizerCoordinateDescent::OptimizerCoordinateDescent (const json& j)
@@ -289,12 +298,14 @@ json OptimizerCoordinateDescent::toJson () const
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch ()
 {
   _step_sizes.clear();
+  _type = "coo_descent_ls";
 }
 
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch  (const unsigned int num_threads)
   : OptimizerCoordinateDescent::OptimizerCoordinateDescent ( num_threads )
 {
   _step_sizes.clear();
+  _type = "coo_descent_ls";
 }
 
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch (const json& j)
@@ -343,6 +354,7 @@ OptimizerCosineAnnealing::OptimizerCosineAnnealing ()
   _current_iter = 1;
   _cycle_iter = 1;
   _step_sizes.clear();
+  _type = "cosine_ann";
 }
 
 OptimizerCosineAnnealing::OptimizerCosineAnnealing (unsigned int num_threads)
@@ -356,6 +368,7 @@ OptimizerCosineAnnealing::OptimizerCosineAnnealing (unsigned int num_threads)
   _current_iter = 1;
   _cycle_iter = 1;
   _step_sizes.clear();
+  _type = "cosine_ann";
 }
 
 OptimizerCosineAnnealing::OptimizerCosineAnnealing  (const double nu_min, const double nu_max, const unsigned int cycles,
@@ -370,6 +383,7 @@ OptimizerCosineAnnealing::OptimizerCosineAnnealing  (const double nu_min, const 
   _current_iter = 1;
   _cycle_iter = 1;
   _step_sizes.clear();
+  _type = "cosine_ann";
 }
 
 OptimizerCosineAnnealing::OptimizerCosineAnnealing (const json& j)
@@ -436,6 +450,7 @@ OptimizerAGBM::OptimizerAGBM () : _momentum ( .0 ) { }
 OptimizerAGBM::OptimizerAGBM (const double momentum) : _momentum ( momentum )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "agbm";
 }
 
 OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int num_threads)
@@ -443,6 +458,7 @@ OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int num_thre
     _momentum            ( momentum )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "agbm";
 }
 
 OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int acc_iters, const unsigned int num_threads)
@@ -451,6 +467,7 @@ OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int acc_iter
     _acc_iters           ( acc_iters )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "agbm";
 }
 
 OptimizerAGBM::OptimizerAGBM (const json& j, const mdata& mdat)

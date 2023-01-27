@@ -21,26 +21,17 @@ test_that("train works", {
 
   expect_error(cboost$train(10))
   expect_error(cboost$train(10, trace = 20))
-  expect_error(
-  	cboost$addBaselearner(c("hp", "wt"), "spline", BaselearnerPSpline, degree = 3,
-      n_knots = 10, penalty = 2, differences = 2)
-  )
+  expect_error(cboost$addBaselearner(c("hp", "wt"), "spline", BaselearnerPSpline, degree = 3,
+    n_knots = 10, penalty = 2, differences = 2))
 
-  expect_silent(
-    cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomial, degree = 1,
-    	intercept = FALSE)
-  )
-  expect_silent(
-  	cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
-    	n_knots = 10, penalty = 2, differences = 2)
-  )
+  expect_silent(cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
+  expect_silent(cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
+    n_knots = 10, penalty = 2, differences = 2))
   expect_output(cboost$train(4000))
   expect_output(cboost$print())
 
-  expect_error(
-    cboost$addBaselearner("wt", "spline", BaselearnerPSpline, degree = 3,
-      n_knots = 10, penalty = 2, differences = 2)
-  )
+  expect_error(cboost$addBaselearner("wt", "spline", BaselearnerPSpline, degree = 3,
+    n_knots = 10, penalty = 2, differences = 2))
 
   expect_s4_class(cboost$model, "Rcpp_Compboost_internal")
   expect_s4_class(cboost$bl_factory_list, "Rcpp_BlearnerFactoryList")
@@ -69,16 +60,15 @@ test_that("train works", {
   expect_length(cboost$getSelectedBaselearner(), 100)
 
   expect_true(all(unique(cboost$getSelectedBaselearner()) %in% c("hp_spline", "mpg_cat_A_linear", "mpg_cat_B_linear")))
-
 })
 
 test_that("predict works", {
-	mtcars$mpg_cat = ifelse(mtcars$mpg > 15, "A", "B")
+  mtcars$mpg_cat = ifelse(mtcars$mpg > 15, "A", "B")
 
   cboost = expect_silent(Compboost$new(mtcars, "mpg", loss = LossQuadratic$new()))
-  expect_silent(cboost$addBaselearner("mpg_cat", "binary", BaselearnerCategoricalBinary))
   expect_silent(cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
     n_knots = 10, penalty = 2, differences = 2))
+  expect_silent(cboost$addBaselearner("mpg_cat", "binary", BaselearnerCategoricalBinary))
 
   expect_output(cboost$train(200, trace = 0))
 
@@ -487,13 +477,15 @@ test_that("retraining of compboost logs correctly", {
 })
 
 test_that("transform newdata works", {
-  cboost = boostSplines(iris, "Sepal.Length", loss = LossQuadratic$new())
+  cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossQuadratic$new()))
   ndat = cboost$prepareData(iris)
 
   mats = expect_warning(cboost$transformData(iris))
   for (bln in names(mats)) {
     expect_equal(mats[[bln]], cboost$baselearner_list[[bln]]$factory$transformData(ndat)$design)
-    expect_equal(t(as.matrix(mats[[bln]])), cboost$baselearner_list[[bln]]$factory$getData())
+    m1 = t(as.matrix(mats[[bln]]))
+    dimnames(m1) = NULL
+    expect_equal(m1, cboost$baselearner_list[[bln]]$factory$getData())
   }
 
   vselect = c("Sepal.Width_spline", "Petal.Width_spline_xy")

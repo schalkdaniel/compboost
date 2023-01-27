@@ -332,7 +332,7 @@ sbindata initCenteredData (const sdata& bl_data, const std::shared_ptr<CenteredA
   } else {
     temp = bl_data->getDenseData() * attributes->rotation;
   }
-  sbindata sh_ptr_bindata = std::make_shared<data::BinnedData>(bl_data->getDataIdentifier()); //, attributes->bin_root, mraw, bins);
+  sbindata sh_ptr_bindata = std::make_shared<data::BinnedData>(bl_data->getDataIdentifier() + "_" + bl_data->getDataIdentifier()); //, attributes->bin_root, mraw, bins);
   sh_ptr_bindata->setDenseData(temp);
   return sh_ptr_bindata;
 }

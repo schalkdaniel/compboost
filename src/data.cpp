@@ -85,23 +85,27 @@ sdata extractDataFromMap (const sdata& sh_ptr_data, const mdata& mdat)
 
 
 
-Data::Data (const std::string data_identifier)
-  : _data_identifier ( data_identifier )
+Data::Data (const std::string data_identifier, const std::string type)
+  : _type            ( type ),
+    _data_identifier ( data_identifier )
 { }
 
-Data::Data (const std::string data_identifier, const arma::mat& data_mat)
-  : _data_identifier ( data_identifier ),
+Data::Data (const std::string data_identifier, const std::string type, const arma::mat& data_mat)
+  : _type            ( type ),
+    _data_identifier ( data_identifier ),
     _data_mat        ( data_mat )
 { }
 
-Data::Data (const std::string data_identifier, const arma::sp_mat& sparse_data_mat)
-  : _data_identifier ( data_identifier ),
+Data::Data (const std::string data_identifier, const std::string type, const arma::sp_mat& sparse_data_mat)
+  : _type ( type ),
+    _data_identifier ( data_identifier ),
     _use_sparse      ( true ),
     _sparse_data_mat ( sparse_data_mat )
 { }
 
 Data::Data (const json& j)
-  : _data_identifier ( j["_data_identifier"] ),
+  : _type            ( j["_type"] ),
+    _data_identifier ( j["_data_identifier"] ),
     _mat_cache       (std::make_pair(
       j["_mat_cache"]["type"],
       saver::jsonToArmaMat(j["_mat_cache"]["mat"])
@@ -163,10 +167,30 @@ void Data::setIndexVector (const arma::uvec& idx)
   _bin_idx = idx;
 }
 
-std::string Data::getDataIdentifier () const { return _data_identifier; }
-std::pair<std::string, arma::mat> Data::getCache () const { return _mat_cache; }
-std::string Data::getCacheType () const { return _mat_cache.first; }
-arma::mat   Data::getCacheMat  () const { return _mat_cache.second; }
+std::string Data::getType () const
+{
+  return _type;
+}
+
+std::string Data::getDataIdentifier () const
+{
+  return _data_identifier;
+}
+
+std::pair<std::string, arma::mat> Data::getCache () const
+{
+  return _mat_cache;
+}
+
+std::string Data::getCacheType () const
+{
+  return _mat_cache.first;
+}
+
+arma::mat   Data::getCacheMat  () const
+{
+  return _mat_cache.second;
+}
 
 arma::mat Data::getDenseData () const
 {
@@ -187,7 +211,7 @@ json Data::baseToJson (const std::string cln) const
 {
   json j = {
     {"Class", cln},
-
+    {"_type", _type},
     {"_data_identifier", _data_identifier},
     {"_mat_cache", {
       {"type", _mat_cache.first},
@@ -210,15 +234,15 @@ json Data::baseToJson (const std::string cln) const
 // -----------------------
 
 InMemoryData::InMemoryData (const std::string data_identifier)
-  : Data::Data ( std::string(data_identifier) )
+  : Data::Data ( std::string(data_identifier), std::string("in_memory") )
 { }
 
 InMemoryData::InMemoryData (const std::string data_identifier, const arma::mat& raw_data)
-  : Data::Data ( data_identifier, raw_data )
+  : Data::Data ( data_identifier, std::string("in_memory"), raw_data )
 { }
 
 InMemoryData::InMemoryData (const std::string data_identifier, const arma::sp_mat& raw_sp_data)
-  : Data::Data ( data_identifier, raw_sp_data )
+  : Data::Data ( data_identifier, std::string("in_memory"), raw_sp_data )
 { }
 
 InMemoryData::InMemoryData (const json& j)
@@ -258,11 +282,11 @@ InMemoryData::~InMemoryData () {}
 // BinnedData:
 // ------------------------------
 BinnedData::BinnedData (const std::string data_identifier)
-  : Data::Data ( std::string(data_identifier) )
+  : Data::Data ( std::string(data_identifier), std::string("binned") )
 { }
 
 BinnedData::BinnedData (const std::string data_identifier, const unsigned int bin_root, const arma::vec& x, const arma::vec& x_bins)
-  : Data::Data ( data_identifier),
+  : Data::Data ( data_identifier, std::string("binned") ),
     _bin_root  ( bin_root )
 {
   _use_binning = bin_root > 0;
@@ -310,7 +334,7 @@ json BinnedData::toJson () const
 // ---------------------------------
 
 CategoricalDataRaw::CategoricalDataRaw (const std::string data_identifier, const std::vector<std::string>& raw_data)
-  : Data::Data ( std::string(data_identifier) ),
+  : Data::Data ( std::string(data_identifier), std::string("categorical") ),
     _raw_data  ( raw_data )
 { }
 

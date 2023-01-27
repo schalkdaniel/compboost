@@ -42,6 +42,7 @@ namespace data
 class Data
 {
 private:
+  const std::string _type;
   const std::string _data_identifier = "";
 
   std::pair<std::string, arma::mat> _mat_cache;
@@ -58,9 +59,9 @@ protected:
   arma::uvec    _bin_idx;
   arma::sp_mat  _sparse_data_mat;
 
-  Data (const std::string);
-  Data (const std::string, const arma::mat&);
-  Data (const std::string, const arma::sp_mat&);
+  Data (const std::string, const std::string);
+  Data (const std::string, const std::string, const arma::mat&);
+  Data (const std::string, const std::string, const arma::sp_mat&);
   Data (const json&);
 
 public:
@@ -71,6 +72,7 @@ public:
   virtual json         toJson   () const = 0;
 
   // Getter/Setter
+  std::string                       getType           () const;
   std::string                       getDataIdentifier () const;
   std::pair<std::string, arma::mat> getCache          () const;
   std::string                       getCacheType      () const;

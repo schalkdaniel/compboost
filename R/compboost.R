@@ -90,7 +90,7 @@ Compboost = R6::R6Class("Compboost",
     stop_all = FALSE,
 
     #' @field early_stop (`logical(1)`)\cr
-    #' Indicator whether early stopping should be used or not.
+    #' Indicator whether early stopping is used or not.
     early_stop = FALSE,
 
     #' @description
@@ -115,15 +115,17 @@ Compboost = R6::R6Class("Compboost",
     #' @template param-idx_oob
     #' @param stop_args (`list(integer(1), integer(1))`)\cr
     #' `list` containing two elements `patience` and `eps_for_break` which are used for early stopping.
+    #' @param file (`character(1`)\cr
+    #' File from which a model should be loaded. If `NULL`, `data` and `target` must be defined.
     initialize = function(data = NULL, target = NULL, optimizer = NULL, loss = NULL,
       learning_rate = 0.05, positive = NULL, oob_fraction = NULL, early_stop = FALSE,
-      idx_oob = NULL, stop_args = list(eps_for_break = 0, patience = 10L), load_from_file = NULL) {
+      idx_oob = NULL, stop_args = list(eps_for_break = 0, patience = 10L), file = NULL) {
 
-      if (all(is.null(load_from_file), is.null(data), is.null(target))) {
-        stop("Make sure to specify `data` and `target` or load from a file with `load_from_file = [filename].json`")
+      if (all(is.null(file), is.null(data), is.null(target))) {
+        stop("Make sure to specify `data` and `target` or load from a file with `file = [filename].json`")
       }
 
-      if (is.null(load_from_file)) {
+      if (is.null(file)) {
 
         # CODE TO CREATE COMPBOOST OBJECT FROM ARGUMENTS:
 
@@ -258,7 +260,6 @@ Compboost = R6::R6Class("Compboost",
       } else {
 
         # LOAD COMPBOOST FROM FILE:
-
         private$loadFromJson(file)
 
       }
@@ -276,6 +277,9 @@ Compboost = R6::R6Class("Compboost",
     #' @param ... \cr
     #' Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
+      if (! is.null(self$model)) {
+        stop("Logger can not be added after training was started")
+      }
       private$p_l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
     },
 
@@ -339,7 +343,7 @@ Compboost = R6::R6Class("Compboost",
       }
 
       data_columns = self$data[, feature, drop = FALSE]
-      id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+      id_fac = paste(paste(feature, collapse = "_"), id, sep = "_")
 
       if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
         private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
@@ -354,7 +358,8 @@ Compboost = R6::R6Class("Compboost",
     #' @param blname (`character(1)`)\cr
     #' Name of the base learner that should be removed. Must be an element of `$getBaselearnerNames()`.
     rmBaselearner = function(blname) {
-      checkmate::assertChoice(blname, choices = names(private$p_bl_list))
+      #checkmate::assertChoice(blname, choices = names(private$p_bl_list))
+      checkmate::assertChoice(blname, choices = self$bl_factory_list$getRegisteredFactoryNames())
 
       self$bl_factory_list$rmBaselearnerFactory(factory_id)
     },
@@ -494,7 +499,7 @@ Compboost = R6::R6Class("Compboost",
       self$bl_factory_list$registerFactory(private$p_bl_list[[id_lin]]$factory)
 
       # Register centered spline:
-      id_sp = paste0(feature, "_spline_centered")
+      id_sp = paste0(feature, "_", feature, "_spline_centered")
       private$p_bl_list[[id_sp]] = list()
       private$p_bl_list[[id_sp]]$feature = feature
       private$p_bl_list[[id_sp]]$factory = f2cen
@@ -734,6 +739,8 @@ Compboost = R6::R6Class("Compboost",
       checkmate::assertCharacter(blnames, null.ok = TRUE)
       if (! is.null(blnames)) {
         nuisance = lapply(blnames, checkmate::assertChoice, choices = names(private$p_bl_list))
+      } else {
+        blnames = names(private$p_bl_list)
       }
       unused_cols = nnew[! nnew %in% ndat]
       if (length(unused_cols) > 0) {
@@ -794,11 +801,11 @@ Compboost = R6::R6Class("Compboost",
     print = function() {
       p = sprintf(paste("\n",
           "Component-Wise Gradient Boosting\n",
-          "Trained on %s with target %s",
+          "Target variable: %s",
           "Number of base-learners: %s",
           "Learning rate: %s",
           "Iterations: %s\n", sep = "\n"),
-        self$id, self$target, self$bl_factory_list$getNumberOfRegisteredFactories(),
+        self$target, self$bl_factory_list$getNumberOfRegisteredFactories(),
         self$learning_rate, self$getCurrentIteration())
 
       if (! is.null(self$positive))
@@ -969,7 +976,7 @@ Compboost = R6::R6Class("Compboost",
     logs = function(x) {
       if (! missing(x)) stop("`logs` is read only.")
       if (is.null(self$model)) {
-        stop("Logger data can only be returned when the model has been trained.")
+        stop("Logger data can only be returned after the model has been trained.")
       }
       if (is.null(private$p_logs)) {
         private$p_logs = self$getLoggerData()
@@ -1160,73 +1167,54 @@ Compboost = R6::R6Class("Compboost",
     loadFromJson = function(file) {
       checkmate::assertFile(file, extension = c("json", "JSON", "Json"))
 
-      stop("Not yet implemented")
+      self$model = Compboost_internal$new(file)
+      self$learning_rate = self$model$getLearningRate()
+      self$stop_all = self$model$useGlobalStopping()
 
-      # TODO: From loaded Compboost object get:
-      # - response(_oob) -> target, positive
-      # - optimizer
-      # - loss
-      # - recreate data(_oob), some way to store the train and test idx?
-      # - id (store within the compboost model)
-      # - stop_all
-      # - early_stop? Check if this can easily obtained from the loggelrist?
-      # - bl_factory_list, must be recreated from the object.
+      # RESPONSE:
+      self$response = extractResponse(self$model$getResponse())
+      self$positive = attr(self$response, "positive")
+      self$target = self$response$getTargetName()
+
+      # OPTIMIZER:
+      self$optimizer = extractOptimizer(self$model$getOptimizer())
+
+      # LOSS:
+      self$loss = extractLoss(self$model$getLoss())
+
+      # BASELEARNERLIST: TODO:
+      self$bl_factory_list = self$model$getBaselearnerList()
+
+      private$p_boost_intercept = "intercept" %in% self$bl_factory_list$getDataNames()
+      private$p_bl_list = lapply(self$model$getFactoryMap(), function(f) {
+        out = list(feature = f$getFeatureName(), factory = extractBaselearnerFactory(f))
+      })
+
+      # make active binding?
+      dtmp = lapply(self$model$getDataMap(), extractData)
+      self$data = do.call(data.frame, lapply(dtmp, function(d) {
+        if (d$getDataType() == "in_memory") return(d$getData())
+        if (d$getDataType() == "categorical") return(d$getRawData())
+      }))
 
       if (FALSE) {
-        q()
-        R
-      Rcpp::compileAttributes()
-      devtools::load_all(recompile = TRUE)
-      self = list()
+        # NECESSARY?
+        self$response_oob = NULL # Only relevant in creating the objects?
+        self$data_oob = NULL     # Only relevant in creating the objects?
+        private$p_logger_list = self$model$getLoggerList()
+        private$p_stop_args = list() # Only relevant when the oob logger is added.
+        private$p_l_list = list() # Only relevant prior to training.
+        self$early_stop = FALSE # Only relevant in constructor.
 
-      file = "cboost.json"
-      self$model = Compboost_internal$new(file)
-      rtemp = self$model$getResponse()
-
-      self$response = NULL
-      self$positive = NULL
-      if (rtemp$getResponseType() == "regression") {
-        self$response = ResponseRegr$new(rtemp)
+        # DROP:
+        self$oob_fraction = NULL # Set to private?
+        private$p_components = list() # Should be removed, no need after save/load works!
+        self$id = NULL # Removed
+        private$p_idx_oob = NULL   # Not possible to reverse engineer but also not required?
+                                   # -> Would be nice to have ... Save in Compboost object?
+                                   #    Then make an active binding that points to the model$getTrainIdx method?
+        private$p_idx_train = NULL # Not possible to reverse engineer but also not required? Same as above but point to the OOB logger?
       }
-      if (rtempt$getResponseType() == "binary_classif") {
-        self$response = ResponseBinaryClassif$new(rtemp)
-        self$positive = self$response$getPositiveClass()
-      }
-
-      if (is.null(self$response)) {
-        stop("Was not able to load response.")
-      }
-      self$target = self$response$getTargetName()
-      self$learning_rate = self$model$getLearningRate()
-
-      }
-
-
-      self$id = NULL
-
-      self$data = NULL
-      self$data_oob = NULL
-      self$oob_fraction = NULL
-
-      self$response_oob = NULL
-      self$optimizer = NULL
-      self$loss = NULL
-      self$bl_factory_list = NULL
-      self$stop_all = FALSE
-      self$early_stop = FALSE
-
-      private$p_l_list = list() # Recreate from the logger list?
-      private$p_bl_list = list() # 'feature' and 'factory' must be set by iterating over the registered factories. The id is the
-                                 # key of the factory map in the JSON file. the feature is the source id.
-      private$p_logger_list = list() # The LoggerList object, must be returned from the Compboost object.
-      private$p_stop_args = list() # Not necessary since everything should be stored in the loggerlist?
-      private$p_idx_oob = NULL   # Not possible to reverse engineer but also not required? -> Would be nice to have ... Save in Compboost object? Then make an active binding that points to the model$getTrainIdx method?
-      private$p_idx_train = NULL # Not possible to reverse engineer but also not required? Same as above but point to the OOB logger?
-      private$p_components = list() # Should be removed, no need after save/load works!
-      private$p_boost_intercept = FALSE # Check if p_bl_list contains 'intercept'. -> Make active binding and return on demand?
-      private$p_logs = NULL # Set by the active binding? If yes, set it once.
-
     }
-
   ) # end private
 ) # end Compboost

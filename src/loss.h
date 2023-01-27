@@ -68,11 +68,12 @@ class Loss : public std::enable_shared_from_this<Loss>
 {
 protected:
   const std::string _task_id;
+  const std::string _type;
   const arma::mat   _custom_offset;
   const bool        _use_custom_offset = false;
 
-  Loss (const std::string);
-  Loss (const std::string, const arma::mat&);
+  Loss (const std::string, const std::string);
+  Loss (const std::string, const std::string, const arma::mat&);
   Loss (const json&);
 
 public:
@@ -86,6 +87,7 @@ public:
   virtual json toJson () const = 0;
 
   // Setter/Getter
+  std::string getType () const;
   std::string getTaskId () const;
 
   // Other member functions

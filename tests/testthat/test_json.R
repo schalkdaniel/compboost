@@ -95,9 +95,9 @@ test_that("complex base learner", {
   expect_silent(cboost$model$saveJson(file))
   cboost2 = expect_silent(Compboost_internal$new(file))
 
-  testCboostJson(cboost, cboost2, blp = "Petal.Length_spline_centered")
-  testCboostJson(cboost, cboost2, 40, blp = "Petal.Length_spline_centered")
-  testCboostJson(cboost, cboost2, 1000, blp = "Petal.Length_spline_centered")
+  testCboostJson(cboost, cboost2, blp = "Petal.Length_Petal.Length_spline_centered")
+  testCboostJson(cboost, cboost2, 40, blp = "Petal.Length_Petal.Length_spline_centered")
+  testCboostJson(cboost, cboost2, 1000, blp = "Petal.Length_Petal.Length_spline_centered")
 
   file.remove(file)
 })

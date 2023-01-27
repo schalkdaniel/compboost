@@ -44,10 +44,26 @@ using json = nlohmann::json;
 class DataWrapper
 {
 public:
-  DataWrapper () {}
-  DataWrapper (std::shared_ptr<data::Data> ds) : sh_ptr_data(ds) {}
-  virtual std::shared_ptr<data::Data> getDataObj () { return sh_ptr_data; }
-  virtual ~DataWrapper () {}
+  DataWrapper ()
+    : sh_ptr_data ( std::make_shared<data::InMemoryData>(std::string("temp")) )
+  { }
+
+  DataWrapper (std::shared_ptr<data::Data> ds)
+    : sh_ptr_data ( ds )
+  { }
+
+  virtual std::shared_ptr<data::Data> getDataObj ()
+  {
+    return sh_ptr_data;
+  }
+
+  std::string getDataType () const
+  {
+    return sh_ptr_data->getType();
+  }
+
+  virtual ~DataWrapper ()
+  { }
 
 protected:
   std::shared_ptr<data::Data> sh_ptr_data;
@@ -125,6 +141,10 @@ public:
     sh_ptr_data = std::make_shared<data::InMemoryData>(std::string(""));
   }
 
+  InMemoryDataWrapper (DataWrapper& dw)
+    : DataWrapper::DataWrapper(std::static_pointer_cast<data::InMemoryData>(dw.getDataObj()))
+  { }
+
   InMemoryDataWrapper (arma::mat data_mat, std::string data_identifier)
   {
     sh_ptr_data = std::make_shared<data::InMemoryData>(data_identifier, data_mat);
@@ -201,6 +221,12 @@ private:
 
 public:
 
+  CategoricalDataRawWrapper (DataWrapper& dw)
+    : _sh_ptr_rawcdata ( std::static_pointer_cast<data::CategoricalDataRaw>(dw.getDataObj()) )
+  {
+    sh_ptr_data = _sh_ptr_rawcdata;
+  }
+
   CategoricalDataRawWrapper (Rcpp::StringVector classes, std::string data_identifier)
   {
     std::vector<std::string> str_classes = Rcpp::as< std::vector<std::string> >(classes);
@@ -235,7 +261,6 @@ public:
 
 
 RCPP_EXPOSED_CLASS(DataWrapper)
-//RCPP_EXPOSED_CLASS(CategoricalDataWrapper)
 RCPP_EXPOSED_CLASS(CategoricalDataRawWrapper)
 RCPP_MODULE (data_module)
 {
@@ -243,13 +268,14 @@ RCPP_MODULE (data_module)
 
   class_<DataWrapper> ("Data")
     .constructor ("Create Data class")
+    .method("getDataType", &DataWrapper::getDataType)
   ;
 
   class_<InMemoryDataWrapper> ("InMemoryData")
     .derives<DataWrapper> ("Data")
 
     .constructor ()
-    // .constructor<Rcpp::NumericVector, std::string> ()
+    .constructor<DataWrapper&> ()
     .constructor<arma::mat, std::string> ()
     .constructor<arma::mat, std::string, bool> ()
 
@@ -260,6 +286,7 @@ RCPP_MODULE (data_module)
   class_<CategoricalDataRawWrapper> ("CategoricalDataRaw")
     .derives<DataWrapper> ("Data")
 
+    .constructor<DataWrapper&> ()
     .constructor<Rcpp::StringVector, std::string> ()
 
     .method("getData",       &CategoricalDataRawWrapper::getData, "Get data")
@@ -282,19 +309,22 @@ public:
 
   BaselearnerFactoryWrapper () {}
   BaselearnerFactoryWrapper (std::shared_ptr<blearnerfactory::BaselearnerFactory> bl) : sh_ptr_blearner_factory ( bl ) {}
+
   std::shared_ptr<blearnerfactory::BaselearnerFactory> getFactory () { return sh_ptr_blearner_factory; }
 
   virtual ~BaselearnerFactoryWrapper () {}
 
-  arma::mat   getData            () { return sh_ptr_blearner_factory->getData(); }
-  arma::vec   getDF              () { return sh_ptr_blearner_factory->getDF(); }
-  arma::vec   getPenalty         () { return sh_ptr_blearner_factory->getPenalty(); }
-  arma::mat   getPenaltyMat      () { return sh_ptr_blearner_factory->getPenaltyMat(); }
-  std::string getDataIdentifier  () { return sh_ptr_blearner_factory->getDataIdentifier(); }
-  std::string getBaselearnerType () { return sh_ptr_blearner_factory->getBaselearnerType(); }
-  std::string getFeatureName     () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
+  std::string              getModelName       () const { return sh_ptr_blearner_factory->getBaseModelName(); }
+  arma::mat                getData            () const { return sh_ptr_blearner_factory->getData(); }
+  arma::vec                getDF              () const { return sh_ptr_blearner_factory->getDF(); }
+  arma::vec                getPenalty         () const { return sh_ptr_blearner_factory->getPenalty(); }
+  arma::mat                getPenaltyMat      () const { return sh_ptr_blearner_factory->getPenaltyMat(); }
+  std::string              getBaselearnerType () const { return sh_ptr_blearner_factory->getBaselearnerType(); }
+  std::vector<std::string> getDataIdentifier  () const { return sh_ptr_blearner_factory->getDataIdentifier(); } // Duplicated?
+  std::vector<std::string> getFeatureName     () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
 
-  std::shared_ptr<data::Data> transform (Rcpp::List& newdata) const {
+  std::shared_ptr<data::Data> transform (Rcpp::List& newdata) const
+  {
     std::map<std::string, std::shared_ptr<data::Data>> data_map;
 
     for (unsigned int i = 0; i < newdata.size(); i++) {
@@ -383,6 +413,10 @@ private:
     Rcpp::Named("bin_root") = 0);
 
 public:
+  BaselearnerPolynomialFactoryWrapper (BaselearnerFactoryWrapper& blf)
+    : BaselearnerFactoryWrapper::BaselearnerFactoryWrapper (
+        std::static_pointer_cast<blearnerfactory::BaselearnerPolynomialFactory>(blf.getFactory()) )
+  { }
 
   BaselearnerPolynomialFactoryWrapper (DataWrapper& data_source,
     Rcpp::List arg_list)
@@ -425,7 +459,7 @@ public:
     if (degree > 3) {
       Rcpp::Rcout << "Polynomial base-learner of degree " << degree << " factory:" << std::endl;
     }
-    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataSource()->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 
@@ -545,6 +579,11 @@ private:
 
 public:
 
+  BaselearnerPSplineFactoryWrapper (BaselearnerFactoryWrapper& blf)
+    : BaselearnerFactoryWrapper::BaselearnerFactoryWrapper (
+        std::static_pointer_cast<blearnerfactory::BaselearnerPSplineFactory>(blf.getFactory()) )
+  { }
+
   BaselearnerPSplineFactoryWrapper (DataWrapper& data_source, Rcpp::List arg_list)
   {
     internal_arg_list = helper::argHandler(internal_arg_list, arg_list, true);
@@ -575,7 +614,7 @@ public:
     int degree = internal_arg_list["degree"];
 
     Rcpp::Rcout << "Spline factory of degree" << " " << std::to_string(degree) << std::endl;
-    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataSource()->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 
@@ -623,6 +662,10 @@ private:
   BaselearnerFactoryWrapper bl2;
 
 public:
+  BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blf)
+    : BaselearnerFactoryWrapper::BaselearnerFactoryWrapper (
+        std::static_pointer_cast<blearnerfactory::BaselearnerTensorFactory>(blf.getFactory()) )
+  { }
 
   BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc) : bl1 ( blearner1 ), bl2 ( blearner2 )
   {
@@ -694,7 +737,14 @@ private:
   BaselearnerFactoryWrapper bl2;
 
 public:
-  BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc) : bl1 ( blearner1 ), bl2 ( blearner2 )
+  BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blf)
+    : BaselearnerFactoryWrapper::BaselearnerFactoryWrapper (
+        std::static_pointer_cast<blearnerfactory::BaselearnerCenteredFactory>(blf.getFactory()) )
+  { }
+
+  BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+    : bl1 ( blearner1 ),
+      bl2 ( blearner2 )
   {
     // We need to converse the SEXP from the element to an integer:
     std::string blearner_type_temp = blc;
@@ -787,6 +837,11 @@ private:
   );
 
 public:
+  BaselearnerCategoricalRidgeFactoryWrapper (BaselearnerFactoryWrapper& blf)
+    : BaselearnerFactoryWrapper::BaselearnerFactoryWrapper (
+        std::static_pointer_cast<blearnerfactory::BaselearnerCategoricalRidgeFactory>(blf.getFactory()) )
+  { }
+
   BaselearnerCategoricalRidgeFactoryWrapper (const CategoricalDataRawWrapper& cdata_source, Rcpp::List arg_list)
   {
     std::string blearner_type_temp = cdata_source.getCDataRawPtr()->getDataIdentifier();
@@ -804,7 +859,7 @@ public:
 
   void summarizeFactory ()
   {
-    Rcpp::Rcout << "Categorical base-learner of category " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "Categorical base-learner of category " << sh_ptr_blearner_factory->getDataSource()->getDataIdentifier() << std::endl;
   }
 
   std::map<std::string, unsigned int> getDictionary () const
@@ -880,6 +935,10 @@ class BaselearnerCategoricalBinaryFactoryWrapper : public BaselearnerFactoryWrap
 {
 
 public:
+  BaselearnerCategoricalBinaryFactoryWrapper (BaselearnerFactoryWrapper& blf)
+    : BaselearnerFactoryWrapper::BaselearnerFactoryWrapper (
+        std::static_pointer_cast<blearnerfactory::BaselearnerCategoricalBinaryFactory>(blf.getFactory()) )
+  { }
 
   BaselearnerCategoricalBinaryFactoryWrapper (const CategoricalDataRawWrapper& data_source, std::string cls)
   {
@@ -895,7 +954,7 @@ public:
 
   void summarizeFactory ()
   {
-    Rcpp::Rcout << "Categorical factory of category " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "Categorical factory of category " << sh_ptr_blearner_factory->getDataSource()->getDataIdentifier() << std::endl;
   }
 
   Rcpp::List transformData (Rcpp::List& newdata) const {
@@ -1058,7 +1117,7 @@ public:
   {
     Rcpp::Rcout << "Custom base-learner Factory:" << std::endl;
 
-    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataSource()->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
@@ -1168,7 +1227,7 @@ public:
   void summarizeFactory ()
   {
     Rcpp::Rcout << "Custom cpp base-learner Factory:" << std::endl;
-    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataIdentifier() << std::endl;
+    Rcpp::Rcout << "\t- Name of the used data: " << sh_ptr_blearner_factory->getDataSource()->getDataIdentifier() << std::endl;
     Rcpp::Rcout << "\t- Factory creates the following base-learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
   }
 };
@@ -1186,11 +1245,13 @@ RCPP_MODULE (baselearner_factory_module)
     .method("getDF",          &BaselearnerFactoryWrapper::getDF, "Get the degrees of freedom used within the learner")
     .method("getPenalty",     &BaselearnerFactoryWrapper::getPenalty, "Get the penalty used within the learner")
     .method("getPenaltyMat",  &BaselearnerFactoryWrapper::getPenaltyMat, "Get the penalty matrix used within the learner")
-    .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature used for the base-learner")
+    .method("getFeatureName", &BaselearnerFactoryWrapper::getFeatureName, "Get name of the feature(s) used for the base learner")
+    .method("getModelName",   &BaselearnerFactoryWrapper::getModelName, "Get name of the underlying modeling technique")
   ;
 
   class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&> ()
     .constructor<DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, std::string, Rcpp::List> ()
 
@@ -1201,6 +1262,7 @@ RCPP_MODULE (baselearner_factory_module)
 
  class_<BaselearnerCategoricalRidgeFactoryWrapper> ("BaselearnerCategoricalRidge")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&> ()
     .constructor<const CategoricalDataRawWrapper&, Rcpp::List> ()
     .constructor<const CategoricalDataRawWrapper&, std::string, Rcpp::List> ()
 
@@ -1212,6 +1274,7 @@ RCPP_MODULE (baselearner_factory_module)
 
  class_<BaselearnerCategoricalBinaryFactoryWrapper> ("BaselearnerCategoricalBinary")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&> ()
     .constructor<const CategoricalDataRawWrapper&, std::string> ()
     .constructor<const CategoricalDataRawWrapper&, std::string, std::string> ()
 
@@ -1222,6 +1285,7 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerCenteredFactoryWrapper> ("BaselearnerCentered")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&> ()
     .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string> ()
 
     .method("summarizeFactory", &BaselearnerCenteredFactoryWrapper::summarizeFactory, "Summarize Factory")
@@ -1232,6 +1296,7 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerTensorFactoryWrapper> ("BaselearnerTensor")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&> ()
     .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string> ()
     .constructor<BaselearnerFactoryWrapper&, BaselearnerFactoryWrapper&, std::string, bool> ()
 
@@ -1242,6 +1307,7 @@ RCPP_MODULE (baselearner_factory_module)
 
   class_<BaselearnerPSplineFactoryWrapper> ("BaselearnerPSpline")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
+    .constructor<BaselearnerFactoryWrapper&> ()
     .constructor<DataWrapper&, Rcpp::List> ()
     .constructor<DataWrapper&, std::string, Rcpp::List> ()
 
@@ -1351,9 +1417,14 @@ public:
     : obj ( std::make_shared<blearnerlist::BaselearnerFactoryList>() )
   { }
 
+  BlearnerFactoryListWrapper (std::shared_ptr<blearnerlist::BaselearnerFactoryList> bll)
+    : obj ( bll )
+  { }
+
   void registerFactory (BaselearnerFactoryWrapper& my_factory_to_register)
   {
-    std::string factory_id = my_factory_to_register.getFactory()->getDataIdentifier() + "_" + my_factory_to_register.getFactory()->getBaselearnerType();
+    std::string factory_id = my_factory_to_register.getFactory()->getDataSource()->getDataIdentifier() +
+      "_" + my_factory_to_register.getFactory()->getBaselearnerType();
     obj->registerBaselearnerFactory(factory_id, my_factory_to_register.getFactory());
   }
 
@@ -1422,13 +1493,35 @@ class LossWrapper
 {
 public:
 
-  std::shared_ptr<loss::Loss> getLoss () { return sh_ptr_loss; }
-  arma::mat calculatePseudoResiduals (const arma::mat& response, const arma::mat& pred) const {
+  LossWrapper ()
+  { }
+
+  LossWrapper (std::shared_ptr<loss::Loss> l)
+    : sh_ptr_loss ( l )
+  { }
+
+  std::shared_ptr<loss::Loss> getLoss () {
+    return sh_ptr_loss;
+  }
+
+  arma::mat calculatePseudoResiduals (const arma::mat& response, const arma::mat& pred) const
+  {
     return sh_ptr_loss->calculatePseudoResiduals(response, pred);
   }
+
   void loadFromJson (const std::string& file) {
     json j = saver::jsonLoader(file);
     sh_ptr_loss = loss::jsonToLoss(j["_sh_ptr_loss"]);
+  }
+
+  std::string getLossType ()
+  {
+    return sh_ptr_loss->getType();
+  }
+
+  std::shared_ptr<loss::Loss> getLossObj () const
+  {
+    return sh_ptr_loss;
   }
 
   virtual ~LossWrapper () {}
@@ -1484,14 +1577,21 @@ protected:
 class LossQuadraticWrapper : public LossWrapper
 {
 public:
-  LossQuadraticWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(); }
-  LossQuadraticWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
-  LossQuadraticWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossQuadratic>(custom_offset); }
-  //LossQuadraticWrapper (std::string file)
-  //{
-    //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
-  //}
+  LossQuadraticWrapper ()
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossQuadratic>() )
+  { }
+
+  LossQuadraticWrapper (double custom_offset)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossQuadratic>(custom_offset) )
+  { }
+
+  LossQuadraticWrapper (arma::mat custom_offset, bool temp)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossQuadratic>(custom_offset) )
+  { }
+
+  LossQuadraticWrapper (LossWrapper l, bool b1, bool b2)
+    : LossWrapper::LossWrapper ( std::static_pointer_cast<loss::LossQuadratic>(l.getLossObj()) )
+  { }
 };
 
 //' Absolute loss for regression tasks.
@@ -1539,13 +1639,17 @@ public:
 class LossAbsoluteWrapper : public LossWrapper
 {
 public:
-  LossAbsoluteWrapper () { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(); }
-  LossAbsoluteWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossAbsolute>(custom_offset); }
-  //LossAbsoluteWrapper (std::string file)
-  //{
-    //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
-  //}
+  LossAbsoluteWrapper ()
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossAbsolute>() )
+  { }
+
+  LossAbsoluteWrapper (double custom_offset)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossAbsolute>(custom_offset) )
+  { }
+
+  LossAbsoluteWrapper (LossWrapper l, bool b1, bool b2)
+    : LossWrapper::LossWrapper ( std::static_pointer_cast<loss::LossAbsolute>(l.getLossObj()) )
+  { }
 };
 
 //' Quantile loss for regression tasks.
@@ -1597,16 +1701,26 @@ public:
 class LossQuantileWrapper : public LossWrapper
 {
 public:
-  LossQuantileWrapper () { sh_ptr_loss = std::make_shared<loss::LossQuantile>(0.5); }
-  LossQuantileWrapper (double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(quantile); }
-  LossQuantileWrapper (double custom_offset, double quantile) { sh_ptr_loss = std::make_shared<loss::LossQuantile>(custom_offset, quantile); }
-  //LossQuantileWrapper (std::string file)
-  //{
-    //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
-  //}
+  LossQuantileWrapper ()
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossQuantile>(0.5) )
+  { }
 
-  double getQuantile () const { return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->getQuantile(); }
+  LossQuantileWrapper (double quantile)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossQuantile>(quantile) )
+  { }
+
+  LossQuantileWrapper (double custom_offset, double quantile)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossQuantile>(custom_offset, quantile) )
+  { }
+
+  LossQuantileWrapper (LossWrapper l, bool b1, bool b2)
+    : LossWrapper::LossWrapper ( std::static_pointer_cast<loss::LossQuantile>(l.getLossObj()) )
+  { }
+
+  double getQuantile () const
+  {
+    return std::static_pointer_cast<loss::LossQuantile>(sh_ptr_loss)->getQuantile();
+  }
 };
 
 
@@ -1661,16 +1775,26 @@ public:
 class LossHuberWrapper : public LossWrapper
 {
 public:
-  LossHuberWrapper () { sh_ptr_loss = std::make_shared<loss::LossHuber>(1); }
-  LossHuberWrapper (double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(delta); }
-  LossHuberWrapper (double custom_offset, double delta) { sh_ptr_loss = std::make_shared<loss::LossHuber>(custom_offset, delta); }
-  //LossHuberWrapper (std::string file)
-  //{
-    //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
-  //}
+  LossHuberWrapper ()
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossHuber>(1) )
+  { }
 
-  double getDelta () const { return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->getDelta(); }
+  LossHuberWrapper (double delta)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossHuber>(delta) )
+  { }
+
+  LossHuberWrapper (double custom_offset, double delta)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossHuber>(custom_offset, delta) )
+  { }
+
+  LossHuberWrapper (LossWrapper l, bool b1, bool b2)
+    : LossWrapper::LossWrapper ( std::static_pointer_cast<loss::LossHuber>(l.getLossObj()) )
+  { }
+
+  double getDelta () const
+  {
+    return std::static_pointer_cast<loss::LossHuber>(sh_ptr_loss)->getDelta();
+  }
 };
 
 //' 0-1 Loss for binary classification derived of the binomial distribution
@@ -1723,14 +1847,21 @@ public:
 class LossBinomialWrapper : public LossWrapper
 {
 public:
-  LossBinomialWrapper () { sh_ptr_loss = std::make_shared<loss::LossBinomial>(); }
-  LossBinomialWrapper (double custom_offset) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
-  LossBinomialWrapper (arma::mat custom_offset, bool temp) { sh_ptr_loss = std::make_shared<loss::LossBinomial>(custom_offset); }
-  //LossBinomialWrapper (std::string file)
-  //{
-    //json j = saver::jsonLoader(file);
-    //sh_ptr_loss = loss::jsonToLoss(j["loss"]);
-  //}
+  LossBinomialWrapper ()
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossBinomial>() )
+  { }
+
+  LossBinomialWrapper (double custom_offset)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossBinomial>(custom_offset) )
+  { }
+
+  LossBinomialWrapper (arma::mat custom_offset, bool temp)
+    : LossWrapper::LossWrapper ( std::make_shared<loss::LossBinomial>(custom_offset) )
+  { }
+
+  LossBinomialWrapper (LossWrapper l, bool b1, bool b2)
+    : LossWrapper::LossWrapper ( std::static_pointer_cast<loss::LossBinomial>(l.getLossObj()) )
+  { }
 };
 
 //' Create LossCustom by using R functions.
@@ -1893,6 +2024,7 @@ RCPP_MODULE (loss_module)
     .constructor ()
     .method("calculatePseudoResiduals", &LossWrapper::calculatePseudoResiduals)
     .method ("loadFromJson", &LossWrapper::loadFromJson)
+    .method ("getLossType", &LossWrapper::getLossType)
   ;
 
   class_<LossQuadraticWrapper> ("LossQuadratic")
@@ -1900,12 +2032,14 @@ RCPP_MODULE (loss_module)
     .constructor ()
     .constructor <double> ()
     .constructor <arma::mat, bool> ()
+    .constructor <LossWrapper, bool, bool> ()
   ;
 
   class_<LossAbsoluteWrapper> ("LossAbsolute")
     .derives<LossWrapper> ("Loss")
     .constructor ()
     .constructor <double> ()
+    .constructor <LossWrapper, bool, bool> ()
   ;
 
   class_<LossQuantileWrapper> ("LossQuantile")
@@ -1913,6 +2047,7 @@ RCPP_MODULE (loss_module)
     .constructor ()
     .constructor <double> ()
     .constructor <double, double> ()
+    .constructor <LossWrapper, bool, bool> ()
     .method("getQuantile", &LossQuantileWrapper::getQuantile)
   ;
 
@@ -1921,6 +2056,7 @@ RCPP_MODULE (loss_module)
     .constructor ()
     .constructor <double> ()
     .constructor <double, double> ()
+    .constructor <LossWrapper, bool, bool> ()
     .method("getDelta", &LossHuberWrapper::getDelta)
   ;
 
@@ -1929,6 +2065,7 @@ RCPP_MODULE (loss_module)
     .constructor ()
     .constructor <double> ()
     .constructor <arma::mat, bool> ()
+    .constructor <LossWrapper, bool, bool> ()
   ;
 
   class_<LossCustomWrapper> ("LossCustom")
@@ -2644,6 +2781,10 @@ public:
   LoggerListWrapper ()
   { }
 
+  LoggerListWrapper (std::shared_ptr<loggerlist::LoggerList> ll)
+    : sh_ptr_loggerlist ( ll )
+  { }
+
   std::shared_ptr<loggerlist::LoggerList> getLoggerList ()
   {
     return sh_ptr_loggerlist;
@@ -2674,6 +2815,15 @@ public:
     std::vector<std::string> out;
     for (auto& it : sh_ptr_loggerlist->getLoggerMap()) {
       out.push_back(it.first);
+    }
+    return out;
+  }
+
+  std::map<std::string, bool> isStopper () const
+  {
+    std::map<std::string, bool> out;
+    for (auto& it : sh_ptr_loggerlist->getLoggerMap()) {
+      out[it.first] = it.second->isStopper();
     }
     return out;
   }
@@ -2724,6 +2874,7 @@ RCPP_MODULE(logger_module)
     .method("clearRegisteredLogger", &LoggerListWrapper::clearRegisteredLogger, "Clear registered logger")
     .method("getNumberOfRegisteredLogger", &LoggerListWrapper::getNumberOfRegisteredLogger, "Get number of registered logger. Mainly for testing.")
     .method("getNamesOfRegisteredLogger",  &LoggerListWrapper::getNamesOfRegisteredLogger, "Get names of registered logger. Mainly for testing.")
+    .method("isStopper",  &LoggerListWrapper::isStopper, "Get if the registered logger act as stopper")
   ;
 }
 
@@ -2735,8 +2886,23 @@ RCPP_MODULE(logger_module)
 class OptimizerWrapper
 {
 public:
-  OptimizerWrapper () { }
-  std::shared_ptr<optimizer::Optimizer> getOptimizer () { return sh_ptr_optimizer; }
+  OptimizerWrapper ()
+  { }
+
+  OptimizerWrapper (std::shared_ptr<optimizer::Optimizer> op)
+    : sh_ptr_optimizer ( op )
+  { }
+
+  std::shared_ptr<optimizer::Optimizer> getOptimizer ()
+  {
+    return sh_ptr_optimizer;
+  }
+
+  std::string getOptimizerType () const
+  {
+    return sh_ptr_optimizer->getType();
+  }
+
   virtual ~OptimizerWrapper () {}
 
 protected:
@@ -2781,6 +2947,11 @@ public:
   OptimizerCoordinateDescent (unsigned int num_threads) {
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescent>(num_threads);
   }
+
+  // Include bool arguments to have a unique constructor that can be used by the RCPP modules:
+  OptimizerCoordinateDescent (OptimizerWrapper op, bool b1)
+    : OptimizerWrapper::OptimizerWrapper ( std::static_pointer_cast<optimizer::OptimizerCoordinateDescent>(op.getOptimizer()) )
+  { }
 };
 
 //' Coordinate Descent with Cosine Annealing
@@ -2841,6 +3012,11 @@ public:
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCosineAnnealing>(nu_min, nu_max, cycles, anneal_iter_max,
       num_threads);
   }
+  // Include bool arguments to have a unique constructor that can be used by the RCPP modules:
+  OptimizerCosineAnnealing (OptimizerWrapper op, bool b1)
+    : OptimizerWrapper::OptimizerWrapper ( std::static_pointer_cast<optimizer::OptimizerCosineAnnealing>(op.getOptimizer()) )
+  { }
+
   std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
 
@@ -2881,6 +3057,10 @@ public:
   OptimizerCoordinateDescentLineSearch (unsigned int num_threads) {
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerCoordinateDescentLineSearch>(num_threads);
   }
+  // Include bool arguments to have a unique constructor that can be used by the RCPP modules:
+  OptimizerCoordinateDescentLineSearch (OptimizerWrapper op, bool b1)
+    : OptimizerWrapper::OptimizerWrapper ( std::static_pointer_cast<optimizer::OptimizerCoordinateDescentLineSearch>(op.getOptimizer()) )
+  { }
   std::vector<double> getStepSize() { return sh_ptr_optimizer->getStepSize(); }
 };
 
@@ -2928,6 +3108,10 @@ public:
   OptimizerAGBM (double momentum, unsigned int acc_iters, unsigned int num_threads) {
     sh_ptr_optimizer = std::make_shared<optimizer::OptimizerAGBM>(momentum, acc_iters, num_threads);
   }
+  // Include bool arguments to have a unique constructor that can be used by the RCPP modules:
+  OptimizerAGBM (OptimizerWrapper op, bool b1, bool b2, bool b3)
+    : OptimizerWrapper::OptimizerWrapper ( std::static_pointer_cast<optimizer::OptimizerAGBM>(op.getOptimizer()) )
+  { }
 
 
   std::map<std::string, arma::mat> getMomentumParameter ()
@@ -2960,12 +3144,14 @@ RCPP_MODULE(optimizer_module)
 
   class_<OptimizerWrapper> ("Optimizer")
     .constructor ()
+    .method("getOptimizerType", &OptimizerWrapper::getOptimizerType, "Get the type of optimizer")
   ;
 
   class_<OptimizerCoordinateDescent> ("OptimizerCoordinateDescent")
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
     .constructor <unsigned int> ()
+    .constructor <OptimizerWrapper, bool> ()
   ;
 
   class_<OptimizerCosineAnnealing> ("OptimizerCosineAnnealing")
@@ -2974,6 +3160,7 @@ RCPP_MODULE(optimizer_module)
     .constructor <unsigned int> ()
     .constructor <double, double, unsigned int, unsigned int> ()
     .constructor <double, double, unsigned int, unsigned int, unsigned int> ()
+    .constructor <OptimizerWrapper, bool> ()
     .method("getStepSize", &OptimizerCosineAnnealing::getStepSize, "Get vector of step sizes")
   ;
 
@@ -2981,6 +3168,7 @@ RCPP_MODULE(optimizer_module)
     .derives<OptimizerWrapper> ("Optimizer")
     .constructor ()
     .constructor <unsigned int> ()
+    .constructor <OptimizerWrapper, bool> ()
     .method("getStepSize", &OptimizerCoordinateDescentLineSearch::getStepSize, "Get vector of step sizes")
   ;
 
@@ -2990,6 +3178,7 @@ RCPP_MODULE(optimizer_module)
     .constructor <double> ()
     .constructor <double, unsigned int> ()
     .constructor <double, unsigned int, unsigned int> ()
+    .constructor <OptimizerWrapper, bool, bool, bool> ()
     .method("getMomentumParameter", &OptimizerAGBM::getMomentumParameter, "Get the parameter estimated in the momentum sequence")
     .method("getSelectedMomentumBaselearner", &OptimizerAGBM::getSelectedMomentumBaselearner, "Get selected base-learner of the momentum sequence")
     .method("getStepSize", &OptimizerAGBM::getStepSize, "Get vector of step sizes")
@@ -3339,18 +3528,70 @@ public:
     return unique_ptr_cboost->predict(data_map, as_response);
   }
 
-  ResponseWrapper getResponse ()
+  void                 summarizeCompboost () const { unique_ptr_cboost->summarizeCompboost(); }
+  bool                 isTrained () const { return is_trained; }
+  void                 setToIteration (const unsigned int& k, const unsigned int& trace) { unique_ptr_cboost->setToIteration(k, trace); }
+  void                 saveJson(std::string file) { unique_ptr_cboost->saveJson(file); }
+  arma::mat            getOffset () const { return unique_ptr_cboost->getOffset(); }
+  std::vector<double>  getRiskVector () const { return unique_ptr_cboost->getRiskVector(); }
+
+  ResponseWrapper getResponse () const
   {
     ResponseWrapper out(unique_ptr_cboost->getResponse());
     return out;
   }
 
-  void summarizeCompboost () { unique_ptr_cboost->summarizeCompboost(); }
-  bool isTrained () { return is_trained; }
-  arma::mat getOffset () { return unique_ptr_cboost->getOffset(); }
-  std::vector<double> getRiskVector () { return unique_ptr_cboost->getRiskVector(); }
-  void setToIteration (const unsigned int& k, const unsigned int& trace) { unique_ptr_cboost->setToIteration(k, trace); }
-  void saveJson(std::string file) { unique_ptr_cboost->saveJson(file); }
+  OptimizerWrapper getOptimizer () const
+  {
+    OptimizerWrapper out(unique_ptr_cboost->getOptimizer());
+    return out;
+  }
+
+  LossWrapper getLoss () const
+  {
+    LossWrapper out(unique_ptr_cboost->getLoss());
+    return out;
+  }
+
+  LoggerListWrapper getLoggerList () const
+  {
+    LoggerListWrapper out(unique_ptr_cboost->getLoggerList());
+    return out;
+  }
+
+  BlearnerFactoryListWrapper getBaselearnerList () const
+  {
+    BlearnerFactoryListWrapper out(unique_ptr_cboost->getBaselearnerList());
+    return out;
+  }
+
+  bool useGlobalStopping () const
+  {
+    return unique_ptr_cboost->useGlobalStopping();
+  }
+
+  std::map<std::string, BaselearnerFactoryWrapper> getFactoryMap () const
+  {
+    std::map<std::string, BaselearnerFactoryWrapper> out;
+    auto fmt = unique_ptr_cboost->getBaselearnerList()->getFactoryMap();
+    for (auto& it : fmt) {
+      out[it.first] = BaselearnerFactoryWrapper(it.second);
+    }
+    return out;
+  }
+
+  std::map<std::string, DataWrapper> getDataMap () const
+  {
+    std::map<std::string, DataWrapper> out;
+    std::vector<std::shared_ptr<data::Data>> dvec;
+    for (auto& it : unique_ptr_cboost->getBaselearnerList()->getFactoryMap()) {
+      dvec = it.second->getVecDataSource();
+      for (auto& it : dvec) {
+        out[it->getDataIdentifier()] = DataWrapper(it);
+      }
+    }
+    return out;
+  }
 
   ~CompboostWrapper () {}
 };
@@ -3370,7 +3611,6 @@ RCPP_MODULE (compboost_module)
     .method("getPrediction", &CompboostWrapper::getPrediction, "Get prediction")
     .method("getSelectedBaselearner", &CompboostWrapper::getSelectedBaselearner, "Get vector of selected base-learner")
     .method("getLoggerData", &CompboostWrapper::getLoggerData, "Get data of the used logger")
-    .method("getResponse", &CompboostWrapper::getResponse, "Get the response object")
     .method("getEstimatedParameter", &CompboostWrapper::getEstimatedParameter, "Get the estimated parameter")
     .method("getParameterAtIteration", &CompboostWrapper::getParameterAtIteration, "Get the estimated parameter for iteration k < iter_max")
     .method("getParameterMatrix", &CompboostWrapper::getParameterMatrix, "Get matrix of all estimated parameter in each iteration")
@@ -3385,6 +3625,15 @@ RCPP_MODULE (compboost_module)
     .method("saveJson", &CompboostWrapper::saveJson, "Save the model to a JSON file")
     .method("getOffset", &CompboostWrapper::getOffset, "Get offset.")
     .method("getRiskVector", &CompboostWrapper::getRiskVector, "Get the risk vector.")
+
+    .method("getResponse", &CompboostWrapper::getResponse, "Get the response object")
+    .method("getOptimizer", &CompboostWrapper::getOptimizer, "Get the optimizer object")
+    .method("getLoss", &CompboostWrapper::getLoss, "Get the loss object")
+    .method("getLoggerList", &CompboostWrapper::getLoggerList, "Get the LoggerList object")
+    .method("getBaselearnerList", &CompboostWrapper::getBaselearnerList, "Get the BaselearnerList object")
+    .method("useGlobalStopping", &CompboostWrapper::useGlobalStopping, "Get if global stopping is used")
+    .method("getFactoryMap", &CompboostWrapper::getFactoryMap, "Get map of all factory objects")
+    .method("getDataMap", &CompboostWrapper::getDataMap, "Get map of all source data objects")
   ;
 }
 

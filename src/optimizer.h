@@ -58,6 +58,7 @@ class Optimizer
 protected:
   std::vector<double> _step_sizes;
   const unsigned int  _num_threads = 1;
+  std::string         _type;
 
   Optimizer ();
   Optimizer (const unsigned int);
@@ -82,7 +83,9 @@ public:
 
   virtual std::map<std::string, arma::mat> getParameterAtIteration (const unsigned int, const double, blearnertrack::BaselearnerTrack&) const;
 
-  json baseToJson (const std::string) const;
+  std::string getType ()                  const;
+  json baseToJson     (const std::string) const;
+
   virtual json toJson () const = 0;
 
   // Destructor

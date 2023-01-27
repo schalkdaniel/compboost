@@ -107,10 +107,12 @@ public:
   std::vector<double>                             getRiskVector ()                               const;
 
   // To provide pointer for the modules:
+  bool                                                  useGlobalStopping () const;
   double                                                getLearningRate ()   const;
   std::shared_ptr<blearnerlist::BaselearnerFactoryList> getBaselearnerList() const;
   std::shared_ptr<optimizer::Optimizer>                 getOptimizer()       const;
-  std::shared_ptr<response::Response>                   getResponse()       const;
+  std::shared_ptr<response::Response>                   getResponse()        const;
+  std::shared_ptr<loss::Loss>                           getLoss()            const;
 
 
   // Other member functions

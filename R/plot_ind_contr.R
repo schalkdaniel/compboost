@@ -66,8 +66,10 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  feats   = cboost$bl_factory_list$getDataNames()
-  blnames = cboost$bl_factory_list$getRegisteredFactoryNames()
+  feats = vapply(cboost$model$getFactoryMap(), FUN.VALUE = character(1), FUN = function(blf) {
+    paste(unique(blf$getFeatureName()), collapse = "_")
+  })
+  blnames = names(feats)
   if (offset)
     df_bls  = data.frame(bl = c(blnames, "offset"), feat = c(feats, "offset"))
   else
@@ -96,11 +98,12 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
   if (aggregate) {
     df_plt = aggregate(x = df_plt$value, by = list(df_plt$feat), FUN = sum)
     names(df_plt) = c("feat", "value")
+    df_plt        = merge(df_plt, df_fval, by = "feat")
+    df_plt$label  = paste0(df_plt$feat, " ", df_plt$fval)
   } else {
     df_plt$feat = df_plt$bl
+    df_plt$label  = df_plt$feat
   }
-  df_plt        = merge(df_plt, df_fval, by = "feat")
-  df_plt$label  = paste0(df_plt$feat, " ", df_plt$fval)
   df_plt        = df_plt[order(df_plt$value, decreasing = TRUE), ]
   df_plt$bl_num = rev(seq_len(nrow(df_plt)))
 

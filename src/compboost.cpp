@@ -49,24 +49,29 @@ Compboost::Compboost (const json& j, const mdata& mdsource, const mdata& mdinit)
     _sh_ptr_optimizer  ( optimizer::jsonToOptimizer(j["_sh_ptr_optimizer"], mdinit) ),
     _sh_ptr_loss       ( loss::jsonToLoss(j["_sh_ptr_loss"]) ),
     _sh_ptr_loggerlist ( std::make_shared<loggerlist::LoggerList>(j["_sh_ptr_loggerlist"]) ),
-    //_is_trained        ( [](json j) -> bool {
-        //std::cout << "Create '_is_trained'" << std::endl;
-        //return j["_is_trained"].get<bool>(); }(j) ),
     _is_trained        ( j["_is_trained"].get<bool>() ),
-    //_current_iter      ( [](json j) -> unsigned int {
-        //std::cout << "Create '_current_iter'" << std::endl;
-        //return j["_current_iter"].get<unsigned int>(); }(j) ),
     _current_iter      ( j["_current_iter"].get<unsigned int>() ),
-    //_risk              ( [](json j) -> std::vector<double> {
-        //std::cout << "Create '_risk'" << std::endl;
-        //return j["_risk"].get<std::vector<double>>(); }(j) ),
     _risk              ( j["_risk"].get<std::vector<double>>() ),
-    //_sh_ptr_factory_list ( [](json j, mdata m1, mdata m2) -> std::shared_ptr<blearnerlist::BaselearnerFactoryList> {
-        //std::cout << "Create '_sh_ptr_factory_list'" << std::endl;
-        //return std::make_shared<blearnerlist::BaselearnerFactoryList>(j["_sh_ptr_factory_list"], m1, m2); }(j, mdsource, mdinit) ),
     _sh_ptr_factory_list ( std::make_shared<blearnerlist::BaselearnerFactoryList>(j["_sh_ptr_factory_list"], mdsource, mdinit) ),
     _blearner_track      ( blearnertrack::BaselearnerTrack(j["_blearner_track"], mdinit) )
 { }
+    // LAMBDAS FOR DEBUGGING:
+    //_is_global_stopper ( [](json j) -> bool {
+        //std::cout << "Create '_is_global_stopper'" << std::endl;
+        //return j["_is_global_stopper"].get<bool>(); }(j) ),
+    //_is_trained        ( [](json j) -> bool {
+        //std::cout << "Create '_is_trained'" << std::endl;
+        //return j["_is_trained"].get<bool>(); }(j) ),
+    //_current_iter      ( [](json j) -> unsigned int {
+        //std::cout << "Create '_current_iter'" << std::endl;
+        //return j["_current_iter"].get<unsigned int>(); }(j) ),
+    //_risk              ( [](json j) -> std::vector<double> {
+        //std::cout << "Create '_risk'" << std::endl;
+        //return j["_risk"].get<std::vector<double>>(); }(j) ),
+    //_sh_ptr_factory_list ( [](json j, mdata m1, mdata m2) -> std::shared_ptr<blearnerlist::BaselearnerFactoryList> {
+        //std::cout << "Create '_sh_ptr_factory_list'" << std::endl;
+        //return std::make_shared<blearnerlist::BaselearnerFactoryList>(j["_sh_ptr_factory_list"], m1, m2); }(j, mdsource, mdinit) )
+//{ }
 
 Compboost::Compboost (const json& j)
   : Compboost::Compboost (j, data::jsonToDataMap(j["data_source"]), data::jsonToDataMap(j["data_init"]))
@@ -221,12 +226,12 @@ arma::mat Compboost::predictFactory (const std::string& factory_id) const
   auto parameter_map = _blearner_track.getParameterMap();
   auto it_par_map    = parameter_map.find(factory_id);
   if (it_par_map == parameter_map.end())
-    throw std::range_error("Cannot find factory in parameter map.");
+    throw std::range_error("Cannot find factory '" + factory_id + "' in parameter map.");
 
   auto fac_map = _sh_ptr_factory_list->getFactoryMap();
   auto it_fac  = fac_map.find(factory_id);
   if (it_fac == fac_map.end())
-    throw std::range_error("Cannot find factory in factory map.");
+    throw std::range_error("Cannot find factory '" + factory_id + "' in factory map.");
 
   return it_fac->second->calculateLinearPredictor(it_par_map->second);
 }
@@ -248,8 +253,9 @@ arma::vec Compboost::predict () const
   arma::mat pred = _sh_ptr_response->calculateInitialPrediction(_sh_ptr_response->getResponse());
 
   auto ind_preds = predictIndividual();
-  for (auto& it : ind_preds)
+  for (auto& it : ind_preds) {
     pred += it.second;
+  }
 
   helper::debugPrint("Finished 'Compboost::predict()'");
   return pred;
@@ -259,14 +265,14 @@ arma::mat Compboost::predictFactory(const std::string& factory_id, const std::ma
 {
   auto parameter_map = _blearner_track.getParameterMap();
   auto it_par_map    = parameter_map.find(factory_id);
-  if (it_par_map == parameter_map.end())
-    throw std::range_error("Cannot find factory in parameter map.");
-
+  if (it_par_map == parameter_map.end()) {
+    throw std::range_error("Cannot find factory '" + factory_id + "' in parameter map.");
+  }
   auto fac_map = _sh_ptr_factory_list->getFactoryMap();
   auto it_fac  = fac_map.find(factory_id);
-  if (it_fac == fac_map.end())
-    throw std::range_error("Cannot find factory in factory map.");
-
+  if (it_fac == fac_map.end()) {
+    throw std::range_error("Cannot find factory '" + factory_id + "' in factory map.");
+  }
   return it_fac->second->calculateLinearPredictor(it_par_map->second, data_map);
 }
 
@@ -336,6 +342,11 @@ std::vector<double> Compboost::getRiskVector () const
   return _risk;
 }
 
+bool Compboost::useGlobalStopping () const
+{
+  return _is_global_stopper;
+}
+
 double Compboost::getLearningRate () const
 {
   return _learning_rate;
@@ -354,6 +365,11 @@ std::shared_ptr<optimizer::Optimizer> Compboost::getOptimizer () const
 std::shared_ptr<response::Response> Compboost::getResponse() const
 {
   return _sh_ptr_response;
+}
+
+std::shared_ptr<loss::Loss> Compboost::getLoss() const
+{
+  return _sh_ptr_loss;
 }
 
 
