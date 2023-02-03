@@ -64,16 +64,6 @@ test_that("base learner traces can be plotted", {
 
 test_that("individual predictions can be plotted", {
 
-  if (FALSE) {
-    q()
-    R
-    devtools::load_all()
-    library(testthat)
-
-    #cboost$model$getBaselearnerList()
-    #names(cboost$baselearner_list)
-  }
-
   cboost = expect_silent(Compboost$new(data = iris, target = "Petal.Length",
     loss = LossQuadratic$new()))
   expect_silent(cboost$addComponents("Sepal.Width", df = 3))

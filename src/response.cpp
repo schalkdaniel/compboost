@@ -28,10 +28,10 @@ std::shared_ptr<Response> jsonToResponse (const json& j)
 {
   std::shared_ptr<Response> r;
 
-  if (j["Class"] == "ResponseRegr") {
+  if (j["Class"].get<std::string>() == "ResponseRegr") {
     r = std::make_shared<ResponseRegr>(j);
   }
-  if (j["Class"] == "ResponseBinaryClassif") {
+  if (j["Class"].get<std::string>() == "ResponseBinaryClassif") {
     r = std::make_shared<ResponseBinaryClassif>(j);
   }
   if (r == nullptr) {
@@ -69,9 +69,9 @@ Response::Response (const std::string target_name, const std::string task_id,
 { }
 
 Response::Response (const json& j)
-  : _target_name       ( j["_target_name"] ),
-    _task_id           ( j["_task_id"] ),
-    _use_weights       ( j["_use_weights"] ),
+  : _target_name       ( j["_target_name"].get<std::string>() ),
+    _task_id           ( j["_task_id"].get<std::string>() ),
+    _use_weights       ( j["_use_weights"].get<bool>() ),
     _response          ( saver::jsonToArmaMat( j["_response"]) ),
     _weights           ( saver::jsonToArmaMat( j["_weights"]) ),
     _initialization    ( saver::jsonToArmaMat( j["_initialization"]) ),
@@ -79,9 +79,9 @@ Response::Response (const json& j)
     _prediction_scores ( saver::jsonToArmaMat( j["_prediction_scores"]) ),
     _prediction_scores_temp1 ( saver::jsonToArmaMat( j["_prediction_scores_temp1"]) ),
     _prediction_scores_temp2 ( saver::jsonToArmaMat( j["_prediction_scores_temp2"]) ),
-    _iteration      ( j["_iteration"] ),
-    _is_initialized ( j["_is_initialized"] ),
-    _is_model_initialized ( j["_is_model_initialized"] )
+    _iteration      ( j["_iteration"].get<unsigned int>() ),
+    _is_initialized ( j["_is_initialized"].get<bool>() ),
+    _is_model_initialized ( j["_is_model_initialized"].get<bool>() )
 { }
 
 
@@ -317,9 +317,9 @@ ResponseBinaryClassif::ResponseBinaryClassif (const std::string target_name, con
 
 ResponseBinaryClassif::ResponseBinaryClassif (const json& j)
   : Response::Response(j),
-    _threshold   ( j["_threshold"] ),
-    _pos_class   ( j["_pos_class"] ),
-    _class_table ( j["_class_table"] )
+    _threshold   ( j["_threshold"].get<double>() ),
+    _pos_class   ( j["_pos_class"].get<std::string>() ),
+    _class_table ( j["_class_table"].get<std::map<std::string, unsigned int>>() )
 { }
 
 

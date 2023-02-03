@@ -34,12 +34,12 @@ PolynomialAttributes::PolynomialAttributes (const unsigned int _degree, const bo
 { }
 
 PolynomialAttributes::PolynomialAttributes (const json& j)
-  : df            ( j["df"] ),
-    penalty       ( j["penalty"] ),
+  : df            ( j["df"].get<double>() ),
+    penalty       ( j["penalty"].get<double>() ),
     penalty_mat   ( saver::jsonToArmaMat(j["penalty_mat"]) ),
-    degree        ( j["degree"] ),
-    use_intercept ( j["use_intercept"] ),
-    bin_root      ( j["bin_root"] )
+    degree        ( j["degree"].get<unsigned int>() ),
+    use_intercept ( j["use_intercept"].get<bool>() ),
+    bin_root      ( j["bin_root"].get<unsigned int>() )
 { }
 
 json PolynomialAttributes::toJson () const
@@ -61,14 +61,14 @@ PSplineAttributes::PSplineAttributes ()
 { }
 
 PSplineAttributes::PSplineAttributes (const json& j)
-  : df                  ( j["df"] ),
-    penalty             ( j["penalty"] ),
+  : df                  ( j["df"].get<double>() ),
+    penalty             ( j["penalty"].get<double>() ),
     penalty_mat         ( saver::jsonToArmaMat(j["penalty_mat"]) ),
-    degree              ( j["degree"] ),
-    n_knots             ( j["n_knots"] ),
-    differences         ( j["differences"] ),
-    use_sparse_matrices ( j["use_sparse_matrices"] ),
-    bin_root            ( j["bin_root"] ),
+    degree              ( j["degree"].get<unsigned int>() ),
+    n_knots             ( j["n_knots"].get<unsigned int>() ),
+    differences         ( j["differences"].get<unsigned int>() ),
+    use_sparse_matrices ( j["use_sparse_matrices"].get<bool>() ),
+    bin_root            ( j["bin_root"].get<unsigned int>() ),
     knots               ( saver::jsonToArmaMat(j["knots"]) )
 { }
 
@@ -94,10 +94,10 @@ RidgeAttributes::RidgeAttributes ()
 { }
 
 RidgeAttributes::RidgeAttributes (const json& j)
-  : df          ( j["df"] ),
-    penalty     ( j["penalty"] ),
+  : df          ( j["df"].get<double>() ),
+    penalty     ( j["penalty"].get<double>() ),
     penalty_mat ( saver::jsonToArmaMat(j["penalty_mat"]) ),
-    dictionary  ( j["dictionary"])
+    dictionary  ( j["dictionary"].get<std::map<std::string, unsigned int>>() )
 { }
 
 json RidgeAttributes::toJson () const
@@ -133,7 +133,7 @@ TensorAttributes::TensorAttributes ()
 { }
 
 TensorAttributes::TensorAttributes (const json& j)
-  : penalty ( j["penalty"] )
+  : penalty ( j["penalty"].get<double>() )
 { }
 
 json TensorAttributes::toJson () const
