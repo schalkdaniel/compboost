@@ -738,10 +738,10 @@ BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blear
 
 BaselearnerCenteredFactory::BaselearnerCenteredFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
   : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
-    _attributes     ( std::make_shared<init::CenteredAttributes>(j["_attributes"]) ),
     _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
     _blearner1      ( jsonToBaselearnerFactory(j["_blearner1"], mdsource, mdinit) ),
-    _blearner2      ( jsonToBaselearnerFactory(j["_blearner2"], mdsource, mdinit) )
+    _blearner2      ( jsonToBaselearnerFactory(j["_blearner2"], mdsource, mdinit) ),
+    _attributes     ( std::make_shared<init::CenteredAttributes>(j["_attributes"]) )
 { }
 
 
