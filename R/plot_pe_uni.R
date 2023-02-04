@@ -124,7 +124,7 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
 #' cboost$addComponents("Sepal.Width")
 #' cboost$train(500L)
 #' plotBaselearner(cboost, "Sepal.Width_linear")
-#' plotBaselearner(cboost, "Sepal.Width_spline_centered")
+#' plotBaselearner(cboost, "Sepal.Width_Sepal.Width_spline_centered")
 #' @export
 plotBaselearner = function(cboost, blname, npoints = 100L) {
   if (! requireNamespace("ggplot2", quietly = TRUE)) stop("Please install ggplot2 to create plots.")
