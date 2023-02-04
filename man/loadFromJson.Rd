@@ -24,4 +24,5 @@ cboost = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$
   oob_fraction = 0.3)
 cboost$model$saveJson("cboost.json")
 cboost2 = loadFromJson("cboost.json")
+file.remove("cboost.json")
 }
