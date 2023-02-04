@@ -2,6 +2,7 @@
 NULL
 
 #' @import Rcpp
+#' @import Matrix
 NULL
 
 dummy_import = function() {
