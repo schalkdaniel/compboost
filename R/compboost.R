@@ -1159,11 +1159,6 @@ Compboost = R6::R6Class("Compboost",
     #'
     #' @param file (`character(1)`)\cr
     #'   A data frame containing the data.
-    #' @examples
-    #' cboost = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
-    #'   oob_fraction = 0.3)
-    #' cboost$model$saveJson("cboost.json")
-    #' cboost2 = cboost$new(file = "cboost.json")
     loadFromJson = function(file) {
       checkmate::assertFile(file, extension = c("json", "JSON", "Json"))
 
