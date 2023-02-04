@@ -12,14 +12,13 @@
 #' @examples
 #' cboost = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
-#' cboost$saveJson("cboost.json")
+#' cboost$model$saveJson("cboost.json")
 #' cboost2 = loadFromJson("cboost.json")
 #' @export
 loadFromJson = function(file)
 {
   checkmate::assertFile(file, extension = c("json", "JSON", "Json"))
-
-  cboost = Compboost$loadFromJson(file)
+  return(Compboost$new(file = file))
 }
 
 extractResponse = function(r) {

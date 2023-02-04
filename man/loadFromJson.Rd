@@ -22,6 +22,6 @@ it is not possible to use \code{R}'s native load and save methods.
 \examples{
 cboost = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
   oob_fraction = 0.3)
-cboost$saveJson("cboost.json")
+cboost$model$saveJson("cboost.json")
 cboost2 = loadFromJson("cboost.json")
 }
