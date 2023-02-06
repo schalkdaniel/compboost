@@ -21,6 +21,7 @@ test_that("Basic save and load works with all loss and optimizer combinations", 
       iters = 100L
     }
 
+    set.seed(3141)
     cb = expect_output(boostSplines(iris, "Sepal.Length", iterations = iters, loss = l, optimizer = o))
     cboost = testCboostJsonAPI(cb)
 

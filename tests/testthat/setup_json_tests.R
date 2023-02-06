@@ -76,7 +76,11 @@ testCboostJsonAPI = function(cb, file = "cboost.json") {
     return(d)
   }
   expect_equal(cboost$prepareData(iris)[dnames], cb$prepareData(iris)[dnames])
-  expect_equal(fAsS(cboost$data[, dnames]), fAsS(cb$data[, dnames]))
+  d1 = fAsS(cboost$data[, dnames])
+  d2 = fAsS(cb$data[, dnames])
+  rownames(d1) = NULL
+  rownames(d2) = NULL
+  expect_equal(d1, d2)
 
   expect_equal(class(plotBaselearnerTraces(cboost)), c("gg", "ggplot"))
   expect_equal(class(plotFeatureImportance(cboost, aggregate = TRUE)), c("gg", "ggplot"))

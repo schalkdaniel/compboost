@@ -84,7 +84,7 @@ For more extensive examples and how to use the `R6` interface visit the [project
 
 Because of the usage of `C++` objects as backend, it is not possible to use `R`s `save()` method to save models. Instead, use `$saveToJson("mymodel.json")` to save the model to `mymodel.json` and `Compboost$new(file = "mymodel.json")` to load the model:
 
-```{r, eval=fALSE}
+```{r, eval=FALSE}
 cboost = boostSplines(iris, "Sepal.Width")
 cboost$saveToJson("mymodel.json")
 
