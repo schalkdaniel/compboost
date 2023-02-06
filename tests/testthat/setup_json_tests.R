@@ -43,7 +43,7 @@ testCboostJson = function(cboost, cboost2, new_iter = NULL, blp = "Petal.Length_
 
 testCboostJsonAPI = function(cb, file = "cboost.json") {
 
-  expect_silent(cb$model$saveJson(file))
+  expect_silent(cb$saveToJson(file))
 
   cboost = expect_silent(Compboost$new(file = file))
 

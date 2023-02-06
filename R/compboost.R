@@ -1074,12 +1074,26 @@ Compboost = R6::R6Class("Compboost",
       }
     },
 
+
+    #' @description
+    #' Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
+    #' it is not possible to use \code{R}'s native load and save methods.
+    #'
+    #' @param file (`character(1)`)\cr
+    #'   Name/path to the file.
+    saveToJson = function(file) {
+      checkmate::assertString(file)
+      ext = strsplit(file, "[.]")[[1]][2]
+      checkmate::assertChoice(ext, c("json", "JSON", "Json"))
+      self$model$saveJson(file)
+    },
+
     #' @description
     #' Load a [Compboost] object from a JSON file. Because of the underlying \code{C++} objects,
     #' it is not possible to use \code{R}'s native load and save methods.
     #'
     #' @param file (`character(1)`)\cr
-    #'   A data frame containing the data.
+    #'   Name/path to the file.
     loadFromJson = function(file) {
       checkmate::assertFile(file, extension = c("json", "JSON", "Json"))
 

@@ -133,7 +133,6 @@ Note: `oob_fraction` is ignored if this argument is set.}
 \item \href{#method-rmBaselearner}{\code{Compboost$rmBaselearner()}}
 \item \href{#method-addTensor}{\code{Compboost$addTensor()}}
 \item \href{#method-addComponents}{\code{Compboost$addComponents()}}
-\item \href{#method-extractComponents}{\code{Compboost$extractComponents()}}
 \item \href{#method-train}{\code{Compboost$train()}}
 \item \href{#method-prepareData}{\code{Compboost$prepareData()}}
 \item \href{#method-prepareResponse}{\code{Compboost$prepareResponse()}}
@@ -423,26 +422,6 @@ Name of the feature, must be a column in `data`.}
 Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-extractComponents"></a>}}
-\if{latex}{\out{\hypertarget{method-extractComponents}{}}}
-\subsection{Method \code{extractComponents()}}{
-This function extracts all information from components added with `$addComponents()`
-that defines a model. The result is an `S3` object of class
-`compboostExtract` that can be used for very basic operations such as
-predicting.
-
-Note: At the moment it is not possible to save the whole [Compboost] object
-and reuse it later. Using `$extractComponents()` gives the opportunity to
-"save" the minimal amount of data that defines the model.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Compboost$extractComponents()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-`list` with all components.
 }
 }
 \if{html}{\out{<hr>}}
