@@ -43,8 +43,7 @@ Suggests:
   gridExtra,
   ggrepel,
   ggthemes,
-  covr,
-  cpsp
+  covr
 RcppModules:
   baselearner_module,
   compboost_module,
@@ -55,6 +54,4 @@ RcppModules:
   logger_module,
   optimizer_module,
   data_module
-Remotes:
-  schalkdaniel/cpsp
 VignetteBuilder: knitr

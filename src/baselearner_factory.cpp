@@ -614,14 +614,13 @@ std::vector<std::string> BaselearnerTensorFactory::getDataIdentifier () const
 
 std::vector<sdata> BaselearnerTensorFactory::getVecDataSource () const
 {
-  std::vector<sdata> out;
   auto dvec1 = _blearner1->getVecDataSource();
   auto dvec2 = _blearner2->getVecDataSource();
 
   for (auto& it : dvec2) {
     dvec1.push_back(it);
   }
-  return out;
+  return dvec1;
 }
 
 std::shared_ptr<blearner::Baselearner> BaselearnerTensorFactory::createBaselearner ()
@@ -825,14 +824,13 @@ std::vector<std::string> BaselearnerCenteredFactory::getDataIdentifier () const
 
 std::vector<sdata> BaselearnerCenteredFactory::getVecDataSource () const
 {
-  std::vector<sdata> out;
   auto dvec1 = _blearner1->getVecDataSource();
   auto dvec2 = _blearner2->getVecDataSource();
 
   for (auto& it : dvec2) {
     dvec1.push_back(it);
   }
-  return out;
+  return dvec1;
 }
 
 

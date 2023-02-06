@@ -1,53 +1,109 @@
 context("Test if JSON loading via the R6 API is working")
 
-test_that("Basic save and load works", {
+test_that("Basic save and load works with all loss and optimizer combinations", {
   file = "cboost.json"
-  cb = expect_output(boostSplines(iris, "Sepal.Length"))
-  expect_silent(cb$model$saveJson(file))
 
-  cboost = expect_silent(Compboost$new(file = file))
+  losses = c(LossQuadratic$new(), LossQuantile$new(0.2), LossAbsolute$new(), LossHuber$new())
 
-  expect_equal(cboost$getLoggerData(), cb$getLoggerData())
-  expect_equal(cboost$getInbagRisk(), cb$getInbagRisk())
-  expect_equal(cboost$getCurrentIteration(), cb$getCurrentIteration())
-  expect_equal(cboost$getCoef(), cb$getCoef())
-  expect_equal(cboost$positive, cb$positive)
-  expect_equal(cboost$stop_all, cb$stop_all)
-  expect_equal(cboost$target, cb$target)
+  optimizers = c(OptimizerCoordinateDescent$new(1),
+    OptimizerCoordinateDescentLineSearch$new(1),
+    OptimizerCosineAnnealing$new(1),
+    OptimizerAGBM$new(0.1, 1))
 
-  a = expect_silent(cboost$transformData(iris[, -1]))
-  b = expect_silent(cb$transformData(iris[, -1]))
-  for (bn in names(a)) {
-    expect_equal(a[[bn]], b[[bn]])
-    expect_equal(cboost$transformData(iris[, -1], bn), cb$transformData(iris[, -1], bn))
+  lo_grid = expand.grid(l = losses, o = optimizers)
+
+  for (i in seq_len(nrow(lo_grid))) {
+    l = lo_grid$l[[i]]
+    o = lo_grid$o[[i]]
+
+    iters = 1000L
+    if (o$getOptimizerType() == "agbm") {
+      iters = 100L
+    }
+
+    cb = expect_output(boostSplines(iris, "Sepal.Length", iterations = iters, loss = l, optimizer = o))
+    cboost = testCboostJsonAPI(cb)
+
+    #message(sprintf("Done with %s/%s: l = %s, o = %s", i, nrow(lo_grid), l$getLossType(), o$getOptimizerType()))
+
+    invisible(lapply(unique(cboost$getSelectedBaselearner()), function(bln) {
+      expect_equal(class(expect_silent(plotBaselearner(cboost, bln))), c("gg", "ggplot"))
+    }))
+    selbl = unique(cboost$getSelectedBaselearner())
+    selfn = vapply(cboost$baselearner_list[selbl], function(f) unique(f$factory$getFeatureName()), character(1), USE.NAMES = FALSE)
+    invisible(lapply(selfn, function(f) {
+      expect_equal(class(expect_silent(plotPEUni(cboost, f))), c("gg", "ggplot"))
+    }))
   }
-  expect_equal(cboost$calculateFeatureImportance(), cb$calculateFeatureImportance())
-  expect_equal(cboost$learning_rate, cb$learning_rate)
-  expect_equal(sort(cboost$getBaselearnerNames()), sort(cb$getBaselearnerNames()))
 
-  expect_equal(cboost$predict(), cb$predict())
-  expect_equal(cboost$predict(iris), cb$predict(iris))
-  expect_equal(cboost$predict(), cboost$predict(iris))
-  expect_equal(cboost$predictIndividual(iris[2,]), cb$predictIndividual(iris[2,]))
+  file.remove(file)
+})
 
-  dnames = names(cb$data)
-  fAsS = function(d) {
-    for (fn in names(d)) if (is.factor(d[[fn]])) d[[fn]] = as.character(d[[fn]])
-    return(d)
+test_that("Basic save and load works for centered base learner with all loss and optimizer combinations", {
+  file = "cboost.json"
+
+  losses = c(LossQuadratic$new(), LossQuantile$new(0.2), LossAbsolute$new(), LossHuber$new())
+
+  optimizers = c(OptimizerCoordinateDescent$new(1),
+    OptimizerCoordinateDescentLineSearch$new(1),
+    OptimizerCosineAnnealing$new(1),
+    OptimizerAGBM$new(0.1, 1))
+
+  lo_grid = expand.grid(l = losses, o = optimizers)
+
+  for (i in seq_len(nrow(lo_grid))) {
+    l = lo_grid$l[[i]]
+    o = lo_grid$o[[i]]
+
+    cb = expect_silent(Compboost$new(data = iris, target = "Sepal.Length", loss = l, optimizer = o))
+    invisible(lapply(c("Sepal.Width", "Petal.Length", "Petal.Width"), function(fn) {
+      expect_silent(cb$addComponents(fn))
+    }))
+    expect_silent(cb$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge))
+    expect_output(cb$train(100))
+
+    cboost = testCboostJsonAPI(cb)
+    invisible(lapply(unique(cboost$getSelectedBaselearner()), function(bln) {
+      expect_equal(class(expect_silent(plotBaselearner(cboost, bln))), c("gg", "ggplot"))
+    }))
+    selbl = unique(cboost$getSelectedBaselearner())
+    selfn = vapply(cboost$baselearner_list[selbl], function(f) unique(f$factory$getFeatureName()), character(1), USE.NAMES = FALSE)
+    invisible(lapply(selfn, function(f) {
+      expect_equal(class(expect_silent(plotPEUni(cboost, f))), c("gg", "ggplot"))
+    }))
   }
-  expect_equal(cboost$prepareData(iris)[dnames], cb$prepareData(iris)[dnames])
-  expect_equal(fAsS(cboost$data[, dnames]), fAsS(cb$data[, dnames]))
 
-  expect_equal(class(plotBaselearnerTraces(cboost)), c("gg", "ggplot"))
-  expect_equal(class(plotFeatureImportance(cboost)), c("gg", "ggplot"))
-  expect_equal(class(plotRisk(cboost)), c("gg", "ggplot"))
-  expect_equal(class(plotBaselearner(cboost, "Petal.Width_spline")), c("gg", "ggplot"))
-  expect_equal(class(plotIndividualContribution(cboost, iris[1, ])), c("gg", "ggplot"))
-  expect_equal(class(plotIndividualContribution(cboost, iris[1, ], offset = FALSE)), c("gg", "ggplot"))
-  expect_equal(class(plotIndividualContribution(cboost, iris[1, ], offset = FALSE, colbreaks = c(-Inf, Inf), collabels = "Test")), c("gg", "ggplot"))
+  file.remove(file)
+})
 
-  #plotPEUni(cboost, "Species")
-  #plotPEUni(cb, "Species")
+test_that("Basic save and load works for tensor base learner with all loss and optimizer combinations", {
+  file = "cboost.json"
+
+  losses = c(LossQuadratic$new(), LossQuantile$new(0.2), LossAbsolute$new(), LossHuber$new())
+
+  optimizers = c(OptimizerCoordinateDescent$new(1),
+    OptimizerCoordinateDescentLineSearch$new(1),
+    OptimizerCosineAnnealing$new(1),
+    OptimizerAGBM$new(0.1, 1))
+
+  lo_grid = expand.grid(l = losses, o = optimizers)
+
+  for (i in seq_len(nrow(lo_grid))) {
+    l = lo_grid$l[[i]]
+    o = lo_grid$o[[i]]
+
+    cb = expect_silent(Compboost$new(data = iris, target = "Sepal.Length", loss = l, optimizer = o))
+    expect_silent(cb$addTensor("Species", "Sepal.Width"))
+    expect_silent(cb$addTensor("Petal.Length", "Petal.Width"))
+    expect_output(cb$train(100))
+
+    cboost = testCboostJsonAPI(cb)
+    invisible(lapply(unique(cboost$getSelectedBaselearner()), function(bln) expect_error(plotBaselearner(cboost, bln))))
+
+    invisible(lapply(unique(cboost$getSelectedBaselearner()), function(bln) {
+      expect_equal(class(expect_silent(plotTensor(cboost, bln))), c("gg", "ggplot"))
+    }))
+  }
 
   file.remove(file)
 })

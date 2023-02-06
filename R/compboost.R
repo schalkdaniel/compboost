@@ -505,81 +505,6 @@ Compboost = R6::R6Class("Compboost",
       private$p_bl_list[[id_sp]]$factory = f2cen
 
       self$bl_factory_list$registerFactory(private$p_bl_list[[id_sp]]$factory)
-
-      private$p_components[[feature]] = list(feature = feature, linear_id = id_lin, spline_id = id_sp, hp_spline = list(...))
-    },
-
-    #' @description
-    #' This function extracts all information from components added with `$addComponents()`
-    #' that defines a model. The result is an `S3` object of class
-    #' `compboostExtract` that can be used for very basic operations such as
-    #' predicting.
-    #'
-    #' Note: At the moment it is not possible to save the whole [Compboost] object
-    #' and reuse it later. Using `$extractComponents()` gives the opportunity to
-    #' "save" the minimal amount of data that defines the model.
-    #'
-    #' @return
-    #' `list` with all components.
-    extractComponents = function() {
-
-      if (is.null(self$model)) {
-        stop("Extraction just makes sense after compboost is trained!")
-      }
-      if (length(private$p_components) == 0) {
-        stop("No registered components! Use `addComponent(feat)` instead of `addBaselearner`.")
-      }
-
-      cf = self$getCoef()
-
-      out = lapply(private$p_components, function(cp) {
-
-        if (is.null(cp$hp_spline[["degree"]])) {
-          degree = 3L
-        } else {
-          degree = cp$hp_spline[["degree"]]
-        }
-        if (is.null(cp$hp_spline[["n_knots"]])) {
-          n_knots = 20L
-        } else {
-          n_knots = cp$hp_spline[["n_knots"]]
-        }
-        cp[["knots"]]    = cpsp::createKnots(self$data[[cp$feature]], n_knots, degree)
-        cp[["degree"]]   = degree
-        cp[["rotation"]] = private$p_bl_list[[cp$spline_id]]$factory$getRotation()
-
-        cf_linear = cf[[cp$linear_id]]
-        if (is.null(cf_linear)) {
-          cp[["coef_linear"]]  = NA
-        } else {
-          cp[["coef_linear"]]  = cf_linear
-        }
-        cf_splines = cf[[cp$spline_id]]
-        if (is.null(cf_splines)) {
-          cp[["coef_splines"]]  = NA
-        } else {
-          cp[["coef_splines"]]  = cf_splines
-        }
-        cp[["predict"]] = function(x) {
-          checkmate::assertNumeric(x)
-          if (is.na(cp$coef_linear[1])) {
-            pred_lin = rep(0, length(x))
-          } else {
-            pred_lin = cp$coef_linear[1] + x * cp$coef_linear[2]
-          }
-          if (is.na(cp$coef_splines[1])) {
-            pred_spline = rep(0, length(x))
-          } else {
-            basis       = cpsp::createSparseSplineBasis(x, cp$degree, cp$knots)
-            pred_spline = as.numeric(basis %*% cp$rotation %*% cp$coef_splines)
-          }
-          return(list(linear = pred_lin, nonlinear = pred_spline))
-        }
-        return(cp)
-      })
-      out[["offset"]] = cf$offset
-      class(out) = "compboostExtract"
-      return(out)
     },
 
     #' @description
@@ -926,7 +851,7 @@ Compboost = R6::R6Class("Compboost",
       selected_learner = self$getSelectedBaselearner()
       fcol = "baselearner"
       if (aggregate_bl_by_feat) {
-        feats = vapply(private$p_bl_list, function(bl) bl$feature, character(1L))
+        feats = vapply(private$p_bl_list, function(bl) paste(unique(bl$feature), collapse = "_"), character(1L))
         selected_learner = feats[selected_learner]
         fcol = "feature"
       }
@@ -1026,10 +951,6 @@ Compboost = R6::R6Class("Compboost",
 
     # @field p_idx_train (see field `idx_train`).
     p_idx_train = NULL,
-
-    # @field p_components (`list()`)\cr
-    # A list containing all linear and non-linear component for the feature added via `$addComponent()`.
-    p_components = list(),
 
     # @field p_boost_intercept (see field `boost_intercept).
     p_boost_intercept = FALSE,
@@ -1203,7 +1124,6 @@ Compboost = R6::R6Class("Compboost",
 
         # DROP:
         self$oob_fraction = NULL # Set to private?
-        private$p_components = list() # Should be removed, no need after save/load works!
         self$id = NULL # Removed
         private$p_idx_oob = NULL   # Not possible to reverse engineer but also not required?
                                    # -> Would be nice to have ... Save in Compboost object?
