@@ -147,6 +147,7 @@ Note: `oob_fraction` is ignored if this argument is set.}
 \item \href{#method-getBaselearnerNames}{\code{Compboost$getBaselearnerNames()}}
 \item \href{#method-getLoggerData}{\code{Compboost$getLoggerData()}}
 \item \href{#method-calculateFeatureImportance}{\code{Compboost$calculateFeatureImportance()}}
+\item \href{#method-saveToJson}{\code{Compboost$saveToJson()}}
 \item \href{#method-clone}{\code{Compboost$clone()}}
 }
 }
@@ -730,6 +731,25 @@ instead of considering them individually.}
 \subsection{Returns}{
 Named `numeric()` vector of length `num_feats` (if at least `num_feats` were selected)
 with importance values as elements.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-saveToJson"></a>}}
+\if{latex}{\out{\hypertarget{method-saveToJson}{}}}
+\subsection{Method \code{saveToJson()}}{
+Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
+it is not possible to use \code{R}'s native load and save methods.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$saveToJson(file)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{(`character(1)`)\cr
+Name/path to the file.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

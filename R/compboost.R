@@ -870,7 +870,21 @@ Compboost = R6::R6Class("Compboost",
 
       out = blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ]
       return(out)
+    },
+
+    #' @description
+    #' Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
+    #' it is not possible to use \code{R}'s native load and save methods.
+    #'
+    #' @param file (`character(1)`)\cr
+    #'   Name/path to the file.
+    saveToJson = function(file) {
+      checkmate::assertString(file)
+      ext = strsplit(file, "[.]")[[1]][2]
+      checkmate::assertChoice(ext, c("json", "JSON", "Json"))
+      self$model$saveJson(file)
     }
+
   ), # end public
 
   active = list(
@@ -1072,20 +1086,6 @@ Compboost = R6::R6Class("Compboost",
           }
         }
       }
-    },
-
-
-    #' @description
-    #' Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
-    #' it is not possible to use \code{R}'s native load and save methods.
-    #'
-    #' @param file (`character(1)`)\cr
-    #'   Name/path to the file.
-    saveToJson = function(file) {
-      checkmate::assertString(file)
-      ext = strsplit(file, "[.]")[[1]][2]
-      checkmate::assertChoice(ext, c("json", "JSON", "Json"))
-      self$model$saveJson(file)
     },
 
     #' @description
