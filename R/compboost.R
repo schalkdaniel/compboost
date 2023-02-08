@@ -90,7 +90,7 @@ Compboost = R6::R6Class("Compboost",
     stop_all = FALSE,
 
     #' @field early_stop (`logical(1)`)\cr
-    #' Indicator whether early stopping should be used or not.
+    #' Indicator whether early stopping is used or not.
     early_stop = FALSE,
 
     #' @description
@@ -115,101 +115,154 @@ Compboost = R6::R6Class("Compboost",
     #' @template param-idx_oob
     #' @param stop_args (`list(integer(1), integer(1))`)\cr
     #' `list` containing two elements `patience` and `eps_for_break` which are used for early stopping.
-    initialize = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
+    #' @param file (`character(1`)\cr
+    #' File from which a model should be loaded. If `NULL`, `data` and `target` must be defined.
+    initialize = function(data = NULL, target = NULL, optimizer = NULL, loss = NULL,
       learning_rate = 0.05, positive = NULL, oob_fraction = NULL, early_stop = FALSE,
-      idx_oob = NULL, stop_args = list(eps_for_break = 0, patience = 10L)) {
+      idx_oob = NULL, stop_args = list(eps_for_break = 0, patience = 10L), file = NULL) {
 
-      checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
-      checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
-      checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
-      checkmate::assertLogical(early_stop, any.missing = FALSE, len = 1L)
-      checkmate::assertInteger(idx_oob, null.ok = TRUE, upper = nrow(data), unique = TRUE, any.missing = FALSE)
-
-      if (! is.null(positive)) {
-        x = data[[target]]
-        ct = class(data[[target]])
-        if (! inherits(ct, c("character", "factor")))
-          stop("Target must be of class `character` or `factor` if `positive` is specified. Target class is: ", cl)
-
-        nux = length(unique(x))
-        if (nux != 2)
-          stop("Just binary classification is supported. The target has ", nux, " classes.")
-      }
-      checkmate::assertChoice(positive, unique(data[[target]]), null.ok = TRUE)
-
-      if (! isRcppClass(target, "Response")) {
-        if (! target %in% names(data)) {
-          stop("The target ", target, " is not present within the data")
-        }
-      }
-      if (inherits(loss, "C++Class")) {
-        stop("Loss should be an initialized loss object by calling the constructor: ",
-          deparse(substitute(loss)), "$new()")
+      if (all(is.null(file), is.null(data), is.null(target))) {
+        stop("Make sure to specify `data` and `target` or load from a file with `file = [filename].json`")
       }
 
-      if (! "eps_for_break" %in% names(stop_args)) stop_args[["eps_for_break"]] = 0
-      if (! "patience" %in% names(stop_args)) stop_args[["patience"]] = 10L
+      if (is.null(file)) {
 
-      self$id = deparse(substitute(data))
-      data = droplevels(as.data.frame(data))
+        # CODE TO CREATE COMPBOOST OBJECT FROM ARGUMENTS:
 
-      if ((! is.null(idx_oob)) || (! is.null(oob_fraction))) {
-        if (is.null(idx_oob)) {
-          private$p_idx_oob = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+        if (is.null(data)) {
+          stop("Data is a required argument if no file is given.")
         } else {
-          private$p_idx_oob = idx_oob
-        }
-        if ((! is.null(idx_oob)) && (! is.null(oob_fraction))) {
-          warning("`oob_fraction` is ignored when a specific test index is given.")
-        }
-      }
-      private$p_idx_train = setdiff(seq_len(nrow(data)), private$p_idx_oob)
 
-      if (is.character(target)) {
-        checkmate::assertCharacter(target)
-        if (! target %in% names(data))
-          stop("The target ", target, " is not present within the data")
+          # CHECKS:
+          checkmate::assertDataFrame(data, any.missing = FALSE, min.rows = 1)
 
-        # With .vectorToRespone we are very restricted to the task types.
-        # We can just guess for regression or classification. For every
-        # other task one should use the Response interface!
-        self$response = vectorToResponse(data[[target]][private$p_idx_train], target, positive)
+        }
+        if (is.null(target)) {
+          stop("target is a required argument if no file is given.")
+        } else {
+
+          # CHECKS:
+          if (! is.null(positive)) {
+            x = data[[target]]
+            ct = class(data[[target]])
+            if (! inherits(ct, c("character", "factor")))
+              stop("Target must be of class `character` or `factor` if `positive` is specified. Target class is: ", ct)
+
+            nux = length(unique(x))
+            if (nux != 2)
+              stop("Just binary classification is supported. The target has ", nux, " classes.")
+          }
+          checkmate::assertChoice(positive, unique(data[[target]]), null.ok = TRUE)
+
+          if (! isRcppClass(target, "Response")) {
+            if (! target %in% names(data)) {
+              stop("The target ", target, " is not present within the data")
+            }
+          }
+        }
+        if (is.null(optimizer)) {
+          optimizer = OptimizerCoordinateDescent$new()
+        }
+        if (is.null(loss)) {
+          if (isRcppClass(target, "Response")) {
+            tname = target$getTargetName()
+          } else {
+            tname = target
+          }
+          linit = FALSE
+          if (is.numeric(data[[tname]])) {
+            loss = LossQuadratic$new()
+            linit = TRUE
+          }
+          if (is.character(data[[tname]]) || is.factor(data[[tname]])) {
+            loss = LossBinomial$new()
+            linit = TRUE
+          }
+          if (! linit) {
+            stop("Was not able to automatically guess a loss class.")
+          }
+        }
+
+        checkmate::assertNumeric(learning_rate, lower = 0, upper = 1, any.missing = FALSE, len = 1)
+        checkmate::assertNumeric(oob_fraction, lower = 0, upper = 1, any.missing = FALSE, len = 1, null.ok = TRUE)
+        checkmate::assertLogical(early_stop, any.missing = FALSE, len = 1L)
+        checkmate::assertInteger(idx_oob, null.ok = TRUE, upper = nrow(data), unique = TRUE, any.missing = FALSE)
+
+        if (inherits(loss, "C++Class")) {
+          stop("Loss should be an initialized loss object by calling the constructor: ",
+            deparse(substitute(loss)), "$new()")
+        }
+
+        if (! "eps_for_break" %in% names(stop_args)) stop_args[["eps_for_break"]] = 0
+        if (! "patience" %in% names(stop_args)) stop_args[["patience"]] = 10L
+
+        self$id = deparse(substitute(data))
+        data = droplevels(as.data.frame(data))
+
+        if ((! is.null(idx_oob)) || (! is.null(oob_fraction))) {
+          if (is.null(idx_oob)) {
+            private$p_idx_oob = sample(x = seq_len(nrow(data)), size = floor(oob_fraction * nrow(data)), replace = FALSE)
+          } else {
+            private$p_idx_oob = idx_oob
+          }
+          if ((! is.null(idx_oob)) && (! is.null(oob_fraction))) {
+            warning("`oob_fraction` is ignored when a specific test index is given.")
+          }
+        }
+        private$p_idx_train = setdiff(seq_len(nrow(data)), private$p_idx_oob)
+
+        if (is.character(target)) {
+          checkmate::assertCharacter(target)
+          if (! target %in% names(data))
+            stop("The target ", target, " is not present within the data")
+
+          # With .vectorToRespone we are very restricted to the task types.
+          # We can just guess for regression or classification. For every
+          # other task one should use the Response interface!
+          self$response = vectorToResponse(data[[target]][private$p_idx_train], target, positive)
+        } else {
+          assertRcppClass(target, "Response")
+          if (nrow(target$getResponse()) != nrow(data))
+            stop("Response must have same number of observations as the given dataset")
+          self$response = target
+        }
+
+        self$oob_fraction = oob_fraction
+        self$early_stop = early_stop
+        self$target = self$response$getTargetName()
+        self$data = data[private$p_idx_train, !colnames(data) %in% self$target, drop = FALSE]
+        self$optimizer = optimizer
+        self$loss = loss
+        self$learning_rate = learning_rate
+
+        if (self$early_stop || (! is.null(self$oob_fraction) || (! is.null(idx_oob)))) {
+          self$data_oob = data[private$p_idx_oob, !colnames(data) %in% target, drop = FALSE]
+          self$response_oob = data[private$p_idx_oob, self$target]
+          self$response_oob = self$prepareResponse(self$response_oob)
+        }
+
+        # Initialize new base-learner factory list. All factories which are defined in
+        # `addBaselearner` are registered here:
+        self$bl_factory_list = BlearnerFactoryList$new()
+
+        # Check and set stop args:
+        scount = 0
+        if (! is.null(stop_args$oob_offset)) scount = 1
+        if (length(stop_args) > scount) {
+          for (nm in c("patience", "eps_for_break")) {
+            if (! nm %in% names(stop_args)) stop("Cannot find ", nm, " in 'stop_args'")
+          }
+          checkmate::assertCount(stop_args$patience, positive = TRUE)
+          checkmate::assertNumeric(stop_args$eps_for_break, len = 1L)
+        }
+        private$p_stop_args = stop_args
+
       } else {
-        assertRcppClass(target, "Response")
-        if (nrow(target$getResponse()) != nrow(data))
-          stop("Response must have same number of observations as the given dataset")
-        self$response = target
+
+        # LOAD COMPBOOST FROM FILE:
+        private$loadFromJson(file)
+
       }
-
-      self$oob_fraction = oob_fraction
-      self$early_stop = early_stop
-      self$target = self$response$getTargetName()
-      self$data = data[private$p_idx_train, !colnames(data) %in% self$target, drop = FALSE]
-      self$optimizer = optimizer
-      self$loss = loss
-      self$learning_rate = learning_rate
-
-      if (self$early_stop || (! is.null(self$oob_fraction) || (! is.null(idx_oob)))) {
-        self$data_oob = data[private$p_idx_oob, !colnames(data) %in% target, drop = FALSE]
-        self$response_oob = data[private$p_idx_oob, self$target]#, "oob_response")
-        self$response_oob = self$prepareResponse(self$response_oob)
-      }
-
-      # Initialize new base-learner factory list. All factories which are defined in
-      # `addBaselearner` are registered here:
-      self$bl_factory_list = BlearnerFactoryList$new()
-
-      # Check and set stop args:
-      scount = 0
-      if (! is.null(stop_args$oob_offset)) scount = 1
-      if (length(stop_args) > scount) {
-        for (nm in c("patience", "eps_for_break")) {
-          if (! nm %in% names(stop_args)) stop("Cannot find ", nm, " in 'stop_args'")
-        }
-        checkmate::assertCount(stop_args$patience, positive = TRUE)
-        checkmate::assertNumeric(stop_args$eps_for_break, len = 1L)
-      }
-      private$p_stop_args = stop_args
     },
 
     #' @description
@@ -224,6 +277,9 @@ Compboost = R6::R6Class("Compboost",
     #' @param ... \cr
     #' Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
+      if (! is.null(self$model)) {
+        stop("Logger can not be added after training was started")
+      }
       private$p_l_list[[logger_id]] = logger$new(logger_id, use_as_stopper = use_as_stopper, ...)
     },
 
@@ -287,7 +343,7 @@ Compboost = R6::R6Class("Compboost",
       }
 
       data_columns = self$data[, feature, drop = FALSE]
-      id_fac = paste(paste(feature, collapse = "_"), id, sep = "_") #USE stringi
+      id_fac = paste(paste(feature, collapse = "_"), id, sep = "_")
 
       if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
         private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
@@ -302,7 +358,8 @@ Compboost = R6::R6Class("Compboost",
     #' @param blname (`character(1)`)\cr
     #' Name of the base learner that should be removed. Must be an element of `$getBaselearnerNames()`.
     rmBaselearner = function(blname) {
-      checkmate::assertChoice(blname, choices = names(private$p_bl_list))
+      #checkmate::assertChoice(blname, choices = names(private$p_bl_list))
+      checkmate::assertChoice(blname, choices = self$bl_factory_list$getRegisteredFactoryNames())
 
       self$bl_factory_list$rmBaselearnerFactory(factory_id)
     },
@@ -442,87 +499,12 @@ Compboost = R6::R6Class("Compboost",
       self$bl_factory_list$registerFactory(private$p_bl_list[[id_lin]]$factory)
 
       # Register centered spline:
-      id_sp = paste0(feature, "_spline_centered")
+      id_sp = paste0(feature, "_", feature, "_spline_centered")
       private$p_bl_list[[id_sp]] = list()
       private$p_bl_list[[id_sp]]$feature = feature
       private$p_bl_list[[id_sp]]$factory = f2cen
 
       self$bl_factory_list$registerFactory(private$p_bl_list[[id_sp]]$factory)
-
-      private$p_components[[feature]] = list(feature = feature, linear_id = id_lin, spline_id = id_sp, hp_spline = list(...))
-    },
-
-    #' @description
-    #' This function extracts all information from components added with `$addComponents()`
-    #' that defines a model. The result is an `S3` object of class
-    #' `compboostExtract` that can be used for very basic operations such as
-    #' predicting.
-    #'
-    #' Note: At the moment it is not possible to save the whole [Compboost] object
-    #' and reuse it later. Using `$extractComponents()` gives the opportunity to
-    #' "save" the minimal amount of data that defines the model.
-    #'
-    #' @return
-    #' `list` with all components.
-    extractComponents = function() {
-
-      if (is.null(self$model)) {
-        stop("Extraction just makes sense after compboost is trained!")
-      }
-      if (length(private$p_components) == 0) {
-        stop("No registered components! Use `addComponent(feat)` instead of `addBaselearner`.")
-      }
-
-      cf = self$getCoef()
-
-      out = lapply(private$p_components, function(cp) {
-
-        if (is.null(cp$hp_spline[["degree"]])) {
-          degree = 3L
-        } else {
-          degree = cp$hp_spline[["degree"]]
-        }
-        if (is.null(cp$hp_spline[["n_knots"]])) {
-          n_knots = 20L
-        } else {
-          n_knots = cp$hp_spline[["n_knots"]]
-        }
-        cp[["knots"]]    = cpsp::createKnots(self$data[[cp$feature]], n_knots, degree)
-        cp[["degree"]]   = degree
-        cp[["rotation"]] = private$p_bl_list[[cp$spline_id]]$factory$getRotation()
-
-        cf_linear = cf[[cp$linear_id]]
-        if (is.null(cf_linear)) {
-          cp[["coef_linear"]]  = NA
-        } else {
-          cp[["coef_linear"]]  = cf_linear
-        }
-        cf_splines = cf[[cp$spline_id]]
-        if (is.null(cf_splines)) {
-          cp[["coef_splines"]]  = NA
-        } else {
-          cp[["coef_splines"]]  = cf_splines
-        }
-        cp[["predict"]] = function(x) {
-          checkmate::assertNumeric(x)
-          if (is.na(cp$coef_linear[1])) {
-            pred_lin = rep(0, length(x))
-          } else {
-            pred_lin = cp$coef_linear[1] + x * cp$coef_linear[2]
-          }
-          if (is.na(cp$coef_splines[1])) {
-            pred_spline = rep(0, length(x))
-          } else {
-            basis       = cpsp::createSparseSplineBasis(x, cp$degree, cp$knots)
-            pred_spline = as.numeric(basis %*% cp$rotation %*% cp$coef_splines)
-          }
-          return(list(linear = pred_lin, nonlinear = pred_spline))
-        }
-        return(cp)
-      })
-      out[["offset"]] = cf$offset
-      class(out) = "compboostExtract"
-      return(out)
     },
 
     #' @description
@@ -682,6 +664,8 @@ Compboost = R6::R6Class("Compboost",
       checkmate::assertCharacter(blnames, null.ok = TRUE)
       if (! is.null(blnames)) {
         nuisance = lapply(blnames, checkmate::assertChoice, choices = names(private$p_bl_list))
+      } else {
+        blnames = names(private$p_bl_list)
       }
       unused_cols = nnew[! nnew %in% ndat]
       if (length(unused_cols) > 0) {
@@ -742,11 +726,11 @@ Compboost = R6::R6Class("Compboost",
     print = function() {
       p = sprintf(paste("\n",
           "Component-Wise Gradient Boosting\n",
-          "Trained on %s with target %s",
+          "Target variable: %s",
           "Number of base-learners: %s",
           "Learning rate: %s",
           "Iterations: %s\n", sep = "\n"),
-        self$id, self$target, self$bl_factory_list$getNumberOfRegisteredFactories(),
+        self$target, self$bl_factory_list$getNumberOfRegisteredFactories(),
         self$learning_rate, self$getCurrentIteration())
 
       if (! is.null(self$positive))
@@ -867,7 +851,7 @@ Compboost = R6::R6Class("Compboost",
       selected_learner = self$getSelectedBaselearner()
       fcol = "baselearner"
       if (aggregate_bl_by_feat) {
-        feats = vapply(private$p_bl_list, function(bl) bl$feature, character(1L))
+        feats = vapply(private$p_bl_list, function(bl) paste(unique(bl$feature), collapse = "_"), character(1L))
         selected_learner = feats[selected_learner]
         fcol = "feature"
       }
@@ -886,7 +870,21 @@ Compboost = R6::R6Class("Compboost",
 
       out = blearner_sums[order(blearner_sums[["risk_reduction"]], decreasing = TRUE)[seq_len(num_feats)], ]
       return(out)
+    },
+
+    #' @description
+    #' Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
+    #' it is not possible to use \code{R}'s native load and save methods.
+    #'
+    #' @param file (`character(1)`)\cr
+    #'   Name/path to the file.
+    saveToJson = function(file) {
+      checkmate::assertString(file)
+      ext = strsplit(file, "[.]")[[1]][2]
+      checkmate::assertChoice(ext, c("json", "JSON", "Json"))
+      self$model$saveJson(file)
     }
+
   ), # end public
 
   active = list(
@@ -917,7 +915,7 @@ Compboost = R6::R6Class("Compboost",
     logs = function(x) {
       if (! missing(x)) stop("`logs` is read only.")
       if (is.null(self$model)) {
-        stop("Logger data can only be returned when the model has been trained.")
+        stop("Logger data can only be returned after the model has been trained.")
       }
       if (is.null(private$p_logs)) {
         private$p_logs = self$getLoggerData()
@@ -967,10 +965,6 @@ Compboost = R6::R6Class("Compboost",
 
     # @field p_idx_train (see field `idx_train`).
     p_idx_train = NULL,
-
-    # @field p_components (`list()`)\cr
-    # A list containing all linear and non-linear component for the feature added via `$addComponent()`.
-    p_components = list(),
 
     # @field p_boost_intercept (see field `boost_intercept).
     p_boost_intercept = FALSE,
@@ -1091,6 +1085,64 @@ Compboost = R6::R6Class("Compboost",
             private$p_bl_list[[cat_feat_id]]$feature = feature
           }
         }
+      }
+    },
+
+    #' @description
+    #' Load a [Compboost] object from a JSON file. Because of the underlying \code{C++} objects,
+    #' it is not possible to use \code{R}'s native load and save methods.
+    #'
+    #' @param file (`character(1)`)\cr
+    #'   Name/path to the file.
+    loadFromJson = function(file) {
+      checkmate::assertFile(file, extension = c("json", "JSON", "Json"))
+
+      self$model = Compboost_internal$new(file)
+      self$learning_rate = self$model$getLearningRate()
+      self$stop_all = self$model$useGlobalStopping()
+
+      # RESPONSE:
+      self$response = extractResponse(self$model$getResponse())
+      self$positive = attr(self$response, "positive")
+      self$target = self$response$getTargetName()
+
+      # OPTIMIZER:
+      self$optimizer = extractOptimizer(self$model$getOptimizer())
+
+      # LOSS:
+      self$loss = extractLoss(self$model$getLoss())
+
+      # BASELEARNERLIST: TODO:
+      self$bl_factory_list = self$model$getBaselearnerList()
+
+      private$p_boost_intercept = "intercept" %in% self$bl_factory_list$getDataNames()
+      private$p_bl_list = lapply(self$model$getFactoryMap(), function(f) {
+        out = list(feature = f$getFeatureName(), factory = extractBaselearnerFactory(f))
+      })
+
+      # make active binding?
+      dtmp = lapply(self$model$getDataMap(), extractData)
+      self$data = do.call(data.frame, lapply(dtmp, function(d) {
+        if (d$getDataType() == "in_memory") return(d$getData())
+        if (d$getDataType() == "categorical") return(d$getRawData())
+      }))
+
+      if (FALSE) {
+        # NECESSARY?
+        self$response_oob = NULL # Only relevant in creating the objects?
+        self$data_oob = NULL     # Only relevant in creating the objects?
+        private$p_logger_list = self$model$getLoggerList()
+        private$p_stop_args = list() # Only relevant when the oob logger is added.
+        private$p_l_list = list() # Only relevant prior to training.
+        self$early_stop = FALSE # Only relevant in constructor.
+
+        # DROP:
+        self$oob_fraction = NULL # Set to private?
+        self$id = NULL # Removed
+        private$p_idx_oob = NULL   # Not possible to reverse engineer but also not required?
+                                   # -> Would be nice to have ... Save in Compboost object?
+                                   #    Then make an active binding that points to the model$getTrainIdx method?
+        private$p_idx_train = NULL # Not possible to reverse engineer but also not required? Same as above but point to the OOB logger?
       }
     }
   ) # end private

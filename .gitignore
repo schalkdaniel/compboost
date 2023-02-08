@@ -1,5 +1,7 @@
+Makefile
 .Rproj.user
 *.Rhistory
+*.json
 .RData
 .Ruserdata
 *.Rproj

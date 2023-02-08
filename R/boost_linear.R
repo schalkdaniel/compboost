@@ -47,9 +47,9 @@
 #' table(mod$getSelectedBaselearner())
 #' mod$predict()
 #' @export
-boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-	learning_rate = 0.05, iterations = 100, trace = -1, intercept = TRUE,
-	data_source = InMemoryData, oob_fraction = NULL)
+boostLinear = function(data, target, optimizer = NULL, loss = NULL, learning_rate = 0.05,
+  iterations = 100, trace = -1, intercept = TRUE, data_source = InMemoryData,
+  oob_fraction = NULL)
 {
 	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
 		learning_rate = learning_rate, oob_fraction = oob_fraction)

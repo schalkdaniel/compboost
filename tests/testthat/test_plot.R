@@ -1,16 +1,14 @@
 context("Plot function produce a ggplot")
 
 test_that("plotting univariate partial effects works", {
-  expect_silent({
-    cboost = Compboost$new(data = iris, target = "Petal.Length",
-      loss = LossQuadratic$new())
-  })
-  expect_silent({cboost$addComponents("Sepal.Width")})
-  expect_silent({cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)})
-  expect_output({cboost$train(500L)})
+  cboost = expect_silent(Compboost$new(data = iris, target = "Petal.Length",
+    loss = LossQuadratic$new()))
+  expect_silent(cboost$addComponents("Sepal.Width"))
+  expect_silent(cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge))
+  expect_output(cboost$train(500L))
 
-  expect_silent({ gg_num = plotPEUni(cboost, "Sepal.Width") })
-  expect_silent({ gg_cat = plotPEUni(cboost, "Species") })
+  gg_num = expect_silent(plotPEUni(cboost, "Sepal.Width"))
+  gg_cat = expect_silent(plotPEUni(cboost, "Species"))
 
   expect_true(inherits(gg_num, "gg"))
   expect_true(inherits(gg_cat, "gg"))
@@ -66,21 +64,22 @@ test_that("base learner traces can be plotted", {
 
 test_that("individual predictions can be plotted", {
 
-  expect_silent({
-    cboost = Compboost$new(data = iris, target = "Petal.Length",
-      loss = LossQuadratic$new())
-  })
-  expect_silent({ cboost$addComponents("Sepal.Width", df = 3) })
-  expect_silent({ cboost$addComponents("Sepal.Length", df = 3) })
-  expect_silent({ cboost$addComponents("Petal.Width", df = 3) })
-  expect_silent({ cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge) })
-  expect_output({ cboost$train(500L)})
-  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,]) })
-  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], offset = FALSE) })
-  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], colbreaks = NULL) })
-  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], collabels = NULL) })
-  expect_silent({ gg = plotIndividualContribution(cboost, iris[10,], colbreaks = NULL, collabels = NULL) })
-  expect_true({ inherits(gg, "ggplot")})
+  cboost = expect_silent(Compboost$new(data = iris, target = "Petal.Length",
+    loss = LossQuadratic$new()))
+  expect_silent(cboost$addComponents("Sepal.Width", df = 3))
+  expect_silent(cboost$addComponents("Sepal.Length", df = 3))
+  expect_silent(cboost$addComponents("Petal.Width", df = 3))
+  expect_silent(cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge))
+  expect_output(cboost$train(500L))
+
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ]))
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ], aggregate = FALSE))
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ], offset = FALSE))
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ], offset = FALSE, aggregate = FALSE))
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ], colbreaks = NULL))
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ], collabels = NULL))
+  gg = expect_silent(plotIndividualContribution(cboost, iris[10, ], colbreaks = NULL, collabels = NULL))
+  expect_true(inherits(gg, "ggplot"))
 
   expect_error(plotIndividualContribution(cboost, iris))
   expect_error(plotIndividualContribution(cboost, collabels = c("a", "b", "c")))

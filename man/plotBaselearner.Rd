@@ -29,5 +29,5 @@ cboost = Compboost$new(data = iris, target = "Petal.Length",
 cboost$addComponents("Sepal.Width")
 cboost$train(500L)
 plotBaselearner(cboost, "Sepal.Width_linear")
-plotBaselearner(cboost, "Sepal.Width_spline_centered")
+plotBaselearner(cboost, "Sepal.Width_Sepal.Width_spline_centered")
 }

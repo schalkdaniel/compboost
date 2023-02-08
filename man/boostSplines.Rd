@@ -7,8 +7,8 @@
 boostSplines(
   data,
   target,
-  optimizer = OptimizerCoordinateDescent$new(),
-  loss,
+  optimizer = NULL,
+  loss = NULL,
   learning_rate = 0.05,
   iterations = 100,
   trace = -1,

@@ -22,37 +22,101 @@
 
 namespace blearnerfactory {
 
-std::shared_ptr<data::Data> extractDataFromMap (const std::shared_ptr<data::Data>& sh_ptr_data,
-  const std::map<std::string, std::shared_ptr<data::Data>>& data_map)
+
+std::shared_ptr<BaselearnerFactory> jsonToBaselearnerFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
 {
-  std::string data_id = sh_ptr_data->getDataIdentifier();
-  auto it_data = data_map.find(data_id);
-  if (it_data == data_map.end()) {
-    throw "Cannot find data " + data_id + " in data map. Using 0 as linear predictor.";
+  std::shared_ptr<BaselearnerFactory> blf;
+
+  if (j["Class"] == "BaselearnerPolynomialFactory") {
+    blf = std::make_shared<BaselearnerPolynomialFactory>(j, mdsource, mdinit);
   }
-  return it_data->second;
+  if (j["Class"] == "BaselearnerPSplineFactory") {
+    blf = std::make_shared<BaselearnerPSplineFactory>(j, mdsource, mdinit);
+  }
+  if (j["Class"] == "BaselearnerTensorFactory") {
+    blf = std::make_shared<BaselearnerTensorFactory>(j, mdsource, mdinit);
+  }
+  if (j["Class"] == "BaselearnerCenteredFactory") {
+    blf = std::make_shared<BaselearnerCenteredFactory>(j, mdsource, mdinit);
+  }
+  if (j["Class"] == "BaselearnerCategoricalRidgeFactory") {
+    blf = std::make_shared<BaselearnerCategoricalRidgeFactory>(j, mdsource, mdinit);
+  }
+  if (j["Class"] == "BaselearnerCategoricalBinaryFactory") {
+    blf = std::make_shared<BaselearnerCategoricalBinaryFactory>(j, mdsource, mdinit);
+  }
+  if (blf == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return blf;
+
 }
+
 
 // -------------------------------------------------------------------------- //
 // Abstract 'BaselearnerFactory' class:
 // -------------------------------------------------------------------------- //
 
-BaselearnerFactory::BaselearnerFactory (const std::string blearner_type) : _blearner_type ( blearner_type ) {}
+BaselearnerFactory::BaselearnerFactory (const std::string blearner_type)
+  : _blearner_type ( blearner_type )
+{ }
 
 BaselearnerFactory::BaselearnerFactory (const std::string blearner_type, const std::shared_ptr<data::Data>& data_source)
   : _blearner_type      ( blearner_type ),
     _sh_ptr_data_source ( data_source )
 { }
 
+BaselearnerFactory::BaselearnerFactory (const json& j, const mdata& mdat)
+  : _blearner_type      ( j["_blearner_type"].get<std::string>() ),
+    _sh_ptr_data_source ( data::extractDataFromMap(j["id_data_source"].get<std::string>(), mdat) )
+{ }
 
-std::string BaselearnerFactory::getDataIdentifier () const
+std::vector<std::string> BaselearnerFactory::getDataIdentifier () const
 {
   if (_sh_ptr_data_source.use_count() == 0) {
     throw std::logic_error("Data source is not initialized or 'getDataIdentifier()' is not implemented");
   }
-  return _sh_ptr_data_source->getDataIdentifier();
+  std::vector<std::string> out;
+  out.push_back(_sh_ptr_data_source->getDataIdentifier());
+  return out;
 }
-std::string BaselearnerFactory::getBaselearnerType() const { return _blearner_type; }
+
+sdata BaselearnerFactory::getDataSource () const
+{
+  return _sh_ptr_data_source;
+}
+
+std::string BaselearnerFactory::getBaselearnerType() const
+{
+  return _blearner_type;
+}
+
+json BaselearnerFactory::baseToJson (const std::string cln) const
+{
+  json j = {
+    {"Class", cln},
+
+    {"_blearner_type", _blearner_type},
+    {"id_data_source", _sh_ptr_data_source->getDataIdentifier()}
+  };
+
+  return j;
+}
+
+json BaselearnerFactory::dataSourceToJson () const
+{
+  json j;
+  j[_sh_ptr_data_source->getDataIdentifier()] = _sh_ptr_data_source->toJson();
+
+  return j;
+}
+
+std::vector<sdata> BaselearnerFactory::getVecDataSource () const
+{
+  std::vector<sdata> out;
+  out.push_back(_sh_ptr_data_source);
+  return out;
+}
 
 /// Destructor
 BaselearnerFactory::~BaselearnerFactory () {}
@@ -67,7 +131,7 @@ BaselearnerFactory::~BaselearnerFactory () {}
 BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string blearner_type,
   std::shared_ptr<data::Data> data_source, const unsigned int degree, const bool intercept,
   const unsigned int bin_root, const double df, const double penalty)
-  : BaselearnerFactory ( blearner_type, data_source )
+  : BaselearnerFactory::BaselearnerFactory ( blearner_type, data_source )
 {
   _attributes->df            = df;
   _attributes->penalty       = penalty;
@@ -111,19 +175,52 @@ BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const std::string bl
   _attributes->bin_root = 0;
 }
 
+BaselearnerPolynomialFactory::BaselearnerPolynomialFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
+    _attributes     ( std::make_shared<init::PolynomialAttributes>(j["_attributes"]) )
+{ }
+
 sdata BaselearnerPolynomialFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
   return init::initPolynomialData(newdata, _attributes);
 }
 
-bool      BaselearnerPolynomialFactory::usesSparse          () const { return false; }
-sdata     BaselearnerPolynomialFactory::getInstantiatedData () const { return _sh_ptr_bindata; }
-arma::mat BaselearnerPolynomialFactory::getData             () const { return _sh_ptr_bindata->getDenseData(); }
+bool BaselearnerPolynomialFactory::usesSparse () const
+{
+  return false;
+}
 
-arma::vec BaselearnerPolynomialFactory::getDF               () const { return arma::vec(1, arma::fill::value(_attributes->df)); }
-arma::vec BaselearnerPolynomialFactory::getPenalty          () const { return arma::vec(1, arma::fill::value(_attributes->penalty)); }
-arma::mat BaselearnerPolynomialFactory::getPenaltyMat       () const { return _attributes->penalty_mat; }
+sdata BaselearnerPolynomialFactory::getInstantiatedData () const
+{
+  return _sh_ptr_bindata;
+}
+
+arma::mat BaselearnerPolynomialFactory::getData () const
+{
+  return _sh_ptr_bindata->getDenseData();
+}
+
+arma::vec BaselearnerPolynomialFactory::getDF () const
+{
+  return arma::vec(1, arma::fill::value(_attributes->df));
+}
+
+arma::vec BaselearnerPolynomialFactory::getPenalty () const
+{
+  return arma::vec(1, arma::fill::value(_attributes->penalty));
+}
+
+arma::mat BaselearnerPolynomialFactory::getPenaltyMat () const
+{
+  return _attributes->penalty_mat;
+}
+
+std::string BaselearnerPolynomialFactory::getBaseModelName () const
+{
+  return std::string("polynomial");
+}
 
 arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -135,7 +232,7 @@ arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::ma
   helper::debugPrint("From 'BaselearnerPolynomialFactory::calculateLinearPredictor' for feature " + this->_sh_ptr_data_source->getDataIdentifier());
   // For newdata, we just extract the sparse data because no binning is used!
   try {
-    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
     return init::initPolynomialData(newdata, _attributes)->getDenseData() * param;
 
   } catch (const char* msg) {
@@ -146,6 +243,29 @@ arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::ma
 std::shared_ptr<blearner::Baselearner> BaselearnerPolynomialFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_bindata, _attributes);
+}
+
+json BaselearnerPolynomialFactory::toJson () const
+{
+  json j = BaselearnerFactory::baseToJson("BaselearnerPolynomialFactory");
+  j["id_data_init"] = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
+  j["_attributes"] = _attributes->toJson();
+
+  return j;
+}
+
+json BaselearnerPolynomialFactory::extractDataToJson (const bool save_source) const
+{
+  json j;
+  std::string id_dat;
+
+  if (save_source) {
+    j = BaselearnerFactory::dataSourceToJson();
+  } else {
+    id_dat = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
+    j[id_dat] = _sh_ptr_bindata->toJson();
+  }
+  return j;
 }
 
 
@@ -177,7 +297,7 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
   const std::shared_ptr<data::Data>& data_source, const unsigned int degree, const unsigned int n_knots,
   const double penalty, const double df, const unsigned int differences, const bool use_sparse_matrices,
   const unsigned int bin_root, const std::string cache_type)
-  : BaselearnerFactory ( blearner_type, data_source )
+  : BaselearnerFactory::BaselearnerFactory ( blearner_type, data_source )
 {
   _attributes->degree      = degree;
   _attributes->n_knots     = n_knots;
@@ -215,22 +335,55 @@ BaselearnerPSplineFactory::BaselearnerPSplineFactory (const std::string blearner
   _attributes->bin_root = 0;
 }
 
-bool BaselearnerPSplineFactory::usesSparse () const { return true; }
-sdata BaselearnerPSplineFactory::getInstantiatedData () const { return _sh_ptr_bindata; }
+BaselearnerPSplineFactory::BaselearnerPSplineFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
+    _attributes     ( std::make_shared<init::PSplineAttributes>(j["_attributes"]) )
+{ }
+
+bool BaselearnerPSplineFactory::usesSparse () const
+{
+  return true;
+}
+
+sdata BaselearnerPSplineFactory::getInstantiatedData () const
+{
+  return _sh_ptr_bindata;
+}
 
 sdata BaselearnerPSplineFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
   auto attr_temp = _attributes;
   attr_temp->bin_root = 0;
 
   return init::initPSplineData(newdata, attr_temp);
 }
 
-arma::mat BaselearnerPSplineFactory::getData       () const { return arma::mat(_sh_ptr_bindata->getSparseData()); }
-arma::vec BaselearnerPSplineFactory::getDF         () const { return arma::vec(1, arma::fill::value(_attributes->df)); }
-arma::vec BaselearnerPSplineFactory::getPenalty    () const { return arma::vec(1, arma::fill::value(_attributes->penalty)); }
-arma::mat BaselearnerPSplineFactory::getPenaltyMat () const { return _attributes->penalty_mat; }
+arma::mat BaselearnerPSplineFactory::getData () const
+{
+  return arma::mat(_sh_ptr_bindata->getSparseData());
+}
+
+arma::vec BaselearnerPSplineFactory::getDF () const
+{
+  return arma::vec(1, arma::fill::value(_attributes->df));
+}
+
+arma::vec BaselearnerPSplineFactory::getPenalty () const
+{
+  return arma::vec(1, arma::fill::value(_attributes->penalty));
+}
+
+arma::mat BaselearnerPSplineFactory::getPenaltyMat () const
+{
+  return _attributes->penalty_mat;
+}
+
+std::string BaselearnerPSplineFactory::getBaseModelName () const
+{
+  return std::string("pspline");
+}
 
 
 arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -242,7 +395,7 @@ arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& 
 {
   helper::debugPrint("From 'BaselearnerPSplineFactory::calculateLinearPredictor' for feature " + this->_sh_ptr_data_source->getDataIdentifier());
   try {
-    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
     return (param.t() * init::initPSplineData(newdata, _attributes)->getSparseData()).t();
   } catch (const char* msg) {
     throw msg;
@@ -254,6 +407,29 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselear
   return std::make_shared<blearner::BaselearnerPSpline>(_blearner_type, std::static_pointer_cast<data::BinnedData>(_sh_ptr_bindata));
 }
 
+json BaselearnerPSplineFactory::toJson () const
+{
+  json j = BaselearnerFactory::baseToJson("BaselearnerPSplineFactory");
+  j["id_data_init"] = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
+  j["_attributes"] = _attributes->toJson();
+
+  return j;
+}
+
+json BaselearnerPSplineFactory::extractDataToJson (const bool save_source) const
+{
+  json j;
+  std::string id_dat;
+
+  if (save_source) {
+    j = BaselearnerFactory::dataSourceToJson();
+  } else {
+    id_dat = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
+    j[id_dat] = _sh_ptr_bindata->toJson();
+  }
+  return j;
+}
+
 
 // BaselearnerTensorFactory:
 // ------------------------------------------------
@@ -261,7 +437,9 @@ std::shared_ptr<blearner::Baselearner> BaselearnerPSplineFactory::createBaselear
 BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_type,
     std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner1,
     std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner2, const bool isotrop)
-  : BaselearnerFactory (blearner_type, std::make_shared<data::InMemoryData>(blearner1->getDataIdentifier() + "_" + blearner2->getDataIdentifier())),
+  : BaselearnerFactory::BaselearnerFactory (blearner_type, std::make_shared<data::InMemoryData>(
+        blearner1->getDataSource()->getDataIdentifier() + "_" +
+        blearner2->getDataSource()->getDataIdentifier())),
     _blearner1 ( blearner1 ),
     _blearner2 ( blearner2 ),
     _isotrop  ( isotrop )
@@ -301,16 +479,29 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const std::string& blearner_
   _sh_ptr_data->setCache("cholesky", temp_xtx + penalty_mat);
 }
 
+BaselearnerTensorFactory::BaselearnerTensorFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit) ),
+    _attributes  ( std::make_shared<init::TensorAttributes>(j["_attributes"])),
+    _blearner1   ( jsonToBaselearnerFactory(j["_blearner1"], mdsource, mdinit) ),
+    _blearner2   ( jsonToBaselearnerFactory(j["_blearner2"], mdsource, mdinit) ),
+    _isotrop     ( j["_isotrop"].get<bool>() )
+{ }
+
 bool BaselearnerTensorFactory::usesSparse () const
 {
   return _blearner1->usesSparse() | _blearner2->usesSparse();
 }
-sdata BaselearnerTensorFactory::getInstantiatedData () const { return _sh_ptr_data; }
+
+sdata BaselearnerTensorFactory::getInstantiatedData () const
+{
+  return _sh_ptr_data;
+}
 
 sdata BaselearnerTensorFactory::instantiateData (const mdata& data_map) const
 {
-  //auto data1 = extractDataFromMap(_blearner1->getInstantiatedData(), data_map);
-  //auto data2 = extractDataFromMap(_blearner2->getInstantiatedData(), data_map);
+  //auto data1 = data::extractDataFromMap(_blearner1->getInstantiatedData(), data_map);
+  //auto data2 = data::extractDataFromMap(_blearner2->getInstantiatedData(), data_map);
   //
   // Instantiate data ... again ... FIX
   sdata newdata1 = _blearner1->instantiateData(data_map);
@@ -342,6 +533,7 @@ arma::vec BaselearnerTensorFactory::getDF () const
   }
   return df;
 }
+
 arma::vec BaselearnerTensorFactory::getPenalty () const
 {
   arma::vec pen;
@@ -354,6 +546,7 @@ arma::vec BaselearnerTensorFactory::getPenalty () const
   }
   return pen;
 }
+
 arma::mat BaselearnerTensorFactory::getPenaltyMat () const
 {
   arma::mat bl1_penmat = _blearner1->getPenaltyMat();
@@ -371,8 +564,20 @@ arma::mat BaselearnerTensorFactory::getPenaltyMat () const
   return penalty_mat;
 }
 
-std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl1 () const { return _blearner1; }
-std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl2 () const { return _blearner2; }
+std::string BaselearnerTensorFactory::getBaseModelName() const
+{
+  return std::string("tensor");
+}
+
+std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl1 () const
+{
+  return _blearner1;
+}
+
+std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl2 () const
+{
+  return _blearner2;
+}
 
 arma::mat BaselearnerTensorFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -397,11 +602,75 @@ arma::mat BaselearnerTensorFactory::calculateLinearPredictor (const arma::mat& p
   }
 }
 
+std::vector<std::string> BaselearnerTensorFactory::getDataIdentifier () const
+{
+  std::vector<std::string> bld1 = _blearner1->getDataIdentifier();
+  std::vector<std::string> bld2 = _blearner2->getDataIdentifier();
+  for (unsigned int i = 0; i < bld2.size(); i++) {
+    bld1.push_back(bld2[i]);
+  }
+  return bld1;
+}
+
+std::vector<sdata> BaselearnerTensorFactory::getVecDataSource () const
+{
+  auto dvec1 = _blearner1->getVecDataSource();
+  auto dvec2 = _blearner2->getVecDataSource();
+
+  for (auto& it : dvec2) {
+    dvec1.push_back(it);
+  }
+  return dvec1;
+}
+
 std::shared_ptr<blearner::Baselearner> BaselearnerTensorFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerTensor>(_blearner_type, _sh_ptr_data);
 }
 
+json BaselearnerTensorFactory::toJson () const
+{
+  json j = BaselearnerFactory::baseToJson("BaselearnerTensorFactory");
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+  j["_attributes"] = _attributes->toJson();
+  j["_blearner1"] = _blearner1->toJson();
+  j["_blearner2"] = _blearner2->toJson();
+  j["_isotrop"]  = _isotrop;
+
+  return j;
+}
+
+json BaselearnerTensorFactory::extractDataToJson (const bool save_source) const
+{
+  json j;
+  json jsub1;
+  json jsub2;
+  std::string id_dat;
+
+  if (save_source) {
+    // Save source data of all factories:
+    j = BaselearnerFactory::dataSourceToJson();  // X
+    jsub1 = _blearner1->extractDataToJson(true); // Y
+    jsub2 = _blearner2->extractDataToJson(true); // Z
+  } else {
+    // Save init data of the factories, e.g. the design matrix Z = X x Y.
+    id_dat = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+    j[id_dat] = _sh_ptr_data->toJson(); // X
+
+    // Also save the init data design matrices X and Z of the underlying factories:
+    jsub1 = _blearner1->extractDataToJson(false); // X
+    jsub2 = _blearner2->extractDataToJson(false); // Z
+
+  }
+  // Unroll to bring X, Y, and Z to the same level:
+  for (auto& it : jsub1.items()) {
+    j[it.key()] = it.value();
+  }
+  for (auto& it : jsub2.items()) {
+    j[it.key()] = it.value();
+  }
+  return j;
+}
 
 
 // BaselearnerCenterFactory:
@@ -410,7 +679,9 @@ std::shared_ptr<blearner::Baselearner> BaselearnerTensorFactory::createBaselearn
 BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blearner_type,
     std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner1,
     std::shared_ptr<blearnerfactory::BaselearnerFactory> blearner2)
-  : BaselearnerFactory (blearner_type, std::make_shared<data::InMemoryData>(blearner1->getDataIdentifier())),
+  : BaselearnerFactory::BaselearnerFactory (blearner_type, std::make_shared<data::InMemoryData>(
+        blearner1->getDataSource()->getDataIdentifier() + "_" +
+        blearner2->getDataSource()->getDataIdentifier())),
     _blearner1 ( blearner1 ),
     _blearner2 ( blearner2 )
 {
@@ -418,7 +689,7 @@ BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blear
   auto bldat2 = _blearner2->getInstantiatedData();
 
   if (bldat1->usesBinning() != bldat2->usesBinning()) {
-    std::string msg = "Can just use centering binning or non-binning applied to both base learners.";
+    std::string msg = "Binning is just possible if applied to both base learners.";
     throw msg;
   }
 
@@ -464,8 +735,24 @@ BaselearnerCenteredFactory::BaselearnerCenteredFactory (const std::string& blear
   _sh_ptr_bindata->setCache(mcache.first, temp_xtx);
 }
 
-bool BaselearnerCenteredFactory::usesSparse () const { return false; }
-sdata BaselearnerCenteredFactory::getInstantiatedData () const { return _sh_ptr_bindata; }
+BaselearnerCenteredFactory::BaselearnerCenteredFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_bindata ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit)) ),
+    _blearner1      ( jsonToBaselearnerFactory(j["_blearner1"], mdsource, mdinit) ),
+    _blearner2      ( jsonToBaselearnerFactory(j["_blearner2"], mdsource, mdinit) ),
+    _attributes     ( std::make_shared<init::CenteredAttributes>(j["_attributes"]) )
+{ }
+
+
+bool BaselearnerCenteredFactory::usesSparse () const
+{
+  return false;
+}
+
+sdata BaselearnerCenteredFactory::getInstantiatedData () const
+{
+  return _sh_ptr_bindata;
+}
 
 sdata BaselearnerCenteredFactory::instantiateData (const mdata& data_map) const
 {
@@ -477,19 +764,27 @@ arma::mat BaselearnerCenteredFactory::getData () const
 {
   return _sh_ptr_bindata->getDenseData();
 }
-arma::vec BaselearnerCenteredFactory::getDF      () const {
+
+arma::vec BaselearnerCenteredFactory::getDF () const
+{
   double df1 = arma::as_scalar(_blearner1->getDF());
   double df2 = arma::as_scalar(_blearner2->getDF());
   return arma::vec(1, arma::fill::value(df1 - df2));
 }
 
-arma::vec BaselearnerCenteredFactory::getPenalty () const {
+arma::vec BaselearnerCenteredFactory::getPenalty () const
+{
   return arma::vec(1, arma::fill::value(arma::as_scalar(_blearner1->getPenalty())));
 }
 
 arma::mat BaselearnerCenteredFactory::getPenaltyMat () const
 {
   return _attributes->rotation.t() * _blearner1->getPenaltyMat() * _attributes->rotation;
+}
+
+std::string BaselearnerCenteredFactory::getBaseModelName() const
+{
+  return std::string("centered");
 }
 
 arma::mat BaselearnerCenteredFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -509,10 +804,78 @@ arma::mat BaselearnerCenteredFactory::calculateLinearPredictor (const arma::mat&
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCenteredFactory::createBaselearner ()
 {
-  return std::make_shared<blearner::BaselearnerPolynomial>(_blearner_type, _sh_ptr_bindata);
+  return std::make_shared<blearner::BaselearnerCentered>(_blearner_type, _sh_ptr_bindata);
 }
 
-arma::mat BaselearnerCenteredFactory::getRotation() const { return _attributes->rotation; }
+arma::mat BaselearnerCenteredFactory::getRotation() const
+{
+  return _attributes->rotation;
+}
+
+std::vector<std::string> BaselearnerCenteredFactory::getDataIdentifier () const
+{
+  std::vector<std::string> bld1 = _blearner1->getDataIdentifier();
+  std::vector<std::string> bld2 = _blearner2->getDataIdentifier();
+  for (unsigned int i = 0; i < bld2.size(); i++) {
+    bld1.push_back(bld2[i]);
+  }
+  return bld1;
+}
+
+std::vector<sdata> BaselearnerCenteredFactory::getVecDataSource () const
+{
+  auto dvec1 = _blearner1->getVecDataSource();
+  auto dvec2 = _blearner2->getVecDataSource();
+
+  for (auto& it : dvec2) {
+    dvec1.push_back(it);
+  }
+  return dvec1;
+}
+
+
+json BaselearnerCenteredFactory::toJson () const
+{
+  json j = BaselearnerFactory::baseToJson("BaselearnerCenteredFactory");
+  j["id_data_init"] = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
+  j["_attributes"] = _attributes->toJson();
+  j["_blearner1"] = _blearner1->toJson();
+  j["_blearner2"] = _blearner2->toJson();
+
+  return j;
+}
+
+json BaselearnerCenteredFactory::extractDataToJson (const bool save_source) const
+{
+  json j;
+  json jsub1;
+  json jsub2;
+  std::string id_dat;
+
+  if (save_source) {
+    // Save source data of all factories:
+    j = BaselearnerFactory::dataSourceToJson();  // X
+    jsub1 = _blearner1->extractDataToJson(true); // Y
+    jsub2 = _blearner2->extractDataToJson(true); // Z
+  } else {
+    // Save init data of the factories, e.g. the design matrix Z = X / Y.
+    id_dat = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
+    j[id_dat] = _sh_ptr_bindata->toJson(); // X
+
+    // Also save the init data design matrices X and Z of the underlying factories:
+    jsub1 = _blearner1->extractDataToJson(false); // X
+    jsub2 = _blearner2->extractDataToJson(false); // Z
+
+  }
+  // Unroll to bring X, Y, and Z to the same level:
+  for (auto& it : jsub1.items()) {
+    j[it.key()] = it.value();
+  }
+  for (auto& it : jsub2.items()) {
+    j[it.key()] = it.value();
+  }
+  return j;
+}
 
 
 // BaselearnerCategoricalRidgeFactory:
@@ -521,7 +884,7 @@ arma::mat BaselearnerCenteredFactory::getRotation() const { return _attributes->
 
 BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const std::string blearner_type,
   std::shared_ptr<data::CategoricalDataRaw>& cdata_source, const double df, const double penalty)
-  : BaselearnerFactory ( blearner_type, cdata_source )
+  : BaselearnerFactory::BaselearnerFactory ( blearner_type, cdata_source )
 {
   _attributes->df      = df;
   _attributes->penalty = penalty;
@@ -554,20 +917,53 @@ BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const st
   _sh_ptr_data->setCache("identity", temp_XtX_inv);
 }
 
-bool BaselearnerCategoricalRidgeFactory::usesSparse () const { return true; }
-sdata BaselearnerCategoricalRidgeFactory::getInstantiatedData () const { return _sh_ptr_data; }
+BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit) ),
+    _attributes  ( std::make_shared<init::RidgeAttributes>(j["_attributes"]) )
+{ }
+
+bool BaselearnerCategoricalRidgeFactory::usesSparse () const
+{
+  return true;
+}
+
+sdata BaselearnerCategoricalRidgeFactory::getInstantiatedData () const
+{
+  return _sh_ptr_data;
+}
 
 sdata BaselearnerCategoricalRidgeFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = extractDataFromMap(this->_sh_ptr_data, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data, data_map);
   auto cnewdata = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
   return init::initRidgeData(cnewdata, _attributes);
 }
 
-arma::mat BaselearnerCategoricalRidgeFactory::getData       () const { return arma::mat(_sh_ptr_data->getSparseData()); }
-arma::vec BaselearnerCategoricalRidgeFactory::getDF         () const { return arma::vec(1, arma::fill::value(_attributes->df)); }
-arma::vec BaselearnerCategoricalRidgeFactory::getPenalty    () const { return arma::vec(1, arma::fill::value(_attributes->penalty)); }
-arma::mat BaselearnerCategoricalRidgeFactory::getPenaltyMat () const { return _attributes->penalty_mat; }
+arma::mat BaselearnerCategoricalRidgeFactory::getData () const
+{
+  return arma::mat(_sh_ptr_data->getSparseData());
+}
+
+arma::vec BaselearnerCategoricalRidgeFactory::getDF () const
+{
+  return arma::vec(1, arma::fill::value(_attributes->df));
+}
+
+arma::vec BaselearnerCategoricalRidgeFactory::getPenalty () const
+{
+  return arma::vec(1, arma::fill::value(_attributes->penalty));
+}
+
+arma::mat BaselearnerCategoricalRidgeFactory::getPenaltyMat () const
+{
+  return _attributes->penalty_mat;
+}
+
+std::string BaselearnerCategoricalRidgeFactory::getBaseModelName () const
+{
+  return std::string("cridge");
+}
 
 arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -579,7 +975,7 @@ arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const ar
   helper::debugPrint("From 'BaselearnerCategoricalRidgeFactory::calculateLinearPredictor' for feature " + this->_sh_ptr_data_source->getDataIdentifier());
   try {
     helper::debugPrint("| > Extract data object from map");
-    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
     helper::debugPrint("| > Cast to raw categorical data object");
     auto cnewdata = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
     helper::debugPrint("| > Initialize new data:");
@@ -597,16 +993,48 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalRidgeFactory::creat
   return std::make_shared<blearner::BaselearnerCategoricalRidge>(_blearner_type, _sh_ptr_data);
 }
 
-std::string BaselearnerCategoricalRidgeFactory::getDataIdentifier () const { return _sh_ptr_data->getDataIdentifier(); }
+std::vector<std::string> BaselearnerCategoricalRidgeFactory::getDataIdentifier () const
+{
+  std::vector<std::string> out;
+  out.push_back(_sh_ptr_data->getDataIdentifier());
+  return out;
+}
 
-std::map<std::string, unsigned int> BaselearnerCategoricalRidgeFactory::getDictionary () const { return _attributes->dictionary; }
+std::map<std::string, unsigned int> BaselearnerCategoricalRidgeFactory::getDictionary () const
+{
+  return _attributes->dictionary;
+}
+
+json BaselearnerCategoricalRidgeFactory::toJson () const
+{
+  json j = BaselearnerFactory::baseToJson("BaselearnerCategoricalRidgeFactory");
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+  j["_attributes"] = _attributes->toJson();
+
+  return j;
+}
+
+json BaselearnerCategoricalRidgeFactory::extractDataToJson (const bool save_source) const
+{
+  json j;
+  std::string id_dat;
+
+  if (save_source) {
+    j = BaselearnerFactory::dataSourceToJson();
+  } else {
+    id_dat = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+    j[id_dat] = _sh_ptr_data->toJson();
+  }
+  return j;
+}
+
 
 // BaselearnerCategoricalBinary:
 // ----------------------------------
 
 BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const std::string blearner_type, const std::string cls,
   const std::shared_ptr<data::CategoricalDataRaw>& cdata_source)
-  : BaselearnerFactory ( blearner_type )
+  : BaselearnerFactory ( blearner_type, cdata_source )
     //_class             ( cls ),
     //_sh_ptr_cdata      ( cdata_source ),
     //_sh_ptr_bcdata     ( std::make_shared<data::CategoricalBinaryData>(cdata_source->getDataIdentifier(), cls, cdata_source) )
@@ -618,18 +1046,53 @@ BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const 
   _sh_ptr_data->setCache("identity", xtx_inv);
 }
 
-bool BaselearnerCategoricalBinaryFactory::usesSparse () const { return true; }
-sdata BaselearnerCategoricalBinaryFactory::getInstantiatedData () const { return _sh_ptr_data; }
+BaselearnerCategoricalBinaryFactory::BaselearnerCategoricalBinaryFactory (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : BaselearnerFactory::BaselearnerFactory ( j, mdsource ),
+    _sh_ptr_data ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdinit) ),
+    _attributes  ( std::make_shared<init::BinaryAttributes>(j["_attributes"]) )
+{ }
+
+
+bool BaselearnerCategoricalBinaryFactory::usesSparse () const
+{
+  return true;
+}
+
+sdata BaselearnerCategoricalBinaryFactory::getInstantiatedData () const
+{
+  return _sh_ptr_data;
+}
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCategoricalBinaryFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerCategoricalBinary>(_blearner_type, _sh_ptr_data);
 }
 
-arma::mat BaselearnerCategoricalBinaryFactory::getData       () const { return arma::mat(_sh_ptr_data->getSparseData()); }
-arma::vec BaselearnerCategoricalBinaryFactory::getDF         () const { return arma::vec(1, arma::fill::ones); }
-arma::vec BaselearnerCategoricalBinaryFactory::getPenalty    () const { return arma::vec(1, arma::fill::zeros); }
-arma::mat BaselearnerCategoricalBinaryFactory::getPenaltyMat () const { return arma::mat(1, 1, arma::fill::ones); }
+arma::mat BaselearnerCategoricalBinaryFactory::getData () const
+{
+  return arma::mat(_sh_ptr_data->getSparseData());
+}
+
+arma::vec BaselearnerCategoricalBinaryFactory::getDF () const
+{
+  return arma::vec(1, arma::fill::ones);
+}
+
+arma::vec BaselearnerCategoricalBinaryFactory::getPenalty () const
+{
+  return arma::vec(1, arma::fill::zeros);
+}
+
+arma::mat BaselearnerCategoricalBinaryFactory::getPenaltyMat () const
+{
+  return arma::mat(1, 1, arma::fill::ones);
+}
+
+std::string BaselearnerCategoricalBinaryFactory::getBaseModelName () const
+{
+  return std::string("cbinary");
+}
+
 
 arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -641,7 +1104,7 @@ arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const a
   helper::debugPrint("From 'BaselearnerCategoricalBinaryFactory::calculateLinearPredictor' for feature " + this->_sh_ptr_data_source->getDataIdentifier());
   try {
 
-    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
     auto cnewdata = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
     return (param.t() * init::initBinaryData(cnewdata, _attributes)->getSparseData()).t();
 
@@ -652,7 +1115,7 @@ arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const a
 
 sdata BaselearnerCategoricalBinaryFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = extractDataFromMap(this->_sh_ptr_data, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data, data_map);
   auto cnewdata = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
   return init::initBinaryData(cnewdata, _attributes);
 
@@ -660,7 +1123,35 @@ sdata BaselearnerCategoricalBinaryFactory::instantiateData (const mdata& data_ma
   //return arma::mat(1, 1, arma::fill::zeros);
 }
 
-std::string BaselearnerCategoricalBinaryFactory::getDataIdentifier () const { return _sh_ptr_data->getDataIdentifier(); }
+std::vector<std::string> BaselearnerCategoricalBinaryFactory::getDataIdentifier () const
+{
+  std::vector<std::string> out;
+  out.push_back(_sh_ptr_data->getDataIdentifier());
+  return out;
+}
+
+json BaselearnerCategoricalBinaryFactory::toJson () const
+{
+  json j = BaselearnerFactory::baseToJson("BaselearnerCategoricalBinaryFactory");
+  j["id_data_init"] = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+  j["_attributes"] = _attributes->toJson();
+
+  return j;
+}
+
+json BaselearnerCategoricalBinaryFactory::extractDataToJson (const bool save_source) const
+{
+  json j;
+  std::string id_dat;
+
+  if (save_source) {
+    j = BaselearnerFactory::dataSourceToJson();
+  } else {
+    id_dat = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+    j[id_dat] = _sh_ptr_data->toJson();
+  }
+  return j;
+}
 
 
 // BaselearnerCustom:
@@ -679,8 +1170,15 @@ BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string blearner_t
   _sh_ptr_data = init::initCustomData(data_source, _instantiateDataFun);
 }
 
-bool BaselearnerCustomFactory::usesSparse () const { return false; }
-sdata BaselearnerCustomFactory::getInstantiatedData () const { return _sh_ptr_data; }
+bool BaselearnerCustomFactory::usesSparse () const
+{
+  return false;
+}
+
+sdata BaselearnerCustomFactory::getInstantiatedData () const
+{
+  return _sh_ptr_data;
+}
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCustomFactory::createBaselearner ()
 {
@@ -688,10 +1186,30 @@ std::shared_ptr<blearner::Baselearner> BaselearnerCustomFactory::createBaselearn
     _trainFun, _predictFun, _extractParameter);
 }
 
-arma::mat BaselearnerCustomFactory::getData       () const { return _sh_ptr_data->getDenseData(); }
-arma::vec BaselearnerCustomFactory::getDF         () const { return arma::vec(1, arma::fill::value(_sh_ptr_data->getNCols())); }
-arma::vec BaselearnerCustomFactory::getPenalty    () const { return arma::vec(1, arma::fill::zeros); }
-arma::mat BaselearnerCustomFactory::getPenaltyMat () const { return arma::diagmat( arma::vec(_sh_ptr_data->getNCols(), arma::fill::ones) ); }
+arma::mat BaselearnerCustomFactory::getData () const
+{
+  return _sh_ptr_data->getDenseData();
+}
+
+arma::vec BaselearnerCustomFactory::getDF () const
+{
+  return arma::vec(1, arma::fill::value(_sh_ptr_data->getNCols()));
+}
+
+arma::vec BaselearnerCustomFactory::getPenalty () const
+{
+  return arma::vec(1, arma::fill::zeros);
+}
+
+arma::mat BaselearnerCustomFactory::getPenaltyMat () const
+{
+  return arma::diagmat( arma::vec(_sh_ptr_data->getNCols(), arma::fill::ones) );
+}
+
+std::string BaselearnerCustomFactory::getBaseModelName () const
+{
+  return std::string("custom");
+}
 
 arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -701,7 +1219,7 @@ arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& p
 arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param, const mdata& data_map) const
 {
   try {
-    auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+    auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
     return init::initCustomData(newdata, _instantiateDataFun)->getDenseData() * param;
   } catch (const char* msg) {
     throw msg;
@@ -710,13 +1228,23 @@ arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& p
 
 sdata BaselearnerCustomFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = extractDataFromMap(this->_sh_ptr_data, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data, data_map);
   return init::initCustomData(newdata, _instantiateDataFun);
-
-  //Rcpp::NumericMatrix out = _instantiateDataFun(newdata);
-  //return Rcpp::as<arma::mat>(out);
 }
 
+json BaselearnerCustomFactory::toJson () const
+{
+  throw std::logic_error("Cannot save a custom factory to JSON.");
+  json j = BaselearnerFactory::baseToJson("BaselearnerCustomFactory");
+  return j;
+}
+
+json BaselearnerCustomFactory::extractDataToJson (const bool save_source) const
+{
+  throw std::logic_error("Cannot save a custom factory to JSON.");
+  json j = BaselearnerFactory::dataSourceToJson();
+  return j;
+}
 
 // BaselearnerCustomCpp:
 // -----------------------
@@ -747,18 +1275,45 @@ BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string blea
   //_sh_ptr_data_target->setDenseData(instantiateData(data_source->getData()));
 }
 
-bool BaselearnerCustomCppFactory::usesSparse () const { return false; }
-sdata BaselearnerCustomCppFactory::getInstantiatedData () const { return _sh_ptr_data; }
+bool BaselearnerCustomCppFactory::usesSparse () const
+{
+  return false;
+}
+
+sdata BaselearnerCustomCppFactory::getInstantiatedData () const
+{
+  return _sh_ptr_data;
+}
 
 std::shared_ptr<blearner::Baselearner> BaselearnerCustomCppFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerCustomCpp>(_blearner_type, _sh_ptr_data, _attributes);
 }
 
-arma::mat BaselearnerCustomCppFactory::getData       () const { return _sh_ptr_data->getDenseData(); }
-arma::vec BaselearnerCustomCppFactory::getDF         () const { return arma::vec(1, arma::fill::value(_sh_ptr_data->getNCols())); }
-arma::vec BaselearnerCustomCppFactory::getPenalty    () const { return arma::vec(1, arma::fill::zeros); }
-arma::mat BaselearnerCustomCppFactory::getPenaltyMat () const { return arma::diagmat( arma::vec(_sh_ptr_data->getNCols(), arma::fill::ones) ); }
+arma::mat BaselearnerCustomCppFactory::getData () const
+{
+  return _sh_ptr_data->getDenseData();
+}
+
+arma::vec BaselearnerCustomCppFactory::getDF () const
+{
+  return arma::vec(1, arma::fill::value(_sh_ptr_data->getNCols()));
+}
+
+arma::vec BaselearnerCustomCppFactory::getPenalty () const
+{
+  return arma::vec(1, arma::fill::zeros);
+}
+
+arma::mat BaselearnerCustomCppFactory::getPenaltyMat () const
+{
+  return arma::diagmat( arma::vec(_sh_ptr_data->getNCols(), arma::fill::ones) );
+}
+
+std::string BaselearnerCustomCppFactory::getBaseModelName () const
+{
+  return std::string("customcpp");
+}
 
 arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -768,20 +1323,32 @@ arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat
 arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param, const mdata& data_map) const
 {
   try {
-    auto newdata = extractDataFromMap(this->_sh_ptr_data, data_map);
+    auto newdata = data::extractDataFromMap(this->_sh_ptr_data, data_map);
     return init::initCustomCppData(newdata, _attributes)->getDenseData() * param;
   } catch (const char* msg) {
     throw msg;
   }
 }
 
-
 sdata BaselearnerCustomCppFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = extractDataFromMap(this->_sh_ptr_data_source, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
   return init::initCustomCppData(newdata, _attributes);
-
-  //return instantiateDataFun0(newdata);
 }
+
+json BaselearnerCustomCppFactory::toJson () const
+{
+  throw std::logic_error("Cannot save a custom factory to JSON.");
+  json j = BaselearnerFactory::baseToJson("BaselearnerCustomCppFactory");
+  return j;
+}
+
+json BaselearnerCustomCppFactory::extractDataToJson (const bool save_source) const
+{
+  throw std::logic_error("Cannot save a custom factory to JSON.");
+  json j = BaselearnerFactory::dataSourceToJson();
+  return j;
+}
+
 
 } // namespace blearnerfactory

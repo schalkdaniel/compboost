@@ -52,12 +52,21 @@
 #define COMPBOOST_H_
 
 #include <memory>
+#include <sstream>
+#include <fstream>
 
 #include "baselearner_track.h"
 #include "optimizer.h"
 #include "loss.h"
 #include "loggerlist.h"
 #include "response.h"
+#include "saver.h"
+
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::map<std::string, sdata> mdata;
 
 namespace cboost {
 
@@ -77,12 +86,15 @@ private:
   unsigned int         _current_iter;
   std::vector<double>  _risk;
 
-  blearnerlist::BaselearnerFactoryList           _factory_list;
-  blearnertrack::BaselearnerTrack                _blearner_track;
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> _sh_ptr_factory_list;
+  blearnertrack::BaselearnerTrack      _blearner_track;
 
 public:
   Compboost (std::shared_ptr<response::Response>, const double&, const bool&, std::shared_ptr<optimizer::Optimizer>, std::shared_ptr<loss::Loss>,
-    std::shared_ptr<loggerlist::LoggerList>, blearnerlist::BaselearnerFactoryList);
+    std::shared_ptr<loggerlist::LoggerList>, std::shared_ptr<blearnerlist::BaselearnerFactoryList>);
+  Compboost (const json&, const mdata&, const mdata&);
+  Compboost (const json&);
+  Compboost (const std::string);
 
   // Getter/Setter
   arma::vec                                       getPrediction (const bool&)                    const;
@@ -94,6 +106,15 @@ public:
   arma::mat                                       getOffset ()                                   const;
   std::vector<double>                             getRiskVector ()                               const;
 
+  // To provide pointer for the modules:
+  bool                                                  useGlobalStopping () const;
+  double                                                getLearningRate ()   const;
+  std::shared_ptr<blearnerlist::BaselearnerFactoryList> getBaselearnerList() const;
+  std::shared_ptr<optimizer::Optimizer>                 getOptimizer()       const;
+  std::shared_ptr<response::Response>                   getResponse()        const;
+  std::shared_ptr<loss::Loss>                           getLoss()            const;
+
+
   // Other member functions
   void       train              (const unsigned int, const std::shared_ptr<loggerlist::LoggerList>);
   void       trainCompboost     (const unsigned int);
@@ -102,6 +123,9 @@ public:
   arma::vec  predict            (const std::map<std::string, std::shared_ptr<data::Data>>&, const bool&) const;
   void       setToIteration     (const unsigned int&, const unsigned int&);
   void       summarizeCompboost () const;
+
+  // Save JSON, to load use the respective constructor:
+  void saveJson (std::string) const;
 
   arma::mat predictFactory (const std::string&) const;
   arma::mat predictFactory (const std::string&, const std::map<std::string, std::shared_ptr<data::Data>>&) const;

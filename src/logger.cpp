@@ -23,6 +23,39 @@
 namespace logger
 {
 
+std::chrono::system_clock::time_point stringToChrono (const std::string s)
+{
+  std::chrono::system_clock::time_point tout;
+  std::istringstream in{s};
+  in >> parse("%Y-%m-%d %H:%M:%S", tout);
+
+  return tout;
+}
+
+std::shared_ptr<logger::Logger> jsonToLogger (const json& j)
+{
+  std::shared_ptr<logger::Logger> l;
+
+  if (j["Class"] == "LoggerIteration") {
+    l = std::make_shared<LoggerIteration>(j);
+  }
+  if (j["Class"] == "LoggerInbagRisk") {
+    l = std::make_shared<LoggerInbagRisk>(j);
+  }
+  if (j["Class"] == "LoggerOobRisk") {
+    l = std::make_shared<LoggerOobRisk>(j);
+  }
+  if (j["Class"] == "LoggerTime") {
+    l = std::make_shared<LoggerTime>(j);
+  }
+  if (l == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return l;
+}
+
+
+
 // -------------------------------------------------------------------------- //
 // Abstract 'Logger' class:
 // -------------------------------------------------------------------------- //
@@ -33,11 +66,29 @@ Logger::Logger (const bool is_stopper, const std::string logger_type, const std:
     _is_stopper  ( is_stopper )
 { }
 
+Logger::Logger (const json& j)
+  : _logger_type ( j["_logger_type"].get<std::string>() ),
+    _logger_id   ( j["_logger_id"].get<std::string>() ),
+    _is_stopper  ( j["_is_stopper"].get<bool>() )
+{ }
+
 void Logger::setIsStopper (const bool is_stopper) { _is_stopper = is_stopper; }
 
 std::string Logger::getLoggerId   () const { return _logger_id; }
 std::string Logger::getLoggerType () const { return _logger_type; }
 bool        Logger::isStopper     () const { return _is_stopper; }
+
+json Logger::baseToJson (const std::string cln) const
+{
+  json j = {
+    {"Class", cln},
+    {"_logger_type", _logger_type},
+    {"_logger_id",   _logger_id},
+    {"_is_stopper",  _is_stopper}
+  };
+  return j;
+}
+
 
 Logger::~Logger () {}
 
@@ -67,6 +118,12 @@ LoggerIteration::LoggerIteration (const std::string logger_id, const bool is_sto
     _max_iterations ( max_iterations )
 { }
 
+LoggerIteration::LoggerIteration (const json& j)
+  : Logger::Logger (j),
+    _max_iterations ( j["_max_iterations"].get<unsigned int>() ),
+    _iterations     ( j["_iterations"].get<std::vector<unsigned int>>() )
+{ }
+
 /**
  * \brief Log current step of compboost iteration of class `LoggerIteration`
  *
@@ -84,7 +141,7 @@ LoggerIteration::LoggerIteration (const std::string logger_id, const bool is_sto
  */
 void LoggerIteration::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   _iterations.push_back(current_iteration);
 }
@@ -165,6 +222,14 @@ void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
   _max_iterations = new_max_iter;
 }
 
+json LoggerIteration::toJson () const
+{
+  json j = Logger::baseToJson("LoggerIteration");
+  j["_max_iterations"] = _max_iterations;
+  j["_iterations"] = _iterations;
+
+  return j;
+}
 
 
 // InbagRisk:
@@ -186,8 +251,16 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string logger_id, const bool is_sto
     _sh_ptr_loss     ( sh_ptr_loss ),
     _eps_for_break   ( eps_for_break ),
     _patience        ( patience )
-{
-}
+{ }
+
+LoggerInbagRisk::LoggerInbagRisk (const json& j)
+  : Logger::Logger  ( j ),
+    _sh_ptr_loss     ( loss::jsonToLoss(j["_sh_ptr_loss"]) ),
+    _inbag_risk      ( j["_inbag_risk"].get<std::vector<double>>() ),
+    _eps_for_break   ( j["_eps_for_break"].get<double>() ),
+    _patience        ( j["_patience"].get<unsigned int>() ),
+    _count_patience  ( j["_count_patience"].get<unsigned int>() )
+{ }
 
 /**
  * \brief Log current step of compboost iteration for class `LoggerInbagRisk`
@@ -225,7 +298,7 @@ LoggerInbagRisk::LoggerInbagRisk (const std::string logger_id, const bool is_sto
  */
 void LoggerInbagRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   double temp_risk = sh_ptr_response->calculateEmpiricalRisk(_sh_ptr_loss);
 
@@ -313,6 +386,17 @@ std::string LoggerInbagRisk::printLoggerStatus () const
   return ss.str();
 }
 
+json LoggerInbagRisk::toJson () const
+{
+  json j = Logger::baseToJson("LoggerInbagRisk");
+  j["_sh_ptr_loss"] = _sh_ptr_loss->toJson();
+  j["_inbag_risk"] = _inbag_risk;
+  j["_eps_for_break"] = _eps_for_break;
+  j["_patience"] = _patience;
+  j["_count_patience"] = _count_patience;
+
+  return j;
+}
 
 // OobRisk:
 // -----------------------
@@ -337,6 +421,19 @@ LoggerOobRisk::LoggerOobRisk (const std::string logger_id, const bool is_stopper
     _patience            ( patience ),
     _oob_data_map        ( oob_data_map ),
     _sh_ptr_oob_response ( oob_response )
+{ }
+
+LoggerOobRisk::LoggerOobRisk (const json& j)
+  : Logger::Logger  ( j ),
+    _sh_ptr_loss    ( loss::jsonToLoss(j["_sh_ptr_loss"]) ),
+    _oob_risk       ( j["_oob_risk"].get<std::vector<double>>() ),
+    _eps_for_break  ( j["_eps_for_break"].get<double>() ),
+    _patience       ( j["_patience"].get<unsigned int>() ),
+    _count_patience ( j["_count_patience"].get<unsigned int>() ),
+    _oob_prediction ( saver::jsonToArmaMat(j["_oob_prediction"]) ),
+    _oob_data_map   ( data::jsonToDataMap(j["_oob_data_map"]) ),
+    _oob_data_map_inst   ( data::jsonToDataMap(j["_oob_data_map_inst"]) ),
+    _sh_ptr_oob_response ( response::jsonToResponse(j["_sh_ptr_oob_response"]) )
 { }
 
 /**
@@ -376,7 +473,7 @@ LoggerOobRisk::LoggerOobRisk (const std::string logger_id, const bool is_stopper
  */
 void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
 
   if (current_iteration == 1) {
@@ -391,7 +488,7 @@ void LoggerOobRisk::logStep (const unsigned int current_iteration, const std::sh
   auto it_oob_data_inst = _oob_data_map_inst.find(factory_id);
   arma::mat temp_oob_prediction;
 
-  auto itf = factory_list.getFactoryMap().find(factory_id);
+  auto itf = sh_ptr_factory_list->getFactoryMap().find(factory_id);
   if (it_oob_data_inst == _oob_data_map_inst.end()) {
     auto insert = std::pair<std::string, std::shared_ptr<data::Data>>(factory_id, itf->second->instantiateData(_oob_data_map));
     _oob_data_map_inst.insert(insert);
@@ -488,7 +585,21 @@ std::string LoggerOobRisk::printLoggerStatus () const
   return ss.str();
 }
 
+json LoggerOobRisk::toJson () const
+{
+  json j = Logger::baseToJson("LoggerOobRisk");
+  j["_sh_ptr_loss"] = _sh_ptr_loss->toJson();
+  j["_oob_risk"] = _oob_risk;
+  j["_eps_for_break"] = _eps_for_break;
+  j["_patience"] = _patience;
+  j["_count_patience"] = _count_patience;
+  j["_oob_prediction"] = saver::armaMatToJson(_oob_prediction);
+  j["_oob_data_map"] = data::dataMapToJson(_oob_data_map);
+  j["_oob_data_map_inst"] = data::dataMapToJson(_oob_data_map_inst);
+  j["_sh_ptr_oob_response"] = _sh_ptr_oob_response->toJson();
 
+  return j;
+}
 
 
 
@@ -535,6 +646,15 @@ LoggerTime::LoggerTime (const std::string logger_id, const bool is_stopper,
   }
 }
 
+LoggerTime::LoggerTime (const json& j)
+  : Logger::Logger ( j ),
+    _init_time     ( stringToChrono(j["_init_time"].get<std::string>()) ),
+    _current_time  ( j["_current_time"].get<std::vector<unsigned int>>() ),
+    _retrain_drift ( j["_retrain_drift"].get<unsigned int>() ),
+    _max_time      ( j["_max_time"].get<unsigned int>() ),
+    _time_unit     ( j["_time_unit"].get<std::string>() )
+{ }
+
 /**
  * \brief Log current step of compboost iteration for class `LoggerTime`
  *
@@ -552,20 +672,20 @@ LoggerTime::LoggerTime (const std::string logger_id, const bool is_stopper,
  */
 void LoggerTime::logStep (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   if (_current_time.size() == 0) {
-    _init_time = std::chrono::steady_clock::now();
+    _init_time = std::chrono::system_clock::now();
   }
   unsigned int interim_time;
   if (_time_unit == "minutes") {
-    interim_time = std::chrono::duration_cast<std::chrono::minutes>(std::chrono::steady_clock::now() - _init_time).count();
+    interim_time = std::chrono::duration_cast<std::chrono::minutes>(std::chrono::system_clock::now() - _init_time).count();
   }
   if (_time_unit == "seconds") {
-    interim_time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _init_time).count();
+    interim_time = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now() - _init_time).count();
   }
   if (_time_unit == "microseconds") {
-    interim_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - _init_time).count();
+    interim_time = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - _init_time).count();
   }
   _current_time.push_back(interim_time + _retrain_drift);
 }
@@ -643,9 +763,24 @@ std::string LoggerTime::printLoggerStatus () const
   return ss.str();
 }
 
+json LoggerTime::toJson () const
+{
+  std::ostringstream os;
+  os << _init_time;
+
+  json j = Logger::baseToJson("LoggerTime");
+  j["_init_time"] = os.str();
+  j["_current_time"] = _current_time;
+  j["_retrain_drift"] = _retrain_drift;
+  j["_max_time"] = _max_time;
+  j["_time_unit"] = _time_unit;
+
+  return j;
+}
+
 void LoggerTime::reInitializeTime ()
 {
-  _init_time = std::chrono::steady_clock::now();
+  _init_time = std::chrono::system_clock::now();
   _retrain_drift += _current_time.back();
 }
 

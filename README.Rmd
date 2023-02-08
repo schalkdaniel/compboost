@@ -66,7 +66,7 @@ The examples are rendered using <code>compboost `r packageVersion("compboost")`<
 
 The fastest way to train a `Compboost` model is to use the wrapper functions `boostLinear()` or `boostSplines()`:
 ```{r, results="hide", warning=FALSE, fig.width=10, fig.height=2, out.width="100%", }
-cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
+cboost = boostSplines(data = iris, target = "Sepal.Length",
   oob_fraction = 0.3, iterations = 500L, trace = 100L)
 
 ggrisk = plotRisk(cboost)
@@ -79,6 +79,17 @@ ggrisk + ggpe + ggicont
 ```
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
+
+## Save and load models
+
+Because of the usage of `C++` objects as backend, it is not possible to use `R`s `save()` method to save models. Instead, use `$saveToJson("mymodel.json")` to save the model to `mymodel.json` and `Compboost$new(file = "mymodel.json")` to load the model:
+
+```{r, eval=FALSE}
+cboost = boostSplines(iris, "Sepal.Width")
+cboost$saveToJson("mymodel.json")
+
+cboost_new = Compboost$new(file = "mymodel.json")
+```
 
 ## Benchmark
 
@@ -109,7 +120,7 @@ To cite `compboost` in publications, please use:
 
 ### On your local machine
 
-In order to test the pacakge functionality you can use devtools to test the package on your local machine:
+In order to test the package functionality you can use devtools to test the package on your local machine:
 
 ```{r, eval=FALSE}
 devtools::test()

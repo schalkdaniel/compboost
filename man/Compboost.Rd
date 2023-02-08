@@ -89,7 +89,7 @@ Indicator whether all stopper must return `TRUE` to early stop the algorithm.
 Comparable to `all()` if `stop_all = TRUE` and `any()` if `stop_all = FALSE`.}
 
 \item{\code{early_stop}}{(`logical(1)`)\cr
-Indicator whether early stopping should be used or not.}
+Indicator whether early stopping is used or not.}
 }
 \if{html}{\out{</div>}}
 }
@@ -133,7 +133,6 @@ Note: `oob_fraction` is ignored if this argument is set.}
 \item \href{#method-rmBaselearner}{\code{Compboost$rmBaselearner()}}
 \item \href{#method-addTensor}{\code{Compboost$addTensor()}}
 \item \href{#method-addComponents}{\code{Compboost$addComponents()}}
-\item \href{#method-extractComponents}{\code{Compboost$extractComponents()}}
 \item \href{#method-train}{\code{Compboost$train()}}
 \item \href{#method-prepareData}{\code{Compboost$prepareData()}}
 \item \href{#method-prepareResponse}{\code{Compboost$prepareResponse()}}
@@ -148,6 +147,7 @@ Note: `oob_fraction` is ignored if this argument is set.}
 \item \href{#method-getBaselearnerNames}{\code{Compboost$getBaselearnerNames()}}
 \item \href{#method-getLoggerData}{\code{Compboost$getLoggerData()}}
 \item \href{#method-calculateFeatureImportance}{\code{Compboost$calculateFeatureImportance()}}
+\item \href{#method-saveToJson}{\code{Compboost$saveToJson()}}
 \item \href{#method-clone}{\code{Compboost$clone()}}
 }
 }
@@ -158,16 +158,17 @@ Note: `oob_fraction` is ignored if this argument is set.}
 Creates a new instance of this [R6][R6::R6Class] class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$new(
-  data,
-  target,
-  optimizer = OptimizerCoordinateDescent$new(),
-  loss,
+  data = NULL,
+  target = NULL,
+  optimizer = NULL,
+  loss = NULL,
   learning_rate = 0.05,
   positive = NULL,
   oob_fraction = NULL,
   early_stop = FALSE,
   idx_oob = NULL,
-  stop_args = list(eps_for_break = 0, patience = 10L)
+  stop_args = list(eps_for_break = 0, patience = 10L),
+  file = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -208,6 +209,9 @@ Note: `oob_fraction` is ignored if this argument is set.}
 
 \item{\code{stop_args}}{(`list(integer(1), integer(1))`)\cr
 `list` containing two elements `patience` and `eps_for_break` which are used for early stopping.}
+
+\item{\code{file}}{(`character(1`)\cr
+File from which a model should be loaded. If `NULL`, `data` and `target` must be defined.}
 }
 \if{html}{\out{</div>}}
 }
@@ -419,26 +423,6 @@ Name of the feature, must be a column in `data`.}
 Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-extractComponents"></a>}}
-\if{latex}{\out{\hypertarget{method-extractComponents}{}}}
-\subsection{Method \code{extractComponents()}}{
-This function extracts all information from components added with `$addComponents()`
-that defines a model. The result is an `S3` object of class
-`compboostExtract` that can be used for very basic operations such as
-predicting.
-
-Note: At the moment it is not possible to save the whole [Compboost] object
-and reuse it later. Using `$extractComponents()` gives the opportunity to
-"save" the minimal amount of data that defines the model.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Compboost$extractComponents()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-`list` with all components.
 }
 }
 \if{html}{\out{<hr>}}
@@ -747,6 +731,25 @@ instead of considering them individually.}
 \subsection{Returns}{
 Named `numeric()` vector of length `num_feats` (if at least `num_feats` were selected)
 with importance values as elements.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-saveToJson"></a>}}
+\if{latex}{\out{\hypertarget{method-saveToJson}{}}}
+\subsection{Method \code{saveToJson()}}{
+Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
+it is not possible to use \code{R}'s native load and save methods.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$saveToJson(file)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{file}}{(`character(1)`)\cr
+Name/path to the file.}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

@@ -31,7 +31,9 @@ plotFeatureImportance = function(cboost, num_feats = NULL, aggregate = TRUE) {
 
   if (is.null(num_feats)) {
     df_tmp = data.frame(
-      feat = cboost$bl_factory_list$getDataNames(),
+      feat = vapply(cboost$baselearner_list, function(f) {
+        paste(unique(f$factory$getFeatureName()), collapse = "_")
+      }, character(1), USE.NAMES = FALSE),
       bl   = cboost$bl_factory_list$getRegisteredFactoryNames())
 
     bl_sel = unique(cboost$getSelectedBaselearner())
