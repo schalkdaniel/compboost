@@ -61,7 +61,6 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Examples
 
-
 The examples are rendered using <code>compboost `r packageVersion("compboost")`</code>.
 
 The fastest way to train a `Compboost` model is to use the wrapper functions `boostLinear()` or `boostSplines()`:
