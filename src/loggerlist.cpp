@@ -23,11 +23,17 @@
 namespace loggerlist
 {
 
-LoggerList::LoggerList () {}
+LoggerList::LoggerList ()
+{ }
+
+LoggerList::LoggerList (const json& j)
+  : _logger_list    ( jsonToLMap(j["_logger_list"]) ),
+    _sum_of_stopper ( j["_sum_of_stopper"].get<unsigned int>() )
+{ }
 
 void LoggerList::registerLogger (std::shared_ptr<logger::Logger> logger)
 {
-  _logger_list.insert(logger_pair(logger->getLoggerId(), logger));
+  _logger_list.insert(lpair(logger->getLoggerId(), logger));
   if (logger->isStopper()) { _sum_of_stopper += 1; }
 }
 
@@ -39,9 +45,15 @@ void LoggerList::printRegisteredLogger () const
   }
 }
 
-logger_map LoggerList::getLoggerMap () const { return _logger_list; }
+lmap LoggerList::getLoggerMap () const
+{
+  return _logger_list;
+}
 
-void LoggerList::clearMap () { _logger_list.clear(); }
+void LoggerList::clearMap ()
+{
+  _logger_list.clear();
+}
 
 bool LoggerList::getStopperStatus (const bool use_global_stop) const
 {
@@ -67,7 +79,7 @@ bool LoggerList::getStopperStatus (const bool use_global_stop) const
   return !stop_algorithm;
 }
 
-logger_data LoggerList::getLoggerData () const
+ldata LoggerList::getLoggerData () const
 {
   arma::mat out_matrix;
   std::vector<std::string> logger_names;
@@ -76,16 +88,16 @@ logger_data LoggerList::getLoggerData () const
     out_matrix = arma::join_rows(out_matrix, it_logger.second->getLoggedData());
     logger_names.push_back(it_logger.first);
   }
-  return logger_data(logger_names, out_matrix);
+  return ldata(logger_names, out_matrix);
 }
 
 void LoggerList::logCurrent (const unsigned int current_iteration, const std::shared_ptr<response::Response>& sh_ptr_response,
   const std::shared_ptr<blearner::Baselearner>& sh_ptr_blearner, const double learning_rate, const double step_size,
-  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const blearnerlist::BaselearnerFactoryList& factory_list)
+  const std::shared_ptr<optimizer::Optimizer>& sh_ptr_optimizer, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   for (auto& it_logger : _logger_list) {
     it_logger.second->logStep(current_iteration, sh_ptr_response, sh_ptr_blearner,
-      learning_rate, step_size, sh_ptr_optimizer, factory_list);
+      learning_rate, step_size, sh_ptr_optimizer, sh_ptr_factory_list);
   }
 }
 
@@ -122,7 +134,7 @@ void LoggerList::prepareForRetraining (const unsigned int new_max_iters)
   }
   if (! has_iteration_logger) {
     std::shared_ptr<logger::Logger> new_logger = std::make_shared<logger::LoggerIteration>("iters_re", true, new_max_iters);
-    _logger_list.insert(logger_pair("_iteration", new_logger));
+    _logger_list.insert(lpair("_iteration", new_logger));
   }
 }
 
@@ -133,6 +145,29 @@ void LoggerList::clearLoggerData ()
   }
 }
 
+json LoggerList::toJson () const
+{
+  json j = {
+    {"Class", "LoggerList"}
+  };
+  json jll;
+  for (auto& it : _logger_list) {
+    jll[it.first] = it.second->toJson();
+  }
+  j["_logger_list"] = jll;
+  j["_sum_of_stopper"] = _sum_of_stopper;
+  return j;
+}
+
 LoggerList::~LoggerList () {}
+
+lmap jsonToLMap (const json& j)
+{
+  lmap ml;
+  for (auto& it : j.items()) {
+    ml[it.key()] = logger::jsonToLogger(it.value());
+  }
+  return ml;
+}
 
 } // namespace loggerlist

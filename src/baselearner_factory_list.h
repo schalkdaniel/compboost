@@ -25,10 +25,16 @@
 
 #include "baselearner_factory.h"
 
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
+
 typedef std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>> blearner_factory_map;
 
 namespace blearnerlist
 {
+
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::map<std::string, sdata> mdata;
 
 class BaselearnerFactoryList
 {
@@ -37,18 +43,25 @@ private:
 
 public:
   BaselearnerFactoryList ();
+  BaselearnerFactoryList (const json&, const mdata&, const mdata&);
 
-  // Getter/Setter
   blearner_factory_map                            getFactoryMap ()             const;
+  // Getter/Setter
   std::pair<std::vector<std::string>, arma::mat>  getModelFrame ()             const;
   std::vector<std::string>                        getRegisteredFactoryNames () const;
   std::vector<std::string>                        getDataNames ()              const;
 
   // Other member functions
   void registerBaselearnerFactory (const std::string, const std::shared_ptr<blearnerfactory::BaselearnerFactory>);
+  void rmBaselearnerFactory       (const std::string);
   void printRegisteredFactories   () const;
   void clearMap                   ();
+
+  json toJson            ()                   const;
+  json factoryDataToJson (const bool = false) const;
 };
+
+blearner_factory_map jsonToBlFMap (const json&, const mdata&, const mdata&);
 
 } // namespace blearnerlist
 

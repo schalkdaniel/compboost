@@ -25,6 +25,150 @@ namespace init {
 typedef std::shared_ptr<data::Data> sdata;
 typedef std::shared_ptr<data::BinnedData> sbindata;
 
+PolynomialAttributes::PolynomialAttributes ()
+{ }
+
+PolynomialAttributes::PolynomialAttributes (const unsigned int _degree, const bool _use_intercept)
+  : degree        ( _degree ),
+    use_intercept ( _use_intercept )
+{ }
+
+PolynomialAttributes::PolynomialAttributes (const json& j)
+  : df            ( j["df"].get<double>() ),
+    penalty       ( j["penalty"].get<double>() ),
+    penalty_mat   ( saver::jsonToArmaMat(j["penalty_mat"]) ),
+    degree        ( j["degree"].get<unsigned int>() ),
+    use_intercept ( j["use_intercept"].get<bool>() ),
+    bin_root      ( j["bin_root"].get<unsigned int>() )
+{ }
+
+json PolynomialAttributes::toJson () const
+{
+  json j = {
+    {"Class", "PolynomialAttributes"},
+
+    {"df",            df},
+    {"penalty",       penalty},
+    {"penalty_mat",   saver::armaMatToJson(penalty_mat)},
+    {"degree",        degree},
+    {"use_intercept", use_intercept},
+    {"bin_root",      bin_root}
+  };
+  return j;
+}
+
+PSplineAttributes::PSplineAttributes ()
+{ }
+
+PSplineAttributes::PSplineAttributes (const json& j)
+  : df                  ( j["df"].get<double>() ),
+    penalty             ( j["penalty"].get<double>() ),
+    penalty_mat         ( saver::jsonToArmaMat(j["penalty_mat"]) ),
+    degree              ( j["degree"].get<unsigned int>() ),
+    n_knots             ( j["n_knots"].get<unsigned int>() ),
+    differences         ( j["differences"].get<unsigned int>() ),
+    use_sparse_matrices ( j["use_sparse_matrices"].get<bool>() ),
+    bin_root            ( j["bin_root"].get<unsigned int>() ),
+    knots               ( saver::jsonToArmaMat(j["knots"]) )
+{ }
+
+json PSplineAttributes::toJson () const
+{
+  json j = {
+    {"Class", "PSplineAttributes"},
+
+    {"df",                  df},
+    {"penalty",             penalty},
+    {"penalty_mat",         saver::armaMatToJson(penalty_mat)},
+    {"degree",              degree},
+    {"n_knots",             n_knots},
+    {"differences",         differences},
+    {"use_sparse_matrices", use_sparse_matrices},
+    {"bin_root",            bin_root},
+    {"knots",               saver::armaMatToJson(knots)}
+  };
+  return j;
+}
+
+RidgeAttributes::RidgeAttributes ()
+{ }
+
+RidgeAttributes::RidgeAttributes (const json& j)
+  : df          ( j["df"].get<double>() ),
+    penalty     ( j["penalty"].get<double>() ),
+    penalty_mat ( saver::jsonToArmaMat(j["penalty_mat"]) ),
+    dictionary  ( j["dictionary"].get<std::map<std::string, unsigned int>>() )
+{ }
+
+json RidgeAttributes::toJson () const
+{
+  json j = {
+    {"Class", "RidgeAttributes"},
+
+    {"df",          df},
+    {"penalty",     penalty},
+    {"penalty_mat", saver::armaMatToJson(penalty_mat)},
+    {"dictionary",  dictionary}
+  };
+  return j;
+}
+
+BinaryAttributes::BinaryAttributes ()
+{ }
+
+BinaryAttributes::BinaryAttributes (const json& j)
+  : cls ( j["cls"] )
+{ }
+
+json BinaryAttributes::toJson () const
+{
+  json j = {
+    {"Class", "BinaryAttributes"},
+    {"cls",   cls}
+  };
+  return j;
+}
+
+TensorAttributes::TensorAttributes ()
+{ }
+
+TensorAttributes::TensorAttributes (const json& j)
+  : penalty ( j["penalty"].get<double>() )
+{ }
+
+json TensorAttributes::toJson () const
+{
+  json j = {
+    {"Class",   "TensorAttributes"},
+    {"penalty", penalty}
+  };
+  return j;
+}
+
+CenteredAttributes::CenteredAttributes ()
+{ }
+
+CenteredAttributes::CenteredAttributes (const json& j)
+  : rotation ( saver::jsonToArmaMat(j["rotation"]) )
+{ }
+
+json CenteredAttributes::toJson () const
+{
+  json j = {
+    {"Class",    "CenteredAttributes"},
+    {"rotation", saver::armaMatToJson(rotation)}
+  };
+  return j;
+}
+
+json CustomCppAttributes::toJson () const
+{
+  json j = { {"Class","CenteredAttributes"} };
+  throw std::logic_error("Cannot save CustomCppAttributes to JSON.");
+  return j;
+}
+
+
 sbindata initPolynomialData (const sdata& raw_data, const std::shared_ptr<PolynomialAttributes>& attributes)
 {
   arma::mat mraw = raw_data->getData();
@@ -188,7 +332,7 @@ sbindata initCenteredData (const sdata& bl_data, const std::shared_ptr<CenteredA
   } else {
     temp = bl_data->getDenseData() * attributes->rotation;
   }
-  sbindata sh_ptr_bindata = std::make_shared<data::BinnedData>(bl_data->getDataIdentifier()); //, attributes->bin_root, mraw, bins);
+  sbindata sh_ptr_bindata = std::make_shared<data::BinnedData>(bl_data->getDataIdentifier() + "_" + bl_data->getDataIdentifier()); //, attributes->bin_root, mraw, bins);
   sh_ptr_bindata->setDenseData(temp);
   return sh_ptr_bindata;
 }

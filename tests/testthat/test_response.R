@@ -79,3 +79,38 @@ test_that("Binary classification response with weights works correctly", {
   expect_equal(response$getWeights(), weights)
   expect_equal(response$calculateEmpiricalRisk(loss), mean(weights * log(1 + exp(-2 * X_correct * response$getPrediction()))))
 })
+
+# test_that("Loading response from JSON works", {
+#
+#   ## REGRESSION:
+#   cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossQuadratic$new()))
+#   file = "cboost.json"
+#
+#   expect_silent(cboost$model$saveJson(file))
+#   expect_true(file.exists(file))
+#   r = expect_silent(ResponseRegr$new(file))
+#
+#   expect_equal(class(r), class(cboost$response))
+#   expect_equal(r$getResponse(), cboost$response$getResponse())
+#   expect_equal(r$getPrediction(), cboost$response$getPrediction())
+#   expect_equal(r$getTargetName(), cboost$response$getTargetName())
+#   expect_equal(r$calculateEmpiricalRisk(cboost$loss), cboost$response$calculateEmpiricalRisk(cboost$loss))
+#
+#  ## BINARY CLASSIFICATION:
+#  cboost = expect_output(boostSplines(iris[1:100, ], "Species", loss = LossBinomial$new()))
+#
+#  expect_silent(cboost$model$saveJson(file))
+#  expect_true(file.exists(file))
+#  r = expect_silent(ResponseBinaryClassif$new(file))
+#
+#  expect_equal(class(r), class(cboost$response))
+#  expect_equal(r$getResponse(), cboost$response$getResponse())
+#  expect_equal(r$getPrediction(), cboost$response$getPrediction())
+#  expect_equal(r$getTargetName(), cboost$response$getTargetName())
+#  expect_equal(r$calculateEmpiricalRisk(cboost$loss), cboost$response$calculateEmpiricalRisk(cboost$loss))
+#  expect_equal(r$getThreshold(), cboost$response$getThreshold())
+#  expect_equal(r$getPositiveClass(), cboost$response$getPositiveClass())
+#  expect_equal(r$getClassTable(), cboost$response$getClassTable())
+#
+#  file.remove(file)
+#})

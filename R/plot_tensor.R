@@ -23,10 +23,10 @@
 #' cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
 #' cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
 #' cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
-#' cboost$addTensor("Sepal.Width", "Sepal.Length", df = 4)
-#' cboost$addTensor("Sepal.Width", "Species", df = 4)
+#' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
+#' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
 #'
-#' cboost$train(100L)
+#' cboost$train(1000L)
 #'
 #' plotTensor(cboost, "Sepal.Width_Species_tensor")
 #' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")
@@ -42,7 +42,13 @@ plotTensor = function(cboost, tname, npoints = 100L, nbins = 15L) {
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  checkmate::assertChoice(x = tname, choices = unique(cboost$getSelectedBaselearner()))
+  blsel = unique(cboost$getSelectedBaselearner())
+  if (! checkmate::testChoice(x = tname, choices = blsel)) {
+    stop("Tensor base learner '", tname, "' was not selected. The selected base learner are {",
+      paste(paste0("'", blsel, "'"), collapse = ","), "}. Maybe you misspelled the base learner",
+      "or did not train long enough.")
+  }
+
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
   checkmate::assertIntegerish(x = nbins, len = 1L, lower = 5L, null.ok = TRUE)
 
@@ -94,14 +100,16 @@ plotTensorNumNum = function(cboost, tname, df, nbins) {
 
   df$y = cboost$model$predictFactoryNewData(tname, ll_ds)
 
+  .data = ggplot2::.data
   gg = ggplot2::ggplot()
   if (is.null(nbins)) {
     gg = gg +
-      ggplot2::geom_raster(data = df, ggplot2::aes_string(x = feats[1], y = feats[2], fill = "y")) +
+      ggplot2::geom_raster(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data[[feats[2]]], fill = .data$y)) +
       ggplot2::labs(fill = "")
   } else {
     gg = gg +
-      ggplot2::geom_contour_filled(data = df, ggplot2::aes_string(x = feats[1], y = feats[2], z = "y"), bins = nbins) +
+      ggplot2::geom_contour_filled(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data[[feats[2]]], z = .data$y),
+        bins = nbins) +
       ggplot2::labs(fill = "")
   }
   return(gg)
@@ -113,7 +121,8 @@ plotTensorNumCat = function(cboost, tname, df) {
 
   df$y = cboost$model$predictFactoryNewData(tname, ll_ds)
 
-  ggplot2::ggplot(data = df, ggplot2::aes_string(x = feats[1], y = "y", color = feats[2])) +
+  .data = ggplot2::.data
+  ggplot2::ggplot(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data$y, color = .data[[feats[2]]])) +
     ggplot2::geom_line() +
     ggplot2::ylab("Contribution to prediction")
 }
@@ -123,7 +132,8 @@ plotTensorCatCat = function(cboost, tname, df) {
   feats = colnames(df)
 
   df$y = cboost$model$predictFactoryNewData(tname, ll_ds)
-  ggplot2::ggplot(data = df, ggplot2::aes_string(x = feats[1], y = feats[2], fill = "y")) +
+  .data = ggplot2::.data
+  ggplot2::ggplot(data = df, ggplot2::aes(x = .data[[feats[1]]], y = .data[[feats[2]]], fill = .data$y)) +
     ggplot2::geom_tile(color = "white") +
     ggplot2::labs(fill = "")
 }

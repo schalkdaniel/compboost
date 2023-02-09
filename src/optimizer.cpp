@@ -22,12 +22,46 @@
 
 namespace optimizer {
 
+std::shared_ptr<Optimizer> jsonToOptimizer (const json& j, const mdata& mdat)
+{
+  std::shared_ptr<Optimizer> op;
+
+  if (j["Class"] == "OptimizerCoordinateDescent") {
+    op = std::make_shared<OptimizerCoordinateDescent>(j);
+  }
+  if (j["Class"] == "OptimizerCoordinateDescentLineSearch") {
+    op = std::make_shared<OptimizerCoordinateDescentLineSearch>(j);
+  }
+  if (j["Class"] == "OptimizerCosineAnnealing") {
+    op = std::make_shared<OptimizerCosineAnnealing>(j);
+  }
+  if (j["Class"] == "OptimizerAGBM") {
+    op = std::make_shared<OptimizerAGBM>(j, mdat);
+  }
+  if (op == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return op;
+}
+
+
+
 // -------------------------------------------------------------------------- //
 // Abstract 'Optimizer' class:
 // -------------------------------------------------------------------------- //
 
-Optimizer::Optimizer () { };
-Optimizer::Optimizer (const unsigned int num_threads) : _num_threads ( num_threads ) { }
+Optimizer::Optimizer ()
+{ };
+
+Optimizer::Optimizer (const unsigned int num_threads)
+  : _num_threads ( num_threads )
+{ }
+
+Optimizer::Optimizer (const json& j)
+  : _step_sizes  ( j["_step_sizes"].get<std::vector<double>>() ),
+    _num_threads ( j["_num_threads"] ),
+    _type        ( j["_type"] )
+{ }
 
 std::map<std::string, arma::mat> Optimizer::getParameterAtIteration (const unsigned int k, const double lr, blearnertrack::BaselearnerTrack& bl_track) const
 {
@@ -67,6 +101,21 @@ std::map<std::string, arma::mat> Optimizer::getParameterAtIteration (const unsig
   }
 }
 
+std::string Optimizer::getType () const
+{
+  return _type;
+}
+
+json Optimizer::baseToJson (const std::string cln) const
+{
+  json j = {
+    {"Class",        cln},
+    {"_step_sizes",  _step_sizes },
+    {"_num_threads", _num_threads},
+    {"_type",        _type}
+  };
+  return j;
+}
 
 
 // Destructor:
@@ -82,13 +131,20 @@ Optimizer::~Optimizer () { }
 OptimizerCoordinateDescent::OptimizerCoordinateDescent ()
 {
   _step_sizes.assign(1, 1.0);
+  _type = "coo_descent";
 }
 
 OptimizerCoordinateDescent::OptimizerCoordinateDescent (const unsigned int num_threads)
   : Optimizer::Optimizer ( num_threads )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "coo_descent";
 }
+
+OptimizerCoordinateDescent::OptimizerCoordinateDescent (const json& j)
+  : Optimizer::Optimizer ( j )
+{ }
+
 
 std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBaselearner (std::string iteration_id,
   const std::shared_ptr<response::Response>& sh_ptr_response, const blearner_factory_map& factory_map) const
@@ -198,10 +254,10 @@ arma::mat OptimizerCoordinateDescent::calculateUpdate (const double learning_rat
 }
 
 void OptimizerCoordinateDescent::optimize (const unsigned int actual_iteration, const double learning_rate, const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
-  blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& factory_list)
+  blearnertrack::BaselearnerTrack& blearner_track, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   std::string temp_string = std::to_string(actual_iteration);
-  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, sh_ptr_response, factory_list.getFactoryMap());
+  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, sh_ptr_response, sh_ptr_factory_list->getFactoryMap());
 
   // Prediction is needed more often, use a temp vector to avoid multiple computations:
   arma::mat blearner_pred_temp = sh_ptr_blearner_selected->predict();
@@ -230,6 +286,11 @@ double OptimizerCoordinateDescent::getStepSize (const unsigned int actual_iterat
   return 1;
 }
 
+json OptimizerCoordinateDescent::toJson () const
+{
+  json j = Optimizer::baseToJson("OptimizerCoordinateDescent");
+  return j;
+}
 
 // OptimizerCoordinateDescentLineSearch:
 // ---------------------------------------------------
@@ -237,13 +298,20 @@ double OptimizerCoordinateDescent::getStepSize (const unsigned int actual_iterat
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch ()
 {
   _step_sizes.clear();
+  _type = "coo_descent_ls";
 }
 
 OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch  (const unsigned int num_threads)
   : OptimizerCoordinateDescent::OptimizerCoordinateDescent ( num_threads )
 {
   _step_sizes.clear();
+  _type = "coo_descent_ls";
 }
+
+OptimizerCoordinateDescentLineSearch::OptimizerCoordinateDescentLineSearch (const json& j)
+  : OptimizerCoordinateDescent::OptimizerCoordinateDescent ( j )
+{ }
+
 
 void OptimizerCoordinateDescentLineSearch::calculateStepSize (const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
   const arma::vec& baselearner_prediction)
@@ -266,6 +334,13 @@ double OptimizerCoordinateDescentLineSearch::getStepSize (const unsigned int ite
   return _step_sizes[iteration - 1];
 }
 
+json OptimizerCoordinateDescentLineSearch::toJson () const
+{
+  json j = Optimizer::baseToJson("OptimizerCoordinateDescentLineSearch");
+  return j;
+}
+
+
 // OptimizerCosineAnnealing:
 // ---------------------------------------------------
 
@@ -279,6 +354,7 @@ OptimizerCosineAnnealing::OptimizerCosineAnnealing ()
   _current_iter = 1;
   _cycle_iter = 1;
   _step_sizes.clear();
+  _type = "cosine_ann";
 }
 
 OptimizerCosineAnnealing::OptimizerCosineAnnealing (unsigned int num_threads)
@@ -292,6 +368,7 @@ OptimizerCosineAnnealing::OptimizerCosineAnnealing (unsigned int num_threads)
   _current_iter = 1;
   _cycle_iter = 1;
   _step_sizes.clear();
+  _type = "cosine_ann";
 }
 
 OptimizerCosineAnnealing::OptimizerCosineAnnealing  (const double nu_min, const double nu_max, const unsigned int cycles,
@@ -306,7 +383,19 @@ OptimizerCosineAnnealing::OptimizerCosineAnnealing  (const double nu_min, const 
   _current_iter = 1;
   _cycle_iter = 1;
   _step_sizes.clear();
+  _type = "cosine_ann";
 }
+
+OptimizerCosineAnnealing::OptimizerCosineAnnealing (const json& j)
+  : OptimizerCoordinateDescent::OptimizerCoordinateDescent ( j ),
+    _nu_min ( j["_nu_min"].get<double>() ),
+    _nu_max ( j["_nu_max"].get<double>() ),
+    _cycles ( j["_cycles"].get<unsigned int>() ),
+    _anneal_iter_max  ( j["_anneal_iter_max"].get<unsigned int>() ),
+    _iters_per_cycle  ( j["_iters_per_cycle"].get<unsigned int>() ),
+    _current_iter     ( j["_current_iter"].get<unsigned int>() ),
+    _cycle_iter       ( j["_cycle_iter"].get<unsigned int>() )
+{ }
 
 void OptimizerCosineAnnealing::calculateStepSize (const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
   const arma::vec& baselearner_prediction)
@@ -339,6 +428,19 @@ double OptimizerCosineAnnealing::getStepSize (const unsigned int iteration) cons
   return _step_sizes[iteration - 1];
 }
 
+json OptimizerCosineAnnealing::toJson () const
+{
+  json j = Optimizer::baseToJson("OptimizerCosineAnnealing");
+  j["_nu_min"] = _nu_min;
+  j["_nu_max"] = _nu_max;
+  j["_cycles"] = _cycles;
+  j["_anneal_iter_max"] = _anneal_iter_max;
+  j["_iters_per_cycle"] = _iters_per_cycle;
+  j["_current_iter"] = _current_iter;
+  j["_cycle_iter"]   = _cycle_iter;
+
+  return j;
+}
 
 // OptimizerAGBM:
 // ---------------------------------------------------
@@ -348,6 +450,7 @@ OptimizerAGBM::OptimizerAGBM () : _momentum ( .0 ) { }
 OptimizerAGBM::OptimizerAGBM (const double momentum) : _momentum ( momentum )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "agbm";
 }
 
 OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int num_threads)
@@ -355,6 +458,7 @@ OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int num_thre
     _momentum            ( momentum )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "agbm";
 }
 
 OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int acc_iters, const unsigned int num_threads)
@@ -363,7 +467,20 @@ OptimizerAGBM::OptimizerAGBM (const double momentum, const unsigned int acc_iter
     _acc_iters           ( acc_iters )
 {
   _step_sizes.assign(1, 1.0);
+  _type = "agbm";
 }
+
+OptimizerAGBM::OptimizerAGBM (const json& j, const mdata& mdat)
+  : Optimizer::Optimizer ( j ),
+    _momentum      ( j["_momentum"].get<double>() ),
+    _pred_momentum ( saver::jsonToArmaMat(j["_pred_momentum"]) ),
+    _pred_aggr     ( saver::jsonToArmaMat(j["_pred_aggr"]) ),
+    _pr_corr       ( saver::jsonToArmaMat(j["_pr_corr"]) ),
+    _acc_iters     ( j["_acc_iters"].get<unsigned int>() ),
+    _bl_unique_id  ( j["_bl_unique_id"].get<std::vector<std::string>>() ),
+    _aggr_parameter_map     (saver::jsonToMapMat(j["_aggr_parameter_map"]) ),
+    _momentum_blearnertrack ( blearnertrack::BaselearnerTrack(j["_momentum_blearnertrack"], mdat) )
+{ }
 
 std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::string iteration_id,
     const std::shared_ptr<response::Response>& sh_ptr_response, const blearner_factory_map& factory_map) const
@@ -472,7 +589,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::
 }
 
 void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double learning_rate, const std::shared_ptr<loss::Loss>& sh_ptr_loss, const std::shared_ptr<response::Response>& sh_ptr_response,
-  blearnertrack::BaselearnerTrack& blearner_track, const blearnerlist::BaselearnerFactoryList& factory_list)
+  blearnertrack::BaselearnerTrack& blearner_track, const std::shared_ptr<blearnerlist::BaselearnerFactoryList>& sh_ptr_factory_list)
 {
   arma::mat prediction_scores = sh_ptr_response->getPredictionScores();
   double weight_param = 2.0 / ((double)actual_iteration + 1.0);
@@ -489,7 +606,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
 
   // Find best base-learner w.r.t. pr_aggr
   temp_string = std::to_string(actual_iteration);
-  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, pr_aggr, factory_list.getFactoryMap());
+  auto sh_ptr_blearner_selected = findBestBaselearner(temp_string, pr_aggr, sh_ptr_factory_list->getFactoryMap());
 
   blearner_track.insertBaselearner(sh_ptr_blearner_selected, getStepSize(actual_iteration));
 
@@ -507,7 +624,7 @@ void OptimizerAGBM::optimize (const unsigned int actual_iteration, const double 
   }
 
   // Find best base-learner w.r.t. _pr_corr
-  auto sh_ptr_blearner_mom = findBestBaselearner(temp_string, _pr_corr, factory_list.getFactoryMap());
+  auto sh_ptr_blearner_mom = findBestBaselearner(temp_string, _pr_corr, sh_ptr_factory_list->getFactoryMap());
   //_momentum_blearner.push_back(sh_ptr_blearner_mom);
 
   // Update momentum model
@@ -688,7 +805,20 @@ std::map<std::string, arma::mat> OptimizerAGBM::getParameterAtIteration (const u
   }
 }
 
+json OptimizerAGBM::toJson () const
+{
+  json j = Optimizer::baseToJson("OptimizerAGBM");
+  j["_momentum"] = _momentum;
+  j["_pred_momentum"] = saver::armaMatToJson(_pred_momentum);
+  j["_pred_aggr"] = saver::armaMatToJson(_pred_aggr);
+  j["_pr_corr"] = saver::armaMatToJson(_pr_corr);
+  j["_acc_iters"] = _acc_iters;
+  j["_bl_unique_id"] = _bl_unique_id;
+  j["_aggr_parameter_map"] = saver::mapMatToJson(_aggr_parameter_map);
+  j["_momentum_blearnertrack"] = _momentum_blearnertrack.toJson();
 
+  return j;
+}
 
 
 } // namespace optimizer

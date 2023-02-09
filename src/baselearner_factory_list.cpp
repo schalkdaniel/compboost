@@ -25,6 +25,10 @@ namespace blearnerlist
 
 BaselearnerFactoryList::BaselearnerFactoryList () {}
 
+BaselearnerFactoryList::BaselearnerFactoryList (const json& j, const mdata& mdsource, const mdata& mdinit)
+  : _factory_map ( jsonToBlFMap(j["_factory_map"], mdsource, mdinit) )
+{ }
+
 void BaselearnerFactoryList::registerBaselearnerFactory (const std::string factory_id,
   const std::shared_ptr<blearnerfactory::BaselearnerFactory> sh_ptr_blearner_factory)
 {
@@ -35,6 +39,18 @@ void BaselearnerFactoryList::registerBaselearnerFactory (const std::string facto
     _factory_map.insert(std::pair<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>>(factory_id, sh_ptr_blearner_factory));
   } else {
     _factory_map[ factory_id ] = sh_ptr_blearner_factory;
+  }
+}
+
+void BaselearnerFactoryList::rmBaselearnerFactory (const std::string factory_id)
+{
+  // Create iterator and check if learner is registered:
+  std::map<std::string, std::shared_ptr<blearnerfactory::BaselearnerFactory>>::iterator it = _factory_map.find(factory_id);
+
+  if (it == _factory_map.end()) {
+    throw std::out_of_range(factory_id + " is not registered in map");
+  } else {
+    _factory_map.erase(factory_id);
   }
 }
 
@@ -100,11 +116,53 @@ std::vector<std::string> BaselearnerFactoryList::getDataNames () const
 {
   std::vector<std::string> dnames;
   std::string fname;
+  std::vector<std::string> fbl;
   for (auto& it : _factory_map) {
-    dnames.push_back(it.second->getDataIdentifier());
+    fbl = it.second->getDataIdentifier();
+    for (auto& it : fbl) {
+      dnames.push_back(it);
+    }
   }
   return dnames;
 
+}
+
+json BaselearnerFactoryList::toJson () const
+{
+  json j = {
+    {"Class", "BaselearnerFactoryList"}
+  };
+  json jff;
+  for (auto& it : _factory_map) {
+    jff[it.first] = it.second->toJson();
+  }
+  j["_factory_map"] = jff;
+  return j;
+}
+
+
+
+json BaselearnerFactoryList::factoryDataToJson (const bool save_source) const
+{
+  json j;
+  json jsub;
+
+  for (auto& it : _factory_map) {
+    jsub = it.second->extractDataToJson(save_source);
+    for (auto& it : jsub.items()) {
+      j[it.key()] = it.value();
+    }
+  }
+  return j;
+}
+
+blearner_factory_map jsonToBlFMap (const json& j, const mdata& mdsource, const mdata& mdinit)
+{
+  blearner_factory_map mfac;
+  for (auto& it : j.items()) {
+    mfac[it.key()] = blearnerfactory::jsonToBaselearnerFactory(it.value(), mdsource, mdinit);
+  }
+  return mfac;
 }
 
 } // namespace blearnerlist

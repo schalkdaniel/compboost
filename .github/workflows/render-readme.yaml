@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+name: Render README
+
+jobs:
+  render:
+    name: Render README
+    runs-on: macOS-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - name: Install rmarkdown and devtools
+        run: |
+          Rscript -e 'install.packages(c("rmarkdown", "devtools", "patchwork", "ggthemes"))'
+          Rscript -e 'devtools::install()'
+      - name: Render README
+        run: Rscript -e 'rmarkdown::render("README.Rmd")'
+      - name: Commit results
+        run: |
+          git commit README.md -m 'Re-build README.Rmd' || echo "No changes to commit"
+          git push origin || echo "No changes to commit"

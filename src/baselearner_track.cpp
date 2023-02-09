@@ -23,8 +23,38 @@
 namespace blearnertrack
 {
 
-BaselearnerTrack::BaselearnerTrack () { };
-BaselearnerTrack::BaselearnerTrack (double learning_rate) : _learning_rate ( learning_rate ) { }
+json blVecToJson (const std::vector<std::shared_ptr<blearner::Baselearner>>& blv)
+{
+  json j;
+  for (auto& it : blv) {
+    j.push_back(it->toJson());
+  }
+  return j;
+}
+
+std::vector<std::shared_ptr<blearner::Baselearner>> jsonToBlVec (const json& j, const mdata& mdat)
+{
+  std::vector<std::shared_ptr<blearner::Baselearner>> blv;
+  for (auto& it : j) {
+    blv.push_back(blearner::jsonToBaselearner(it, mdat));
+  }
+  return blv;
+}
+
+
+BaselearnerTrack::BaselearnerTrack ()
+{ };
+
+BaselearnerTrack::BaselearnerTrack (const double learning_rate)
+  : _learning_rate ( learning_rate )
+{ }
+
+BaselearnerTrack::BaselearnerTrack (const json& j, const mdata& mdat)
+  : _learning_rate   ( j["_learning_rate"].get<double>() ),
+    _blearner_vector ( jsonToBlVec(j["_blearner_vector"], mdat) ),
+    _parameter_map   ( saver::jsonToMapMat(j["_parameter_map"]) ),
+    _step_sizes      ( j["_step_sizes"].get<std::vector<double>>() )
+{ }
 
 std::vector<std::shared_ptr<blearner::Baselearner>> BaselearnerTrack::getBaselearnerVector () const
 {
@@ -172,6 +202,19 @@ void BaselearnerTrack::setToIteration (const unsigned int& k)
     Rcpp::stop ("You can't set the crrent iteration higher then the maximal trained iterations.");
   }
   _parameter_map = getEstimatedParameterOfIteration(k);
+}
+
+json BaselearnerTrack::toJson () const
+{
+  json j = {
+    {"Class",          "BaselearnerTrack"},
+    {"_learning_rate", _learning_rate},
+    {"_step_sizes",    _step_sizes}
+  };
+  j["_blearner_vector"] = blVecToJson(_blearner_vector);
+  j["_parameter_map"] = saver::mapMatToJson(_parameter_map);
+
+  return j;
 }
 
 BaselearnerTrack::~BaselearnerTrack ()

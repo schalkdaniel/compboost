@@ -35,12 +35,19 @@
 #include "loss.h"
 #include "line_search.h"
 #include "helper.h"
+#include "saver.h"
+
+#include "single_include/nlohmann/json.hpp"
+using json = nlohmann::json;
 
 #ifdef _OPENMP
 #include <omp.h>
 #endif
 
 namespace optimizer {
+
+typedef std::shared_ptr<data::Data> sdata;
+typedef std::map<std::string, sdata> mdata;
 
 // -------------------------------------------------------------------------- //
 // Abstract 'Optimizer' class:
@@ -49,12 +56,13 @@ namespace optimizer {
 class Optimizer
 {
 protected:
-  // blearner_factory_map my_blearner_factory_map;
   std::vector<double> _step_sizes;
   const unsigned int  _num_threads = 1;
+  std::string         _type;
 
   Optimizer ();
   Optimizer (const unsigned int);
+  Optimizer (const json&);
 
 public:
   // Virtual methods
@@ -66,7 +74,7 @@ public:
 
   virtual void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
-    const blearnerlist::BaselearnerFactoryList&) = 0;
+    const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&) = 0;
 
   virtual arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const = 0;
@@ -75,9 +83,17 @@ public:
 
   virtual std::map<std::string, arma::mat> getParameterAtIteration (const unsigned int, const double, blearnertrack::BaselearnerTrack&) const;
 
+  std::string getType ()                  const;
+  json baseToJson     (const std::string) const;
+
+  virtual json toJson () const = 0;
+
   // Destructor
   virtual ~Optimizer ();
 };
+
+std::shared_ptr<Optimizer> jsonToOptimizer (const json&, const mdata&);
+
 
 // -------------------------------------------------------------------------- //
 // Optimizer implementations:
@@ -91,6 +107,7 @@ class OptimizerCoordinateDescent : public Optimizer
 public:
   OptimizerCoordinateDescent ();
   OptimizerCoordinateDescent (const unsigned int);
+  OptimizerCoordinateDescent (const json&);
 
   double              getStepSize  (const unsigned int) const;
   std::vector<double> getStepSize  ()                   const;
@@ -100,11 +117,13 @@ public:
 
   void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
-    const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const;
   void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
+
+  json toJson () const;
 };
 
 class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
@@ -112,11 +131,14 @@ class OptimizerCoordinateDescentLineSearch : public OptimizerCoordinateDescent
 public:
   OptimizerCoordinateDescentLineSearch ();
   OptimizerCoordinateDescentLineSearch (const unsigned int);
+  OptimizerCoordinateDescentLineSearch (const json&);
 
   void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
 
   double              getStepSize (const unsigned int) const;
   std::vector<double> getStepSize ()                   const;
+
+  json toJson () const;
 };
 
 
@@ -136,11 +158,14 @@ public:
   OptimizerCosineAnnealing ();
   OptimizerCosineAnnealing (unsigned int);
   OptimizerCosineAnnealing (const double, const double, const unsigned int, const unsigned int, const unsigned int);
+  OptimizerCosineAnnealing (const json&);
 
   void      calculateStepSize (const std::shared_ptr<loss::Loss>&, const std::shared_ptr<response::Response>&, const arma::vec&);
 
   double              getStepSize (const unsigned int) const;
   std::vector<double> getStepSize ()                   const;
+
+  json toJson () const;
 };
 
 
@@ -154,7 +179,7 @@ private:
   arma::mat                _pred_momentum;
   arma::mat                _pred_aggr;
   arma::mat                _pr_corr;
-  const unsigned int       _acc_iters = INFINITY;
+  const unsigned int       _acc_iters = std::numeric_limits<unsigned int>::max();
   std::vector<std::string> _bl_unique_id;
 
   std::map<std::string, arma::mat> _aggr_parameter_map;
@@ -165,6 +190,7 @@ public:
   OptimizerAGBM (const double);
   OptimizerAGBM (const double, const unsigned int);
   OptimizerAGBM (const double, const unsigned int, const unsigned int);
+  OptimizerAGBM (const json&, const mdata&);
 
   std::shared_ptr<blearner::Baselearner> findBestBaselearner (const std::string,
     const std::shared_ptr<response::Response>&, const blearner_factory_map&) const;
@@ -173,7 +199,7 @@ public:
 
   void optimize (const unsigned int, const double, const std::shared_ptr<loss::Loss>&,
     const std::shared_ptr<response::Response>&, blearnertrack::BaselearnerTrack&,
-    const blearnerlist::BaselearnerFactoryList&);
+    const std::shared_ptr<blearnerlist::BaselearnerFactoryList>&);
 
   arma::mat calculateUpdate   (const double, const double, const arma::mat&,
     const std::map<std::string, std::shared_ptr<data::Data>>&, const std::shared_ptr<response::Response>&) const;
@@ -191,6 +217,7 @@ public:
   void updateAggrParameter (double, blearnertrack::BaselearnerTrack&);
    std::map<std::string, arma::mat> getParameterAtIteration (const unsigned int, const double, blearnertrack::BaselearnerTrack&) const;
 
+   json toJson () const;
 };
 
 

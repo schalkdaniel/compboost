@@ -23,6 +23,32 @@
 namespace loss
 {
 
+std::shared_ptr<Loss> jsonToLoss (const json& j)
+{
+  std::shared_ptr<Loss> l;
+
+  if (j["Class"] == "LossQuadratic") {
+    l = std::make_shared<LossQuadratic>(j);
+  }
+  if (j["Class"] == "LossAbsolute") {
+    l = std::make_shared<LossAbsolute>(j);
+  }
+  if (j["Class"] == "LossQuantile") {
+    l = std::make_shared<LossQuantile>(j);
+  }
+  if (j["Class"] == "LossHuber") {
+    l = std::make_shared<LossHuber>(j);
+  }
+  if (j["Class"] == "LossBinomial") {
+    l = std::make_shared<LossBinomial>(j);
+  }
+  if (l == nullptr) {
+    throw std::logic_error("No known class in JSON");
+  }
+  return l;
+}
+
+
 arma::mat doubleToMat (const double x)
 {
   arma::mat temp(1,1);
@@ -33,17 +59,35 @@ arma::mat doubleToMat (const double x)
 // Abstract Loss class:
 // -----------------------
 
-Loss::Loss (const std::string task_id)
-  : _task_id ( task_id )
+Loss::Loss (const std::string task_id, const std::string type)
+  : _task_id ( task_id ),
+    _type    ( type )
 { }
 
-Loss::Loss (const std::string task_id, const arma::mat& custom_offset)
+Loss::Loss (const std::string task_id, const std::string type, const arma::mat& custom_offset)
   : _task_id           ( task_id ),
+    _type              ( type ),
     _custom_offset     ( custom_offset ),
     _use_custom_offset ( true )
 { }
 
-std::string Loss::getTaskId () const { return _task_id; }
+Loss::Loss (const json& j)
+  : _task_id           ( j["_task_id"] ),
+    _type              ( j["_type"] ),
+    _custom_offset     ( saver::jsonToArmaMat( j["_custom_offset"]) ),
+    _use_custom_offset ( j["_use_custom_offset"] )
+{ }
+
+std::string Loss::getTaskId () const
+{
+  return _task_id;
+}
+
+std::string Loss::getType () const
+{
+  return _type;
+}
+
 
 arma::mat Loss::weightedLoss (const arma::mat& true_value, const arma::mat& prediction,
   const arma::mat& weights) const
@@ -79,6 +123,19 @@ arma::mat Loss::calculateWeightedPseudoResiduals (const arma::mat& true_value, c
   return -weightedGradient(true_value, prediction, weights);
 }
 
+json Loss::baseToJson (const std::string cln) const
+{
+  json j = {
+    {"Class",              cln},
+    {"_task_id",           _task_id},
+    {"_type",              _type},
+    {"_custom_offset",     saver::armaMatToJson(_custom_offset)},
+    {"_use_custom_offset", _use_custom_offset}
+  };
+
+  return j;
+}
+
 // Destructor
 Loss::~Loss () { }
 
@@ -91,15 +148,19 @@ Loss::~Loss () { }
 // -----------------------
 
 LossQuadratic::LossQuadratic ()
-  : Loss ( "regression" )
+  : Loss::Loss ( std::string("regression"), std::string("quadratic") ) // Explicit casting to avoid declaration ambiguity
 { }
 
 LossQuadratic::LossQuadratic (const double custom_offset)
-  : Loss ( "regression", doubleToMat(custom_offset) )
+  : Loss::Loss ( "regression", std::string("quadratic"), doubleToMat(custom_offset) )
 { }
 
 LossQuadratic::LossQuadratic (const arma::mat& custom_offset)
-  : Loss ("regression", custom_offset)
+  : Loss::Loss ("regression", std::string("quadratic"), custom_offset)
+{ }
+
+LossQuadratic::LossQuadratic (const json& j)
+  : Loss::Loss (j)
 { }
 
 /**
@@ -154,16 +215,21 @@ arma::mat LossQuadratic::weightedConstantInitializer (const arma::mat& true_valu
   return out;
 }
 
+json LossQuadratic::toJson () const { return baseToJson("LossQuadratic"); }
 
 // LossAbsolute:
 // ------------------------------------------
 
 LossAbsolute::LossAbsolute ()
-  : Loss ( "regression" )
+  : Loss::Loss ( std::string("regression"), std::string("absolute") ) // Explicit casting to avoid declaration ambiguity
 { }
 
 LossAbsolute::LossAbsolute (const double custom_offset)
-  : Loss ( "regression", doubleToMat(custom_offset) )
+  : Loss::Loss ( "regression", std::string("absolute"), doubleToMat(custom_offset) )
+{ }
+
+LossAbsolute::LossAbsolute (const json& j)
+  : Loss::Loss (j)
 { }
 
 /**
@@ -214,13 +280,17 @@ arma::mat LossAbsolute::weightedConstantInitializer (const arma::mat& true_value
   return constantInitializer(true_value);
 }
 
+json LossAbsolute::toJson () const
+{
+  return baseToJson("LossAbsolute");
+}
 
 // LossQuantile
 // -----------------------
 
 LossQuantile::LossQuantile (const double quantile)
-  : Loss      ( "regression" ),
-    _quantile ( quantile )
+  : Loss::Loss ( std::string("regression"), std::string("quantile") ), // Explicit casting to avoid declaration ambiguity
+    _quantile  ( quantile )
 {
   if ((_quantile > 1) || (_quantile < 0)) {
     Rcpp::stop("Quantile must be in [0,1]");
@@ -228,13 +298,18 @@ LossQuantile::LossQuantile (const double quantile)
 }
 
 LossQuantile::LossQuantile (const double custom_offset, const double quantile)
-  : Loss      ( "regression", doubleToMat(custom_offset) ),
-    _quantile ( quantile )
+  : Loss::Loss ( "regression", std::string("quantile"), doubleToMat(custom_offset) ),
+    _quantile  ( quantile )
 {
   if ((_quantile > 1) || (_quantile < 0)) {
     Rcpp::stop("Quantile must be in [0,1]");
   }
 }
+
+LossQuantile::LossQuantile (const json& j)
+  : Loss::Loss (j),
+    _quantile  ( j["_quantile"] )
+{ }
 
 double LossQuantile::getQuantile () const { return _quantile; }
 
@@ -298,13 +373,21 @@ arma::mat LossQuantile::weightedConstantInitializer (const arma::mat& true_value
   return LossQuantile::constantInitializer(true_value);
 }
 
+json LossQuantile::toJson () const
+{
+  json j = baseToJson("LossQuantile");
+  j["_quantile"] = _quantile;
+
+  return j;
+}
+
 
 // LossHuber:
 // -----------------------
 
 LossHuber::LossHuber (const double delta)
-  : Loss   ( "regression" ),
-    _delta ( delta )
+  : Loss::Loss ( std::string("regression"), std::string("huber") ), // Explicit casting to avoid declaration ambiguity
+    _delta     ( delta )
 {
   if ((_delta < 0)) {
     Rcpp::stop("Delta must be greater than 0");
@@ -312,13 +395,18 @@ LossHuber::LossHuber (const double delta)
 }
 
 LossHuber::LossHuber (const double custom_offset, const double delta)
-  : Loss   ( "regression", doubleToMat(custom_offset) ),
-    _delta ( delta )
+  : Loss::Loss ( "regression", std::string("huber"), doubleToMat(custom_offset) ),
+    _delta     ( delta )
 {
   if ((_delta < 0)) {
     Rcpp::stop("Delta must be greater than 0");
   }
 }
+
+LossHuber::LossHuber (const json& j)
+  : Loss::Loss (j),
+    _delta     ( j["_delta"] )
+{ }
 
 double LossHuber::getDelta () const { return _delta; }
 
@@ -387,23 +475,35 @@ arma::mat LossHuber::weightedConstantInitializer (const arma::mat& true_value, c
   return out_mat;
 }
 
+json LossHuber::toJson () const
+{
+  json j = baseToJson("LossHuber");
+  j["_delta"] = _delta;
+
+  return j;
+}
+
 
 // LossBinomial:
 // -----------------------
 
 LossBinomial::LossBinomial ()
-  : Loss ( "binary_classif" )
+  : Loss::Loss ( std::string("binary_classif"), std::string("binomial") ) // Explicit casting to avoid declaration ambiguity
 { }
 
 LossBinomial::LossBinomial (const double custom_offset)
-  : Loss ( "binary_classif", doubleToMat(custom_offset) )
+  : Loss::Loss ( "binary_classif", std::string("binomial"), doubleToMat(custom_offset) )
 {
   if (custom_offset > 1 || custom_offset < -1) {
     Rcpp::stop("LossBinomial allows just values between -1 and 1 as offset. Continuing with default offset.");
   }
 }
 LossBinomial::LossBinomial (const arma::mat& custom_offset)
-  : Loss ("binary_classif", custom_offset)
+  : Loss::Loss ("binary_classif", std::string("binomial"), custom_offset)
+{ }
+
+LossBinomial::LossBinomial (const json& j)
+  : Loss::Loss (j)
 { }
 
 /**
@@ -416,7 +516,7 @@ LossBinomial::LossBinomial (const arma::mat& custom_offset)
 */
 arma::mat LossBinomial::loss (const arma::mat& true_value, const arma::mat& prediction) const
 {
-  return arma::log(1 + arma::exp(-2 * true_value % prediction));
+  return arma::log(1 + arma::exp(-true_value % prediction));
 }
 
 /**
@@ -429,7 +529,7 @@ arma::mat LossBinomial::loss (const arma::mat& true_value, const arma::mat& pred
 */
 arma::mat LossBinomial::gradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
-  return -2 * true_value / (1 + arma::exp(true_value % prediction));
+  return -true_value / (1 + arma::exp(true_value % prediction));
 }
 
 /**
@@ -445,7 +545,7 @@ arma::mat LossBinomial::constantInitializer (const arma::mat& true_value) const
 
   double p = arma::accu(true_value + 1) / (2 * true_value.size());
   arma::mat out(1, 1);
-  out.fill(0.5 * std::log(p / (1 - p)));
+  out.fill(std::log(p / (1 - p)));
 
   return out;
 }
@@ -455,6 +555,7 @@ arma::mat LossBinomial::weightedConstantInitializer (const arma::mat& true_value
   return LossBinomial::constantInitializer(true_value);
 }
 
+json LossBinomial::toJson () const { return baseToJson("LossBinomial"); }
 
 // LossCustom:
 // -----------------------
@@ -472,7 +573,7 @@ arma::mat LossBinomial::weightedConstantInitializer (const arma::mat& true_value
  */
 LossCustom::LossCustom (const Rcpp::Function& lossFun, const Rcpp::Function& gradientFun,
   const Rcpp::Function& initFun)
-  : Loss         ( "custom" ),
+  : Loss::Loss   ( std::string("custom"), std::string("custom") ), // Explicit casting to avoid declaration ambiguity
     _lossFun     ( lossFun ),
     _gradientFun ( gradientFun ),
     _initFun     ( initFun )
@@ -528,11 +629,17 @@ arma::mat LossCustom::weightedConstantInitializer (const arma::mat& true_value, 
   return LossCustom::constantInitializer(true_value);
 }
 
+json LossCustom::toJson () const
+{
+  throw std::logic_error("It is not implemented yet to save custom loss classes as JSON.");
+  return baseToJson("LossCustom");
+}
+
 // LossCustomCpp:
 // -----------------------
 
 LossCustomCpp::LossCustomCpp (const SEXP& lossFun, const SEXP& gradFun, const SEXP& constInitFun)
-  : Loss ( "custom" )
+  : Loss::Loss ( std::string("custom"), std::string("custom_cpp") ) // Explicit casting to avoid declaration ambiguity
 {
   Rcpp::XPtr<lossFunPtr> myTempLoss (lossFun);
   _lossFun = *myTempLoss;
@@ -588,6 +695,12 @@ arma::mat LossCustomCpp::weightedConstantInitializer (const arma::mat& true_valu
 {
   Rcpp::warning("Custom cpp loss does not have a weighted offset implementation. Using unweighted initializer.");
   return constantInitializer(true_value);
+}
+
+json LossCustomCpp::toJson () const
+{
+  throw std::logic_error("It is not implemented yet to save custom loss classes as JSON.");
+  return baseToJson("LossCustomCpp");
 }
 
 } // namespace loss

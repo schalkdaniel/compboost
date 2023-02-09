@@ -26,10 +26,11 @@ plotRisk = function(cboost) {
     stop("Model has not been trained!")
 
   inbag_trace = cboost$getInbagRisk()
-  oob_data = cboost$getLoggerData()
+  oob_log = cboost$getLoggerData()
 
-  if ("oob_risk" %in% names(oob_data)) {
-    oob_trace = oob_data[["oob_risk"]]
+  .data = ggplot2::.data
+  if ("oob_risk" %in% names(oob_log)) {
+    oob_trace = oob_log[["oob_risk"]]
 
     df_risk = data.frame(
       risk = c(inbag_trace, oob_trace),
@@ -37,12 +38,12 @@ plotRisk = function(cboost) {
       iter = c(seq_along(inbag_trace), seq_along(oob_trace))
     )
 
-    gg = ggplot2::ggplot(df_risk, ggplot2::aes_string(x = "iter", y = "risk", color = "type"))
+    gg = ggplot2::ggplot(stats::na.omit(df_risk), ggplot2::aes(x = .data$iter, y = .data$risk, color = .data$type))
   } else {
     df_risk = data.frame(iter = seq_along(inbag_trace), risk = inbag_trace)
-    gg = ggplot2::ggplot(df_risk, ggplot2::aes_string(x = "iter", y = "risk"))
+    gg = ggplot2::ggplot(stats::na.omit(df_risk), ggplot2::aes(x = .data$iter, y = .data$risk))
   }
-  gg = gg + ggplot2::geom_line(size = 1.1) +
+  gg = gg + ggplot2::geom_line(linewidth = 1.1) +
     ggplot2::xlab("Iteration") +
     ggplot2::ylab("Risk")
 

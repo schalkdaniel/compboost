@@ -22,16 +22,16 @@ Depends:
 Imports:
   Rcpp (>= 0.11.2),
   methods,
-  glue,
   R6,
-  checkmate
+  checkmate,
+  Matrix
 LinkingTo:
   Rcpp,
   RcppArmadillo,
   BH
 Suggests:
   RcppArmadillo (>= 0.9.100.5.0),
-  ggplot2,
+  ggplot2 (>= 3.3.0),
   pkgdown,
   testthat,
   rpart,
@@ -43,7 +43,7 @@ Suggests:
   gridExtra,
   ggrepel,
   ggthemes,
-  covr,
+  covr
 RcppModules:
   baselearner_module,
   compboost_module,

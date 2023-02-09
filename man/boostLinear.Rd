@@ -7,8 +7,8 @@
 boostLinear(
   data,
   target,
-  optimizer = OptimizerCoordinateDescent$new(),
-  loss,
+  optimizer = NULL,
+  loss = NULL,
   learning_rate = 0.05,
   iterations = 100,
   trace = -1,
@@ -37,7 +37,8 @@ residuals (e.g. \code{LossQuadratic$new()}).}
 Learning rate to shrink the parameter in each step.}
 
 \item{iterations}{[\code{integer(1)}]\cr
-Number of iterations that are trained.}
+Number of iterations that are trained. If `iterations == 0`, the untrained object is returned. This
+can be useful if other base learners (e.g. an interaction via a tensor base learner) are added.}
 
 \item{trace}{[\code{integer(1)}]\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every

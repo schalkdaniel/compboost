@@ -66,22 +66,35 @@ The examples are rendered using <code>compboost `r packageVersion("compboost")`<
 
 The fastest way to train a `Compboost` model is to use the wrapper functions `boostLinear()` or `boostSplines()`:
 ```{r, results="hide", warning=FALSE, fig.width=10, fig.height=2, out.width="100%", }
-cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
+cboost = boostSplines(data = iris, target = "Sepal.Length",
   oob_fraction = 0.3, iterations = 500L, trace = 100L)
 
-gridExtra::grid.arrange(
-  plotRisk(cboost),
-  plotPEUni(cboost, "Petal.Length"),
-  plotIndividualContribution(cboost, iris[70, ], offset = FALSE),
-  ncol = 3L
-)
+ggrisk = plotRisk(cboost)
+ggpe = plotPEUni(cboost, "Petal.Length")
+ggicont =  plotIndividualContribution(cboost, iris[70, ], offset = FALSE)
+
+library(patchwork)
+
+ggrisk + ggpe + ggicont
 ```
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
+## Save and load models
+
+Because of the usage of `C++` objects as backend, it is not possible to use `R`s `save()` method to save models. Instead, use `$saveToJson("mymodel.json")` to save the model to `mymodel.json` and `Compboost$new(file = "mymodel.json")` to load the model:
+
+```{r, eval=FALSE}
+cboost = boostSplines(iris, "Sepal.Width")
+cboost$saveToJson("mymodel.json")
+
+cboost_new = Compboost$new(file = "mymodel.json")
+```
+
 ## Benchmark
 
-To get an idea of the performance of compboost, we have conduct a small benchmark in which compboost is compared with mboost. For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+- A small benchmark was conducted to compare `compboost` with [`mboost`](https://cran.r-project.org/web/packages/mboost/index.html). For this purpose, the runtime behavior and memory consumption of the two packages were compared. The results of the benchmark can be read [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+- A bigger benchmark with adaptions to increase the runtime and memory efficiency can be found [here](https://doi.org/10.1080/10618600.2022.2116446).
 
 ## Citing
 
@@ -107,7 +120,7 @@ To cite `compboost` in publications, please use:
 
 ### On your local machine
 
-In order to test the pacakge functionality you can use devtools to test the package on your local machine:
+In order to test the package functionality you can use devtools to test the package on your local machine:
 
 ```{r, eval=FALSE}
 devtools::test()

@@ -1,51 +1,113 @@
 context("The implemented loss object")
 
 test_that("Quadratic loss works", {
-  expect_silent({ quadratic_loss = LossQuadratic$new() })
-  expect_silent({ quadratic_loss_custom = LossQuadratic$new(2) })
+  quadratic_loss = expect_silent(LossQuadratic$new())
+  quadratic_loss_custom = expect_silent(LossQuadratic$new(2))
 
-  expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = quadratic_loss) })
+  expect_output(boostLinear(data = cars, target = "speed", loss = quadratic_loss))
+
+  # Save and load:
+  cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossQuadratic$new()))
+  file = "cboost.json"
+  expect_silent(cboost$model$saveJson(file))
+
+  ln = expect_silent(LossQuadratic$new())
+  expect_silent(ln$loadFromJson(file))
+
+  expect_equal(class(ln), class(cboost$loss))
+
+  file.remove(file)
 })
 
 test_that("Absolute loss works", {
-  expect_silent({ absolute_loss = LossAbsolute$new() })
-  expect_silent({ absolute_loss_custom = LossAbsolute$new(pi) })
+  absolute_loss = expect_silent(LossAbsolute$new())
+  absolute_loss_custom = expect_silent(LossAbsolute$new(pi))
 
-  expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = absolute_loss) })
+  expect_output(boostLinear(data = cars, target = "speed", loss = absolute_loss))
+
+  # Save and load:
+  cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossAbsolute$new()))
+  file = "cboost.json"
+  expect_silent(cboost$model$saveJson(file))
+
+  ln = expect_silent(LossAbsolute$new())
+  expect_silent(ln$loadFromJson(file))
+
+  expect_equal(class(ln), class(cboost$loss))
+
+  file.remove(file)
 })
 
 test_that("Quantile loss works", {
-  expect_silent({ quantile_loss = LossQuantile$new() })
-  expect_silent({ quantile_loss = LossQuantile$new(0.3) })
-  expect_silent({ quantile_loss_custom = LossQuantile$new(2, 0.3) })
+  quantile_loss = expect_silent(LossQuantile$new())
+  quantile_loss = expect_silent(LossQuantile$new(0.3))
+  quantile_loss_custom = expect_silent(LossQuantile$new(2, 0.3))
 
-  expect_error({ LossQuantile$new(10) })
-  expect_error({ LossQuantile$new(10, 10) })
+  expect_error(LossQuantile$new(10))
+  expect_error(LossQuantile$new(10, 10))
 
   expect_equal(quantile_loss$getQuantile(), 0.3)
 
-  expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = quantile_loss) })
+  expect_output(boostLinear(data = cars, target = "speed", loss = quantile_loss))
+
+  # Save and load:
+  cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossQuantile$new(0.3)))
+  file = "cboost.json"
+  expect_silent(cboost$model$saveJson(file))
+
+  ln = expect_silent(LossQuantile$new())
+  expect_silent(ln$loadFromJson(file))
+
+  expect_equal(class(ln), class(cboost$loss))
+  expect_equal(ln$getQuantile(), cboost$loss$getQuantile())
+
+  file.remove(file)
 })
 
 test_that("Huber loss works", {
-  expect_silent({ huber_loss = LossHuber$new() })
-  expect_silent({ huber_loss = LossHuber$new(0.3) })
-  expect_silent({ huber_loss_custom = LossHuber$new(2, 0.3) })
+  huber_loss = expect_silent(LossHuber$new())
+  huber_loss = expect_silent(LossHuber$new(0.3))
+  huber_loss_custom = expect_silent(LossHuber$new(2, 0.3))
 
-  expect_error({ LossHuber$new(-10) })
-  expect_error({ LossHuber$new(10, -10) })
+  expect_error(LossHuber$new(-10))
+  expect_error(LossHuber$new(10, -10))
 
   expect_equal(huber_loss$getDelta(), 0.3)
 
-  expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = huber_loss) })
+  expect_output(boostLinear(data = cars, target = "speed", loss = huber_loss))
+
+  # Save and load:
+  cboost = expect_output(boostSplines(iris, "Sepal.Length", loss = LossHuber$new(0.3)))
+  file = "cboost.json"
+  expect_silent(cboost$model$saveJson(file))
+
+  ln = expect_silent(LossHuber$new())
+  expect_silent(ln$loadFromJson(file))
+
+  expect_equal(class(ln), class(cboost$loss))
+  expect_equal(ln$getDelta(), cboost$loss$getDelta())
+
+  file.remove(file)
 })
 
 test_that("Binomial loss works", {
-  expect_silent({ binomial_loss = LossBinomial$new() })
-  expect_silent({ binomial_loss_custom = LossBinomial$new(0.7) })
+  binomial_loss = expect_silent(LossBinomial$new())
+  binomial_loss_custom = expect_silent(LossBinomial$new(0.7))
 
   cars$speed = ifelse (cars$speed > median(cars$speed), "fast", "slow")
-  expect_output({ cboost = boostLinear(data = cars, target = "speed", loss = binomial_loss) })
+  expect_output(boostLinear(data = cars, target = "speed", loss = binomial_loss))
+
+  # Save and load:
+  cboost = expect_output(boostSplines(iris[1:100, ], "Species", loss = LossBinomial$new()))
+  file = "cboost.json"
+  expect_silent(cboost$model$saveJson(file))
+
+  ln = expect_silent(LossBinomial$new())
+  expect_silent(ln$loadFromJson(file))
+
+  expect_equal(class(ln), class(cboost$loss))
+
+  file.remove(file)
 })
 
 test_that("Custom loss works", {

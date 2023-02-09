@@ -66,14 +66,16 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
   if (! cboost$model$isTrained())
     stop("Model has not been trained!")
 
-  feats   = cboost$bl_factory_list$getDataNames()
-  blnames = cboost$bl_factory_list$getRegisteredFactoryNames()
+  feats = vapply(cboost$model$getFactoryMap(), FUN.VALUE = character(1), FUN = function(blf) {
+    paste(unique(blf$getFeatureName()), collapse = "_")
+  })
+  blnames = names(feats)
   if (offset)
     df_bls  = data.frame(bl = c(blnames, "offset"), feat = c(feats, "offset"))
   else
     df_bls  = data.frame(bl = blnames, feat = feats)
 
-  nuisance = lapply(unique(feats), function(fn) {
+  nuisance = lapply(unique(cboost$bl_factory_list$getDataNames()), function(fn) {
     checkmate::assertChoice(fn, choices = colnames(newdata))
   })
   checkmate::assertDataFrame(newdata, nrows = 1L)
@@ -88,19 +90,31 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
     if (is.numeric(x)) return(as.character(round(x, nround)))
     return(as.character(x))
   }), ")")
-  if (offset)
-    df_fval = data.frame(feat = c(colnames(newdata), "offset"), fval = c(fval, ""))
-  else
-    df_fval = data.frame(feat = colnames(newdata), fval = fval)
+
+  df_fval = do.call(rbind, lapply(cboost$baselearner_list, function(f) {
+    fn = f$factory$getFeatureName()
+    fl = vapply(fn, function(f) {
+      x = newdata[[f]]
+      if (is.numeric(x)) return(as.character(round(x, nround)))
+      return(as.character(x))
+    }, character(1))
+    out = data.frame(feat = paste(fn, collapse = "_"), label = paste(sprintf("%s (%s)", fn, fl), collapse = ", "))
+    return(out)
+  }))
+  rownames(df_fval) = NULL
+
+  if (offset) {
+    df_fval = rbind(df_fval, data.frame(feat = "offset", label = "offset"))
+  }
 
   if (aggregate) {
     df_plt = aggregate(x = df_plt$value, by = list(df_plt$feat), FUN = sum)
     names(df_plt) = c("feat", "value")
+    df_plt        = merge(df_plt, df_fval, by = "feat")
   } else {
-    df_plt$feat = df_plt$bl
+    df_plt$feat  = df_plt$bl
+    df_plt$label = df_plt$feat
   }
-  df_plt        = merge(df_plt, df_fval, by = "feat")
-  df_plt$label  = paste0(df_plt$feat, " ", df_plt$fval)
   df_plt        = df_plt[order(df_plt$value, decreasing = TRUE), ]
   df_plt$bl_num = rev(seq_len(nrow(df_plt)))
 
@@ -114,14 +128,16 @@ plotIndividualContribution = function(cboost, newdata, aggregate = TRUE, colbrea
   pred = round(sum(df_plt$value), nround)
   subtitle = paste0("Score: ", pred)
 
+  .data = ggplot2::.data
   if (is.null(colbreaks[1]))
-    gg = ggplot2::ggplot(df_plt, ggplot2::aes_string(x = "value", y = "bl_num"))
+    gg = ggplot2::ggplot(df_plt, ggplot2::aes(x = .data$value, y = .data$bl_num))
   else
-    gg = ggplot2::ggplot(df_plt, ggplot2::aes_string(x = "value", y = "bl_num", color = "cbreak", fill = "cbreak"))
+    gg = ggplot2::ggplot(df_plt, ggplot2::aes(x = .data$value, y = .data$bl_num,
+      color = .data$cbreak, fill = .data$cbreak))
 
   gg = gg +
     ggplot2::geom_vline(xintercept = 0, color = "dark grey", alpha = 0.6) +
-    ggplot2::geom_segment(ggplot2::aes_string(xend = "0", yend = "bl_num")) +
+    ggplot2::geom_segment(ggplot2::aes(xend = 0, yend = .data$bl_num)) +
     ggplot2::geom_point() +
     ggplot2::ylab("") +
     ggplot2::xlab("Contribution to predicted value") +

@@ -25,7 +25,8 @@
 #' @param learning_rate [\code{numeric(1)}]\cr
 #'   Learning rate to shrink the parameter in each step.
 #' @param iterations [\code{integer(1)}]\cr
-#'   Number of iterations that are trained.
+#'   Number of iterations that are trained. If `iterations == 0`, the untrained object is returned. This
+#'   can be useful if other base learners (e.g. an interaction via a tensor base learner) are added.
 #' @param trace [\code{integer(1)}]\cr
 #'   Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 #'   10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
@@ -46,9 +47,9 @@
 #' table(mod$getSelectedBaselearner())
 #' mod$predict()
 #' @export
-boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(), loss,
-	learning_rate = 0.05, iterations = 100, trace = -1, intercept = TRUE,
-	data_source = InMemoryData, oob_fraction = NULL)
+boostLinear = function(data, target, optimizer = NULL, loss = NULL, learning_rate = 0.05,
+  iterations = 100, trace = -1, intercept = TRUE, data_source = InMemoryData,
+  oob_fraction = NULL)
 {
 	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
 		learning_rate = learning_rate, oob_fraction = oob_fraction)
@@ -62,6 +63,8 @@ boostLinear = function(data, target, optimizer = OptimizerCoordinateDescent$new(
 			model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source)
 		}
 	}
+  if (iterations == 0) return(model)
+
 	model$train(iterations, trace)
 	return(model)
 }
