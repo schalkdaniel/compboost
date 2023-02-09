@@ -7,12 +7,12 @@
 [![codecov](https://codecov.io/gh/schalkdaniel/compboost/branch/main/graph/badge.svg?token=t3Xxoxz1T2)](https://codecov.io/gh/schalkdaniel/compboost)
 [![License: LGPL
 v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](https://www.gnu.org/licenses/lgpl-3.0)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/compboost)](https://cran.r-project.org/package=compboost)
 [![Dependencies](https://tinyverse.netlify.com/badge/compboost)](https://cran.r-project.org/package=compboost)
 [![status](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda/status.svg)](http://joss.theoj.org/papers/94cfdbbfdfc8796c5bdb1a74ee59fcda)
 
-[Documentation](https://danielschalk.com/compboost/) |
-[Contributors](CONTRIBUTORS.md) | [Release Notes](NEWS.md)
+[Documentation](https://danielschalk.com/compboost/) \|
+[Contributors](CONTRIBUTORS.md) \| [Release Notes](NEWS.md)
 
 ## Overview
 
@@ -36,13 +36,9 @@ For an introduction and overview about the functionality visit the
 
 #### CRAN version:
 
-Because of ongoing bigger updates of the software it is currently not available on CRAN.
-
-<!--
 ``` r
 install.packages("compboost")
 ```
--->
 
 #### Developer version:
 
@@ -58,15 +54,16 @@ The fastest way to train a `Compboost` model is to use the wrapper
 functions `boostLinear()` or `boostSplines()`:
 
 ``` r
-cboost = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
+cboost = boostSplines(data = iris, target = "Sepal.Length",
   oob_fraction = 0.3, iterations = 500L, trace = 100L)
 
-gridExtra::grid.arrange(
-  plotRisk(cboost),
-  plotPEUni(cboost, "Petal.Length"),
-  plotIndividualContribution(cboost, iris[70, ], offset = FALSE),
-  ncol = 3L
-)
+ggrisk = plotRisk(cboost)
+ggpe = plotPEUni(cboost, "Petal.Length")
+ggicont =  plotIndividualContribution(cboost, iris[70, ], offset = FALSE)
+
+library(patchwork)
+
+ggrisk + ggpe + ggicont
 ```
 
 <img src="Readme_files/unnamed-chunk-2-1.png" width="100%" />
@@ -75,13 +72,30 @@ For more extensive examples and how to use the `R6` interface visit the
 [project
 page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
+## Save and load models
+
+Because of the usage of `C++` objects as backend, it is not possible to
+use `R`s `save()` method to save models. Instead, use
+`$saveToJson("mymodel.json")` to save the model to `mymodel.json` and
+`Compboost$new(file = "mymodel.json")` to load the model:
+
+``` r
+cboost = boostSplines(iris, "Sepal.Width")
+cboost$saveToJson("mymodel.json")
+
+cboost_new = Compboost$new(file = "mymodel.json")
+```
+
 ## Benchmark
 
-To get an idea of the performance of compboost, we have conduct a small
-benchmark in which compboost is compared with mboost. For this purpose,
-the runtime behavior and memory consumption of the two packages were
-compared. The results of the benchmark can be read
-[here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+- A small benchmark was conducted to compare `compboost` with
+  [`mboost`](https://cran.r-project.org/web/packages/mboost/index.html).
+  For this purpose, the runtime behavior and memory consumption of the
+  two packages were compared. The results of the benchmark can be read
+  [here](https://github.com/schalkdaniel/compboost/tree/master/benchmark).
+- A bigger benchmark with adaptions to increase the runtime and memory
+  efficiency can be found
+  [here](https://doi.org/10.1080/10618600.2022.2116446).
 
 ## Citing
 
@@ -107,7 +121,7 @@ To cite `compboost` in publications, please use:
 
 ### On your local machine
 
-In order to test the pacakge functionality you can use devtools to test
+In order to test the package functionality you can use devtools to test
 the package on your local machine:
 
 ``` r
