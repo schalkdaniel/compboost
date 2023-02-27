@@ -28,7 +28,7 @@ jobs:
           needs: website
 
       - name: R packages
-        run: Rscript -e 'install.packages(c("ggthemes", "tidyr"))'
+        run: Rscript -e 'install.packages(c("ggthemes", "tidyr", "patchwork", "ggsci", "preferably"))'
 
       - name: Deploy package
         run: |

@@ -7,20 +7,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-Instead of getting huge predictive power, model-based (or component-wise) boosting aggregates statistical models to maintain interpretability. This is done by restricting the used base-learners to be linear in the parameters. This is important in terms of parameter estimation. For instance, having a base-learner $b_j(x, \theta^{[m]})$ of a feature $x$ with a corresponding parameter vector $\theta^{[m]}$ and another base-learner $b_j$ of the same type but with a different parameter vector $\theta^{[m^\prime]}$, then it is possible, due to linearity, to combine those two learners to a new one, again, of the same type:
+<center>
+<img src="cboost.gif" width="70%">
+</center>
+
+Instead of getting huge predictive power, model-based (or component-wise) boosting aggregates statistical models to maintain interpretability. This is done by restricting the used base learners to be linear in the parameters. This is important in terms of parameter estimation. For instance, having a base learner $b_j(x, \theta^{[m]})$ of a feature $x$ with a corresponding parameter vector $\theta^{[m]}$ and another base learner $b_j$ of the same type but with a different parameter vector $\theta^{[m^\prime]}$, then it is possible, due to linearity, to combine those two learners to a new one, again, of the same type:
 $$
 b_j(x, \theta^{[m]}) + b_j(x, \theta^{[m^\prime]}) = b_j(x, \theta^{[m]} + \theta^{[m^\prime]})
 $$
-So, instead of boosting trees like `xgboost`, model-based boosting uses a selection of important base-learners, each with estimated parameters.
+Instead of boosting trees like `xgboost`, component-wise boosting is (commonly) used with statistical models to construct an interpretable model with inherent feature selection.
 
-The ordinary way of finding good base-learners is done by a greedy search. Therefore, in each iteration, all base-learners are fitted to the so-called pseudo residuals in the current iteration that act as a kind of error of the actual model. A new base-learner is then selected by choosing the base-learner with the smallest empirical risk $\mathcal{R}_\text{emp}$.
+The usual way of choosing base learners is done by a greedy search. Therefore, in each iteration, all base learners are fitted to the so-called pseudo residuals that act as a kind of model error and in which direction the model should evolve to become better. A new base learner is then selected by choosing the base learner with the best fit to these pseudo residuals.
 
 <center>
 <img src="cboost_gif_bright.svg" width="70%">
 </center>
 
+The illustration above uses three base learners $b_1$, $b_2$, and $b_3$. You can think of each base learner as a wrapper around a feature which represents the effect of that feature. Hence, selecting a base learner more frequently than another one can indicate a higher importance.
 
-The illustration above uses three base-learners $b_1$, $b_2$, and $b_3$. You can think of each base-learner as a wrapper around a feature or category which represents the effect of that feature on the target variable. Therefore, if a base-learner is selected more frequently than another base-learner, it indicates that this base-learner (or feature) is more important. To get a sparser model in terms of selected features there is also a learning rate $\beta$ to shrink the parameter in each iteration. The learning rate corresponds to the step size used in gradient descent. The three models within each iteration of the illustration are:
 $$
 \begin{align}
 \text{Iteration 1:} \ &\hat{f}^{[1]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) \\
@@ -28,9 +32,9 @@ $$
 \text{Iteration 3:} \ &\hat{f}^{[3]}(x) = f_0 + \beta b_3(x_3, \theta^{[1]}) + \beta b_3(x_3, \theta^{[2]}) + \beta b_1(x_1, \theta^{[3]})
 \end{align}
 $$
-Using the linearity of the base-learners it is possible to aggregate the $b_3$ base-learners:
+Using the linearity of the base learners allows to aggregate $b_3$:
 $$
 \hat{f}^{[3]}(x) = f_0 + \beta \left( b_3(x_3, \theta^{[1]} + \theta^{[2]}) + b_1(x_1, \theta^{[3]}) \right)
 $$
 
-This is a very simple example but it displays the main strength of model-based boosting such as an inherent variable selection very well. Since the fitting is done iteratively on the single base-learners, model-based boosting is also a very efficient approach for data situations where $p \gg n$, which is learning in high-dimensional feature spaces. For instance, genomic data where the number of features $p$ could be several thousand but the number of observations are not more than a few hundred.
+This simple example illustrates some strength of component-wise boosting. For example, an inherent variable selection or the estimation of partial feature effects. Further, component-wise boosting is an efficient approach to get fit to high-dimensional feature spaces  $p \gg n$.

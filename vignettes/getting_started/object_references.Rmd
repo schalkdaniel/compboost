@@ -18,21 +18,21 @@ library(compboost)
 ```
 
 
-In order to provide high flexibility we decided to write the base implementation of `compboost` in `C++` to make use of object oriented programming. These `C++` classes can be used in `R` after exposing them as `S4` classes. To take away another layer of abstraction we decided to break the `S4` classes down to a few `R6` classes wrapping the original ones.
+In order to provide high flexibility, we decided to write the base implementation of `compboost` in `C++` to make use of object oriented programming. These `C++` classes can be used in `R` after exposing them as `S4` classes. To take away this layer of abstraction we decided to break these `S4` classes to one `R6` wrapper class.
 
-All in all, the class system of `compboost` is a mixture of raw exposed `S4` classes and convenience classes written in `R6`. As usual for object oriented programming, the classes works on a reference base. This introduction aims to show how these references work and can be accessed.
+All in all, the class system of `compboost` is a mixture of raw exposed `S4` classes and the convenience class written in `R6`. As usual for object oriented programming, the classes works on a reference base. This introduction aims to show how these references work and can be accessed.
 
-The two classes that are most affected from the reference system are the **Response** and **Data** classes since they hold and transform data.
+The main classes that is most affected by references is the **Response** class.
 
 ## Response Class
 
-The target variable is represented by an object that inherits from the `Response` class. Depending on the target type we like to have different transformations of the internally predicted scores. For instance, having a binary classification task the score $\hat{f}(x) \in \mathbb{R}$ is transformed to a $[0,1]$ scale by using the logistic function:
+The target variable is represented as an object that inherits from the `Response` class. Depending on the target type we like to have different transformations of the internally predicted scores. For instance, having a binary classification task the score $\hat{f}(x) \in \mathbb{R}$ is transformed to a $[0,1]$ scale by using the logistic function:
 
 $$
 \hat{\pi}(x) = \frac{1}{1 + \exp(-\hat{f}(x))}
 $$
 
-To show the how references work here we first define a `ResponseBinaryClassif` object. Therefore, we use the `mtcars` dataset and create a new binary target variable for *fast* $\text{qsec} < 17$ or *slow* $\text{qsec} \geq 17$ cars and create the response object:
+To show the how references work here, we first define a `ResponseBinaryClassif` object. Therefore, we use the `mtcars` dataset and create a new binary target variable for *fast* $\text{qsec} < 17$ or *slow* $\text{qsec} \geq 17$ cars and create the response object:
 ```{r}
 df = mtcars[, c("mpg", "disp", "hp", "drat", "wt")]
 df$qsec_cat = ifelse(mtcars$qsec < 17, "fast", "slow")
@@ -41,7 +41,7 @@ obj_response = ResponseBinaryClassif$new("qsec_cat", "fast", df$qsec_cat)
 obj_response
 ```
 
-To access the underlying representation of the response class (here a binary variable) one can use `$getResponse()`. In the initialization of a new response object the prediction $\hat{f} \in \mathbb{R}$ is initialized with zeros. We can also use the response object to calculate the transformed predictions $\hat{\pi} \in [0,1]$:
+To access the underlying representation of the response class (here a binary variable) one can use `$getResponse()`. In the initialization of a new response object, the prediction $\hat{f} \in \mathbb{R}$ is initialized with zeros. We can also use the response object to calculate the transformed predictions $\hat{\pi} \in [0,1]$:
 ```{r}
 knitr::kable(head(data.frame(
   target = df$qsec_cat,
@@ -51,7 +51,7 @@ knitr::kable(head(data.frame(
 )))
 ```
 
-In the case of binary classification we can also use the response object to calculate the predictions on a label basis by using a specified threshold $a$:
+In the case of binary classification, we can use the response object to calculate the predictions on a label basis by using a specified threshold $a$:
 $$
 \hat{y} = 1 \ \ \text{if} \ \ \hat{\pi}(x) \geq a
 $$
@@ -68,13 +68,13 @@ obj_response$setThreshold(0.6)
 head(obj_response$getPredictionResponse())
 ```
 
-This behavior has nothing to do with references at the moment. But, just prediction a score of 0 for all observations is no good predictor. During the fitting of a component-wise boosting model these predictions are adjusted over and over again by the `Compboost` object. This is where the reference comes in:
+This behavior has nothing to do with references at the moment. During the fitting of a component-wise boosting model, these predictions are adjusted over and over again by the `Compboost` object. This is where the reference comes in:
 ```{r}
-cboost = boostSplines(data = df, target = obj_response, loss = LossBinomial$new(),
+cboost = boostSplines(data = df, target = obj_response,
   iterations = 2000L, trace = 500L)
 ```
 
-Having again a look at the predictions shows that they are different than before without touching the response class. This is because of the response object that is passed to the `Compboost` object. During the fitting process the predictions of the response object are set by the model:
+Having again a look at the predictions shows the difference to the values before training. During the fitting process, the predictions of the response object are updated by the model:
 
 ```{r}
 knitr::kable(head(data.frame(
@@ -84,4 +84,3 @@ knitr::kable(head(data.frame(
   prediction_response = obj_response$getPredictionResponse()
 )))
 ```
-

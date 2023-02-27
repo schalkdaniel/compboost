@@ -361,6 +361,7 @@ To include an arbitrary tensor product requires to use the `S4` API with using
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$addTensor(
   feature1,
   feature2,
+  df = NULL,
   df1 = NULL,
   df2 = NULL,
   isotrop = FALSE,

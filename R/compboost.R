@@ -346,9 +346,20 @@ Compboost = R6::R6Class("Compboost",
       id_fac = paste(paste(feature, collapse = "_"), id, sep = "_")
 
       if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
-        private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
+        e = try(
+          private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...),
+          silent = TRUE
+        )
       }	else {
-        private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...)
+        e = try(
+          private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...),
+          silent = TRUE
+        )
+      }
+      ## Remove list element if factory was not created.
+      if (inherits(e, "try-error")) {
+        private$p_bl_list[[id_fac]] = NULL
+        stop(attr(e, "condition")$message)
       }
     },
 
@@ -385,7 +396,7 @@ Compboost = R6::R6Class("Compboost",
     #' `isotrop == FALSE` allows to define how strong each of the two dimensions is penalized.
     #' @param ... \cr
     #' Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
-    addTensor = function(feature1, feature2, df1 = NULL, df2 = NULL, isotrop = FALSE, ...) {
+    addTensor = function(feature1, feature2, df = NULL, df1 = NULL, df2 = NULL, isotrop = FALSE, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
       }
@@ -402,7 +413,15 @@ Compboost = R6::R6Class("Compboost",
 
       args = list(...)
       if ("df" %in% names(args))
-        warning("'df' were specified in '...', please use df1 and df2 to specify the degrees of freedom.")
+        warning("'df' were specified in '...', please use `df1` and `df2` to specify the degrees of freedom. Alternative: Use `df` to set `df1 = df`, and `df2 = df` to an equal value.")
+
+      if (! is.null(df)) {
+        if ((! is.null(df1)) || (! is.null(df2))) {
+          warning("`df` overwrites the parmaeter `df1` and `df2`")
+        }
+        df1 = df
+        df2 = df
+      }
 
       args1 = args2 = args
       if (! is.null(df1)) {

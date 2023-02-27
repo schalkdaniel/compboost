@@ -40,8 +40,7 @@ df_train$Survived = factor(df_train$Survived, labels = c("no", "yes"))
 
 Due to the `R6` API it is necessary to create a new class object which gets the data, the target as character, and the used loss. Note that it is important to give an initialized loss object:
 ```{r}
-cboost = Compboost$new(data = df_train, target = "Survived",
-  loss = LossBinomial$new(), oob_fraction = 0.3)
+cboost = Compboost$new(data = df_train, target = "Survived", oob_fraction = 0.3)
 ```
 
 Use an initialized object for the loss gives the opportunity to use a loss initialized with a custom offset.
@@ -95,20 +94,18 @@ cboost$addLogger(logger = LoggerTime, use_as_stopper = FALSE, logger_id = "time"
 ## Train Model and Access Elements
 
 ```{r, warnings=FALSE}
-cboost$train(2000, trace = 100)
+cboost$train(2000, trace = 250)
 cboost
 ```
 
-Objects of the `Compboost` class do have member functions such as `getEstimatedCoef()`, `getInbagRisk()` or `predict()` to access the results:
+Objects of the `Compboost` class do have member functions such as `getCoef()`, `getInbagRisk()` or `predict()` to access the results:
 ```{r}
-str(cboost$getEstimatedCoef())
-
+str(cboost$getCoef())
 str(cboost$getInbagRisk())
-
 str(cboost$predict())
 ```
 
-To obtain a vector of selected learner just call `getSelectedBaselearner()`
+To obtain a vector of selected base learners use `getSelectedBaselearner()`:
 ```{r}
 table(cboost$getSelectedBaselearner())
 ```
@@ -122,14 +119,27 @@ table(true_label = oob_label, predicted = oob_pred)
 
 ## Retrain the Model
 
-To set the whole model to another iteration one can easily call `train()` to another iteration:
+To continue the training or set the whole model to another iteration simply re-call `train()`:
 ```{r, warnings=FALSE}
 cboost$train(3000)
 
-str(cboost$getEstimatedCoef())
-
+str(cboost$getCoef())
 str(cboost$getInbagRisk())
-
 table(cboost$getSelectedBaselearner())
 ```
 
+## Visualizing the model
+
+High-level plotting functions are available to visualize the risk (`plotRisk()`), partial feature effects (`plotBaselearner()` for univariate and `plotTensor()` for bivariate base learner), base learner selection traces (`plotBaselearnerTraces()`), or the feature importance (`plotFeatureImportance()`)
+```{r}
+library(ggplot2)
+library(patchwork)
+
+(plotRisk(cboost) |
+ plotBaselearnerTraces(cboost) |
+ plotFeatureImportance(cboost)) /
+  (plotBaselearner(cboost, "Fare_spline") |
+   plotBaselearner(cboost, "Age_spline") |
+   plotBaselearner(cboost, "Sex_categorical")) &
+  theme_minimal()
+```

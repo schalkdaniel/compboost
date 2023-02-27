@@ -66,7 +66,7 @@ library(patchwork)
 ggrisk + ggpe + ggicont
 ```
 
-<img src="Readme_files/unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/unnamed-chunk-2-1.png" width="100%" />
 
 For more extensive examples and how to use the `R6` interface visit the
 [project
