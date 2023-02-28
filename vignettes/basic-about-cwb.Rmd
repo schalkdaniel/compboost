@@ -8,7 +8,7 @@ vignette: >
 ---
 
 <center>
-<img src="../reference/figures/cboost.gif" width="70%">
+<img src="cboost.gif" width="70%">
 </center>
 
 Instead of getting huge predictive power, model-based (or component-wise) boosting aggregates statistical models to maintain interpretability. This is done by restricting the used base learners to be linear in the parameters. This is important in terms of parameter estimation. For instance, having a base learner $b_j(x, \theta^{[m]})$ of a feature $x$ with a corresponding parameter vector $\theta^{[m]}$ and another base learner $b_j$ of the same type but with a different parameter vector $\theta^{[m^\prime]}$, then it is possible, due to linearity, to combine those two learners to a new one, again, of the same type:
@@ -20,7 +20,7 @@ Instead of boosting trees like `xgboost`, component-wise boosting is (commonly) 
 The usual way of choosing base learners is done by a greedy search. Therefore, in each iteration, all base learners are fitted to the so-called pseudo residuals that act as a kind of model error and in which direction the model should evolve to become better. A new base learner is then selected by choosing the base learner with the best fit to these pseudo residuals.
 
 <center>
-<img src="../reference/figures/cboost_gif_bright.svg" width="70%">
+<img src="cboost_gif_bright.svg" width="70%">
 </center>
 
 The illustration above uses three base learners $b_1$, $b_2$, and $b_3$. You can think of each base learner as a wrapper around a feature which represents the effect of that feature. Hence, selecting a base learner more frequently than another one can indicate a higher importance.
