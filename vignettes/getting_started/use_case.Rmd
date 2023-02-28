@@ -127,18 +127,7 @@ str(cboost$getInbagRisk())
 table(cboost$getSelectedBaselearner())
 ```
 
-## Visualizing the model
+## Next steps
 
-High-level plotting functions are available to visualize the risk (`plotRisk()`), partial feature effects (`plotBaselearner()` for univariate and `plotTensor()` for bivariate base learner), base learner selection traces (`plotBaselearnerTraces()`), or the feature importance (`plotFeatureImportance()`)
-```{r}
-library(ggplot2)
-library(patchwork)
-
-(plotRisk(cboost) |
- plotBaselearnerTraces(cboost) |
- plotFeatureImportance(cboost)) /
-  (plotBaselearner(cboost, "Fare_spline") |
-   plotBaselearner(cboost, "Age_spline") |
-   plotBaselearner(cboost, "Sex_categorical")) &
-  theme_minimal()
-```
+- Have a look at the [visualization capabilities](https://danielschalk.com/compboost/articles/getting_started/visualization.html) of the package.
+- See how [other loss functions](https://danielschalk.com/compboost/articles/getting_started/robust_regression.html) effect the model training.
