@@ -191,12 +191,11 @@ here 50000 microseconds:</p>
 <span></span>
 <span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    1/2000   risk = 0.67  time = 0   </span></span>
-<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 18002   </span></span>
-<span><span class="co">#&gt;  500/2000   risk = 0.48  time = 38166   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 28084   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Train 636 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 0.48</span></span>
+<span><span class="co">#&gt; Train 419 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 0.49</span></span>
 <span><span class="va">cboost</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -205,23 +204,23 @@ here 50000 microseconds:</p>
 <span><span class="co">#&gt; Target variable: Survived</span></span>
 <span><span class="co">#&gt; Number of base-learners: 3</span></span>
 <span><span class="co">#&gt; Learning rate: 0.05</span></span>
-<span><span class="co">#&gt; Iterations: 636</span></span>
+<span><span class="co">#&gt; Iterations: 419</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Offset: 0.423</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; LossBinomial: L(y,x) = log(1 + exp(-2yf(x))</span></span></code></pre></div>
-<p>As we can see, the fittings is stopped early after 636 and does not
+<p>As we can see, the fittings is stopped early after 419 and does not
 train the full 2000 iterations. The logger data can be accessed by
 calling <code>$getLoggerData()</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     _iterations  time baselearner train_risk</span></span>
-<span><span class="co">#&gt; 632         631 49594 Fare_spline  0.4780336</span></span>
-<span><span class="co">#&gt; 633         632 49684  Age_spline  0.4780141</span></span>
-<span><span class="co">#&gt; 634         633 49774  Age_spline  0.4779948</span></span>
-<span><span class="co">#&gt; 635         634 49863 Fare_spline  0.4779703</span></span>
-<span><span class="co">#&gt; 636         635 49954  Age_spline  0.4779511</span></span>
-<span><span class="co">#&gt; 637         636 50038   Sex_ridge  0.4779222</span></span></code></pre></div>
+<span><span class="co">#&gt; 415         414 49491   Sex_ridge  0.4858778</span></span>
+<span><span class="co">#&gt; 416         415 49622  Age_spline  0.4858273</span></span>
+<span><span class="co">#&gt; 417         416 49749 Fare_spline  0.4857695</span></span>
+<span><span class="co">#&gt; 418         417 49875  Age_spline  0.4857196</span></span>
+<span><span class="co">#&gt; 419         418 49992   Sex_ridge  0.4856554</span></span>
+<span><span class="co">#&gt; 420         419 50129 Fare_spline  0.4855984</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
