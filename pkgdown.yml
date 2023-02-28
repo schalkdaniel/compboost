@@ -12,8 +12,7 @@ articles:
   robust_regression: getting_started/robust_regression.html
   use_case: getting_started/use_case.html
   visualizations: getting_started/visualizations.html
-  use_case: use_case.html
-last_built: 2023-02-28T08:52Z
+last_built: 2023-02-28T09:12Z
 urls:
   reference: https://schalkdaniel.github.io/compboost/reference
   article: https://schalkdaniel.github.io/compboost/articles
