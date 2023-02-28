@@ -156,25 +156,21 @@ cboost_50 = boostSplines(data = df, target = "y", loss = LossQuantile$new(0.5), 
 cboost_90 = boostSplines(data = df, target = "y", loss = LossQuantile$new(0.9), iterations = 1000, trace = 0)
 
 df_pred = data.frame(
-  feat = x,
-  target = y,
-  mean = cboost$predict(),
-  quantile_10 = cboost_10$predict(),
-  quantile_50 = cboost_50$predict(),
-  quantile_90 = cboost_90$predict()
-)
-df_pred = tidyr::gather(data = df_pred, key = "estimator", value = "pred", mean:quantile_90)
+  feat = rep(x, 4),
+  target = rep(y, 4),
+  pred = c(cboost$predict(), cboost_10$predict(), cboost_50$predict(), cboost_90$predict()),
+  estimator = rep(c("Mean", "10% Quantile", "Median", "90% Quantile"), each = 1000L))
 
 gg1 = ggplot() +
-  geom_point(data = df_pred, aes(x = feat, y = target), alpha = 0.5) +
-  geom_line(data = df_pred, aes(x = feat, y = pred, color = estimator, linetype = estimator), size = 1.2) +
+  geom_point(data = df_pred, aes(x = feat, y = target), alpha = 0.2) +
+  geom_line(data = df_pred, aes(x = feat, y = pred, color = estimator), size = 1.2) +
   xlab("Feature") +
   ylab("Target") +
   ggtitle("Full target range (with outliers)")
 
 gg2 = ggplot() +
-  geom_point(data = df_pred, aes(x = feat, y = target), alpha = 0.5) +
-  geom_line(data = df_pred, aes(x = feat, y = pred, color = estimator, linetype = estimator), size = 1.2) +
+  geom_point(data = df_pred, aes(x = feat, y = target), alpha = 0.2) +
+  geom_line(data = df_pred, aes(x = feat, y = pred, color = estimator), size = 1.2) +
   ylim(-2, 8) +
   xlab("Feature") +
   ylab("") +
@@ -182,9 +178,9 @@ gg2 = ggplot() +
 
 (gg1 | gg2) +
   plot_layout(guides = "collect") &
-  theme(legend.position = "bottom") &
   theme_tufte() &
-  scale_color_jama()
+  theme(legend.position = "bottom") &
+  scale_color_aaas()
 ```
 
 ## Comments
