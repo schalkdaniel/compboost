@@ -4,378 +4,374 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Use-case • compboost</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="compboost">
+<!-- Inform modern browsers that this page supports both dark and light color schemes,
+  and the page author prefers light. --><meta name="color-scheme" content="dark light">
+<script>
+  // If `prefers-color-scheme` is not supported, fall back to light mode.
+  // i.e. In this case, inject the `light` CSS before the others, with
+  // no media filter so that it will be downloaded with highest priority.
+  if (window.matchMedia("(prefers-color-scheme: dark)").media === "not all") {
+    document.documentElement.style.display = "none";
+    document.head.insertAdjacentHTML(
+      "beforeend",
+      "<link id=\"css\" rel=\"stylesheet\" href=\"https://bootswatch.com/5/flatly/bootstrap.css\" onload=\"document.documentElement.style.display = ''\">"
+    );
+  }
+</script><title> • compboost</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
-<script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Use-case">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><meta property="og:title" content="">
 <meta property="og:description" content="compboost">
 <meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Flatly Theme - Light  --><link id="css-light" rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<!-- Darkly Theme - Dark --><link id="css-dark" rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.css" media="(prefers-color-scheme: dark)">
+<!-- preferably CSS --><link rel="stylesheet" href="../../preferably.css">
+<link id="css-code-light" rel="stylesheet" href="../../code-color-scheme-light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<link id="css-code-dark" rel="stylesheet" href="../../code-color-scheme-dark.css" media="(prefers-color-scheme: dark)">
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Getting Started
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/use_case.html">First Use-Case</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/early_stopping.html">Early Stopping</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/robust_regression.html">Quantile Regression</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
-    </li>
-  </ul>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../../index.html">compboost</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-2">
+      <ul class="navbar-nav me-auto">
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
+    <a class="dropdown-item" href="../../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    <a class="dropdown-item" href="../../articles/getting_started/use_case.html">First Use-Case</a>
+    <a class="dropdown-item" href="../../articles/getting_started/early_stopping.html">Early Stopping</a>
+    <a class="dropdown-item" href="../../articles/getting_started/robust_regression.html">Quantile Regression</a>
+    <a class="dropdown-item" href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
+    <a class="dropdown-item" href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Advanced Topics
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-advanced-topics">Advanced Topics</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-advanced-topics">
+    <a class="dropdown-item" href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Functionality
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/functionality/baselearner.html">Base-Learner</a>
-    </li>
-    <li>
-      <a href="../../articles/functionality/loss.html">Loss Functions</a>
-    </li>
-    <li>
-      <a href="../../articles/functionality/logger.html">Logger</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
+    <a class="dropdown-item" href="../../articles/functionality/baselearner.html">Base-Learner</a>
+    <a class="dropdown-item" href="../../articles/functionality/loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../../articles/functionality/logger.html">Logger</a>
+  </div>
 </li>
-<li>
-  <a href="../../reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="../../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/schalkdaniel/compboost">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/schalkdaniel/compboost">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
+
+        
+        
+        
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="use_case_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Use-case</h1>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="../../logo.png" class="logo" alt=""><h1></h1>
             
       
       
-      <div class="hidden name"><code>use_case.Rmd</code></div>
-
+      <div class="d-none name"><code>use_case.Rmd</code></div>
     </div>
 
     
     
-<div id="data-titanic-passenger-survival-data-set" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-titanic-passenger-survival-data-set" class="anchor"></a>Data: Titanic Passenger Survival Data Set</h2>
-<p>We use the <a href="https://www.kaggle.com/c/titanic/data">titanic dataset</a> with binary classification on <code>survived</code>. First of all, we store the train and test data into two data frames and remove all rows that contains missing values (<code>NA</code>s):</p>
+<p>title: “Use-case” output: rmarkdown::html_vignette vignette: &gt; % %
+% —</p>
+<div class="section level2">
+<h2 id="data-titanic-passenger-survival-data-set">Data: Titanic Passenger Survival Data Set<a class="anchor" aria-label="anchor" href="#data-titanic-passenger-survival-data-set"></a>
+</h2>
+<p>We use the <a href="https://www.kaggle.com/c/titanic/data" class="external-link">titanic
+dataset</a> with binary classification on <code>survived</code>. First
+of all we store the train and test data in two data frames and remove
+all rows that contains <code>NA</code>s:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Store train and test data:</span>
-<span class="va">df_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html">titanic_train</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df_train</span><span class="op">)</span>
-<span class="co">#&gt; 'data.frame':    714 obs. of  12 variables:</span>
-<span class="co">#&gt;  $ PassengerId: int  1 2 3 4 5 7 8 9 10 11 ...</span>
-<span class="co">#&gt;  $ Survived   : int  0 1 1 1 0 0 0 1 1 1 ...</span>
-<span class="co">#&gt;  $ Pclass     : int  3 1 3 1 3 1 3 3 2 3 ...</span>
-<span class="co">#&gt;  $ Name       : chr  "Braund, Mr. Owen Harris" "Cumings, Mrs. John Bradley (Florence Briggs Thayer)" "Heikkinen, Miss. Laina" "Futrelle, Mrs. Jacques Heath (Lily May Peel)" ...</span>
-<span class="co">#&gt;  $ Sex        : chr  "male" "female" "female" "female" ...</span>
-<span class="co">#&gt;  $ Age        : num  22 38 26 35 35 54 2 27 14 4 ...</span>
-<span class="co">#&gt;  $ SibSp      : int  1 1 0 1 0 0 3 0 1 1 ...</span>
-<span class="co">#&gt;  $ Parch      : int  0 0 0 0 0 0 1 2 0 1 ...</span>
-<span class="co">#&gt;  $ Ticket     : chr  "A/5 21171" "PC 17599" "STON/O2. 3101282" "113803" ...</span>
-<span class="co">#&gt;  $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...</span>
-<span class="co">#&gt;  $ Cabin      : chr  "" "C85" "" "C123" ...</span>
-<span class="co">#&gt;  $ Embarked   : chr  "S" "C" "S" "S" ...</span>
-<span class="co">#&gt;  - attr(*, "na.action")= 'omit' Named int [1:177] 6 18 20 27 29 30 32 33 37 43 ...</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:177] "6" "18" "20" "27" ...</span></code></pre></div>
-<p>In the next step we transform the response to a factor having more intuitive levels:</p>
+<code class="sourceCode R"><span><span class="co"># Store train and test data:</span></span>
+<span><span class="va">df_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html" class="external-link">titanic_train</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">df_train</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 'data.frame':    714 obs. of  12 variables:</span></span>
+<span><span class="co">#&gt;  $ PassengerId: int  1 2 3 4 5 7 8 9 10 11 ...</span></span>
+<span><span class="co">#&gt;  $ Survived   : int  0 1 1 1 0 0 0 1 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ Pclass     : int  3 1 3 1 3 1 3 3 2 3 ...</span></span>
+<span><span class="co">#&gt;  $ Name       : chr  "Braund, Mr. Owen Harris" "Cumings, Mrs. John Bradley (Florence Briggs Thayer)" "Heikkinen, Miss. Laina" "Futrelle, Mrs. Jacques Heath (Lily May Peel)" ...</span></span>
+<span><span class="co">#&gt;  $ Sex        : chr  "male" "female" "female" "female" ...</span></span>
+<span><span class="co">#&gt;  $ Age        : num  22 38 26 35 35 54 2 27 14 4 ...</span></span>
+<span><span class="co">#&gt;  $ SibSp      : int  1 1 0 1 0 0 3 0 1 1 ...</span></span>
+<span><span class="co">#&gt;  $ Parch      : int  0 0 0 0 0 0 1 2 0 1 ...</span></span>
+<span><span class="co">#&gt;  $ Ticket     : chr  "A/5 21171" "PC 17599" "STON/O2. 3101282" "113803" ...</span></span>
+<span><span class="co">#&gt;  $ Fare       : num  7.25 71.28 7.92 53.1 8.05 ...</span></span>
+<span><span class="co">#&gt;  $ Cabin      : chr  "" "C85" "" "C123" ...</span></span>
+<span><span class="co">#&gt;  $ Embarked   : chr  "S" "C" "S" "S" ...</span></span>
+<span><span class="co">#&gt;  - attr(*, "na.action")= 'omit' Named int [1:177] 6 18 20 27 29 30 32 33 37 43 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "names")= chr [1:177] "6" "18" "20" "27" ...</span></span></code></pre></div>
+<p>In the next step we transform the response to a factor with more
+intuitive levels:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df_train</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">df_train</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df_train</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df_train</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="initializing-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#initializing-model" class="anchor"></a>Initializing Model</h2>
-<p>Due to the <code>R6</code> API it is necessary to create a new class object by calling the <code>$new()</code> constructor which gets the data, the target as character, and the used loss. Note that it is important to pass an initialized loss object which gives the opportunity to use, for example, a custom offset:</p>
+<div class="section level2">
+<h2 id="initializing-model">Initializing Model<a class="anchor" aria-label="anchor" href="#initializing-model"></a>
+</h2>
+<p>Due to the <code>R6</code> API it is necessary to create a new class
+object which gets the data, the target as character, and the used loss.
+Note that it is important to give an initialized loss object:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_train</span>, target <span class="op">=</span> <span class="st">"Survived"</span>,
-  loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df_train</span>, target <span class="op">=</span> <span class="st">"Survived"</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span></code></pre></div>
+<p>Use an initialized object for the loss gives the opportunity to use a
+loss initialized with a custom offset.</p>
 </div>
-<div id="adding-base-learner" class="section level2">
-<h2 class="hasAnchor">
-<a href="#adding-base-learner" class="anchor"></a>Adding Base-Learner</h2>
-<p>Adding new base-learners requires as first argument a character to indicate what feature we want to use for the new base-learner. As second argument it is important to define an identifier for the factory. This is necessary since it is possible to define multiple base-learners on the same source.</p>
-<div id="numerical-features" class="section level3">
-<h3 class="hasAnchor">
-<a href="#numerical-features" class="anchor"></a>Numerical Features</h3>
-<p>We can define a spline and a linear base-learner of the same feature:</p>
+<div class="section level2">
+<h2 id="adding-base-learner">Adding Base-Learner<a class="anchor" aria-label="anchor" href="#adding-base-learner"></a>
+</h2>
+<p>Adding new base-learners is also done by giving a character to
+indicate the feature. As second argument it is important to name an
+identifier for the factory since we can define multiple base-learner on
+the same source.</p>
+<div class="section level3">
+<h3 id="numerical-features">Numerical Features<a class="anchor" aria-label="anchor" href="#numerical-features"></a>
+</h3>
+<p>For instance, we can define a spline and a linear base-learner of the
+same feature:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Spline base-learner of age:</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-
-<span class="co"># Linear base-learner of age (degree = 1 with intercept is default):</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"linear"</span>, <span class="va">BaselearnerPolynomial</span><span class="op">)</span></code></pre></div>
-<p>Additional arguments can be specified after the base-learner. For a complete list see the <a href="https://compboost.org/functionality.html">functionality</a> at the project page:</p>
+<code class="sourceCode R"><span><span class="co"># Spline base-learner of age:</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Linear base-learner of age (degree = 1 with intercept is default):</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"linear"</span>, <span class="va">BaselearnerPolynomial</span><span class="op">)</span></span></code></pre></div>
+<p>Additional arguments can be specified after naming the base-learner.
+For a complete list see the <a href="https://compboost.org/functionality.html" class="external-link">functionality</a> at the
+project page:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Spline base-learner of fare:</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span>, degree <span class="op">=</span> <span class="fl">2</span>,
-  n_knots <span class="op">=</span> <span class="fl">14</span>, penalty <span class="op">=</span> <span class="fl">10</span>, differences <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Spline base-learner of fare:</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span>, degree <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  n_knots <span class="op">=</span> <span class="fl">14</span>, penalty <span class="op">=</span> <span class="fl">10</span>, differences <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="categorical-features" class="section level3">
-<h3 class="hasAnchor">
-<a href="#categorical-features" class="anchor"></a>Categorical Features</h3>
-<p>When adding categorical features, we include the feature using a dummy coding with a ridge penalty::</p>
+<div class="section level3">
+<h3 id="categorical-features">Categorical Features<a class="anchor" aria-label="anchor" href="#categorical-features"></a>
+</h3>
+<p>When adding categorical features we use a dummy coded representation
+with a ridge penalty:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></code></pre></div>
-<p>Finally, we can get all registered factories:</p>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"categorical"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></span></code></pre></div>
+<p>Finally, we can check what factories are registered:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">getBaselearnerNames</span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "Age_spline"  "Age_linear"  "Fare_spline" "Sex_ridge"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">getBaselearnerNames</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Age_spline"      "Age_linear"      "Fare_spline"     "Sex_categorical"</span></span></code></pre></div>
 </div>
 </div>
-<div id="define-logger" class="section level2">
-<h2 class="hasAnchor">
-<a href="#define-logger" class="anchor"></a>Define Logger</h2>
-<p>A logger is another class that is evaluated after each iteration to track the performance, elapsed runtime, or the iterations. For each <code>Compboost</code> object is by default one iterations logger defined with as many iterations as specified in the <code>$train()</code> function.</p>
-<p>To be able to control the fitting behavior with logger, each logger can also be defined as stopper to stop the fitting process after a pre-defined stopping criteria.</p>
-<div id="time-logger" class="section level3">
-<h3 class="hasAnchor">
-<a href="#time-logger" class="anchor"></a>Time logger</h3>
-<p>This logger tracks the elapsed time. The time unit can be one of <code>microseconds</code>, <code>seconds</code> or <code>minutes</code>. The logger stops if <code>max_time</code> is reached. But we do not use that logger as stopper here:</p>
+<div class="section level2">
+<h2 id="define-logger">Define Logger<a class="anchor" aria-label="anchor" href="#define-logger"></a>
+</h2>
+<div class="section level3">
+<h3 id="time-logger">Time logger<a class="anchor" aria-label="anchor" href="#time-logger"></a>
+</h3>
+<p>This logger logs the elapsed time. The time unit can be one of
+<code>microseconds</code>, <code>seconds</code> or <code>minutes</code>.
+The logger stops if <code>max_time</code> is reached. But we do not use
+that logger as stopper here:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerTime</span>, use_as_stopper <span class="op">=</span> <span class="cn">FALSE</span>, logger_id <span class="op">=</span> <span class="st">"time"</span>,
-  max_time <span class="op">=</span> <span class="fl">0</span>, time_unit <span class="op">=</span> <span class="st">"microseconds"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerTime</span>, use_as_stopper <span class="op">=</span> <span class="cn">FALSE</span>, logger_id <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span>  max_time <span class="op">=</span> <span class="fl">0</span>, time_unit <span class="op">=</span> <span class="st">"microseconds"</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
-<div id="train-model-and-access-elements" class="section level2">
-<h2 class="hasAnchor">
-<a href="#train-model-and-access-elements" class="anchor"></a>Train Model and Access Elements</h2>
+<div class="section level2">
+<h2 id="train-model-and-access-elements">Train Model and Access Elements<a class="anchor" aria-label="anchor" href="#train-model-and-access-elements"></a>
+</h2>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.66  oob_risk = 0.67   time = 0   </span>
-<span class="co">#&gt;  100/2000   risk = 0.49  oob_risk = 0.57   time = 10930   </span>
-<span class="co">#&gt;  200/2000   risk = 0.5  oob_risk = 0.58   time = 22885   </span>
-<span class="co">#&gt;  300/2000   risk = 0.51  oob_risk = 0.6   time = 35300   </span>
-<span class="co">#&gt;  400/2000   risk = 0.51  oob_risk = 0.61   time = 50793   </span>
-<span class="co">#&gt;  500/2000   risk = 0.52  oob_risk = 0.62   time = 72013   </span>
-<span class="co">#&gt;  600/2000   risk = 0.52  oob_risk = 0.63   time = 98411   </span>
-<span class="co">#&gt;  700/2000   risk = 0.52  oob_risk = 0.63   time = 113150   </span>
-<span class="co">#&gt;  800/2000   risk = 0.52  oob_risk = 0.63   time = 129082   </span>
-<span class="co">#&gt;  900/2000   risk = 0.52  oob_risk = 0.64   time = 146302   </span>
-<span class="co">#&gt; 1000/2000   risk = 0.52  oob_risk = 0.64   time = 163088   </span>
-<span class="co">#&gt; 1100/2000   risk = 0.52  oob_risk = 0.64   time = 180710   </span>
-<span class="co">#&gt; 1200/2000   risk = 0.52  oob_risk = 0.65   time = 198917   </span>
-<span class="co">#&gt; 1300/2000   risk = 0.52  oob_risk = 0.65   time = 217664   </span>
-<span class="co">#&gt; 1400/2000   risk = 0.53  oob_risk = 0.65   time = 236829   </span>
-<span class="co">#&gt; 1500/2000   risk = 0.53  oob_risk = 0.65   time = 257441   </span>
-<span class="co">#&gt; 1600/2000   risk = 0.53  oob_risk = 0.65   time = 278171   </span>
-<span class="co">#&gt; 1700/2000   risk = 0.53  oob_risk = 0.66   time = 299487   </span>
-<span class="co">#&gt; 1800/2000   risk = 0.53  oob_risk = 0.66   time = 323127   </span>
-<span class="co">#&gt; 1900/2000   risk = 0.53  oob_risk = 0.66   time = 348869   </span>
-<span class="co">#&gt; 2000/2000   risk = 0.53  oob_risk = 0.66   time = 374427   </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Train 2000 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.53</span>
-<span class="va">cboost</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; LossBinomial Loss:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span></code></pre></div>
-<p>Objects of the <code>Compboost</code> class do have member functions such as <code>$getEstimatedCoef()</code>, <code>$getInbagRisk()</code> or <code>$predict()</code> to access the results:</p>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    1/2000   risk = 0.66  oob_risk = 0.69   time = 0   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.5  oob_risk = 0.51   time = 18706   </span></span>
+<span><span class="co">#&gt;  500/2000   risk = 0.47  oob_risk = 0.49   time = 39918   </span></span>
+<span><span class="co">#&gt;  750/2000   risk = 0.47  oob_risk = 0.49   time = 63123   </span></span>
+<span><span class="co">#&gt; 1000/2000   risk = 0.46  oob_risk = 0.49   time = 88997   </span></span>
+<span><span class="co">#&gt; 1250/2000   risk = 0.46  oob_risk = 0.49   time = 117142   </span></span>
+<span><span class="co">#&gt; 1500/2000   risk = 0.46  oob_risk = 0.49   time = 147031   </span></span>
+<span><span class="co">#&gt; 1750/2000   risk = 0.46  oob_risk = 0.49   time = 178643   </span></span>
+<span><span class="co">#&gt; 2000/2000   risk = 0.46  oob_risk = 0.49   time = 212721   </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Train 2000 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 0.46</span></span>
+<span><span class="va">cboost</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Component-Wise Gradient Boosting</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Target variable: Survived</span></span>
+<span><span class="co">#&gt; Number of base-learners: 4</span></span>
+<span><span class="co">#&gt; Learning rate: 0.05</span></span>
+<span><span class="co">#&gt; Iterations: 2000</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Offset: 0.4811</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; LossBinomial: L(y,x) = log(1 + exp(-2yf(x))</span></span></code></pre></div>
+<p>Objects of the <code>Compboost</code> class do have member functions
+such as <code>getCoef()</code>, <code>getInbagRisk()</code> or
+<code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> to access the results:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; List of 4</span>
-<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -4.263 -0.471 -2.006 2.227 0.212 ...</span>
-<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.741 0.227 -0.796 -1.244 -1.032 ...</span>
-<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] -1.42 1.1</span>
-<span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
-<span class="co">#&gt;   .. ..$ : chr [1:2] "female" "male"</span>
-<span class="co">#&gt;   .. ..$ : NULL</span>
-<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span>
-<span class="co">#&gt;  $ offset     : num 0.203</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:2001] 0.673 0.658 0.644 0.631 0.619 ...</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:500, 1] -1.732 -0.843 1.19 0.718 -0.525 ...</span></code></pre></div>
-<p>To obtain a vector of the selected base-learners just call <code>$getSelectedBaselearner()</code></p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of 4</span></span>
+<span><span class="co">#&gt;  $ Age_spline     : num [1:24, 1] -6.775 -1.912 -0.575 1.342 -0.105 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
+<span><span class="co">#&gt;  $ Fare_spline    : num [1:17, 1] 1.166 0.216 -0.492 -1.284 -1.377 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
+<span><span class="co">#&gt;  $ Sex_categorical: num [1:2, 1] -1.42 0.88</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">#&gt;   .. ..$ : chr [1:2] "female" "male"</span></span>
+<span><span class="co">#&gt;   .. ..$ : NULL</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span></span>
+<span><span class="co">#&gt;  $ offset         : num 0.481</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  num [1:2001] 0.665 0.662 0.659 0.656 0.653 ...</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  num [1:500, 1] -1.4157 -0.4954 1.5242 1.1318 0.0482 ...</span></span></code></pre></div>
+<p>To obtain a vector of selected base learners use
+<code>getSelectedBaselearner()</code>:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Age_spline Fare_spline   Sex_ridge </span>
-<span class="co">#&gt;        1537         244         219</span></code></pre></div>
-<p>We can also access the predictions directly from the response object <code>cboost$response</code> and <code>cboost$response_oob</code>. Note that <code>$response_oob</code> was created automatically when defining an <code>oob_fraction</code> within the constructor:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Age_spline     Fare_spline Sex_categorical </span></span>
+<span><span class="co">#&gt;            1314             347             339</span></span></code></pre></div>
+<p>We can also access predictions directly from the response object
+<code>cboost$response</code> and <code>cboost$response_oob</code>. Note
+that <code>$response_oob</code> was created automatically when defining
+an <code>oob_fraction</code> within the constructor:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">oob_label</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getResponse</span><span class="op">(</span><span class="op">)</span>
-<span class="va">oob_pred</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getPredictionResponse</span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span>true_label <span class="op">=</span> <span class="va">oob_label</span>, predicted <span class="op">=</span> <span class="va">oob_pred</span><span class="op">)</span>
-<span class="co">#&gt;           predicted</span>
-<span class="co">#&gt; true_label -1  1</span>
-<span class="co">#&gt;         -1 65 25</span>
-<span class="co">#&gt;         1  25 99</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">oob_label</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getResponse</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">oob_pred</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="va">response_oob</span><span class="op">$</span><span class="fu">getPredictionResponse</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>true_label <span class="op">=</span> <span class="va">oob_label</span>, predicted <span class="op">=</span> <span class="va">oob_pred</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           predicted</span></span>
+<span><span class="co">#&gt; true_label -1  1</span></span>
+<span><span class="co">#&gt;         -1 69 30</span></span>
+<span><span class="co">#&gt;         1  16 99</span></span></code></pre></div>
 </div>
-<div id="visualizing-inbag-vs--out-of-bag-behavior" class="section level2">
-<h2 class="hasAnchor">
-<a href="#visualizing-inbag-vs--out-of-bag-behavior" class="anchor"></a>Visualizing Inbag vs. Out-Of-Bag Behavior</h2>
+<div class="section level2">
+<h2 id="retrain-the-model">Retrain the Model<a class="anchor" aria-label="anchor" href="#retrain-the-model"></a>
+</h2>
+<p>To continue the training or set the whole model to another iteration
+simply re-call <code>train()</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotRisk.html">plotRisk</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
-<p><img src="use_case_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">3000</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; You have already trained 2000 iterations.</span></span>
+<span><span class="co">#&gt; Train 1000 additional iterations.</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; 2025/3000   risk = 0.46  oob_risk = 0.49   time = 216370   </span></span>
+<span><span class="co">#&gt; 2100/3000   risk = 0.46  oob_risk = 0.49   time = 226928   </span></span>
+<span><span class="co">#&gt; 2175/3000   risk = 0.46  oob_risk = 0.49   time = 237590   </span></span>
+<span><span class="co">#&gt; 2250/3000   risk = 0.46  oob_risk = 0.49   time = 248416   </span></span>
+<span><span class="co">#&gt; 2325/3000   risk = 0.46  oob_risk = 0.49   time = 259473   </span></span>
+<span><span class="co">#&gt; 2400/3000   risk = 0.46  oob_risk = 0.49   time = 270709   </span></span>
+<span><span class="co">#&gt; 2475/3000   risk = 0.46  oob_risk = 0.49   time = 282142   </span></span>
+<span><span class="co">#&gt; 2550/3000   risk = 0.46  oob_risk = 0.49   time = 293745   </span></span>
+<span><span class="co">#&gt; 2625/3000   risk = 0.46  oob_risk = 0.49   time = 305540   </span></span>
+<span><span class="co">#&gt; 2700/3000   risk = 0.46  oob_risk = 0.49   time = 317506   </span></span>
+<span><span class="co">#&gt; 2775/3000   risk = 0.46  oob_risk = 0.49   time = 329700   </span></span>
+<span><span class="co">#&gt; 2850/3000   risk = 0.46  oob_risk = 0.49   time = 342115   </span></span>
+<span><span class="co">#&gt; 2925/3000   risk = 0.46  oob_risk = 0.49   time = 354726   </span></span>
+<span><span class="co">#&gt; 3000/3000   risk = 0.46  oob_risk = 0.49   time = 367765</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; List of 4</span></span>
+<span><span class="co">#&gt;  $ Age_spline     : num [1:24, 1] -8.239 -1.623 -0.767 1.494 -0.173 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
+<span><span class="co">#&gt;  $ Fare_spline    : num [1:17, 1] 1.204 0.229 -0.502 -1.375 -1.446 ...</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
+<span><span class="co">#&gt;  $ Sex_categorical: num [1:2, 1] -1.456 0.899</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span></span>
+<span><span class="co">#&gt;   .. ..$ : chr [1:2] "female" "male"</span></span>
+<span><span class="co">#&gt;   .. ..$ : NULL</span></span>
+<span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span></span>
+<span><span class="co">#&gt;  $ offset         : num 0.481</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  num [1:3001] 0.665 0.662 0.659 0.656 0.653 ...</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;      Age_spline     Fare_spline Sex_categorical </span></span>
+<span><span class="co">#&gt;            2172             438             390</span></span></code></pre></div>
 </div>
-<div id="retrain-the-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#retrain-the-model" class="anchor"></a>Retrain the Model</h2>
-<p>To set the whole model to another iteration one can again call <code>$train()</code>. The model is then set to an already seen iteration, if the new iteration is smaller than the already trained once or it trains additional base-learner until the new number is reached:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">3000</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; You have already trained 2000 iterations.</span>
-<span class="co">#&gt; Train 1000 additional iterations.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; 2025/3000   risk = 0.53  oob_risk = 0.66   time = 381637   </span>
-<span class="co">#&gt; 2100/3000   risk = 0.53  oob_risk = 0.66   time = 401768   </span>
-<span class="co">#&gt; 2175/3000   risk = 0.53  oob_risk = 0.66   time = 422326   </span>
-<span class="co">#&gt; 2250/3000   risk = 0.53  oob_risk = 0.66   time = 442384   </span>
-<span class="co">#&gt; 2325/3000   risk = 0.53  oob_risk = 0.66   time = 463999   </span>
-<span class="co">#&gt; 2400/3000   risk = 0.53  oob_risk = 0.66   time = 484744   </span>
-<span class="co">#&gt; 2475/3000   risk = 0.53  oob_risk = 0.66   time = 506297   </span>
-<span class="co">#&gt; 2550/3000   risk = 0.53  oob_risk = 0.66   time = 528511   </span>
-<span class="co">#&gt; 2625/3000   risk = 0.53  oob_risk = 0.66   time = 552500   </span>
-<span class="co">#&gt; 2700/3000   risk = 0.53  oob_risk = 0.66   time = 577128   </span>
-<span class="co">#&gt; 2775/3000   risk = 0.53  oob_risk = 0.66   time = 600981   </span>
-<span class="co">#&gt; 2850/3000   risk = 0.53  oob_risk = 0.67   time = 626338   </span>
-<span class="co">#&gt; 2925/3000   risk = 0.53  oob_risk = 0.67   time = 652963   </span>
-<span class="co">#&gt; 3000/3000   risk = 0.53  oob_risk = 0.67   time = 680802</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; List of 4</span>
-<span class="co">#&gt;  $ Age_spline : num [1:24, 1] -6.5889 0.0764 -2.3471 2.5087 -0.0851 ...</span>
-<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Fare_spline: num [1:17, 1] 1.801 0.23 -0.833 -1.284 -1.032 ...</span>
-<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span>
-<span class="co">#&gt;  $ Sex_ridge  : num [1:2, 1] -1.44 1.11</span>
-<span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span>
-<span class="co">#&gt;   .. ..$ : chr [1:2] "female" "male"</span>
-<span class="co">#&gt;   .. ..$ : NULL</span>
-<span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span>
-<span class="co">#&gt;  $ offset     : num 0.203</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;  num [1:3001] 0.673 0.658 0.644 0.631 0.619 ...</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  Age_spline Fare_spline   Sex_ridge </span>
-<span class="co">#&gt;        2463         291         246</span></code></pre></div>
+<div class="section level2">
+<h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h2>
+<ul>
+<li>Have a look at the <a href="https://danielschalk.com/compboost/articles/getting_started/visualization.html" class="external-link">visualization
+capabilities</a> of the package.</li>
+<li>See how <a href="https://danielschalk.com/compboost/articles/getting_started/robust_regression.html" class="external-link">other
+loss functions</a> effect the model training.</li>
+</ul>
 </div>
-<div id="visualizing-base-learner" class="section level2">
-<h2 class="hasAnchor">
-<a href="#visualizing-base-learner" class="anchor"></a>Visualizing Base-Learner</h2>
-<p>To visualize a base-learner it is important to exactly use a name from <code>$getBaselearnerNames()</code>:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/plotBaselearner.html">plotBaselearner</a></span><span class="op">(</span><span class="va">cboost</span>, <span class="st">"Age_spline"</span><span class="op">)</span></code></pre></div>
-</div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by Daniel Schalk, Janek Thomas, Bernd Bischl.</p>
+    <footer><div class="copyright">
+  <p></p>
+<p>Developed by Daniel Schalk, Janek Thomas, Bernd Bischl.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p class="preferably">Using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>

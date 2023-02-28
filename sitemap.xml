@@ -1,162 +1,189 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//index.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/404.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCategoricalBinary.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCategoricalRidge.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCentered.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/CONTRIBUTORS.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCustom.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerCustomCpp.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/advanced/ext_losses.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerPSpline.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/functionality/baselearner.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerPolynomial.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/functionality/logger.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BaselearnerTensor.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/functionality/loss.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/BlearnerFactoryList.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/about_cboosting.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/CategoricalDataRaw.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/early_stopping.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/Compboost.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/object_references.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/Compboost_internal.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/robust_regression.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/InMemoryData.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/use_case.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LoggerInbagRisk.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/visualizations.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LoggerIteration.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LoggerList.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/use_case.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LoggerOobRisk.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/authors.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LoggerTime.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/index.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossAbsolute.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/news/index.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossBinomial.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCategoricalBinary.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossCustom.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCategoricalRidge.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossCustomCpp.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCentered.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossHuber.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCustom.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossQuadratic.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCustomCpp.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/LossQuantile.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerPSpline.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerAGBM.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerPolynomial.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerCoordinateDescent.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerTensor.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerCoordinateDescentLineSearch.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/BlearnerFactoryList.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/OptimizerCosineAnnealing.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/CategoricalDataRaw.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/ResponseBinaryClassif.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/Compboost.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/ResponseRegr.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/Compboost_internal.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/boostLinear.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/InMemoryData.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/boostSplines.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LoggerInbagRisk.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/getCustomCppExample.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LoggerIteration.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotBaselearner.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LoggerList.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotBaselearnerTraces.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LoggerOobRisk.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotFeatureImportance.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LoggerTime.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotIndividualContribution.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossAbsolute.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotPEUni.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossBinomial.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotRisk.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossCustom.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//reference/plotTensor.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossCustomCpp.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/advanced/ext_losses.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossHuber.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/functionality/baselearner.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossQuadratic.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/functionality/logger.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/LossQuantile.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/functionality/loss.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/OptimizerAGBM.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/about_cboosting.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/OptimizerCoordinateDescent.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/early_stopping.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/OptimizerCoordinateDescentLineSearch.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/object_references.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/OptimizerCosineAnnealing.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/robust_regression.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/ResponseBinaryClassif.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/use_case.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/ResponseRegr.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/getting_started/visualizations.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/boostLinear.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost//articles/use_case.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/reference/boostSplines.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/getCustomCppExample.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotBaselearner.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotBaselearnerTraces.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotFeatureImportance.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotIndividualContribution.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotPEUni.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotRisk.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/plotTensor.html</loc>
   </url>
 </urlset>

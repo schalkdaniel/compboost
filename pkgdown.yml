@@ -1,20 +1,20 @@
-pandoc: 2.7.3
-pkgdown: 1.6.1
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  advanced/ext_losses: ext_losses.html
-  functionality/baselearner: baselearner.html
-  functionality/logger: logger.html
-  functionality/loss: loss.html
-  getting_started/about_cboosting: about_cboosting.html
-  getting_started/early_stopping: early_stopping.html
-  getting_started/object_references: object_references.html
-  getting_started/robust_regression: robust_regression.html
-  getting_started/use_case: use_case.html
-  getting_started/visualizations: visualizations.html
+  ext_losses: advanced/ext_losses.html
+  baselearner: functionality/baselearner.html
+  logger: functionality/logger.html
+  loss: functionality/loss.html
+  about_cboosting: getting_started/about_cboosting.html
+  early_stopping: getting_started/early_stopping.html
+  object_references: getting_started/object_references.html
+  robust_regression: getting_started/robust_regression.html
+  use_case: getting_started/use_case.html
+  visualizations: getting_started/visualizations.html
   use_case: use_case.html
-last_built: 2021-11-15T16:35Z
+last_built: 2023-02-28T08:52Z
 urls:
-  reference: https://schalkdaniel.github.io/compboost//reference
-  article: https://schalkdaniel.github.io/compboost//articles
+  reference: https://schalkdaniel.github.io/compboost/reference
+  article: https://schalkdaniel.github.io/compboost/articles
 

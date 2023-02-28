@@ -4,368 +4,411 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Early Stopping • compboost</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="compboost">
+<!-- Inform modern browsers that this page supports both dark and light color schemes,
+  and the page author prefers light. --><meta name="color-scheme" content="dark light">
+<script>
+  // If `prefers-color-scheme` is not supported, fall back to light mode.
+  // i.e. In this case, inject the `light` CSS before the others, with
+  // no media filter so that it will be downloaded with highest priority.
+  if (window.matchMedia("(prefers-color-scheme: dark)").media === "not all") {
+    document.documentElement.style.display = "none";
+    document.head.insertAdjacentHTML(
+      "beforeend",
+      "<link id=\"css\" rel=\"stylesheet\" href=\"https://bootswatch.com/5/flatly/bootstrap.css\" onload=\"document.documentElement.style.display = ''\">"
+    );
+  }
+</script><title>Early Stopping • compboost</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../../apple-touch-icon.png">
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../../apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../../apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/simplex/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
-<script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="../../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Early Stopping">
+<!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../../pkgdown.js"></script><meta property="og:title" content="Early Stopping">
 <meta property="og:description" content="compboost">
 <meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<![endif]--><!-- Flatly Theme - Light  --><link id="css-light" rel="stylesheet" href="https://bootswatch.com/5/flatly/bootstrap.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<!-- Darkly Theme - Dark --><link id="css-dark" rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.css" media="(prefers-color-scheme: dark)">
+<!-- preferably CSS --><link rel="stylesheet" href="../../preferably.css">
+<link id="css-code-light" rel="stylesheet" href="../../code-color-scheme-light.css" media="(prefers-color-scheme: light), (prefers-color-scheme: no-preference)">
+<link id="css-code-dark" rel="stylesheet" href="../../code-color-scheme-dark.css" media="(prefers-color-scheme: dark)">
 </head>
-<body data-spy="scroll" data-target="#toc">
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../../index.html">compboost</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
-      </span>
-    </div>
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
+    
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Getting Started
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/use_case.html">First Use-Case</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/early_stopping.html">Early Stopping</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/robust_regression.html">Quantile Regression</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
-    </li>
-    <li>
-      <a href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
-    </li>
-  </ul>
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    
+    <a class="navbar-brand me-2" href="../../index.html">compboost</a>
+
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-2">
+      <ul class="navbar-nav me-auto">
+<li class="active nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
+    <a class="dropdown-item" href="../../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
+    <a class="dropdown-item" href="../../articles/getting_started/use_case.html">First Use-Case</a>
+    <a class="dropdown-item" href="../../articles/getting_started/early_stopping.html">Early Stopping</a>
+    <a class="dropdown-item" href="../../articles/getting_started/robust_regression.html">Quantile Regression</a>
+    <a class="dropdown-item" href="../../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
+    <a class="dropdown-item" href="../../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Advanced Topics
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-advanced-topics">Advanced Topics</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-advanced-topics">
+    <a class="dropdown-item" href="../../articles/advanced/log_performance.html">Logging Performance Measures</a>
+  </div>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Functionality
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../../articles/functionality/baselearner.html">Base-Learner</a>
-    </li>
-    <li>
-      <a href="../../articles/functionality/loss.html">Loss Functions</a>
-    </li>
-    <li>
-      <a href="../../articles/functionality/logger.html">Logger</a>
-    </li>
-  </ul>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
+    <a class="dropdown-item" href="../../articles/functionality/baselearner.html">Base-Learner</a>
+    <a class="dropdown-item" href="../../articles/functionality/loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../../articles/functionality/logger.html">Logger</a>
+  </div>
 </li>
-<li>
-  <a href="../../reference/index.html">Reference</a>
+<li class="nav-item">
+  <a class="nav-link" href="../../reference/index.html">Reference</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/schalkdaniel/compboost">
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../../search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/schalkdaniel/compboost">
     <span class="fa fa-github fa-lg"></span>
      
   </a>
 </li>
+
+        
+        
+        
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
-      
 
-      </header><script src="early_stopping_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Early Stopping</h1>
+
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+      <img src="../../logo.png" class="logo" alt=""><h1>Early Stopping</h1>
             
       
       
-      <div class="hidden name"><code>early_stopping.Rmd</code></div>
-
+      <div class="d-none name"><code>early_stopping.Rmd</code></div>
     </div>
 
     
     
-<div id="before-starting" class="section level2">
-<h2 class="hasAnchor">
-<a href="#before-starting" class="anchor"></a>Before Starting</h2>
+<div class="section level2">
+<h2 id="before-starting">Before Starting<a class="anchor" aria-label="anchor" href="#before-starting"></a>
+</h2>
 <ul>
-<li>Read the <a href="https://danielschalk.com/compboost/articles/getting_started/use_case.html">use-case</a> to get to know how to define a <code>Compboost</code> object using the <code>R6</code> interface</li>
+<li>Read the <a href="https://danielschalk.com/compboost/articles/getting_started/use_case.html" class="external-link">use-case</a>
+to get to know how to define a <code>Compboost</code> object using the
+<code>R6</code> interface</li>
 </ul>
 </div>
-<div id="data-titanic-passenger-survival-data-set" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-titanic-passenger-survival-data-set" class="anchor"></a>Data: Titanic Passenger Survival Data Set</h2>
-<p>We use the <a href="https://www.kaggle.com/c/titanic/data">titanic dataset</a> with binary classification on <code>Survived</code>. First of all we store the train and test data into two data frames and remove all rows that contains missing values (<code>NA</code>s):</p>
+<div class="section level2">
+<h2 id="data-titanic-passenger-survival-data-set">Data: Titanic Passenger Survival Data Set<a class="anchor" aria-label="anchor" href="#data-titanic-passenger-survival-data-set"></a>
+</h2>
+<p>We use the <a href="https://www.kaggle.com/c/titanic/data" class="external-link">titanic
+dataset</a> with binary classification on <code>Survived</code>. First
+of all we store the train and test data into two data frames and remove
+all rows that contains missing values (<code>NA</code>s):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Store train and test data:</span>
-<span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html">titanic_train</a></span><span class="op">)</span>
-<span class="va">df</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Store train and test data:</span></span>
+<span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html" class="external-link">titanic_train</a></span><span class="op">)</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>For the later stopping we split the dataset into train and test:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
-<span class="va">idx_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.8</span><span class="op">)</span>
-<span class="va">idx_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, <span class="va">idx_train</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">idx_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.8</span><span class="op">)</span></span>
+<span><span class="va">idx_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, <span class="va">idx_train</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="defining-the-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#defining-the-model" class="anchor"></a>Defining the Model</h2>
-<p>We define the same model as in the <a href="https://danielschalk.com/compboost/articles/getting_started/use_case.html">use-case</a> but just on the train index without specifying an out of bag fraction:</p>
+<div class="section level2">
+<h2 id="defining-the-model">Defining the Model<a class="anchor" aria-label="anchor" href="#defining-the-model"></a>
+</h2>
+<p>We define the same model as in the <a href="https://danielschalk.com/compboost/articles/getting_started/use_case.html" class="external-link">use-case</a>
+but just on the train index without specifying an out-of-bag
+fraction:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span><span class="op">[</span><span class="va">idx_train</span>, <span class="op">]</span>, target <span class="op">=</span> <span class="st">"Survived"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span><span class="op">[</span><span class="va">idx_train</span>, <span class="op">]</span>, target <span class="op">=</span> <span class="st">"Survived"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="early-stopping-in-compboost" class="section level2">
-<h2 class="hasAnchor">
-<a href="#early-stopping-in-compboost" class="anchor"></a>Early Stopping in Compboost</h2>
-<div id="how-does-it-work" class="section level3">
-<h3 class="hasAnchor">
-<a href="#how-does-it-work" class="anchor"></a>How does it work?</h3>
-<p>The early stopping of <code>compboost</code> is done by using the logger objects. The logger is executed after each iteration and stores class dependent data, e.g. the runtime. Additionally, each logger can be declared as a stopper with <code>use_as_stopper = TRUE</code>. Declaring a logger as stopper, the logged data is used to stop the algorithm after a logger-specific criteria is reached. For example, using <code>LoggerTime</code> as stopper will break the algorithm algorithm after a pre-defined runtime is reached.</p>
+<div class="section level2">
+<h2 id="early-stopping-in-compboost">Early Stopping in Compboost<a class="anchor" aria-label="anchor" href="#early-stopping-in-compboost"></a>
+</h2>
+<div class="section level3">
+<h3 id="how-does-it-work">How does it work?<a class="anchor" aria-label="anchor" href="#how-does-it-work"></a>
+</h3>
+<p>The early stopping of <code>compboost</code> is done by using logger
+objects. Logger are executed after each iteration and stores class
+dependent data such as the runtime or risk. Additionally, each logger
+can be declared as a stopper by setting
+<code>use_as_stopper = TRUE</code>. By declaring a logger as stopper, it
+is used to stop the algorithm after a logger-specific criteria is
+reached. For example, the <code>LoggerTime</code> will stop the
+algorithm after a pre-defined runtime is reached.</p>
 </div>
-<div id="example-with-runtime-stopping" class="section level3">
-<h3 class="hasAnchor">
-<a href="#example-with-runtime-stopping" class="anchor"></a>Example with runtime stopping</h3>
-<p>Now it is time to define a logger to track the runtime. As mentioned above, we set <code>use_as_stopper = TRUE</code>. Now it matters what is specified in <code>max_time</code> since this defines how long we like to train the model. Here we want to stop after 50000 microseconds:</p>
+<div class="section level3">
+<h3 id="example-with-runtime-stopping">Example with runtime stopping<a class="anchor" aria-label="anchor" href="#example-with-runtime-stopping"></a>
+</h3>
+<p>Now it is time to define a logger to track the runtime. As mentioned
+above, we set <code>use_as_stopper = TRUE</code>. By setting the
+<code>max_time</code> we define how long we want to train the model,
+here 50000 microseconds:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerTime</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"time"</span>,
-  max_time <span class="op">=</span> <span class="fl">50000</span>, time_unit <span class="op">=</span> <span class="st">"microseconds"</span><span class="op">)</span>
-
-<span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.66  time = 0   </span>
-<span class="co">#&gt;  100/2000   risk = 0.5  time = 10465   </span>
-<span class="co">#&gt;  200/2000   risk = 0.51  time = 21160   </span>
-<span class="co">#&gt;  300/2000   risk = 0.52  time = 33663   </span>
-<span class="co">#&gt;  400/2000   risk = 0.53  time = 45018   </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Train 438 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.53</span>
-<span class="va">cboost</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; LossBinomial Loss:</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   Loss function: L(y,x) = log(1 + exp(-2yf(x))</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span></code></pre></div>
-<p>As we can see, the fittings is stopped after 438 and not after 2000 iterations as specified in train. Taking a look at the logger data, we can see that the last entry exceeds the 50000 microseconds and therefore triggers the stopping criteria:</p>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerTime</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"time"</span>,</span>
+<span>  max_time <span class="op">=</span> <span class="fl">50000</span>, time_unit <span class="op">=</span> <span class="st">"microseconds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    1/2000   risk = 0.67  time = 0   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 18199   </span></span>
+<span><span class="co">#&gt;  500/2000   risk = 0.48  time = 39054   </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Train 620 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 0.48</span></span>
+<span><span class="va">cboost</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Component-Wise Gradient Boosting</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Target variable: Survived</span></span>
+<span><span class="co">#&gt; Number of base-learners: 3</span></span>
+<span><span class="co">#&gt; Learning rate: 0.05</span></span>
+<span><span class="co">#&gt; Iterations: 620</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Offset: 0.423</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; LossBinomial: L(y,x) = log(1 + exp(-2yf(x))</span></span></code></pre></div>
+<p>As we can see, the fittings is stopped early after 620 and does not
+train the full 2000 iterations. The logger data can be accessed by
+calling <code>$getLoggerData()</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt;     _iterations  time baselearner train_risk</span>
-<span class="co">#&gt; 434         433 49452  Age_spline  0.5299501</span>
-<span class="co">#&gt; 435         434 49564 Fare_spline  0.5299881</span>
-<span class="co">#&gt; 436         435 49706   Sex_ridge  0.5303033</span>
-<span class="co">#&gt; 437         436 49844  Age_spline  0.5302845</span>
-<span class="co">#&gt; 438         437 49982  Age_spline  0.5302656</span>
-<span class="co">#&gt; 439         438 50129  Age_spline  0.5302469</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     _iterations  time baselearner train_risk</span></span>
+<span><span class="co">#&gt; 616         615 49551  Age_spline  0.4784104</span></span>
+<span><span class="co">#&gt; 617         616 49642  Age_spline  0.4783898</span></span>
+<span><span class="co">#&gt; 618         617 49733 Fare_spline  0.4783639</span></span>
+<span><span class="co">#&gt; 619         618 49824  Age_spline  0.4783434</span></span>
+<span><span class="co">#&gt; 620         619 49910   Sex_ridge  0.4783132</span></span>
+<span><span class="co">#&gt; 621         620 50001  Age_spline  0.4782928</span></span></code></pre></div>
 </div>
 </div>
-<div id="loss-based-early-stopping" class="section level2">
-<h2 class="hasAnchor">
-<a href="#loss-based-early-stopping" class="anchor"></a>Loss-Based Early Stopping</h2>
-<p>In machine learning we often like to stop when the best model performance is reached. Especially in boosting, which may tend to overfit, we need either tuning or early stopping to determine what is a good number of iterations <span class="math inline">\(m\)</span> to get a good model performance. A well-known procedure is to log the out of bag (oob) behavior of the model and stop after this starts to get worse. This is how the oob early stopping is implemented in <code>compboost</code>. The parameter we need to specify are</p>
+<div class="section level2">
+<h2 id="loss-based-early-stopping">Loss-Based Early Stopping<a class="anchor" aria-label="anchor" href="#loss-based-early-stopping"></a>
+</h2>
+<p>In machine learning, we often like to stop at the best model
+performance. We need either tuning or early stopping to determine what
+is a good number of iterations <span class="math inline">\(m\)</span>. A
+well-known procedure is to log the out-of-bag (oob) behavior of the
+model and stop after the model performance starts to get worse. The
+required parameters for the logger are</p>
 <ul>
-<li><p>the loss <span class="math inline">\(L\)</span> that is used for stopping: <span class="math display">\[\mathcal{R}_{\text{emp}}^{[m]} = \frac{1}{n}\sum_{i=1}^n L\left(y^{(i)}, f^{[m]}(x^{(i)})\right)\]</span></p></li>
-<li><p>the percentage of performance increase that should be undershot: <span class="math display">\[\text{err}^{[m]} = \frac{\mathcal{R}_{\text{emp}}^{[m- 1]} - \mathcal{R}_{\text{emp}}^{[m]}}{\mathcal{R}_{\text{emp}}^{[m - 1]}}\]</span></p></li>
+<li><p>the loss <span class="math inline">\(L\)</span> that is used for
+stopping: <span class="math display">\[\mathcal{R}_{\text{emp}}^{[m]} =
+\frac{1}{n}\sum_{i=1}^n L\left(y^{(i)},
+f^{[m]}(x^{(i)})\right)\]</span></p></li>
+<li><p>the percentage of performance increase as lower boundary for the
+increase: <span class="math display">\[\text{err}^{[m]} =
+\frac{\mathcal{R}_{\text{emp}}^{[m- 1]} -
+\mathcal{R}_{\text{emp}}^{[m]}}{\mathcal{R}_{\text{emp}}^{[m -
+1]}}\]</span></p></li>
 </ul>
-<div id="define-the-risk-logger" class="section level3">
-<h3 class="hasAnchor">
-<a href="#define-the-risk-logger" class="anchor"></a>Define the risk logger</h3>
-<p>Since we are interested in the oob behavior it is necessary to define the oob data and response in a manner that <code>compboost</code> understands it. Therefore, it is possible to use the <code>$prepareResponse()</code> and <code>$prepareData()</code> member functions to create suitable objects:</p>
+<div class="section level3">
+<h3 id="define-the-risk-logger">Define the risk logger<a class="anchor" aria-label="anchor" href="#define-the-risk-logger"></a>
+</h3>
+<p>Since we are interested in the oob behavior, it is necessary to
+prepare the oob data and response for <code>compboost</code>. Therefore,
+it is possible to use the <code>$prepareResponse()</code> and
+<code>$prepareData()</code> member functions to create suitable
+objects:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">oob_response</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareResponse</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span><span class="op">[</span><span class="va">idx_test</span><span class="op">]</span><span class="op">)</span>
-<span class="va">oob_data</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareData</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">idx_test</span>,<span class="op">]</span><span class="op">)</span></code></pre></div>
-<p>With these objects we can add the oob risk logger, declare it as stopper, and train the model:</p>
+<code class="sourceCode R"><span><span class="va">oob_response</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareResponse</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span><span class="op">[</span><span class="va">idx_test</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">oob_data</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareData</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">idx_test</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<p>With these objects we can add the oob risk logger, declare it as
+stopper, and train the model:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerOobRisk</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"oob"</span>,
-  used_loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, eps_for_break <span class="op">=</span> <span class="fl">0</span>, patience <span class="op">=</span> <span class="fl">5</span>, oob_data <span class="op">=</span> <span class="va">oob_data</span>,
-  oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span>
-
-<span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="co">#&gt;    1/2000   risk = 0.66  oob = 0.67   </span>
-<span class="co">#&gt;  100/2000   risk = 0.5  oob = 0.47   </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Train 125 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.5</span></code></pre></div>
-<p><strong>Note:</strong> The use of <code>eps_for_break = 0</code> is a hard constrain to continue the training just until the oob risk starts to increase.</p>
-<p>Taking a look at the logger data tells us that we stop exactly after the first five differences are bigger than zero (the oob risk of these iterations are bigger than the previous ones):</p>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerOobRisk</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"oob"</span>,</span>
+<span>  used_loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, eps_for_break <span class="op">=</span> <span class="fl">0</span>, patience <span class="op">=</span> <span class="fl">5</span>, oob_data <span class="op">=</span> <span class="va">oob_data</span>,</span>
+<span>  oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    1/2000   risk = 0.67  oob = 0.68   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.5  oob = 0.49   </span></span>
+<span><span class="co">#&gt;  500/2000   risk = 0.48  oob = 0.48   </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Train 543 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 0.48</span></span></code></pre></div>
+<p><strong>Note:</strong> The use of <code>eps_for_break = 0</code> is a
+hard constrain to stop the training until the oob risk starts to
+increase.</p>
+<p>Taking a look at the logger data tells us that we stopped exactly
+after the first five differences are bigger than zero (the oob risk of
+these iterations is bigger than the previous ones):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="co">#&gt;     _iterations       oob baselearner train_risk</span>
-<span class="co">#&gt; 117         116 0.4708294   Sex_ridge  0.5027095</span>
-<span class="co">#&gt; 118         117 0.4708469 Fare_spline  0.5026381</span>
-<span class="co">#&gt; 119         118 0.4708365  Age_spline  0.5022909</span>
-<span class="co">#&gt; 120         119 0.4710961   Sex_ridge  0.5030829</span>
-<span class="co">#&gt; 121         120 0.4710920  Age_spline  0.5027519</span>
-<span class="co">#&gt; 122         121 0.4711234 Fare_spline  0.5026907</span>
-<span class="co">#&gt; 123         122 0.4711277  Age_spline  0.5023771</span>
-<span class="co">#&gt; 124         123 0.4711744 Fare_spline  0.5023290</span>
-<span class="co">#&gt; 125         124 0.4714304   Sex_ridge  0.5031084</span>
-<span class="co">#&gt; 126         125 0.4714378  Age_spline  0.5028085</span>
-<span class="fu"><a href="https://rdrr.io/r/base/diff.html">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">oob</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1]  1.751405e-05 -1.043817e-05  2.596370e-04 -4.076452e-06  3.136728e-05</span>
-<span class="co">#&gt; [6]  4.324726e-06  4.669298e-05  2.559763e-04  7.429030e-06</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     _iterations       oob baselearner train_risk</span></span>
+<span><span class="co">#&gt; 535         534 0.4784209   Sex_ridge  0.4806872</span></span>
+<span><span class="co">#&gt; 536         535 0.4784327  Age_spline  0.4806586</span></span>
+<span><span class="co">#&gt; 537         536 0.4784332 Fare_spline  0.4806242</span></span>
+<span><span class="co">#&gt; 538         537 0.4784450  Age_spline  0.4805959</span></span>
+<span><span class="co">#&gt; 539         538 0.4783287   Sex_ridge  0.4805564</span></span>
+<span><span class="co">#&gt; 540         539 0.4783405  Age_spline  0.4805284</span></span>
+<span><span class="co">#&gt; 541         540 0.4783415 Fare_spline  0.4804943</span></span>
+<span><span class="co">#&gt; 542         541 0.4783534  Age_spline  0.4804666</span></span>
+<span><span class="co">#&gt; 543         542 0.4783547 Fare_spline  0.4804330</span></span>
+<span><span class="co">#&gt; 544         543 0.4783665  Age_spline  0.4804054</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">oob</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  1.180302e-05  5.400260e-07  1.179882e-05 -1.163699e-04  1.187324e-05</span></span>
+<span><span class="co">#&gt; [6]  9.532968e-07  1.186647e-05  1.321357e-06  1.185917e-05</span></span></code></pre></div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre></div>
 <p><img src="early_stopping_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<p>Taking a look at 2000 iterations shows that we have stopped quite good:</p>
+<p>Taking a look at 2000 iterations shows that we have stopped quite
+good:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; You have already trained 125 iterations.</span>
-<span class="co">#&gt; Train 1875 additional iterations.</span>
-
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; You have already trained 543 iterations.</span></span>
+<span><span class="co">#&gt; Train 1457 additional iterations.</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre></div>
 <p><img src="early_stopping_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<p><strong>Note:</strong> It could happen that the model’s oob behavior increases locally for a few iterations and then starts to decrease again. To capture this we need the “patience” parameter which waits for, lets say, 5 iterations and breaks just if all 5 iterations fulfill the criteria. Setting this parameter to one can lead to very unstable results:</p>
+<p><strong>Note:</strong> It can happen that the model’s oob behavior
+increases locally for a few iterations and then starts to decrease
+again. To capture this, we need the “patience” parameter which waits
+for, let’s say, 5 iterations and stops the algorithm only if the
+improvement in all 5 iterations is smaller than our criteria. Setting
+this parameter to one can lead to unstable results:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html">titanic_train</a></span><span class="op">)</span>
-<span class="va">df</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span>
-<span class="va">idx_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.8</span><span class="op">)</span>
-<span class="va">idx_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, <span class="va">idx_train</span><span class="op">)</span>
-
-<span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span><span class="op">[</span><span class="va">idx_train</span>, <span class="op">]</span>, target <span class="op">=</span> <span class="st">"Survived"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span>
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span>
-
-<span class="va">oob_response</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareResponse</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span><span class="op">[</span><span class="va">idx_test</span><span class="op">]</span><span class="op">)</span>
-<span class="va">oob_data</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareData</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">idx_test</span>,<span class="op">]</span><span class="op">)</span>
-
-<span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerOobRisk</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"oob"</span>,
-  used_loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, eps_for_break <span class="op">=</span> <span class="fl">0</span>, patience <span class="op">=</span> <span class="fl">1</span>, oob_data <span class="op">=</span> <span class="va">oob_data</span>,
-  oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span>
-
-<span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>
-<span class="co">#&gt; Train 65 iterations in 0 Seconds.</span>
-<span class="co">#&gt; Final risk based on the train set: 0.51</span>
-
-
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span>
-<span class="co">#&gt; Warning: Removed 1 row(s) containing missing values (geom_path).</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html" class="external-link">titanic_train</a></span><span class="op">)</span></span>
+<span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">idx_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.8</span><span class="op">)</span></span>
+<span><span class="va">idx_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, <span class="va">idx_train</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span><span class="op">[</span><span class="va">idx_train</span>, <span class="op">]</span>, target <span class="op">=</span> <span class="st">"Survived"</span>, loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Fare"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Sex"</span>, <span class="st">"ridge"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">oob_response</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareResponse</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span><span class="op">[</span><span class="va">idx_test</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">oob_data</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareData</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">idx_test</span>,<span class="op">]</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerOobRisk</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"oob"</span>,</span>
+<span>  used_loss <span class="op">=</span> <span class="va"><a href="../../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, eps_for_break <span class="op">=</span> <span class="fl">0</span>, patience <span class="op">=</span> <span class="fl">1</span>, oob_data <span class="op">=</span> <span class="va">oob_data</span>,</span>
+<span>  oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Train 320 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 0.49</span></span>
+<span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Iteration"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Empirical Risk"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: Removed 1 row containing missing values (`geom_line()`).</span></span></code></pre></div>
 <p><img src="early_stopping_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
-<div id="further-comments-on-risk-logging" class="section level3">
-<h3 class="hasAnchor">
-<a href="#further-comments-on-risk-logging" class="anchor"></a>Further comments on risk logging</h3>
+<div class="section level3">
+<h3 id="further-comments-on-risk-logging">Further comments on risk logging<a class="anchor" aria-label="anchor" href="#further-comments-on-risk-logging"></a>
+</h3>
 <ul>
-<li>Since we can define as many as logger as we like it is possible to define multiple risk logger regarding different loss functions.</li>
-<li>It is also possible to log performance measures with the risk logging mechanism. This is covered as advanced topic.</li>
+<li>Since we can define as many as logger as we like, it is possible to
+define multiple risk logger regarding different loss functions.</li>
+<li>It is also possible to log performance measures with the risk
+logging mechanism. This is covered as advanced topic.</li>
 </ul>
 </div>
 </div>
-<div id="some-remarks" class="section level2">
-<h2 class="hasAnchor">
-<a href="#some-remarks" class="anchor"></a>Some remarks</h2>
+<div class="section level2">
+<h2 id="some-remarks">Some remarks<a class="anchor" aria-label="anchor" href="#some-remarks"></a>
+</h2>
 <ul>
 <li>Early stopping can be done globally or locally:
 <ul>
 <li>
-<em>locally</em>: The algorithm stops after <strong>the first</strong> stopping criteria of any logger is reached</li>
+<em>locally</em> (any): The algorithm stops after <strong>the
+first</strong> stopping criteria of a logger is reached</li>
 <li>
-<em>globally</em>: The algorithm stops after <strong>all</strong> stopping criteria are reached</li>
+<em>globally</em> (all): The algorithm stops after
+<strong>all</strong> stopping criteria are reached</li>
 </ul>
 </li>
-<li>Some arguments are ignored when the logger is not set as stopper, e.g. <code>max_time</code> from the time logger</li>
-<li>The logger functionality is summarized <a href="https://danielschalk.com/compboost/articles/functionality/logger.html">here</a>
+<li>Some arguments are ignored if the logger is not set as stopper,
+e.g. <code>max_time</code> from the time logger</li>
+<li>The logger functionality is summarized <a href="https://danielschalk.com/compboost/articles/functionality/logger.html" class="external-link">here</a>
 </li>
 </ul>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
-
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p>Developed by Daniel Schalk, Janek Thomas, Bernd Bischl.</p>
+    <footer><div class="copyright">
+  <p></p>
+<p>Developed by Daniel Schalk, Janek Thomas, Bernd Bischl.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p class="preferably">Using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
 
+  
 
   </body>
 </html>
