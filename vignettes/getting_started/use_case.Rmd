@@ -129,5 +129,5 @@ table(cboost$getSelectedBaselearner())
 
 ## Next steps
 
-- Have a look at the [visualization capabilities](https://danielschalk.com/compboost/articles/getting_started/visualization.html) of the package.
+- Have a look at the [visualization capabilities](https://danielschalk.com/compboost/articles/getting_started/visualizations.html) of the package.
 - See how [other loss functions](https://danielschalk.com/compboost/articles/getting_started/robust_regression.html) effect the model training.
