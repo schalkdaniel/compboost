@@ -16,34 +16,34 @@
     <loc>https://schalkdaniel.github.io/compboost/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/advanced/ext_losses.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/adv-extending-losses.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/functionality/baselearner.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-about-cwb.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/functionality/logger.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-early-stopping.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/functionality/loss.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-obj-refs.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/about_cboosting.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-robust-reg.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/early_stopping.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-use-case.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/object_references.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-viz.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/robust_regression.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/fct-baselearner.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/use_case.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/fct-logger.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/articles/getting_started/visualizations.html</loc>
+    <loc>https://schalkdaniel.github.io/compboost/articles/fct-loss.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/articles/index.html</loc>

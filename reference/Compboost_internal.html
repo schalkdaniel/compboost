@@ -26,7 +26,7 @@ algorithm."><meta property="og:image" content="https://schalkdaniel.github.io/co
     
     <a class="navbar-brand me-2" href="../index.html">compboost</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.2</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,26 +37,26 @@ algorithm."><meta property="og:image" content="https://schalkdaniel.github.io/co
       <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
-    <a class="dropdown-item" href="../articles/getting_started/about_cboosting.html">About Component-Wise Boosting</a>
-    <a class="dropdown-item" href="../articles/getting_started/use_case.html">First Use-Case</a>
-    <a class="dropdown-item" href="../articles/getting_started/early_stopping.html">Early Stopping</a>
-    <a class="dropdown-item" href="../articles/getting_started/robust_regression.html">Quantile Regression</a>
-    <a class="dropdown-item" href="../articles/getting_started/object_references.html">Reference Based Objects of Compboost</a>
-    <a class="dropdown-item" href="../articles/getting_started/visualizations.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About Component-Wise Boosting</a>
+    <a class="dropdown-item" href="../articles/basic-use-case.html">First Use-Case</a>
+    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early Stopping</a>
+    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
+    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
   </div>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-advanced-topics">Advanced Topics</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-advanced-topics">
-    <a class="dropdown-item" href="../articles/advanced/log_performance.html">Logging Performance Measures</a>
+    <a class="dropdown-item" href="../articles/adv-extending-losses.html">Extending losses</a>
   </div>
 </li>
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
-    <a class="dropdown-item" href="../articles/functionality/baselearner.html">Base-Learner</a>
-    <a class="dropdown-item" href="../articles/functionality/loss.html">Loss Functions</a>
-    <a class="dropdown-item" href="../articles/functionality/logger.html">Logger</a>
+    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
+    <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../articles/fct-logger.html">Logger</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -290,16 +290,16 @@ algorithm.</p>
 <span class="r-in"><span><span class="co"># Train the model (we want to print the trace):</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span>trace <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1/500   risk = 0.68  time_logger = 0   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  50/500   risk = 0.42  time_logger = 537   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100/500   risk = 0.31  time_logger = 1103   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 150/500   risk = 0.25  time_logger = 1748   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 200/500   risk = 0.21  time_logger = 2441   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 250/500   risk = 0.19  time_logger = 3200   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 300/500   risk = 0.17  time_logger = 4044   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 350/500   risk = 0.16  time_logger = 4948   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 400/500   risk = 0.15  time_logger = 5940   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 450/500   risk = 0.14  time_logger = 6998   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 500/500   risk = 0.13  time_logger = 8131   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  50/500   risk = 0.42  time_logger = 519   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100/500   risk = 0.31  time_logger = 1076   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150/500   risk = 0.25  time_logger = 1699   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 200/500   risk = 0.21  time_logger = 2380   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250/500   risk = 0.19  time_logger = 3137   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 300/500   risk = 0.17  time_logger = 3992   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 350/500   risk = 0.16  time_logger = 4902   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 400/500   risk = 0.15  time_logger = 5887   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 450/500   risk = 0.14  time_logger = 6943   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 500/500   risk = 0.13  time_logger = 8084   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 500 iterations in 0 Seconds.</span>
