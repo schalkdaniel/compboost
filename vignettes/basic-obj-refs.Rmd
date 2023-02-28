@@ -1,8 +1,8 @@
 ---
-title: "What is component-wise boosting?"
+title: "Reference based objects"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{About component-wise boosting}
+  %\VignetteIndexEntry{Reference based objects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 
 library(compboost)
 ```
-
 
 In order to provide high flexibility, we decided to write the base implementation of `compboost` in `C++` to make use of object oriented programming. These `C++` classes can be used in `R` after exposing them as `S4` classes. To take away this layer of abstraction we decided to break these `S4` classes to one `R6` wrapper class.
 

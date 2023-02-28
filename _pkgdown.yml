@@ -10,29 +10,29 @@ navbar:
   - text: Getting Started
     menu:
       - text: About Component-Wise Boosting
-        href: articles/getting_started/about_cboosting.html
+        href: articles/basic-about-cwb.html
       - text: First Use-Case
-        href: articles/getting_started/use_case.html
+        href: articles/basic-use-case.html
       - text: Early Stopping
-        href: articles/getting_started/early_stopping.html
+        href: articles/basic-early-stopping.html
       - text: Quantile Regression
-        href: articles/getting_started/robust_regression.html
+        href: articles/basic-robust-reg.html
       - text: Reference Based Objects of Compboost
-        href: articles/getting_started/object_references.html
+        href: articles/basic-obj-refs.html
       - text: Visualizing Compboost
-        href: articles/getting_started/visualizations.html
+        href: articles/basic-viz.html
   - text: Advanced Topics
     menu:
-      - text: Logging Performance Measures
-        href: articles/advanced/log_performance.html
+      - text: Extending losses
+        href: articles/adv-extending-losses.html
   - text: Functionality
     menu:
     - text: Base-Learner
-      href: articles/functionality/baselearner.html
+      href: articles/fct-baselearner.html
     - text: Loss Functions
-      href: articles/functionality/loss.html
+      href: articles/fct-loss.html
     - text: Logger
-      href: articles/functionality/logger.html
+      href: articles/fct-logger.html
   - text: "Reference"
     href: "reference/index.html"
     contents:

@@ -359,7 +359,9 @@ Compboost = R6::R6Class("Compboost",
       ## Remove list element if factory was not created.
       if (inherits(e, "try-error")) {
         private$p_bl_list[[id_fac]] = NULL
-        stop(attr(e, "condition")$message)
+        df0 = NULL
+        if ("df" %in% names(list(...))) df0 = list(...)$df
+        stop(catchInternalException(e, self$data[[feature]], feature, df0))
       }
     },
 
@@ -386,6 +388,8 @@ Compboost = R6::R6Class("Compboost",
     #' Name of the first feature. Must be an element of `names(data)`.
     #' @param feature2 (`character(1)`)\cr
     #' Name of the second feature. Must be an element of `names(data)`.
+    #' @param df (`numeric(1)`)\cr
+    #' The degrees of freedom used for both base learner (this parameter overwrites `df1` and `df2`).
     #' @param df1 (`numeric(1)`)\cr
     #' The degrees of freedom used for the first base learner.
     #' @param df2 (`numeric(1)`)\cr
@@ -1107,12 +1111,12 @@ Compboost = R6::R6Class("Compboost",
       }
     },
 
-    #' @description
-    #' Load a [Compboost] object from a JSON file. Because of the underlying \code{C++} objects,
-    #' it is not possible to use \code{R}'s native load and save methods.
-    #'
-    #' @param file (`character(1)`)\cr
-    #'   Name/path to the file.
+    # @description
+    # Load a [Compboost] object from a JSON file. Because of the underlying \code{C++} objects,
+    # it is not possible to use \code{R}'s native load and save methods.
+    #
+    # @param file (`character(1)`)\cr
+    #   Name/path to the file.
     loadFromJson = function(file) {
       checkmate::assertFile(file, extension = c("json", "JSON", "Json"))
 

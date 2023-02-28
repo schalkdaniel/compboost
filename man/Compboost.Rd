@@ -378,6 +378,9 @@ Name of the first feature. Must be an element of `names(data)`.}
 \item{\code{feature2}}{(`character(1)`)\cr
 Name of the second feature. Must be an element of `names(data)`.}
 
+\item{\code{df}}{(`numeric(1)`)\cr
+The degrees of freedom used for both base learner (this parameter overwrites `df1` and `df2`).}
+
 \item{\code{df1}}{(`numeric(1)`)\cr
 The degrees of freedom used for the first base learner.}
 

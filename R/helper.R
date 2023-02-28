@@ -57,3 +57,39 @@ checkModelPlotAvailability = function(cboost_obj, check_ggplot = TRUE) {
     stop("Please install ggplot2 to create plots.")
   }
 }
+
+catchInternalException = function(e, x, fn, df = NULL) {
+  checkmate::assertString(fn)
+  checkmate::assertNumber(df, null.ok = TRUE)
+  msg = attr(e, "condition")$message
+  sadd = ""
+  saddc = ""
+  soerror = sprintf("\nOriginal error:\n%s", msg)
+  if (! is.null(df)) {
+    sadd = sprintf(" with `df = %s`", df)
+    if (! is.numeric(x)) {
+      nxu = length(unique(x))
+      if (df > nxu) {
+        saddc = sprintf("\n%s %s",
+          sprintf("I also realized that you are trying to add a categorical feature with more degrees of freedom (%s) than number of classes (%s).", df, nxu),
+          sprintf("Please try again with `df <= %s`.", nxu))
+      }
+    }
+  }
+  if (grepl("toms748", msg)) {
+    msg = sprintf("%s\n%s %s %s%s",
+      sprintf("Error during the base learner creation for feature %s%s", fn, sadd),
+      "Trying to catch univariate optimization error thrown from `boost::math::tools::toms748_solve` (C++).",
+      "This most likely happened because the degrees of freedom are set too big.",
+      saddc, soerror)
+  }
+  if (grepl("chol", msg)) {
+    msg = sprintf("%s %s %s %s%s",
+      "Failed to calculate the Cholesky decomposition.",
+      "A reason may be highly correlated columns in the design matrix of the base learner.",
+      "Try to increase the penalty/lower the degrees of freedom or decrease the number of basis functions.",
+      "For example by using less knots for splines.",
+      soerror)
+  }
+  return(msg)
+}
