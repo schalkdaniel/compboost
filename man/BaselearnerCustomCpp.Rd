@@ -2,15 +2,15 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCustomCpp}
 \alias{BaselearnerCustomCpp}
-\title{Create custom cpp base-learner factory by using cpp functions and external
+\title{Create custom cpp base learner factory by using cpp functions and external
 pointer.}
 \format{
 \code{\link{S4}} object.
 }
 \description{
-\code{BaselearnerCustomCpp} creates a custom base-learner factory by
-  setting custom \code{C++} functions. This factory object can be registered
-  within a base-learner list and then used for training.
+\code{BaselearnerCustomCpp} creates a custom base learner factory by
+setting custom \code{C++} functions. This factory object can be registered
+within a base learner list and then used for training.
 }
 \section{Usage}{
 
@@ -23,38 +23,38 @@ BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{
-  Data object which contains the source data.
+\item{\code{data_source} \link{\code{Data} Object}}{
+Data object which contains the source data.
 }
-\item{\code{instantiate_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} instantiate data function.
+\item{\code{instantiate_ptr} \link{\code{externalptr}}}{
+External pointer to the \code{C++} instantiate data function.
 }
-\item{\code{train_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} train function.
+\item{\code{train_ptr} \link{\code{externalptr}}}{
+External pointer to the \code{C++} train function.
 }
-\item{\code{predict_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} predict function.
+\item{\code{predict_ptr} \link{\code{externalptr}}}{
+External pointer to the \code{C++} predict function.
 }
 }
 }
 
 \section{Details}{
 
-  For an example see the extending compboost vignette or the function
-  \code{getCustomCppExample}.
+For an example see the extending compboost vignette or the function
+\code{getCustomCppExample}.
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+for modeling.}
+\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
 }
 }
 
@@ -70,7 +70,7 @@ data_source = InMemoryData$new(data_mat, "my_data_name")
 # Source the external pointer exposed by using XPtr:
 Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
 
-# Create new linear base-learner:
+# Create new linear base learner:
 custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
     predict_ptr = predictFunSetter()))

@@ -8,8 +8,8 @@
 }
 \description{
 This class defines a new object for the greedy optimizer. The optimizer
-just calculates for each base-learner the sum of squared errors and returns
-the base-learner with the smallest SSE.
+just calculates for each base learner the sum of squared errors and returns
+the base learner with the smallest SSE.
 }
 \section{Usage}{
 
@@ -22,9 +22,9 @@ OptimizerCoordinateDescent$new(ncores)
 \section{Arguments}{
 
 \describe{
-\item{\code{ncores} [\code{integer(1)}]}{
-  Number of cores used to fit the algorithm. Note that number of used cores
-  should be smaller or equal the number of base learner.
+\item{\code{ncores} \link{\code{integer(1)}}}{
+Number of cores used to fit the algorithm. Note that number of used cores
+should be smaller or equal the number of base learner.
 }
 }
 }

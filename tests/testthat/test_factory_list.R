@@ -23,14 +23,14 @@ test_that("factory list works", {
   expect_silent(factory_list$registerFactory(pow5_factory_hp))
 
   factory_names = c(
-    "hp_polynomial_degree_1",
-    "wt_polynomial_degree_2x11",
-    "wt_polynomial_degree_2x12",
-    "hp_polynomial_degree_5x11",
-    "hp_polynomial_degree_5x12",
-    "hp_polynomial_degree_5x13",
-    "hp_polynomial_degree_5x14",
-    "hp_polynomial_degree_5x15"
+    "hp_poly1",
+    "wt_poly2x11",
+    "wt_poly2x12",
+    "hp_poly5x11",
+    "hp_poly5x12",
+    "hp_poly5x13",
+    "hp_poly5x14",
+    "hp_poly5x15"
   )
   model_frame = cbind(
     X_hp, X_wt, X_wt^2, X_hp, X_hp^2, X_hp^3, X_hp^4, X_hp^5

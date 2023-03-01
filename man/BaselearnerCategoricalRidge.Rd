@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCategoricalRidge}
 \alias{BaselearnerCategoricalRidge}
-\title{Base-learner factory for categorical feature using Ridge penalty}
+\title{Base learner factory for categorical feature using Ridge penalty}
 \format{
 \code{\link{S4}} object.
 }
@@ -22,23 +22,23 @@ BaselearnerCategoricalRidge$new(data_source, list(df))
 \section{arguments}{
 
 \describe{
-\item{\code{data_source} [\code{data} object]}{
-  data object which contains the source data.
+\item{\code{data_source} \link{\code{data} object}}{
+data object which contains the source data.
 }
 }
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+for modeling.}
+\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
 }
 }
 

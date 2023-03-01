@@ -2,93 +2,142 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerPSpline}
 \alias{BaselearnerPSpline}
-\title{Base-learner factory to do non-parametric B or P-spline regression}
+\title{Non-parametric B or P-spline base learner}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{data_source}{(\link{InMemoryData}) \cr
+Data object which contains the raw data (see \code{?InMemoryData}).}
+
+\item{blearner_type}{(\code{character(1)}) \cr
+Type of the base learner (if not specified, \code{blearner_type = "spline"} is used).
+The unique id of the base learner is defined by appending \code{blearner_type} to
+the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}}
+
+\item{degree}{(\code{integer(1)})\cr
+Degree of the piecewise polynomial (default \code{degree = 3} for cubic splines).}
+
+\item{n_knots}{(\code{integer(1)})\cr
+Number of inner knots (default \code{n_knots = 20}). The inner knots are expanded by
+\code{degree - 1} additional knots at each side to prevent unstable behavior on the edges.}
+
+\item{penalty}{(\code{numeric(1)})\cr
+Penalty term for P-splines (default \code{penalty = 2}). Set to zero for B-splines.}
+
+\item{differences}{(\code{integer(1)})\cr
+The number of differences to are penalized. A higher value leads to smoother curves.}
+
+\item{bin_root}{(\code{integer(1)})\cr
+The binning root to reduce the data to \eqn{n^{1/\text{bin_root}}}$ data points
+(default \code{bin_root = 1}, which means no binning is applied).
+A value of \code{bin_root = 2} is suggested for the best approximation
+error (cf. \emph{Wood et al. (2017) Generalized additive models for gigadata:
+modeling the UK black smoke network daily data}).}
 }
 \description{
-\code{BaselearnerPSpline} creates a spline base-learner factory
- object which can be registered within a base-learner list and then used
- for training.
+\link{BaselearnerPSpline} creates a spline base learner object.
+The object calculates the B-spline basis functions and in the case
+of P-splines also the penalty. Instead of defining the penalty
+term directly, one should consider to restrict the flexibility by
+setting the degrees of freedom.
 }
 \section{Usage}{
 
 \preformatted{
-BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty,
-  differences, df, n_bins, bin_method))
+BaselearnerPSpline$new(data_source, list(degree, n_knots, penalty, differences, df, bin_root))
+BaselearnerPSpline$new(data_source, blearner_type, list(degree, n_knots, penalty, differences, df, bin_root))
 }
 }
 
-\section{arguments}{
+\section{Fields}{
 
-\describe{
-\item{\code{data_source} [\code{data} object]}{
-  data object which contains the source data.
+This class doesn't contain public fields.
 }
-\item{\code{degree} [\code{integer(1)}]}{
-  degree of the spline functions to interpolate the knots.
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
 }
-\item{\code{n_knots} [\code{integer(1)}]}{
-  number of \strong{inner knots}. to prevent weird behavior on the edges
-  the inner knots are expanded by \eqn{\mathrm{degree} - 1} additional knots.
 }
-\item{\code{penalty} [\code{numeric(1)}]}{
-  positive numeric value to specify the penalty parameter. setting the
-  penalty to 0 ordinary b-splines are used for the fitting.
-}
-\item{\code{differences} [\code{integer(1)}]}{
-  the number of differences which are penalized. a higher value leads to
-  smoother curves.
-}
-\item{\code{bin_root} [\code{integer(1)}]}{
-  If set to a value greater than zero, binning is applied and reduces the number of used
-  x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
-  to set \code{bin_root = 2}.
-}
-\item{\code{bin_method} [\code{character(1)}]}{
-  Method used for spacing knot points. Options are linear (equally spaced grid) or
-  quantile (knot points based on quantiles).
-}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
 }
 }
 
 \section{Details}{
 
-  If \code{bin_root > 0} the original feature is discretized to on an equidistant grid on
-  \eqn{[\min(x),\max(x)]} with \eqn{\sqrt{n}} points. The fitting is then done by
-  using weights per new data point.
-}
-
-\section{Fields}{
-
-  This class doesn't contain public fields.
-}
-
-\section{Methods}{
-
-\describe{
-\item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
-}
+The data matrix is instantiated as transposed sparse matrix due to performance
+reasons. The member function \verb{$getData()} accounts for that while  \verb{$transformData()}
+returns the raw data matrix as p x n matrix.
 }
 
 \examples{
 # Sample data:
-data_mat = cbind(1:10)
-y = sin(1:10)
+x = runif(100, 0, 10)
+y = sin(x) + rnorm(100, 0, 0.2)
+dat = data.frame(x, y)
 
-# Create new data object:
+# S4 wrapper
+
+# Create new data object, a matrix is required as input:
+data_mat = cbind(x)
 data_source = InMemoryData$new(data_mat, "my_data_name")
 
-# Create new linear base-learner:
-spline_factory = BaselearnerPSpline$new(data_source,
-  list(degree = 3, n_knots = 4, penalty = 2, differences = 2))
+# Create new linear base learner factory:
+bl_sp_df2 = BaselearnerPSpline$new(data_source,
+  list(n_knots = 10, df = 2, bin_root = 2))
+bl_sp_df5 = BaselearnerPSpline$new(data_source,
+  list(n_knots = 15, df = 5))
 
 # Get the transformed data:
-spline_factory$getData()
+dim(bl_sp_df2$getData())
+dim(bl_sp_df5$getData())
 
 # Summarize factory:
-spline_factory$summarizeFactory()
+bl_sp_df2$summarizeFactory()
 
+# Get full meta data such as penalty term or matrix as well as knots:
+str(bl_sp_df2$getMeta())
+bl_sp_df2$getPenalty()
+bl_sp_df5$getPenalty() # The penalty here is smaller due to more flexibility
+
+# Transform "new data":
+newdata = list(InMemoryData$new(cbind(rnorm(5)), "my_data_name"))
+bl_sp_df2$transformData(newdata)
+bl_sp_df5$transformData(newdata)
+
+# R6 wrapper
+
+cboost_df2 = Compboost$new(dat, "y")
+cboost_df2$addBaselearner("x", "sp", BaselearnerPSpline, n_knots = 10, df = 2, bin_root = 2)
+cboost_df2$train(200, 0)
+
+cboost_df5 = Compboost$new(dat, "y")
+cboost_df5$addBaselearner("x", "sp", BaselearnerPSpline, n_knots = 15, df = 5)
+cboost_df5$train(200, 0)
+
+# Access base learner directly from the API (n = sqrt(100) = 10 with binning):
+str(cboost_df2$baselearner_list$x_sp$factory$getData())
+str(cboost_df5$baselearner_list$x_sp$factory$getData())
+
+gg_df2 = plotPEUni(cboost_df2, "x")
+gg_df5 = plotPEUni(cboost_df5, "x")
+
+library(ggplot2)
+library(patchwork)
+
+(gg_df2 | gg_df5) &
+  geom_point(data = dat, aes(x = x, y = y - c(cboost_df2$offset)), alpha = 0.2)
 }

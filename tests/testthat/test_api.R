@@ -12,6 +12,7 @@ test_that("train works", {
   expect_error(Compboost$new(mtcars, "mpg", loss = LossCustomCpp))
 
   cboost = expect_silent(Compboost$new(mtcars, "mpg", loss = LossQuadratic$new()))
+  expect_true(is.null(cboost$offset))
   expect_output(cboost$print())
 
   expect_equal(cboost$getCurrentIteration(), 0)
@@ -48,6 +49,7 @@ test_that("train works", {
   expect_equal(cboost$getCurrentIteration(), 4000)
   expect_length(cboost$getInbagRisk(), 4001)
   expect_length(cboost$getSelectedBaselearner(), 4000)
+  expect_equal(cboost$getCoef()$offset, as.numeric(cboost$offset))
 
   expect_output(cboost$train(6000))
   expect_equal(cboost$getCurrentIteration(), 6000)

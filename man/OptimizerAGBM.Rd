@@ -20,13 +20,13 @@ OptimizerAGBM$new(momentum, ncores)
 \section{Arguments}{
 
 \describe{
-\item{\code{momentum} [\code{numeric(1)}]}{
-  Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
-  faster but also tends to overfit faster.
+\item{\code{momentum} \link{\code{numeric(1)}}}{
+Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
+faster but also tends to overfit faster.
 }
-\item{\code{ncores} [\code{integer(1)}]}{
-  Number of cores used to fit the algorithm. Note that number of used cores
-  should be smaller or equal the number of base learner.
+\item{\code{ncores} \link{\code{integer(1)}}}{
+Number of cores used to fit the algorithm. Note that number of used cores
+should be smaller or equal the number of base learner.
 }
 }
 }

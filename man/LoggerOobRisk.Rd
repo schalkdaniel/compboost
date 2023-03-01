@@ -22,30 +22,30 @@ LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
 \section{Arguments}{
 
 \describe{
-\item{\code{logger_id} [\code{character(1)}]}{
-  Unique identifier of the logger.
+\item{\code{logger_id} \link{\code{character(1)}}}{
+Unique identifier of the logger.
 }
-\item{\code{use_as_stopper} [\code{logical(1)}]}{
-  Boolean to indicate if the logger should also be used as stopper.
+\item{\code{use_as_stopper} \link{\code{logical(1)}}}{
+Boolean to indicate if the logger should also be used as stopper.
 }
-\item{\code{used_loss} [\code{Loss} object]}{
-  The loss used to calculate the empirical risk by taking the mean of the
-  returned defined loss within the loss object.
+\item{\code{used_loss} \link{\code{Loss} object}}{
+The loss used to calculate the empirical risk by taking the mean of the
+returned defined loss within the loss object.
 }
-\item{\code{eps_for_break} [\code{numeric(1)}]}{
-  This argument is used if the loss is also used as stopper. If the relative
-  improvement of the logged inbag risk falls above this boundary the stopper
-  returns \code{TRUE}.
+\item{\code{eps_for_break} \link{\code{numeric(1)}}}{
+This argument is used if the loss is also used as stopper. If the relative
+improvement of the logged inbag risk falls above this boundary the stopper
+returns \code{TRUE}.
 }
-\item{\code{oob_data} [\code{list}]}{
-  A list which contains data source objects which corresponds to the
-  source data of each registered factory. The source data objects should
-  contain the out of bag data. This data is then used to calculate the
-  prediction in each step.
+\item{\code{oob_data} \link{\code{list}}}{
+A list which contains data source objects which corresponds to the
+source data of each registered factory. The source data objects should
+contain the out of bag data. This data is then used to calculate the
+prediction in each step.
 }
-\item{\code{oob_response} [\code{numeric}]}{
-  Vector which contains the response for the out of bag data given within
-  the \code{list}.
+\item{\code{oob_response} \link{\code{numeric}}}{
+Vector which contains the response for the out of bag data given within
+the \code{list}.
 }
 }
 }
@@ -63,35 +63,35 @@ iteration \eqn{m} is calculated by:
 }
 
 \strong{Note:}
-  \itemize{
+\itemize{
 
-  \item
-    If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+\item
+If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
 
-  \item
-    The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
-    done in two steps:
-      \enumerate{
+\item
+The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
+done in two steps:
+\enumerate{\preformatted{  \\item
+    Calculate vector \code{risk_temp} of losses for every observation for
+    given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
 
-      \item
-        Calculate vector \code{risk_temp} of losses for every observation for
-        given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+  \\item
+    Average over \code{risk_temp}.
+ \}
+}
 
-      \item
-        Average over \code{risk_temp}.
-     }
-   }
+}
 
-   This procedure ensures, that it is possible to e.g. use the AUC or any
-   arbitrary performance measure for risk logging. This gives just one
-   value for \eqn{risk_temp} and therefore the average equals the loss
-   function. If this is just a value (like for the AUC) then the value is
-   returned.
+This procedure ensures, that it is possible to e.g. use the AUC or any
+arbitrary performance measure for risk logging. This gives just one
+value for \eqn{risk_temp} and therefore the average equals the loss
+function. If this is just a value (like for the AUC) then the value is
+returned.
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{

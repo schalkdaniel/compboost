@@ -2,77 +2,121 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerPolynomial}
 \alias{BaselearnerPolynomial}
-\title{Base-learner factory for polynomial regression}
+\title{Polynomial base learner}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{data_source}{(\link{InMemoryData}) \cr
+Data object which contains the raw data (see \code{?InMemoryData}).}
+
+\item{blearner_type}{(\code{character(1)}) \cr
+Type of the base learner (if not specified, \code{blearner_type = paste0("poly", d)} is used).
+The unique id of the base learner is defined by appending \code{blearner_type} to
+the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}}
+
+\item{degree}{(\code{integer(1)})\cr
+Polynomial degree.}
+
+\item{intercept}{(\code{logical(1)})\cr
+Polynomial degree.}
+
+\item{bin_root}{(\code{integer(1)})\cr
+The binning root to reduce the data to \eqn{n^{1/\text{bin_root}}}$ data points
+(default \code{bin_root = 1}, which means no binning is applied).
+A value of \code{bin_root = 2} is suggested for the best approximation
+error (cf. \emph{Wood et al. (2017) Generalized additive models for gigadata:
+modeling the UK black smoke network daily data}).}
 }
 \description{
-\code{BaselearnerPolynomial} creates a polynomial base-learner factory
- object which can be registered within a base-learner list and then used
- for training.
+\verb{[BaselearnerPolynomial]} creates a polynomial base learner object.
+The base learner takes one feature and calculates the polynomials (with
+intercept) \eqn{1 + x + x^2 + \dots + x^d} for a given degree \eqn{d}.
 }
 \section{Usage}{
 
 \preformatted{
-BaselearnerPolynomial$new(data_source, list(degree, intercept))
-BaselearnerPolynomial$new(data_source, blearner_type, list(degree, intercept))
+BaselearnerPolynomial$new(data_source, list(degree, intercept, bin_root))
+BaselearnerPolynomial$new(data_source, blearner_type, list(degree, intercept, bin_root))
 }
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{data_source} [\code{Data} Object]}{
-  Data object which contains the source data.
-}
-\item{\code{degree} [\code{integer(1)}]}{
-  This argument is used for transforming the source data. Each element is
-  taken to the power of the \code{degree} argument.
-}
-\item{\code{intercept} [\code{logical(1)}]}{
-  Indicating whether an intercept should be added or not. Default is set to TRUE.
-}
-}
-}
-
-\section{Details}{
-
-  The polynomial base-learner factory takes any matrix which the user wants
-  to pass the number of columns indicates how much parameter are estimated.
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
-\describe{
-\item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
+}
+}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
 }
 }
 
 \examples{
 # Sample data:
-data_mat = cbind(1:10)
+x = runif(100)
+y = 1 + 2*x + rnorm(100, 0, 0.2)
+dat = data.frame(x, y)
 
-# Create new data object:
+# S4 wrapper
+
+# Create new data object, a matrix is required as input:
+data_mat = cbind(x)
 data_source = InMemoryData$new(data_mat, "my_data_name")
 
-# Create new linear base-learner factory:
-lin_factory = BaselearnerPolynomial$new(data_source,
-  list(degree = 2, intercept = FALSE))
-lin_factory_int = BaselearnerPolynomial$new(data_source,
-  list(degree = 2, intercept = TRUE))
+# Create new linear base learner factory:
+bl_lin = BaselearnerPolynomial$new(data_source,
+  list(degree = 1))
+bl_cub = BaselearnerPolynomial$new(data_source,
+  list(intercept = FALSE, degree = 3, bin_root = 2))
 
 # Get the transformed data:
-lin_factory$getData()
-lin_factory_int$getData()
+head(bl_lin$getData())
+head(bl_cub$getData())
 
 # Summarize factory:
-lin_factory$summarizeFactory()
+bl_lin$summarizeFactory()
 
+# Transform "new data":
+newdata = list(InMemoryData$new(cbind(rnorm(5)), "my_data_name"))
+bl_lin$transformData(newdata)
+bl_cub$transformData(newdata)
+
+# R6 wrapper
+
+cboost_lin = Compboost$new(dat, "y")
+cboost_lin$addBaselearner("x", "lin", BaselearnerPolynomial, degree = 1)
+cboost_lin$train(100, 0)
+
+cboost_cub = Compboost$new(dat, "y")
+cboost_cub$addBaselearner("x", "cubic", BaselearnerPolynomial, intercept = FALSE, degree = 3, bin_root = 2)
+cboost_cub$train(100, 0)
+
+# Access base learner directly from the API (n = sqrt(100) = 10 with binning):
+head(cboost_lin$baselearner_list$x_lin$factory$getData())
+cboost_cub$baselearner_list$x_cubic$factory$getData()
+
+gg_lin = plotPEUni(cboost_lin, "x")
+gg_cub = plotPEUni(cboost_cub, "x")
+
+library(ggplot2)
+library(patchwork)
+
+(gg_lin | gg_cub) &
+  geom_point(data = dat, aes(x = x, y = y - c(cboost_lin$offset)), alpha = 0.2)
 }

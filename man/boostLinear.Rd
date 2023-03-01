@@ -18,48 +18,48 @@ boostLinear(
 )
 }
 \arguments{
-\item{data}{[\code{data.frame}]\cr
+\item{data}{\link{\code{data.frame}}\cr
 A data frame containing the data.}
 
-\item{target}{[\code{character(1)} or \code{Response} class]\cr
+\item{target}{\link{\code{character(1)} or \code{Response} class}\cr
 Character value containing the target variable or response object. Note that the loss must match the
 data type of the target.}
 
-\item{optimizer}{[\code{S4 Optimizer}]\cr
+\item{optimizer}{\link{\code{S4 Optimizer}}\cr
 An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
 to select features at each iteration.}
 
-\item{loss}{[\code{S4 Loss}]\cr
+\item{loss}{\link{\code{S4 Loss}}\cr
 Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
 residuals (e.g. \code{LossQuadratic$new()}).}
 
-\item{learning_rate}{[\code{numeric(1)}]\cr
+\item{learning_rate}{\link{\code{numeric(1)}}\cr
 Learning rate to shrink the parameter in each step.}
 
-\item{iterations}{[\code{integer(1)}]\cr
-Number of iterations that are trained. If `iterations == 0`, the untrained object is returned. This
+\item{iterations}{\link{\code{integer(1)}}\cr
+Number of iterations that are trained. If \code{iterations == 0}, the untrained object is returned. This
 can be useful if other base learners (e.g. an interaction via a tensor base learner) are added.}
 
-\item{trace}{[\code{integer(1)}]\cr
+\item{trace}{\link{\code{integer(1)}}\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
 -1 which means that in total 40 iterations are printed.}
 
-\item{intercept}{[\code{logical(1)}]\cr
+\item{intercept}{\link{\code{logical(1)}}\cr
 Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
-\item{data_source}{[\code{S4 Data}]\cr
+\item{data_source}{\link{\code{S4 Data}}\cr
 Uninitialized \code{S4 Data} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{oob_fraction}{[\code{numeric(1)}]\cr
+\item{oob_fraction}{\link{\code{numeric(1)}}\cr
 Fraction of how much data are used to track the out of bag risk.}
 }
 \value{
 A model of the \code{Compboost} class. This model is an \code{R6} object
-  which can be used for retraining, predicting, plotting, and anything described in
-  \code{?Compboost}.
+which can be used for retraining, predicting, plotting, and anything described in
+\code{?Compboost}.
 }
 \description{
 This wrapper function automatically initializes the model by adding all numerical

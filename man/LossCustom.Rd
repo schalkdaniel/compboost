@@ -20,39 +20,39 @@ LossCustom$new(lossFun, gradientFun, initFun)
 \section{Arguments}{
 
 \describe{
-\item{\code{lossFun} [\code{function}]}{
-  \code{R} function to calculate the loss. For details see the
-  \code{Details}.
+\item{\code{lossFun} \link{\code{function}}}{
+\code{R} function to calculate the loss. For details see the
+\code{Details}.
 }
-\item{\code{gradientFun} [\code{function}]}{
-  \code{R} function to calculate the gradient. For details see the
-  \code{Details}.
+\item{\code{gradientFun} \link{\code{function}}}{
+\code{R} function to calculate the gradient. For details see the
+\code{Details}.
 }
-\item{\code{initFun} [\code{function}]}{
-  \code{R} function to calculate the constant initialization. For
-  details see the \code{Details}.
+\item{\code{initFun} \link{\code{function}}}{
+\code{R} function to calculate the constant initialization. For
+details see the \code{Details}.
 }
 }
 }
 
 \section{Details}{
 
-  The functions must have the following structure:
+The functions must have the following structure:
 
-  \code{lossFun(truth, prediction) { ... return (loss) }} With a vector
-  argument \code{truth} containing the real values and a vector of
-  predictions \code{prediction}. The function must return a vector
-  containing the loss for each component.
+\code{lossFun(truth, prediction) { ... return (loss) }} With a vector
+argument \code{truth} containing the real values and a vector of
+predictions \code{prediction}. The function must return a vector
+containing the loss for each component.
 
-  \code{gradientFun(truth, prediction) { ... return (grad) }} With a vector
-  argument \code{truth} containing the real values and a vector of
-  predictions \code{prediction}. The function must return a vector
-  containing the gradient of the loss for each component.
+\code{gradientFun(truth, prediction) { ... return (grad) }} With a vector
+argument \code{truth} containing the real values and a vector of
+predictions \code{prediction}. The function must return a vector
+containing the gradient of the loss for each component.
 
-  \code{initFun(truth) { ... return (init) }} With a vector
-  argument \code{truth} containing the real values. The function must
-  return a numeric value containing the offset for the constant
-  initialization.
+\code{initFun(truth) { ... return (init) }} With a vector
+argument \code{truth} containing the real values. The function must
+return a numeric value containing the offset for the constant
+initialization.
 }
 
 \examples{

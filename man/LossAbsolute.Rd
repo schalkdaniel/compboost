@@ -35,9 +35,9 @@ LossAbsolute$new(offset)
 \section{Arguments}{
 
 \describe{
-\item{\code{offset} [\code{numeric(1)}]}{
-  Numerical value which can be used to set a custom offset. If so, this
-  value is returned instead of the loss optimal initialization.
+\item{\code{offset} \link{\code{numeric(1)}}}{
+Numerical value which can be used to set a custom offset. If so, this
+value is returned instead of the loss optimal initialization.
 }
 }
 }

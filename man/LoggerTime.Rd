@@ -11,9 +11,9 @@ This class just logs the elapsed time. This should be very handy if one
 wants to run the algorithm for just 2 hours and see how far he comes within
 that time. There are three time units available for logging:
 \itemize{
-  \item minutes
-  \item seconds
-  \item microseconds
+\item minutes
+\item seconds
+\item microseconds
 }
 }
 \section{Usage}{
@@ -26,26 +26,26 @@ LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 \section{Arguments}{
 
 \describe{
-\item{\code{logger_id} [\code{character(1)}]}{
-  Unique identifier of the logger.
+\item{\code{logger_id} \link{\code{character(1)}}}{
+Unique identifier of the logger.
 }
-\item{\code{use_as_stopper} [\code{logical(1)}]}{
-  Boolean to indicate if the logger should also be used as stopper.
+\item{\code{use_as_stopper} \link{\code{logical(1)}}}{
+Boolean to indicate if the logger should also be used as stopper.
 }
-\item{\code{max_time} [\code{integer(1)}]}{
-  If the logger is used as stopper this argument contains the maximal time
-  which are available to train the model.
+\item{\code{max_time} \link{\code{integer(1)}}}{
+If the logger is used as stopper this argument contains the maximal time
+which are available to train the model.
 }
-\item{\code{time_unit} [\code{character(1)}]}{
-  Character to specify the time unit. Possible choices are \code{minutes},
-  \code{seconds} or \code{microseconds}
+\item{\code{time_unit} \link{\code{character(1)}}}{
+Character to specify the time unit. Possible choices are \code{minutes},
+\code{seconds} or \code{microseconds}
 }
 }
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{

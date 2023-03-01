@@ -2,14 +2,26 @@
 % Please edit documentation in R/RcppExports.R
 \name{CategoricalDataRaw}
 \alias{CategoricalDataRaw}
-\title{Data class for character variables}
+\title{Data class for categorical variables
+
+\link{CategoricalDataRaw} creates an data object which can be used as source
+object to instantiate categorical base learner. In contrast to \link{CategoricalData}
+the data are stored as raw categorical vector. \link{CategoricalData} can be compared
+to a factor class with an integer encoding and a hash map for reassignment.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{x}{(\code{character()})\cr
+Categorical vector.}
 }
 \description{
-\code{CategoricalDataRaw} creates an data object which can be used as source
-object to instantiate categorical base learner. In contrast to \code{CategoricalData}
-the data are stored as raw categorical vector.
+Data class for categorical variables
+
+\link{CategoricalDataRaw} creates an data object which can be used as source
+object to instantiate categorical base learner. In contrast to \link{CategoricalData}
+the data are stored as raw categorical vector. \link{CategoricalData} can be compared
+to a factor class with an integer encoding and a hash map for reassignment.
 }
 \section{Usage}{
 
@@ -18,30 +30,26 @@ CategoricalDataRaw$new(x, data_identifier)
 }
 }
 
-\section{Arguments}{
-
-\describe{
-\item{\code{x} [\code{character}]}{
-  Character vector containing the classes.
-}
-\item{\code{data_identifier} [\code{character(1)}]}{
-  The name for the data specified in \code{data_mat}. Note that it is
-  important to have the same data names for train and evaluation data.
-}
-}
-}
-
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
-\item{\code{getData()}}{Throws error because no representation is calculated.}
-\item{\code{getRawData()}}{Get raw character data.}
-\item{\code{getIdentifier()}}{Get data identifier.}
+\itemize{
+\item \verb{$getData()}: \verb{() -> stop()}\cr
+Throws error because no representation is calculated.}
+\item \verb{$getRawData()}: \verb{() -> character()}
+\item \verb{$getIdentifier()}: \verb{() -> character(1)}
+}
+}
+
+\section{Inherited methods from Data}{
+
+\itemize{
+\item \verb{$getDataType()}: \verb{() -> character(1)}
 }
 }
 

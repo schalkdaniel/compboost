@@ -2,14 +2,14 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCustom}
 \alias{BaselearnerCustom}
-\title{Create custom base-learner factory by using R functions.}
+\title{Create custom base learner factory by using R functions.}
 \format{
 \code{\link{S4}} object.
 }
 \description{
-\code{BaselearnerCustom} creates a custom base-learner factory by
-  setting custom \code{R} functions. This factory object can be registered
-  within a base-learner list and then used for training.
+\code{BaselearnerCustom} creates a custom base learner factory by
+setting custom \code{R} functions. This factory object can be registered
+within a base learner list and then used for training.
 }
 \section{Usage}{
 
@@ -22,63 +22,63 @@ BaselearnerCustom$new(data_source, list(instantiate_fun,
 \section{Arguments}{
 
 \describe{
-\item{\code{data_source} [\code{Data} Object]}{
-  Data object which contains the source data.
+\item{\code{data_source} \link{\code{Data} Object}}{
+Data object which contains the source data.
 }
-\item{\code{instantiate_fun} [\code{function}]}{
-  \code{R} function to transform the source data. For details see the
-  \code{Details}.
+\item{\code{instantiate_fun} \link{\code{function}}}{
+\code{R} function to transform the source data. For details see the
+\code{Details}.
 }
-\item{\code{train_fun} [\code{function}]}{
-  \code{R} function to train the base-learner on the target data. For
-  details see the \code{Details}.
+\item{\code{train_fun} \link{\code{function}}}{
+\code{R} function to train the base learner on the target data. For
+details see the \code{Details}.
 }
-\item{\code{predict_fun} [\code{function}]}{
-  \code{R} function to predict on the object returned by \code{train}.
-  For details see the \code{Details}.
+\item{\code{predict_fun} \link{\code{function}}}{
+\code{R} function to predict on the object returned by \code{train}.
+For details see the \code{Details}.
 }
-\item{\code{param_fun} [\code{function}]}{
-  \code{R} function to extract the parameter of the object returned by
-  \code{train}. For details see the \code{Details}.
+\item{\code{param_fun} \link{\code{function}}}{
+\code{R} function to extract the parameter of the object returned by
+\code{train}. For details see the \code{Details}.
 }
 }
 }
 
 \section{Details}{
 
-  The function must have the following structure:
+The function must have the following structure:
 
-  \code{instantiateData(X) { ... return (X_trafo) }} With a matrix argument
-  \code{X} and a matrix as return object.
+\code{instantiateData(X) { ... return (X_trafo) }} With a matrix argument
+\code{X} and a matrix as return object.
 
-  \code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
-  and a matrix argument \code{X}. The target data is used in \code{X} while
-  \code{y} contains the response. The function can return any \code{R}
-  object which is stored within a \code{SEXP}.
+\code{train(y, X) { ... return (SEXP) }} With a vector argument \code{y}
+and a matrix argument \code{X}. The target data is used in \code{X} while
+\code{y} contains the response. The function can return any \code{R}
+object which is stored within a \code{SEXP}.
 
-  \code{predict(model, newdata) { ... return (prediction) }} The returned
-  object of the \code{train} function is passed to the \code{model}
-  argument while \code{newdata} contains a new matrix used for predicting.
+\code{predict(model, newdata) { ... return (prediction) }} The returned
+object of the \code{train} function is passed to the \code{model}
+argument while \code{newdata} contains a new matrix used for predicting.
 
-  \code{extractParameter() { ... return (parameters) }} Again, \code{model}
-  contains the object returned by \code{train}. The returned object must be
-  a matrix containing the estimated parameter. If no parameter should be
-  estimated one can return \code{NA}.
+\code{extractParameter() { ... return (parameters) }} Again, \code{model}
+contains the object returned by \code{train}. The returned object must be
+a matrix containing the estimated parameter. If no parameter should be
+estimated one can return \code{NA}.
 
-  For an example see the \code{Examples}.
+For an example see the \code{Examples}.
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+for modeling.}
+\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
 }
 }
 
@@ -104,7 +104,7 @@ extractParameter = function (model) {
   return(as.matrix(model))
 }
 
-# Create new custom linear base-learner factory:
+# Create new custom linear base learner factory:
 custom_lin_factory = BaselearnerCustom$new(data_source,
   list(instantiate_fun = instantiateDataFun, train_fun = trainFun,
     predict_fun = predictFun, param_fun = extractParameter))

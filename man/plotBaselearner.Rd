@@ -7,13 +7,13 @@
 plotBaselearner(cboost, blname, npoints = 100L)
 }
 \arguments{
-\item{cboost}{[\code{Compboost} class]\cr
+\item{cboost}{\link{\code{Compboost} class}\cr
 A trained \code{Compboost} object.}
 
-\item{blname}{[\code{character(1L)}]\cr
+\item{blname}{\link{\code{character(1L)}}\cr
 Name of the base learner. Must be one of \code{cboost$getBaselearnerNames()}.}
 
-\item{npoints}{[\code{integer(1L)}]\cr
+\item{npoints}{\link{\code{integer(1L)}}\cr
 Number of points which are predicted for the lines (only applies to numerical features).}
 }
 \value{

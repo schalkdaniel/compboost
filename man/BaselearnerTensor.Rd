@@ -2,12 +2,12 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerTensor}
 \alias{BaselearnerTensor}
-\title{Base-learner factory to make regression using tensor products}
+\title{Base learner factory to make regression using tensor products}
 \format{
 \code{\link{S4}} object.
 }
 \description{
-\code{BaselearnerTensor} creates a combined base-learner factory
- object which can be registered within a base-learner list and then used
- for training.
+\code{BaselearnerTensor} creates a combined base learner factory
+object which can be registered within a base learner list and then used
+for training.
 }

@@ -101,7 +101,7 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   gg = gg +
     ggplot2::labs(color = "Baselearner") +
     ggplot2::xlab(feat) +
-    ggplot2::ylab("Contribution to\nprediction scroes")
+    ggplot2::ylab("Contribution to\nprediction scores")
 
   return(gg)
 }

@@ -23,22 +23,22 @@ OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles, nc
 \section{Arguments}{
 
 \describe{
-\item{\code{nu_min} [\code{numeric(1)}]}{
-  Minimal learning rate.
+\item{\code{nu_min} \link{\code{numeric(1)}}}{
+Minimal learning rate.
 }
-\item{\code{nu_max} [\code{numeric(1)}]}{
-  Maximal learning rate.
+\item{\code{nu_max} \link{\code{numeric(1)}}}{
+Maximal learning rate.
 }
-\item{\code{cycles} [\code{integer(1)}]}{
-  Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
+\item{\code{cycles} \link{\code{integer(1)}}}{
+Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
 }
-\item{\code{anneal_iter_max} [\code{integer(1)}]}{
-  Maximal number of iters for which annealing is applied. If the iteration is bigger
-  than anneal_iter_max, then nu_min is used as fixed learning rate.
+\item{\code{anneal_iter_max} \link{\code{integer(1)}}}{
+Maximal number of iters for which annealing is applied. If the iteration is bigger
+than anneal_iter_max, then nu_min is used as fixed learning rate.
 }
-\item{\code{ncores} [\code{integer(1)}]}{
-  Number of cores used to fit the algorithm. Note that number of used cores
-  should be smaller or equal the number of base learner.
+\item{\code{ncores} \link{\code{integer(1)}}}{
+Number of cores used to fit the algorithm. Note that number of used cores
+should be smaller or equal the number of base learner.
 }
 }
 }

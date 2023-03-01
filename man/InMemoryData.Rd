@@ -2,66 +2,53 @@
 % Please edit documentation in R/RcppExports.R
 \name{InMemoryData}
 \alias{InMemoryData}
-\title{In memory data class to store data in RAM}
+\title{Store data in RAM}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{data_mat}{(\code{matrix()})\cr
+The data matrix.}
+
+\item{data_identifier}{(\code{character(1)})\cr
+Data id, e.g. a feature name.}
 }
 \description{
-\code{InMemoryData} creates an data object which can be used as source or
-target object within the base-learner factories of \code{compboost}. The
-convention to initialize target data is to call the constructor without
-any arguments.
+This data container stores a vector as it is in the RAM and makes it
+accessible for \link{Compboost}.
 }
 \section{Usage}{
 
 \preformatted{
 InMemoryData$new()
 InMemoryData$new(data_mat, data_identifier)
+InMemoryData$new(data_mat, data_identifier, use_sparse)
 }
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{data_mat} [\code{matrix}]}{
-  Matrix containing the source data. This source data is later transformed
-  to obtain the design matrix a base-learner uses for training.
-}
-\item{\code{data_identifier} [\code{character(1)}]}{
-  The name for the data specified in \code{data_mat}. Note that it is
-  important to have the same data names for train and evaluation data.
-}
-}
-}
-
-\section{Details}{
-
-  The \code{data_mat} needs to suits the base-learner. For instance, the
-  spline base-learner does just take a one column matrix since there are
-  just one dimensional splines at the moment.
-
-  The \code{data_mat} and \code{data_identifier} of a target data object
-  is set automatically by passing the source and target object to a
-  factory. \code{getData()} can then be used to access the
-  transformed data of the target object.
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
-\describe{
-\item{\code{getData()}}{}
-\item{\code{getIdentifier()}}{}
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getIdentifier()}: \verb{() -> character(1)}
+}
+}
+
+\section{Inherited methods from Data}{
+
+\itemize{
+\item \verb{$getDataType()}: \verb{() -> character(1)}
 }
 }
 
 \examples{
 # Sample data:
-data_mat = cbind(1:10)
+data_mat = cbind(rnorm(10))
 
 # Create new data object:
 data_obj = InMemoryData$new(data_mat, "my_data_name")

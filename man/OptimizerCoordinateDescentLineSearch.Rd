@@ -8,8 +8,8 @@
 }
 \description{
 This class defines a new object which is used to conduct Coordinate Descent with line search.
-The optimizer just calculates for each base-learner the sum of squared error and returns
-the base-learner with the smallest SSE. In addition, this optimizer computes
+The optimizer just calculates for each base learner the sum of squared error and returns
+the base learner with the smallest SSE. In addition, this optimizer computes
 a line search to find the optimal step size in each iteration.
 }
 \section{Usage}{
@@ -23,9 +23,9 @@ OptimizerCoordinateDescentLineSearch$new(ncores)
 \section{Arguments}{
 
 \describe{
-\item{\code{ncores} [\code{integer(1)}]}{
-  Number of cores used to fit the algorithm. Note that number of used cores
-  should be smaller or equal the number of base learner.
+\item{\code{ncores} \link{\code{integer(1)}}}{
+Number of cores used to fit the algorithm. Note that number of used cores
+should be smaller or equal the number of base learner.
 }
 }
 }

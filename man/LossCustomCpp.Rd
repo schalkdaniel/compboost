@@ -20,14 +20,14 @@ LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 \section{Arguments}{
 
 \describe{
-\item{\code{loss_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} loss function.
+\item{\code{loss_ptr} \link{\code{externalptr}}}{
+External pointer to the \code{C++} loss function.
 }
-\item{\code{grad_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} gradient function.
+\item{\code{grad_ptr} \link{\code{externalptr}}}{
+External pointer to the \code{C++} gradient function.
 }
-\item{\code{const_init_ptr} [\code{externalptr}]}{
-  External pointer to the \code{C++} constant initialization function.
+\item{\code{const_init_ptr} \link{\code{externalptr}}}{
+External pointer to the \code{C++} constant initialization function.
 }
 }
 }

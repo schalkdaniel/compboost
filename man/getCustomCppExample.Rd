@@ -7,19 +7,19 @@
 getCustomCppExample(example = "blearner", silent = FALSE)
 }
 \arguments{
-\item{example}{[\code{character(1)}] \cr
+\item{example}{\link{\code{character(1)}} \cr
 Character value indicating if an example for the base-learner or for the
 loss should be returned. The values has to be one of \code{blearner} or \code{loss}.}
 
-\item{silent}{[\code{logical(1)}] \cr
+\item{silent}{\link{\code{logical(1)}} \cr
 Logical value indicating if the example code should be printed to the screen or not.}
 }
 \value{
 This function returns a character vector that can be compiled using
-  \code{Rcpp::sourceCpp(code = getCustomCppExample())} to define a new 
-  custom cpp logger.
+\code{Rcpp::sourceCpp(code = getCustomCppExample())} to define a new
+custom cpp logger.
 }
 \description{
 This function can be used to print the trace of the parameters
-  of a trained compboost object.
+of a trained compboost object.
 }

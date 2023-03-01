@@ -212,6 +212,8 @@ public:
   std::vector<std::string>                       getSelectedMomentumBaselearner () const;
   std::pair<std::vector<std::string>, arma::mat> getParameterMatrix ()             const;
 
+  arma::mat getErrorCorrectedPseudoResiduals() const;
+
   //void updateAggrParameter (std::shared_ptr<blearner::Baselearner>&, double, double, blearnertrack::BaselearnerTrack&);
   std::map<std::string, arma::mat> addParamMaps (const std::map<std::string, arma::mat>&, const std::map<std::string, arma::mat>&, const double) const;
   void updateAggrParameter (double, blearnertrack::BaselearnerTrack&);

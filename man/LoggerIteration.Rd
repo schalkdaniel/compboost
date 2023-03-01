@@ -19,22 +19,22 @@ LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 \section{Arguments}{
 
 \describe{
-\item{\code{logger_id} [\code{character(1)}]}{
-  Unique identifier of the logger.
+\item{\code{logger_id} \link{\code{character(1)}}}{
+Unique identifier of the logger.
 }
-\item{\code{use_as_stopper} [\code{logical(1)}]}{
-  Boolean to indicate if the logger should also be used as stopper.
+\item{\code{use_as_stopper} \link{\code{logical(1)}}}{
+Boolean to indicate if the logger should also be used as stopper.
 }
-\item{\code{max_iterations} [\code{integer(1)}]}{
-  If the logger is used as stopper this argument defines the maximal
-  iterations.
+\item{\code{max_iterations} \link{\code{integer(1)}}}{
+If the logger is used as stopper this argument defines the maximal
+iterations.
 }
 }
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{

@@ -7,7 +7,7 @@
 plotRisk(cboost)
 }
 \arguments{
-\item{cboost}{[\code{Compboost} class]\cr
+\item{cboost}{\link{\code{Compboost} class}\cr
 A trained \code{Compboost} object.}
 }
 \value{

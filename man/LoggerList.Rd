@@ -19,22 +19,22 @@ LoggerList$new()
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
 \item{\code{clearRegisteredLogger()}}{Removes all registered logger
-  from the list. The used logger are not deleted, just removed from the
-  map.}
+from the list. The used logger are not deleted, just removed from the
+map.}
 \item{\code{getNamesOfRegisteredLogger()}}{Returns the registered logger
-  names as character vector.}
+names as character vector.}
 \item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
-  logger as integer.}
+logger as integer.}
 \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
 \item{\code{registerLogger(logger)}}{Includes a new \code{logger}
-  into the logger list with the \code{logger_id} as key.}
+into the logger list with the \code{logger_id} as key.}
 }
 }
 

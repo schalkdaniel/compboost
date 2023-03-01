@@ -7,16 +7,16 @@
 plotPEUni(cboost, feat, npoints = 100L, individual = TRUE)
 }
 \arguments{
-\item{cboost}{[\code{Compboost} class]\cr
+\item{cboost}{\link{\code{Compboost} class}\cr
 A trained \code{Compboost} object.}
 
-\item{feat}{[\code{character(1L)}]\cr
+\item{feat}{\link{\code{character(1L)}}\cr
 Name of the feature.}
 
-\item{npoints}{[\code{integer(1L)}]\cr
+\item{npoints}{\link{\code{integer(1L)}}\cr
 Number of points which are predicted for the lines (only applies to numerical features).}
 
-\item{individual}{[\code{logical(1L)}]\cr
+\item{individual}{\link{\code{logical(1L)}}\cr
 Flag whether individual base learners should be added to the graphic or not.}
 }
 \value{
@@ -27,7 +27,7 @@ This function visualizes the contribution of a specific feature to the overall
 prediction score. If multiple base learner of the same features are included,
 they are all added to the graphic as well as the aggregated contribution. The
 difference to \code{plotBaselearner} is that potentially multiple base learners
-that are based on `feat` are aggregated and visualized while \code{plotBaselearner}
+that are based on \code{feat} are aggregated and visualized while \code{plotBaselearner}
 only visualizes the contribution of one specific base learner. The function
 also automatically decides whether the given feature is numeric or categorical and
 chooses an appropriate technique (lines for numeric and horizontal lines for categorical).

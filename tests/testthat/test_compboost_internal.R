@@ -81,45 +81,40 @@ test_that("compboost does the same as mboost", {
   y = df[["mpg"]]
   response = ResponseRegr$new("mpg", as.matrix(y))
 
-  expect_silent({ data_source_hp  = InMemoryData$new(X_hp, "hp") })
-  expect_silent({ data_source_hp2 = InMemoryData$new(X_hp2, "hp2") })
-  expect_silent({ data_source_wt  = InMemoryData$new(X_wt, "wt") })
+  data_source_hp = expect_silent(InMemoryData$new(X_hp, "hp"))
+  data_source_hp2 = expect_silent(InMemoryData$new(X_hp2, "hp2"))
+  data_source_wt = expect_silent(InMemoryData$new(X_wt, "wt"))
 
   eval_oob_test = list(data_source_hp, data_source_wt, data_source_hp2)
 
   learning_rate = 0.05
   iter_max = 500
 
-  expect_silent({ linear_factory_hp = BaselearnerPolynomial$new(data_source_hp,
-    list(degree = 1, intercept = FALSE)) })
-  expect_silent({ linear_factory_wt = BaselearnerPolynomial$new(data_source_wt,
-    list(degree = 1, intercept = FALSE)) })
-  expect_silent({ quadratic_factory_hp = BaselearnerPolynomial$new(data_source_hp2,
-    list(degree = 1, intercept = FALSE)) })
-  expect_silent({ factory_list = BlearnerFactoryList$new() })
+  linear_factory_hp = expect_silent(BaselearnerPolynomial$new(data_source_hp, list(degree = 1, intercept = FALSE)))
+  linear_factory_wt = expect_silent(BaselearnerPolynomial$new(data_source_wt, list(degree = 1, intercept = FALSE)))
+  quadratic_factory_hp = expect_silent(BaselearnerPolynomial$new(data_source_hp2, list(degree = 1, intercept = FALSE)))
+  factory_list = expect_silent(BlearnerFactoryList$new())
 
   # Register factorys:
   expect_silent(factory_list$registerFactory(linear_factory_hp))
   expect_silent(factory_list$registerFactory(linear_factory_wt))
   expect_silent(factory_list$registerFactory(quadratic_factory_hp))
-  expect_silent({ loss_quadratic = LossQuadratic$new() })
-  expect_silent({ optimizer = OptimizerCoordinateDescent$new() })
-  expect_silent({ log_iterations = LoggerIteration$new(" iterations", TRUE, iter_max) })
-  expect_silent({ log_time       = LoggerTime$new("time_ms", FALSE, 500, "microseconds") })
-  expect_silent({ logger_list = LoggerList$new() })
-  expect_silent({ logger_list$registerLogger(log_iterations) })
-  expect_silent({ logger_list$registerLogger(log_time) })
-  expect_silent({
-    cboost = Compboost_internal$new(
-      response      = response,
-      learning_rate = learning_rate,
-      stop_if_all_stopper_fulfilled = TRUE,
-      factory_list = factory_list,
-      loss         = loss_quadratic,
-      logger_list  = logger_list,
-      optimizer    = optimizer
-    )
-  })
+
+  loss_quadratic = expect_silent(LossQuadratic$new())
+  optimizer = expect_silent(OptimizerCoordinateDescent$new())
+  log_iterations = expect_silent(LoggerIteration$new(" iterations", TRUE, iter_max))
+  log_time = expect_silent(LoggerTime$new("time_ms", FALSE, 500, "microseconds"))
+  logger_list = expect_silent(LoggerList$new())
+  expect_silent(logger_list$registerLogger(log_iterations))
+  expect_silent(logger_list$registerLogger(log_time))
+  cboost = expect_silent(Compboost_internal$new(
+    response      = response,
+    learning_rate = learning_rate,
+    stop_if_all_stopper_fulfilled = TRUE,
+    factory_list = factory_list,
+    loss         = loss_quadratic,
+    logger_list  = logger_list,
+    optimizer    = optimizer))
   expect_output(cboost$train(trace = 100))
   suppressWarnings({
     library(mboost)
@@ -139,9 +134,9 @@ test_that("compboost does the same as mboost", {
   cboost_xselect = match(
     x     = cboost$getSelectedBaselearner(),
     table = c(
-      "hp_polynomial_degree_1",
-      "wt_polynomial_degree_1",
-      "hp2_polynomial_degree_1"
+      "hp_poly1",
+      "wt_poly1",
+      "hp2_poly1"
     )
   )
   expect_equal(predict(mod), cboost$getPrediction(FALSE))

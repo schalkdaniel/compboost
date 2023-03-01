@@ -7,20 +7,20 @@
 plotTensor(cboost, tname, npoints = 100L, nbins = 15L)
 }
 \arguments{
-\item{cboost}{[\code{Compboost} class]\cr
+\item{cboost}{\link{\code{Compboost} class}\cr
 A trained \code{Compboost} object.}
 
-\item{tname}{[\code{character(2L)}]\cr
+\item{tname}{\link{\code{character(2L)}}\cr
 Name of the tensor base learner.}
 
-\item{npoints}{[\code{integer(1L)}]\cr
+\item{npoints}{\link{\code{integer(1L)}}\cr
 Number of grid points per numerical feature. Note: For two numerical features
 the overall number of grid points is \code{npoints^2}. For a numerical and
 categorical feature it is \code{npoints * ncat} with \code{ncat} the number
 of categories. For two categorical features \code{ncat^2} grid points are
 drawn.}
 
-\item{nbins}{[\code{logical(1L)}]\cr
+\item{nbins}{\link{\code{logical(1L)}}\cr
 Number of bins for the surface. Only applies in the case of two numerical features.
 A smooth surface is drawn if \code{nbins = NULL}.}
 }

@@ -714,6 +714,8 @@ std::vector<std::string> OptimizerAGBM::getSelectedMomentumBaselearner () const
 std::pair<std::vector<std::string>, arma::mat> OptimizerAGBM::getParameterMatrix () const { return _momentum_blearnertrack.getParameterMatrix(); }
 
 
+arma::mat OptimizerAGBM::getErrorCorrectedPseudoResiduals () const { return _pr_corr; }
+
 std::map<std::string, arma::mat> OptimizerAGBM::addParamMaps (const std::map<std::string, arma::mat>& pmap1, const std::map<std::string, arma::mat>& pmap2, const double w) const
 {
   std::map<std::string, arma::mat> aggr_map;

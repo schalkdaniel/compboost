@@ -2,15 +2,15 @@
 % Please edit documentation in R/RcppExports.R
 \name{BlearnerFactoryList}
 \alias{BlearnerFactoryList}
-\title{Base-learner factory list to define the set of base-learners}
+\title{Base learner factory list to define the set of base learners}
 \format{
 \code{\link{S4}} object.
 }
 \description{
-\code{BlearnerFactoryList} creates an object in which base-learner factories
+\code{BlearnerFactoryList} creates an object in which base learner factories
 can be registered. This object can then be passed to compboost as set of
-base-learner which is used by the optimizer to get the new best
-base-learner.
+base learner which is used by the optimizer to get the new best
+base learner.
 }
 \section{Usage}{
 
@@ -21,22 +21,22 @@ BlearnerFactoryList$new()
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
 \item{\code{registerFactory(BaselearnerFactory)}}{Takes a object of the
-  class \code{BaseLearnerFactory} and adds this factory to the set of
-  base-learner.}
+class \code{BaseLearnerFactory} and adds this factory to the set of
+base learner.}
 \item{\code{printRegisteredFactories()}}{Get all registered factories.}
 \item{\code{clearRegisteredFactories()}}{Remove all registered factories.
-  Note that the factories are not deleted, just removed from the map.}
+Note that the factories are not deleted, just removed from the map.}
 \item{\code{getModelFrame()}}{Get each target data matrix parsed to one
-  big matrix.}
+big matrix.}
 \item{\code{getNumberOfRegisteredFactories()}}{Get the number of registered
-  factories.}
+factories.}
 }
 }
 
@@ -52,7 +52,7 @@ lin_factory = BaselearnerPolynomial$new(data_source,
 poly_factory = BaselearnerPolynomial$new(data_source,
   list(degree = 2, intercept = TRUE))
 
-# Create new base-learner list:
+# Create new base learner list:
 my_bl_list = BlearnerFactoryList$new()
 
 # Register factories:

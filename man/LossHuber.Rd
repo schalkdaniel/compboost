@@ -37,13 +37,13 @@ LossHuber$new(offset, delta)
 \section{Arguments}{
 
 \describe{
-\item{\code{offset} [\code{numeric(1)}]}{
-  Numerical value which can be used to set a custom offset. If so, this
-  value is returned instead of the loss optimal initialization.
+\item{\code{offset} \link{\code{numeric(1)}}}{
+Numerical value which can be used to set a custom offset. If so, this
+value is returned instead of the loss optimal initialization.
 }
-\item{\code{delta} [\code{numeric(1)}]}{
-  Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
-  Default is 1.
+\item{\code{delta} \link{\code{numeric(1)}}}{
+Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
+Default is 1.
 }
 }
 }

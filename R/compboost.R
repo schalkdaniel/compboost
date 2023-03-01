@@ -1,6 +1,6 @@
-#' Component-wise boosting
+#' @title Component-wise boosting
 #'
-#' This class wraps the `S4` class system exposed by `Rcpp` to fit a component-wise
+#' @description This class wraps the `S4` class system exposed by `Rcpp` to fit a component-wise
 #' boosting model. The two convenient wrapper [boostLinear()] and [boostSplines()] are
 #' also creating objects of this class.
 #'
@@ -911,6 +911,14 @@ Compboost = R6::R6Class("Compboost",
   ), # end public
 
   active = list(
+
+    #' @field offset (`numeric()`)\cr
+    #' Offset of the estimated model.
+    offset = function(x) {
+      if (! missing(x)) stop("`offset` is read only.")
+      if (is.null(self$model)) return(NULL)
+      return(self$model$getOffset())
+    },
 
     #' @field baselearner_list (`list()`)\cr
     #' Named `list` with names `$getBaselearnerNames()`. Each elements contains

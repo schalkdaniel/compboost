@@ -4,18 +4,13 @@
 \alias{Compboost}
 \title{Component-wise boosting}
 \description{
-Component-wise boosting
-
-Component-wise boosting
-}
-\details{
-This class wraps the `S4` class system exposed by `Rcpp` to fit a component-wise
-boosting model. The two convenient wrapper [boostLinear()] and [boostSplines()] are
+This class wraps the \code{S4} class system exposed by \code{Rcpp} to fit a component-wise
+boosting model. The two convenient wrapper \code{\link[=boostLinear]{boostLinear()}} and \code{\link[=boostSplines]{boostSplines()}} are
 also creating objects of this class.
 
-Visualizing the internals see [plotBaselearnerTraces()], [plotBaselearner()], [plotFeatureImportance()],
-[plotPEUni()], [plotTensor()], and [plotRisk()]. Visualizing the contribution for
-one new observation see [plotIndividualContribution()].
+Visualizing the internals see \code{\link[=plotBaselearnerTraces]{plotBaselearnerTraces()}}, \code{\link[=plotBaselearner]{plotBaselearner()}}, \code{\link[=plotFeatureImportance]{plotFeatureImportance()}},
+\code{\link[=plotPEUni]{plotPEUni()}}, \code{\link[=plotTensor]{plotTensor()}}, and \code{\link[=plotRisk]{plotRisk()}}. Visualizing the contribution for
+one new observation see \code{\link[=plotIndividualContribution]{plotIndividualContribution()}}.
 }
 \examples{
 cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
@@ -35,60 +30,60 @@ cboost$baselearner_list$hp_spline$factory$getPenalty()
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(`data.frame`)\cr
-The data used for training the model. Note: If `oob_fraction` is set, the
-input data is split into `data` and `data_oob`. Hence, `data` contains a
+\item{\code{data}}{(\code{data.frame})\cr
+The data used for training the model. Note: If \code{oob_fraction} is set, the
+input data is split into \code{data} and \code{data_oob}. Hence, \code{data} contains a
 subset of the input data to train the model.}
 
-\item{\code{data_oob}}{(`data.frame`)\cr
-An out-of-bag data set used for risk logging or early stopping. `data_oob`
-is split from the input data (see the `data` field).}
+\item{\code{data_oob}}{(\code{data.frame})\cr
+An out-of-bag data set used for risk logging or early stopping. \code{data_oob}
+is split from the input data (see the \code{data} field).}
 
-\item{\code{oob_fraction}}{(`numeric(1)`)\cr
-The fraction of `nrow(input data)` defining the number of observations in
-`data_oob`.}
+\item{\code{oob_fraction}}{(\code{numeric(1)})\cr
+The fraction of \verb{nrow(input data)} defining the number of observations in
+\code{data_oob}.}
 
-\item{\code{response}}{([ResponseRegr] | [ResponseBinaryClassif])\cr
-A `S4` response object. See `?ResponseRegr` or `?ResponseBinaryClassif` for help.
+\item{\code{response}}{(\link{ResponseRegr} | \link{ResponseBinaryClassif})\cr
+A \code{S4} response object. See \code{?ResponseRegr} or \code{?ResponseBinaryClassif} for help.
 This object holds the current prediction, pseudo residuals and functions to
-transform scores. Note: This response corresponds to the `data` field and holds
-the predictions for that `data.frame`.}
+transform scores. Note: This response corresponds to the \code{data} field and holds
+the predictions for that \code{data.frame}.}
 
-\item{\code{response_oob}}{([ResponseRegr] | [ResponseBinaryClassif])\cr
-A `S4` response object. See `?ResponseRegr` or `?ResponseBinaryClassif` for help.
-Same as `response` but for `data_oob`.}
+\item{\code{response_oob}}{(\link{ResponseRegr} | \link{ResponseBinaryClassif})\cr
+A \code{S4} response object. See \code{?ResponseRegr} or \code{?ResponseBinaryClassif} for help.
+Same as \code{response} but for \code{data_oob}.}
 
-\item{\code{target}}{(`character(1)`)\cr
-Name of the target variable in `data`.}
+\item{\code{target}}{(\code{character(1)})\cr
+Name of the target variable in \code{data}.}
 
-\item{\code{id}}{(`character(1)`)\cr
-Name of the data object defined in `$new(data, ...)`.}
+\item{\code{id}}{(\code{character(1)})\cr
+Name of the data object defined in \verb{$new(data, ...)}.}
 
-\item{\code{optimizer}}{([OptimizerCoordinateDescent] | [OptimizerCoordinateDescentLineSearch] | [OptimizerAGBM] | [OptimizerCosineAnnealing])\cr
-An initialized `S4` optimizer object (requires to call `Optimizer*.new(..)`.
+\item{\code{optimizer}}{(\link{OptimizerCoordinateDescent} | \link{OptimizerCoordinateDescentLineSearch} | \link{OptimizerAGBM} | \link{OptimizerCosineAnnealing})\cr
+An initialized \code{S4} optimizer object (requires to call \verb{Optimizer*$new(..)}.
 See the respective help page for further information.}
 
-\item{\code{loss}}{([LossQuadratic] | [LossBinomial] | [LossHuber] | [LossAbsolute] | [LossQuantile])\cr
-An initialized `S4` loss object (requires to call `Loss*$new(...)`).
+\item{\code{loss}}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
+An initialized \code{S4} loss object (requires to call \verb{Loss*$new(...)}).
 See the respective help page for further information.}
 
-\item{\code{learning_rate}}{(`numeric(1)`)\cr
+\item{\code{learning_rate}}{(\code{numeric(1)})\cr
 The learning rate of the model. Note: Some optimizer do dynamically vary the learning rate.}
 
-\item{\code{model}}{([Compboost_internal])\cr
-The internal Compboost object exported from `Rcpp`. See `?Compboost_internal` for details.}
+\item{\code{model}}{(\link{Compboost_internal})\cr
+The internal Compboost object exported from \code{Rcpp}. See \code{?Compboost_internal} for details.}
 
 \item{\code{bl_factory_list}}{([BlearnerFactoryList)\cr
-A container with all base learners. See `?BlearnerFactoryList` for details.}
+A container with all base learners. See \code{?BlearnerFactoryList} for details.}
 
-\item{\code{positive}}{(`character(1)`)\cr
+\item{\code{positive}}{(\code{character(1)})\cr
 The positive class in the case of binary classification.}
 
-\item{\code{stop_all}}{(`logical(1)`)\cr
-Indicator whether all stopper must return `TRUE` to early stop the algorithm.
-Comparable to `all()` if `stop_all = TRUE` and `any()` if `stop_all = FALSE`.}
+\item{\code{stop_all}}{(\code{logical(1)})\cr
+Indicator whether all stopper must return \code{TRUE} to early stop the algorithm.
+Comparable to \code{all()} if \code{stop_all = TRUE} and \code{any()} if \code{stop_all = FALSE}.}
 
-\item{\code{early_stop}}{(`logical(1)`)\cr
+\item{\code{early_stop}}{(\code{logical(1)})\cr
 Indicator whether early stopping is used or not.}
 }
 \if{html}{\out{</div>}}
@@ -96,29 +91,33 @@ Indicator whether early stopping is used or not.}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{baselearner_list}}{(`list()`)\cr
-Named `list` with names `$getBaselearnerNames()`. Each elements contains
+\item{\code{offset}}{(\code{numeric()})\cr
+Offset of the estimated model.}
 
-* `"feature"` (`character(1)`): The name of the feature from `data`.
-* `"factory"` (`Baselearner*`): The raw base learner as  `factory`object. See `?Baselearner*` for details.}
+\item{\code{baselearner_list}}{(\code{list()})\cr
+Named \code{list} with names \verb{$getBaselearnerNames()}. Each elements contains
+\itemize{
+\item \code{"feature"} (\code{character(1)}): The name of the feature from \code{data}.
+\item \code{"factory"} (\verb{Baselearner*}): The raw base learner as  \code{factory}object. See \verb{?Baselearner*} for details.
+}}
 
-\item{\code{boost_intercept}}{(`logical(1)`)\cr
-Logical value indicating whether an intercept base learner was added with `$addIntercept()` or not.}
+\item{\code{boost_intercept}}{(\code{logical(1)})\cr
+Logical value indicating whether an intercept base learner was added with \verb{$addIntercept()} or not.}
 
-\item{\code{logs}}{(`data.frame`)\cr
+\item{\code{logs}}{(\code{data.frame})\cr
 Basic information such as risk, selected base learner etc. about each iteration.
-If `oob_data` is set, further information about the validation/oob risk is also logged.
-The same applies for time logging etc. Note: Using the field `logs` internally is set and updated
-after each call to `$getLoggerData()`. Hence, it cashes the logged data set instead of
-recalculating the data set as it is done for `$getLoggerData()`.}
+If \code{oob_data} is set, further information about the validation/oob risk is also logged.
+The same applies for time logging etc. Note: Using the field \code{logs} internally is set and updated
+after each call to \verb{$getLoggerData()}. Hence, it cashes the logged data set instead of
+recalculating the data set as it is done for \verb{$getLoggerData()}.}
 
-\item{\code{idx_oob}}{(`integer()`)\cr
-An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
-Note: `oob_fraction` is ignored if this argument is set.}
+\item{\code{idx_oob}}{(\code{integer()})\cr
+An index vector used to split \code{data} into \code{data = data[idx_train, ]} and \code{data_oob = data[idx_oob, ]}.
+Note: \code{oob_fraction} is ignored if this argument is set.}
 
-\item{\code{idx_train}}{(`integer()`)\cr
-An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
-Note: `oob_fraction` is ignored if this argument is set.}
+\item{\code{idx_train}}{(\code{integer()})\cr
+An index vector used to split \code{data} into \code{data = data[idx_train, ]} and \code{data_oob = data[idx_oob, ]}.
+Note: \code{oob_fraction} is ignored if this argument is set.}
 }
 \if{html}{\out{</div>}}
 }
@@ -155,7 +154,7 @@ Note: `oob_fraction` is ignored if this argument is set.}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
-Creates a new instance of this [R6][R6::R6Class] class.
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$new(
   data = NULL,
@@ -175,43 +174,43 @@ Creates a new instance of this [R6][R6::R6Class] class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{data}}{(`data.frame`)\cr
-The data set to build the object. Note: This data set is completely used for training if `is.null(idx_oob)`.
-Otherwise, the data set is split into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.}
+\item{\code{data}}{(\code{data.frame})\cr
+The data set to build the object. Note: This data set is completely used for training if \code{is.null(idx_oob)}.
+Otherwise, the data set is split into \code{data = data[idx_train, ]} and \code{data_oob = data[idx_oob, ]}.}
 
-\item{\code{target}}{(`character(1)`)\cr
+\item{\code{target}}{(\code{character(1)})\cr
 Character indicating the name of the target variable.}
 
-\item{\code{optimizer}}{([OptimizerCoordinateDescent] | [OptimizerCoordinateDescentLineSearch] | [OptimizerAGBM] | [OptimizerCosineAnnealing])\cr
-An initialized `S4` optimizer object (requires to call `Optimizer*.new(..)`.
+\item{\code{optimizer}}{(\link{OptimizerCoordinateDescent} | \link{OptimizerCoordinateDescentLineSearch} | \link{OptimizerAGBM} | \link{OptimizerCosineAnnealing})\cr
+An initialized \code{S4} optimizer object (requires to call \code{Optimizer*.new(..)}.
 See the respective help page for further information.}
 
-\item{\code{loss}}{([LossQuadratic] | [LossBinomial] | [LossHuber] | [LossAbsolute] | [LossQuantile])\cr
-An initialized `S4` loss object (requires to call `Loss*$new(...)`).
+\item{\code{loss}}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
+An initialized \code{S4} loss object (requires to call \verb{Loss*$new(...)}).
 See the respective help page for further information.}
 
-\item{\code{learning_rate}}{(`numeric(1)`)\cr
-Learning rate of the model (default is `0.05`).}
+\item{\code{learning_rate}}{(\code{numeric(1)})\cr
+Learning rate of the model (default is \code{0.05}).}
 
-\item{\code{positive}}{(`character(1)`)\cr
+\item{\code{positive}}{(\code{character(1)})\cr
 The name of the positive class (in the case of binary classification).}
 
-\item{\code{oob_fraction}}{(`numeric(1)`)\cr
-The fraction of `nrow(input data)` defining the number of observations in
-`data_oob`. This argument is ignored if `idx_oob` is set.}
+\item{\code{oob_fraction}}{(\code{numeric(1)})\cr
+The fraction of \verb{nrow(input data)} defining the number of observations in
+\code{data_oob}. This argument is ignored if \code{idx_oob} is set.}
 
-\item{\code{early_stop}}{(`logical(1)`)\cr
+\item{\code{early_stop}}{(\code{logical(1)})\cr
 Indicator whether early stopping should be used or not.}
 
-\item{\code{idx_oob}}{(`integer()`)\cr
-An index vector used to split `data` into `data = data[idx_train, ]` and `data_oob = data[idx_oob, ]`.
-Note: `oob_fraction` is ignored if this argument is set.}
+\item{\code{idx_oob}}{(\code{integer()})\cr
+An index vector used to split \code{data} into \code{data = data[idx_train, ]} and \code{data_oob = data[idx_oob, ]}.
+Note: \code{oob_fraction} is ignored if this argument is set.}
 
-\item{\code{stop_args}}{(`list(integer(1), integer(1))`)\cr
-`list` containing two elements `patience` and `eps_for_break` which are used for early stopping.}
+\item{\code{stop_args}}{(\code{list(integer(1), integer(1))})\cr
+\code{list} containing two elements \code{patience} and \code{eps_for_break} which are used for early stopping.}
 
-\item{\code{file}}{(`character(1`)\cr
-File from which a model should be loaded. If `NULL`, `data` and `target` must be defined.}
+\item{\code{file}}{(\verb{character(1})\cr
+File from which a model should be loaded. If \code{NULL}, \code{data} and \code{target} must be defined.}
 }
 \if{html}{\out{</div>}}
 }
@@ -228,17 +227,17 @@ Add a logger to the model.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{logger}}{([LoggerIteration] | [LoggerTime] | [LoggerInbagRisk] | [LoggerOobRisk])\cr
+\item{\code{logger}}{(\link{LoggerIteration} | \link{LoggerTime} | \link{LoggerInbagRisk} | \link{LoggerOobRisk})\cr
 The uninitialized logger.}
 
-\item{\code{use_as_stopper}}{(`logical(1)`)\cr
+\item{\code{use_as_stopper}}{(\code{logical(1)})\cr
 Indicator defining the logger as stopper considering it for early stopping.}
 
-\item{\code{logger_id}}{(`character(1)`)\cr
-The id of the logger. This allows to define two logger of the same type (`e.g. risk logging`) but with different arguments.}
+\item{\code{logger_id}}{(\code{character(1)})\cr
+The id of the logger. This allows to define two logger of the same type (\verb{e.g. risk logging}) but with different arguments.}
 
 \item{\code{...}}{\cr
-Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.}
+Additional arguments passed to \code{loger$new(logger_id, use_as_stopper, ...)}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -253,7 +252,7 @@ Get the number of the current iteration.
 }
 
 \subsection{Returns}{
-`integer(1)` value.
+\code{integer(1)} value.
 }
 }
 \if{html}{\out{<hr>}}
@@ -270,16 +269,16 @@ without intercept.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{(`character(1)`)\cr
-The id of the base learner (default is `"intercept"`).}
+\item{\code{id}}{(\code{character(1)})\cr
+The id of the base learner (default is \code{"intercept"}).}
 
-\item{\code{data_source}}{([InMemoryData])\cr
+\item{\code{data_source}}{(\link{InMemoryData})\cr
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
+storing is supported, see \code{?InMemorydata} for details.}
 
-\item{\code{data_source}}{([InMemoryData])\cr
+\item{\code{data_source}}{(\link{InMemoryData})\cr
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
+storing is supported, see \code{?InMemorydata} for details.}
 }
 \if{html}{\out{</div>}}
 }
@@ -289,8 +288,8 @@ storing is supported, see `?InMemorydata` for details.}
 \if{latex}{\out{\hypertarget{method-addBaselearner}{}}}
 \subsection{Method \code{addBaselearner()}}{
 Add a base learner of one feature to the model that is considered in each iteration.
-Using `$addBaselearner()` just allows including univariate features. See `$addTensor()` for
-bivariate effect modelling and `$addComponents()` for an effect decomposition.
+Using \verb{$addBaselearner()} just allows including univariate features. See \verb{$addTensor()} for
+bivariate effect modelling and \verb{$addComponents()} for an effect decomposition.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$addBaselearner(
   feature,
@@ -304,28 +303,28 @@ bivariate effect modelling and `$addComponents()` for an effect decomposition.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{feature}}{(`character(1)`)\cr
-Name of the feature, must be a column in `data`.}
+\item{\code{feature}}{(\code{character(1)})\cr
+Name of the feature, must be a column in \code{data}.}
 
-\item{\code{feature}}{(`character(1)`)\cr
-Name of the feature, must be a column in `data`.}
+\item{\code{feature}}{(\code{character(1)})\cr
+Name of the feature, must be a column in \code{data}.}
 
-\item{\code{id}}{(`character(1)`)\cr
+\item{\code{id}}{(\code{character(1)})\cr
 The name of the base learner.}
 
-\item{\code{bl_factory}}{([BaselearnerPolynomial] | [BaselearnerPSpline] | [BaselearnerCategoricalBinary] | [BaselearnerCategoricalRidge])\cr
+\item{\code{bl_factory}}{(\link{BaselearnerPolynomial} | \link{BaselearnerPSpline} | \link{BaselearnerCategoricalBinary} | \link{BaselearnerCategoricalRidge})\cr
 Uninitialized base learner class. See the respective help page for details.}
 
-\item{\code{data_source}}{([InMemoryData])\cr
+\item{\code{data_source}}{(\link{InMemoryData})\cr
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
+storing is supported, see \code{?InMemorydata} for details.}
 
-\item{\code{data_source}}{([InMemoryData])\cr
+\item{\code{data_source}}{(\link{InMemoryData})\cr
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
-storing is supported, see `?InMemorydata` for details.}
+storing is supported, see \code{?InMemorydata} for details.}
 
 \item{\code{...}}{\cr
-Further argument spassed to the `$new(...)` constructor of `bl_factory`.}
+Further argument spassed to the \verb{$new(...)} constructor of \code{bl_factory}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -342,8 +341,8 @@ Remove a base learner from the model.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{blname}}{(`character(1)`)\cr
-Name of the base learner that should be removed. Must be an element of `$getBaselearnerNames()`.}
+\item{\code{blname}}{(\code{character(1)})\cr
+Name of the base learner that should be removed. Must be an element of \verb{$getBaselearnerNames()}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -353,10 +352,10 @@ Name of the base learner that should be removed. Must be an element of `$getBase
 \if{latex}{\out{\hypertarget{method-addTensor}{}}}
 \subsection{Method \code{addTensor()}}{
 Add a row-wise tensor product of features. Note: The base learner are pre-defined
-by the type of the feature. Numerical features uses a `BaselearnerPSpline` while categorical
-features are included using a `BaselearnerCategoricalRidge` base learner.
-To include an arbitrary tensor product requires to use the `S4` API with using
-`BaselearnerTensor` on two base learners of any type.
+by the type of the feature. Numerical features uses a \code{BaselearnerPSpline} while categorical
+features are included using a \code{BaselearnerCategoricalRidge} base learner.
+To include an arbitrary tensor product requires to use the \code{S4} API with using
+\code{BaselearnerTensor} on two base learners of any type.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$addTensor(
   feature1,
@@ -372,28 +371,28 @@ To include an arbitrary tensor product requires to use the `S4` API with using
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{feature1}}{(`character(1)`)\cr
-Name of the first feature. Must be an element of `names(data)`.}
+\item{\code{feature1}}{(\code{character(1)})\cr
+Name of the first feature. Must be an element of \code{names(data)}.}
 
-\item{\code{feature2}}{(`character(1)`)\cr
-Name of the second feature. Must be an element of `names(data)`.}
+\item{\code{feature2}}{(\code{character(1)})\cr
+Name of the second feature. Must be an element of \code{names(data)}.}
 
-\item{\code{df}}{(`numeric(1)`)\cr
-The degrees of freedom used for both base learner (this parameter overwrites `df1` and `df2`).}
+\item{\code{df}}{(\code{numeric(1)})\cr
+The degrees of freedom used for both base learner (this parameter overwrites \code{df1} and \code{df2}).}
 
-\item{\code{df1}}{(`numeric(1)`)\cr
+\item{\code{df1}}{(\code{numeric(1)})\cr
 The degrees of freedom used for the first base learner.}
 
-\item{\code{df2}}{(`numeric(1)`)\cr
+\item{\code{df2}}{(\code{numeric(1)})\cr
 The degrees of freedom used for the first base learner.}
 
-\item{\code{isotrop}}{(`logical(1)`)\cr
-Indicator how the two penalties should be combined, if `isotrop == TRUE`,
+\item{\code{isotrop}}{(\code{logical(1)})\cr
+Indicator how the two penalties should be combined, if \code{isotrop == TRUE},
 the total degrees of freedom are uniformly distributed over the dimensions while
-`isotrop == FALSE` allows to define how strong each of the two dimensions is penalized.}
+\code{isotrop == FALSE} allows to define how strong each of the two dimensions is penalized.}
 
 \item{\code{...}}{\cr
-Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.}
+Additional arguments passed to the \verb{$new()} constructor of the \link{BaselearnerPSpline} class.}
 }
 \if{html}{\out{</div>}}
 }
@@ -407,7 +406,7 @@ a non-linear term without the linear effect. This ensures that the linear
 component is selected prior to the non-linear effect. The non-linear effect
 is only included if a deviation from a linear effect is required.
 
-Note: Internally, a [BaselearnerPolynomial] with degree one and a [BaselearnerCentered] is added.
+Note: Internally, a \link{BaselearnerPolynomial} with degree one and a \link{BaselearnerCentered} is added.
 Centering a base learner makes the design matrix dense and hence memory is filled very fast.
 Considering binning may be an option to reduce the memory consumption.
 \subsection{Usage}{
@@ -417,14 +416,14 @@ Considering binning may be an option to reduce the memory consumption.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{feature}}{(`character(1)`)\cr
-Name of the feature, must be a column in `data`.}
+\item{\code{feature}}{(\code{character(1)})\cr
+Name of the feature, must be a column in \code{data}.}
 
-\item{\code{feature}}{(`character(1)`)\cr
-Name of the feature, must be a column in `data`.}
+\item{\code{feature}}{(\code{character(1)})\cr
+Name of the feature, must be a column in \code{data}.}
 
 \item{\code{...}}{\cr
-Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.}
+Additional arguments passed to the \verb{$new()} constructor of the \link{BaselearnerPSpline} class.}
 }
 \if{html}{\out{</div>}}
 }
@@ -441,14 +440,14 @@ Start fitting a model.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{iteration}}{(`integer(1)`)\cr
+\item{\code{iteration}}{(\code{integer(1)})\cr
 The maximal number of iteration. The algorithm can be stopped earlier
 if early stopping is active.}
 
-\item{\code{trace}}{(`integer(1)`)\cr
+\item{\code{trace}}{(\code{integer(1)})\cr
 The number of integers after which the status of the fitting is printed to the screen.
-The default `trace = -1` internally uses `trace = round(iteration / 40)`.
-To silently fit the model use `trace = 0`.}
+The default \code{trace = -1} internally uses \code{trace = round(iteration / 40)}.
+To silently fit the model use \code{trace = 0}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -457,10 +456,10 @@ To silently fit the model use `trace = 0`.}
 \if{html}{\out{<a id="method-prepareData"></a>}}
 \if{latex}{\out{\hypertarget{method-prepareData}{}}}
 \subsection{Method \code{prepareData()}}{
-Internally, each base learner is build on a [InMemoryData] object. Some
-methods (e.g. adding a [LoggerOobRisk]) requires to pass the data as
-`list(InMemoryData | CategoricalDataRaw)` with data objects as elements.
-This function converts the given `data.frame` into that format.
+Internally, each base learner is build on a \link{InMemoryData} object. Some
+methods (e.g. adding a \link{LoggerOobRisk}) requires to pass the data as
+\code{list(InMemoryData | CategoricalDataRaw)} with data objects as elements.
+This function converts the given \code{data.frame} into that format.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$prepareData(newdata)}\if{html}{\out{</div>}}
 }
@@ -468,32 +467,32 @@ This function converts the given `data.frame` into that format.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`list(InMemoryData | CategoricalDataRaw)` with data container as elements.
-Numeric features are wrapped by [InMemoryData] while categorical features
-are included with [CategoricalDataRaw].
+\code{list(InMemoryData | CategoricalDataRaw)} with data container as elements.
+Numeric features are wrapped by \link{InMemoryData} while categorical features
+are included with \link{CategoricalDataRaw}.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-prepareResponse"></a>}}
 \if{latex}{\out{\hypertarget{method-prepareResponse}{}}}
 \subsection{Method \code{prepareResponse()}}{
-Same as for `$prepareData()` but for the response. Internally, `vectorToResponse()` is
-used to generate a [ResponseRegr] or [ResponseBinaryClassif] object.
+Same as for \verb{$prepareData()} but for the response. Internally, \code{vectorToResponse()} is
+used to generate a \link{ResponseRegr} or \link{ResponseBinaryClassif} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$prepareResponse(response)}\if{html}{\out{</div>}}
 }
@@ -501,14 +500,14 @@ used to generate a [ResponseRegr] or [ResponseBinaryClassif] object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{response}}{(`vector()`)\cr
-A vector of type `numberic` or `categorical` that is transformed to an
+\item{\code{response}}{(\code{vector()})\cr
+A vector of type \code{numberic} or \code{categorical} that is transformed to an
 response object.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-[ResponseRegr] | [ResponseBinaryClassif] object.
+\link{ResponseRegr} | \link{ResponseBinaryClassif} object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -523,20 +522,20 @@ Calculate predictions.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{as_response}}{(`logical(1)`)\cr
-In the case of binary classification, `as_response = TRUE` returns predictions as
+\item{\code{as_response}}{(\code{logical(1)})\cr
+In the case of binary classification, \code{as_response = TRUE} returns predictions as
 response, i.e. classes.}
 }
 \if{html}{\out{</div>}}
@@ -549,8 +548,8 @@ Vector of predictions.
 \if{html}{\out{<a id="method-predictIndividual"></a>}}
 \if{latex}{\out{\hypertarget{method-predictIndividual}{}}}
 \subsection{Method \code{predictIndividual()}}{
-While `$predict()` returns the sum of all base learner predictions, this function
-returns a `list` with the predictions for each base learner.
+While \verb{$predict()} returns the sum of all base learner predictions, this function
+returns a \code{list} with the predictions for each base learner.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$predictIndividual(newdata)}\if{html}{\out{</div>}}
 }
@@ -558,22 +557,22 @@ returns a `list` with the predictions for each base learner.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Named `list()` with the included base learner names as names and the base learner
+Named \code{list()} with the included base learner names as names and the base learner
 predictions as elements.
 }
 }
@@ -581,7 +580,7 @@ predictions as elements.
 \if{html}{\out{<a id="method-transformData"></a>}}
 \if{latex}{\out{\hypertarget{method-transformData}{}}}
 \subsection{Method \code{transformData()}}{
-Get design matrices of all (or a subset) base learners for a new `data.frame`.
+Get design matrices of all (or a subset) base learners for a new \code{data.frame}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$transformData(newdata, blnames = NULL)}\if{html}{\out{</div>}}
 }
@@ -589,27 +588,27 @@ Get design matrices of all (or a subset) base learners for a new `data.frame`.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{newdata}}{(`data.frame`)\cr
-New data set of the same structure as `data`.}
+\item{\code{newdata}}{(\code{data.frame})\cr
+New data set of the same structure as \code{data}.}
 
-\item{\code{blnames}}{(`character()`)\cr
+\item{\code{blnames}}{(\code{character()})\cr
 Names of the base learners for which the design matrices are returned. If
-`is.null(blnames)`, compboost tries to guess all base learners that were
-constructed based on the feature names of `newdata`.}
+\code{is.null(blnames)}, compboost tries to guess all base learners that were
+constructed based on the feature names of \code{newdata}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`list(matrix | Matrix::Matrix)` matrices as elements.
+\code{list(matrix | Matrix::Matrix)} matrices as elements.
 }
 }
 \if{html}{\out{<hr>}}
@@ -622,7 +621,7 @@ Return the training risk of each iteration.
 }
 
 \subsection{Returns}{
-`numeric()` vector of risk values or `NULL` if `$train()` was not called previously.
+\code{numeric()} vector of risk values or \code{NULL} if \verb{$train()} was not called previously.
 }
 }
 \if{html}{\out{<hr>}}
@@ -635,7 +634,7 @@ Get a vector with the name of the selected base learner of each iteration.
 }
 
 \subsection{Returns}{
-`character()` vector of base learner names.
+\code{character()} vector of base learner names.
 }
 }
 \if{html}{\out{<hr>}}
@@ -661,21 +660,21 @@ Get the estimated coefficients.
 }
 
 \subsection{Returns}{
-`list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
+\code{list(pars, offset)} with estimated coefficients/parameters and intercept/offset.
 }
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-getEstimatedCoef"></a>}}
 \if{latex}{\out{\hypertarget{method-getEstimatedCoef}{}}}
 \subsection{Method \code{getEstimatedCoef()}}{
-DEPRICATED use `$getCoef()` instead.
+DEPRICATED use \verb{$getCoef()} instead.
 Get the estimated coefficients.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$getEstimatedCoef()}\if{html}{\out{</div>}}
 }
 
 \subsection{Returns}{
-`list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
+\code{list(pars, offset)} with estimated coefficients/parameters and intercept/offset.
 }
 }
 \if{html}{\out{<hr>}}
@@ -688,7 +687,7 @@ Get the names of the registered base learners.
 }
 
 \subsection{Returns}{
-`charcter()` of base learner names.
+\code{charcter()} of base learner names.
 }
 }
 \if{html}{\out{<hr>}}
@@ -701,7 +700,7 @@ Get the logged information.
 }
 
 \subsection{Returns}{
-`data.frame` of logging information.
+\code{data.frame} of logging information.
 }
 }
 \if{html}{\out{<hr>}}
@@ -720,20 +719,20 @@ stopping should be used to get adequate importance measures.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{num_feats}}{(`integer(1)`)\cr
-The number considered features, the `num_feats` most important feature names and
+\item{\code{num_feats}}{(\code{integer(1)})\cr
+The number considered features, the \code{num_feats} most important feature names and
 the respective value is returned.}
 
-\item{\code{aggregate_bl_by_feat}}{(`logical(1)`)\cr
+\item{\code{aggregate_bl_by_feat}}{(\code{logical(1)})\cr
 Indicator whether the importance is aggregated based on feature level. For example,
 adding components included two different base learners for the same feature. If
-`aggregate_bl_by_feat == TRUE`, the importance of these two base learners is aggregated
+\code{aggregate_bl_by_feat == TRUE}, the importance of these two base learners is aggregated
 instead of considering them individually.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Named `numeric()` vector of length `num_feats` (if at least `num_feats` were selected)
+Named \code{numeric()} vector of length \code{num_feats} (if at least \code{num_feats} were selected)
 with importance values as elements.
 }
 }
@@ -741,7 +740,7 @@ with importance values as elements.
 \if{html}{\out{<a id="method-saveToJson"></a>}}
 \if{latex}{\out{\hypertarget{method-saveToJson}{}}}
 \subsection{Method \code{saveToJson()}}{
-Save a [Compboost] object to a JSON file. Because of the underlying \code{C++} objects,
+Save a \link{Compboost} object to a JSON file. Because of the underlying \code{C++} objects,
 it is not possible to use \code{R}'s native load and save methods.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Compboost$saveToJson(file)}\if{html}{\out{</div>}}
@@ -750,7 +749,7 @@ it is not possible to use \code{R}'s native load and save methods.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{file}}{(`character(1)`)\cr
+\item{\code{file}}{(\code{character(1)})\cr
 Name/path to the file.}
 }
 \if{html}{\out{</div>}}

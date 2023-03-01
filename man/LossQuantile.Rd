@@ -36,12 +36,12 @@ LossAbsolute$new(offset, quantile)
 \section{Arguments}{
 
 \describe{
-\item{\code{offset} [\code{numeric(1)}]}{
-  Numerical value which can be used to set a custom offset. If so, this
-  value is returned instead of the loss optimal initialization.
+\item{\code{offset} \link{\code{numeric(1)}}}{
+Numerical value which can be used to set a custom offset. If so, this
+value is returned instead of the loss optimal initialization.
 }
-\item{\code{quantile} [\code{numeric(1)}]}{
-  Numerical value between 0 and 1 indicating the quantile used for boosting.
+\item{\code{quantile} \link{\code{numeric(1)}}}{
+Numerical value between 0 and 1 indicating the quantile used for boosting.
 }
 }
 }

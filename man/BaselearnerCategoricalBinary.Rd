@@ -2,13 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCategoricalBinary}
 \alias{BaselearnerCategoricalBinary}
-\title{Base-learner factory for categorical feature on a binary base-learner basis}
+\title{Base learner factory for categorical feature on a binary base learner basis}
 \format{
 \code{\link{S4}} object.
 }
 \description{
 \code{BaselearnerCategoricalBinary} can be used to estimate effects of one category of a categorical
-feature. The base-learner gets the data as index vector of the observations assigned to the group.
+feature. The base learner gets the data as index vector of the observations assigned to the group.
 For example, if the vector is (a, a, b, b, a, b), then the index vector is (1, 2, 5) for group a.
 This reduces memory load and fasten the fitting process.
 }
@@ -22,23 +22,23 @@ BaselearnerCategoricalBinary$new(data_source, list(n_obs))
 \section{arguments}{
 
 \describe{
-\item{\code{data_source} [\code{data} object]}{
-  data object of class \code{CategoricalData} which contains the source data.
+\item{\code{data_source} \link{\code{data} object}}{
+data object of class \code{CategoricalData} which contains the source data.
 }
 }
 }
 
 \section{Fields}{
 
-  This class doesn't contain public fields.
+This class doesn't contain public fields.
 }
 
 \section{Methods}{
 
 \describe{
 \item{\code{getData()}}{Get the data matrix of the target data which is used
-  for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base-learner factory object.}
+for modeling.}
+\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
 }
 }
 

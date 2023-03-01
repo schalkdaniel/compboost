@@ -2,11 +2,11 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCentered}
 \alias{BaselearnerCentered}
-\title{Base-learner factory to make regression using centered base learner}
+\title{Base learner factory to make regression using centered base learner}
 \format{
 \code{\link{S4}} object.
 }
 \description{
 \code{BaselearnerCentered} creates a base learner factory which is centered
- using another base learner.
+using another base learner.
 }

@@ -7,13 +7,13 @@
 plotFeatureImportance(cboost, num_feats = NULL, aggregate = TRUE)
 }
 \arguments{
-\item{cboost}{[\code{Compboost} class]\cr
+\item{cboost}{\link{\code{Compboost} class}\cr
 A trained \code{Compboost} object.}
 
-\item{num_feats}{[\code{integer(1L)}]\cr
+\item{num_feats}{\link{\code{integer(1L)}}\cr
 Number of features that are visualized. All features are added if set to \code{NULL}.}
 
-\item{aggregate}{[\code{logical(1L)}]\cr
+\item{aggregate}{\link{\code{logical(1L)}}\cr
 Flag whether the feature importance is aggregated by feature. Otherwise it is
 visualized per base learner.}
 }
