@@ -107,17 +107,17 @@ Rcpp::Function to set R functions."><meta property="og:image" content="https://s
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     
 
-<dl><dt><code>lossFun</code> [<code>function</code>]</dt>
+<dl><dt><code>lossFun</code> <code>function</code></dt>
 <dd><p><code>R</code> function to calculate the loss. For details see the
-  <code>Details</code>.</p></dd>
+<code>Details</code>.</p></dd>
 
-<dt><code>gradientFun</code> [<code>function</code>]</dt>
+<dt><code>gradientFun</code> <code>function</code></dt>
 <dd><p><code>R</code> function to calculate the gradient. For details see the
-  <code>Details</code>.</p></dd>
+<code>Details</code>.</p></dd>
 
-<dt><code>initFun</code> [<code>function</code>]</dt>
+<dt><code>initFun</code> <code>function</code></dt>
 <dd><p><code>R</code> function to calculate the constant initialization. For
-  details see the <code>Details</code>.</p></dd>
+details see the <code>Details</code>.</p></dd>
 
 
 </dl></div>
@@ -127,17 +127,17 @@ Rcpp::Function to set R functions."><meta property="og:image" content="https://s
 
 <p>The functions must have the following structure:</p>
 <p><code>lossFun(truth, prediction) { ... return (loss) }</code> With a vector
-  argument <code>truth</code> containing the real values and a vector of
-  predictions <code>prediction</code>. The function must return a vector
-  containing the loss for each component.</p>
+argument <code>truth</code> containing the real values and a vector of
+predictions <code>prediction</code>. The function must return a vector
+containing the loss for each component.</p>
 <p><code>gradientFun(truth, prediction) { ... return (grad) }</code> With a vector
-  argument <code>truth</code> containing the real values and a vector of
-  predictions <code>prediction</code>. The function must return a vector
-  containing the gradient of the loss for each component.</p>
+argument <code>truth</code> containing the real values and a vector of
+predictions <code>prediction</code>. The function must return a vector
+containing the gradient of the loss for each component.</p>
 <p><code>initFun(truth) { ... return (init) }</code> With a vector
-  argument <code>truth</code> containing the real values. The function must
-  return a numeric value containing the offset for the constant
-  initialization.</p>
+argument <code>truth</code> containing the real values. The function must
+return a numeric value containing the offset for the constant
+initialization.</p>
     </div>
 
     <div class="section level2">

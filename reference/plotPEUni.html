@@ -3,7 +3,7 @@
 prediction score. If multiple base learner of the same features are included,
 they are all added to the graphic as well as the aggregated contribution. The
 difference to plotBaselearner is that potentially multiple base learners
-that are based on `feat` are aggregated and visualized while plotBaselearner
+that are based on feat are aggregated and visualized while plotBaselearner
 only visualizes the contribution of one specific base learner. The function
 also automatically decides whether the given feature is numeric or categorical and
 chooses an appropriate technique (lines for numeric and horizontal lines for categorical)."><!-- Inform modern browsers that this page supports both dark and light color schemes,
@@ -22,7 +22,7 @@ chooses an appropriate technique (lines for numeric and horizontal lines for cat
 prediction score. If multiple base learner of the same features are included,
 they are all added to the graphic as well as the aggregated contribution. The
 difference to plotBaselearner is that potentially multiple base learners
-that are based on `feat` are aggregated and visualized while plotBaselearner
+that are based on feat are aggregated and visualized while plotBaselearner
 only visualizes the contribution of one specific base learner. The function
 also automatically decides whether the given feature is numeric or categorical and
 chooses an appropriate technique (lines for numeric and horizontal lines for categorical)."><meta property="og:image" content="https://schalkdaniel.github.io/compboost/logo.png"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -102,7 +102,7 @@ chooses an appropriate technique (lines for numeric and horizontal lines for cat
 prediction score. If multiple base learner of the same features are included,
 they are all added to the graphic as well as the aggregated contribution. The
 difference to <code>plotBaselearner</code> is that potentially multiple base learners
-that are based on `feat` are aggregated and visualized while <code>plotBaselearner</code>
+that are based on <code>feat</code> are aggregated and visualized while <code>plotBaselearner</code>
 only visualizes the contribution of one specific base learner. The function
 also automatically decides whether the given feature is numeric or categorical and
 chooses an appropriate technique (lines for numeric and horizontal lines for categorical).</p>
@@ -116,22 +116,22 @@ chooses an appropriate technique (lines for numeric and horizontal lines for cat
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>cboost</dt>
-<dd><p>[<code>Compboost</code> class]<br>
+<dd><p><code>Compboost</code> class<br>
 A trained <code>Compboost</code> object.</p></dd>
 
 
 <dt>feat</dt>
-<dd><p>[<code>character(1L)</code>]<br>
+<dd><p><code>character(1L)</code><br>
 Name of the feature.</p></dd>
 
 
 <dt>npoints</dt>
-<dd><p>[<code>integer(1L)</code>]<br>
+<dd><p><code>integer(1L)</code><br>
 Number of points which are predicted for the lines (only applies to numerical features).</p></dd>
 
 
 <dt>individual</dt>
-<dd><p>[<code>logical(1L)</code>]<br>
+<dd><p><code>logical(1L)</code><br>
 Flag whether individual base learners should be added to the graphic or not.</p></dd>
 
 </dl></div>

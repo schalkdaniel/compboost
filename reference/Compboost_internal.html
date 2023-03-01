@@ -111,30 +111,30 @@ algorithm.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     
 
-<dl><dt><code>response</code> [<code>numeric</code>]</dt>
+<dl><dt><code>response</code> <code>numeric</code></dt>
 <dd><p>Vector of the true values which should be modeled.</p></dd>
 
-<dt><code>learning_rate</code> [<code>numeric(1)</code>]</dt>
+<dt><code>learning_rate</code> <code>numeric(1)</code></dt>
 <dd><p>The learning rate which is used to shrink the parameter in each iteration.</p></dd>
 
-<dt><code>stop_if_all_stopper_fulfilled</code> [<code>logical(1)</code>]</dt>
+<dt><code>stop_if_all_stopper_fulfilled</code> <code>logical(1)</code></dt>
 <dd><p>Boolean to indicate which stopping strategy is used. If <code>TRUE</code> then
-  the algorithm stops if all registered logger stopper are fulfilled.</p></dd>
+the algorithm stops if all registered logger stopper are fulfilled.</p></dd>
 
-<dt><code>factory_list</code> [<code>BlearnerFactoryList</code> object]</dt>
-<dd><p>List of base-learner factories from which one base-learner is selected
-  in each iteration by using the</p></dd>
+<dt><code>factory_list</code> <code>BlearnerFactoryList</code> object</dt>
+<dd><p>List of base learner factories from which one base learner is selected
+in each iteration by using the</p></dd>
 
-<dt><code>loss</code> [<code>Loss</code> object]</dt>
+<dt><code>loss</code> <code>Loss</code> object</dt>
 <dd><p>The loss which should be used to calculate the pseudo residuals in each
-  iteration.</p></dd>
+iteration.</p></dd>
 
-<dt><code>logger_list</code> [<code>LoggerList</code> object]</dt>
+<dt><code>logger_list</code> <code>LoggerList</code> object</dt>
 <dd><p>The list with all registered logger which are used to track the algorithm.</p></dd>
 
-<dt><code>optimizer</code> [<code>Optimizer</code> object]</dt>
+<dt><code>optimizer</code> <code>Optimizer</code> object</dt>
 <dd><p>The optimizer which is used to select in each iteration one good
-  base-learner.</p></dd>
+base learner.</p></dd>
 
 
 </dl></div>
@@ -150,57 +150,57 @@ algorithm.</p>
 
 <dl><dt><code>train(trace)</code></dt>
 <dd><p>Initial training of the model. The integer
-  argument <code>trace</code> indicates if the logger progress should be printed
-  or not and if so trace indicates which iterations should be printed.</p></dd>
+argument <code>trace</code> indicates if the logger progress should be printed
+or not and if so trace indicates which iterations should be printed.</p></dd>
 
 <dt><code>continueTraining(trace, logger_list)</code></dt>
 <dd><p>Continue the training
-  by using an additional <code>logger_list</code>. The retraining is stopped if
-  the first logger says that the algorithm should be stopped.</p></dd>
+by using an additional <code>logger_list</code>. The retraining is stopped if
+the first logger says that the algorithm should be stopped.</p></dd>
 
 <dt><code>getPrediction()</code></dt>
 <dd><p>Get the inbag prediction which is done during
-  the fitting process.</p></dd>
+the fitting process.</p></dd>
 
 <dt><code>getSelectedBaselearner()</code></dt>
 <dd><p>Returns a character vector of how
-  the base-learner are selected.</p></dd>
+the base learner are selected.</p></dd>
 
 <dt><code>getLoggerData()</code></dt>
 <dd><p>Returns a list of all logged data. If the
-  algorithm is retrained, then the list contains for each training one
-  element.</p></dd>
+algorithm is retrained, then the list contains for each training one
+element.</p></dd>
 
 <dt><code>getEstimatedParameter()</code></dt>
 <dd><p>Returns a list with the estimated
-  parameter for base-learner which was selected at least once.</p></dd>
+parameter for base learner which was selected at least once.</p></dd>
 
 <dt><code>getParameterAtIteration(k)</code></dt>
 <dd><p>Calculates the prediction at the
-  iteration <code>k</code>.</p></dd>
+iteration <code>k</code>.</p></dd>
 
 <dt><code>getParameterMatrix()</code></dt>
 <dd><p>Calculates a matrix where row <code>i</code>
-  includes the parameter at iteration <code>i</code>. There are as many rows
-  as done iterations.</p></dd>
+includes the parameter at iteration <code>i</code>. There are as many rows
+as done iterations.</p></dd>
 
 <dt><code>isTrained()</code></dt>
 <dd><p>This function returns just a boolean value which
-  indicates if the initial training was already done.</p></dd>
+indicates if the initial training was already done.</p></dd>
 
 <dt><code>predict(newdata)</code></dt>
 <dd><p>Prediction on new data organized within a
-  list of source data objects. It is important that the names of the source
-  data objects matches those one that were used to define the factories.</p></dd>
+list of source data objects. It is important that the names of the source
+data objects matches those one that were used to define the factories.</p></dd>
 
 <dt><code>predictAtIteration(newdata, k)</code></dt>
 <dd><p>Prediction on new data by using
-  another iteration <code>k</code>.</p></dd>
+another iteration <code>k</code>.</p></dd>
 
 <dt><code>setToIteration(k)</code></dt>
 <dd><p>Set the whole model to another iteration
-  <code>k</code>. After calling this function all other elements such as the
-  parameters or the prediction are calculated corresponding to <code>k</code>.</p></dd>
+<code>k</code>. After calling this function all other elements such as the
+parameters or the prediction are calculated corresponding to <code>k</code>.</p></dd>
 
 <dt><code>summarizeCompboost()</code></dt>
 <dd><p>Summarize the <code>Compboost</code> object.</p></dd>
@@ -215,7 +215,7 @@ algorithm.</p>
 <span class="r-in"><span><span class="va">df</span> <span class="op">=</span> <span class="va">mtcars</span></span></span>
 <span class="r-in"><span><span class="va">df</span><span class="op">$</span><span class="va">mpg_cat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">mpg</span> <span class="op">&gt;</span> <span class="fl">20</span>, <span class="st">"high"</span>, <span class="st">"low"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># # Create new variable to check the polynomial base-learner with degree 2:</span></span></span>
+<span class="r-in"><span><span class="co"># # Create new variable to check the polynomial base learner with degree 2:</span></span></span>
 <span class="r-in"><span><span class="co"># df$hp2 = df[["hp"]]^2</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Data for the baselearner are matrices:</span></span></span>
@@ -290,16 +290,16 @@ algorithm.</p>
 <span class="r-in"><span><span class="co"># Train the model (we want to print the trace):</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span>trace <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1/500   risk = 0.68  time_logger = 0   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  50/500   risk = 0.42  time_logger = 717   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100/500   risk = 0.31  time_logger = 1536   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 150/500   risk = 0.25  time_logger = 2402   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 200/500   risk = 0.21  time_logger = 3375   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 250/500   risk = 0.19  time_logger = 4472   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 300/500   risk = 0.17  time_logger = 5853   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 350/500   risk = 0.16  time_logger = 7208   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 400/500   risk = 0.15  time_logger = 8863   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 450/500   risk = 0.14  time_logger = 10478   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 500/500   risk = 0.13  time_logger = 12214   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  50/500   risk = 0.42  time_logger = 501   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100/500   risk = 0.31  time_logger = 1050   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150/500   risk = 0.25  time_logger = 1674   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 200/500   risk = 0.21  time_logger = 2374   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250/500   risk = 0.19  time_logger = 3172   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 300/500   risk = 0.17  time_logger = 4041   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 350/500   risk = 0.16  time_logger = 4993   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 400/500   risk = 0.15  time_logger = 6014   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 450/500   risk = 0.14  time_logger = 7134   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 500/500   risk = 0.13  time_logger = 8333   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 500 iterations in 0 Seconds.</span>
@@ -318,7 +318,7 @@ algorithm.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get estimated parameter:</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedParameter</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hp_polynomial_degree_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $hp_poly2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  6.0660349854</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.0645193461</span>
@@ -342,182 +342,182 @@ algorithm.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [14,] -0.9904981</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Get trace of selected base-learner:</span></span></span>
+<span class="r-in"><span><span class="co"># Get trace of selected base learner:</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "wt_spline_degree_3"     "wt_spline_degree_3"     "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "hp_polynomial_degree_2" "wt_spline_degree_3"     "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "wt_spline_degree_3"     "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] "wt_spline_degree_3"     "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "wt_spline_degree_3"     "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [100] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [103] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [106] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [112] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [115] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [118] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [121] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [124] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [130] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [133] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [136] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [139] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [142] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [145] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [148] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [151] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [154] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [157] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [160] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [163] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [166] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [169] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [172] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [175] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [178] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [181] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [184] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [187] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [190] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [193] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [196] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [199] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [202] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [205] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [208] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [211] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [214] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [217] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [220] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [223] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [226] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [229] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [232] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [235] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [238] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [241] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [244] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [247] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [250] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [253] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [256] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [259] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [262] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [265] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [268] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [271] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [274] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [277] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [280] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [283] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [286] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [289] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [292] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [295] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [298] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [301] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [304] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [307] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [310] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [313] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [316] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [319] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [322] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [325] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [328] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [331] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [334] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [337] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [340] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [343] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [346] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [349] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [352] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [355] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [358] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [361] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [364] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [367] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [370] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [373] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [376] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [379] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [382] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [385] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [388] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [391] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [394] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [397] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [400] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [403] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [406] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [409] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [412] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [415] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [418] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [421] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [424] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [427] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [430] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [433] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [436] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [439] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [442] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [445] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [448] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [451] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [454] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [457] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [460] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [463] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [466] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [469] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [472] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [475] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [478] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [481] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [484] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [487] "wt_spline_degree_3"     "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [490] "hp_polynomial_degree_2" "hp_polynomial_degree_2" "wt_spline_degree_3"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [493] "hp_polynomial_degree_2" "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [496] "wt_spline_degree_3"     "hp_polynomial_degree_2" "hp_polynomial_degree_2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [499] "wt_spline_degree_3"     "hp_polynomial_degree_2"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "wt_spline_degree_3" "wt_spline_degree_3" "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [7] "hp_poly2"           "wt_spline_degree_3" "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [10] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [13] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [16] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [22] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [25] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [28] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [31] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [34] "wt_spline_degree_3" "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [40] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [43] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [46] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [49] "wt_spline_degree_3" "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [52] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [58] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [61] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [64] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [67] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [70] "wt_spline_degree_3" "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [76] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [79] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [82] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [85] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [88] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [94] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [97] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [100] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [103] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [106] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [112] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [115] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [118] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [121] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [124] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [130] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [133] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [136] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [139] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [142] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [145] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [148] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [151] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [154] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [157] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [160] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [163] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [166] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [169] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [172] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [175] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [178] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [181] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [184] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [187] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [190] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [193] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [196] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [199] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [202] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [205] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [208] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [211] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [214] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [217] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [220] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [223] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [226] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [229] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [232] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [235] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [238] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [241] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [244] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [247] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [250] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [253] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [256] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [259] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [262] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [265] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [268] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [271] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [274] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [277] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [280] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [283] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [286] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [289] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [292] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [295] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [298] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [301] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [304] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [307] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [310] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [313] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [316] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [319] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [322] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [325] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [328] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [331] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [334] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [337] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [340] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [343] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [346] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [349] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [352] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [355] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [358] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [361] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [364] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [367] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [370] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [373] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [376] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [379] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [382] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [385] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [388] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [391] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [394] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [397] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [400] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [403] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [406] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [409] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [412] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [415] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [418] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [421] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [424] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [427] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [430] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [433] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [436] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [439] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [442] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [445] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [448] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [451] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [454] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [457] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [460] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [463] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [466] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [469] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [472] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [475] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [478] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [481] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [484] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [487] "wt_spline_degree_3" "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [490] "hp_poly2"           "hp_poly2"           "wt_spline_degree_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [493] "hp_poly2"           "wt_spline_degree_3" "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [496] "wt_spline_degree_3" "hp_poly2"           "hp_poly2"          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [499] "wt_spline_degree_3" "hp_poly2"          </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Set to iteration 200:</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">setToIteration</span><span class="op">(</span><span class="fl">200</span>, <span class="fl">30</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get new parameter values:</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">getEstimatedParameter</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hp_polynomial_degree_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $hp_poly2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  3.649127e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -3.820112e-02</span>

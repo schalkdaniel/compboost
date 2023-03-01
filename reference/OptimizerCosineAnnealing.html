@@ -110,22 +110,22 @@ cosine annealing learning rate strategy.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     
 
-<dl><dt><code>nu_min</code> [<code>numeric(1)</code>]</dt>
+<dl><dt><code>nu_min</code> <code>numeric(1)</code></dt>
 <dd><p>Minimal learning rate.</p></dd>
 
-<dt><code>nu_max</code> [<code>numeric(1)</code>]</dt>
+<dt><code>nu_max</code> <code>numeric(1)</code></dt>
 <dd><p>Maximal learning rate.</p></dd>
 
-<dt><code>cycles</code> [<code>integer(1)</code>]</dt>
+<dt><code>cycles</code> <code>integer(1)</code></dt>
 <dd><p>Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.</p></dd>
 
-<dt><code>anneal_iter_max</code> [<code>integer(1)</code>]</dt>
+<dt><code>anneal_iter_max</code> <code>integer(1)</code></dt>
 <dd><p>Maximal number of iters for which annealing is applied. If the iteration is bigger
-  than anneal_iter_max, then nu_min is used as fixed learning rate.</p></dd>
+than anneal_iter_max, then nu_min is used as fixed learning rate.</p></dd>
 
-<dt><code>ncores</code> [<code>integer(1)</code>]</dt>
+<dt><code>ncores</code> <code>integer(1)</code></dt>
 <dd><p>Number of cores used to fit the algorithm. Note that number of used cores
-  should be smaller or equal the number of base learner.</p></dd>
+should be smaller or equal the number of base learner.</p></dd>
 
 
 </dl></div>

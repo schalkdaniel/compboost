@@ -110,20 +110,20 @@ see the use case or extending compboost vignette.</p>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     
 
-<dl><dt><code>logger_id</code> [<code>character(1)</code>]</dt>
+<dl><dt><code>logger_id</code> <code>character(1)</code></dt>
 <dd><p>Unique identifier of the logger.</p></dd>
 
-<dt><code>use_as_stopper</code> [<code>logical(1)</code>]</dt>
+<dt><code>use_as_stopper</code> <code>logical(1)</code></dt>
 <dd><p>Boolean to indicate if the logger should also be used as stopper.</p></dd>
 
-<dt><code>used_loss</code> [<code>Loss</code> object]</dt>
+<dt><code>used_loss</code> <code>Loss</code> object</dt>
 <dd><p>The loss used to calculate the empirical risk by taking the mean of the
-  returned defined loss within the loss object.</p></dd>
+returned defined loss within the loss object.</p></dd>
 
-<dt><code>eps_for_break</code> [<code>numeric(1)</code>]</dt>
+<dt><code>eps_for_break</code> <code>numeric(1)</code></dt>
 <dd><p>This argument is used if the loss is also used as stopper. If the relative
-  improvement of the logged inbag risk falls above this boundary the stopper
-  returns <code>TRUE</code>.</p></dd>
+improvement of the logged inbag risk falls above this boundary the stopper
+returns <code>TRUE</code>.</p></dd>
 
 
 </dl></div>
@@ -141,47 +141,24 @@ $$
 $$</p>
 <p><strong>Note:</strong></p><ul><li><p>If \(m=0\) than \(\hat{f}\) is just the offset.</p></li>
 <li><p>The implementation to calculate \(\mathcal{R}_\mathrm{emp}^{[m]}\) is
-    done in two steps:</p><ol><li><p>Calculate vector <code>risk_temp</code> of losses for every observation for
-         given response \(y^{(i)}\) and prediction \(\hat{f}^{[m]}(x^{(i)})\).</p></li>
-<li><p>Average over <code>risk_temp</code>.</p></li>
-</ol></li>
-</ul><p>This procedure ensures, that it is possible to e.g. use the AUC or any
-   arbitrary performance measure for risk logging. This gives just one
-   value for <code>risk_temp</code> and therefore the average equals the loss
-   function. If this is just a value (like for the AUC) then the value is
-   returned.</p>
+done in two steps:</p><ol><li><p>Calculate vector <code>risk_temp</code> of losses for every observation for
+given response \(y^{(i)}\) and prediction \(\hat{f}^{[m]}(x^{(i)})\).</p><div class="sourceCode"><pre><code>   \item
+     Average over \code{risk_temp}.
+ }
+</code></pre></div></li>
+</ol><p>This procedure ensures, that it is possible to e.g. use the AUC or any
+arbitrary performance measure for risk logging. This gives just one
+value for <code>risk_temp</code> and therefore the average equals the loss
+function. If this is just a value (like for the AUC) then the value is
+returned.</p></li>
+</ul><p>FieldsThis class doesn't contain public fields.</p>
+<p>Methods</p><dl><dt><code>summarizeLogger()</code></dt>
+<dd><p>Summarize the logger object.</p></dd></dl><p># Used loss:
+log_bin = LossBinomial$new()# Define logger:
+log_inbag_risk = LoggerInbagRisk$new("inbag", FALSE, log_bin, 0.05, 5)# Summarize logger:
+log_inbag_risk$summarizeLogger()</p>
     </div>
-    <div class="section level2">
-    <h2 id="fields">Fields<a class="anchor" aria-label="anchor" href="#fields"></a></h2>
-    
 
-<p>This class doesn't contain public fields.</p>
-    </div>
-    <div class="section level2">
-    <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
-    
-
-<dl><dt><code>summarizeLogger()</code></dt>
-<dd><p>Summarize the logger object.</p></dd>
-
-
-</dl></div>
-
-    <div class="section level2">
-    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Used loss:</span></span></span>
-<span class="r-in"><span><span class="va">log_bin</span> <span class="op">=</span> <span class="va"><a href="LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Define logger:</span></span></span>
-<span class="r-in"><span><span class="va">log_inbag_risk</span> <span class="op">=</span> <span class="va">LoggerInbagRisk</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="st">"inbag"</span>, <span class="cn">FALSE</span>, <span class="va">log_bin</span>, <span class="fl">0.05</span>, <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Summarize logger:</span></span></span>
-<span class="r-in"><span><span class="va">log_inbag_risk</span><span class="op">$</span><span class="fu">summarizeLogger</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Inbag risk logger:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	- Use logger as stopper: 0</span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
 
