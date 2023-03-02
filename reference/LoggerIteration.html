@@ -90,8 +90,25 @@
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p><code><a href="https://rdrr.io/r/base/isS4.html" class="external-link">S4</a></code> object.</p>
+    <p><a href="https://rdrr.io/r/base/isS4.html" class="external-link">S4</a> object.</p>
     </div>
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>logger_id</dt>
+<dd><p>(<code>character(1)</code>)<br>
+Identifier of the logger.</p></dd>
+
+
+<dt>param-use_as_stopper</dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Boolean to indicate if the logger should also be used as a stopper.</p></dd>
+
+
+<dt>max_iterations</dt>
+<dd><p>(<code>integer(1)</code>)<br>
+If the logger is used as stopper this argument defines the maximal iterations.</p></dd>
+
+</dl></div>
     <div class="section level2">
     <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h2>
     
@@ -100,22 +117,6 @@
 <span><span class="va">LoggerIterationWrapper</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">logger_id</span>, <span class="va">use_as_stopper</span>, <span class="va">max_iterations</span><span class="op">)</span></span></code></pre></div>
 
     </div>
-    <div class="section level2">
-    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    
-
-<dl><dt><code>logger_id</code> <code>character(1)</code></dt>
-<dd><p>Unique identifier of the logger.</p></dd>
-
-<dt><code>use_as_stopper</code> <code>logical(1)</code></dt>
-<dd><p>Boolean to indicate if the logger should also be used as stopper.</p></dd>
-
-<dt><code>max_iterations</code> <code>integer(1)</code></dt>
-<dd><p>If the logger is used as stopper this argument defines the maximal
-iterations.</p></dd>
-
-
-</dl></div>
     <div class="section level2">
     <h2 id="fields">Fields<a class="anchor" aria-label="anchor" href="#fields"></a></h2>
     
@@ -126,11 +127,8 @@ iterations.</p></dd>
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
     
 
-<dl><dt><code>summarizeLogger()</code></dt>
-<dd><p>Summarize the logger object.</p></dd>
-
-
-</dl></div>
+<ul><li><p><code>$summarizeLogger()</code>: <code>() -&gt; ()</code></p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>

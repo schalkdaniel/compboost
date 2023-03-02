@@ -96,28 +96,27 @@
           
           <code><a href="BaselearnerCategoricalBinary.html">BaselearnerCategoricalBinary</a></code> 
         </dt>
-        <dd>Base learner factory for categorical feature on a binary base learner basis</dd>
+        <dd>Base learner to encode one single class of a categorical feature</dd>
       </dl><dl><dt>
           
           <code><a href="BaselearnerCategoricalRidge.html">BaselearnerCategoricalRidge</a></code> 
         </dt>
-        <dd>Base learner factory for categorical feature using Ridge penalty</dd>
+        <dd>One-hot encoded base learner for a categorical feature</dd>
       </dl><dl><dt>
           
           <code><a href="BaselearnerCentered.html">BaselearnerCentered</a></code> 
         </dt>
-        <dd>Base learner factory to make regression using centered base learner</dd>
+        <dd>Centering a base learner by another one</dd>
       </dl><dl><dt>
           
           <code><a href="BaselearnerCustom.html">BaselearnerCustom</a></code> 
         </dt>
-        <dd>Create custom base learner factory by using R functions.</dd>
+        <dd>Custom base learner using <code>R</code> functions.</dd>
       </dl><dl><dt>
           
           <code><a href="BaselearnerCustomCpp.html">BaselearnerCustomCpp</a></code> 
         </dt>
-        <dd>Create custom cpp base learner factory by using cpp functions and external
-pointer.</dd>
+        <dd>Custom base learner using <code>C++</code> functions.</dd>
       </dl><dl><dt>
           
           <code><a href="BaselearnerPSpline.html">BaselearnerPSpline</a></code> 
@@ -132,7 +131,7 @@ pointer.</dd>
           
           <code><a href="BaselearnerTensor.html">BaselearnerTensor</a></code> 
         </dt>
-        <dd>Base learner factory to make regression using tensor products</dd>
+        <dd>Row-wise tensor product base learner</dd>
       </dl><dl><dt>
           
           <code><a href="BlearnerFactoryList.html">BlearnerFactoryList</a></code> 
@@ -142,12 +141,7 @@ pointer.</dd>
           
           <code><a href="CategoricalDataRaw.html">CategoricalDataRaw</a></code> 
         </dt>
-        <dd>Data class for categorical variables
-
-CategoricalDataRaw creates an data object which can be used as source
-object to instantiate categorical base learner. In contrast to CategoricalData
-the data are stored as raw categorical vector. CategoricalData can be compared
-to a factor class with an integer encoding and a hash map for reassignment.</dd>
+        <dd>Data class for categorical variables</dd>
       </dl><dl><dt>
           
           <code><a href="Compboost.html">Compboost</a></code> 
@@ -157,7 +151,12 @@ to a factor class with an integer encoding and a hash map for reassignment.</dd>
           
           <code><a href="Compboost_internal.html">Compboost_internal</a></code> 
         </dt>
-        <dd>Main Compboost Class</dd>
+        <dd>Internal Compboost Class
+
+This class is the raw <code>C++</code> pendant and still at a very high-level.
+It is the base for the Compboost R6 class and provides
+many convenient wrapper to access data and execute methods by calling
+the <code>C++</code> methods.</dd>
       </dl><dl><dt>
           
           <code><a href="InMemoryData.html">InMemoryData</a></code> 
@@ -167,7 +166,7 @@ to a factor class with an integer encoding and a hash map for reassignment.</dd>
           
           <code><a href="LoggerInbagRisk.html">LoggerInbagRisk</a></code> 
         </dt>
-        <dd>Logger class to log the inbag risk</dd>
+        <dd>Log the train risk.</dd>
       </dl><dl><dt>
           
           <code><a href="LoggerIteration.html">LoggerIteration</a></code> 
@@ -177,17 +176,17 @@ to a factor class with an integer encoding and a hash map for reassignment.</dd>
           
           <code><a href="LoggerList.html">LoggerList</a></code> 
         </dt>
-        <dd>Logger list class to collect all loggers</dd>
+        <dd>Collect loggers</dd>
       </dl><dl><dt>
           
           <code><a href="LoggerOobRisk.html">LoggerOobRisk</a></code> 
         </dt>
-        <dd>Logger class to log the out of bag risk</dd>
+        <dd>Log the validation/test/out-of-bag risk</dd>
       </dl><dl><dt>
           
           <code><a href="LoggerTime.html">LoggerTime</a></code> 
         </dt>
-        <dd>Logger class to log the elapsed time</dd>
+        <dd>Log the runtime</dd>
       </dl><dl><dt>
           
           <code><a href="LossAbsolute.html">LossAbsolute</a></code> 
@@ -207,7 +206,7 @@ to a factor class with an integer encoding and a hash map for reassignment.</dd>
           
           <code><a href="LossCustomCpp.html">LossCustomCpp</a></code> 
         </dt>
-        <dd>Create custom cpp losses by using cpp functions and external pointer.</dd>
+        <dd>Custom loss using <code>C++</code> functions.</dd>
       </dl><dl><dt>
           
           <code><a href="LossHuber.html">LossHuber</a></code> 
@@ -227,22 +226,22 @@ to a factor class with an integer encoding and a hash map for reassignment.</dd>
           
           <code><a href="OptimizerAGBM.html">OptimizerAGBM</a></code> 
         </dt>
-        <dd>Nesterov momentum</dd>
+        <dd>Nesterovs momentum</dd>
       </dl><dl><dt>
           
           <code><a href="OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></code> 
         </dt>
-        <dd>Coordinate Descent</dd>
+        <dd>Coordinate descent</dd>
       </dl><dl><dt>
           
           <code><a href="OptimizerCoordinateDescentLineSearch.html">OptimizerCoordinateDescentLineSearch</a></code> 
         </dt>
-        <dd>Coordinate Descent with line search</dd>
+        <dd>Coordinate descent with line search</dd>
       </dl><dl><dt>
           
           <code><a href="OptimizerCosineAnnealing.html">OptimizerCosineAnnealing</a></code> 
         </dt>
-        <dd>Coordinate Descent with Cosine Annealing</dd>
+        <dd>Coordinate descent with cosine annealing</dd>
       </dl><dl><dt>
           
           <code><a href="ResponseBinaryClassif.html">ResponseBinaryClassif</a></code> 

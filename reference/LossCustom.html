@@ -93,8 +93,22 @@ Rcpp::Function to set R functions."><meta property="og:image" content="https://s
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p><code><a href="https://rdrr.io/r/base/isS4.html" class="external-link">S4</a></code> object.</p>
+    <p><a href="https://rdrr.io/r/base/isS4.html" class="external-link">S4</a> object.</p>
     </div>
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>lossFun</dt>
+<dd><p>(<code>function</code>)<br><code>R</code> function to calculate the loss.</p></dd>
+
+
+<dt>gradientFun</dt>
+<dd><p>(<code>function</code>)<br><code>R</code> function to calculate the gradient.</p></dd>
+
+
+<dt>initFun</dt>
+<dd><p>(<code>function</code>)<br><code>R</code> function to calculate the constant initialization.</p></dd>
+
+</dl></div>
     <div class="section level2">
     <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h2>
     
@@ -103,24 +117,6 @@ Rcpp::Function to set R functions."><meta property="og:image" content="https://s
 <span><span class="va"><a href="../reference/LossCustom.html">LossCustom</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">lossFun</span>, <span class="va">gradientFun</span>, <span class="va">initFun</span><span class="op">)</span></span></code></pre></div>
 
     </div>
-    <div class="section level2">
-    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    
-
-<dl><dt><code>lossFun</code> <code>function</code></dt>
-<dd><p><code>R</code> function to calculate the loss. For details see the
-<code>Details</code>.</p></dd>
-
-<dt><code>gradientFun</code> <code>function</code></dt>
-<dd><p><code>R</code> function to calculate the gradient. For details see the
-<code>Details</code>.</p></dd>
-
-<dt><code>initFun</code> <code>function</code></dt>
-<dd><p><code>R</code> function to calculate the constant initialization. For
-details see the <code>Details</code>.</p></dd>
-
-
-</dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     

@@ -90,8 +90,16 @@
 
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
-    <p><code><a href="https://rdrr.io/r/base/isS4.html" class="external-link">S4</a></code> object.</p>
+    <p><a href="https://rdrr.io/r/base/isS4.html" class="external-link">S4</a> object.</p>
     </div>
+    <div class="section level2">
+    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
+    <dl><dt>offset</dt>
+<dd><p>(<code>numeric(1)</code> | <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix()</a></code>)<br>
+Numerical value or matrix to set a custom offset. If used, this
+value is returned instead of the loss optimal initialization.</p></dd>
+
+</dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><strong>Loss Function:</strong>
@@ -117,21 +125,10 @@ $$</p>
 <span><span class="va"><a href="../reference/LossQuadratic.html">LossQuadratic</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">offset</span><span class="op">)</span></span></code></pre></div>
 
     </div>
-    <div class="section level2">
-    <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    
-
-<dl><dt><code>offset</code> <code>numeric(1)</code></dt>
-<dd><p>Numerical value which can be used to set a custom offset. If so, this
-value is returned instead of the loss optimal initialization.</p></dd>
-
-
-</dl></div>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create new loss object:</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create new loss object:</span></span></span>
 <span class="r-in"><span><span class="va">quadratic_loss</span> <span class="op">=</span> <span class="va">LossQuadratic</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">quadratic_loss</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> LossQuadratic: L(y,x) = 0.5 * (y - f(x))^2</span>
