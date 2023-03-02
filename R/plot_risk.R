@@ -1,11 +1,12 @@
-#' Visualize the risk
+#' @title Visualize the risk
 #'
+#' @description
 #' This function visualizes the risk during training. If validation data are given, then
 #' the train risk is plotted against the validation risk.
 #'
-#' @return \code{ggplot} object containing the graphic.
-#' @param cboost [\code{Compboost} class]\cr
-#'   A trained \code{Compboost} object.
+#' @return `ggplot` object containing the graphic.
+#' @param cboost ([Compboost])\cr
+#'   A trained [Compboost] object.
 #' @examples
 #' cboost_no_valdat = boostSplines(data = iris, target = "Sepal.Length",
 #'   loss = LossQuadratic$new())

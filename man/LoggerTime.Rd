@@ -2,14 +2,28 @@
 % Please edit documentation in R/RcppExports.R
 \name{LoggerTime}
 \alias{LoggerTime}
-\title{Logger class to log the elapsed time}
+\title{Log the runtime}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{logger_id}{(\code{character(1)})\cr
+Identifier of the logger.}
+
+\item{param-use_as_stopper}{(\code{logical(1)})\cr
+Boolean to indicate if the logger should also be used as a stopper.}
+
+\item{max_time}{(\code{integer(1)})\cr
+If the logger is used as stopper this argument contains the maximal time
+which are available to train the model.}
+
+\item{time_unit}{(\code{character(1)})\cr
+The unit in which the time is measured. Choices are \code{minutes},
+\code{seconds} or \code{microseconds}.}
 }
 \description{
-This class just logs the elapsed time. This should be very handy if one
-wants to run the algorithm for just 2 hours and see how far he comes within
-that time. There are three time units available for logging:
+This class logs the runtime of the algorithm. The logger also can be used
+to stop the algorithm after a defined time budget. The available time units are:
 \itemize{
 \item minutes
 \item seconds
@@ -23,26 +37,6 @@ LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 }
 }
 
-\section{Arguments}{
-
-\describe{
-\item{\code{logger_id} \link{\code{character(1)}}}{
-Unique identifier of the logger.
-}
-\item{\code{use_as_stopper} \link{\code{logical(1)}}}{
-Boolean to indicate if the logger should also be used as stopper.
-}
-\item{\code{max_time} \link{\code{integer(1)}}}{
-If the logger is used as stopper this argument contains the maximal time
-which are available to train the model.
-}
-\item{\code{time_unit} \link{\code{character(1)}}}{
-Character to specify the time unit. Possible choices are \code{minutes},
-\code{seconds} or \code{microseconds}
-}
-}
-}
-
 \section{Fields}{
 
 This class doesn't contain public fields.
@@ -50,8 +44,8 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{summarizeLogger()}}{Summarize the logger object.}
+\itemize{
+\item \verb{$summarizeLogger()}: \verb{() -> ()}
 }
 }
 

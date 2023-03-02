@@ -4,7 +4,17 @@
 \alias{LossCustom}
 \title{Create LossCustom by using R functions.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{lossFun}{(\code{function})\cr
+\code{R} function to calculate the loss.}
+
+\item{gradientFun}{(\code{function})\cr
+\code{R} function to calculate the gradient.}
+
+\item{initFun}{(\code{function})\cr
+\code{R} function to calculate the constant initialization.}
 }
 \description{
 \code{LossCustom} creates a custom loss by using
@@ -14,24 +24,6 @@
 
 \preformatted{
 LossCustom$new(lossFun, gradientFun, initFun)
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{lossFun} \link{\code{function}}}{
-\code{R} function to calculate the loss. For details see the
-\code{Details}.
-}
-\item{\code{gradientFun} \link{\code{function}}}{
-\code{R} function to calculate the gradient. For details see the
-\code{Details}.
-}
-\item{\code{initFun} \link{\code{function}}}{
-\code{R} function to calculate the constant initialization. For
-details see the \code{Details}.
-}
 }
 }
 

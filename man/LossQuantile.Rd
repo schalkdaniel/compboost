@@ -4,7 +4,15 @@
 \alias{LossQuantile}
 \title{Quantile loss for regression tasks.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{offset}{(\code{numeric(1)} | \code{matrix()})\cr
+Numerical value or matrix to set a custom offset. If used, this
+value is returned instead of the loss optimal initialization.}
+
+\item{quantile}{(\code{numeric(1)})\cr
+Numerical value between 0 and 1 that defines the quantile that is modeled.}
 }
 \description{
 This loss can be used for regression with \eqn{y \in \mathrm{R}}.
@@ -30,19 +38,6 @@ This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 LossAbsolute$new()
 LossAbsolute$new(quantile)
 LossAbsolute$new(offset, quantile)
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{offset} \link{\code{numeric(1)}}}{
-Numerical value which can be used to set a custom offset. If so, this
-value is returned instead of the loss optimal initialization.
-}
-\item{\code{quantile} \link{\code{numeric(1)}}}{
-Numerical value between 0 and 1 indicating the quantile used for boosting.
-}
 }
 }
 

@@ -1,17 +1,18 @@
-#' Visualize base learner traces
+#' @title Visualize base learner traces
 #'
+#' @description
 #' This function shows how the base learners evolves over the fitting process.
 #' The default is to show how the frequency of a single base learner included
-#' into the model evolves. Additionally, with the \code{value} argument, vectors
+#' into the model evolves. Additionally, with the `value` argument, vectors
 #' (e.g. the risk) can be used to show how the base learner specific risk reduction
 #' evolves during the fitting process.
 #'
-#' @return \code{ggplot} object containing the graphic.
-#' @param cboost [\code{Compboost} class]\cr
-#'   A trained \code{Compboost} object.
-#' @param value [\code{numeric(1L) | numeric(length(cboost$getSelectedBaselearner()))}]\cr
+#' @return `ggplot` object containing the graphic.
+#' @param cboost ([Compboost])\cr
+#'   A trained [Compboost] object.
+#' @param value (`numeric(1L)` | `numeric(length(cboost$getSelectedBaselearner()))`)\cr
 #'   Value used to show the base learner development w.r.t. to the value.
-#' @param n_legend [\code{integer(1L)}]\cr
+#' @param n_legend (`integer(1L)`)\cr
 #'   Number of colored base learners added to the legend.
 #' @examples
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",

@@ -5,3 +5,4 @@
 #' * `$getPenaltyMat()`: `() -> matrix()`
 #' * `$getFeatureName()`: `() -> character()`
 #' * `$getModelName()`: `() -> character()`
+#' * `$getBaselearnerId()`: `() -> character()`

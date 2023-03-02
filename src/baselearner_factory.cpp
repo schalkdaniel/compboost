@@ -222,6 +222,11 @@ std::string BaselearnerPolynomialFactory::getBaseModelName () const
   return std::string("polynomial");
 }
 
+std::string BaselearnerPolynomialFactory::getFactoryId () const
+{
+  return _sh_ptr_bindata->getDataIdentifier() + "_" + _blearner_type;
+}
+
 arma::mat BaselearnerPolynomialFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   return _sh_ptr_bindata->getDenseData() * param;
@@ -385,6 +390,10 @@ std::string BaselearnerPSplineFactory::getBaseModelName () const
   return std::string("pspline");
 }
 
+std::string BaselearnerPSplineFactory::getFactoryId () const
+{
+  return _sh_ptr_bindata->getDataIdentifier() + "_" + _blearner_type;
+}
 
 arma::mat BaselearnerPSplineFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -567,6 +576,11 @@ arma::mat BaselearnerTensorFactory::getPenaltyMat () const
 std::string BaselearnerTensorFactory::getBaseModelName() const
 {
   return std::string("tensor");
+}
+
+std::string BaselearnerTensorFactory::getFactoryId () const
+{
+  return _sh_ptr_data->getDataIdentifier() + "_" + _blearner_type;
 }
 
 std::shared_ptr<blearnerfactory::BaselearnerFactory> BaselearnerTensorFactory::getBl1 () const
@@ -787,6 +801,11 @@ std::string BaselearnerCenteredFactory::getBaseModelName() const
   return std::string("centered");
 }
 
+std::string BaselearnerCenteredFactory::getFactoryId () const
+{
+  return _sh_ptr_bindata->getDataIdentifier() + "_" + _blearner_type;
+}
+
 arma::mat BaselearnerCenteredFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   return _sh_ptr_bindata->getDenseData() * param;
@@ -965,6 +984,11 @@ std::string BaselearnerCategoricalRidgeFactory::getBaseModelName () const
   return std::string("cridge");
 }
 
+std::string BaselearnerCategoricalRidgeFactory::getFactoryId () const
+{
+  return _sh_ptr_data->getDataIdentifier() + "_" + _blearner_type;
+}
+
 arma::mat BaselearnerCategoricalRidgeFactory::calculateLinearPredictor (const arma::mat& param) const
 {
   return (param.t() * _sh_ptr_data->getSparseData()).t();
@@ -1093,6 +1117,10 @@ std::string BaselearnerCategoricalBinaryFactory::getBaseModelName () const
   return std::string("cbinary");
 }
 
+std::string BaselearnerCategoricalBinaryFactory::getFactoryId () const
+{
+  return _sh_ptr_data->getDataIdentifier() + "_" + _blearner_type;
+}
 
 arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const arma::mat& param) const
 {
@@ -1115,7 +1143,7 @@ arma::mat BaselearnerCategoricalBinaryFactory::calculateLinearPredictor (const a
 
 sdata BaselearnerCategoricalBinaryFactory::instantiateData (const mdata& data_map) const
 {
-  auto newdata = data::extractDataFromMap(this->_sh_ptr_data, data_map);
+  auto newdata = data::extractDataFromMap(this->_sh_ptr_data_source, data_map);
   auto cnewdata = std::static_pointer_cast<data::CategoricalDataRaw>(newdata);
   return init::initBinaryData(cnewdata, _attributes);
 
@@ -1126,7 +1154,7 @@ sdata BaselearnerCategoricalBinaryFactory::instantiateData (const mdata& data_ma
 std::vector<std::string> BaselearnerCategoricalBinaryFactory::getDataIdentifier () const
 {
   std::vector<std::string> out;
-  out.push_back(_sh_ptr_data->getDataIdentifier());
+  out.push_back(_sh_ptr_data_source->getDataIdentifier());
   return out;
 }
 
@@ -1168,6 +1196,7 @@ BaselearnerCustomFactory::BaselearnerCustomFactory (const std::string blearner_t
     _extractParameter    ( extractParameter )
 {
   _sh_ptr_data = init::initCustomData(data_source, _instantiateDataFun);
+  _is_initialized = true;
 }
 
 bool BaselearnerCustomFactory::usesSparse () const
@@ -1209,6 +1238,11 @@ arma::mat BaselearnerCustomFactory::getPenaltyMat () const
 std::string BaselearnerCustomFactory::getBaseModelName () const
 {
   return std::string("custom");
+}
+
+std::string BaselearnerCustomFactory::getFactoryId () const
+{
+  return _sh_ptr_data->getDataIdentifier() + "_" + _blearner_type;
 }
 
 arma::mat BaselearnerCustomFactory::calculateLinearPredictor (const arma::mat& param) const
@@ -1272,6 +1306,8 @@ BaselearnerCustomCppFactory::BaselearnerCustomCppFactory (const std::string blea
   _attributes->predictFun = *myTempPredict;
 
   _sh_ptr_data = init::initCustomCppData(data_source, _attributes);
+
+  _is_initialized = true;
   //_sh_ptr_data_target->setDenseData(instantiateData(data_source->getData()));
 }
 
@@ -1313,6 +1349,11 @@ arma::mat BaselearnerCustomCppFactory::getPenaltyMat () const
 std::string BaselearnerCustomCppFactory::getBaseModelName () const
 {
   return std::string("customcpp");
+}
+
+std::string BaselearnerCustomCppFactory::getFactoryId () const
+{
+  return _sh_ptr_data->getDataIdentifier() + "_" + _blearner_type;
 }
 
 arma::mat BaselearnerCustomCppFactory::calculateLinearPredictor (const arma::mat& param) const

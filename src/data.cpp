@@ -69,7 +69,7 @@ sdata extractDataFromMap (const std::string did, const mdata& mdat)
 {
   auto it_data = mdat.find(did);
   if (it_data == mdat.end()) {
-    std::string msg = "Cannot find data '" + did + "' in data map. Using 0 as linear predictor.";
+    std::string msg = "Cannot find data '" + did + "' in data map.";
     throw std::logic_error(msg);
   }
   sdata dout = it_data->second;

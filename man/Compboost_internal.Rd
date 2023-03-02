@@ -2,51 +2,54 @@
 % Please edit documentation in R/RcppExports.R
 \name{Compboost_internal}
 \alias{Compboost_internal}
-\title{Main Compboost Class}
+\title{Internal Compboost Class
+
+This class is the raw \verb{C++} pendant and still at a very high-level.
+It is the base for the \link{Compboost} \link{R6} class and provides
+many convenient wrapper to access data and execute methods by calling
+the \verb{C++} methods.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{oob_response}{(\link{ResponseRegr} | \link{ResponseBinaryClassif})\cr
+The response object containing the target variable.}
+
+\item{learning_rate}{(\code{numeric(1)})\cr
+The learning rate.}
+
+\item{stop_if_all_stopper_fulfilled}{(\code{logical(1)})\cr
+Boolean to indicate which stopping strategy is used. If \code{TRUE},
+the algorithm stops if the conditions of all loggers for stopping apply.}
+
+\item{factory_list}{(\link{BlearnerFactoryList})\cr
+List of base learner factories from which one base learner is selected
+in each iteration by using the}
+
+\item{loss}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
+An initialized \code{S4} loss object (requires to call \verb{Loss*$new(...)}).
+See the respective help page for further information.}
+
+\item{logger_list}{(\link{LoggerList})\cr
+The \link{LoggerList} object with all loggers.}
+
+\item{optimizer}{(\link{OptimizerCoordinateDescent} | \link{OptimizerCoordinateDescentLineSearch} | \link{OptimizerAGBM} | \link{OptimizerCosineAnnealing})\cr
+An initialized \code{S4} optimizer object (requires to call \code{Optimizer*.new(..)}.
+See the respective help page for further information.}
 }
 \description{
-This class collects all parts such as the factory list or the used logger
-and passes them to \code{C++}. On the \code{C++} side is then the main
-algorithm.
+Internal Compboost Class
+
+This class is the raw \verb{C++} pendant and still at a very high-level.
+It is the base for the \link{Compboost} \link{R6} class and provides
+many convenient wrapper to access data and execute methods by calling
+the \verb{C++} methods.
 }
 \section{Usage}{
 
 \preformatted{
 Compboost$new(response, learning_rate, stop_if_all_stopper_fulfilled,
   factory_list, loss, logger_list, optimizer)
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{response} \link{\code{numeric}}}{
-Vector of the true values which should be modeled.
-}
-\item{\code{learning_rate} \link{\code{numeric(1)}}}{
-The learning rate which is used to shrink the parameter in each iteration.
-}
-\item{\code{stop_if_all_stopper_fulfilled} \link{\code{logical(1)}}}{
-Boolean to indicate which stopping strategy is used. If \code{TRUE} then
-the algorithm stops if all registered logger stopper are fulfilled.
-}
-\item{\code{factory_list} \link{\code{BlearnerFactoryList} object}}{
-List of base learner factories from which one base learner is selected
-in each iteration by using the
-}
-\item{\code{loss} \link{\code{Loss} object}}{
-The loss which should be used to calculate the pseudo residuals in each
-iteration.
-}
-\item{\code{logger_list} \link{\code{LoggerList} object}}{
-The list with all registered logger which are used to track the algorithm.
-}
-\item{\code{optimizer} \link{\code{Optimizer} object}}{
-The optimizer which is used to select in each iteration one good
-base learner.
-}
 }
 }
 
@@ -57,38 +60,35 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{train(trace)}}{Initial training of the model. The integer
-argument \code{trace} indicates if the logger progress should be printed
-or not and if so trace indicates which iterations should be printed.}
-\item{\code{continueTraining(trace, logger_list)}}{Continue the training
-by using an additional \code{logger_list}. The retraining is stopped if
-the first logger says that the algorithm should be stopped.}
-\item{\code{getPrediction()}}{Get the inbag prediction which is done during
-the fitting process.}
-\item{\code{getSelectedBaselearner()}}{Returns a character vector of how
-the base learner are selected.}
-\item{\code{getLoggerData()}}{Returns a list of all logged data. If the
-algorithm is retrained, then the list contains for each training one
-element.}
-\item{\code{getEstimatedParameter()}}{Returns a list with the estimated
-parameter for base learner which was selected at least once.}
-\item{\code{getParameterAtIteration(k)}}{Calculates the prediction at the
-iteration \code{k}.}
-\item{\code{getParameterMatrix()}}{Calculates a matrix where row \code{i}
-includes the parameter at iteration \code{i}. There are as many rows
-as done iterations.}
-\item{\code{isTrained()}}{This function returns just a boolean value which
-indicates if the initial training was already done.}
-\item{\code{predict(newdata)}}{Prediction on new data organized within a
-list of source data objects. It is important that the names of the source
-data objects matches those one that were used to define the factories.}
-\item{\code{predictAtIteration(newdata, k)}}{Prediction on new data by using
-another iteration \code{k}.}
-\item{\code{setToIteration(k)}}{Set the whole model to another iteration
-\code{k}. After calling this function all other elements such as the
-parameters or the prediction are calculated corresponding to \code{k}.}
-\item{\code{summarizeCompboost()}}{Summarize the \code{Compboost} object.}
+\itemize{
+\item \verb{$train()}: \verb{() -> ()}
+\item \verb{$continueTraining()}: \verb{() -> ()}
+\item \verb{$getLearningRate()}: \verb{() -> numeric(1)}
+\item \verb{$getPrediction()}: \verb{() -> matrix()}
+\item \verb{$getSelectedBaselearner()}: \verb{() -> character()}
+\item \verb{$getLoggerData()}: \verb{() -> list(character(), matrix())}
+\item \verb{$getEstimatedParameter()}: \verb{() -> list(matrix())}
+\item \verb{$getParameterAtIteration()}: \verb{() -> list(matrix())}
+\item \verb{$getParameterMatrix()}: \verb{() -> matrix()}
+\item \verb{$predictFactoryTrainData()}: \verb{() -> matrix()}
+\item \verb{$predictFactoryNewData()}: \verb{list(Data*) -> matrix()}
+\item \verb{$predictIndividualTrainData()}: \verb{() -> list(matrix())} Get the linear contribution of each base learner for the training data.
+\item \verb{$predictIndividual()}: \verb{list(Data*) -> list(matrix())} Get the linear contribution of each base learner for new data.
+\item \verb{$predict()}: \verb{list(Data*), logical(1) -> matrix()}
+\item \verb{$summarizeCompboost()}: \verb{() -> ()}
+\item \verb{$isTrained()}: \verb{() -> logical(1)}
+\item \verb{$setToIteration()}: \verb{() -> ()}
+\item \verb{$saveJson()}: \verb{() -> ()}
+\item \verb{$getOffset()}: \verb{() -> numeric(1) | matrix()}
+\item \verb{$getRiskVector()}: \verb{() -> numeric()}
+\item \verb{$getResponse()}: \verb{() -> Response*}
+\item \verb{$getOptimizer()}: \verb{() -> Optimizer*}
+\item \verb{$getLoss()}: \verb{() -> Loss*}
+\item \verb{$getLoggerList()}: \verb{() -> LoggerList}
+\item \verb{$getBaselearnerList()}: \verb{() -> BlearnerFactoryList}
+\item \verb{$useGlobalStopping()}: \verb{() -> logical(1)*}
+\item \verb{$getFactoryMap()}: \verb{() -> list(Baselearner*)}
+\item \verb{$getDataMap()}: \verb{() -> list(Data*)}
 }
 }
 

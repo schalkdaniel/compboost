@@ -4,7 +4,7 @@
 \alias{ResponseBinaryClassif}
 \title{Create response object for binary classification.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
 }
 \description{
 \code{ResponseBinaryClassif} creates a response object that are used as target during the

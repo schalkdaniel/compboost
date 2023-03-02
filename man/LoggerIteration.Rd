@@ -4,7 +4,17 @@
 \alias{LoggerIteration}
 \title{Logger class to log the current iteration}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{logger_id}{(\code{character(1)})\cr
+Identifier of the logger.}
+
+\item{param-use_as_stopper}{(\code{logical(1)})\cr
+Boolean to indicate if the logger should also be used as a stopper.}
+
+\item{max_iterations}{(\code{integer(1)})\cr
+If the logger is used as stopper this argument defines the maximal iterations.}
 }
 \description{
 Logger class to log the current iteration
@@ -16,22 +26,6 @@ LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 }
 }
 
-\section{Arguments}{
-
-\describe{
-\item{\code{logger_id} \link{\code{character(1)}}}{
-Unique identifier of the logger.
-}
-\item{\code{use_as_stopper} \link{\code{logical(1)}}}{
-Boolean to indicate if the logger should also be used as stopper.
-}
-\item{\code{max_iterations} \link{\code{integer(1)}}}{
-If the logger is used as stopper this argument defines the maximal
-iterations.
-}
-}
-}
-
 \section{Fields}{
 
 This class doesn't contain public fields.
@@ -39,8 +33,8 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{summarizeLogger()}}{Summarize the logger object.}
+\itemize{
+\item \verb{$summarizeLogger()}: \verb{() -> ()}
 }
 }
 

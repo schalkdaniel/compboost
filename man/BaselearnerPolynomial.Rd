@@ -13,7 +13,7 @@ Data object which contains the raw data (see \code{?InMemoryData}).}
 \item{blearner_type}{(\code{character(1)}) \cr
 Type of the base learner (if not specified, \code{blearner_type = paste0("poly", d)} is used).
 The unique id of the base learner is defined by appending \code{blearner_type} to
-the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}}
+the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}.}
 
 \item{degree}{(\code{integer(1)})\cr
 Polynomial degree.}
@@ -64,6 +64,7 @@ This class doesn't contain public fields.
 \item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
 \item \verb{$getFeatureName()}: \verb{() -> character()}
 \item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
 }
 }
 
@@ -104,7 +105,8 @@ cboost_lin$addBaselearner("x", "lin", BaselearnerPolynomial, degree = 1)
 cboost_lin$train(100, 0)
 
 cboost_cub = Compboost$new(dat, "y")
-cboost_cub$addBaselearner("x", "cubic", BaselearnerPolynomial, intercept = FALSE, degree = 3, bin_root = 2)
+cboost_cub$addBaselearner("x", "cubic", BaselearnerPolynomial,
+  intercept = FALSE, degree = 3, bin_root = 2)
 cboost_cub$train(100, 0)
 
 # Access base learner directly from the API (n = sqrt(100) = 10 with binning):

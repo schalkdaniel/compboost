@@ -4,7 +4,7 @@
 \alias{ResponseRegr}
 \title{Create response object for regression.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
 }
 \description{
 \code{ResponseRegr} creates a response object that are used as target during the

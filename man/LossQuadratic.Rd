@@ -4,7 +4,12 @@
 \alias{LossQuadratic}
 \title{Quadratic loss for regression tasks.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{offset}{(\code{numeric(1)} | \code{matrix()})\cr
+Numerical value or matrix to set a custom offset. If used, this
+value is returned instead of the loss optimal initialization.}
 }
 \description{
 This loss can be used for regression with \eqn{y \in \mathrm{R}}.
@@ -32,18 +37,7 @@ LossQuadratic$new(offset)
 }
 }
 
-\section{Arguments}{
-
-\describe{
-\item{\code{offset} \link{\code{numeric(1)}}}{
-Numerical value which can be used to set a custom offset. If so, this
-value is returned instead of the loss optimal initialization.
-}
-}
-}
-
 \examples{
-
 # Create new loss object:
 quadratic_loss = LossQuadratic$new()
 quadratic_loss

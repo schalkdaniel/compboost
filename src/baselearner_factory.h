@@ -80,15 +80,15 @@ public:
   BaselearnerFactory (const json&, const mdata&);
 
   // Virtual methods
-  virtual bool       usesSparse           ()                const = 0;
-  virtual sdata      instantiateData      (const mdata&)    const = 0;
-
-  virtual sdata       getInstantiatedData ()                 const = 0;
-  virtual arma::mat   getData             ()                 const = 0;
-  virtual arma::vec   getDF               ()                 const = 0;
-  virtual arma::vec   getPenalty          ()                 const = 0;
-  virtual arma::mat   getPenaltyMat       ()                 const = 0;
-  virtual std::string getBaseModelName    ()                 const = 0;
+  virtual bool        usesSparse          ()              const = 0;
+  virtual sdata       instantiateData     (const mdata&)  const = 0;
+  virtual sdata       getInstantiatedData ()              const = 0;
+  virtual arma::mat   getData             ()              const = 0;
+  virtual arma::vec   getDF               ()              const = 0;
+  virtual arma::vec   getPenalty          ()              const = 0;
+  virtual arma::mat   getPenaltyMat       ()              const = 0;
+  virtual std::string getBaseModelName    ()              const = 0;
+  virtual std::string getFactoryId        ()              const = 0;
 
   virtual arma::mat  calculateLinearPredictor (const arma::mat&) const = 0;
   virtual arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const = 0;
@@ -142,6 +142,7 @@ public:
   arma::vec   getPenalty          () const;
   arma::mat   getPenaltyMat       () const;
   std::string getBaseModelName    () const;
+  std::string getFactoryId        () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -177,6 +178,7 @@ public:
   arma::vec   getPenalty          () const;
   arma::mat   getPenaltyMat       () const;
   std::string getBaseModelName    () const;
+  std::string getFactoryId        () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -216,6 +218,7 @@ public:
   arma::vec                getPenalty          () const;
   arma::mat                getPenaltyMat       () const;
   std::string              getBaseModelName    () const;
+  std::string              getFactoryId        () const;
   std::vector<std::string> getDataIdentifier   () const;
   std::vector<sdata>       getVecDataSource    () const;
 
@@ -260,6 +263,7 @@ public:
   arma::vec                getPenalty          () const;
   arma::mat                getPenaltyMat       () const;
   std::string              getBaseModelName    () const;
+  std::string              getFactoryId        () const;
   std::vector<std::string> getDataIdentifier   () const;
   std::vector<sdata>       getVecDataSource    () const;
 
@@ -297,6 +301,7 @@ public:
   arma::vec   getPenalty          () const;
   arma::mat   getPenaltyMat       () const;
   std::string getBaseModelName    () const;
+  std::string getFactoryId        () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -334,6 +339,7 @@ public:
   arma::vec   getPenalty          () const;
   arma::mat   getPenaltyMat       () const;
   std::string getBaseModelName    () const;
+  std::string getFactoryId        () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -354,10 +360,12 @@ private:
   std::shared_ptr<data::Data> _sh_ptr_data;
   //std::shared_ptr<init::CustomAttributes> _attributes;
 
-  const Rcpp::Function _instantiateDataFun;
-  const Rcpp::Function _trainFun;
-  const Rcpp::Function _predictFun;
-  const Rcpp::Function _extractParameter;
+  bool _is_initialized = false;
+
+  Rcpp::Function _instantiateDataFun;
+  Rcpp::Function _trainFun;
+  Rcpp::Function _predictFun;
+  Rcpp::Function _extractParameter;
 
 public:
 
@@ -373,6 +381,7 @@ public:
   arma::vec   getPenalty          () const;
   arma::mat   getPenaltyMat       () const;
   std::string getBaseModelName    () const;
+  std::string getFactoryId        () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
@@ -392,6 +401,7 @@ typedef arma::mat (*predictFunPtr) (const arma::mat& newdata, const arma::mat& p
 class BaselearnerCustomCppFactory : public BaselearnerFactory
 {
 private:
+  bool _is_initialized = false;
   std::shared_ptr<data::Data> _sh_ptr_data;
   std::shared_ptr<init::CustomCppAttributes> _attributes = std::make_shared<init::CustomCppAttributes>();
 
@@ -411,6 +421,7 @@ public:
   arma::vec   getPenalty          () const;
   arma::mat   getPenaltyMat       () const;
   std::string getBaseModelName    () const;
+  std::string getFactoryId        () const;
 
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;

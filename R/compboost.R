@@ -1,7 +1,8 @@
 #' @title Component-wise boosting
 #'
-#' @description This class wraps the `S4` class system exposed by `Rcpp` to fit a component-wise
-#' boosting model. The two convenient wrapper [boostLinear()] and [boostSplines()] are
+#' @description This class wraps the `S4` class system with [Compboost_internal]
+#' as internal model representation exposed by `Rcpp`.
+#' The two convenient wrapper [boostLinear()] and [boostSplines()] are
 #' also creating objects of this class.
 #'
 #' Visualizing the internals see [plotBaselearnerTraces()], [plotBaselearner()], [plotFeatureImportance()],
@@ -14,7 +15,7 @@
 #' cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
 #'   n_knots = 10, df = 3, differences = 2)
 #' cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
-#' cboost$train(1000)
+#' cboost$train(1000, 0)
 #'
 #' table(cboost$getSelectedBaselearner())
 #' head(cboost$logs)
@@ -23,6 +24,7 @@
 #' # Access information about the a base learner in the list:
 #' cboost$baselearner_list$hp_spline$factory$getDF()
 #' cboost$baselearner_list$hp_spline$factory$getPenalty()
+#' plotBaselearner(cboost, "hp_spline")
 Compboost = R6::R6Class("Compboost",
   public = list(
 
@@ -343,22 +345,22 @@ Compboost = R6::R6Class("Compboost",
       }
 
       data_columns = self$data[, feature, drop = FALSE]
-      id_fac = paste(paste(feature, collapse = "_"), id, sep = "_")
 
       if (ncol(data_columns) == 1 && !is.numeric(data_columns[, 1])) {
         e = try(
-          private$addSingleCatBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...),
+          private$addSingleCatBl(data_columns, feature, id, bl_factory, data_source, ...),
           silent = TRUE
         )
       }	else {
         e = try(
-          private$addSingleNumericBl(data_columns, feature, id, id_fac, bl_factory, data_source, ...),
+          private$addSingleNumericBl(data_columns, feature, id, bl_factory, data_source, ...),
           silent = TRUE
         )
       }
       ## Remove list element if factory was not created.
       if (inherits(e, "try-error")) {
-        private$p_bl_list[[id_fac]] = NULL
+        idx_missing_factory = vapply(private$p_bl_list, function(bl) "factory" %in% names(bl), logical(1))
+        private$p_bl_list[idx_missing_factory] = NULL
         df0 = NULL
         if ("df" %in% names(list(...))) df0 = list(...)$df
         stop(catchInternalException(e, self$data[[feature]], feature, df0))
@@ -778,7 +780,7 @@ Compboost = R6::R6Class("Compboost",
     #' `list(pars, offset)` with estimated coefficients/parameters and intercept/offset.
     getCoef = function() {
       bl_classes = vapply(private$p_bl_list, function(bl) class(bl$factory), character(1L))
-      bl_cat = bl_classes[grepl("Categorical", bl_classes)]
+      bl_cat = bl_classes[grepl("CategoricalRidge", bl_classes)]
       if (! is.null(self$model)) {
         pars = self$model$getEstimatedParameter()
         for (blc in intersect(names(bl_cat), names(pars))) {
@@ -1042,21 +1044,20 @@ Compboost = R6::R6Class("Compboost",
     # The feature names of the columns in `data_columns`.
     # @param id_fac (`character(1)`)\cr
     # The identifier of the base learner used to define the raw factory.
-    # @param id (`character(1)`)\cr
-    # The identifier of the base learner in the `list()` of base learners.
     # @template param-bl_factory
     # @template param-data_source
     # @param ... \cr
     # Additional arguments passed to the `$new(...)` call of `bl_factory`.
-    addSingleNumericBl = function(data_columns, feature, id_fac, id, bl_factory, data_source, ...) {
+    addSingleNumericBl = function(data_columns, feature, id_fac, bl_factory, data_source, ...) {
 
-      private$p_bl_list[[id]] = list()
-      private$p_bl_list[[id]]$source = data_source$new(as.matrix(data_columns), paste(feature, collapse = "_"))
-      private$p_bl_list[[id]]$feature = feature
-      private$p_bl_list[[id]]$factory = bl_factory$new(private$p_bl_list[[id]]$source, id_fac, list(...))
+      dsource = data_source$new(as.matrix(data_columns), paste(feature, collapse = "_"))
+      factory = bl_factory$new(dsource, id_fac, list(...))
+      id_insert = factory$getBaselearnerId()
+      private$p_bl_list[[id_insert]] = list()
+      private$p_bl_list[[id_insert]]$feature = feature
+      private$p_bl_list[[id_insert]]$factory = factory
 
-      self$bl_factory_list$registerFactory(private$p_bl_list[[id]]$factory)
-      private$p_bl_list[[id]]$source = NULL
+      self$bl_factory_list$registerFactory(private$p_bl_list[[id_insert]]$factory)
     },
 
     # @description
@@ -1068,54 +1069,42 @@ Compboost = R6::R6Class("Compboost",
     # The feature names of the columns in `data_columns`.
     # @param id_fac (`character(1)`)\cr
     # The identifier of the base learner used to define the raw factory.
-    # @param id (`character(1)`)\cr
-    # The identifier of the base learner in the `list()` of base learners.
     # @template param-bl_factory
     # @template param-data_source
     # @param ... \cr
     # Additional arguments passed to the `$new(...)` call of `bl_factory`.
-    addSingleCatBl = function(data_column, feature, id_fac, id, bl_factory, data_source, ...) {
-
-      private$p_bl_list[[id]] = list()
-      private$p_bl_list[[id]]$source = CategoricalDataRaw$new(as.character(data_column[[feature]]), feature)
+    addSingleCatBl = function(data_column, feature, id_fac, bl_factory, data_source, ...) {
+      raw_dsource = CategoricalDataRaw$new(as.character(data_column[[feature]]), feature)
       if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalRidge") {
-        private$p_bl_list[[id]]$feature = feature
-        private$p_bl_list[[id]]$factory = BaselearnerCategoricalRidge$new(private$p_bl_list[[id]]$source, id_fac, list(...))
 
-        self$bl_factory_list$registerFactory(private$p_bl_list[[id]]$factory)
-        private$p_bl_list[[id]]$source = NULL
-      } else {
+        factory = BaselearnerCategoricalRidge$new(raw_dsource, id_fac, list(...))
+        id_insert = factory$getBaselearnerId()
+
+        private$p_bl_list[[id_insert]] = list()
+        private$p_bl_list[[id_insert]]$feature = feature
+        private$p_bl_list[[id_insert]]$factory = factory
+
+        self$bl_factory_list$registerFactory(private$p_bl_list[[id_insert]]$factory)
+      }
+      if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalBinary") {
         lvls = unlist(unique(data_column))
         # Create dummy variable for each category and use that vector as data matrix. Hence,
         # if a categorical feature has 3 groups, then these 3 groups are added as 3 different
-        # base-learners (unbiased feature selection).
+        # base learners.
         for (lvl in lvls) {
 
-          cat_feat_id = paste(feature, lvl, id_fac, sep = "_")
+          factory = bl_factory$new(raw_dsource, lvl, id_fac)
+          cat_feat_id = factory$getBaselearnerId()
 
-          if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalBinary") {
-            private$p_bl_list[[cat_feat_id]] = list()
+          private$p_bl_list[[cat_feat_id]] = list()
+          private$p_bl_list[[cat_feat_id]]$feature = feature
+          private$p_bl_list[[cat_feat_id]]$factory = factory
 
-            #private$p_bl_list[[cat_feat_id]]$feature = paste(feature, lvl, sep = "_")
-            private$p_bl_list[[cat_feat_id]]$feature = feature
-            private$p_bl_list[[cat_feat_id]]$factory = bl_factory$new(
-              private$p_bl_list[[id]]$source, paste0(lvl, "_", id_fac))
-
-            self$bl_factory_list$registerFactory(private$p_bl_list[[cat_feat_id]]$factory)
-            private$p_bl_list[[cat_feat_id]]$source = NULL
-          } else {
-            private$addSingleNumericBl(data_columns = as.matrix(as.integer(data_column == lvl)),
-              feature = paste(feature, lvl, sep = "_"), id_fac = id_fac, id = cat_feat_id,
-              bl_factory, data_source, ...)
-
-            # This is important because of:
-            #   1. feature in addSingleNumericBl needs to be something like cat_feature_Group1 to define the
-            #      data objects correctly in a unique way.
-            #   2. The feature itself should not be named with the level. Instead of that we just want the
-            #      feature name of the categorical variable, such as cat_feature (important for predictions).
-            private$p_bl_list[[cat_feat_id]]$feature = feature
-          }
+          self$bl_factory_list$registerFactory(private$p_bl_list[[cat_feat_id]]$factory)
         }
+      }
+      if (! bl_factory@.Data %in% c("Rcpp_BaselearnerCategoricalBinary", "Rcpp_BaselearnerCategoricalRidge")) {
+        stop("Use `bl_factory = BaselearnerCategoricalRidge` or `bl_factory = BaselearnerCategoricalBinary` for categorical features.")
       }
     },
 

@@ -7,13 +7,13 @@
 plotBaselearner(cboost, blname, npoints = 100L)
 }
 \arguments{
-\item{cboost}{\link{\code{Compboost} class}\cr
-A trained \code{Compboost} object.}
+\item{cboost}{(\link{Compboost})\cr
+A trained \link{Compboost} object.}
 
-\item{blname}{\link{\code{character(1L)}}\cr
+\item{blname}{(\code{character(1L)})\cr
 Name of the base learner. Must be one of \code{cboost$getBaselearnerNames()}.}
 
-\item{npoints}{\link{\code{integer(1L)}}\cr
+\item{npoints}{(\code{integer(1L)})\cr
 Number of points which are predicted for the lines (only applies to numerical features).}
 }
 \value{
@@ -21,7 +21,7 @@ Number of points which are predicted for the lines (only applies to numerical fe
 }
 \description{
 This function visualizes the contribution of a base learner to the overall
-prediction score. For visualization of partial effects see \code{plotPEUni}.
+prediction score. For visualization of partial effects see \code{\link[=plotPEUni]{plotPEUni()}}.
 }
 \examples{
 cboost = Compboost$new(data = iris, target = "Petal.Length",

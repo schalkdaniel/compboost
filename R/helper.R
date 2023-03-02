@@ -37,20 +37,6 @@ vectorToResponse = function(vec, target, pos_class = NULL) {
   }
 }
 
-
-# .vectorToResponse = function (vec, target)
-# {
-#   # Classification:
-#   if (is.character(vec)) {
-#     vec = as.factor(vec)
-#
-#     if (length(levels(vec)) == 2) return (ResponseBinaryClassif$new(target, as.matrix(vec)))
-#     if (length(levels(vec)) > 2) stop("Multiclass classification is not supported.")
-#   }
-#   # Regression:
-#   if (is.numeric(vec)) return (ResponseRegr$new(target, as.matrix(vec)))
-# }
-
 checkModelPlotAvailability = function(cboost_obj, check_ggplot = TRUE) {
   if (is.null(cboost_obj$model)) stop("Train the model to get logger data.")
   if ((! requireNamespace("ggplot2", quietly = TRUE)) && check_ggplot) {

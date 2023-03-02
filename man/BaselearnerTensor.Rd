@@ -2,12 +2,104 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerTensor}
 \alias{BaselearnerTensor}
-\title{Base learner factory to make regression using tensor products}
+\title{Row-wise tensor product base learner}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{blearner1}{(\verb{Baselearner*})\cr
+First base learner.}
+
+\item{blearner2}{(\verb{Baselearner*})\cr
+Second base learner.}
+
+\item{blearner_type}{(\code{character(1)}) \cr
+Type of the base learner (if not specified, \code{blearner_type = "spline"} is used).
+The unique id of the base learner is defined by appending \code{blearner_type} to
+the feature name:
+\verb{paste0(blearner1$getDataSource()getIdentifier(), "_", blearner2$getDataSource()getIdentifier(), "_", blearner_type)}.}
+
+\item{anisotrop}{(\code{logical(1)})\cr
+Defines how the penalty is added up. If \code{anisotrop = TRUE}, the marginal effects of the
+are penalized as defined in the underlying factories. If \code{anisotrop = FALSE}, an isotropic
+penalty is used, which means that both directions gets penalized equally.}
 }
 \description{
-\code{BaselearnerTensor} creates a combined base learner factory
-object which can be registered within a base learner list and then used
-for training.
+This class combines base learners. The base learner is defined by a data matrix
+calculated as row-wise tensor product of the two data matrices given in the
+base learners to combine.
+}
+\section{Usage}{
+
+\preformatted{
+BaselearnerTensor$new(blearner1, blearner2, blearner_type)
+BaselearnerTensor$new(blearner1, blearner2, blearner_type, anisotrop)
+}
+}
+
+\section{Fields}{
+
+This class doesn't contain public fields.
+}
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
+}
+}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
+}
+}
+
+\examples{
+# Sample data:
+x1 = runif(100, 0, 10)
+x2 = runif(100, 0, 10)
+y = sin(x1) * cos(x2) + rnorm(100, 0, 0.2)
+dat = data.frame(x1, x2, y)
+
+# S4 wrapper
+
+# Create new data object, a matrix is required as input:
+ds1 = InMemoryData$new(cbind(x1), "x1")
+ds2 = InMemoryData$new(cbind(x2), "x2")
+
+# Create new linear base learner factory:
+bl1 = BaselearnerPSpline$new(ds1, "sp", list(n_knots = 10, df = 5))
+bl2 = BaselearnerPSpline$new(ds2, "sp", list(n_knots = 10, df = 5))
+
+tensor = BaselearnerTensor$new(bl1, bl2, "row_tensor")
+
+# Get the transformed data:
+dim(tensor$getData())
+
+# Get full meta data such as penalty term or matrix as well as knots:
+str(tensor$getMeta())
+
+# Transform "new data":
+newdata = list(InMemoryData$new(cbind(runif(5)), "x1"),
+  InMemoryData$new(cbind(runif(5)), "x2"))
+str(tensor$transformData(newdata))
+
+# R6 wrapper
+
+cboost = Compboost$new(dat, "y")
+cboost$addTensor("x1", "x2", df = 5)
+cboost$train(50, 0)
+
+table(cboost$getSelectedBaselearner())
+plotTensor(cboost, "x1_x2_tensor")
 }

@@ -4,7 +4,12 @@
 \alias{LossBinomial}
 \title{0-1 Loss for binary classification derived of the binomial distribution}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{offset}{(\code{numeric(1)} | \code{matrix()})\cr
+Numerical value or matrix to set a custom offset. If used, this
+value is returned instead of the loss optimal initialization.}
 }
 \description{
 This loss can be used for binary classification. The coding we have chosen
@@ -34,16 +39,6 @@ with
 \preformatted{
 LossBinomial$new()
 LossBinomial$new(offset)
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{offset} \link{\code{numeric(1)}}}{
-Numerical value which can be used to set a custom offset. If so, this
-value is returned instead of the loss optimal initialization.
-}
 }
 }
 

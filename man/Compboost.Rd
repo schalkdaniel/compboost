@@ -4,8 +4,9 @@
 \alias{Compboost}
 \title{Component-wise boosting}
 \description{
-This class wraps the \code{S4} class system exposed by \code{Rcpp} to fit a component-wise
-boosting model. The two convenient wrapper \code{\link[=boostLinear]{boostLinear()}} and \code{\link[=boostSplines]{boostSplines()}} are
+This class wraps the \code{S4} class system with \link{Compboost_internal}
+as internal model representation exposed by \code{Rcpp}.
+The two convenient wrapper \code{\link[=boostLinear]{boostLinear()}} and \code{\link[=boostSplines]{boostSplines()}} are
 also creating objects of this class.
 
 Visualizing the internals see \code{\link[=plotBaselearnerTraces]{plotBaselearnerTraces()}}, \code{\link[=plotBaselearner]{plotBaselearner()}}, \code{\link[=plotFeatureImportance]{plotFeatureImportance()}},
@@ -17,7 +18,7 @@ cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction =
 cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
   n_knots = 10, df = 3, differences = 2)
 cboost$addBaselearner("wt", "spline", BaselearnerPSpline)
-cboost$train(1000)
+cboost$train(1000, 0)
 
 table(cboost$getSelectedBaselearner())
 head(cboost$logs)
@@ -26,6 +27,7 @@ names(cboost$baselearner_list)
 # Access information about the a base learner in the list:
 cboost$baselearner_list$hp_spline$factory$getDF()
 cboost$baselearner_list$hp_spline$factory$getPenalty()
+plotBaselearner(cboost, "hp_spline")
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

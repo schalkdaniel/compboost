@@ -13,7 +13,7 @@ Data object which contains the raw data (see \code{?InMemoryData}).}
 \item{blearner_type}{(\code{character(1)}) \cr
 Type of the base learner (if not specified, \code{blearner_type = "spline"} is used).
 The unique id of the base learner is defined by appending \code{blearner_type} to
-the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}}
+the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}.}
 
 \item{degree}{(\code{integer(1)})\cr
 Degree of the piecewise polynomial (default \code{degree = 3} for cubic splines).}
@@ -27,6 +27,9 @@ Penalty term for P-splines (default \code{penalty = 2}). Set to zero for B-splin
 
 \item{differences}{(\code{integer(1)})\cr
 The number of differences to are penalized. A higher value leads to smoother curves.}
+
+\item{df}{(\code{numeric(1)})\cr
+Degrees of freedom of the base learner(s).}
 
 \item{bin_root}{(\code{integer(1)})\cr
 The binning root to reduce the data to \eqn{n^{1/\text{bin_root}}}$ data points
@@ -73,6 +76,7 @@ This class doesn't contain public fields.
 \item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
 \item \verb{$getFeatureName()}: \verb{() -> character()}
 \item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
 }
 }
 
@@ -121,11 +125,13 @@ bl_sp_df5$transformData(newdata)
 # R6 wrapper
 
 cboost_df2 = Compboost$new(dat, "y")
-cboost_df2$addBaselearner("x", "sp", BaselearnerPSpline, n_knots = 10, df = 2, bin_root = 2)
+cboost_df2$addBaselearner("x", "sp", BaselearnerPSpline,
+  n_knots = 10, df = 2, bin_root = 2)
 cboost_df2$train(200, 0)
 
 cboost_df5 = Compboost$new(dat, "y")
-cboost_df5$addBaselearner("x", "sp", BaselearnerPSpline, n_knots = 15, df = 5)
+cboost_df5$addBaselearner("x", "sp", BaselearnerPSpline,
+  n_knots = 15, df = 5)
 cboost_df5$train(200, 0)
 
 # Access base learner directly from the API (n = sqrt(100) = 10 with binning):

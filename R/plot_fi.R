@@ -1,13 +1,14 @@
-#' Visualize the feature importance
+#' @title Visualize the feature importance
 #'
+#' @description
 #' This function visualizes the feature importance as horizontal bar plot.
 #'
-#' @return \code{ggplot} object containing the graphic.
-#' @param cboost [\code{Compboost} class]\cr
-#'   A trained \code{Compboost} object.
-#' @param num_feats [\code{integer(1L)}]\cr
-#'   Number of features that are visualized. All features are added if set to \code{NULL}.
-#' @param aggregate [\code{logical(1L)}]\cr
+#' @return `ggplot` object containing the graphic.
+#' @param cboost ([Compboost])\cr
+#'   A trained [Compboost] object.
+#' @param num_feats (`integer(1L)`)\cr
+#'   Number of features that are visualized. All features are added if set to `NULL`.
+#' @param aggregate (`logical(1L)`)\cr
 #'   Flag whether the feature importance is aggregated by feature. Otherwise it is
 #'   visualized per base learner.
 #' @examples

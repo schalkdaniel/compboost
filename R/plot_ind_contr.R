@@ -1,25 +1,26 @@
-#' Decompose the predicted value based on the given features
+#' @title Decompose the predicted value based on the given features
 #'
+#' @description
 #' This function visualizes the contribution of each feature regarding the predicted value.
 #' By default, multiple base learners defined on one feature are aggregated. If you
-#' want to show the contribution of single base learner, then set \code{aggregate = FALSE}.
+#' want to show the contribution of single base learner, then set `aggregate = FALSE`.
 #'
-#' @return \code{ggplot} object containing the graphic.
-#' @param cboost [\code{Compboost} class]\cr
-#'   A trained \code{Compboost} object.
-#' @param newdata [\code{data.frame}]\cr
+#' @return `ggplot` object containing the graphic.
+#' @param cboost ([Compboost])\cr
+#'   A trained [Compboost] object.
+#' @param newdata (`data.frame()`)\cr
 #'   Data frame containing exactly one row holding the new observations.
-#' @param aggregate [\code{logical(1L)}]\cr
+#' @param aggregate (`logical(1L)`)\cr
 #'   Number of colored base learners added to the legend.
-#' @param colbreaks [\code{numeric()}]\cr
+#' @param colbreaks (`numeric()`)\cr
 #'   Breaks to visualize/highlight different predicted values. Default creates different
-#'   colors for positive and negative score values. If set to \code{NULL} no coloring
+#'   colors for positive and negative score values. If set to `NULL` no coloring
 #'   is applied.
-#' @param collabels [\code{character(length(colbreaks) - 1)}]\cr
-#'   Labels for the color breaks. If set to \code{NULL} intervals are used as labels.
-#' @param nround [\code{integer(1L)}]\cr
-#'   Digit passed to \code{round} for labels (default is \code{nround = 2L}).
-#' @param offset [\code{logical(1L)}]\cr
+#' @param collabels (`character(length(colbreaks) - 1)`)\cr
+#'   Labels for the color breaks. If set to `NULL` intervals are used as labels.
+#' @param nround (`integer(1L)`)\cr
+#'   Digit passed to [round] for labels (default is `nround = 2L`).
+#' @param offset (`logical(1L)`)\cr
 #'   Flag to indicate whether the offset should be added to the figure or not.
 #' @examples
 #' dat = mtcars

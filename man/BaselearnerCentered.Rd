@@ -2,11 +2,39 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCentered}
 \alias{BaselearnerCentered}
-\title{Base learner factory to make regression using centered base learner}
+\title{Centering a base learner by another one}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
 }
 \description{
-\code{BaselearnerCentered} creates a base learner factory which is centered
-using another base learner.
+This base learner subtracts the effect of two base learners (usually defined
+on the same feature). By subtracting the effects, one is not able to predict
+the other one.
 }
+\section{Fields}{
+
+This class doesn't contain public fields.
+}
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
+}
+}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
+}
+}
+

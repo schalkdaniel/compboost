@@ -2,26 +2,20 @@
 % Please edit documentation in R/RcppExports.R
 \name{CategoricalDataRaw}
 \alias{CategoricalDataRaw}
-\title{Data class for categorical variables
-
-\link{CategoricalDataRaw} creates an data object which can be used as source
-object to instantiate categorical base learner. In contrast to \link{CategoricalData}
-the data are stored as raw categorical vector. \link{CategoricalData} can be compared
-to a factor class with an integer encoding and a hash map for reassignment.}
+\title{Data class for categorical variables}
 \format{
 \link{S4} object.
 }
 \arguments{
 \item{x}{(\code{character()})\cr
 Categorical vector.}
+
+\item{data_identifier}{(\code{character(1)})\cr
+Data id, e.g. a feature name.}
 }
 \description{
-Data class for categorical variables
-
 \link{CategoricalDataRaw} creates an data object which can be used as source
-object to instantiate categorical base learner. In contrast to \link{CategoricalData}
-the data are stored as raw categorical vector. \link{CategoricalData} can be compared
-to a factor class with an integer encoding and a hash map for reassignment.
+object to instantiate categorical base learner.
 }
 \section{Usage}{
 
@@ -37,10 +31,8 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
 \itemize{
-\item \verb{$getData()}: \verb{() -> stop()}\cr
-Throws error because no representation is calculated.}
+\item \verb{$getData()}: \verb{() -> stop()}\cr Throws error because no representation is calculated.
 \item \verb{$getRawData()}: \verb{() -> character()}
 \item \verb{$getIdentifier()}: \verb{() -> character(1)}
 }

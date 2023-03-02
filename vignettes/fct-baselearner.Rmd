@@ -7,22 +7,34 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-## BaselearnerPolynomial
+__BaselearnerPolynomial__:
 
 see [help page](../reference/BaselearnerPolynomial.html).
 
-## BaselearnerPSplineFactory
+__BaselearnerPSplineFactory__:
 
 see [help page](../reference/BaselearnerPSpline.html).
 
-## BaselearnerCategoricalRidge
+__BaselearnerCategoricalRidge__:
 
-## BaselearnerCategoricalBinary
+see [help page](../reference/BaselearnerCategoricalRidge.html).
 
-## BaselearnerCentered
+__BaselearnerCategoricalBinary__:
 
-## BaselearnerTensor
+see [help page](../reference/BaselearnerCategoricalBinary.html).
 
+__BaselearnerCentered__:
 
+see [help page](../reference/BaselearnerCentered.html).
 
+__BaselearnerTensor__:
 
+see [help page](../reference/BaselearnerTensor.html).
+
+__BaselearnerCustom__:
+
+see [help page](../reference/BaselearnerCustom.html).
+
+__BaselearnerCustomCpp__:
+
+see [help page](../reference/BaselearnerCustomCpp.html).

@@ -4,7 +4,7 @@
 \alias{BlearnerFactoryList}
 \title{Base learner factory list to define the set of base learners}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
 }
 \description{
 \code{BlearnerFactoryList} creates an object in which base learner factories

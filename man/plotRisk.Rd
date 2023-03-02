@@ -7,8 +7,8 @@
 plotRisk(cboost)
 }
 \arguments{
-\item{cboost}{\link{\code{Compboost} class}\cr
-A trained \code{Compboost} object.}
+\item{cboost}{(\link{Compboost})\cr
+A trained \link{Compboost} object.}
 }
 \value{
 \code{ggplot} object containing the graphic.

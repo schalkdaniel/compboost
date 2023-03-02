@@ -2,13 +2,13 @@
 % Please edit documentation in R/RcppExports.R
 \name{LoggerList}
 \alias{LoggerList}
-\title{Logger list class to collect all loggers}
+\title{Collect loggers}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
 }
 \description{
-This class is meant to define all logger which should be used to track the
-progress of the algorithm.
+This class collects all loggers that are used in the algorithm and
+takes care about stopping strategies and tracing.
 }
 \section{Usage}{
 
@@ -24,17 +24,13 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{clearRegisteredLogger()}}{Removes all registered logger
-from the list. The used logger are not deleted, just removed from the
-map.}
-\item{\code{getNamesOfRegisteredLogger()}}{Returns the registered logger
-names as character vector.}
-\item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
-logger as integer.}
-\item{\code{printRegisteredLogger()}}{Prints all registered logger.}
-\item{\code{registerLogger(logger)}}{Includes a new \code{logger}
-into the logger list with the \code{logger_id} as key.}
+\itemize{
+\item \verb{$registerLogger()}: \verb{Logger* -> ()}
+\item \verb{$printRegisteredLogger()}: \verb{() -> ()}
+\item \verb{$clearRegisteredLogger()}: \verb{() -> ()}
+\item \verb{$getNumberOfRegisteredLogger()}: \verb{() -> integer(1)}
+\item \verb{$getNamesOfRegisteredLogger()}: \verb{() -> character()}
+\item \verb{$isStopper()}: \verb{() -> logical()}
 }
 }
 

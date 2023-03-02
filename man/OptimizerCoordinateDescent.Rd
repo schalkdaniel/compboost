@@ -2,14 +2,18 @@
 % Please edit documentation in R/RcppExports.R
 \name{OptimizerCoordinateDescent}
 \alias{OptimizerCoordinateDescent}
-\title{Coordinate Descent}
+\title{Coordinate descent}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{ncores}{(\code{integer(1)})\cr
+Number of cores over which the base learner fitting is distributed.}
 }
 \description{
-This class defines a new object for the greedy optimizer. The optimizer
-just calculates for each base learner the sum of squared errors and returns
-the base learner with the smallest SSE.
+This class defines a new object to conduct gradient descent in function space.
+Because of the component-wise structure, this is more like a block-wise
+coordinate descent.
 }
 \section{Usage}{
 
@@ -19,13 +23,16 @@ OptimizerCoordinateDescent$new(ncores)
 }
 }
 
-\section{Arguments}{
+\section{Fields}{
 
-\describe{
-\item{\code{ncores} \link{\code{integer(1)}}}{
-Number of cores used to fit the algorithm. Note that number of used cores
-should be smaller or equal the number of base learner.
+This class doesn't contain public fields.
 }
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$getOptimizerType()}: \verb{() -> character(1)}
+\item \verb{$getStepSize()}: \verb{() -> numeric()}
 }
 }
 

@@ -2,15 +2,16 @@
 % Please edit documentation in R/RcppExports.R
 \name{OptimizerCoordinateDescentLineSearch}
 \alias{OptimizerCoordinateDescentLineSearch}
-\title{Coordinate Descent with line search}
+\title{Coordinate descent with line search}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{ncores}{(\code{integer(1)})\cr
+Number of cores over which the base learner fitting is distributed.}
 }
 \description{
-This class defines a new object which is used to conduct Coordinate Descent with line search.
-The optimizer just calculates for each base learner the sum of squared error and returns
-the base learner with the smallest SSE. In addition, this optimizer computes
-a line search to find the optimal step size in each iteration.
+Same as \link{OptimizerCoordinateDescent} but with a line search in each iteration.
 }
 \section{Usage}{
 
@@ -20,13 +21,16 @@ OptimizerCoordinateDescentLineSearch$new(ncores)
 }
 }
 
-\section{Arguments}{
+\section{Fields}{
 
-\describe{
-\item{\code{ncores} \link{\code{integer(1)}}}{
-Number of cores used to fit the algorithm. Note that number of used cores
-should be smaller or equal the number of base learner.
+This class doesn't contain public fields.
 }
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$getOptimizerType()}: \verb{() -> character(1)}
+\item \verb{$getStepSize()}: \verb{() -> numeric()}
 }
 }
 

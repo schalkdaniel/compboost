@@ -2,45 +2,36 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCustom}
 \alias{BaselearnerCustom}
-\title{Create custom base learner factory by using R functions.}
+\title{Custom base learner using \code{R} functions.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{data_source}{(\link{InMemoryData})\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see \code{?InMemorydata} for details.}
+
+\item{instantiate_fun}{(\code{function})\cr
+\code{R} function to transform the source data.}
+
+\item{train_fun}{(\code{function})\cr
+\code{R} function to train the base learner on the target data.}
+
+\item{predict_fun}{(\code{function})\cr
+\code{R} function to predict on the object returned by \code{train_fun}.}
+
+\item{param_fun}{(\code{function})\cr
+\code{R} function to extract the parameter of the object returned by \code{train}.}
 }
 \description{
-\code{BaselearnerCustom} creates a custom base learner factory by
-setting custom \code{R} functions. This factory object can be registered
-within a base learner list and then used for training.
+This class defines a custom base learner factory by
+passing \code{R} functions for instantiation, fitting, and predicting.
 }
 \section{Usage}{
 
 \preformatted{
 BaselearnerCustom$new(data_source, list(instantiate_fun,
   train_fun, predict_fun, param_fun))
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{data_source} \link{\code{Data} Object}}{
-Data object which contains the source data.
-}
-\item{\code{instantiate_fun} \link{\code{function}}}{
-\code{R} function to transform the source data. For details see the
-\code{Details}.
-}
-\item{\code{train_fun} \link{\code{function}}}{
-\code{R} function to train the base learner on the target data. For
-details see the \code{Details}.
-}
-\item{\code{predict_fun} \link{\code{function}}}{
-\code{R} function to predict on the object returned by \code{train}.
-For details see the \code{Details}.
-}
-\item{\code{param_fun} \link{\code{function}}}{
-\code{R} function to extract the parameter of the object returned by
-\code{train}. For details see the \code{Details}.
-}
 }
 }
 
@@ -75,10 +66,23 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{getData()}}{Get the data matrix of the target data which is used
-for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
+}
+}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
 }
 }
 

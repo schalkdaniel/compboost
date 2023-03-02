@@ -25,7 +25,8 @@ test_that("train works", {
   expect_error(cboost$addBaselearner(c("hp", "wt"), "spline", BaselearnerPSpline, degree = 3,
     n_knots = 10, penalty = 2, differences = 2))
 
-  expect_silent(cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
+  expect_error(cboost$addBaselearner("mpg_cat", "linear", BaselearnerPolynomial, degree = 1, intercept = FALSE))
+  expect_silent(cboost$addBaselearner("mpg_cat", "binary", BaselearnerCategoricalBinary))
   expect_silent(cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
     n_knots = 10, penalty = 2, differences = 2))
   expect_output(cboost$train(4000))
@@ -43,8 +44,8 @@ test_that("train works", {
   expect_equal(cboost$response$getResponse(), as.matrix(mtcars[["mpg"]]))
   expect_equal(cboost$data, mtcars[, -which(names(mtcars) == "mpg")])
   expect_equal(cboost$bl_factory_list$getNumberOfRegisteredFactories(), 3L)
-  expect_equal(sort(cboost$getBaselearnerNames()), sort(c("mpg_cat_A_linear", "mpg_cat_B_linear", "hp_spline")))
-  expect_equal(cboost$bl_factory_list$getRegisteredFactoryNames(), sort(c("mpg_cat_A_linear", "mpg_cat_B_linear", "hp_spline")))
+  expect_equal(sort(cboost$getBaselearnerNames()), sort(c("mpg_cat_A_binary", "mpg_cat_B_binary", "hp_spline")))
+  expect_equal(cboost$bl_factory_list$getRegisteredFactoryNames(), sort(c("mpg_cat_A_binary", "mpg_cat_B_binary", "hp_spline")))
 
   expect_equal(cboost$getCurrentIteration(), 4000)
   expect_length(cboost$getInbagRisk(), 4001)
@@ -61,7 +62,7 @@ test_that("train works", {
   expect_length(cboost$getInbagRisk(), 101)
   expect_length(cboost$getSelectedBaselearner(), 100)
 
-  expect_true(all(unique(cboost$getSelectedBaselearner()) %in% c("hp_spline", "mpg_cat_A_linear", "mpg_cat_B_linear")))
+  expect_true(all(unique(cboost$getSelectedBaselearner()) %in% c("hp_spline", "mpg_cat_A_binary", "mpg_cat_B_binary")))
 })
 
 test_that("predict works", {

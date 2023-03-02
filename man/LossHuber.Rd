@@ -4,7 +4,16 @@
 \alias{LossHuber}
 \title{Huber loss for regression tasks.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{offset}{(\code{numeric(1)} | \code{matrix()})\cr
+Numerical value or matrix to set a custom offset. If used, this
+value is returned instead of the loss optimal initialization.}
+
+\item{delta}{(\code{numeric(1)})\cr
+Numerical value greater than 0 to specify the interval around 0 for the
+quadratic error measuring (default \code{delta = 1}).}
 }
 \description{
 This loss can be used for regression with \eqn{y \in \mathrm{R}}.
@@ -31,20 +40,6 @@ This loss can be used for regression with \eqn{y \in \mathrm{R}}.
 LossHuber$new()
 LossHuber$new(delta)
 LossHuber$new(offset, delta)
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{offset} \link{\code{numeric(1)}}}{
-Numerical value which can be used to set a custom offset. If so, this
-value is returned instead of the loss optimal initialization.
-}
-\item{\code{delta} \link{\code{numeric(1)}}}{
-Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
-Default is 1.
-}
 }
 }
 

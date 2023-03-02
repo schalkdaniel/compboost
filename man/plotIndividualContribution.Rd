@@ -15,27 +15,27 @@ plotIndividualContribution(
 )
 }
 \arguments{
-\item{cboost}{\link{\code{Compboost} class}\cr
-A trained \code{Compboost} object.}
+\item{cboost}{(\link{Compboost})\cr
+A trained \link{Compboost} object.}
 
-\item{newdata}{\link{\code{data.frame}}\cr
+\item{newdata}{(\code{data.frame()})\cr
 Data frame containing exactly one row holding the new observations.}
 
-\item{aggregate}{\link{\code{logical(1L)}}\cr
+\item{aggregate}{(\code{logical(1L)})\cr
 Number of colored base learners added to the legend.}
 
-\item{colbreaks}{\link{\code{numeric()}}\cr
+\item{colbreaks}{(\code{numeric()})\cr
 Breaks to visualize/highlight different predicted values. Default creates different
 colors for positive and negative score values. If set to \code{NULL} no coloring
 is applied.}
 
-\item{collabels}{\link{\code{character(length(colbreaks) - 1)}}\cr
+\item{collabels}{(\code{character(length(colbreaks) - 1)})\cr
 Labels for the color breaks. If set to \code{NULL} intervals are used as labels.}
 
-\item{nround}{\link{\code{integer(1L)}}\cr
-Digit passed to \code{round} for labels (default is \code{nround = 2L}).}
+\item{nround}{(\code{integer(1L)})\cr
+Digit passed to \link{round} for labels (default is \code{nround = 2L}).}
 
-\item{offset}{\link{\code{logical(1L)}}\cr
+\item{offset}{(\code{logical(1L)})\cr
 Flag to indicate whether the offset should be added to the figure or not.}
 }
 \value{

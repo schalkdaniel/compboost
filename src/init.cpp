@@ -265,26 +265,25 @@ sdata initBinaryData (const sdata& raw_data, const std::shared_ptr<BinaryAttribu
 {
   auto sh_ptr_cdata = std::static_pointer_cast<data::CategoricalDataRaw>(raw_data);
   auto chr_classes = sh_ptr_cdata->getRawData();
-  arma::urowvec classes(chr_classes.size(), arma::fill::zeros);
+
   arma::urowvec row_idx(chr_classes.size(), arma::fill::zeros);
   unsigned int k = 0;
   for (unsigned int i = 0; i < chr_classes.size(); i++) {
     if (attributes->cls == chr_classes.at(i)) {
-      classes(i) = 0;
       row_idx(k) = i;
       k += 1;
     }
   }
-  classes = row_idx.head_cols(k);
+  arma::urowvec classes(k, arma::fill::zeros);
   row_idx = row_idx.head_cols(k);
   arma::vec fill(k, arma::fill::ones);
 
-  // Initialize sparse data matrix as (transposed) binary matrix (p x n).
-  // Switching row_idx and col_idx gives the transposed p x n matrix:
   arma::umat locations = arma::join_cols(classes, row_idx);
 
-  auto sh_ptr_data = std::make_shared<data::InMemoryData>(raw_data->getDataIdentifier() + "-" + attributes->cls);
-  sh_ptr_data->setSparseData(arma::sp_mat(locations, fill, 1, chr_classes.size()));
+  arma::sp_mat dm = arma::sp_mat(locations, fill, 1, chr_classes.size());
+
+  auto sh_ptr_data = std::make_shared<data::InMemoryData>(raw_data->getDataIdentifier() + "_" + attributes->cls);
+  sh_ptr_data->setSparseData(dm);
   return sh_ptr_data;
 }
 

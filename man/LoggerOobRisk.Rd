@@ -2,56 +2,47 @@
 % Please edit documentation in R/RcppExports.R
 \name{LoggerOobRisk}
 \alias{LoggerOobRisk}
-\title{Logger class to log the out of bag risk}
+\title{Log the validation/test/out-of-bag risk}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{logger_id}{(\code{character(1)})\cr
+Identifier of the logger.}
+
+\item{param-use_as_stopper}{(\code{logical(1)})\cr
+Boolean to indicate if the logger should also be used as a stopper.}
+
+\item{loss}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
+An initialized \code{S4} loss object (requires to call \verb{Loss*$new(...)}).
+See the respective help page for further information.}
+
+\item{eps_for_break}{(\code{numeric(1)})\cr
+This argument is used if the loss is also used as stopper. If the relative
+improvement of the logged inbag risk falls above this boundary the stopper
+returns \code{TRUE}.}
+
+\item{oob_data}{(\code{list()})\cr
+A list which contains data source objects which corresponds to the
+source data of each registered factory. The source data objects should
+contain the out of bag data. This data is then used to calculate the
+prediction in each step.}
+
+\item{oob_response}{(\link{ResponseRegr} | \link{ResponseBinaryClassif})\cr
+The response object used for the predictions on the validation data.}
 }
 \description{
-This class logs the out of bag risk for a specific loss function. It is
-also possible to use custom losses to log performance measures. For details
-see the use case or extending compboost vignette.
+This class logs the out of bag risk for a specific loss function.
 }
 \section{Usage}{
 
 \preformatted{
-LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
+LoggerOobRisk$new(logger_id, use_as_stopper, loss, eps_for_break,
   patience, oob_data, oob_response)
 }
 }
 
-\section{Arguments}{
-
-\describe{
-\item{\code{logger_id} \link{\code{character(1)}}}{
-Unique identifier of the logger.
-}
-\item{\code{use_as_stopper} \link{\code{logical(1)}}}{
-Boolean to indicate if the logger should also be used as stopper.
-}
-\item{\code{used_loss} \link{\code{Loss} object}}{
-The loss used to calculate the empirical risk by taking the mean of the
-returned defined loss within the loss object.
-}
-\item{\code{eps_for_break} \link{\code{numeric(1)}}}{
-This argument is used if the loss is also used as stopper. If the relative
-improvement of the logged inbag risk falls above this boundary the stopper
-returns \code{TRUE}.
-}
-\item{\code{oob_data} \link{\code{list}}}{
-A list which contains data source objects which corresponds to the
-source data of each registered factory. The source data objects should
-contain the out of bag data. This data is then used to calculate the
-prediction in each step.
-}
-\item{\code{oob_response} \link{\code{numeric}}}{
-Vector which contains the response for the out of bag data given within
-the \code{list}.
-}
-}
-}
-
 \section{Details}{
-
 
 This logger computes the risk for a given new dataset
 \eqn{\mathcal{D}_\mathrm{oob} = \{(x^{(i)},\ y^{(i)})\ |\ i \in I_\mathrm{oob}\}}
@@ -61,25 +52,14 @@ iteration \eqn{m} is calculated by:
   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}}
   L(y, \hat{f}^{[m]}(x))
 }
-
 \strong{Note:}
 \itemize{
-
-\item
-If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-
-\item
-The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
-done in two steps:
-\enumerate{\preformatted{  \\item
-    Calculate vector \code{risk_temp} of losses for every observation for
-    given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-
-  \\item
-    Average over \code{risk_temp}.
- \}
-}
-
+\item If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+\item The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is done in two steps:
+\enumerate{
+\item Calculate vector \code{risk_temp} of losses for every observation for
+given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+\item Average over \code{risk_temp}.
 }
 
 This procedure ensures, that it is possible to e.g. use the AUC or any
@@ -87,6 +67,7 @@ arbitrary performance measure for risk logging. This gives just one
 value for \eqn{risk_temp} and therefore the average equals the loss
 function. If this is just a value (like for the AUC) then the value is
 returned.
+}
 }
 
 \section{Fields}{
@@ -96,8 +77,8 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{summarizeLogger()}}{Summarize the logger object.}
+\itemize{
+\item \verb{$summarizeLogger()}: \verb{() -> ()}
 }
 }
 

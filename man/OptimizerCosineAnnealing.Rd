@@ -2,13 +2,27 @@
 % Please edit documentation in R/RcppExports.R
 \name{OptimizerCosineAnnealing}
 \alias{OptimizerCosineAnnealing}
-\title{Coordinate Descent with Cosine Annealing}
+\title{Coordinate descent with cosine annealing}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{ncores}{(\code{integer(1)})\cr
+Number of cores over which the base learner fitting is distributed.}
+
+\item{nu_min}{(\code{numeric(1)})\cr
+Minimal learning rate.}
+
+\item{nu_max}{(\code{numeric(1)})\cr
+Maximal learning rate.}
+
+\item{cycles}{(\code{integer(1)})\cr
+Number of annealing cycles form \code{nu_max} to \code{nu_min} between 1 and anneal_\code{anneal_iter_max}.
+\verb{anneal_iter_max (}integer(1)\verb{)\\cr Maximal number of iterations for which the annealing is conducted. }nu_min\verb{is used as fixed learning rate after}anneal_iter_max`.}
 }
 \description{
-This class defines a new object which is used to conduct Coordinate Descent with a
-cosine annealing learning rate strategy.
+Same as \link{OptimizerCoordinateDescent} but with a cosine annealing scheduler to
+adjust the learning rate during the fitting process.
 }
 \section{Usage}{
 
@@ -20,26 +34,16 @@ OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles, nc
 }
 }
 
-\section{Arguments}{
+\section{Fields}{
 
-\describe{
-\item{\code{nu_min} \link{\code{numeric(1)}}}{
-Minimal learning rate.
+This class doesn't contain public fields.
 }
-\item{\code{nu_max} \link{\code{numeric(1)}}}{
-Maximal learning rate.
-}
-\item{\code{cycles} \link{\code{integer(1)}}}{
-Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
-}
-\item{\code{anneal_iter_max} \link{\code{integer(1)}}}{
-Maximal number of iters for which annealing is applied. If the iteration is bigger
-than anneal_iter_max, then nu_min is used as fixed learning rate.
-}
-\item{\code{ncores} \link{\code{integer(1)}}}{
-Number of cores used to fit the algorithm. Note that number of used cores
-should be smaller or equal the number of base learner.
-}
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$getOptimizerType()}: \verb{() -> character(1)}
+\item \verb{$getStepSize()}: \verb{() -> numeric()}
 }
 }
 

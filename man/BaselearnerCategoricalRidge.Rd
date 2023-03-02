@@ -2,29 +2,33 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCategoricalRidge}
 \alias{BaselearnerCategoricalRidge}
-\title{Base learner factory for categorical feature using Ridge penalty}
+\title{One-hot encoded base learner for a categorical feature}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{data_source}{\link{CategoricalDataRaw}\cr
+Data container of the raw categorical feature.}
+
+\item{blearner_type}{(\code{character(1)}) \cr
+Type of the base learner (if not specified, \code{blearner_type = "ridge"} is used).
+The unique id of the base learner is defined by appending \code{blearner_type} to
+the feature name: \code{paste0(data_source$getIdentifier(), "_", blearner_type)}.}
+
+\item{df}{(\code{numeric(1)})\cr
+Degrees of freedom of the base learner(s).}
 }
 \description{
-\code{BaselearnerCategoricalRidge} can be used to estimate effects of  categorical
-features. The categories are included as in the linear model by using a binary matrix.
-The Ridge penalty enables unbiased feature selection by setting the penalty corresponding
-to degree of freedoms.
+This base learner can be used to estimate effects of categorical
+features. The classes are included similar as in the linear model by
+using a one-hot encoded data matrix. Additionally, a Ridge penalty
+allows unbiased feature selection.
 }
 \section{Usage}{
 
 \preformatted{
 BaselearnerCategoricalRidge$new(data_source, list(df))
-}
-}
-
-\section{arguments}{
-
-\describe{
-\item{\code{data_source} \link{\code{data} object}}{
-data object which contains the source data.
-}
+BaselearnerCategoricalRidge$new(data_source, blearner_type, list(df))
 }
 }
 
@@ -35,19 +39,49 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{getData()}}{Get the data matrix of the target data which is used
-for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
+}
+}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
 }
 }
 
 \examples{
+# Sample data:
 x = sample(c("one","two"), 20, TRUE)
+y = c(one = 0.8, two = -1.2)[x] + rnorm(20, 0, 0.2)
+dat = data.frame(x, y)
+
+# S4 API:
 ds = CategoricalDataRaw$new(x, "cat")
 bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
 
 bl$getData()
 bl$summarizeFactory()
+
+bl$getData()
+bl$summarizeFactory()
+bl$transformData(list(ds))
+bl$getBaselearnerId()
+
+# R6 API:
+cboost = Compboost$new(dat, "y")
+cboost$addBaselearner("x", "binary", BaselearnerCategoricalRidge)
+cboost$train(100, 0)
+table(cboost$getSelectedBaselearner())
+plotPEUni(cboost, "x", individual = FALSE)
 
 }

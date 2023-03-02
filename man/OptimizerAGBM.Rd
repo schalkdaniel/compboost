@@ -2,12 +2,20 @@
 % Please edit documentation in R/RcppExports.R
 \name{OptimizerAGBM}
 \alias{OptimizerAGBM}
-\title{Nesterov momentum}
+\title{Nesterovs momentum}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{ncores}{(\code{integer(1)})\cr
+Number of cores over which the base learner fitting is distributed.}
+
+\item{momentum}{(\code{numeric(1)})\cr
+Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
+faster but also tends to overfit faster.}
 }
 \description{
-This class defines a new object which is used to conduct Nesterovs momentum as optimization technique.
+This class defines a new object to conduct Nesterovs momentum in function space.
 }
 \section{Usage}{
 
@@ -17,17 +25,20 @@ OptimizerAGBM$new(momentum, ncores)
 }
 }
 
-\section{Arguments}{
+\section{Fields}{
 
-\describe{
-\item{\code{momentum} \link{\code{numeric(1)}}}{
-Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
-faster but also tends to overfit faster.
+This class doesn't contain public fields.
 }
-\item{\code{ncores} \link{\code{integer(1)}}}{
-Number of cores used to fit the algorithm. Note that number of used cores
-should be smaller or equal the number of base learner.
-}
+
+\section{Methods}{
+
+\itemize{
+\item \verb{$getOptimizerType()}: \verb{() -> character(1)}
+\item \verb{$getStepSize()}: \verb{() -> numeric()}
+\item \verb{$getMomentumParameter()}: \verb{() -> numeric(1)}
+\item \verb{$getSelectedMomentumBaselearner()}: \verb{() -> character()}
+\item \verb{$getParameterMatrix()}: \verb{() -> list(matrix()}
+\item \verb{$getErrorCorrectedPseudoResiduals()}: \verb{() -> matrix()}
 }
 }
 

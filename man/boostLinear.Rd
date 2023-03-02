@@ -18,46 +18,46 @@ boostLinear(
 )
 }
 \arguments{
-\item{data}{\link{\code{data.frame}}\cr
+\item{data}{(\code{data.frame})\cr
 A data frame containing the data.}
 
-\item{target}{\link{\code{character(1)} or \code{Response} class}\cr
+\item{target}{(\code{character(1)} | \link{ResponseRegr} | \link{ResponseBinaryClassif})\cr
 Character value containing the target variable or response object. Note that the loss must match the
 data type of the target.}
 
-\item{optimizer}{\link{\code{S4 Optimizer}}\cr
-An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
-to select features at each iteration.}
+\item{optimizer}{(\link{OptimizerCoordinateDescent} | \link{OptimizerCoordinateDescentLineSearch} | \link{OptimizerAGBM} | \link{OptimizerCosineAnnealing})\cr
+An initialized \code{S4} optimizer object (requires to call \code{Optimizer*.new(..)}.
+See the respective help page for further information.}
 
-\item{loss}{\link{\code{S4 Loss}}\cr
-Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
-residuals (e.g. \code{LossQuadratic$new()}).}
+\item{loss}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
+An initialized \code{S4} loss object (requires to call \verb{Loss*$new(...)}).
+See the respective help page for further information.}
 
-\item{learning_rate}{\link{\code{numeric(1)}}\cr
+\item{learning_rate}{(\code{numeric(1)})\cr
 Learning rate to shrink the parameter in each step.}
 
-\item{iterations}{\link{\code{integer(1)}}\cr
+\item{iterations}{(\code{integer(1)})\cr
 Number of iterations that are trained. If \code{iterations == 0}, the untrained object is returned. This
 can be useful if other base learners (e.g. an interaction via a tensor base learner) are added.}
 
-\item{trace}{\link{\code{integer(1)}}\cr
+\item{trace}{(\code{integer(1)})\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
 -1 which means that in total 40 iterations are printed.}
 
-\item{intercept}{\link{\code{logical(1)}}\cr
-Internally used by \code{BaselearnerPolynomial}. This logical value indicates if
+\item{intercept}{(\code{logical(1)})\cr
+Internally used by \link{BaselearnerPolynomial}. This logical value indicates if
 each feature should get an intercept or not (default is \code{TRUE}).}
 
-\item{data_source}{\link{\code{S4 Data}}\cr
-Uninitialized \code{S4 Data} object which is used to store the data. At the moment
+\item{data_source}{(\verb{Data*})\cr
+Uninitialized \verb{Data*} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{oob_fraction}{\link{\code{numeric(1)}}\cr
+\item{oob_fraction}{(\code{numeric(1)})\cr
 Fraction of how much data are used to track the out of bag risk.}
 }
 \value{
-A model of the \code{Compboost} class. This model is an \code{R6} object
+A model of the \link{Compboost} class. This model is an \link{R6} object
 which can be used for retraining, predicting, plotting, and anything described in
 \code{?Compboost}.
 }
@@ -66,9 +66,8 @@ This wrapper function automatically initializes the model by adding all numerica
 features as linear base-learner. Categorical features are dummy encoded and inserted
 using another linear base-learners without intercept. The function \code{boostLinear}
 does also train the model.
-}
-\details{
-The returned object is an object of the \code{Compboost} class. This object can be
+
+The returned object is an object of the \link{Compboost} class. This object can be
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{

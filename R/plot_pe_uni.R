@@ -1,22 +1,23 @@
-#' Visualize partial effect of a feature
+#' @title Visualize partial effect of a feature
 #'
+#' @description
 #' This function visualizes the contribution of a specific feature to the overall
 #' prediction score. If multiple base learner of the same features are included,
 #' they are all added to the graphic as well as the aggregated contribution. The
-#' difference to \code{plotBaselearner} is that potentially multiple base learners
-#' that are based on `feat` are aggregated and visualized while \code{plotBaselearner}
+#' difference to [plotBaselearner()] is that potentially multiple base learners
+#' that are based on `feat` are aggregated and visualized while [plotBaselearner()]
 #' only visualizes the contribution of one specific base learner. The function
 #' also automatically decides whether the given feature is numeric or categorical and
 #' chooses an appropriate technique (lines for numeric and horizontal lines for categorical).
 #'
-#' @return \code{ggplot} object containing the graphic.
-#' @param cboost [\code{Compboost} class]\cr
-#'   A trained \code{Compboost} object.
-#' @param feat [\code{character(1L)}]\cr
+#' @return `ggplot` object containing the graphic.
+#' @param cboost ([Compboost])\cr
+#'   A trained [Compboost] object.
+#' @param feat (`character(1L)`)\cr
 #'   Name of the feature.
-#' @param npoints [\code{integer(1L)}]\cr
+#' @param npoints (`integer(1L)`)\cr
 #'   Number of points which are predicted for the lines (only applies to numerical features).
-#' @param individual [\code{logical(1L)}]\cr
+#' @param individual (`logical(1L)`)\cr
 #'   Flag whether individual base learners should be added to the graphic or not.
 #' @examples
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",
@@ -106,17 +107,18 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   return(gg)
 }
 
-#' Visualize contribution of one base learner
+#' @title Visualize contribution of one base learner
 #'
+#' @description
 #' This function visualizes the contribution of a base learner to the overall
-#' prediction score. For visualization of partial effects see \code{plotPEUni}.
+#' prediction score. For visualization of partial effects see [plotPEUni()].
 #'
-#' @return \code{ggplot} object containing the graphic.
-#' @param cboost [\code{Compboost} class]\cr
-#'   A trained \code{Compboost} object.
-#' @param blname [\code{character(1L)}]\cr
-#'   Name of the base learner. Must be one of \code{cboost$getBaselearnerNames()}.
-#' @param npoints [\code{integer(1L)}]\cr
+#' @return `ggplot` object containing the graphic.
+#' @param cboost ([Compboost])\cr
+#'   A trained [Compboost] object.
+#' @param blname (`character(1L)`)\cr
+#'   Name of the base learner. Must be one of `cboost$getBaselearnerNames()`.
+#' @param npoints (`integer(1L)`)\cr
 #'   Number of points which are predicted for the lines (only applies to numerical features).
 #' @examples
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",

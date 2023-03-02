@@ -46,10 +46,9 @@ NULL
 
 #' @title Data class for categorical variables
 #'
+#' @description
 #' [CategoricalDataRaw] creates an data object which can be used as source
-#' object to instantiate categorical base learner. In contrast to [CategoricalData]
-#' the data are stored as raw categorical vector. [CategoricalData] can be compared
-#' to a factor class with an integer encoding and a hash map for reassignment.
+#' object to instantiate categorical base learner.
 #'
 #' @format [S4] object.
 #' @name CategoricalDataRaw
@@ -64,19 +63,11 @@ NULL
 #' @param data_identifier (`character(1)`)\cr
 #' Data id, e.g. a feature name.
 #'
-#' data_identifier} [\code{character(1)}]}{
-#'   The name for the data specified in \code{data_mat}. Note that it is
-#'   important to have the same data names for train and evaluation data.
-#' }
-#' }
-#'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' * `$getData()`: `() -> stop()`\cr
-#'   Throws error because no representation is calculated.}
+#' * `$getData()`: `() -> stop()`\cr Throws error because no representation is calculated.
 #' * `$getRawData()`: `() -> character()`
 #' * `$getIdentifier()`: `() -> character(1)`
 #' @template section-data-base-methods
@@ -116,7 +107,7 @@ NULL
 #' @param blearner_type (`character(1)`) \cr
 #' Type of the base learner (if not specified, `blearner_type = paste0("poly", d)` is used).
 #' The unique id of the base learner is defined by appending `blearner_type` to
-#' the feature name: `paste0(data_source$getIdentifier(), "_", blearner_type)`
+#' the feature name: `paste0(data_source$getIdentifier(), "_", blearner_type)`.
 #' @param degree (`integer(1)`)\cr
 #' Polynomial degree.
 #' @param intercept (`logical(1)`)\cr
@@ -169,7 +160,8 @@ NULL
 #' cboost_lin$train(100, 0)
 #'
 #' cboost_cub = Compboost$new(dat, "y")
-#' cboost_cub$addBaselearner("x", "cubic", BaselearnerPolynomial, intercept = FALSE, degree = 3, bin_root = 2)
+#' cboost_cub$addBaselearner("x", "cubic", BaselearnerPolynomial,
+#'   intercept = FALSE, degree = 3, bin_root = 2)
 #' cboost_cub$train(100, 0)
 #'
 #' # Access base learner directly from the API (n = sqrt(100) = 10 with binning):
@@ -210,8 +202,7 @@ NULL
 #' @param blearner_type (`character(1)`) \cr
 #' Type of the base learner (if not specified, `blearner_type = "spline"` is used).
 #' The unique id of the base learner is defined by appending `blearner_type` to
-#' the feature name: `paste0(data_source$getIdentifier(), "_", blearner_type)`
-#'
+#' the feature name: `paste0(data_source$getIdentifier(), "_", blearner_type)`.
 #' @param degree (`integer(1)`)\cr
 #' Degree of the piecewise polynomial (default `degree = 3` for cubic splines).
 #' @param n_knots (`integer(1)`)\cr
@@ -221,6 +212,7 @@ NULL
 #' Penalty term for P-splines (default `penalty = 2`). Set to zero for B-splines.
 #' @param differences (`integer(1)`)\cr
 #' The number of differences to are penalized. A higher value leads to smoother curves.
+#' @template param-df
 #' @template param-bin_root
 #'
 #' @section Fields:
@@ -275,11 +267,13 @@ NULL
 #' # R6 wrapper
 #'
 #' cboost_df2 = Compboost$new(dat, "y")
-#' cboost_df2$addBaselearner("x", "sp", BaselearnerPSpline, n_knots = 10, df = 2, bin_root = 2)
+#' cboost_df2$addBaselearner("x", "sp", BaselearnerPSpline,
+#'   n_knots = 10, df = 2, bin_root = 2)
 #' cboost_df2$train(200, 0)
 #'
 #' cboost_df5 = Compboost$new(dat, "y")
-#' cboost_df5$addBaselearner("x", "sp", BaselearnerPSpline, n_knots = 15, df = 5)
+#' cboost_df5$addBaselearner("x", "sp", BaselearnerPSpline,
+#'   n_knots = 15, df = 5)
 #' cboost_df5$train(200, 0)
 #'
 #' # Access base learner directly from the API (n = sqrt(100) = 10 with binning):
@@ -297,120 +291,236 @@ NULL
 #' @export BaselearnerPSpline
 NULL
 
-#' Base learner factory to make regression using tensor products
+#' @title Row-wise tensor product base learner
 #'
-#' \code{BaselearnerTensor} creates a combined base learner factory
-#'  object which can be registered within a base learner list and then used
-#'  for training.
+#' @description
+#' This class combines base learners. The base learner is defined by a data matrix
+#' calculated as row-wise tensor product of the two data matrices given in the
+#' base learners to combine.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BaselearnerTensor
 #'
+#' @section Usage:
+#' \preformatted{
+#' BaselearnerTensor$new(blearner1, blearner2, blearner_type)
+#' BaselearnerTensor$new(blearner1, blearner2, blearner_type, anisotrop)
+#' }
+#'
+#' @param blearner1 (`Baselearner*`)\cr
+#' First base learner.
+#' @param blearner2 (`Baselearner*`)\cr
+#' Second base learner.
+#' @param blearner_type (`character(1)`) \cr
+#' Type of the base learner (if not specified, `blearner_type = "spline"` is used).
+#' The unique id of the base learner is defined by appending `blearner_type` to
+#' the feature name:
+#' `paste0(blearner1$getDataSource()getIdentifier(), "_",
+#'    blearner2$getDataSource()getIdentifier(), "_", blearner_type)`.
+#' @param anisotrop (`logical(1)`)\cr
+#' Defines how the penalty is added up. If `anisotrop = TRUE`, the marginal effects of the
+#' are penalized as defined in the underlying factories. If `anisotrop = FALSE`, an isotropic
+#' penalty is used, which means that both directions gets penalized equally.
+#'
+#'
+#' @section Fields:
+#' This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' * `$summarizeFactory()`: `() -> ()`
+#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
+#' * `$getMeta()`: `() -> list()`
+#' @template section-bl-base-methods
+#'
+#' @examples
+#' # Sample data:
+#' x1 = runif(100, 0, 10)
+#' x2 = runif(100, 0, 10)
+#' y = sin(x1) * cos(x2) + rnorm(100, 0, 0.2)
+#' dat = data.frame(x1, x2, y)
+#'
+#' # S4 wrapper
+#'
+#' # Create new data object, a matrix is required as input:
+#' ds1 = InMemoryData$new(cbind(x1), "x1")
+#' ds2 = InMemoryData$new(cbind(x2), "x2")
+#'
+#' # Create new linear base learner factory:
+#' bl1 = BaselearnerPSpline$new(ds1, "sp", list(n_knots = 10, df = 5))
+#' bl2 = BaselearnerPSpline$new(ds2, "sp", list(n_knots = 10, df = 5))
+#'
+#' tensor = BaselearnerTensor$new(bl1, bl2, "row_tensor")
+#'
+#' # Get the transformed data:
+#' dim(tensor$getData())
+#'
+#' # Get full meta data such as penalty term or matrix as well as knots:
+#' str(tensor$getMeta())
+#'
+#' # Transform "new data":
+#' newdata = list(InMemoryData$new(cbind(runif(5)), "x1"),
+#'   InMemoryData$new(cbind(runif(5)), "x2"))
+#' str(tensor$transformData(newdata))
+#'
+#' # R6 wrapper
+#'
+#' cboost = Compboost$new(dat, "y")
+#' cboost$addTensor("x1", "x2", df = 5)
+#' cboost$train(50, 0)
+#'
+#' table(cboost$getSelectedBaselearner())
+#' plotTensor(cboost, "x1_x2_tensor")
 #' @export BaselearnerTensor
 NULL
 
-#' Base learner factory to make regression using centered base learner
+#' @title Centering a base learner by another one
 #'
-#' \code{BaselearnerCentered} creates a base learner factory which is centered
-#'  using another base learner.
+#' @description
+#' This base learner subtracts the effect of two base learners (usually defined
+#' on the same feature). By subtracting the effects, one is not able to predict
+#' the other one.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BaselearnerCentered
+#'
+#' @section Fields:
+#' This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' * `$summarizeFactory()`: `() -> ()`
+#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
+#' * `$getMeta()`: `() -> list()`
+#' @template section-bl-base-methods
 #'
 #' @export BaselearnerCentered
 NULL
 
-#' Base learner factory for categorical feature using Ridge penalty
+#' @title One-hot encoded base learner for a categorical feature
 #'
-#' \code{BaselearnerCategoricalRidge} can be used to estimate effects of  categorical
-#' features. The categories are included as in the linear model by using a binary matrix.
-#' The Ridge penalty enables unbiased feature selection by setting the penalty corresponding
-#' to degree of freedoms.
+#' @description
+#' This base learner can be used to estimate effects of categorical
+#' features. The classes are included similar as in the linear model by
+#' using a one-hot encoded data matrix. Additionally, a Ridge penalty
+#' allows unbiased feature selection.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BaselearnerCategoricalRidge
 #'
 #' @section Usage:
 #' \preformatted{
 #' BaselearnerCategoricalRidge$new(data_source, list(df))
+#' BaselearnerCategoricalRidge$new(data_source, blearner_type, list(df))
 #' }
 #'
-#' @section arguments:
-#' \describe{
-#' \item{\code{data_source} [\code{data} object]}{
-#'   data object which contains the source data.
-#' }
-#' }
+#' @param data_source [CategoricalDataRaw]\cr
+#' Data container of the raw categorical feature.
+#' @param blearner_type (`character(1)`) \cr
+#' Type of the base learner (if not specified, `blearner_type = "ridge"` is used).
+#' The unique id of the base learner is defined by appending `blearner_type` to
+#' the feature name: `paste0(data_source$getIdentifier(), "_", blearner_type)`.
+#' @template param-df
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{getData()}}{Get the data matrix of the target data which is used
-#'   for modeling.}
-#' \item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
-#' }
+#' * `$summarizeFactory()`: `() -> ()`
+#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
+#' * `$getMeta()`: `() -> list()`
+#' @template section-bl-base-methods
+#'
 #' @examples
+#' # Sample data:
 #' x = sample(c("one","two"), 20, TRUE)
+#' y = c(one = 0.8, two = -1.2)[x] + rnorm(20, 0, 0.2)
+#' dat = data.frame(x, y)
+#'
+#' # S4 API:
 #' ds = CategoricalDataRaw$new(x, "cat")
 #' bl = BaselearnerCategoricalRidge$new(ds, list(df = 1))
 #'
 #' bl$getData()
 #' bl$summarizeFactory()
 #'
+#' bl$getData()
+#' bl$summarizeFactory()
+#' bl$transformData(list(ds))
+#' bl$getBaselearnerId()
+#'
+#' # R6 API:
+#' cboost = Compboost$new(dat, "y")
+#' cboost$addBaselearner("x", "binary", BaselearnerCategoricalRidge)
+#' cboost$train(100, 0)
+#' table(cboost$getSelectedBaselearner())
+#' plotPEUni(cboost, "x", individual = FALSE)
+#'
 #' @export BaselearnerCategoricalRidge
 NULL
 
-#' Base learner factory for categorical feature on a binary base learner basis
+#' @title Base learner to encode one single class of a categorical feature
 #'
-#' \code{BaselearnerCategoricalBinary} can be used to estimate effects of one category of a categorical
-#' feature. The base learner gets the data as index vector of the observations assigned to the group.
-#' For example, if the vector is (a, a, b, b, a, b), then the index vector is (1, 2, 5) for group a.
-#' This reduces memory load and fasten the fitting process.
+#' @description
+#' This class create a one-column one-hot encoded data matrix with ones at
+#' `x == class_name` and zero otherwise.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BaselearnerCategoricalBinary
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCategoricalBinary$new(data_source, list(n_obs))
+#' BaselearnerCategoricalBinary$new(data_source, class_name)
+#' BaselearnerCategoricalBinary$new(data_source, class_name, blearner_type)
 #' }
 #'
-#' @section arguments:
-#' \describe{
-#' \item{\code{data_source} [\code{data} object]}{
-#'   data object of class \code{CategoricalData} which contains the source data.
-#' }
-#' }
+#' @param data_source [CategoricalDataRaw]\cr
+#' The raw data object. Must be an object generated by [CategoricalDataRaw].
+#' @param class_name (`character(1)`)\cr
+#' The class for which a binary vector is created as data representation.
+#' @param blearner_type (`character(1)`) \cr
+#' Type of the base learner (if not specified, `blearner_type = "binary"` is used).
+#' The unique id of the base learner is defined by appending `blearner_type` to
+#' the feature name: `paste0(data_source$getIdentifier(), "_", class_name, "_", blearner_type)`.
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{getData()}}{Get the data matrix of the target data which is used
-#'   for modeling.}
-#' \item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
-#' }
+#' * `$summarizeFactory()`: `() -> ()`
+#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
+#' * `$getMeta()`: `() -> list()`
+#' @template section-bl-base-methods
+#'
 #' @examples
+#' # Sample data:
 #' x = sample(c("one","two"), 20, TRUE)
+#' y = c(one = 0.8, two = -1.2)[x] + rnorm(20, 0, 0.2)
+#' dat = data.frame(x, y)
+#'
+#' # S4 API:
 #' ds = CategoricalDataRaw$new(x, "cat")
-#' bl = BaselearnerCategoricalRidge$new(ds, "one")
+#' bl = BaselearnerCategoricalBinary$new(ds, "one")
 #'
 #' bl$getData()
 #' bl$summarizeFactory()
+#' bl$transformData(list(ds))
+#' bl$getBaselearnerId()
 #'
+#' # R6 API:
+#' cboost = Compboost$new(dat, "y")
+#' cboost$addBaselearner("x", "binary", BaselearnerCategoricalBinary)
+#' cboost$train(500, 0)
+#' table(cboost$getSelectedBaselearner())
+#' plotPEUni(cboost, "x", individual = FALSE)
 #' @export BaselearnerCategoricalBinary
 NULL
 
-#' Create custom base learner factory by using R functions.
+#' @title Custom base learner using `R` functions.
 #'
-#' \code{BaselearnerCustom} creates a custom base learner factory by
-#'   setting custom \code{R} functions. This factory object can be registered
-#'   within a base learner list and then used for training.
+#' @description
+#' This class defines a custom base learner factory by
+#' passing `R` functions for instantiation, fitting, and predicting.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BaselearnerCustom
 #'
 #' @section Usage:
@@ -419,28 +529,15 @@ NULL
 #'   train_fun, predict_fun, param_fun))
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{data_source} [\code{Data} Object]}{
-#'   Data object which contains the source data.
-#' }
-#' \item{\code{instantiate_fun} [\code{function}]}{
-#'   \code{R} function to transform the source data. For details see the
-#'   \code{Details}.
-#' }
-#' \item{\code{train_fun} [\code{function}]}{
-#'   \code{R} function to train the base learner on the target data. For
-#'   details see the \code{Details}.
-#' }
-#' \item{\code{predict_fun} [\code{function}]}{
-#'   \code{R} function to predict on the object returned by \code{train}.
-#'   For details see the \code{Details}.
-#' }
-#' \item{\code{param_fun} [\code{function}]}{
-#'   \code{R} function to extract the parameter of the object returned by
-#'   \code{train}. For details see the \code{Details}.
-#' }
-#' }
+#' @template param-data_source
+#' @param instantiate_fun (`function`)\cr
+#' `R` function to transform the source data.
+#' @param train_fun (`function`)\cr
+#' `R` function to train the base learner on the target data.
+#' @param predict_fun (`function`)\cr
+#' `R` function to predict on the object returned by `train_fun`.
+#' @param param_fun (`function`)\cr
+#' `R` function to extract the parameter of the object returned by `train`.
 #'
 #' @section Details:
 #'   The function must have the following structure:
@@ -465,14 +562,14 @@ NULL
 #'   For an example see the \code{Examples}.
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{getData()}}{Get the data matrix of the target data which is used
-#'   for modeling.}
-#' \item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
-#' }
+#' * `$summarizeFactory()`: `() -> ()`
+#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
+#' * `$getMeta()`: `() -> list()`
+#' @template section-bl-base-methods
+#'
 #' @examples
 #' # Sample data:
 #' data_mat = cbind(1, 1:10)
@@ -509,51 +606,42 @@ NULL
 #' @export BaselearnerCustom
 NULL
 
-#' Create custom cpp base learner factory by using cpp functions and external
-#' pointer.
+#' @title Custom base learner using `C++` functions.
 #'
-#' \code{BaselearnerCustomCpp} creates a custom base learner factory by
-#'   setting custom \code{C++} functions. This factory object can be registered
-#'   within a base learner list and then used for training.
+#' @description
+#' This class defines a custom base learner factory by
+#' passing pointers to `C++` functions for instantiation,
+#' fitting, and predicting.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BaselearnerCustomCpp
 #'
 #' @section Usage:
 #' \preformatted{
-#' BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
-#'   train_ptr, predict_ptr))
+#' BaselearnerCustomCpp$new(data_source, list(instantiate_ptr, train_ptr, predict_ptr))
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{data_source} [\code{Data} Object]}{
-#'   Data object which contains the source data.
-#' }
-#' \item{\code{instantiate_ptr} [\code{externalptr}]}{
-#'   External pointer to the \code{C++} instantiate data function.
-#' }
-#' \item{\code{train_ptr} [\code{externalptr}]}{
-#'   External pointer to the \code{C++} train function.
-#' }
-#' \item{\code{predict_ptr} [\code{externalptr}]}{
-#'   External pointer to the \code{C++} predict function.
-#' }
-#' }
+#' @template param-data_source
+#' @param instantiate_ptr (`externalptr`)\cr
+#' External pointer to the `C++` instantiate data function.
+#' @param train_ptr (`externalptr`)\cr
+#' External pointer to the `C++` train function.
+#' @param predict_ptr (`externalptr`)\cr
+#' External pointer to the `C++` predict function.
 #'
 #' @section Details:
-#'   For an example see the extending compboost vignette or the function
-#'   \code{getCustomCppExample}.
+#' For an example see the extending compboost vignette or the function
+#' [getCustomCppExample()].
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{getData()}}{Get the data matrix of the target data which is used
-#'   for modeling.}
-#' \item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
-#' }
+#' * `$summarizeFactory()`: `() -> ()`
+#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
+#' * `$getMeta()`: `() -> list()`
+#' @template section-bl-base-methods
+#'
 #' @examples
 #' \dontrun{
 #' # Sample data:
@@ -587,7 +675,7 @@ NULL
 #' base learner which is used by the optimizer to get the new best
 #' base learner.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name BlearnerFactoryList
 #'
 #' @section Usage:
@@ -663,7 +751,7 @@ NULL
 #'   L\left(y^{(i)}, c\right) = \bar{y}
 #' }
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossQuadratic
 #'
 #' @section Usage:
@@ -672,16 +760,9 @@ NULL
 #' LossQuadratic$new(offset)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{offset} [\code{numeric(1)}]}{
-#'   Numerical value which can be used to set a custom offset. If so, this
-#'   value is returned instead of the loss optimal initialization.
-#' }
-#' }
+#' @template param-offset
 #'
 #' @examples
-#'
 #' # Create new loss object:
 #' quadratic_loss = LossQuadratic$new()
 #' quadratic_loss
@@ -707,7 +788,7 @@ NULL
 #'   L(y^{(i)}, c) = \mathrm{median}(y)
 #' }
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossAbsolute
 #'
 #' @section Usage:
@@ -716,13 +797,7 @@ NULL
 #' LossAbsolute$new(offset)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{offset} [\code{numeric(1)}]}{
-#'   Numerical value which can be used to set a custom offset. If so, this
-#'   value is returned instead of the loss optimal initialization.
-#' }
-#' }
+#' @template param-offset
 #'
 #' @examples
 #'
@@ -751,7 +826,7 @@ NULL
 #'   L(y^{(i)}, c) = \mathrm{quantile}(y, q)
 #' }
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossQuantile
 #'
 #' @section Usage:
@@ -761,16 +836,9 @@ NULL
 #' LossAbsolute$new(offset, quantile)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{offset} [\code{numeric(1)}]}{
-#'   Numerical value which can be used to set a custom offset. If so, this
-#'   value is returned instead of the loss optimal initialization.
-#' }
-#' \item{\code{quantile} [\code{numeric(1)}]}{
-#'   Numerical value between 0 and 1 indicating the quantile used for boosting.
-#' }
-#' }
+#' @template param-offset
+#' @param quantile (`numeric(1)`)\cr
+#' Numerical value between 0 and 1 that defines the quantile that is modeled.
 #'
 #' @examples
 #'
@@ -800,7 +868,7 @@ NULL
 #'   \frac{\delta}{\delta f(x)}\ L(y, f(x)) = -d\mathrm{sign}(y - f(x)) \ \ \mathrm{otherwise}
 #' }
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossHuber
 #'
 #' @section Usage:
@@ -810,17 +878,10 @@ NULL
 #' LossHuber$new(offset, delta)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{offset} [\code{numeric(1)}]}{
-#'   Numerical value which can be used to set a custom offset. If so, this
-#'   value is returned instead of the loss optimal initialization.
-#' }
-#' \item{\code{delta} [\code{numeric(1)}]}{
-#'   Numerical value greater than 0 to specify the interval around 0 for the quadratic error measuring.
-#'   Default is 1.
-#' }
-#' }
+#' @template param-offset
+#' @param delta (`numeric(1)`)\cr
+#' Numerical value greater than 0 to specify the interval around 0 for the
+#' quadratic error measuring (default `delta = 1`).
 #'
 #' @examples
 #'
@@ -854,7 +915,7 @@ NULL
 #'   p = \frac{1}{n}\sum\limits_{i=1}^n\mathrm{1}_{\{y^{(i)} = 1\}}
 #' }
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossBinomial
 #'
 #' @section Usage:
@@ -863,13 +924,7 @@ NULL
 #' LossBinomial$new(offset)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{offset} [\code{numeric(1)}]}{
-#'   Numerical value which can be used to set a custom offset. If so, this
-#'   value is returned instead of the loss optimal initialization.
-#' }
-#' }
+#' @template param-offset
 #'
 #' @examples
 #'
@@ -885,7 +940,7 @@ NULL
 #' \code{LossCustom} creates a custom loss by using
 #' \code{Rcpp::Function} to set \code{R} functions.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossCustom
 #'
 #' @section Usage:
@@ -893,21 +948,12 @@ NULL
 #' LossCustom$new(lossFun, gradientFun, initFun)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{lossFun} [\code{function}]}{
-#'   \code{R} function to calculate the loss. For details see the
-#'   \code{Details}.
-#' }
-#' \item{\code{gradientFun} [\code{function}]}{
-#'   \code{R} function to calculate the gradient. For details see the
-#'   \code{Details}.
-#' }
-#' \item{\code{initFun} [\code{function}]}{
-#'   \code{R} function to calculate the constant initialization. For
-#'   details see the \code{Details}.
-#' }
-#' }
+#' @param lossFun (`function`)\cr
+#' `R` function to calculate the loss.
+#' @param gradientFun (`function`)\cr
+#' `R` function to calculate the gradient.
+#' @param initFun (`function`)\cr
+#' `R` function to calculate the constant initialization.
 #'
 #' @section Details:
 #'   The functions must have the following structure:
@@ -948,12 +994,13 @@ NULL
 #' @export LossCustom
 NULL
 
-#' Create custom cpp losses by using cpp functions and external pointer.
+#' @title Custom loss using `C++` functions.
 #'
+#' @description
 #' \code{LossCustomCpp} creates a custom loss by using
 #' \code{Rcpp::XPtr} to set \code{C++} functions.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LossCustomCpp
 #'
 #' @section Usage:
@@ -961,18 +1008,12 @@ NULL
 #' LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{loss_ptr} [\code{externalptr}]}{
-#'   External pointer to the \code{C++} loss function.
-#' }
-#' \item{\code{grad_ptr} [\code{externalptr}]}{
-#'   External pointer to the \code{C++} gradient function.
-#' }
-#' \item{\code{const_init_ptr} [\code{externalptr}]}{
-#'   External pointer to the \code{C++} constant initialization function.
-#' }
-#' }
+#' @param loss_ptr (`externalptr`)\cr
+#' External pointer to the \code{C++} loss function.
+#' @param grad_ptr (`externalptr`)\cr
+#' External pointer to the \code{C++} gradient function.
+#' @param const_init_ptr (`externalptr`)\cr
+#' External pointer to the \code{C++} constant initialization function.
 #'
 #' @examples
 #' \dontrun{
@@ -990,7 +1031,7 @@ NULL
 #' \code{ResponseRegr} creates a response object that are used as target during the
 #' fitting process.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name ResponseRegr
 #'
 #' @section Usage:
@@ -1017,7 +1058,7 @@ NULL
 #' \code{ResponseBinaryClassif} creates a response object that are used as target during the
 #' fitting process.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name ResponseBinaryClassif
 #'
 #' @section Usage:
@@ -1043,7 +1084,7 @@ NULL
 
 #' Logger class to log the current iteration
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LoggerIteration
 #'
 #' @section Usage:
@@ -1051,27 +1092,17 @@ NULL
 #' LoggerIterationWrapper$new(logger_id, use_as_stopper, max_iterations)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{logger_id} [\code{character(1)}]}{
-#'   Unique identifier of the logger.
-#' }
-#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
-#'   Boolean to indicate if the logger should also be used as stopper.
-#' }
-#' \item{\code{max_iterations} [\code{integer(1)}]}{
-#'   If the logger is used as stopper this argument defines the maximal
-#'   iterations.
-#' }
-#' }
+#' @template param-logger_id
+#' @template param-use_as_stopper
+#' @param max_iterations (`integer(1)`)\cr
+#' If the logger is used as stopper this argument defines the maximal iterations.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
-#' }
+#' * `$summarizeLogger()`: `() -> ()`
+#'
 #' @examples
 #' # Define logger:
 #' log_iters = LoggerIteration$new("iterations", FALSE, 100)
@@ -1082,79 +1113,54 @@ NULL
 #' @export LoggerIteration
 NULL
 
-#' Logger class to log the inbag risk
+#' @title Log the train risk.
 #'
-#' This class logs the inbag risk for a specific loss function. It is also
-#' possible to use custom losses to log performance measures. For details
-#' see the use case or extending compboost vignette.
+#' @description
+#' This class logs the train risk for a specific loss function.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LoggerInbagRisk
 #'
 #' @section Usage:
 #' \preformatted{
-#' LoggerInbagRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break, patience)
+#' LoggerInbagRisk$new(logger_id, use_as_stopper, loss, eps_for_break, patience)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{logger_id} [\code{character(1)}]}{
-#'   Unique identifier of the logger.
-#' }
-#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
-#'   Boolean to indicate if the logger should also be used as stopper.
-#' }
-#' \item{\code{used_loss} [\code{Loss} object]}{
-#'   The loss used to calculate the empirical risk by taking the mean of the
-#'   returned defined loss within the loss object.
-#' }
-#' \item{\code{eps_for_break} [\code{numeric(1)}]}{
-#'   This argument is used if the loss is also used as stopper. If the relative
-#'   improvement of the logged inbag risk falls above this boundary the stopper
-#'   returns \code{TRUE}.
-#' }
-#' }
+#' @template param-logger_id
+#' @template param-use_as_stopper
+#' @template param-loss
+#' @param eps_for_break (`numeric(1)`)\cr
+#' This argument becomes active if the loss is also used as stopper. If the relative
+#' improvement of the logged inbag risk falls above this boundary the stopper
+#' returns `TRUE`.
 #'
 #' @section Details:
-#'
-#' This logger computes the risk for the given training data
+#' This logger computes the risk for the training data
 #' \eqn{\mathcal{D} = \{(x^{(i)},\ y^{(i)})\ |\ i \in \{1, \dots, n\}\}}
-#' and stores it into a vector. The empirical risk \eqn{\mathcal{R}} for
+#' and stores it into a vector. The empirical risk \eqn{\mathcal{R}_\mathrm{emp}} for
 #' iteration \eqn{m} is calculated by:
 #' \deqn{
 #'   \mathcal{R}_\mathrm{emp}^{[m]} = \frac{1}{n}\sum\limits_{i = 1}^n L(y^{(i)}, \hat{f}^{[m]}(x^{(i)}))
 #' }
+#' __Note:__
+#' * If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+#' * The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is done in two steps:
+#'   1. Calculate vector \code{risk_temp} of losses for every observation for
+#'      given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+#'   2. Average over \code{risk_temp}.
 #'
-#' \strong{Note:}
-#' \itemize{
-#'   \item
-#'     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-#'
-#'   \item
-#'     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
-#'     done in two steps:
-#'       \enumerate{
-#'        \item
-#'          Calculate vector \code{risk_temp} of losses for every observation for
-#'          given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-#'
-#'        \item
-#'          Average over \code{risk_temp}.
-#'      }
-#'    }
-#'    This procedure ensures, that it is possible to e.g. use the AUC or any
-#'    arbitrary performance measure for risk logging. This gives just one
-#'    value for \code{risk_temp} and therefore the average equals the loss
-#'    function. If this is just a value (like for the AUC) then the value is
-#'    returned.
+#'   This procedure ensures, that it is possible to e.g. use the AUC or any
+#'   arbitrary performance measure for risk logging. This gives just one
+#'   value for \code{risk_temp} and therefore the average equals the loss
+#'   function. If this is just a value (like for the AUC) then the value is
+#'   returned.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#'   \item{\code{summarizeLogger()}}{Summarize the logger object.}
-#' }
+#' * `$summarizeLogger()`: `() -> ()`
+#'
 #' @examples
 #' # Used loss:
 #' log_bin = LossBinomial$new()
@@ -1168,52 +1174,36 @@ NULL
 #' @export LoggerInbagRisk
 NULL
 
-#' Logger class to log the out of bag risk
+#' @title Log the validation/test/out-of-bag risk
 #'
-#' This class logs the out of bag risk for a specific loss function. It is
-#' also possible to use custom losses to log performance measures. For details
-#' see the use case or extending compboost vignette.
+#' @description
+#' This class logs the out of bag risk for a specific loss function.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LoggerOobRisk
 #'
 #' @section Usage:
 #' \preformatted{
-#' LoggerOobRisk$new(logger_id, use_as_stopper, used_loss, eps_for_break,
+#' LoggerOobRisk$new(logger_id, use_as_stopper, loss, eps_for_break,
 #'   patience, oob_data, oob_response)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{logger_id} [\code{character(1)}]}{
-#'   Unique identifier of the logger.
-#' }
-#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
-#'   Boolean to indicate if the logger should also be used as stopper.
-#' }
-#' \item{\code{used_loss} [\code{Loss} object]}{
-#'   The loss used to calculate the empirical risk by taking the mean of the
-#'   returned defined loss within the loss object.
-#' }
-#' \item{\code{eps_for_break} [\code{numeric(1)}]}{
-#'   This argument is used if the loss is also used as stopper. If the relative
-#'   improvement of the logged inbag risk falls above this boundary the stopper
-#'   returns \code{TRUE}.
-#' }
-#' \item{\code{oob_data} [\code{list}]}{
-#'   A list which contains data source objects which corresponds to the
-#'   source data of each registered factory. The source data objects should
-#'   contain the out of bag data. This data is then used to calculate the
-#'   prediction in each step.
-#' }
-#' \item{\code{oob_response} [\code{numeric}]}{
-#'   Vector which contains the response for the out of bag data given within
-#'   the \code{list}.
-#' }
-#' }
+#' @template param-logger_id
+#' @template param-use_as_stopper
+#' @template param-loss
+#' @param eps_for_break (`numeric(1)`)\cr
+#' This argument is used if the loss is also used as stopper. If the relative
+#' improvement of the logged inbag risk falls above this boundary the stopper
+#' returns `TRUE`.
+#' @param oob_data (`list()`)\cr
+#' A list which contains data source objects which corresponds to the
+#' source data of each registered factory. The source data objects should
+#' contain the out of bag data. This data is then used to calculate the
+#' prediction in each step.
+#' @param oob_response ([ResponseRegr] | [ResponseBinaryClassif])\cr
+#' The response object used for the predictions on the validation data.
 #'
 #' @section Details:
-#'
 #' This logger computes the risk for a given new dataset
 #' \eqn{\mathcal{D}_\mathrm{oob} = \{(x^{(i)},\ y^{(i)})\ |\ i \in I_\mathrm{oob}\}}
 #' and stores it into a vector. The OOB risk \eqn{\mathcal{R}_\mathrm{oob}} for
@@ -1222,40 +1212,25 @@ NULL
 #'   \mathcal{R}_\mathrm{oob}^{[m]} = \frac{1}{|\mathcal{D}_\mathrm{oob}|}\sum\limits_{(x,y) \in \mathcal{D}_\mathrm{oob}}
 #'   L(y, \hat{f}^{[m]}(x))
 #' }
+#' __Note:__
+#' * If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
+#' * The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is done in two steps:
+#'   1. Calculate vector \code{risk_temp} of losses for every observation for
+#'      given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
+#'   2. Average over \code{risk_temp}.
 #'
-#' \strong{Note:}
-#'   \itemize{
-#'
-#'   \item
-#'     If \eqn{m=0} than \eqn{\hat{f}} is just the offset.
-#'
-#'   \item
-#'     The implementation to calculate \eqn{\mathcal{R}_\mathrm{emp}^{[m]}} is
-#'     done in two steps:
-#'       \enumerate{
-#'
-#'       \item
-#'         Calculate vector \code{risk_temp} of losses for every observation for
-#'         given response \eqn{y^{(i)}} and prediction \eqn{\hat{f}^{[m]}(x^{(i)})}.
-#'
-#'       \item
-#'         Average over \code{risk_temp}.
-#'      }
-#'    }
-#'
-#'    This procedure ensures, that it is possible to e.g. use the AUC or any
-#'    arbitrary performance measure for risk logging. This gives just one
-#'    value for \eqn{risk_temp} and therefore the average equals the loss
-#'    function. If this is just a value (like for the AUC) then the value is
-#'    returned.
+#'   This procedure ensures, that it is possible to e.g. use the AUC or any
+#'   arbitrary performance measure for risk logging. This gives just one
+#'   value for \eqn{risk_temp} and therefore the average equals the loss
+#'   function. If this is just a value (like for the AUC) then the value is
+#'   returned.
 #'
 #' @section Fields:
 #'   This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
-#' }
+#' * `$summarizeLogger()`: `() -> ()`
+#'
 #' @examples
 #' # Define data:
 #' X1 = cbind(1:10)
@@ -1283,18 +1258,16 @@ NULL
 #' @export LoggerOobRisk
 NULL
 
-#' Logger class to log the elapsed time
+#' @title Log the runtime
 #'
-#' This class just logs the elapsed time. This should be very handy if one
-#' wants to run the algorithm for just 2 hours and see how far he comes within
-#' that time. There are three time units available for logging:
-#' \itemize{
-#'   \item minutes
-#'   \item seconds
-#'   \item microseconds
-#' }
+#' @description
+#' This class logs the runtime of the algorithm. The logger also can be used
+#' to stop the algorithm after a defined time budget. The available time units are:
+#' * minutes
+#' * seconds
+#' * microseconds
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LoggerTime
 #'
 #' @section Usage:
@@ -1302,31 +1275,21 @@ NULL
 #' LoggerTime$new(logger_id, use_as_stopper, max_time, time_unit)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{logger_id} [\code{character(1)}]}{
-#'   Unique identifier of the logger.
-#' }
-#' \item{\code{use_as_stopper} [\code{logical(1)}]}{
-#'   Boolean to indicate if the logger should also be used as stopper.
-#' }
-#' \item{\code{max_time} [\code{integer(1)}]}{
-#'   If the logger is used as stopper this argument contains the maximal time
-#'   which are available to train the model.
-#' }
-#' \item{\code{time_unit} [\code{character(1)}]}{
-#'   Character to specify the time unit. Possible choices are \code{minutes},
-#'   \code{seconds} or \code{microseconds}
-#' }
-#' }
+#' @template param-logger_id
+#' @template param-use_as_stopper
+#' @param max_time (`integer(1)`)\cr
+#' If the logger is used as stopper this argument contains the maximal time
+#' which are available to train the model.
+#' @param time_unit (`character(1)`)\cr
+#' The unit in which the time is measured. Choices are `minutes`,
+#' `seconds` or `microseconds`.
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{summarizeLogger()}}{Summarize the logger object.}
-#' }
+#' * `$summarizeLogger()`: `() -> ()`
+#'
 #' @examples
 #' # Define logger:
 #' log_time = LoggerTime$new("time_minutes", FALSE, 20, "minutes")
@@ -1337,12 +1300,13 @@ NULL
 #' @export LoggerTime
 NULL
 
-#' Logger list class to collect all loggers
+#' @title Collect loggers
 #'
-#' This class is meant to define all logger which should be used to track the
-#' progress of the algorithm.
+#' @description
+#' This class collects all loggers that are used in the algorithm and
+#' takes care about stopping strategies and tracing.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name LoggerList
 #'
 #' @section Usage:
@@ -1351,21 +1315,16 @@ NULL
 #' }
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{clearRegisteredLogger()}}{Removes all registered logger
-#'   from the list. The used logger are not deleted, just removed from the
-#'   map.}
-#' \item{\code{getNamesOfRegisteredLogger()}}{Returns the registered logger
-#'   names as character vector.}
-#' \item{\code{getNumberOfRegisteredLogger()}}{Returns the number of registered
-#'   logger as integer.}
-#' \item{\code{printRegisteredLogger()}}{Prints all registered logger.}
-#' \item{\code{registerLogger(logger)}}{Includes a new \code{logger}
-#'   into the logger list with the \code{logger_id} as key.}
-#' }
+#' * `$registerLogger()`: `Logger* -> ()`
+#' * `$printRegisteredLogger()`: `() -> ()`
+#' * `$clearRegisteredLogger()`: `() -> ()`
+#' * `$getNumberOfRegisteredLogger()`: `() -> integer(1)`
+#' * `$getNamesOfRegisteredLogger()`: `() -> character()`
+#' * `$isStopper()`: `() -> logical()`
+#'
 #' @examples
 #' # Define logger:
 #' log_iters = LoggerIteration$new("iteration", TRUE, 100)
@@ -1390,13 +1349,14 @@ NULL
 #' @export LoggerList
 NULL
 
-#' Coordinate Descent
+#' @title Coordinate descent
 #'
-#' This class defines a new object for the greedy optimizer. The optimizer
-#' just calculates for each base learner the sum of squared errors and returns
-#' the base learner with the smallest SSE.
+#' @description
+#' This class defines a new object to conduct gradient descent in function space.
+#' Because of the component-wise structure, this is more like a block-wise
+#' coordinate descent.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name OptimizerCoordinateDescent
 #'
 #' @section Usage:
@@ -1404,13 +1364,16 @@ NULL
 #' OptimizerCoordinateDescent$new()
 #' OptimizerCoordinateDescent$new(ncores)
 #' }
-#' @section Arguments:
-#' \describe{
-#' \item{\code{ncores} [\code{integer(1)}]}{
-#'   Number of cores used to fit the algorithm. Note that number of used cores
-#'   should be smaller or equal the number of base learner.
-#' }
-#' }
+#'
+#' @template param-ncores
+#'
+#' @section Fields:
+#' This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' * `$getOptimizerType()`: `() -> character(1)`
+#' * `$getStepSize()`: `() -> numeric()`
+#'
 #' @examples
 #'
 #' # Define optimizer:
@@ -1419,12 +1382,13 @@ NULL
 #' @export OptimizerCoordinateDescent
 NULL
 
-#' Coordinate Descent with Cosine Annealing
+#' @title Coordinate descent with cosine annealing
 #'
-#' This class defines a new object which is used to conduct Coordinate Descent with a
-#' cosine annealing learning rate strategy.
+#' @description
+#' Same as [OptimizerCoordinateDescent] but with a cosine annealing scheduler to
+#' adjust the learning rate during the fitting process.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name OptimizerCosineAnnealing
 #'
 #' @section Usage:
@@ -1434,26 +1398,25 @@ NULL
 #' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles)
 #' OptimizerCosineAnnealing$new(nu_min, nu_max, cycles, anneal_iter_max, cycles, ncores)
 #' }
-#' @section Arguments:
-#' \describe{
-#' \item{\code{nu_min} [\code{numeric(1)}]}{
-#'   Minimal learning rate.
-#' }
-#' \item{\code{nu_max} [\code{numeric(1)}]}{
-#'   Maximal learning rate.
-#' }
-#' \item{\code{cycles} [\code{integer(1)}]}{
-#'   Number of annealings form nu_max to nu_min between 1 and anneal_iter_max.
-#' }
-#' \item{\code{anneal_iter_max} [\code{integer(1)}]}{
-#'   Maximal number of iters for which annealing is applied. If the iteration is bigger
-#'   than anneal_iter_max, then nu_min is used as fixed learning rate.
-#' }
-#' \item{\code{ncores} [\code{integer(1)}]}{
-#'   Number of cores used to fit the algorithm. Note that number of used cores
-#'   should be smaller or equal the number of base learner.
-#' }
-#' }
+#'
+#' @template param-ncores
+#' @param nu_min (`numeric(1)`)\cr
+#' Minimal learning rate.
+#' @param nu_max (`numeric(1)`)\cr
+#' Maximal learning rate.
+#' @param cycles (`integer(1)`)\cr
+#' Number of annealing cycles form `nu_max` to `nu_min` between 1 and anneal_`anneal_iter_max`.
+#' `anneal_iter_max (`integer(1)`)\cr
+#' Maximal number of iterations for which the annealing is conducted. `nu_min` is used as
+#' fixed learning rate after `anneal_iter_max`.
+#'
+#' @section Fields:
+#' This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' * `$getOptimizerType()`: `() -> character(1)`
+#' * `$getStepSize()`: `() -> numeric()`
+#'
 #' @examples
 #'
 #' # Define optimizer:
@@ -1462,14 +1425,12 @@ NULL
 #' @export OptimizerCosineAnnealing
 NULL
 
-#' Coordinate Descent with line search
+#' @title Coordinate descent with line search
 #'
-#' This class defines a new object which is used to conduct Coordinate Descent with line search.
-#' The optimizer just calculates for each base learner the sum of squared error and returns
-#' the base learner with the smallest SSE. In addition, this optimizer computes
-#' a line search to find the optimal step size in each iteration.
+#' @description
+#' Same as [OptimizerCoordinateDescent] but with a line search in each iteration.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name OptimizerCoordinateDescentLineSearch
 #'
 #' @section Usage:
@@ -1477,13 +1438,16 @@ NULL
 #' OptimizerCoordinateDescentLineSearch$new()
 #' OptimizerCoordinateDescentLineSearch$new(ncores)
 #' }
-#' @section Arguments:
-#' \describe{
-#' \item{\code{ncores} [\code{integer(1)}]}{
-#'   Number of cores used to fit the algorithm. Note that number of used cores
-#'   should be smaller or equal the number of base learner.
-#' }
-#' }
+#'
+#' @template param-ncores
+#'
+#' @section Fields:
+#' This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' * `$getOptimizerType()`: `() -> character(1)`
+#' * `$getStepSize()`: `() -> numeric()`
+#'
 #' @examples
 #'
 #' # Define optimizer:
@@ -1492,11 +1456,12 @@ NULL
 #' @export OptimizerCoordinateDescentLineSearch
 NULL
 
-#' Nesterov momentum
+#' @title Nesterovs momentum
 #'
-#' This class defines a new object which is used to conduct Nesterovs momentum as optimization technique.
+#' @description
+#' This class defines a new object to conduct Nesterovs momentum in function space.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name OptimizerAGBM
 #'
 #' @section Usage:
@@ -1504,17 +1469,23 @@ NULL
 #' OptimizerAGBM$new(momentum)
 #' OptimizerAGBM$new(momentum, ncores)
 #' }
-#' @section Arguments:
-#' \describe{
-#' \item{\code{momentum} [\code{numeric(1)}]}{
-#'   Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
-#'   faster but also tends to overfit faster.
-#' }
-#' \item{\code{ncores} [\code{integer(1)}]}{
-#'   Number of cores used to fit the algorithm. Note that number of used cores
-#'   should be smaller or equal the number of base learner.
-#' }
-#' }
+#'
+#' @template param-ncores
+#' @param momentum (`numeric(1)`)\cr
+#' Momentum term used to accelerate the fitting process. If chosen large, the algorithm trains
+#' faster but also tends to overfit faster.
+#'
+#' @section Fields:
+#' This class doesn't contain public fields.
+#'
+#' @section Methods:
+#' * `$getOptimizerType()`: `() -> character(1)`
+#' * `$getStepSize()`: `() -> numeric()`
+#' * `$getMomentumParameter()`: `() -> numeric(1)`
+#' * `$getSelectedMomentumBaselearner()`: `() -> character()`
+#' * `$getParameterMatrix()`: `() -> list(matrix()`
+#' * `$getErrorCorrectedPseudoResiduals()`: `() -> matrix()`
+#'
 #' @examples
 #'
 #' optimizer = OptimizerAGBM$new(0.1)
@@ -1522,13 +1493,14 @@ NULL
 #' @export OptimizerAGBM
 NULL
 
-#' Main Compboost Class
+#' @title Internal Compboost Class
 #'
-#' This class collects all parts such as the factory list or the used logger
-#' and passes them to \code{C++}. On the \code{C++} side is then the main
-#' algorithm.
+#' This class is the raw `C++` pendant and still at a very high-level.
+#' It is the base for the [Compboost] [R6] class and provides
+#' many convenient wrapper to access data and execute methods by calling
+#' the `C++` methods.
 #'
-#' @format \code{\link{S4}} object.
+#' @format [S4] object.
 #' @name Compboost_internal
 #'
 #' @section Usage:
@@ -1537,72 +1509,53 @@ NULL
 #'   factory_list, loss, logger_list, optimizer)
 #' }
 #'
-#' @section Arguments:
-#' \describe{
-#' \item{\code{response} [\code{numeric}]}{
-#'   Vector of the true values which should be modeled.
-#' }
-#' \item{\code{learning_rate} [\code{numeric(1)}]}{
-#'   The learning rate which is used to shrink the parameter in each iteration.
-#' }
-#' \item{\code{stop_if_all_stopper_fulfilled} [\code{logical(1)}]}{
-#'   Boolean to indicate which stopping strategy is used. If \code{TRUE} then
-#'   the algorithm stops if all registered logger stopper are fulfilled.
-#' }
-#' \item{\code{factory_list} [\code{BlearnerFactoryList} object]}{
+#' @param oob_response ([ResponseRegr] | [ResponseBinaryClassif])\cr
+#' The response object containing the target variable.
+#' @param learning_rate (`numeric(1)`)\cr
+#' The learning rate.
+#' @param stop_if_all_stopper_fulfilled (`logical(1)`)\cr
+#' Boolean to indicate which stopping strategy is used. If `TRUE`,
+#' the algorithm stops if the conditions of all loggers for stopping apply.
+#' @param factory_list ([BlearnerFactoryList])\cr
 #'   List of base learner factories from which one base learner is selected
 #'   in each iteration by using the
-#' }
-#' \item{\code{loss} [\code{Loss} object]}{
-#'   The loss which should be used to calculate the pseudo residuals in each
-#'   iteration.
-#' }
-#' \item{\code{logger_list} [\code{LoggerList} object]}{
-#'   The list with all registered logger which are used to track the algorithm.
-#' }
-#' \item{\code{optimizer} [\code{Optimizer} object]}{
-#'   The optimizer which is used to select in each iteration one good
-#'   base learner.
-#' }
-#' }
+#' @template param-loss
+#' @param logger_list ([LoggerList])\cr
+#' The [LoggerList] object with all loggers.
+#' @template param-optimizer
 #'
 #' @section Fields:
-#'   This class doesn't contain public fields.
+#' This class doesn't contain public fields.
 #'
 #' @section Methods:
-#' \describe{
-#' \item{\code{train(trace)}}{Initial training of the model. The integer
-#'   argument \code{trace} indicates if the logger progress should be printed
-#'   or not and if so trace indicates which iterations should be printed.}
-#' \item{\code{continueTraining(trace, logger_list)}}{Continue the training
-#'   by using an additional \code{logger_list}. The retraining is stopped if
-#'   the first logger says that the algorithm should be stopped.}
-#' \item{\code{getPrediction()}}{Get the inbag prediction which is done during
-#'   the fitting process.}
-#' \item{\code{getSelectedBaselearner()}}{Returns a character vector of how
-#'   the base learner are selected.}
-#' \item{\code{getLoggerData()}}{Returns a list of all logged data. If the
-#'   algorithm is retrained, then the list contains for each training one
-#'   element.}
-#' \item{\code{getEstimatedParameter()}}{Returns a list with the estimated
-#'   parameter for base learner which was selected at least once.}
-#' \item{\code{getParameterAtIteration(k)}}{Calculates the prediction at the
-#'   iteration \code{k}.}
-#' \item{\code{getParameterMatrix()}}{Calculates a matrix where row \code{i}
-#'   includes the parameter at iteration \code{i}. There are as many rows
-#'   as done iterations.}
-#' \item{\code{isTrained()}}{This function returns just a boolean value which
-#'   indicates if the initial training was already done.}
-#' \item{\code{predict(newdata)}}{Prediction on new data organized within a
-#'   list of source data objects. It is important that the names of the source
-#'   data objects matches those one that were used to define the factories.}
-#' \item{\code{predictAtIteration(newdata, k)}}{Prediction on new data by using
-#'   another iteration \code{k}.}
-#' \item{\code{setToIteration(k)}}{Set the whole model to another iteration
-#'   \code{k}. After calling this function all other elements such as the
-#'   parameters or the prediction are calculated corresponding to \code{k}.}
-#' \item{\code{summarizeCompboost()}}{Summarize the \code{Compboost} object.}
-#' }
+#' * `$train()`: `() -> ()`
+#' * `$continueTraining()`: `() -> ()`
+#' * `$getLearningRate()`: `() -> numeric(1)`
+#' * `$getPrediction()`: `() -> matrix()`
+#' * `$getSelectedBaselearner()`: `() -> character()`
+#' * `$getLoggerData()`: `() -> list(character(), matrix())`
+#' * `$getEstimatedParameter()`: `() -> list(matrix())`
+#' * `$getParameterAtIteration()`: `() -> list(matrix())`
+#' * `$getParameterMatrix()`: `() -> matrix()`
+#' * `$predictFactoryTrainData()`: `() -> matrix()`
+#' * `$predictFactoryNewData()`: `list(Data*) -> matrix()`
+#' * `$predictIndividualTrainData()`: `() -> list(matrix())` Get the linear contribution of each base learner for the training data.
+#' * `$predictIndividual()`: `list(Data*) -> list(matrix())` Get the linear contribution of each base learner for new data.
+#' * `$predict()`: `list(Data*), logical(1) -> matrix()`
+#' * `$summarizeCompboost()`: `() -> ()`
+#' * `$isTrained()`: `() -> logical(1)`
+#' * `$setToIteration()`: `() -> ()`
+#' * `$saveJson()`: `() -> ()`
+#' * `$getOffset()`: `() -> numeric(1) | matrix()`
+#' * `$getRiskVector()`: `() -> numeric()`
+#' * `$getResponse()`: `() -> Response*`
+#' * `$getOptimizer()`: `() -> Optimizer*`
+#' * `$getLoss()`: `() -> Loss*`
+#' * `$getLoggerList()`: `() -> LoggerList`
+#' * `$getBaselearnerList()`: `() -> BlearnerFactoryList`
+#' * `$useGlobalStopping()`: `() -> logical(1)*`
+#' * `$getFactoryMap()`: `() -> list(Baselearner*)`
+#' * `$getDataMap()`: `() -> list(Data*)`
 #' @examples
 #'
 #' # Some data:

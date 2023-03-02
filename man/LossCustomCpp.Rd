@@ -2,9 +2,19 @@
 % Please edit documentation in R/RcppExports.R
 \name{LossCustomCpp}
 \alias{LossCustomCpp}
-\title{Create custom cpp losses by using cpp functions and external pointer.}
+\title{Custom loss using \verb{C++} functions.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{loss_ptr}{(\code{externalptr})\cr
+External pointer to the \code{C++} loss function.}
+
+\item{grad_ptr}{(\code{externalptr})\cr
+External pointer to the \code{C++} gradient function.}
+
+\item{const_init_ptr}{(\code{externalptr})\cr
+External pointer to the \code{C++} constant initialization function.}
 }
 \description{
 \code{LossCustomCpp} creates a custom loss by using
@@ -14,21 +24,6 @@
 
 \preformatted{
 LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{loss_ptr} \link{\code{externalptr}}}{
-External pointer to the \code{C++} loss function.
-}
-\item{\code{grad_ptr} \link{\code{externalptr}}}{
-External pointer to the \code{C++} gradient function.
-}
-\item{\code{const_init_ptr} \link{\code{externalptr}}}{
-External pointer to the \code{C++} constant initialization function.
-}
 }
 }
 

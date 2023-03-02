@@ -28,83 +28,85 @@ boostSplines(
 )
 }
 \arguments{
-\item{data}{\link{\code{data.frame}}\cr
+\item{data}{(\code{data.frame()})\cr
 A data frame containing the data.}
 
-\item{target}{\link{\code{character(1)} or \code{Response} class}\cr
-Character value containing the target variable or Response object. Note that the loss must match the
+\item{target}{(\code{character(1)} | \link{ResponseRegr} | \link{ResponseBinaryClassif})\cr
+Character value containing the target variable or response object. Note that the loss must match the
 data type of the target.}
 
-\item{optimizer}{\link{\code{S4 Optimizer}}\cr
-An initialized \code{S4 Optimizer} object exposed by Rcpp (e.g. \code{OptimizerCoordinateDescent$new()})
-to select features at each iteration.}
+\item{optimizer}{(\link{OptimizerCoordinateDescent} | \link{OptimizerCoordinateDescentLineSearch} | \link{OptimizerAGBM} | \link{OptimizerCosineAnnealing})\cr
+An initialized \code{S4} optimizer object (requires to call \code{Optimizer*.new(..)}.
+See the respective help page for further information.}
 
-\item{loss}{\link{\code{S4 Loss}}\cr
-Initialized \code{S4 Loss} object exposed by Rcpp that is used to calculate the risk and pseudo
-residuals (e.g. \code{LossQuadratic$new()}).}
+\item{loss}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
+An initialized \code{S4} loss object (requires to call \verb{Loss*$new(...)}).
+See the respective help page for further information.}
 
-\item{learning_rate}{\link{\code{numeric(1)}}\cr
+\item{learning_rate}{(\code{numeric(1)})\cr
 Learning rate to shrink the parameter in each step.}
 
-\item{iterations}{\link{\code{integer(1)}}\cr
+\item{iterations}{(\code{integer(1)})\cr
 Number of iterations that are trained. If \code{iterations == 0}, the untrained object is returned. This
 can be useful if other base learners (e.g. an interaction via a tensor base learner) are added.}
 
-\item{trace}{\link{\code{integer(1)}}\cr
+\item{trace}{(\code{integer(1)})\cr
 Integer indicating how often a trace should be printed. Specifying \code{trace = 10}, then every
 10th iteration is printed. If no trace should be printed set \code{trace = 0}. Default is
 -1 which means that in total 40 iterations are printed.}
 
-\item{degree}{\link{\code{integer(1)}}\cr
+\item{degree}{(\code{integer(1)})cr
 Polynomial degree of the splines.}
 
-\item{n_knots}{\link{\code{integer(1)}}\cr
+\item{n_knots}{(\code{integer(1)})\cr
 Number of equidistant "inner knots". The actual number of used knots does also depend on
 the polynomial degree.}
 
-\item{penalty}{\link{\code{numeric(1)}}\cr
+\item{penalty}{(\code{numeric(1)})\cr
 Penalty term for p-splines. If the penalty equals 0, then ordinary b-splines are fitted.
 The higher the penalty, the higher the smoothness.}
 
-\item{df}{\link{\code{numeric(1)}}\cr
-Degrees of freedom of the whole spline. It is important to set the same amount of degrees of freedom to be able to compare different base-learner.}
+\item{df}{(\code{numeric(1)})\cr
+Degrees of freedom of the base learner(s).}
 
-\item{differences}{\link{\code{integer(1)}}\cr
+\item{differences}{(\code{integer(1)})\cr
 Number of differences that are used for penalization. The higher the difference, the higher the smoothness.}
 
-\item{data_source}{\link{\code{S4 Data}}\cr
-Uninitialized \code{S4 Data} object which is used to store the data. At the moment
+\item{data_source}{(\verb{Data*})\cr
+Uninitialized \verb{Data*} object which is used to store the data. At the moment
 just in memory training is supported.}
 
-\item{oob_fraction}{\link{\code{numeric(1)}}\cr
-Fraction of how much data we want to use to track the out of bag risk.}
+\item{oob_fraction}{(\code{numeric(1)})\cr
+Fraction of how much data are used to track the out of bag risk.}
 
-\item{bin_root}{\link{\code{integer(1)}}\cr
-If set to a value greater than zero, binning is applied and reduces the number of used
-x values to n^(1/bin_root) equidistant points. If you want to use binning we suggest
-to set \code{bin_root = 2}.}
+\item{bin_root}{(\code{integer(1)})\cr
+The binning root to reduce the data to \eqn{n^{1/\text{bin_root}}}$ data points
+(default \code{bin_root = 1}, which means no binning is applied).
+A value of \code{bin_root = 2} is suggested for the best approximation
+error (cf. \emph{Wood et al. (2017) Generalized additive models for gigadata:
+modeling the UK black smoke network daily data}).}
 
-\item{cache_type}{\link{\code{character(1)}+}\cr
+\item{cache_type}{(\code{character(1)})\cr
 String to indicate what method should be used to estimate the parameter in each iteration.
 Default is \code{cache_type = "cholesky"} which computes the Cholesky decomposition,
 caches it, and reuses the matrix over and over again. The other option is to use
 \code{cache_type = "inverse"} which does the same but caches the inverse.}
 
-\item{stop_args}{\link{\code{list(2)}}\cr
+\item{stop_args}{(\code{list(2)})\cr
 List containing two elements \code{patience} and \code{eps_for_break} which can be set to use early stopping on the left out data
 from setting \code{oob_fraction}.}
 
-\item{df_cat}{\link{\code{numeric(1)}}\cr
+\item{df_cat}{(\code{numeric(1)})\cr
 Degrees of freedom of the categorical base-learner.}
 
-\item{stop_time}{\link{\code{character(1)}}\cr
+\item{stop_time}{(\code{character(1)})\cr
 Unit of measured time.}
 
-\item{additional_risk_logs}{\link{\code{list(Logger)}}\cr
+\item{additional_risk_logs}{(\code{list(Logger)})\cr
 Additional logger passed to the \code{Compboost} object.}
 }
 \value{
-A model of the \code{Compboost} class. This model is an \code{R6} object
+A model of the \link{Compboost} class. This model is an \link{R6} object
 which can be used for retraining, predicting, plotting, and anything described in
 \code{?Compboost}.
 }
@@ -113,9 +115,8 @@ This wrapper function automatically initializes the model by adding all numerica
 features as spline base-learner. Categorical features are dummy encoded and inserted
 using another linear base-learners without intercept. The function \code{boostSplines}
 does also train the model.
-}
-\details{
-The returned object is an object of the \code{Compboost} class. This object can be
+
+The returned object is an object of the \link{Compboost} class. This object can be
 used for further analyses (see \code{?Compboost} for details).
 }
 \examples{

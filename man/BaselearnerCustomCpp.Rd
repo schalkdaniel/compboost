@@ -2,46 +2,40 @@
 % Please edit documentation in R/RcppExports.R
 \name{BaselearnerCustomCpp}
 \alias{BaselearnerCustomCpp}
-\title{Create custom cpp base learner factory by using cpp functions and external
-pointer.}
+\title{Custom base learner using \verb{C++} functions.}
 \format{
-\code{\link{S4}} object.
+\link{S4} object.
+}
+\arguments{
+\item{data_source}{(\link{InMemoryData})\cr
+Uninitialized data object used to store the meta data. Note: At the moment, just in memory
+storing is supported, see \code{?InMemorydata} for details.}
+
+\item{instantiate_ptr}{(\code{externalptr})\cr
+External pointer to the \verb{C++} instantiate data function.}
+
+\item{train_ptr}{(\code{externalptr})\cr
+External pointer to the \verb{C++} train function.}
+
+\item{predict_ptr}{(\code{externalptr})\cr
+External pointer to the \verb{C++} predict function.}
 }
 \description{
-\code{BaselearnerCustomCpp} creates a custom base learner factory by
-setting custom \code{C++} functions. This factory object can be registered
-within a base learner list and then used for training.
+This class defines a custom base learner factory by
+passing pointers to \verb{C++} functions for instantiation,
+fitting, and predicting.
 }
 \section{Usage}{
 
 \preformatted{
-BaselearnerCustomCpp$new(data_source, list(instantiate_ptr,
-  train_ptr, predict_ptr))
-}
-}
-
-\section{Arguments}{
-
-\describe{
-\item{\code{data_source} \link{\code{Data} Object}}{
-Data object which contains the source data.
-}
-\item{\code{instantiate_ptr} \link{\code{externalptr}}}{
-External pointer to the \code{C++} instantiate data function.
-}
-\item{\code{train_ptr} \link{\code{externalptr}}}{
-External pointer to the \code{C++} train function.
-}
-\item{\code{predict_ptr} \link{\code{externalptr}}}{
-External pointer to the \code{C++} predict function.
-}
+BaselearnerCustomCpp$new(data_source, list(instantiate_ptr, train_ptr, predict_ptr))
 }
 }
 
 \section{Details}{
 
 For an example see the extending compboost vignette or the function
-\code{getCustomCppExample}.
+\code{\link[=getCustomCppExample]{getCustomCppExample()}}.
 }
 
 \section{Fields}{
@@ -51,10 +45,23 @@ This class doesn't contain public fields.
 
 \section{Methods}{
 
-\describe{
-\item{\code{getData()}}{Get the data matrix of the target data which is used
-for modeling.}
-\item{\code{summarizeFactory()}}{Summarize the base learner factory object.}
+\itemize{
+\item \verb{$summarizeFactory()}: \verb{() -> ()}
+\item \verb{$transfromData(newdata)}: \code{list(InMemoryData) -> matrix()}
+\item \verb{$getMeta()}: \verb{() -> list()}
+}
+}
+
+\section{Inherited methods from Baselearner}{
+
+\itemize{
+\item \verb{$getData()}: \verb{() -> matrix()}
+\item \verb{$getDF()}: \verb{() -> integer()}
+\item \verb{$getPenalty()}: \verb{() -> numeric()}
+\item \verb{$getPenaltyMat()}: \verb{() -> matrix()}
+\item \verb{$getFeatureName()}: \verb{() -> character()}
+\item \verb{$getModelName()}: \verb{() -> character()}
+\item \verb{$getBaselearnerId()}: \verb{() -> character()}
 }
 }
 
