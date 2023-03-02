@@ -1,5 +1,14 @@
 # Release Notes
 
+- **02.03.2023** \
+  Bigger refactoring of the documentation and smaller bugfixes.
+
+- **24.02.2023** \
+  Removing the `dev` branch and return to simple feature branch workflow.
+
+- **15.01.2023** \
+  Happy new year! Finally, it is possible to save and load `Compboost` objects as `JSON`.
+
 - **21.12.2022** \
   New methods for transforming data are now available (`cboost$transformData(newdat)`). Additionally, methods for accessing the meta data of a base learner were also added (`cboost$baselearner_list$blfactory$factory$getMeta()`).
 
