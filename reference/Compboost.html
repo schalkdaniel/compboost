@@ -978,15 +978,15 @@ Name/path to the file.</p></dd>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> hp_spline wt_spline </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       161       839 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       299       701 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   _iterations oob_risk baselearner train_risk</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           0       NA   intercept   20.50297</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           1 8.768167   wt_spline   18.81770</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2 8.030257   wt_spline   17.29581</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           3 7.388403   wt_spline   15.92140</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           4 6.831800   wt_spline   14.68013</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           5 6.350780   wt_spline   13.55905</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           0       NA   intercept   16.63760</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           1 9.087063   wt_spline   15.29527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2 8.624819   wt_spline   14.08189</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           3 8.233570   wt_spline   12.98497</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           4 7.904872   wt_spline   11.99323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6           5 7.631189   wt_spline   11.09649</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hp_spline" "wt_spline"</span>
 <span class="r-in"><span></span></span>
@@ -996,7 +996,7 @@ Name/path to the file.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    3</span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">$</span><span class="va">hp_spline</span><span class="op">$</span><span class="va">factory</span><span class="op">$</span><span class="fu">getPenalty</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 80.12303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 66.16236</span>
 <span class="r-in"><span><span class="fu"><a href="plotBaselearner.html">plotBaselearner</a></span><span class="op">(</span><span class="va">cboost</span>, <span class="st">"hp_spline"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="Compboost-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
