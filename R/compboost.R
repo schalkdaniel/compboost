@@ -516,7 +516,7 @@ Compboost = R6::R6Class("Compboost",
       f2cen = BaselearnerCentered$new(fac2, fac1, "spline_centered")
 
       # Register linear factory:
-      id_lin = paste0(feature, "_linear")
+      id_lin = fac1$getBaselearnerId()
       private$p_bl_list[[id_lin]] = list()
       private$p_bl_list[[id_lin]]$feature = feature
       private$p_bl_list[[id_lin]]$factory = fac1
@@ -524,7 +524,7 @@ Compboost = R6::R6Class("Compboost",
       self$bl_factory_list$registerFactory(private$p_bl_list[[id_lin]]$factory)
 
       # Register centered spline:
-      id_sp = paste0(feature, "_", feature, "_spline_centered")
+      id_sp = f2cen$getBaselearnerId()
       private$p_bl_list[[id_sp]] = list()
       private$p_bl_list[[id_sp]]$feature = feature
       private$p_bl_list[[id_sp]]$factory = f2cen

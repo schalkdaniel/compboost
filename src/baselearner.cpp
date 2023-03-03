@@ -347,33 +347,35 @@ BaselearnerTensor::~BaselearnerTensor () {}
 // BaselearnerCentered:
 // ------------------------------------
 
-BaselearnerCentered::BaselearnerCentered (const std::string blearner_type, const std::shared_ptr<data::Data>& sh_ptr_data)
+BaselearnerCentered::BaselearnerCentered (const std::string blearner_type, const std::shared_ptr<data::BinnedData>& sh_ptr_data)
   : Baselearner::Baselearner ( std::string(blearner_type) ),
-    _sh_ptr_data             ( sh_ptr_data )
+    _sh_ptr_bindata          ( sh_ptr_data )
 { }
 
 BaselearnerCentered::BaselearnerCentered (const json& j, const mdata& mdat)
   : Baselearner::Baselearner ( j ),
-    _sh_ptr_data             ( data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat) )
+    _sh_ptr_bindata          ( std::static_pointer_cast<data::BinnedData>(data::extractDataFromMap(j["id_data_init"].get<std::string>(), mdat)) )
 { }
 
 void BaselearnerCentered::train (const arma::mat& response)
 {
-  arma::mat temp = _sh_ptr_data->getDenseData().t() * response;
-  _parameter = helper::cboostSolver(_sh_ptr_data->getCache(), temp);
-
-  //arma::mat temp;
-  //if (_sh_ptr_data->usesBinning()) {
-    //temp = binning::binnedMatMultResponse(_sh_ptr_bindata->getDenseData(), response, _sh_ptr_bindata->getBinningIndex(), temp_weight).t();
-  //} else {
-    //temp = (response.t() * _sh_ptr_bindata->getDenseData()).t();
-  //}
-  //_parameter = helper::cboostSolver(_sh_ptr_bindata->getCache(), temp);
+  arma::mat temp;
+  if (_sh_ptr_bindata->usesBinning()) {
+    arma::vec temp_weight(1, arma::fill::ones);
+    temp = binning::binnedMatMultResponse(_sh_ptr_bindata->getDenseData(), response, _sh_ptr_bindata->getBinningIndex(), temp_weight).t();
+  } else {
+    temp = (response.t() * _sh_ptr_bindata->getDenseData()).t();
+  }
+  _parameter = helper::cboostSolver(_sh_ptr_bindata->getCache(), temp);
 }
 
 arma::mat BaselearnerCentered::predict () const
 {
-  return predict(_sh_ptr_data);
+  if (_sh_ptr_bindata->usesBinning()) {
+    return binning::binnedPrediction(_sh_ptr_bindata->getDenseData(), _parameter, _sh_ptr_bindata->getBinningIndex());
+  } else {
+    return _sh_ptr_bindata->getDenseData() * _parameter;
+  }
 }
 
 arma::mat BaselearnerCentered::predict (const std::shared_ptr<data::Data>& newdata) const
@@ -383,13 +385,13 @@ arma::mat BaselearnerCentered::predict (const std::shared_ptr<data::Data>& newda
 
 std::string BaselearnerCentered::getDataIdentifier () const
 {
-  return _sh_ptr_data->getDataIdentifier();
+  return _sh_ptr_bindata->getDataIdentifier();
 }
 
 json BaselearnerCentered::toJson () const
 {
   json j = Baselearner::baseToJson("BaselearnerCentered");
-  j["id_data_init"] = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
+  j["id_data_init"] = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
 
   return j;
 }

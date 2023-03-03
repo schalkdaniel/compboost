@@ -158,10 +158,10 @@ public:
 class BaselearnerCentered : public Baselearner
 {
 private:
-  const sdata _sh_ptr_data;
+  const sbindata _sh_ptr_bindata;
 
 public:
-  BaselearnerCentered (const std::string, const sdata&);
+  BaselearnerCentered (const std::string, const sbindata&);
   BaselearnerCentered (const json&, const mdata&);
 
   void         train             (const arma::mat&);

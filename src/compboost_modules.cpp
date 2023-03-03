@@ -763,12 +763,12 @@ class BaselearnerTensorFactoryWrapper : public BaselearnerFactoryWrapper
           std::static_pointer_cast<blearnerfactory::BaselearnerTensorFactory>(blf.getFactory()) )
     { }
 
-    BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+    BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blearner_type)
       : bl1 ( blearner1 ),
         bl2 ( blearner2 )
     {
       // We need to converse the SEXP from the element to an integer:
-      std::string blearner_type_temp = blc;
+      std::string blearner_type_temp = blearner_type;
 
       std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner1 = blearner1.getFactory();
       std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
@@ -776,10 +776,10 @@ class BaselearnerTensorFactoryWrapper : public BaselearnerFactoryWrapper
       sh_ptr_blearner_factory = std::make_shared<blearnerfactory::BaselearnerTensorFactory>(blearner_type_temp, ptr_blearner1, ptr_blearner2);
     }
 
-    BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc, bool anisotrop)
+    BaselearnerTensorFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blearner_type, bool anisotrop)
     {
       // We need to converse the SEXP from the element to an integer:
-      std::string blearner_type_temp = blc;
+      std::string blearner_type_temp = blearner_type;
 
       std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner1 = blearner1.getFactory();
       std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
@@ -824,7 +824,10 @@ class BaselearnerTensorFactoryWrapper : public BaselearnerFactoryWrapper
 //' @description
 //' This base learner subtracts the effect of two base learners (usually defined
 //' on the same feature). By subtracting the effects, one is not able to predict
-//' the other one.
+//' the other one. This becomes handy for decomposing effects into, e.g., a
+//' linear and non-linear component in which the non-linear component
+//' is not capable to capture the linear part and hence is selected after
+//' the linear effect is estimated.
 //'
 //' @format [S4] object.
 //' @name BaselearnerCentered
@@ -836,8 +839,62 @@ class BaselearnerTensorFactoryWrapper : public BaselearnerFactoryWrapper
 //' * `$summarizeFactory()`: `() -> ()`
 //' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
 //' * `$getMeta()`: `() -> list()`
+//' * `$getRotation()`: `() -> matrix()`
 //' @template section-bl-base-methods
 //'
+//' @examples
+//' # Sample data:
+//' x = runif(100, 0, 10)
+//' y = 2 * sin(x) + 2 * x + rnorm(100, 0, 0.5)
+//' dat = data.frame(x, y)
+//'
+//' # S4 wrapper
+//'
+//' # Create new data object, a matrix is required as input:
+//' data_mat = cbind(x)
+//' data_source = InMemoryData$new(data_mat, "x")
+//'
+//' # Prerequisite: Create a linear and spline base learner:
+//' bl_lin = BaselearnerPolynomial$new(data_source,
+//'   list(degree = 1, intercept = TRUE))
+//' bl_sp = BaselearnerPSpline$new(data_source,
+//'   list(n_knots = 15, df = 5))
+//'
+//' # Now, subtract the linear effect from the spline:
+//' bl_ctr = BaselearnerCentered$new(bl_sp, bl_lin, "ctr")
+//'
+//' # Recognize, that the data matrix of this base learner has
+//' # `nrow(bl_sp$getData()) - ncol(bl_lin$getData())` columns:
+//' dim(bl_ctr$getData())
+//' str(bl_ctr$getMeta())
+//'
+//' # The data matrix is created by rotating the spline data matrix:
+//' all.equal(t(bl_sp$getData()) %*% bl_ctr$getRotation(), bl_ctr$getData())
+//'
+//' # Transform "new data". Internally, the basis of the spline is build and
+//' # then rotated by the rotation matrix to subtract the linear part:
+//' newdata = list(InMemoryData$new(cbind(rnorm(5)), "x"))
+//' bl_ctr$transformData(newdata)
+//'
+//' # R6 wrapper
+//'
+//' # Compboost has a wrapper called `$addComponents()` that automatically
+//' cboost = Compboost$new(dat, "y")
+//'
+//' # creates and adds the linear base learner and a centered base learner
+//' # as above (the `...` args are passed to `BaselearnerPSpline$new():
+//' cboost$addComponents("x", n_knots = 10, df = 5, bin_root = 2)
+//'
+//' # Note that we have used binning to save memory, hence the data matrix
+//' # is reduced to 10 observations:
+//' dim(cboost$baselearner_list$x_x_spline_centered$factory$getData())
+//'
+//' cboost$train(200, 0)
+//'
+//' library(ggplot2)
+//'
+//' plotPEUni(cboost, "x") +
+//'   geom_point(data = dat, aes(x = x, y = y - c(cboost$offset)), alpha = 0.2)
 //' @export BaselearnerCentered
 class BaselearnerCenteredFactoryWrapper : public BaselearnerFactoryWrapper
 {
@@ -851,12 +908,12 @@ class BaselearnerCenteredFactoryWrapper : public BaselearnerFactoryWrapper
           std::static_pointer_cast<blearnerfactory::BaselearnerCenteredFactory>(blf.getFactory()) )
     { }
 
-    BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blc)
+    BaselearnerCenteredFactoryWrapper (BaselearnerFactoryWrapper& blearner1, BaselearnerFactoryWrapper& blearner2, std::string blearner_type)
       : bl1 ( blearner1 ),
         bl2 ( blearner2 )
     {
       // We need to converse the SEXP from the element to an integer:
-      std::string blearner_type_temp = blc;
+      std::string blearner_type_temp = blearner_type;
 
       std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner1 = blearner1.getFactory();
       std::shared_ptr<blearnerfactory::BaselearnerFactory> ptr_blearner2 = blearner2.getFactory();
