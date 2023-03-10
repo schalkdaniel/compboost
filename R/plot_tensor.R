@@ -21,7 +21,6 @@
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",
 #'   loss = LossQuadratic$new())
 #'
-#' cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
 #' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
 #' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
 #'

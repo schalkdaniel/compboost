@@ -17,7 +17,6 @@ register_mlr3 = function () {
   register_mlr3()
 
   setHook(packageEvent("mlr3", "onLoad"), function(...) register_mlr3(), action = "append")
-  backports::import(pkgname)
 } # nocov end
 
 dummy_import = function() {
