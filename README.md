@@ -48,7 +48,7 @@ devtools::install_github("schalkdaniel/compboost")
 
 ## Examples
 
-The examples are rendered using <code>compboost 0.1.1</code>.
+The examples are rendered using <code>compboost 0.1.2</code>.
 
 The fastest way to train a `Compboost` model is to use the wrapper
 functions `boostLinear()` or `boostSplines()`:
@@ -71,6 +71,24 @@ ggrisk + ggpe + ggicont
 For more extensive examples and how to use the `R6` interface visit the
 [project
 page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
+
+## mlr learner
+
+Compboost also ships an [`mlr3`](https://mlr3.mlr-org.com/) learner that
+can be used to apply `compboost` within the whole
+[`mlr3verse`](https://mlr3.mlr-org.com/):
+
+``` r
+lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
+ts = tsk("spam")
+lcboost$train(ts)
+
+# Access the `$model` field to access all the `compboost` functionality:
+plotBaselearnerTraces(lcboost$model) +
+  plotPEUni(lcboost$model, "charDollar")
+```
+
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ## Save and load models
 
