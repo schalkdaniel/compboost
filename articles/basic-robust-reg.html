@@ -165,7 +165,7 @@ that follows a sinus curve with 20 outliers:</p>
 <span><span class="va">y</span><span class="op">[</span><span class="va">outlier_idx</span><span class="op">]</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>, size <span class="op">=</span> <span class="va">noutlier</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">noutlier</span>, <span class="va">outlier_mean</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Warning: Removed 20 rows containing missing values (`geom_point()`).</span></span></code></pre>
+<pre><code><span><span class="co">#&gt; Warning: Removed 21 rows containing missing values (`geom_point()`).</span></span></code></pre>
 <p><img src="basic-robust-reg_files/figure-html/unnamed-chunk-4-1.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
@@ -193,11 +193,11 @@ define and train a new <code>Compboost</code> object:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost_quantile50</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va">loss_quantile50</span>, iterations <span class="op">=</span> <span class="fl">1000L</span>, trace <span class="op">=</span> <span class="fl">200L</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    1/1000   risk = 2e+04  time = 0   </span></span>
-<span><span class="co">#&gt;  200/1000   risk = 2e+04  time = 12346   </span></span>
-<span><span class="co">#&gt;  400/1000   risk = 2e+04  time = 25660   </span></span>
-<span><span class="co">#&gt;  600/1000   risk = 2e+04  time = 40284   </span></span>
-<span><span class="co">#&gt;  800/1000   risk = 2e+04  time = 56206   </span></span>
-<span><span class="co">#&gt; 1000/1000   risk = 2e+04  time = 73383   </span></span>
+<span><span class="co">#&gt;  200/1000   risk = 2e+04  time = 13168   </span></span>
+<span><span class="co">#&gt;  400/1000   risk = 2e+04  time = 27345   </span></span>
+<span><span class="co">#&gt;  600/1000   risk = 2e+04  time = 42805   </span></span>
+<span><span class="co">#&gt;  800/1000   risk = 2e+04  time = 59485   </span></span>
+<span><span class="co">#&gt; 1000/1000   risk = 2e+04  time = 77390   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
@@ -209,7 +209,7 @@ regression, we also train a model with the
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost_mean</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, iterations <span class="op">=</span> <span class="fl">1000L</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 9.7e+09</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 9.8e+09</span></span>
 <span></span>
 <span><span class="va">df_plot</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  feature <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">x</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
@@ -237,8 +237,8 @@ regression, we also train a model with the
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://nanx.me/ggsci/reference/scale_jama.html" class="external-link">scale_color_jama</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 20 rows containing missing values (`geom_point()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1000 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 21 rows containing missing values (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 999 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
 <p><img src="basic-robust-reg_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;"></p>
 <p>Boosting with the quadratic loss is quite sensitive against outliers.
 Of course, this example is very exaggerated to show the effect of
@@ -255,16 +255,16 @@ tighten the boundaries:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 9.7e+09</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 9.8e+09</span></span>
 <span><span class="va">cboost_10</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 1.8e+04</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 2.2e+04</span></span>
 <span><span class="va">cboost_50</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
 <span><span class="co">#&gt; Final risk based on the train set: 2e+04</span></span>
 <span><span class="va">cboost_90</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.9</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 2.2e+04</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 1.8e+04</span></span>
 <span></span>
 <span><span class="va">df_pred</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  feat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">x</span>, <span class="fl">4</span><span class="op">)</span>,</span>
@@ -292,8 +292,8 @@ tighten the boundaries:</p>
 <span>  <span class="fu">theme_tufte</span><span class="op">(</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span> <span class="op">&amp;</span></span>
 <span>  <span class="fu"><a href="https://nanx.me/ggsci/reference/scale_aaas.html" class="external-link">scale_color_aaas</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: Removed 80 rows containing missing values (`geom_point()`).</span></span>
-<span><span class="co">#&gt; Warning: Removed 1000 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
+<span><span class="co">#&gt; Warning: Removed 84 rows containing missing values (`geom_point()`).</span></span>
+<span><span class="co">#&gt; Warning: Removed 999 rows containing missing values (`geom_line()`).</span></span></code></pre></div>
 <p><img src="basic-robust-reg_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;"></p>
 </div>
 </div>
