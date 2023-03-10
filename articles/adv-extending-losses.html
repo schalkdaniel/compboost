@@ -81,7 +81,6 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
     <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
     <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
-    <a class="dropdown-item" href="../articles/fct-logger.html">Logger</a>
   </div>
 </li>
 <li class="nav-item">
@@ -124,13 +123,14 @@
 
     
     
+<pre><code><span><span class="co">## Loading required package: mlr3</span></span></code></pre>
 <div class="section level2">
-<h2 id="before-starting">Before Starting<a class="anchor" aria-label="anchor" href="#before-starting"></a>
+<h2 id="before-starting">Before starting<a class="anchor" aria-label="anchor" href="#before-starting"></a>
 </h2>
 <ul>
 <li>Read the <a href="https://danielschalk.com/compboost/articles/getting_started/use_case.html" class="external-link">use-case</a>
 site to get to know how to define a <code>Compboost</code> object using
-the <code>R6</code> interface</li>
+the <code>R6</code> interface.</li>
 </ul>
 </div>
 <div class="section level2">
@@ -141,11 +141,12 @@ boosting framework with maximal flexibility. This vignette gives an
 overview how to define custom losses in <code>R</code> as well as in
 <code>C++</code> without recompiling the whole package. These custom
 losses can be used for training the model and/or logging mechanisms.</p>
-<p>The loss function for boosting must be differentiable. Hence, we need
-to define the loss function and the gradient. Further, boosting is
-initialized as loss optimal constant. To capture this, we have to define
-the loss optimal constant as function of a response vector. Having these
-three components, it is quite easy to define custom losses.</p>
+<p>The loss function for training a model with boosting is required to
+be differentiable. Hence, we need to define the loss function and the
+gradient. Further, boosting is initialized as loss optimal constant. To
+capture this, we have to define the loss optimal constant as function of
+a response vector. Having these three components, it is quite easy to
+define custom losses.</p>
 <p>As showcase, we are rebuilding two different loss functions:</p>
 <ul>
 <li>The quadratic loss as easy example for <code>C++</code>
@@ -156,7 +157,7 @@ example in <code>R</code>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="define-a-new-loss-with-r">Define a New Loss With <code>R</code><a class="anchor" aria-label="anchor" href="#define-a-new-loss-with-r"></a>
+<h2 id="define-a-new-loss-in-r">Define a new loss in <code>R</code><a class="anchor" aria-label="anchor" href="#define-a-new-loss-in-r"></a>
 </h2>
 <p>For this example we are using the <code>VonBort</code> dataset
 provided by the package <code>vcd</code>:</p>
@@ -165,7 +166,7 @@ provided by the package <code>vcd</code>:</p>
 Herzberg (1985), on number of deaths by horse or mule kicks in 14 corps
 of the Prussian army.”</em></p>
 </blockquote>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">VonBort</span>, package <span class="op">=</span> <span class="st">"vcd"</span><span class="op">)</span></span></code></pre></div>
 <p>We like to model the deaths using a Poisson regression in boosting.
 That means we have to define a proper loss function, the gradient, and
@@ -185,7 +186,7 @@ initialization is to specify a function of the following form:</p>
 </h3>
 <p><span class="math display">\[L(y,f) = -\log\left( \exp(f)^y
 \exp(\exp(f)) \right) - \log(y!)\]</span></p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lossPoisson</span> <span class="op">=</span> <span class="kw">function</span> <span class="op">(</span><span class="va">truth</span>, <span class="va">response</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span><span class="op">^</span><span class="va">truth</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/Special.html" class="external-link">gamma</a></span><span class="op">(</span><span class="va">truth</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -195,7 +196,7 @@ initialization is to specify a function of the following form:</p>
 </h3>
 <p><span class="math display">\[\frac{\partial}{\partial f} L(y,f) =
 \exp(f) - y\]</span></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">gradPoisson</span> <span class="op">=</span> <span class="kw">function</span> <span class="op">(</span><span class="va">truth</span>, <span class="va">response</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="va">response</span><span class="op">)</span> <span class="op">-</span> <span class="va">truth</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -205,7 +206,7 @@ initialization is to specify a function of the following form:</p>
 </h3>
 <p><span class="math display">\[\mathsf{arg min}_{c\in\mathbb{R}}
 \sum_{i = 1}^n L\left(y^{(i)}, c\right) = \log(\bar{y})\]</span></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">constInitPoisson</span> <span class="op">=</span> <span class="kw">function</span> <span class="op">(</span><span class="va">truth</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">truth</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -215,7 +216,7 @@ initialization is to specify a function of the following form:</p>
 </h3>
 <p>Finally, having these three components allows to define a
 <code>LossCustom</code> object:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define custom loss:</span></span>
 <span><span class="va">my_poisson_loss</span> <span class="op">=</span> <span class="va"><a href="../reference/LossCustom.html">LossCustom</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">lossPoisson</span>, <span class="va">gradPoisson</span>, <span class="va">constInitPoisson</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -224,120 +225,150 @@ initialization is to specify a function of the following form:</p>
 </h3>
 <p>This loss object can be used for any task that requires a loss
 object:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">VonBort</span>, <span class="st">"deaths"</span>, loss <span class="op">=</span> <span class="va">my_poisson_loss</span><span class="op">)</span></span>
 <span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"year"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
-<span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">100</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="define-a-new-loss-with-c">Define a New Loss With <code>C++</code><a class="anchor" aria-label="anchor" href="#define-a-new-loss-with-c"></a>
-</h2>
-<p>For this example, to keep it simple, we are using the
-<code>iris</code> dataset with <code>Sepal.Length</code> as target. The
-aim is to replicate the quadratic loss. This is achieved by exposing
-external pointers to <code>R</code> which hold the function definition
-and is passed to the constructor of the <code>LossCustomCpp</code>
-class.</p>
-<p>A general advise is to write a <code>.cpp</code> file that contains
-the whole definition. This file needs to be sourced by
-<code><a href="https://rdrr.io/pkg/Rcpp/man/sourceCpp.html" class="external-link">Rcpp::sourceCpp()</a></code>.</p>
-<p>We have to declare the head first to be able to expose functions:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// [[Rcpp::depends(RcppArmadillo)]]</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;RcppArmadillo.h&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> arma<span class="op">::</span>mat <span class="op">(*</span>lossFunPtr<span class="op">)</span> <span class="op">(</span><span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> true_value<span class="op">,</span> <span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> prediction<span class="op">);</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> arma<span class="op">::</span>mat <span class="op">(*</span>gradFunPtr<span class="op">)</span> <span class="op">(</span><span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> true_value<span class="op">,</span> <span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> prediction<span class="op">);</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">typedef</span> <span class="dt">double</span> <span class="op">(*</span>constInitFunPtr<span class="op">)</span> <span class="op">(</span><span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> true_value<span class="op">);</span></span></code></pre></div>
-<p>As the type definition already indicates, the <code>C++</code>
-functions require the following signature:</p>
-<ul>
-<li>loss:
-<code>arma::mat lossFun (const arma::mat&amp; truth, const arma::mat&amp; response)</code>
-</li>
-<li>gradient:
-<code>arma::mat gradFun (const arma::mat&amp; truth, const arma::mat&amp; response)</code>
-</li>
-<li>constant initializer:
-<code>constInitFun (const arma::mat&amp; true_value)</code>
-</li>
-</ul>
-<div class="section level3">
-<h3 id="the-loss-function-1">The loss function<a class="anchor" aria-label="anchor" href="#the-loss-function-1"></a>
-</h3>
-<p><span class="math display">\[L(y,f) = -0.5 \left(y -
-f\right)^2\]</span></p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>arma<span class="op">::</span>mat lossFun <span class="op">(</span><span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> true_value<span class="op">,</span> <span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> prediction<span class="op">)</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> arma<span class="op">::</span>pow<span class="op">(</span>true_value <span class="op">-</span> prediction<span class="op">,</span> <span class="dv">2</span><span class="op">)</span> <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="the-gradient-of-the-loss-function-1">The gradient of the loss function<a class="anchor" aria-label="anchor" href="#the-gradient-of-the-loss-function-1"></a>
-</h3>
-<p><span class="math display">\[\frac{\partial}{\partial f} L(y,f) = f -
-y\]</span></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>arma<span class="op">::</span>mat gradFun <span class="op">(</span><span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> true_value<span class="op">,</span> <span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> prediction<span class="op">)</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> prediction <span class="op">-</span> true_value<span class="op">;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="the-constant-initialization-1">The constant initialization<a class="anchor" aria-label="anchor" href="#the-constant-initialization-1"></a>
-</h3>
-<p><span class="math display">\[\mathsf{arg min}_{c\in\mathbb{R}}
-\sum_{i = 1}^n L\left(y^{(i)}, c\right) = \bar{y}\]</span></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">double</span> constInitFun <span class="op">(</span><span class="at">const</span> arma<span class="op">::</span>mat<span class="op">&amp;</span> true_value<span class="op">)</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> arma<span class="op">::</span>accu<span class="op">(</span>true_value<span class="op">)</span> <span class="op">/</span> true_value<span class="op">.</span>size<span class="op">();</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="exposing-external-pointer">Exposing external pointer<a class="anchor" aria-label="anchor" href="#exposing-external-pointer"></a>
-</h3>
-<p>These functions are exposed to an XPtr. This stores the pointer to
-the function and can be used as parameter for the
-<code>LossCustomCpp</code>.</p>
-<p>Note that it is not necessary to export the upper functions,
-exporting the pointer is the goal.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Rcpp<span class="op">::</span>XPtr<span class="op">&lt;</span>lossFunPtr<span class="op">&gt;</span> lossFunSetter <span class="op">()</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> Rcpp<span class="op">::</span>XPtr<span class="op">&lt;</span>lossFunPtr<span class="op">&gt;</span> <span class="op">(</span><span class="kw">new</span> lossFunPtr <span class="op">(&amp;</span>lossFun<span class="op">));</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>Rcpp<span class="op">::</span>XPtr<span class="op">&lt;</span>gradFunPtr<span class="op">&gt;</span> gradFunSetter <span class="op">()</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> Rcpp<span class="op">::</span>XPtr<span class="op">&lt;</span>gradFunPtr<span class="op">&gt;</span> <span class="op">(</span><span class="kw">new</span> gradFunPtr <span class="op">(&amp;</span>gradFun<span class="op">));</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">// [[Rcpp::export]]</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>Rcpp<span class="op">::</span>XPtr<span class="op">&lt;</span>constInitFunPtr<span class="op">&gt;</span> constInitFunSetter <span class="op">()</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> Rcpp<span class="op">::</span>XPtr<span class="op">&lt;</span>constInitFunPtr<span class="op">&gt;</span> <span class="op">(</span><span class="kw">new</span> constInitFunPtr <span class="op">(&amp;</span>constInitFun<span class="op">));</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="define-the-loss-1">Define the loss<a class="anchor" aria-label="anchor" href="#define-the-loss-1"></a>
-</h3>
-<p>We can get the pointer to the function after exposing them:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">lossFunSetter</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">gradFunSetter</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu">constInitFunSetter</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>Now, we can pass the pointer to the <code>LossCustomCpp</code>
-class:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">my_cpp_loss</span> <span class="op">=</span> <span class="va"><a href="../reference/LossCustomCpp.html">LossCustomCpp</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu">lossFunSetter</span><span class="op">(</span><span class="op">)</span>, <span class="fu">gradFunSetter</span><span class="op">(</span><span class="op">)</span>, <span class="fu">constInitFunSetter</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="train-a-model-1">Train a model<a class="anchor" aria-label="anchor" href="#train-a-model-1"></a>
-</h3>
-<p>Finally, we use the custom loss to train our model:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">iris</span>, target <span class="op">=</span> <span class="st">"Sepal.Length"</span>,</span>
-<span>  loss <span class="op">=</span> <span class="va">my_cpp_loss</span>, trace <span class="op">=</span> <span class="fl">25</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">500</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<!-- NOT APPLICABLE AS LONG THE CODE IS BUGGY -----------------------------------------------
+
+
+
+## Define a New Loss With `C++`
+
+For this example, to keep it simple, we are using the `iris` dataset with `Sepal.Length` as target. The aim is to replicate the quadratic loss. This is achieved by exposing external pointers to `R` which hold the function definition and is passed to the constructor of the `LossCustomCpp` class.
+
+A general advise is to write a `.cpp` file that contains the whole definition. This file needs to be sourced by `Rcpp::sourceCpp()`.
+
+We have to declare the head first to be able to expose functions:
+
+```cpp
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+
+typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
+typedef arma::mat (*gradFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
+typedef double (*constInitFunPtr) (const arma::mat& true_value);
+```
+
+As the type definition already indicates, the `C++` functions require the following signature:
+
+- loss: `arma::mat lossFun (const arma::mat& truth, const arma::mat& response)`
+- gradient: `arma::mat gradFun (const arma::mat& truth, const arma::mat& response)`
+- constant initializer: `constInitFun (const arma::mat& true_value)`
+
+### The loss function
+
+$$L(y,f) = -0.5 \left(y - f\right)^2$$
+
+```cpp
+arma::mat lossFun (const arma::mat& true_value, const arma::mat& prediction)
+{
+  return arma::pow(true_value - prediction, 2) / 2;
+}
+```
+
+### The gradient of the loss function
+
+$$\frac{\partial}{\partial f} L(y,f) = f - y$$
+
+```cpp
+arma::mat gradFun (const arma::mat& true_value, const arma::mat& prediction)
+{
+  return prediction - true_value;
+}
+```
+
+### The constant initialization
+
+$$\mathsf{arg min}_{c\in\mathbb{R}} \sum_{i = 1}^n L\left(y^{(i)}, c\right) = \bar{y}$$
+
+```cpp
+double constInitFun (const arma::mat& true_value)
+{
+  return arma::accu(true_value) / true_value.size();
+}
+```
+
+### Exposing external pointer
+
+These functions are exposed to an XPtr. This stores the pointer to the function and can be used as parameter for the `LossCustomCpp`.
+
+Note that it is not necessary to export the upper functions, exporting the pointer is the goal.
+
+```cpp
+// [[Rcpp::export]]
+Rcpp::XPtr<lossFunPtr> lossFunSetter ()
+{
+  return Rcpp::XPtr<lossFunPtr> (new lossFunPtr (&lossFun));
+}
+
+// [[Rcpp::export]]
+Rcpp::XPtr<gradFunPtr> gradFunSetter ()
+{
+  return Rcpp::XPtr<gradFunPtr> (new gradFunPtr (&gradFun));
+}
+
+// [[Rcpp::export]]
+Rcpp::XPtr<constInitFunPtr> constInitFunSetter ()
+{
+  return Rcpp::XPtr<constInitFunPtr> (new constInitFunPtr (&constInitFun));
+}
+```
+
+### Define the loss
+
+
+
+We can get the pointer to the function after exposing them:
+
+```r
+lossFunSetter()
+gradFunSetter()
+constInitFunSetter()
+```
+
+Now, we can pass the pointer to the `LossCustomCpp` class:
+
+```r
+my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+
+src = "
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+
+typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
+typedef double (*constInitFunPtr) (const arma::mat& true_value);
+// [[Rcpp::export]]
+
+arma::mat cpploss (const arma::mat& true_value, const arma::mat& prediction, const SEXP& lossFun)
+{
+  Rcpp::XPtr<lossFunPtr> myTempLoss (lossFun);
+  lossFunPtr lf = *myTempLoss;
+  return lf(true_value, prediction);
+}
+
+// [[Rcpp::export]]
+double cppinit (const arma::mat& true_value, const SEXP& initFun)
+{
+  Rcpp::XPtr<constInitFunPtr> myConstInit (initFun);
+  constInitFunPtr lf = *myConstInit;
+  return lf(true_value);
+}
+"
+Rcpp::sourceCpp(code = src)
+cpploss(cbind(1:10), cbind(2:11), lossFunSetter())
+cppinit(cbind(1:10), constInitFunSetter())
+```
+
+### Train a model
+
+Finally, we use the custom loss to train our model:
+
+```r
+cboost = boostSplines(data = iris, target = "Sepal.Length",
+  loss = my_cpp_loss, trace = 25)
+```
+------------------------------------------------------------------------------------------->
 </div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

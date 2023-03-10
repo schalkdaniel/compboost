@@ -28,6 +28,9 @@
     <loc>https://schalkdaniel.github.io/compboost/articles/basic-obj-refs.html</loc>
   </url>
   <url>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-production-mode.html</loc>
+  </url>
+  <url>
     <loc>https://schalkdaniel.github.io/compboost/articles/basic-robust-reg.html</loc>
   </url>
   <url>
@@ -68,9 +71,6 @@
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCustom.html</loc>
-  </url>
-  <url>
-    <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerCustomCpp.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/BaselearnerPSpline.html</loc>
@@ -121,9 +121,6 @@
     <loc>https://schalkdaniel.github.io/compboost/reference/LossCustom.html</loc>
   </url>
   <url>
-    <loc>https://schalkdaniel.github.io/compboost/reference/LossCustomCpp.html</loc>
-  </url>
-  <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/LossHuber.html</loc>
   </url>
   <url>
@@ -161,6 +158,9 @@
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/mlr_learners_classif.compboost.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/plotBaselearner.html</loc>

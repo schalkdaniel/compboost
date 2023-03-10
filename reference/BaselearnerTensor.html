@@ -56,7 +56,6 @@ base learners to combine."><meta property="og:image" content="https://schalkdani
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
     <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
     <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
-    <a class="dropdown-item" href="../articles/fct-logger.html">Logger</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -189,8 +188,8 @@ penalty is used, which means that both directions gets penalized equally.</p></d
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">tensor</span><span class="op">$</span><span class="fu">getMeta</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ df         : num [1:2, 1] 5 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num [1:2, 1] 16.4 16.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:196, 1:196] 32.7 -32.5 16.2 0 0 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num [1:2, 1] 15 13.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:196, 1:196] 28.4 -26.9 13.4 0 0 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Transform "new data":</span></span></span>
 <span class="r-in"><span><span class="va">newdata</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va"><a href="InMemoryData.html">InMemoryData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, <span class="st">"x1"</span><span class="op">)</span>,</span></span>
@@ -198,13 +197,13 @@ penalty is used, which means that both directions gets penalized equally.</p></d
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">tensor</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="va">newdata</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ design:Formal class 'dgCMatrix' [package "Matrix"] with 6 slots</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ i       : int [1:72] 0 1 2 3 4 0 1 2 3 4 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ p       : int [1:197] 0 5 10 15 19 19 19 19 19 19 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ i       : int [1:80] 1 2 4 0 1 2 3 4 0 1 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ p       : int [1:197] 0 3 8 13 18 20 20 20 20 20 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ Dim     : int [1:2] 5 196</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ Dimnames:List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..$ : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..$ : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ x       : num [1:72] 6.88e-03 1.43e-02 2.03e-06 3.28e-07 3.52e-03 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ x       : num [1:80] 8.88e-06 1.07e-02 1.74e-03 1.55e-02 5.28e-05 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ factors : list()</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># R6 wrapper</span></span></span>
@@ -213,7 +212,7 @@ penalty is used, which means that both directions gets penalized equally.</p></d
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addTensor</span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, df <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 50 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>

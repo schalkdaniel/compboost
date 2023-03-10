@@ -81,7 +81,6 @@
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
     <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
     <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
-    <a class="dropdown-item" href="../articles/fct-logger.html">Logger</a>
   </div>
 </li>
 <li class="nav-item">
@@ -124,171 +123,19 @@
 
     
     
-<table class="table">
-<tr>
-<th>
-Loss
-</th>
-<th>
-Description
-</th>
-<th>
-Arguments
-</th>
-</tr>
-<tr>
-<td>
-<code>LossQuadratic</code>
-</td>
-<td>
-Quadratic differences between prediction and response. This loss
-corresponds to the Gaussian distribution.
-</td>
-<td>
-<dt>
-<b>offset</b>
-</dt>
-<dd>
-Custom offset for initializing the model
-</dd>
-</td>
-</tr>
-<tr>
-<td>
-<code>LossAbsolute</code>
-</td>
-<td>
-Absolute differences between prediction and response. This loss
-corresponds to the Laplace distribution.
-</td>
-<td>
-<dt>
-<b>offset</b>
-</dt>
-<dd>
-Custom offset for initializing the model
-</dd>
-</td>
-</tr>
-<tr>
-<td>
-<code>LossQuantile</code>
-</td>
-<td>
-Use this loss to boost arbitrary quantiles (robust regression).
-</td>
-<td>
-<dt>
-<b>offset</b>
-</dt>
-<dd>
-Custom offset for initializing the model
-</dd>
-<dt>
-<b>quantile</b>
-</dt>
-<dd>
-The quantile you like to boost
-</dd>
-</td>
-</tr>
-<tr>
-<td>
-<code>LossHuber</code>
-</td>
-<td>
-Huber loss with quadratic loss in <span class="math inline">\([-d,d]\)</span> and linear extrapolation outside.
-</td>
-<td>
-<dt>
-<b>offset</b>
-</dt>
-<dd>
-Custom offset for initializing the model
-</dd>
-<dt>
-<b>delta</b>
-</dt>
-<dd>
-Defining the interval in which the error is measured quadratically
-</dd>
-</td>
-</tr>
-<tr>
-<td>
-<code>LossBinomial</code>
-</td>
-<td>
-Binary classification loss that corresponds to the binomial distribution
-with logit link. Labels are coded as -1 and 1.
-</td>
-<td>
-<dt>
-<b>offset</b>
-</dt>
-<dd>
-Custom offset for initializing the model
-</dd>
-</td>
-</tr>
-<tr>
-<td>
-<code>LossCustom</code>
-</td>
-<td>
-Custom loss by using custom <code>C++</code> functions.
-</td>
-<td>
-<dt>
-<b>loss</b>
-</dt>
-<dd>
-<code>R</code> function to calculates the loss (vectorized)
-</dd>
-<dt>
-<b>gradient</b>
-</dt>
-<dd>
-<code>R</code> function to calculate the gradient
-</dd>
-<dt>
-<b>constant_initializer</b>
-</dt>
-<dd>
-<code>R</code> function to compute the optimal constant initialization
-</dd>
-</td>
-</tr>
-<tr>
-<td>
-<code>LossCustomCpp</code>
-</td>
-<td>
-Custom loss by using custom <code>C++</code> functions.
-</td>
-<td>
-<dt>
-<b>loss_ptr</b>
-</dt>
-<dd>
-<code>C++</code> pointer to a function that defines the loss
-</dd>
-<dt>
-<b>gradient_ptr</b>
-</dt>
-<dd>
-<code>C++</code> pointer to a function to calculate the gradient
-</dd>
-<dt>
-<b>constant_initializer_ptr</b>
-</dt>
-<dd>
-<code>C++</code> pointer to a function to compute the optimal constant
-initialization
-</dd>
-</td>
-</tr>
-</table></main>
+<p><strong>LossQuadratic</strong>:</p>
+<p>see <a href="../reference/LossQuadratic.html">help page</a>.</p>
+<p><strong>LossAbsolute</strong>:</p>
+<p>see <a href="../reference/LossAbsolute.html">help page</a>.</p>
+<p><strong>LossQuantile</strong>:</p>
+<p>see <a href="../reference/LossQuantile.html">help page</a>.</p>
+<p><strong>LossHuber</strong>:</p>
+<p>see <a href="../reference/LossHuber.html">help page</a>.</p>
+<p><strong>LossBinomial</strong>:</p>
+<p>see <a href="../reference/LossBinomial.html">help page</a>.</p>
+<p><strong>LossCustom</strong>:</p>
+<p>see <a href="../reference/LossCustom.html">help page</a>.</p>
+  </main>
 </div>
 
 
