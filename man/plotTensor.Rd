@@ -34,13 +34,11 @@ This function visualizes the contribution of a bivariate tensor product.
 cboost = Compboost$new(data = iris, target = "Petal.Length",
   loss = LossQuadratic$new())
 
-cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
-cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
 cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
 cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
 cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
 
-cboost$train(1000L)
+cboost$train(150L)
 
 plotTensor(cboost, "Sepal.Width_Species_tensor")
 plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")

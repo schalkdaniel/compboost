@@ -175,5 +175,3 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
     }
   )
 )
-
-mlr_learners$add("classif.compboost", function() LearnerClassifCompboost$new())

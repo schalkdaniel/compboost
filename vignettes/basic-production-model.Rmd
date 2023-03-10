@@ -53,7 +53,7 @@ The most important functions are still usable:
 ### Extracting feature importance.
 
 ```{r}
-cboost_without_data$calculateFeatureImportance()
+vip = cboost_without_data$calculateFeatureImportance()
 ```
 
 ### Predict on new data
@@ -68,8 +68,10 @@ cboost_without_data$predict(ndat)
 ```{r}
 library(patchwork)
 
-plotPEUni(cboost_without_data, "V12") +
-plotPEUni(cboost_without_data, "V36")
+# Use most important base learner:
+bln = vip$baselearner[1]
+plotBaselearner(cboost_without_data, bln) +
+plotPEUni(cboost_without_data, strsplit(bln, "_")[[1]][1])
 ```
 
 ### Get logger data

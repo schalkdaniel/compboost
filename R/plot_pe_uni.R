@@ -46,11 +46,18 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   blnames = names(blnames)[unlist(blnames)]
 
   f = cboost$baselearner_list[[blnames[1]]]$factory
+  feat = unique(f$getFeatureName())
+
+  if (length(feat) > 1)
+    stop("`$plotBaselearner()` only works on univariate base learner")
+
   if (getBaselearnerFeatureType(f) == "numeric") {
     minmax = f$getMinMax()
     x = seq(minmax[1], minmax[2], length.out = npoints)
   } else {
-    vals = do.call(c, lapply(cboost$baselearner_list, function(bl) bl$factory$getValueNames()[[1]]))
+    vals = do.call(c, lapply(blnames, function(bln) {
+      cboost$baselearner_list[[bln]]$factory$getValueNames()[[1]]
+    }))
     x = unique(vals)
   }
 
@@ -139,19 +146,19 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
 
   checkmate::assertChoice(x = blname, choices = cboost$getBaselearnerNames())
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
-  if (length(unique(cboost$baselearner_list[[blname]]$factory$getFeatureName())) > 1) {
+
+  f = cboost$baselearner_list[[blname]]$factory
+  feat = unique(f$getFeatureName())
+
+  if (length(unique(feat)) > 1) {
     stop("`$plotBaselearner()` only works on univariate base learner")
   }
 
-  feats = unique(cboost$bl_factory_list$getDataNames())
-  feat  = feats[vapply(feats, FUN.VALUE = logical(1L), FUN = function(feat) grepl(feat, blname))]
-
-  f = cboost$baselearner_list[[blname]]$factory
   if (getBaselearnerFeatureType(f) == "numeric") {
     minmax = f$getMinMax()
     x = seq(minmax[1], minmax[2], length.out = npoints)
   } else {
-    x = names(f$getDictionary())
+    x = f$getValueNames()[[1]]
   }
 
   df_plt = data.frame(x = x)

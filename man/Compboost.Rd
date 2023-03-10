@@ -4,7 +4,7 @@
 \alias{Compboost}
 \title{Component-wise boosting}
 \description{
-Fit a component-wise boosting model Buehlmann (2003).
+Fit a component-wise boosting model (Buehlmann (2003)).
 This class wraps the \code{S4} class system with \link{Compboost_internal}
 as internal model representation exposed by \code{Rcpp}.
 The two convenient wrapper \code{\link[=boostLinear]{boostLinear()}} and \code{\link[=boostSplines]{boostSplines()}} are

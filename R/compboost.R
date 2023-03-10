@@ -1,7 +1,7 @@
 #' @title Component-wise boosting
 #'
 #' @description
-#' Fit a component-wise boosting model `r mlr3misc::cite_bib("buhlmann2003boosting")`.
+#' Fit a component-wise boosting model (`r mlr3misc::cite_bib("buhlmann2003boosting")`).
 #' This class wraps the `S4` class system with [Compboost_internal]
 #' as internal model representation exposed by `Rcpp`.
 #' The two convenient wrapper [boostLinear()] and [boostSplines()] are
