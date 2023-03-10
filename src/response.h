@@ -70,7 +70,7 @@ public:
   virtual arma::mat calculateInitialPrediction (const arma::mat&) const = 0;
   virtual arma::mat getPredictionTransform     (const arma::mat&) const = 0;
   virtual arma::mat getPredictionResponse      (const arma::mat&) const = 0;
-  virtual json      toJson                     ()                 const = 0;
+  virtual json      toJson                     (const bool)       const = 0;
 
   // Setter/Getter
   void setIteration             (const unsigned int);
@@ -89,6 +89,7 @@ public:
   arma::mat   getPredictionResponse    () const;
   arma::mat   getPredictionScoresTemp1 () const;
   arma::mat   getPredictionScoresTemp2 () const;
+
   // Other methods
   void checkLossCompatibility (const std::shared_ptr<loss::Loss>&) const;
   void updatePseudoResiduals  (const std::shared_ptr<loss::Loss>&);
@@ -97,7 +98,7 @@ public:
   void constantInitialization (const std::shared_ptr<loss::Loss>&);
   void constantInitialization (const arma::mat&);
 
-  json baseToJson (const std::string) const;
+  json baseToJson (const std::string, const bool = false) const;
 
   double calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>&) const;
 
@@ -124,10 +125,10 @@ public:
 
   void      initializePrediction       ();
   void      filter                     (const arma::uvec&);
-  arma::mat calculateInitialPrediction (const arma::mat&) const;
-  arma::mat getPredictionTransform     (const arma::mat&) const;
-  arma::mat getPredictionResponse      (const arma::mat&) const;
-  json      toJson                     ()                 const;
+  arma::mat calculateInitialPrediction (const arma::mat&)   const;
+  arma::mat getPredictionTransform     (const arma::mat&)   const;
+  arma::mat getPredictionResponse      (const arma::mat&)   const;
+  json      toJson                     (const bool = false) const;
 };
 
 
@@ -148,10 +149,10 @@ public:
 
   void      initializePrediction       ();
   void      filter                     (const arma::uvec&);
-  arma::mat calculateInitialPrediction (const arma::mat&) const;
-  arma::mat getPredictionTransform     (const arma::mat&) const;
-  arma::mat getPredictionResponse      (const arma::mat&) const;
-  json      toJson                     ()                 const;
+  arma::mat calculateInitialPrediction (const arma::mat&)   const;
+  arma::mat getPredictionTransform     (const arma::mat&)   const;
+  arma::mat getPredictionResponse      (const arma::mat&)   const;
+  json      toJson                     (const bool = false) const;
 
   void                                setThreshold     (const double);
   double                              getThreshold     () const;

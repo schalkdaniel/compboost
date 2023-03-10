@@ -19,7 +19,8 @@ LazyData: true
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.1.1
 Depends:
-  R (>= 3.4.0)
+  R (>= 3.4.0),
+  mlr3
 Imports:
   Rcpp (>= 0.11.2),
   methods,
@@ -40,7 +41,6 @@ Suggests:
   knitr,
   rmarkdown,
   titanic,
-  mlr,
   gridExtra,
   ggrepel,
   ggthemes,
@@ -58,3 +58,23 @@ RcppModules:
   optimizer_module,
   data_module
 VignetteBuilder: knitr
+Collate:
+    'RcppExports.R'
+    'bibentries.R'
+    'boost_linear.R'
+    'boost_splines.R'
+    'class_printer.R'
+    'compboost.R'
+    'extract_from_cpp.R'
+    'extraction_handlers.R'
+    'get_custom_cpp_example.R'
+    'helper.R'
+    'load_modules.R'
+    'mlr_learner.R'
+    'plot_bltraces.R'
+    'plot_fi.R'
+    'plot_ind_contr.R'
+    'plot_pe_uni.R'
+    'plot_risk.R'
+    'plot_tensor.R'
+    'zzz.R'

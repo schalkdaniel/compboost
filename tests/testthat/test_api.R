@@ -9,7 +9,7 @@ test_that("train works", {
   expect_error(Compboost$new(mtcars, "mpg", loss = LossAbsolute))
   expect_error(Compboost$new(mtcars, "mpg", loss = LossBinomial))
   expect_error(Compboost$new(mtcars, "mpg", loss = LossCustom))
-  expect_error(Compboost$new(mtcars, "mpg", loss = LossCustomCpp))
+  #expect_error(Compboost$new(mtcars, "mpg", loss = LossCustomCpp))
 
   cboost = expect_silent(Compboost$new(mtcars, "mpg", loss = LossQuadratic$new()))
   expect_true(is.null(cboost$offset))

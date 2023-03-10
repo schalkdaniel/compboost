@@ -663,68 +663,6 @@ NULL
 #' @export BaselearnerCustom
 NULL
 
-#' @title Custom base learner using `C++` functions.
-#'
-#' @description
-#' This class defines a custom base learner factory by
-#' passing pointers to `C++` functions for instantiation,
-#' fitting, and predicting.
-#'
-#' @format [S4] object.
-#' @name BaselearnerCustomCpp
-#'
-#' @section Usage:
-#' \preformatted{
-#' BaselearnerCustomCpp$new(data_source, list(instantiate_ptr, train_ptr, predict_ptr))
-#' }
-#'
-#' @template param-data_source
-#' @param instantiate_ptr (`externalptr`)\cr
-#' External pointer to the `C++` instantiate data function.
-#' @param train_ptr (`externalptr`)\cr
-#' External pointer to the `C++` train function.
-#' @param predict_ptr (`externalptr`)\cr
-#' External pointer to the `C++` predict function.
-#'
-#' @section Details:
-#' For an example see the extending compboost vignette or the function
-#' [getCustomCppExample()].
-#'
-#' @section Fields:
-#' This class doesn't contain public fields.
-#'
-#' @section Methods:
-#' * `$summarizeFactory()`: `() -> ()`
-#' * `$transfromData(newdata)`: `list(InMemoryData) -> matrix()`
-#' * `$getMeta()`: `() -> list()`
-#' @template section-bl-base-methods
-#'
-#' @examples
-#' \dontrun{
-#' # Sample data:
-#' data_mat = cbind(1, 1:10)
-#' y = 2 + 3 * 1:10
-#'
-#' # Create new data object:
-#' data_source = InMemoryData$new(data_mat, "my_data_name")
-#'
-#' # Source the external pointer exposed by using XPtr:
-#' Rcpp::sourceCpp(code = getCustomCppExample(silent = TRUE))
-#'
-#' # Create new linear base learner:
-#' custom_cpp_factory = BaselearnerCustomCpp$new(data_source,
-#'   list(instantiate_ptr = dataFunSetter(), train_ptr = trainFunSetter(),
-#'     predict_ptr = predictFunSetter()))
-#'
-#' # Get the transformed data:
-#' custom_cpp_factory$getData()
-#'
-#' # Summarize factory:
-#' custom_cpp_factory$summarizeFactory()
-#' }
-#' @export BaselearnerCustomCpp
-NULL
-
 #' Base learner factory list to define the set of base learners
 #'
 #' \code{BlearnerFactoryList} creates an object in which base learner factories
@@ -1049,38 +987,6 @@ NULL
 #' my_loss = LossCustom$new(myLoss, myGradient, myConstInit)
 #'
 #' @export LossCustom
-NULL
-
-#' @title Custom loss using `C++` functions.
-#'
-#' @description
-#' \code{LossCustomCpp} creates a custom loss by using
-#' \code{Rcpp::XPtr} to set \code{C++} functions.
-#'
-#' @format [S4] object.
-#' @name LossCustomCpp
-#'
-#' @section Usage:
-#' \preformatted{
-#' LossCustomCpp$new(loss_ptr, grad_ptr, const_init_ptr)
-#' }
-#'
-#' @param loss_ptr (`externalptr`)\cr
-#' External pointer to the \code{C++} loss function.
-#' @param grad_ptr (`externalptr`)\cr
-#' External pointer to the \code{C++} gradient function.
-#' @param const_init_ptr (`externalptr`)\cr
-#' External pointer to the \code{C++} constant initialization function.
-#'
-#' @examples
-#' \dontrun{
-#' # Load loss functions:
-#' Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE))
-#'
-#' # Create new custom quadratic loss:
-#' my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
-#' }
-#' @export LossCustomCpp
 NULL
 
 #' Create response object for regression.

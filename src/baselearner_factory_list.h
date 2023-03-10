@@ -57,8 +57,8 @@ public:
   void printRegisteredFactories   () const;
   void clearMap                   ();
 
-  json toJson            ()                   const;
-  json factoryDataToJson (const bool = false) const;
+  json toJson () const;
+  json factoryDataToJson (const bool = false, const bool = false) const;
 };
 
 blearner_factory_map jsonToBlFMap (const json&, const mdata&, const mdata&);

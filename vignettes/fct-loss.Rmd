@@ -7,76 +7,27 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+__LossQuadratic__:
 
-<table>
-  <tr>
-    <th>Loss</th>
-    <th>Description</th>
-    <th>Arguments</th>
-  </tr>
-  <tr>
-    <td><code>LossQuadratic</code></td>
-    <td>
-      Quadratic differences between prediction and response. This loss corresponds to the Gaussian distribution.
-    </td>
-    <td>
-      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
-    </td>
-  </tr>
-  <tr>
-    <td><code>LossAbsolute</code></td>
-    <td>
-      Absolute differences between prediction and response. This loss corresponds to the Laplace distribution.
-    </td>
-    <td>
-      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
-    </td>
-  </tr>
-  <tr>
-    <td><code>LossQuantile</code></td>
-    <td>
-      Use this loss to boost arbitrary quantiles (robust regression).
-    </td>
-    <td>
-      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
-      <dt><b>quantile</b></dt> <dd>The quantile you like to boost</dd>
-    </td>
-  </tr>
-  <tr>
-    <td><code>LossHuber</code></td>
-    <td>
-      Huber loss with quadratic loss in $[-d,d]$ and linear extrapolation outside.
-    </td>
-    <td>
-      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
-      <dt><b>delta</b></dt> <dd>Defining the interval in which the error is measured quadratically</dd>
-    </td>
-  </tr>
-  <tr>
-    <td><code>LossBinomial</code></td>
-    <td>
-      Binary classification loss that corresponds to the binomial distribution with logit link. Labels are coded as -1 and 1.
-    </td>
-    <td>
-      <dt><b>offset</b></dt> <dd>Custom offset for initializing the model</dd>
-    </td>
-  </tr>
-  <tr>
-    <td><code>LossCustom</code></td>
-    <td>Custom loss by using custom <code>C++</code> functions.</td>
-    <td>
-      <dt><b>loss</b></dt> <dd><code>R</code> function to calculates the loss (vectorized)</dd>
-      <dt><b>gradient</b></dt> <dd><code>R</code> function to calculate the gradient</dd>
-      <dt><b>constant_initializer</b></dt> <dd><code>R</code> function to compute the optimal constant initialization</dd>
-    </td>
-  </tr>
-  <tr>
-    <td><code>LossCustomCpp</code></td>
-    <td>Custom loss by using custom <code>C++</code> functions.</td>
-    <td>
-      <dt><b>loss_ptr</b></dt> <dd><code>C++</code> pointer to a function that defines the loss</dd>
-      <dt><b>gradient_ptr</b></dt> <dd><code>C++</code> pointer to a function to calculate the gradient</dd>
-      <dt><b>constant_initializer_ptr</b></dt> <dd><code>C++</code> pointer to a function to compute the optimal constant initialization</dd>
-    </td>
-  </tr>
-</table>
+see [help page](../reference/LossQuadratic.html).
+
+__LossAbsolute__:
+
+see [help page](../reference/LossAbsolute.html).
+
+__LossQuantile__:
+
+see [help page](../reference/LossQuantile.html).
+
+__LossHuber__:
+
+see [help page](../reference/LossHuber.html).
+
+__LossBinomial__:
+
+see [help page](../reference/LossBinomial.html).
+
+__LossCustom__:
+
+see [help page](../reference/LossCustom.html).
+

@@ -145,14 +145,14 @@ void LoggerList::clearLoggerData ()
   }
 }
 
-json LoggerList::toJson () const
+json LoggerList::toJson (const bool rm_data) const
 {
   json j = {
     {"Class", "LoggerList"}
   };
   json jll;
   for (auto& it : _logger_list) {
-    jll[it.first] = it.second->toJson();
+    jll[it.first] = it.second->toJson(rm_data);
   }
   j["_logger_list"] = jll;
   j["_sum_of_stopper"] = _sum_of_stopper;

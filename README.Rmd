@@ -79,6 +79,20 @@ ggrisk + ggpe + ggicont
 
 For more extensive examples and how to use the `R6` interface visit the [project page](https://danielschalk.com/compboost/articles/getting_started/use_case.html).
 
+## mlr learner
+
+Compboost also ships an [`mlr3`](https://mlr3.mlr-org.com/) learner that can be used to apply `compboost` within the whole [`mlr3verse`](https://mlr3.mlr-org.com/):
+
+```{r}
+lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
+ts = tsk("spam")
+lcboost$train(ts)
+
+# Access the `$model` field to access all the `compboost` functionality:
+plotBaselearnerTraces(lcboost$model) +
+  plotPEUni(lcboost$model, "charDollar")
+```
+
 ## Save and load models
 
 Because of the usage of `C++` objects as backend, it is not possible to use `R`s `save()` method to save models. Instead, use `$saveToJson("mymodel.json")` to save the model to `mymodel.json` and `Compboost$new(file = "mymodel.json")` to load the model:

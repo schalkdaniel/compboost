@@ -96,17 +96,19 @@ public:
   virtual std::vector<std::string>                getDataIdentifier () const;
   virtual std::shared_ptr<blearner::Baselearner>  createBaselearner () = 0;
 
-  virtual json toJson            ()           const = 0;
-  virtual json extractDataToJson (const bool) const = 0;
+  virtual json toJson () const = 0;
+  virtual json extractDataToJson (const bool, const bool = false) const = 0;
 
   // Getter/Setter
-  sdata              getDataSource       () const;
-  std::string        getBaselearnerType  () const;
+  sdata                      getDataSource       () const;
+  std::string                getBaselearnerType  () const;
 
-  virtual std::vector<sdata> getVecDataSource () const;
+  virtual std::vector<double> getMinMax        () const;
+  virtual std::vector<sdata>  getVecDataSource () const;
+  virtual std::map<std::string, std::vector<std::string>> getValueNames () const;
 
-  json dataSourceToJson ()                  const;
-  json baseToJson       (const std::string) const;
+  json dataSourceToJson (const bool = false) const;
+  json baseToJson       (const std::string)  const;
 
   // Destructor:
   virtual ~BaselearnerFactory ();
@@ -149,7 +151,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 
@@ -185,7 +187,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 
@@ -228,10 +230,12 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
+  std::vector<double> getMinMax () const;
+  std::map<std::string, std::vector<std::string>> getValueNames () const;
   std::shared_ptr<blearner::Baselearner> createBaselearner ();
 
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 
@@ -270,10 +274,12 @@ public:
   arma::mat  calculateLinearPredictor (const arma::mat&) const;
   arma::mat  calculateLinearPredictor (const arma::mat&, const mdata&) const;
 
+  std::vector<double> getMinMax () const;
+
   std::shared_ptr<blearner::Baselearner> createBaselearner ();
   arma::mat getRotation () const;
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 
@@ -310,9 +316,10 @@ public:
   std::vector<std::string> getDataIdentifier () const;
 
   std::map<std::string, unsigned int> getDictionary () const;
+  std::map<std::string, std::vector<std::string>> getValueNames () const;
 
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 
@@ -346,8 +353,10 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   std::vector<std::string> getDataIdentifier () const;
+  std::map<std::string, std::vector<std::string>> getValueNames () const;
+
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 
@@ -388,7 +397,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 // BaselearnerCustomCppFactory:
@@ -428,7 +437,7 @@ public:
 
   std::shared_ptr<blearner::Baselearner>  createBaselearner ();
   json toJson () const;
-  json extractDataToJson (const bool) const;
+  json extractDataToJson (const bool, const bool = false) const;
 };
 
 } // namespace blearnerfactory

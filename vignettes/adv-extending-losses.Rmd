@@ -19,15 +19,15 @@ library(compboost)
 ```
 
 
-## Before Starting
+## Before starting
 
-- Read the [use-case](https://danielschalk.com/compboost/articles/getting_started/use_case.html) site to get to know how to define a `Compboost` object using the `R6` interface
+- Read the [use-case](https://danielschalk.com/compboost/articles/getting_started/use_case.html) site to get to know how to define a `Compboost` object using the `R6` interface.
 
 ## What is Needed
 
 `compboost` was designed to provide a component-wise boosting framework with maximal flexibility. This vignette gives an overview how to define custom losses in `R` as well as in `C++` without recompiling the whole package. These custom losses can be used for training the model and/or logging mechanisms.
 
-The loss function for boosting must be differentiable. Hence, we need to define the loss function and the gradient. Further, boosting is initialized as loss optimal constant. To capture this, we have to define the loss optimal constant as function of a response vector. Having these three components, it is quite easy to define custom losses.
+The loss function for training a model with boosting is required to be differentiable. Hence, we need to define the loss function and the gradient. Further, boosting is initialized as loss optimal constant. To capture this, we have to define the loss optimal constant as function of a response vector. Having these three components, it is quite easy to define custom losses.
 
 As showcase, we are rebuilding two different loss functions:
 
@@ -35,7 +35,7 @@ As showcase, we are rebuilding two different loss functions:
 - The Poisson loss for counting data as more sophisticated loss example in `R`
 
 
-## Define a New Loss With `R`
+## Define a new loss in `R`
 
 For this example we are using the `VonBort` dataset provided by the package `vcd`:
 
@@ -99,8 +99,14 @@ This loss object can be used for any task that requires a loss object:
 ```{r}
 cboost = Compboost$new(VonBort, "deaths", loss = my_poisson_loss)
 cboost$addBaselearner("year", "spline", BaselearnerPSpline)
-cboost$train(100, trace = 0)
+cboost$train(500, trace = 0)
 ```
+
+
+
+<!-- NOT APPLICABLE AS LONG THE CODE IS BUGGY -----------------------------------------------
+
+
 
 ## Define a New Loss With `C++`
 
@@ -200,6 +206,33 @@ constInitFunSetter()
 Now, we can pass the pointer to the `LossCustomCpp` class:
 ```{r}
 my_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter())
+
+src = "
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+
+typedef arma::mat (*lossFunPtr) (const arma::mat& true_value, const arma::mat& prediction);
+typedef double (*constInitFunPtr) (const arma::mat& true_value);
+// [[Rcpp::export]]
+
+arma::mat cpploss (const arma::mat& true_value, const arma::mat& prediction, const SEXP& lossFun)
+{
+  Rcpp::XPtr<lossFunPtr> myTempLoss (lossFun);
+  lossFunPtr lf = *myTempLoss;
+  return lf(true_value, prediction);
+}
+
+// [[Rcpp::export]]
+double cppinit (const arma::mat& true_value, const SEXP& initFun)
+{
+  Rcpp::XPtr<constInitFunPtr> myConstInit (initFun);
+  constInitFunPtr lf = *myConstInit;
+  return lf(true_value);
+}
+"
+Rcpp::sourceCpp(code = src)
+cpploss(cbind(1:10), cbind(2:11), lossFunSetter())
+cppinit(cbind(1:10), constInitFunSetter())
 ```
 
 ### Train a model
@@ -209,3 +242,5 @@ Finally, we use the custom loss to train our model:
 cboost = boostSplines(data = iris, target = "Sepal.Length",
   loss = my_cpp_loss, trace = 25)
 ```
+------------------------------------------------------------------------------------------->
+

@@ -250,8 +250,8 @@ RCPP_MODULE (data_module)
     .constructor<arma::mat, std::string> ()
     .constructor<arma::mat, std::string, bool> ()
 
-    .method("getData",       &InMemoryDataWrapper::getData, "Get data")
-    .method("getIdentifier", &InMemoryDataWrapper::getIdentifier, "Get the data identifier")
+    .method("getData",       &InMemoryDataWrapper::getData)
+    .method("getIdentifier", &InMemoryDataWrapper::getIdentifier)
   ;
 
   class_<CategoricalDataRawWrapper> ("CategoricalDataRaw")
@@ -260,9 +260,9 @@ RCPP_MODULE (data_module)
     .constructor<DataWrapper&> ()
     .constructor<Rcpp::StringVector, std::string> ()
 
-    .method("getData",       &CategoricalDataRawWrapper::getData, "Get data")
-    .method("getRawData",    &CategoricalDataRawWrapper::getRawData, "Get raw data")
-    .method("getIdentifier", &CategoricalDataRawWrapper::getIdentifier, "Get the data identifier")
+    .method("getData",       &CategoricalDataRawWrapper::getData)
+    .method("getRawData",    &CategoricalDataRawWrapper::getRawData)
+    .method("getIdentifier", &CategoricalDataRawWrapper::getIdentifier)
   ;
 }
 
@@ -290,8 +290,11 @@ class BaselearnerFactoryWrapper
     arma::mat                getPenaltyMat      () const { return sh_ptr_blearner_factory->getPenaltyMat(); }
     std::string              getBaselearnerType () const { return sh_ptr_blearner_factory->getBaselearnerType(); }
     std::string              getBaselearnerId   () const { return sh_ptr_blearner_factory->getFactoryId(); }
+    std::vector<double>      getMinMax          () const { return sh_ptr_blearner_factory->getMinMax(); }
     std::vector<std::string> getDataIdentifier  () const { return sh_ptr_blearner_factory->getDataIdentifier(); } // Duplicated?
     std::vector<std::string> getFeatureName     () const { return sh_ptr_blearner_factory->getDataIdentifier(); }
+
+    std::map<std::string, std::vector<std::string>> getValueNames () const { return sh_ptr_blearner_factory->getValueNames(); }
 
     std::shared_ptr<data::Data> transform (Rcpp::List& newdata) const
     {
@@ -1172,6 +1175,7 @@ class BaselearnerCategoricalBinaryFactoryWrapper : public BaselearnerFactoryWrap
     }
 };
 
+
 //' @title Custom base learner using `R` functions.
 //'
 //' @description
@@ -1304,6 +1308,9 @@ class BaselearnerCustomFactoryWrapper : public BaselearnerFactoryWrapper
     }
 };
 
+/* CURRENTLY NOT INCLUDED BECAUSE OF BUGS THAT CAUSES SEGFAULTS.
+ * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //' @title Custom base learner using `C++` functions.
 //'
 //' @description
@@ -1404,6 +1411,7 @@ class BaselearnerCustomCppFactoryWrapper : public BaselearnerFactoryWrapper
       Rcpp::Rcout << "\t- Factory creates the following base learner: " << sh_ptr_blearner_factory->getBaselearnerType() << std::endl;
     }
 };
+*/
 
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(BaselearnerFactoryWrapper)
@@ -1421,6 +1429,8 @@ RCPP_MODULE (baselearner_factory_module)
     .method("getFeatureName",   &BaselearnerFactoryWrapper::getFeatureName)
     .method("getModelName",     &BaselearnerFactoryWrapper::getModelName)
     .method("getBaselearnerId", &BaselearnerFactoryWrapper::getBaselearnerId)
+    .method("getMinMax",        &BaselearnerFactoryWrapper::getMinMax)
+    .method("getValueNames",    &BaselearnerFactoryWrapper::getValueNames)
   ;
 
   class_<BaselearnerPolynomialFactoryWrapper> ("BaselearnerPolynomial")
@@ -1490,7 +1500,6 @@ RCPP_MODULE (baselearner_factory_module)
     .method("getMeta",          &BaselearnerPSplineFactoryWrapper::getMeta)
   ;
 
-
   // CUSTOM BASE LEARNERS
   // ------------------------------------------------------------------------
   class_<BaselearnerCustomFactoryWrapper> ("BaselearnerCustom")
@@ -1500,7 +1509,7 @@ RCPP_MODULE (baselearner_factory_module)
 
     .method("summarizeFactory", &BaselearnerCustomFactoryWrapper::summarizeFactory)
   ;
-
+  /*
   class_<BaselearnerCustomCppFactoryWrapper> ("BaselearnerCustomCpp")
     .derives<BaselearnerFactoryWrapper> ("Baselearner")
     .constructor<DataWrapper&, Rcpp::List> ()
@@ -1508,6 +1517,7 @@ RCPP_MODULE (baselearner_factory_module)
 
     .method("summarizeFactory", &BaselearnerCustomCppFactoryWrapper::summarizeFactory)
   ;
+  */
 }
 
 
@@ -1678,11 +1688,6 @@ class LossWrapper
     arma::mat calculatePseudoResiduals (const arma::mat& response, const arma::mat& pred) const
     {
       return sh_ptr_loss->calculatePseudoResiduals(response, pred);
-    }
-
-    void loadFromJson (const std::string& file) {
-      json j = saver::jsonLoader(file);
-      sh_ptr_loss = loss::jsonToLoss(j["_sh_ptr_loss"]);
     }
 
     std::string getLossType ()
@@ -2000,6 +2005,7 @@ class LossBinomialWrapper : public LossWrapper
     { }
 };
 
+
 //' Create LossCustom by using R functions.
 //'
 //' \code{LossCustom} creates a custom loss by using
@@ -2067,6 +2073,9 @@ class LossCustomWrapper : public LossWrapper
     }
 };
 
+/* CURRENTLY NOT INCLUDED BECAUSE OF BUGS THAT CAUSES SEGFAULTS.
+ * ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 //' @title Custom loss using `C++` functions.
 //'
 //' @description
@@ -2100,12 +2109,14 @@ class LossCustomWrapper : public LossWrapper
 class LossCustomCppWrapper : public LossWrapper
 {
   public:
-    LossCustomCppWrapper (SEXP loss_ptr, SEXP grad_ptr, SEXP const_init_ptr)
+    LossCustomCppWrapper (const SEXP& loss_ptr, const SEXP& grad_ptr, const SEXP& const_init_ptr)
     {
       sh_ptr_loss = std::make_shared<loss::LossCustomCpp>(loss_ptr, grad_ptr, const_init_ptr);
     }
 };
-
+*
+*
+*/
 
 // Expose abstract BaselearnerWrapper class and define modules:
 RCPP_EXPOSED_CLASS(LossWrapper)
@@ -2116,7 +2127,6 @@ RCPP_MODULE (loss_module)
   class_<LossWrapper> ("Loss")
     .constructor ()
     .method("calculatePseudoResiduals", &LossWrapper::calculatePseudoResiduals)
-    .method ("loadFromJson", &LossWrapper::loadFromJson)
     .method ("getLossType", &LossWrapper::getLossType)
   ;
 
@@ -2166,10 +2176,12 @@ RCPP_MODULE (loss_module)
     .constructor<Rcpp::Function, Rcpp::Function, Rcpp::Function> ()
   ;
 
+  /*
   class_<LossCustomCppWrapper> ("LossCustomCpp")
     .derives<LossWrapper> ("Loss")
     .constructor<SEXP, SEXP, SEXP> ()
   ;
+  */
 }
 
 
@@ -3517,7 +3529,9 @@ class CompboostWrapper
     void summarizeCompboost () const { unique_ptr_cboost->summarizeCompboost(); }
     bool isTrained () const { return is_trained; }
     void setToIteration (const unsigned int& k, const unsigned int& trace) { unique_ptr_cboost->setToIteration(k, trace); }
-    void saveJson(std::string file) { unique_ptr_cboost->saveJson(file); }
+
+    void saveJson(std::string file, bool rm_data) { unique_ptr_cboost->saveJson(file, rm_data); }
+
     arma::mat getOffset () const { return unique_ptr_cboost->getOffset(); }
     std::vector<double> getRiskVector () const { return unique_ptr_cboost->getRiskVector(); }
 

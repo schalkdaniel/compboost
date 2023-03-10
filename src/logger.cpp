@@ -222,7 +222,7 @@ void LoggerIteration::updateMaxIterations (const unsigned int& new_max_iter)
   _max_iterations = new_max_iter;
 }
 
-json LoggerIteration::toJson () const
+json LoggerIteration::toJson (const bool rm_data) const
 {
   json j = Logger::baseToJson("LoggerIteration");
   j["_max_iterations"] = _max_iterations;
@@ -386,7 +386,7 @@ std::string LoggerInbagRisk::printLoggerStatus () const
   return ss.str();
 }
 
-json LoggerInbagRisk::toJson () const
+json LoggerInbagRisk::toJson (const bool rm_data) const
 {
   json j = Logger::baseToJson("LoggerInbagRisk");
   j["_sh_ptr_loss"] = _sh_ptr_loss->toJson();
@@ -585,7 +585,7 @@ std::string LoggerOobRisk::printLoggerStatus () const
   return ss.str();
 }
 
-json LoggerOobRisk::toJson () const
+json LoggerOobRisk::toJson (const bool rm_data) const
 {
   json j = Logger::baseToJson("LoggerOobRisk");
   j["_sh_ptr_loss"] = _sh_ptr_loss->toJson();
@@ -594,9 +594,9 @@ json LoggerOobRisk::toJson () const
   j["_patience"] = _patience;
   j["_count_patience"] = _count_patience;
   j["_oob_prediction"] = saver::armaMatToJson(_oob_prediction);
-  j["_oob_data_map"] = data::dataMapToJson(_oob_data_map);
-  j["_oob_data_map_inst"] = data::dataMapToJson(_oob_data_map_inst);
-  j["_sh_ptr_oob_response"] = _sh_ptr_oob_response->toJson();
+  j["_oob_data_map"] = data::dataMapToJson(_oob_data_map, rm_data);
+  j["_oob_data_map_inst"] = data::dataMapToJson(_oob_data_map_inst, rm_data);
+  j["_sh_ptr_oob_response"] = _sh_ptr_oob_response->toJson(rm_data);
 
   return j;
 }
@@ -763,7 +763,7 @@ std::string LoggerTime::printLoggerStatus () const
   return ss.str();
 }
 
-json LoggerTime::toJson () const
+json LoggerTime::toJson (const bool rm_data) const
 {
   std::ostringstream os;
   os << _init_time;

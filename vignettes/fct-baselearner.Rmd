@@ -35,6 +35,8 @@ __BaselearnerCustom__:
 
 see [help page](../reference/BaselearnerCustom.html).
 
+<!--
 __BaselearnerCustomCpp__:
 
 see [help page](../reference/BaselearnerCustomCpp.html).
+-->

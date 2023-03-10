@@ -1,5 +1,14 @@
 # Release Notes
 
+- **10.03.2023** \
+  The package now supports saving without data (see the project page or vignettes for details).
+
+- **08.03.2023** \
+  A [`mlr3`](https://mlr3.mlr-org.com/) learner is now available.
+
+- **08.03.2023** \
+  Exclude `CustomCpp` base learner until further notice (due to critical errors).
+
 - **02.03.2023** \
   Bigger refactoring of the documentation and smaller bugfixes.
 

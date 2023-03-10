@@ -74,6 +74,15 @@ class Compboost
 {
 
 private:
+  /**
+   * Set the production mode as true. This indicates
+   * whether to block prediction on training data.
+   * This is especially useful when storing the model
+   * without data and hence predicting on training data
+   * is impossible.
+   */
+  bool _pmode = false;
+
   const double  _learning_rate;
   const bool    _is_global_stopper;
 
@@ -123,9 +132,10 @@ public:
   arma::vec  predict            (const std::map<std::string, std::shared_ptr<data::Data>>&, const bool&) const;
   void       setToIteration     (const unsigned int&, const unsigned int&);
   void       summarizeCompboost () const;
+  void       assertPMode        () const;
 
   // Save JSON, to load use the respective constructor:
-  void saveJson (std::string) const;
+  void saveJson (const std::string, const bool = false);
 
   arma::mat predictFactory (const std::string&) const;
   arma::mat predictFactory (const std::string&, const std::map<std::string, std::shared_ptr<data::Data>>&) const;

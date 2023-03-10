@@ -19,15 +19,13 @@
 #'   A smooth surface is drawn if `nbins = NULL`.
 #' @examples
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",
-#'       loss = LossQuadratic$new())
+#'   loss = LossQuadratic$new())
 #'
-#' cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
-#' cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)
 #' cboost$addBaselearner("Species", "ridge", BaselearnerCategoricalRidge)
 #' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
 #' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
 #'
-#' cboost$train(1000L)
+#' cboost$train(150L)
 #'
 #' plotTensor(cboost, "Sepal.Width_Species_tensor")
 #' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")
@@ -53,39 +51,44 @@ plotTensor = function(cboost, tname, npoints = 100L, nbins = 15L) {
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
   checkmate::assertIntegerish(x = nbins, len = 1L, lower = 5L, null.ok = TRUE)
 
-  feats = colnames(cboost$data)
-  feats = feats[sapply(feats, function(fn) grepl(fn, tname))]
-
-  df_raw   = cboost$data[, feats]
+  #### REPLACE
+  f = cboost$baselearner_list[[tname]]$factory
+  feats = f$getFeatureName()
+  df_raw = cboost$data[, feats]
   fclasses = sapply(df_raw, is.numeric)
+  fvals = f$getValueNames()
 
   if (sum(fclasses) == 0) {
-    x1unique = unique(df_raw[[1]])
-    x2unique = unique(df_raw[[2]])
+    x1unique = fvals[[feats[1]]]
+    x2unique = fvals[[feats[2]]]
     df_prep = expand.grid(x1unique, x2unique)
     colnames(df_prep) = feats
 
     return(plotTensorCatCat(cboost, tname, df_prep))
   }
   if (sum(fclasses) == 1) {
+    minmax = f$getMinMax()
     idxnum = which(fclasses)
     idxcat = which(!fclasses)
+    if (idxnum == 1) {
+      imm = c(1, 2)
+    } else {
+      imm = c(3, 4)
+    }
 
-    xnum = df_raw[[idxnum]]
-    xnum = seq(min(xnum), max(xnum), length.out = npoints)
+    xnum = seq(minmax[imm[1]], minmax[imm[2]], length.out = npoints)
 
-    xcat = unique(df_raw[[idxcat]])
+    xcat = fvals[[feats[idxcat]]]
     df_prep = expand.grid(xnum, xcat)
     colnames(df_prep) = feats[c(idxnum, idxcat)]
 
     return(plotTensorNumCat(cboost, tname, df_prep))
   }
   if (sum(fclasses) == 2) {
-    x1 = df_raw[[1]]
-    x2 = df_raw[[2]]
+    minmax = f$getMinMax()
 
-    x1 = seq(min(x1), max(x1), length.out = npoints)
-    x2 = seq(min(x2), max(x2), length.out = npoints)
+    x1 = seq(minmax[1], minmax[2], length.out = npoints)
+    x2 = seq(minmax[3], minmax[4], length.out = npoints)
 
     df_prep = expand.grid(x1, x2)
     colnames(df_prep) = feats

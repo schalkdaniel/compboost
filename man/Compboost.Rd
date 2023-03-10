@@ -4,6 +4,7 @@
 \alias{Compboost}
 \title{Component-wise boosting}
 \description{
+Fit a component-wise boosting model Buehlmann (2003).
 This class wraps the \code{S4} class system with \link{Compboost_internal}
 as internal model representation exposed by \code{Rcpp}.
 The two convenient wrapper \code{\link[=boostLinear]{boostLinear()}} and \code{\link[=boostSplines]{boostSplines()}} are
@@ -28,6 +29,12 @@ names(cboost$baselearner_list)
 cboost$baselearner_list$hp_spline$factory$getDF()
 cboost$baselearner_list$hp_spline$factory$getPenalty()
 plotBaselearner(cboost, "hp_spline")
+}
+\references{
+Buehlmann, Peter, Yu, Bin (2003).
+\dQuote{Boosting with the L2 loss: regression and classification.}
+\emph{Journal of the American Statistical Association}, \bold{98}(462), 324--339.
+\doi{10.1198/016214503000125}.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -723,7 +730,7 @@ stopping should be used to get adequate importance measures.
 \describe{
 \item{\code{num_feats}}{(\code{integer(1)})\cr
 The number considered features, the \code{num_feats} most important feature names and
-the respective value is returned.}
+the respective value is returned. If \code{num_feats = NULL}, all features are considered.}
 
 \item{\code{aggregate_bl_by_feat}}{(\code{logical(1)})\cr
 Indicator whether the importance is aggregated based on feature level. For example,
@@ -745,7 +752,7 @@ with importance values as elements.
 Save a \link{Compboost} object to a JSON file. Because of the underlying \code{C++} objects,
 it is not possible to use \code{R}'s native load and save methods.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Compboost$saveToJson(file)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Compboost$saveToJson(file, rm_data = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -753,6 +760,12 @@ it is not possible to use \code{R}'s native load and save methods.
 \describe{
 \item{\code{file}}{(\code{character(1)})\cr
 Name/path to the file.}
+
+\item{\code{rm_data}}{(\code{logical(1)})\cr
+Remove all data from the model. This applies to the training data, response, as well as
+the test data and response used for the test risk logging. Note: If data is removed, no
+continuation of the training is possible after reloading. Also, everything related to
+predictions based on the training data throws an error.}
 }
 \if{html}{\out{</div>}}
 }

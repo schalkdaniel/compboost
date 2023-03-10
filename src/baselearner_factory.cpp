@@ -103,12 +103,25 @@ json BaselearnerFactory::baseToJson (const std::string cln) const
   return j;
 }
 
-json BaselearnerFactory::dataSourceToJson () const
+json BaselearnerFactory::dataSourceToJson (const bool rm_data) const
 {
   json j;
-  j[_sh_ptr_data_source->getDataIdentifier()] = _sh_ptr_data_source->toJson();
+  j[_sh_ptr_data_source->getDataIdentifier()] = _sh_ptr_data_source->toJson(rm_data);
 
   return j;
+}
+
+std::vector<double> BaselearnerFactory::getMinMax () const
+{
+  return _sh_ptr_data_source->getMinMax();
+}
+
+std::map<std::string, std::vector<std::string>> BaselearnerFactory::getValueNames () const
+{
+  std::map<std::string, std::vector<std::string>> mout;
+  std::vector<std::string> out{ "x" };
+  mout[getDataIdentifier()[0]] = out;
+  return mout;
 }
 
 std::vector<sdata> BaselearnerFactory::getVecDataSource () const
@@ -259,16 +272,16 @@ json BaselearnerPolynomialFactory::toJson () const
   return j;
 }
 
-json BaselearnerPolynomialFactory::extractDataToJson (const bool save_source) const
+json BaselearnerPolynomialFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   std::string id_dat;
 
   if (save_source) {
-    j = BaselearnerFactory::dataSourceToJson();
+    j = BaselearnerFactory::dataSourceToJson(rm_data);
   } else {
     id_dat = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
-    j[id_dat] = _sh_ptr_bindata->toJson();
+    j[id_dat] = _sh_ptr_bindata->toJson(rm_data);
   }
   return j;
 }
@@ -425,16 +438,16 @@ json BaselearnerPSplineFactory::toJson () const
   return j;
 }
 
-json BaselearnerPSplineFactory::extractDataToJson (const bool save_source) const
+json BaselearnerPSplineFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   std::string id_dat;
 
   if (save_source) {
-    j = BaselearnerFactory::dataSourceToJson();
+    j = BaselearnerFactory::dataSourceToJson(rm_data);
   } else {
     id_dat = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
-    j[id_dat] = _sh_ptr_bindata->toJson();
+    j[id_dat] = _sh_ptr_bindata->toJson(rm_data);
   }
   return j;
 }
@@ -637,9 +650,29 @@ std::vector<sdata> BaselearnerTensorFactory::getVecDataSource () const
   return dvec1;
 }
 
+std::map<std::string, std::vector<std::string>> BaselearnerTensorFactory::getValueNames () const
+{
+  std::map<std::string, std::vector<std::string>> mout, m1, m2;
+
+  m1 = _blearner1->getValueNames();
+  m2 = _blearner2->getValueNames();
+
+  for(auto const& ditem : m2)
+    m1[ditem.first] = ditem.second;
+
+  return m1;
+}
+
+
+
 std::shared_ptr<blearner::Baselearner> BaselearnerTensorFactory::createBaselearner ()
 {
   return std::make_shared<blearner::BaselearnerTensor>(_blearner_type, _sh_ptr_data);
+}
+
+std::vector<double> BaselearnerTensorFactory::getMinMax () const
+{
+  return _sh_ptr_data->getMinMax();
 }
 
 json BaselearnerTensorFactory::toJson () const
@@ -654,7 +687,7 @@ json BaselearnerTensorFactory::toJson () const
   return j;
 }
 
-json BaselearnerTensorFactory::extractDataToJson (const bool save_source) const
+json BaselearnerTensorFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   json jsub1;
@@ -664,17 +697,16 @@ json BaselearnerTensorFactory::extractDataToJson (const bool save_source) const
   if (save_source) {
     // Save source data of all factories:
     j = BaselearnerFactory::dataSourceToJson();  // X
-    jsub1 = _blearner1->extractDataToJson(true); // Y
-    jsub2 = _blearner2->extractDataToJson(true); // Z
+    jsub1 = _blearner1->extractDataToJson(true, rm_data); // Y
+    jsub2 = _blearner2->extractDataToJson(true, rm_data); // Z
   } else {
     // Save init data of the factories, e.g. the design matrix Z = X x Y.
     id_dat = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
-    j[id_dat] = _sh_ptr_data->toJson(); // X
+    j[id_dat] = _sh_ptr_data->toJson(rm_data); // X
 
     // Also save the init data design matrices X and Z of the underlying factories:
-    jsub1 = _blearner1->extractDataToJson(false); // X
-    jsub2 = _blearner2->extractDataToJson(false); // Z
-
+    jsub1 = _blearner1->extractDataToJson(false, rm_data); // X
+    jsub2 = _blearner2->extractDataToJson(false, rm_data); // Z
   }
   // Unroll to bring X, Y, and Z to the same level:
   for (auto& it : jsub1.items()) {
@@ -852,6 +884,11 @@ std::vector<sdata> BaselearnerCenteredFactory::getVecDataSource () const
   return dvec1;
 }
 
+std::vector<double> BaselearnerCenteredFactory::getMinMax () const
+{
+  return _sh_ptr_bindata->getMinMax();
+}
+
 
 json BaselearnerCenteredFactory::toJson () const
 {
@@ -864,7 +901,7 @@ json BaselearnerCenteredFactory::toJson () const
   return j;
 }
 
-json BaselearnerCenteredFactory::extractDataToJson (const bool save_source) const
+json BaselearnerCenteredFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   json jsub1;
@@ -874,16 +911,16 @@ json BaselearnerCenteredFactory::extractDataToJson (const bool save_source) cons
   if (save_source) {
     // Save source data of all factories:
     j = BaselearnerFactory::dataSourceToJson();  // X
-    jsub1 = _blearner1->extractDataToJson(true); // Y
-    jsub2 = _blearner2->extractDataToJson(true); // Z
+    jsub1 = _blearner1->extractDataToJson(true, rm_data); // Y
+    jsub2 = _blearner2->extractDataToJson(true, rm_data); // Z
   } else {
     // Save init data of the factories, e.g. the design matrix Z = X / Y.
     id_dat = _sh_ptr_bindata->getDataIdentifier() + "." + _blearner_type;
-    j[id_dat] = _sh_ptr_bindata->toJson(); // X
+    j[id_dat] = _sh_ptr_bindata->toJson(rm_data); // X
 
     // Also save the init data design matrices X and Z of the underlying factories:
-    jsub1 = _blearner1->extractDataToJson(false); // X
-    jsub2 = _blearner2->extractDataToJson(false); // Z
+    jsub1 = _blearner1->extractDataToJson(false, rm_data); // X
+    jsub2 = _blearner2->extractDataToJson(false, rm_data); // Z
 
   }
   // Unroll to bring X, Y, and Z to the same level:
@@ -1029,6 +1066,20 @@ std::map<std::string, unsigned int> BaselearnerCategoricalRidgeFactory::getDicti
   return _attributes->dictionary;
 }
 
+std::map<std::string, std::vector<std::string>> BaselearnerCategoricalRidgeFactory::getValueNames () const
+{
+  std::map<std::string, std::vector<std::string>> mout;
+  std::vector<std::string> cls;
+
+  std::string item;
+  for(auto const& ditem : getDictionary()) {
+    cls.push_back(ditem.first);
+  }
+
+  mout[getDataIdentifier()[0]] = cls;
+  return mout;
+}
+
 json BaselearnerCategoricalRidgeFactory::toJson () const
 {
   json j = BaselearnerFactory::baseToJson("BaselearnerCategoricalRidgeFactory");
@@ -1038,16 +1089,16 @@ json BaselearnerCategoricalRidgeFactory::toJson () const
   return j;
 }
 
-json BaselearnerCategoricalRidgeFactory::extractDataToJson (const bool save_source) const
+json BaselearnerCategoricalRidgeFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   std::string id_dat;
 
   if (save_source) {
-    j = BaselearnerFactory::dataSourceToJson();
+    j = BaselearnerFactory::dataSourceToJson(rm_data);
   } else {
     id_dat = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
-    j[id_dat] = _sh_ptr_data->toJson();
+    j[id_dat] = _sh_ptr_data->toJson(rm_data);
   }
   return j;
 }
@@ -1158,6 +1209,15 @@ std::vector<std::string> BaselearnerCategoricalBinaryFactory::getDataIdentifier 
   return out;
 }
 
+std::map<std::string, std::vector<std::string>> BaselearnerCategoricalBinaryFactory::getValueNames () const
+{
+  std::map<std::string, std::vector<std::string>> mout;
+  std::vector<std::string> positive{ _attributes->cls };
+  mout[getDataIdentifier()[0]] = positive;
+  return mout;
+}
+
+
 json BaselearnerCategoricalBinaryFactory::toJson () const
 {
   json j = BaselearnerFactory::baseToJson("BaselearnerCategoricalBinaryFactory");
@@ -1167,16 +1227,16 @@ json BaselearnerCategoricalBinaryFactory::toJson () const
   return j;
 }
 
-json BaselearnerCategoricalBinaryFactory::extractDataToJson (const bool save_source) const
+json BaselearnerCategoricalBinaryFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   std::string id_dat;
 
   if (save_source) {
-    j = BaselearnerFactory::dataSourceToJson();
+    j = BaselearnerFactory::dataSourceToJson(rm_data);
   } else {
     id_dat = _sh_ptr_data->getDataIdentifier() + "." + _blearner_type;
-    j[id_dat] = _sh_ptr_data->toJson();
+    j[id_dat] = _sh_ptr_data->toJson(rm_data);
   }
   return j;
 }
@@ -1273,10 +1333,10 @@ json BaselearnerCustomFactory::toJson () const
   return j;
 }
 
-json BaselearnerCustomFactory::extractDataToJson (const bool save_source) const
+json BaselearnerCustomFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   throw std::logic_error("Cannot save a custom factory to JSON.");
-  json j = BaselearnerFactory::dataSourceToJson();
+  json j = BaselearnerFactory::dataSourceToJson(rm_data);
   return j;
 }
 
@@ -1384,10 +1444,10 @@ json BaselearnerCustomCppFactory::toJson () const
   return j;
 }
 
-json BaselearnerCustomCppFactory::extractDataToJson (const bool save_source) const
+json BaselearnerCustomCppFactory::extractDataToJson (const bool save_source, const bool rm_data) const
 {
   throw std::logic_error("Cannot save a custom factory to JSON.");
-  json j = BaselearnerFactory::dataSourceToJson();
+  json j = BaselearnerFactory::dataSourceToJson(rm_data);
   return j;
 }
 

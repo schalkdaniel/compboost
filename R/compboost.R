@@ -1,6 +1,8 @@
 #' @title Component-wise boosting
 #'
-#' @description This class wraps the `S4` class system with [Compboost_internal]
+#' @description
+#' Fit a component-wise boosting model `r mlr3misc::cite_bib("buhlmann2003boosting")`.
+#' This class wraps the `S4` class system with [Compboost_internal]
 #' as internal model representation exposed by `Rcpp`.
 #' The two convenient wrapper [boostLinear()] and [boostSplines()] are
 #' also creating objects of this class.
@@ -9,7 +11,9 @@
 #' [plotPEUni()], [plotTensor()], and [plotRisk()]. Visualizing the contribution for
 #' one new observation see [plotIndividualContribution()].
 #'
-#' @export
+#' @references
+#' `r mlr3misc::format_bib("buhlmann2003boosting")`
+#'
 #' @examples
 #' cboost = Compboost$new(mtcars, "mpg", loss = LossQuadratic$new(), oob_fraction = 0.3)
 #' cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
@@ -25,6 +29,7 @@
 #' cboost$baselearner_list$hp_spline$factory$getDF()
 #' cboost$baselearner_list$hp_spline$factory$getPenalty()
 #' plotBaselearner(cboost, "hp_spline")
+#' @export
 Compboost = R6::R6Class("Compboost",
   public = list(
 
@@ -859,7 +864,7 @@ Compboost = R6::R6Class("Compboost",
     #'
     #' @param num_feats (`integer(1)`)\cr
     #' The number considered features, the `num_feats` most important feature names and
-    #' the respective value is returned.
+    #' the respective value is returned. If `num_feats = NULL`, all features are considered.
     #' @param aggregate_bl_by_feat (`logical(1)`)\cr
     #' Indicator whether the importance is aggregated based on feature level. For example,
     #' adding components included two different base learners for the same feature. If
@@ -887,7 +892,7 @@ Compboost = R6::R6Class("Compboost",
 
       if (is.null(num_feats)) {
         num_feats = max_feats
-        if (num_feats > 15L) num_feats = 15L
+        #if (num_feats > 15L) num_feats = 15L
       }
 
       blearner_sums = aggregate(inbag_risk_differences, by = list(selected_learner), FUN = sum)
@@ -903,11 +908,17 @@ Compboost = R6::R6Class("Compboost",
     #'
     #' @param file (`character(1)`)\cr
     #'   Name/path to the file.
-    saveToJson = function(file) {
+    #' @param rm_data (`logical(1)`)\cr
+    #'   Remove all data from the model. This applies to the training data, response, as well as
+    #'   the test data and response used for the test risk logging. Note: If data is removed, no
+    #'   continuation of the training is possible after reloading. Also, everything related to
+    #'   predictions based on the training data throws an error.
+    saveToJson = function(file, rm_data = FALSE) {
       checkmate::assertString(file)
+      checkmate::assertLogical(rm_data, len = 1)
       ext = strsplit(file, "[.]")[[1]][2]
       checkmate::assertChoice(ext, c("json", "JSON", "Json"))
-      self$model$saveJson(file)
+      self$model$saveJson(file, rm_data)
     }
 
   ), # end public
@@ -1132,7 +1143,7 @@ Compboost = R6::R6Class("Compboost",
       # LOSS:
       self$loss = extractLoss(self$model$getLoss())
 
-      # BASELEARNERLIST: TODO:
+      # BASELEARNERLIST:
       self$bl_factory_list = self$model$getBaselearnerList()
 
       private$p_boost_intercept = "intercept" %in% self$bl_factory_list$getDataNames()
@@ -1146,24 +1157,6 @@ Compboost = R6::R6Class("Compboost",
         if (d$getDataType() == "in_memory") return(d$getData())
         if (d$getDataType() == "categorical") return(d$getRawData())
       }))
-
-      if (FALSE) {
-        # NECESSARY?
-        self$response_oob = NULL # Only relevant in creating the objects?
-        self$data_oob = NULL     # Only relevant in creating the objects?
-        private$p_logger_list = self$model$getLoggerList()
-        private$p_stop_args = list() # Only relevant when the oob logger is added.
-        private$p_l_list = list() # Only relevant prior to training.
-        self$early_stop = FALSE # Only relevant in constructor.
-
-        # DROP:
-        self$oob_fraction = NULL # Set to private?
-        self$id = NULL # Removed
-        private$p_idx_oob = NULL   # Not possible to reverse engineer but also not required?
-                                   # -> Would be nice to have ... Save in Compboost object?
-                                   #    Then make an active binding that points to the model$getTrainIdx method?
-        private$p_idx_train = NULL # Not possible to reverse engineer but also not required? Same as above but point to the OOB logger?
-      }
     }
   ) # end private
 ) # end Compboost

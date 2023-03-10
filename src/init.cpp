@@ -202,6 +202,7 @@ sbindata initPolynomialData (const sdata& raw_data, const std::shared_ptr<Polyno
   }
 
   sh_ptr_bindata->setDenseData(out);
+  sh_ptr_bindata->setMinMax(raw_data->getMinMax());
   return sh_ptr_bindata;
 }
 
@@ -229,6 +230,7 @@ sbindata initPSplineData (const sdata& raw_data, const std::shared_ptr<PSplineAt
     mraw = bins;
   }
   sh_ptr_bindata->setSparseData(splines::createSparseSplineBasis (mraw, attributes->degree, attributes->knots).t());
+  sh_ptr_bindata->setMinMax(raw_data->getMinMax());
 
   return sh_ptr_bindata;
 }
@@ -258,6 +260,7 @@ sdata initRidgeData (const sdata& raw_data, const std::shared_ptr<RidgeAttribute
 
   auto sh_ptr_data = std::make_shared<data::InMemoryData>(raw_data->getDataIdentifier());
   sh_ptr_data->setSparseData(arma::sp_mat(locations, fill, attributes->dictionary.size(), chr_classes.size()));
+  sh_ptr_data->setMinMax(std::vector<double>{1, double(attributes->dictionary.size())});
   return sh_ptr_data;
 }
 
@@ -284,6 +287,7 @@ sdata initBinaryData (const sdata& raw_data, const std::shared_ptr<BinaryAttribu
 
   auto sh_ptr_data = std::make_shared<data::InMemoryData>(raw_data->getDataIdentifier() + "_" + attributes->cls);
   sh_ptr_data->setSparseData(dm);
+  sh_ptr_data->setMinMax(std::vector<double>{0, 1});
   return sh_ptr_data;
 }
 
@@ -319,6 +323,11 @@ sdata initTensorData (const sdata& data1, const sdata& data2)
     arma::mat blc_mat = tensors::rowWiseKronecker(bl1_mat, bl2_mat);
     sh_ptr_data->setDenseData(blc_mat);
   }
+  std::vector<double> minmax1 = data1->getMinMax();
+  std::vector<double> minmax2 = data2->getMinMax();
+  minmax1.insert(std::end(minmax1), std::begin(minmax2), std::end(minmax2));
+
+  sh_ptr_data->setMinMax(minmax1);
   return sh_ptr_data;
 }
 
@@ -333,6 +342,7 @@ sbindata initCenteredData (const sdata& bl_data, const std::shared_ptr<CenteredA
   }
   sbindata sh_ptr_bindata = std::make_shared<data::BinnedData>(bl_data->getDataIdentifier() + "_" + bl_data->getDataIdentifier()); //, attributes->bin_root, mraw, bins);
   sh_ptr_bindata->setDenseData(temp);
+  sh_ptr_bindata->setMinMax(bl_data->getMinMax());
   return sh_ptr_bindata;
 }
 

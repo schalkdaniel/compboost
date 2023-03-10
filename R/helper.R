@@ -79,3 +79,9 @@ catchInternalException = function(e, x, fn, df = NULL) {
   }
   return(msg)
 }
+
+getBaselearnerFeatureType = function(f) {
+  blnum = c("pspline", "polynomial", "centered")
+  fmn = f$getModelName()
+  return(ifelse(fmn %in% blnum, "numeric", "categorical"))
+}

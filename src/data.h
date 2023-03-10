@@ -53,15 +53,19 @@ private:
   void setCacheIdentity (const arma::mat&);
 
 protected:
-  bool          _use_sparse  = false;
-  bool          _use_binning = false;
-  arma::mat     _data_mat    = arma::mat (1, 1, arma::fill::zeros);
-  arma::uvec    _bin_idx;
-  arma::sp_mat  _sparse_data_mat;
+  bool                _use_sparse  = false;
+  bool                _use_binning = false;
+  arma::mat           _data_mat    = arma::mat (1, 1, arma::fill::zeros);
+  arma::uvec          _bin_idx;
+  arma::sp_mat        _sparse_data_mat;
+  std::vector<double> _minmax;
 
   Data (const std::string, const std::string);
+  Data (const std::string, const std::string, const std::vector<double>&);
   Data (const std::string, const std::string, const arma::mat&);
+  Data (const std::string, const std::string, const arma::mat&, const std::vector<double>&);
   Data (const std::string, const std::string, const arma::sp_mat&);
+  Data (const std::string, const std::string, const arma::sp_mat&, const std::vector<double>&);
   Data (const json&);
 
 public:
@@ -69,7 +73,8 @@ public:
   virtual arma::mat    getData  () const = 0;
   virtual unsigned int getNObs  () const = 0;
   virtual unsigned int getNCols () const = 0;
-  virtual json         toJson   () const = 0;
+
+  virtual json toJson (const bool = false) const = 0;
 
   // Getter/Setter
   std::string                       getType           () const;
@@ -82,13 +87,15 @@ public:
   arma::uvec                        getBinningIndex   () const;
   bool                              usesSparseMatrix  () const;
   bool                              usesBinning       () const;
+  std::vector<double>               getMinMax         () const;
 
   void setDenseData   (const arma::mat&);
   void setSparseData  (const arma::sp_mat&);
   void setCache       (const std::string, const arma::mat&);
   void setCacheCustom (const std::string, const arma::mat&);
   void setIndexVector (const arma::uvec&);
-  json baseToJson     (const std::string) const;
+  void setMinMax      (const std::vector<double>&);
+  json baseToJson     (const std::string, const bool = false) const;
 
   // Destructor
   virtual ~Data () {};
@@ -100,7 +107,7 @@ typedef std::map<std::string, sdata> mdata;
 // Helper:
 sdata jsonToData (const json&);
 mdata jsonToDataMap (const json&);
-json dataMapToJson (const mdata&);
+json dataMapToJson (const mdata&, const bool = false);
 sdata extractDataFromMap (const std::string, const mdata&);
 sdata extractDataFromMap (const sdata&, const mdata&);
 
@@ -122,7 +129,8 @@ public:
   arma::mat getData     () const;
   unsigned int getNObs  () const;
   unsigned int getNCols () const;
-  json         toJson   () const;
+
+  json toJson (const bool = false) const;
 
   // Destructor
   ~InMemoryData ();
@@ -147,7 +155,8 @@ public:
   arma::mat    getData  () const;
   unsigned int getNObs  () const;
   unsigned int getNCols () const;
-  json         toJson   () const;
+
+  json toJson (const bool = false) const;
 };
 
 
@@ -167,7 +176,8 @@ public:
   unsigned int             getNObs    () const;
   unsigned int             getNCols   () const;
   std::vector<std::string> getRawData () const;
-  json                     toJson     () const;
+
+  json toJson (const bool = false) const;
 };
 
 

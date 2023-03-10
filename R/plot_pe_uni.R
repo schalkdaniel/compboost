@@ -40,24 +40,24 @@ plotPEUni = function(cboost, feat, npoints = 100L, individual = TRUE) {
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)
   checkmate::assertLogical(x = individual, len = 1L)
 
-  x = cboost$data[[feat]]
-  if (! is.numeric(x))
-    x = unique(x)
-  else
-    x = seq(min(x), max(x), length.out = npoints)
-
-  df_plt = data.frame(x = x)
-  names(df_plt) = feat
-
-  newdat  = suppressWarnings(cboost$prepareData(df_plt))
-
   blnames = lapply(cboost$model$getFactoryMap(), function(blf) {
     feat %in% blf$getFeatureName()
   })
   blnames = names(blnames)[unlist(blnames)]
 
-  #blnames = cboost$bl_factory_list$getRegisteredFactoryNames()
-  #blnames = blnames[feats == feat]
+  f = cboost$baselearner_list[[blnames[1]]]$factory
+  if (getBaselearnerFeatureType(f) == "numeric") {
+    minmax = f$getMinMax()
+    x = seq(minmax[1], minmax[2], length.out = npoints)
+  } else {
+    vals = do.call(c, lapply(cboost$baselearner_list, function(bl) bl$factory$getValueNames()[[1]]))
+    x = unique(vals)
+  }
+
+  df_plt = data.frame(x = x)
+  names(df_plt) = feat
+
+  newdat  = suppressWarnings(cboost$prepareData(df_plt))
 
   blsel   = unique(cboost$getSelectedBaselearner())
   blnames = blnames[blnames %in% blsel]
@@ -146,11 +146,13 @@ plotBaselearner = function(cboost, blname, npoints = 100L) {
   feats = unique(cboost$bl_factory_list$getDataNames())
   feat  = feats[vapply(feats, FUN.VALUE = logical(1L), FUN = function(feat) grepl(feat, blname))]
 
-  x = cboost$data[[feat]]
-  if (! is.numeric(x))
-    x = unique(x)
-  else
-    x = seq(min(x), max(x), length.out = npoints)
+  f = cboost$baselearner_list[[blname]]$factory
+  if (getBaselearnerFeatureType(f) == "numeric") {
+    minmax = f$getMinMax()
+    x = seq(minmax[1], minmax[2], length.out = npoints)
+  } else {
+    x = names(f$getDictionary())
+  }
 
   df_plt = data.frame(x = x)
   names(df_plt) = feat

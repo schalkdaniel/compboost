@@ -103,7 +103,8 @@ public:
   virtual arma::vec    getLoggedData       () const = 0;
   virtual void         clearLoggerData     ()       = 0;
   virtual std::string  printLoggerStatus   () const = 0;
-  virtual json         toJson              () const = 0;
+
+  virtual json toJson (const bool = false) const = 0;
 
   // Setter/Getter
   void setIsStopper (const bool);
@@ -150,7 +151,8 @@ public:
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
-  json         toJson              () const;
+
+  json toJson (const bool = false) const;
 
   void updateMaxIterations (const unsigned int&);
 };
@@ -192,7 +194,8 @@ public:
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
-  json         toJson              () const;
+
+  json toJson (const bool = false) const;
 };
 
 
@@ -239,7 +242,8 @@ public:
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
-  json         toJson              () const;
+
+  json toJson (const bool = false) const;
 };
 
 
@@ -280,7 +284,8 @@ public:
   arma::vec    getLoggedData       () const;
   void         clearLoggerData     ();
   std::string  printLoggerStatus   () const;
-  json         toJson              () const;
+
+  json toJson (const bool = false) const;
 
   void reInitializeTime();
 

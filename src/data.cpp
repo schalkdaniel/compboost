@@ -51,7 +51,7 @@ mdata jsonToDataMap (const json& j)
   return mdat;
 }
 
-json dataMapToJson (const mdata& mdat)
+json dataMapToJson (const mdata& mdat, const bool rm_data)
 {
   json j;
   std::string id_dat;
@@ -59,7 +59,7 @@ json dataMapToJson (const mdata& mdat)
   for (auto& it : mdat) {
     sh_ptr_data = it.second;
     id_dat = sh_ptr_data->getDataIdentifier();
-    j[id_dat] = sh_ptr_data->toJson();
+    j[id_dat] = sh_ptr_data->toJson(rm_data);
   }
   return j;
 }
@@ -90,31 +90,58 @@ Data::Data (const std::string data_identifier, const std::string type)
     _data_identifier ( data_identifier )
 { }
 
+Data::Data (const std::string data_identifier, const std::string type,
+  const std::vector<double>& minmax)
+  : _type            ( type ),
+    _data_identifier ( data_identifier ),
+    _minmax          ( minmax )
+{ }
+
 Data::Data (const std::string data_identifier, const std::string type, const arma::mat& data_mat)
   : _type            ( type ),
     _data_identifier ( data_identifier ),
-    _data_mat        ( data_mat )
+    _data_mat        ( data_mat ),
+    _minmax          ( std::vector<double>{data_mat.min(), data_mat.max()} )
+{ }
+
+Data::Data (const std::string data_identifier, const std::string type, const arma::mat& data_mat,
+  const std::vector<double>& minmax)
+  : _type            ( type ),
+    _data_identifier ( data_identifier ),
+    _data_mat        ( data_mat ),
+    _minmax          ( minmax )
 { }
 
 Data::Data (const std::string data_identifier, const std::string type, const arma::sp_mat& sparse_data_mat)
   : _type ( type ),
     _data_identifier ( data_identifier ),
     _use_sparse      ( true ),
-    _sparse_data_mat ( sparse_data_mat )
+    _sparse_data_mat ( sparse_data_mat ),
+    _minmax          ( std::vector<double>{sparse_data_mat.min(), sparse_data_mat.max()} )
+{ }
+
+Data::Data (const std::string data_identifier, const std::string type, const arma::sp_mat& sparse_data_mat,
+  const std::vector<double>& minmax)
+  : _type ( type ),
+    _data_identifier ( data_identifier ),
+    _use_sparse      ( true ),
+    _sparse_data_mat ( sparse_data_mat ),
+    _minmax          ( minmax )
 { }
 
 Data::Data (const json& j)
-  : _type            ( j["_type"] ),
-    _data_identifier ( j["_data_identifier"] ),
+  : _type            ( j["_type"].get<std::string>() ),
+    _data_identifier ( j["_data_identifier"].get<std::string>() ),
     _mat_cache       (std::make_pair(
-      j["_mat_cache"]["type"],
+      j["_mat_cache"]["type"].get<std::string>(),
       saver::jsonToArmaMat(j["_mat_cache"]["mat"])
     )),
-    _use_sparse      ( j["_use_sparse"] ),
-    _use_binning     ( j["_use_binning"] ),
+    _use_sparse      ( j["_use_sparse"].get<bool>() ),
+    _use_binning     ( j["_use_binning"].get<bool>() ),
     _data_mat        ( saver::jsonToArmaMat(j["_data_mat"]) ),
     _bin_idx         ( saver::jsonToArmaUvec(j["_bin_idx"]) ),
-    _sparse_data_mat ( saver::jsonToArmaSpMat(j["_sparse_data_mat"]) )
+    _sparse_data_mat ( saver::jsonToArmaSpMat(j["_sparse_data_mat"]) ),
+    _minmax          ( j["_minmax"].get<std::vector<double>>() )
 { }
 
 void Data::setCacheCholesky (const arma::mat& xtx)
@@ -167,6 +194,11 @@ void Data::setIndexVector (const arma::uvec& idx)
   _bin_idx = idx;
 }
 
+void Data::setMinMax (const std::vector<double>& minmax)
+{
+  _minmax = minmax;
+}
+
 std::string Data::getType () const
 {
   return _type;
@@ -202,26 +234,43 @@ arma::mat Data::getDenseData () const
   }
 }
 
-arma::sp_mat Data::getSparseData    () const { return _sparse_data_mat; }
-arma::uvec   Data::getBinningIndex  () const { return _bin_idx; }
-bool         Data::usesSparseMatrix () const { return _use_sparse; }
-bool         Data::usesBinning      () const { return _use_binning; }
+arma::sp_mat        Data::getSparseData    () const { return _sparse_data_mat; }
+arma::uvec          Data::getBinningIndex  () const { return _bin_idx; }
+bool                Data::usesSparseMatrix () const { return _use_sparse; }
+bool                Data::usesBinning      () const { return _use_binning; }
+std::vector<double> Data::getMinMax        () const { return _minmax; }
 
-json Data::baseToJson (const std::string cln) const
+json Data::baseToJson (const std::string cln, const bool rm_data) const
 {
+  arma::mat zero(1, 1, arma::fill::zeros);
+  arma::uvec one(1, arma::fill::ones);
+  json jdata, jdata_sparse, jmcache, jbin_idx;
+  if (rm_data) {
+    jdata = saver::armaMatToJson(zero);
+    jdata_sparse = saver::armaSpMatToJson(arma::sp_mat(zero));
+    jmcache = saver::armaMatToJson(zero);
+    jbin_idx = saver::armaUvecToJson(one);
+  } else {
+    jdata = saver::armaMatToJson(_data_mat);
+    jdata_sparse = saver::armaSpMatToJson(_sparse_data_mat);
+    jmcache = saver::armaMatToJson(_mat_cache.second);
+    jbin_idx = saver::armaUvecToJson(_bin_idx);
+  }
+
   json j = {
-    {"Class", cln},
-    {"_type", _type},
-    {"_data_identifier", _data_identifier},
-    {"_mat_cache", {
-      {"type", _mat_cache.first},
-      {"mat", saver::armaMatToJson(_mat_cache.second)}
+    { "Class", cln },
+    { "_type", _type },
+    { "_data_identifier", _data_identifier },
+    { "_mat_cache", {
+      { "type", _mat_cache.first },
+      { "mat",  jmcache }
     }},
-    {"_use_sparse",      _use_sparse},
-    {"_use_binning",     _use_binning},
-    {"_data_mat",        saver::armaMatToJson(_data_mat)},
-    {"_bin_idx",         saver::armaUvecToJson(_bin_idx)},
-    {"_sparse_data_mat", saver::armaSpMatToJson(_sparse_data_mat)}
+    { "_use_sparse",      _use_sparse },
+    { "_use_binning",     _use_binning },
+    { "_data_mat",        jdata },
+    { "_bin_idx",         jbin_idx },
+    { "_sparse_data_mat", jdata_sparse },
+    { "_minmax",          _minmax }
   };
   return j;
 }
@@ -272,9 +321,9 @@ unsigned int InMemoryData::getNCols () const
   }
 }
 
-json InMemoryData::toJson () const
+json InMemoryData::toJson (const bool rm_data) const
 {
-  return Data::baseToJson("InMemoryData");
+  return Data::baseToJson("InMemoryData", rm_data);
 }
 
 InMemoryData::~InMemoryData () {}
@@ -321,9 +370,9 @@ unsigned int BinnedData::getNCols () const
   }
 }
 
-json BinnedData::toJson () const
+json BinnedData::toJson (const bool rm_data) const
 {
-  json j = Data::baseToJson("BinnedData");
+  json j = Data::baseToJson("BinnedData", rm_data);
   j["_bin_root"] = _bin_root;
 
   return j;
@@ -364,10 +413,16 @@ unsigned int CategoricalDataRaw::getNCols () const
   return 1;
 }
 
-json CategoricalDataRaw::toJson () const
+json CategoricalDataRaw::toJson (const bool rm_data) const
 {
-  json j = Data::baseToJson("CategoricalDataRaw");
-  j["_raw_data"] = _raw_data;
+  json j = Data::baseToJson("CategoricalDataRaw", rm_data);
+  if (rm_data) {
+    std::vector<std::string> empty;
+    empty.push_back("<REMOVED>");
+    j["_raw_data"] = empty;
+  } else {
+    j["_raw_data"] = _raw_data;
+  }
 
   return j;
 }

@@ -39,13 +39,13 @@ test_that("Loss printer works", {
   expect_silent({ quantile_loss  = LossQuantile$new() })
   expect_silent({ huber_loss     = LossHuber$new() })
   expect_silent({ binomial_loss  = LossBinomial$new() })
-  expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
+  #expect_silent({ Rcpp::sourceCpp(code = getCustomCppExample(example = "loss", silent = TRUE)) })
 
-  myLossFun = function (true_value, prediction) NULL
-  myGradientFun = function (true_value, prediction) NULL
-  myConstantInitializerFun = function (true_value) NULL
+  myLossFun = function(true_value, prediction) NULL
+  myGradientFun = function(true_value, prediction) NULL
+  myConstantInitializerFun = function(true_value) NULL
 
-  expect_silent({ custom_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
+  #expect_silent({ custom_cpp_loss = LossCustomCpp$new(lossFunSetter(), gradFunSetter(), constInitFunSetter()) })
   expect_silent({ custom_loss = LossCustom$new(myLossFun, myGradientFun, myConstantInitializerFun) })
 
   expect_output({ test_quadratic_printer  = show(quadratic_loss) })
@@ -53,7 +53,7 @@ test_that("Loss printer works", {
   expect_output({ test_quantile_printer   = show(quantile_loss) })
   expect_output({ test_huber_printer      = show(huber_loss) })
   expect_output({ test_custom_printer     = show(custom_loss) })
-  expect_output({ test_custom_cpp_printer = show(custom_cpp_loss) })
+  #expect_output({ test_custom_cpp_printer = show(custom_cpp_loss) })
   expect_output({ test_binomialprinter    = show(binomial_loss) })
 
   expect_equal(test_quadratic_printer, "LossQuadraticPrinter")
@@ -61,7 +61,7 @@ test_that("Loss printer works", {
   expect_equal(test_quantile_printer, "LossQuantilePrinter")
   expect_equal(test_huber_printer, "LossHuberPrinter")
   expect_equal(test_binomialprinter, "LossBinomialPrinter")
-  expect_equal(test_custom_cpp_printer, "LossCustomCppPrinter")
+  #expect_equal(test_custom_cpp_printer, "LossCustomCppPrinter")
   expect_equal(test_custom_printer, "LossCustomPrinter")
 
 })

@@ -43,7 +43,8 @@ Compboost::Compboost (std::shared_ptr<response::Response> sh_ptr_response, const
 }
 
 Compboost::Compboost (const json& j, const mdata& mdsource, const mdata& mdinit)
-  : _learning_rate     ( j["_learning_rate"].get<double>() ),
+  : _pmode             ( j["_pmode"].get<bool>() ),
+    _learning_rate     ( j["_learning_rate"].get<double>() ),
     _is_global_stopper ( j["_is_global_stopper"].get<bool>() ),
     _sh_ptr_response   ( response::jsonToResponse(j["_sh_ptr_response"]) ),
     _sh_ptr_optimizer  ( optimizer::jsonToOptimizer(j["_sh_ptr_optimizer"], mdinit) ),
@@ -88,6 +89,8 @@ Compboost::Compboost (const std::string file)
 
 void Compboost::train (const unsigned int trace, const std::shared_ptr<loggerlist::LoggerList> sh_ptr_loggerlist)
 {
+  assertPMode();
+
   if (_sh_ptr_factory_list->getFactoryMap().size() == 0) {
     Rcpp::stop("Could not train without any registered base-learner.");
   }
@@ -157,6 +160,8 @@ void Compboost::trainCompboost (const unsigned int trace)
 
 void Compboost::continueTraining (const unsigned int trace)
 {
+  assertPMode();
+
   helper::debugPrint("From 'Compboost::continueTraining':");
   if (! _is_trained) {
     Rcpp::stop("Initial training hasn't been done yet. Use 'train()' first.");
@@ -177,6 +182,8 @@ void Compboost::continueTraining (const unsigned int trace)
 
 arma::vec Compboost::getPrediction (const bool& as_response) const
 {
+  assertPMode();
+
   arma::vec pred;
   if (as_response) {
     return _sh_ptr_response->getPredictionTransform();
@@ -223,6 +230,8 @@ std::pair<std::vector<std::string>, arma::mat> Compboost::getParameterMatrix () 
 
 arma::mat Compboost::predictFactory (const std::string& factory_id) const
 {
+  assertPMode();
+
   auto parameter_map = _blearner_track.getParameterMap();
   auto it_par_map    = parameter_map.find(factory_id);
   if (it_par_map == parameter_map.end())
@@ -238,6 +247,8 @@ arma::mat Compboost::predictFactory (const std::string& factory_id) const
 
 std::map<std::string, arma::mat> Compboost::predictIndividual () const
 {
+  assertPMode();
+
   auto parameter_map = _blearner_track.getParameterMap();
   std::map<std::string, arma::mat> out;
 
@@ -250,6 +261,9 @@ std::map<std::string, arma::mat> Compboost::predictIndividual () const
 
 arma::vec Compboost::predict () const
 {
+  // Throw an error if production mode is on:
+  assertPMode();
+
   arma::mat pred = _sh_ptr_response->calculateInitialPrediction(_sh_ptr_response->getResponse());
 
   auto ind_preds = predictIndividual();
@@ -313,6 +327,7 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
 
   helper::debugPrint("| > Check if new base-learner needs to be trained");
   if (k > iter_max) {
+    assertPMode();
     unsigned int iter_diff = k - iter_max;
     Rcpp::Rcout << "\nYou have already trained " << std::to_string(iter_max) << " iterations.\n"
                 << "Train " << std::to_string(iter_diff) << " additional iterations."
@@ -327,7 +342,7 @@ void Compboost::setToIteration (const unsigned int& k, const unsigned int& trace
   //
   //_blearner_track.setToIteration(k);
   helper::debugPrint("| > Set new prediction scores by calling predict()");
-  _sh_ptr_response->setPredictionScores(predict(), k);
+  if (! _pmode) _sh_ptr_response->setPredictionScores(predict(), k);
   _current_iter = k;
   helper::debugPrint("Finished 'Compboost::setToIteration'");
 }
@@ -386,9 +401,12 @@ void Compboost::summarizeCompboost () const
   Rcpp::Rcout << std::endl;
 }
 
-void Compboost::saveJson (std::string file) const
+void Compboost::saveJson (const std::string file, const bool rm_data)
 {
+  _pmode = rm_data;
+
   json j = {
+    {"_pmode",             _pmode},
     {"_learning_rate",     _learning_rate},
     {"_is_global_stopper", _is_global_stopper},
     {"_is_trained",        _is_trained},
@@ -396,10 +414,10 @@ void Compboost::saveJson (std::string file) const
     {"_risk",              _risk},
 
     // Helper objects to load one data object per feature and use copy by reference:
-    {"data_source", _sh_ptr_factory_list->factoryDataToJson(true)},
-    {"data_init",   _sh_ptr_factory_list->factoryDataToJson()},
+    {"data_source", _sh_ptr_factory_list->factoryDataToJson(true, _pmode)},
+    {"data_init",   _sh_ptr_factory_list->factoryDataToJson(false, _pmode)},
 
-    {"_sh_ptr_response",     _sh_ptr_response->toJson()},
+    {"_sh_ptr_response",     _sh_ptr_response->toJson(_pmode)},
     {"_sh_ptr_optimizer",    _sh_ptr_optimizer->toJson()},
     {"_sh_ptr_loss",         _sh_ptr_loss->toJson()},
     {"_sh_ptr_loggerlist",   _sh_ptr_loggerlist->toJson()},
@@ -407,10 +425,21 @@ void Compboost::saveJson (std::string file) const
     {"_blearner_track",      _blearner_track.toJson()}
   };
 
+
   std::ofstream o(file);
   o << j.dump(2) << std::endl;
 }
 
+void Compboost::assertPMode() const
+{
+  if (_pmode) {
+    std::string msg = "Production mode is on, this does not allow prediction";
+    msg.append(" on training data and hence also blocks the continuation of the training. ");
+    msg.append("This is most likely because the training data was removed to either store");
+    msg.append(" memory or due to privacy reasons.");
+    throw std::logic_error(msg);
+  }
+}
 // Destructor:
 Compboost::~Compboost () {}
 

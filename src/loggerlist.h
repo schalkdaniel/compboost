@@ -70,7 +70,7 @@ public:
   void clearMap              ();
   void clearLoggerData       ();
 
-  json toJson () const;
+  json toJson (const bool = false) const;
 
   // Destructor
   ~LoggerList ();

@@ -31,8 +31,6 @@ navbar:
       href: articles/fct-baselearner.html
     - text: Loss Functions
       href: articles/fct-loss.html
-    - text: Logger
-      href: articles/fct-logger.html
   - text: "Reference"
     href: "reference/index.html"
     contents:

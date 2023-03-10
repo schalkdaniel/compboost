@@ -142,13 +142,13 @@ json BaselearnerFactoryList::toJson () const
 
 
 
-json BaselearnerFactoryList::factoryDataToJson (const bool save_source) const
+json BaselearnerFactoryList::factoryDataToJson (const bool save_source, const bool rm_data) const
 {
   json j;
   json jsub;
 
   for (auto& it : _factory_map) {
-    jsub = it.second->extractDataToJson(save_source);
+    jsub = it.second->extractDataToJson(save_source, rm_data);
     for (auto& it : jsub.items()) {
       j[it.key()] = it.value();
     }

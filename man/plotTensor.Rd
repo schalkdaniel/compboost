@@ -32,7 +32,7 @@ This function visualizes the contribution of a bivariate tensor product.
 }
 \examples{
 cboost = Compboost$new(data = iris, target = "Petal.Length",
-      loss = LossQuadratic$new())
+  loss = LossQuadratic$new())
 
 cboost$addBaselearner("Sepal.Width", "spline", BaselearnerPSpline, df = 4)
 cboost$addBaselearner("Sepal.Length", "spline", BaselearnerPSpline, df = 4)

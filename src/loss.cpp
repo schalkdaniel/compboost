@@ -674,7 +674,9 @@ arma::mat LossCustomCpp::loss (const arma::mat& true_value, const arma::mat& pre
 */
 arma::mat LossCustomCpp::gradient (const arma::mat& true_value, const arma::mat& prediction) const
 {
-  return _gradFun(true_value, prediction);
+  arma::mat out = _gradFun(true_value, prediction);
+
+  return out;
 }
 
 /**
@@ -686,14 +688,15 @@ arma::mat LossCustomCpp::gradient (const arma::mat& true_value, const arma::mat&
 */
 arma::mat LossCustomCpp::constantInitializer (const arma::mat& true_value) const
 {
+
   arma::mat out(1, 1);
-  out.fill(_constInitFun(true_value));
+  double tmp = _constInitFun(true_value);
+  out.fill(tmp);
 
   return out;
 }
 arma::mat LossCustomCpp::weightedConstantInitializer (const arma::mat& true_value, const arma::mat& weights) const
 {
-  Rcpp::warning("Custom cpp loss does not have a weighted offset implementation. Using unweighted initializer.");
   return constantInitializer(true_value);
 }
 

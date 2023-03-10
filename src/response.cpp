@@ -185,8 +185,28 @@ double Response::calculateEmpiricalRisk (const std::shared_ptr<loss::Loss>& sh_p
 arma::mat Response::getPredictionTransform () const { return getPredictionTransform(_prediction_scores); }
 arma::mat Response::getPredictionResponse  () const { return getPredictionResponse(_prediction_scores); }
 
-json Response::baseToJson (const std::string cln) const
+json Response::baseToJson (const std::string cln, const bool rm_data) const
 {
+  json jres, jw, jpr, jpred, jpred1, jpred2;
+  if (rm_data) {
+    arma::mat zero(1, 1, arma::fill::zeros);
+    json jzero = saver::armaMatToJson(zero);
+
+    jres   = jzero;
+    jw     = jzero;
+    jpr    = jzero;
+    jpred  = jzero;
+    jpred1 = jzero;
+    jpred2 = jzero;
+  } else {
+    jres   = saver::armaMatToJson(_response);
+    jw     = saver::armaMatToJson(_weights);
+    jpr    = saver::armaMatToJson(_pseudo_residuals);
+    jpred  = saver::armaMatToJson(_prediction_scores);
+    jpred1 = saver::armaMatToJson(_prediction_scores_temp1);
+    jpred2 = saver::armaMatToJson(_prediction_scores_temp2);
+  }
+
   json j = {
     {"Class", cln},
 
@@ -194,14 +214,13 @@ json Response::baseToJson (const std::string cln) const
     {"_task_id",     _task_id},
     {"_use_weights", _use_weights},
 
-    {"_response",                saver::armaMatToJson(_response) },
-    {"_weights",                 saver::armaMatToJson(_weights) },
+    {"_response",                jres },
+    {"_weights",                 jw },
     {"_initialization",          saver::armaMatToJson(_initialization) },
-    {"_pseudo_residuals",        saver::armaMatToJson(_pseudo_residuals) },
-    {"_prediction_scores",       saver::armaMatToJson(_prediction_scores) },
-    {"_prediction_scores_temp1", saver::armaMatToJson(_prediction_scores_temp1) },
-
-    {"_prediction_scores_temp2", saver::armaMatToJson(_prediction_scores_temp2) },
+    {"_pseudo_residuals",        jpr },
+    {"_prediction_scores",       jpred },
+    {"_prediction_scores_temp1", jpred1 },
+    {"_prediction_scores_temp2", jpred2 },
     {"_iteration", _iteration},
     {"_is_initialized", _is_initialized},
     {"_is_model_initialized", _is_model_initialized}
@@ -293,7 +312,7 @@ void ResponseRegr::filter (const arma::uvec& idx)
   _prediction_scores = _prediction_scores.elem(idx);
 }
 
-json ResponseRegr::toJson() const { return baseToJson("ResponseRegr"); }
+json ResponseRegr::toJson(const bool rm_data) const { return baseToJson("ResponseRegr", rm_data); }
 
 // ResponseBinaryClassif
 // ------------------------------------
@@ -396,9 +415,9 @@ void ResponseBinaryClassif::setThreshold (const double new_thresh)
 
 double ResponseBinaryClassif::getThreshold () const { return _threshold; }
 
-json ResponseBinaryClassif::toJson() const
+json ResponseBinaryClassif::toJson(const bool rm_data) const
 {
-  json j = baseToJson("ResponseBinaryClassif");
+  json j = baseToJson("ResponseBinaryClassif", rm_data);
   j["_threshold"]   = _threshold;
   j["_pos_class"]   = _pos_class;
   j["_class_table"] = _class_table;

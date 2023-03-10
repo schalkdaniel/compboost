@@ -1,0 +1,122 @@
+---
+title: "Production mode"
+output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{Production mode}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+  # fig.path = "Readme_files/"
+)
+library(compboost)
+```
+
+Storing the complete [Compboost] object requires to save a lot of data:
+
+- Data matrices of the raw data.
+- Transformed data matrices. Each base learner creates a design matrix with (potentially) multiple columns.
+
+Hence, compboost allows to store the model without the data.
+
+## Store model without data
+
+To do so, just call:
+
+```{r}
+dat = mlr3::tsk("sonar")$data()
+cboost = boostSplines(dat, "Class", oob_fraction = 0.3)
+
+file = "cboost.json"
+cboost$saveToJson(file, rm_data = TRUE)
+
+cboost_without_data = Compboost$new(file = file)
+
+# The data field now just contains a dummy:
+cboost_without_data$data
+```
+
+__Note:__ It is not possible to use any functionality that requires the trianing data when storing and loading the object without data. For example, `cboost$predict()` now throws an error:
+```{r, error=TRUE}
+cboost_without_data$predict()
+```
+
+## Functionality of a data free model
+
+The most important functions are still usable:
+
+### Extracting feature importance.
+
+```{r}
+cboost_without_data$calculateFeatureImportance()
+```
+
+### Predict on new data
+
+```{r}
+ndat = dat[1:10, ]
+cboost_without_data$predict(ndat)
+```
+
+### Visualize partial feature effects.
+
+```{r}
+library(patchwork)
+
+plotPEUni(cboost_without_data, "V12") +
+plotPEUni(cboost_without_data, "V36")
+```
+
+### Get logger data
+
+```{r}
+head(cboost_without_data$getLoggerData())
+```
+
+### Setting the model to a previous iteration.
+
+```{r}
+table(cboost_without_data$getSelectedBaselearner())
+cboost_without_data$predict(ndat)
+
+# State after 50 iteration:
+cboost_without_data$train(50)
+table(cboost_without_data$getSelectedBaselearner())
+cboost_without_data$predict(ndat)
+```
+
+## Advantages
+
+### Size
+
+The size of the model and `JSON` file is much smaller when the data is not stored.
+
+```{r}
+file_full = "cboost_full.json"
+cboost$saveToJson(file_full)
+
+file.info(file)$size / 1024^2
+file.info(file_full)$size / 1024^2
+```
+
+### Loading
+
+Loading a model is much faster (maybe not that striking for smaller models):
+
+```{r}
+system.time(Compboost$new(file = file))
+system.time(Compboost$new(file = file_full))
+```
+
+### Privacy
+
+Raw data is not shared unintentionally with third parties. This is especially striking for domains that works with sensitive data.
+
+
+```{r, include=FALSE}
+file.remove(file, file_full)
+```
