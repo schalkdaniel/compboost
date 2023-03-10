@@ -102,6 +102,9 @@ cboost = boostSplines(iris, "Sepal.Width")
 cboost$saveToJson("mymodel.json")
 
 cboost_new = Compboost$new(file = "mymodel.json")
+
+# Save the model without data:
+cboost$saveToJson("mymodel_without_data.json", rm_data = TRUE)
 ```
 
 ## Benchmark
