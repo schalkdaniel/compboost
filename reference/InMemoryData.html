@@ -41,6 +41,7 @@ accessible for Compboost."><meta property="og:image" content="https://schalkdani
     <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
     <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
     <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-production-model.html">Production model</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -146,17 +147,17 @@ Data id, e.g. a feature name.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get data and identifier:</span></span></span>
 <span class="r-in"><span><span class="va">data_obj</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.50931458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -2.06115340</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -1.12038513</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.08329891</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,]  1.19187273</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  1.19650062</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.19533469</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -1.51462610</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] -1.69976892</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.21056278</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] -0.2263192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -0.7524845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,]  0.2048802</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] -2.0965642</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.5695481</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  1.1877118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.9058965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] -0.6424231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.5355057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,]  1.0843267</span>
 <span class="r-in"><span><span class="va">data_obj</span><span class="op">$</span><span class="fu">getIdentifier</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "my_data_name"</span>
 <span class="r-in"><span></span></span>

@@ -68,6 +68,7 @@
     <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
     <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
     <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-production-model.html">Production model</a>
   </div>
 </li>
 <li class="nav-item dropdown">
@@ -191,11 +192,11 @@ here 50000 microseconds:</p>
 <span></span>
 <span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    1/2000   risk = 0.67  time = 0   </span></span>
-<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 18891   </span></span>
-<span><span class="co">#&gt;  500/2000   risk = 0.48  time = 40123   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 18147   </span></span>
+<span><span class="co">#&gt;  500/2000   risk = 0.48  time = 38723   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Train 609 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Train 614 iterations in 0 Seconds.</span></span>
 <span><span class="co">#&gt; Final risk based on the train set: 0.48</span></span>
 <span><span class="va">cboost</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -205,23 +206,23 @@ here 50000 microseconds:</p>
 <span><span class="co">#&gt; Target variable: Survived</span></span>
 <span><span class="co">#&gt; Number of base-learners: 3</span></span>
 <span><span class="co">#&gt; Learning rate: 0.05</span></span>
-<span><span class="co">#&gt; Iterations: 609</span></span>
+<span><span class="co">#&gt; Iterations: 614</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Offset: 0.423</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; LossBinomial: L(y,x) = log(1 + exp(-2yf(x))</span></span></code></pre></div>
-<p>As we can see, the fittings is stopped early after 609 and does not
+<p>As we can see, the fittings is stopped early after 614 and does not
 train the full 2000 iterations. The logger data can be accessed by
 calling <code>$getLoggerData()</code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     _iterations  time baselearner train_risk</span></span>
-<span><span class="co">#&gt; 605         604 49562   Sex_ridge  0.4786786</span></span>
-<span><span class="co">#&gt; 606         605 49654  Age_spline  0.4786571</span></span>
-<span><span class="co">#&gt; 607         606 49747 Fare_spline  0.4786303</span></span>
-<span><span class="co">#&gt; 608         607 49839  Age_spline  0.4786089</span></span>
-<span><span class="co">#&gt; 609         608 49927   Sex_ridge  0.4785777</span></span>
-<span><span class="co">#&gt; 610         609 50019  Age_spline  0.4785565</span></span></code></pre></div>
+<span><span class="co">#&gt; 610         609 49569  Age_spline  0.4785565</span></span>
+<span><span class="co">#&gt; 611         610 49671 Fare_spline  0.4785300</span></span>
+<span><span class="co">#&gt; 612         611 49773  Age_spline  0.4785089</span></span>
+<span><span class="co">#&gt; 613         612 49875  Age_spline  0.4784881</span></span>
+<span><span class="co">#&gt; 614         613 49977 Fare_spline  0.4784619</span></span>
+<span><span class="co">#&gt; 615         614 50075   Sex_ridge  0.4784311</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
