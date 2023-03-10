@@ -128,7 +128,7 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
       } else if (self$param_set$values$baselearner == "spline") {
         f = compboost::boostSplines
       }
-      if (self$param_set$early_stop) {
+      if (self$param_set$values$early_stop) {
         if (is.null(self$param_set$values$val_fraction) || (self$param_set$values$val_fraction == 0)) {
           stop("`val_fraction > 0` required for early stopping.")
         }
