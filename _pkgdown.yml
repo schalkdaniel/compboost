@@ -21,6 +21,8 @@ navbar:
         href: articles/basic-obj-refs.html
       - text: Visualizing Compboost
         href: articles/basic-viz.html
+      - text: Production mode
+        href: articles/basic-production-mode.html
   - text: Advanced Topics
     menu:
       - text: Extending losses

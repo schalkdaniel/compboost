@@ -21,7 +21,8 @@ Storing the complete [Compboost] object requires to save a lot of data:
 - Data matrices of the raw data.
 - Transformed data matrices. Each base learner creates a design matrix with (potentially) multiple columns.
 
-Hence, compboost allows to store the model without the data.
+Hence, `compboost` allows to store the model without the data. Within this vignettes, this is also called
+production mode since it is the more practical case when running the model in production.
 
 ## Store model without data
 
@@ -40,7 +41,7 @@ cboost_without_data = Compboost$new(file = file)
 cboost_without_data$data
 ```
 
-__Note:__ It is not possible to use any functionality that requires the trianing data when storing and loading the object without data. For example, `cboost$predict()` now throws an error:
+__Note:__ It is not possible to use any functionality that requires the training data when storing and loading the object without data. For example, `cboost$predict()` now throws an error:
 ```{r, error=TRUE}
 cboost_without_data$predict()
 ```
