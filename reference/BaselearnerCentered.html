@@ -164,9 +164,9 @@ the linear effect is estimated.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">bl_ctr</span><span class="op">$</span><span class="fu">getMeta</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ df         : num [1, 1] 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num [1, 1] 55.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:17, 1:17] 8.1825 -3.3545 1.5581 0.3778 0.0581 ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ rotation   : num [1:19, 1:17] -0.223 -0.417 0.846 -0.134 -0.102 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num [1, 1] 54.7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:17, 1:17] 7.54 -3.136 2.088 0.747 0.306 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ rotation   : num [1:19, 1:17] -0.1378 -0.2518 0.9352 -0.0862 -0.1262 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The data matrix is created by rotating the spline data matrix:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="va">bl_sp</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">bl_ctr</span><span class="op">$</span><span class="fu">getRotation</span><span class="op">(</span><span class="op">)</span>, <span class="va">bl_ctr</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -177,24 +177,24 @@ the linear effect is estimated.</p>
 <span class="r-in"><span><span class="va">newdata</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va"><a href="InMemoryData.html">InMemoryData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, <span class="st">"x"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bl_ctr</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="va">newdata</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]        [,3]        [,4]        [,5]        [,6]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.38846276 -0.1219010 -0.14836796 -0.10160253 -0.12108914 -0.11117833</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  0.32091740  0.3574665 -0.07930151 -0.07520434 -0.09714030 -0.09843489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -0.17431508 -0.2911577 -0.21734125 -0.14828489 -0.17592807 -0.16054831</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.19199921 -0.2192614 -0.17710258 -0.11879950 -0.13799513 -0.12228342</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.06828497  0.5422997  0.04172609 -0.07008662 -0.09189579 -0.09467155</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,7]        [,8]         [,9]        [,10]       [,11]        [,12]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -0.06830472 -0.03928690 -0.009215747  0.006593388  0.01565969  0.063446851</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.07209088 -0.05419958 -0.034918178 -0.026647552 -0.00852403 -0.003775757</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -0.09740430 -0.05467349 -0.010470125  0.012966568  0.02498806  0.097979336</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -0.06957780 -0.03393464  0.002648487  0.022772693  0.02792074  0.098427189</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.07110038 -0.05507884 -0.037650816 -0.030566873 -0.01160148 -0.012744494</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,13]         [,14]       [,15]       [,16]       [,17]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.112746264  7.093996e-02 0.092388067 0.070408725 0.008046899</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  0.003443245  8.507514e-03 0.018539323 0.015751499 0.001879396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.173034359  1.082007e-01 0.140123154 0.106615419 0.012176505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.170056185  1.039698e-01 0.131840106 0.099699728 0.011356689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.011339190 -7.212071e-05 0.008214459 0.008067577 0.001010222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]       [,2]       [,3]       [,4]        [,5]        [,6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -0.03496245 -0.2606175 -0.3736179 -0.2704598 -0.13786201 -0.09247242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.03496245 -0.2606175 -0.3736179 -0.2704598 -0.13786201 -0.09247242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -0.03496245 -0.2606175 -0.3736179 -0.2704598 -0.13786201 -0.09247242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.40511322  0.3643381 -0.1416297 -0.1232022 -0.06807091 -0.05526612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.03496245 -0.2606175 -0.3736179 -0.2704598 -0.13786201 -0.09247242</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,7]        [,8]        [,9]        [,10]     [,11]      [,12]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -0.06842347 -0.01769690  0.02174805  0.055670796 0.1180261 0.19582714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.06842347 -0.01769690  0.02174805  0.055670796 0.1180261 0.19582714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -0.06842347 -0.01769690  0.02174805  0.055670796 0.1180261 0.19582714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -0.05184159 -0.03415071 -0.02070668 -0.006574924 0.0079540 0.02415364</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.06842347 -0.01769690  0.02174805  0.055670796 0.1180261 0.19582714</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           [,13]      [,14]      [,15]     [,16]       [,17]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.15599380 0.10124791 0.15337765 0.1069935 0.010255126</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.15599380 0.10124791 0.15337765 0.1069935 0.010255126</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.15599380 0.10124791 0.15337765 0.1069935 0.010255126</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.02453354 0.01907928 0.03236944 0.0231747 0.002268211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.15599380 0.10124791 0.15337765 0.1069935 0.010255126</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># R6 wrapper</span></span></span>
@@ -213,7 +213,7 @@ the linear effect is estimated.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">200</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 200 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.39</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
