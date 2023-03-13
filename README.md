@@ -74,14 +74,25 @@ page](https://danielschalk.com/compboost/articles/getting_started/use_case.html)
 
 ## mlr learner
 
-Compboost also ships an [`mlr3`](https://mlr3.mlr-org.com/) learner that
-can be used to apply `compboost` within the whole
-[`mlr3verse`](https://mlr3.mlr-org.com/):
+Compboost also ships an [`mlr3`](https://mlr3.mlr-org.com/) learners for
+regression and binary classification which can be used to apply
+`compboost` within the whole [`mlr3verse`](https://mlr3.mlr-org.com/):
 
 ``` r
-lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
 ts = tsk("spam")
+lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
 lcboost$train(ts)
+lcboost$predict_type = "prob"
+lcboost$predict(ts)
+#> <PredictionClassif> for 4601 observations:
+#>     row_ids   truth response prob.spam prob.nonspam
+#>           1    spam     spam 0.5541776    0.4458224
+#>           2    spam     spam 0.8637144    0.1362856
+#>           3    spam     spam 0.8242054    0.1757946
+#> ---                                                
+#>        4599 nonspam  nonspam 0.2052921    0.7947079
+#>        4600 nonspam  nonspam 0.2326375    0.7673625
+#>        4601 nonspam  nonspam 0.2624331    0.7375669
 
 # Access the `$model` field to access all the `compboost` functionality:
 plotBaselearnerTraces(lcboost$model) +
