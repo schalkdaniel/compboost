@@ -108,6 +108,9 @@ cboost_new = Compboost$new(file = "mymodel.json")
 # Save the model without data:
 cboost$saveToJson("mymodel_without_data.json", rm_data = TRUE)
 ```
+```{r, include=FALSE}
+file.remove("mymodel.json", "mymodel_without_data.json")
+```
 
 ## Benchmark
 

@@ -41,6 +41,10 @@ cboost_without_data = Compboost$new(file = file)
 cboost_without_data$data
 ```
 
+```{r, include=FALSE}
+file.remove(file)
+```
+
 __Note:__ It is not possible to use any functionality that requires the training data when storing and loading the object without data. For example, `cboost$predict()` now throws an error:
 ```{r, error=TRUE}
 cboost_without_data$predict()
@@ -104,6 +108,10 @@ cboost$saveToJson(file_full)
 
 file.info(file)$size / 1024^2
 file.info(file_full)$size / 1024^2
+```
+
+```{r, include=FALSE}
+file.remove(file_full)
 ```
 
 ### Loading
