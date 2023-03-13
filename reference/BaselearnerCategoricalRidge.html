@@ -39,12 +39,13 @@ allows unbiased feature selection."><meta property="og:image" content="https://s
       <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
-    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About Component-Wise Boosting</a>
-    <a class="dropdown-item" href="../articles/basic-use-case.html">First Use-Case</a>
-    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early Stopping</a>
-    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
-    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
-    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About component-wise boosting</a>
+    <a class="dropdown-item" href="../articles/basic-use-case.html">First use-case</a>
+    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early stopping</a>
+    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile regression</a>
+    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference-based objects in compboost</a>
+    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing compboost</a>
+    <a class="dropdown-item" href="../articles/basic-mlr-learners.html">mlr3 learners</a>
     <a class="dropdown-item" href="../articles/basic-production-model.html">Production model</a>
   </div>
 </li>
@@ -57,8 +58,8 @@ allows unbiased feature selection."><meta property="og:image" content="https://s
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
-    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
-    <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base learner</a>
+    <a class="dropdown-item" href="../articles/fct-loss.html">Loss functions</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -169,21 +170,21 @@ Degrees of freedom of the base learner(s).</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">bl</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    0    1    0    1    0    1    0    0     1     0     1     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    1    0    1    0    1    0    1    1     0     1     0     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    1    1    0    0    0    0    1    0     0     0     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    1    1    1    1    0    1     1     1     0     0     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,15] [,16] [,17] [,18] [,19] [,20]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     0     0     0     0     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     1     1     1     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     0     1     1     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     1     0     0     1     1     1</span>
 <span class="r-in"><span><span class="va">bl</span><span class="op">$</span><span class="fu">summarizeFactory</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Categorical base learner of category cat</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">bl</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    0    1    0    1    0    1    0    0     1     0     1     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    1    0    1    0    1    0    1    1     0     1     0     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    1    1    0    0    0    0    1    0     0     0     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0    0    0    1    1    1    1    0    1     1     1     0     0     0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,15] [,16] [,17] [,18] [,19] [,20]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     0     0     0     0     0     0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     1     1     1     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     0     1     1     0     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     1     0     0     1     1     1</span>
 <span class="r-in"><span><span class="va">bl</span><span class="op">$</span><span class="fu">summarizeFactory</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Categorical base learner of category cat</span>
 <span class="r-in"><span><span class="va">bl</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">ds</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -191,22 +192,22 @@ Degrees of freedom of the base learner(s).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20 x 2 sparse Matrix of class "dgCMatrix"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 1 .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 1 .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 1 .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] . 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] . 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] . 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 1 .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 1 .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] . 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] . 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11,] . 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 1 .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] . 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 1 .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [15,] . 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] . 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] . 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 1 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] 1 .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [18,] . 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [19,] . 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20,] . 1</span>
@@ -219,7 +220,7 @@ Degrees of freedom of the base learner(s).</p></dd>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"binary"</span>, <span class="va">BaselearnerCategoricalRidge</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 100 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.019</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.017</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

@@ -37,12 +37,13 @@ base learners to combine."><meta property="og:image" content="https://schalkdani
       <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
-    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About Component-Wise Boosting</a>
-    <a class="dropdown-item" href="../articles/basic-use-case.html">First Use-Case</a>
-    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early Stopping</a>
-    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
-    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
-    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About component-wise boosting</a>
+    <a class="dropdown-item" href="../articles/basic-use-case.html">First use-case</a>
+    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early stopping</a>
+    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile regression</a>
+    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference-based objects in compboost</a>
+    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing compboost</a>
+    <a class="dropdown-item" href="../articles/basic-mlr-learners.html">mlr3 learners</a>
     <a class="dropdown-item" href="../articles/basic-production-model.html">Production model</a>
   </div>
 </li>
@@ -55,8 +56,8 @@ base learners to combine."><meta property="og:image" content="https://schalkdani
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
-    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
-    <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base learner</a>
+    <a class="dropdown-item" href="../articles/fct-loss.html">Loss functions</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -189,8 +190,8 @@ penalty is used, which means that both directions gets penalized equally.</p></d
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">tensor</span><span class="op">$</span><span class="fu">getMeta</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ df         : num [1:2, 1] 5 5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num [1:2, 1] 13.7 15.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:196, 1:196] 28.9 -30.3 15.2 0 0 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num [1:2, 1] 15.7 14.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:196, 1:196] 30.2 -29 14.5 0 0 ...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Transform "new data":</span></span></span>
 <span class="r-in"><span><span class="va">newdata</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va"><a href="InMemoryData.html">InMemoryData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, <span class="st">"x1"</span><span class="op">)</span>,</span></span>
@@ -204,7 +205,7 @@ penalty is used, which means that both directions gets penalized equally.</p></d
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ Dimnames:List of 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..$ : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. .. ..$ : NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ x       : num [1:80] 1.30e-08 8.05e-03 1.33e-04 1.07e-04 1.14e-04 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ x       : num [1:80] 2.23e-02 8.73e-04 6.69e-09 4.53e-04 2.85e-04 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..@ factors : list()</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># R6 wrapper</span></span></span>
@@ -213,7 +214,7 @@ penalty is used, which means that both directions gets penalized equally.</p></d
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addTensor</span><span class="op">(</span><span class="st">"x1"</span>, <span class="st">"x2"</span>, df <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">50</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 50 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>

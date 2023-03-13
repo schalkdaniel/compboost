@@ -25,6 +25,9 @@
     <loc>https://schalkdaniel.github.io/compboost/articles/basic-early-stopping.html</loc>
   </url>
   <url>
+    <loc>https://schalkdaniel.github.io/compboost/articles/basic-mlr-learners.html</loc>
+  </url>
+  <url>
     <loc>https://schalkdaniel.github.io/compboost/articles/basic-obj-refs.html</loc>
   </url>
   <url>
@@ -160,7 +163,13 @@
     <loc>https://schalkdaniel.github.io/compboost/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/mlr_learners.compboost.html</loc>
+  </url>
+  <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/mlr_learners_classif.compboost.html</loc>
+  </url>
+  <url>
+    <loc>https://schalkdaniel.github.io/compboost/reference/mlr_learners_regr.compboost.html</loc>
   </url>
   <url>
     <loc>https://schalkdaniel.github.io/compboost/reference/plotBaselearner.html</loc>

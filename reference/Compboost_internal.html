@@ -51,12 +51,13 @@ the C++ methods."><meta property="og:image" content="https://schalkdaniel.github
       <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
-    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About Component-Wise Boosting</a>
-    <a class="dropdown-item" href="../articles/basic-use-case.html">First Use-Case</a>
-    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early Stopping</a>
-    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
-    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
-    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About component-wise boosting</a>
+    <a class="dropdown-item" href="../articles/basic-use-case.html">First use-case</a>
+    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early stopping</a>
+    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile regression</a>
+    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference-based objects in compboost</a>
+    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing compboost</a>
+    <a class="dropdown-item" href="../articles/basic-mlr-learners.html">mlr3 learners</a>
     <a class="dropdown-item" href="../articles/basic-production-model.html">Production model</a>
   </div>
 </li>
@@ -69,8 +70,8 @@ the C++ methods."><meta property="og:image" content="https://schalkdaniel.github
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
-    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
-    <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base learner</a>
+    <a class="dropdown-item" href="../articles/fct-loss.html">Loss functions</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -291,16 +292,16 @@ See the respective help page for further information.</p></dd>
 <span class="r-in"><span><span class="co"># Train the model (we want to print the trace):</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span>trace <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   1/500   risk = 0.68  time_logger = 0   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  50/500   risk = 0.42  time_logger = 493   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 100/500   risk = 0.31  time_logger = 1049   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 150/500   risk = 0.25  time_logger = 1659   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 200/500   risk = 0.21  time_logger = 2350   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 250/500   risk = 0.19  time_logger = 3117   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 300/500   risk = 0.17  time_logger = 3937   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 350/500   risk = 0.16  time_logger = 4849   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 400/500   risk = 0.15  time_logger = 5852   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 450/500   risk = 0.14  time_logger = 6935   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 500/500   risk = 0.13  time_logger = 8096   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  50/500   risk = 0.42  time_logger = 764   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 100/500   risk = 0.31  time_logger = 1623   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 150/500   risk = 0.25  time_logger = 2542   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 200/500   risk = 0.21  time_logger = 3600   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 250/500   risk = 0.19  time_logger = 4977   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 300/500   risk = 0.17  time_logger = 6313   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 350/500   risk = 0.16  time_logger = 7983   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 400/500   risk = 0.15  time_logger = 9573   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 450/500   risk = 0.14  time_logger = 11280   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 500/500   risk = 0.13  time_logger = 13204   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 500 iterations in 0 Seconds.</span>

@@ -35,12 +35,13 @@ object to instantiate categorical base learner."><meta property="og:image" conte
       <ul class="navbar-nav me-auto"><li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-getting-started">Getting Started</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-getting-started">
-    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About Component-Wise Boosting</a>
-    <a class="dropdown-item" href="../articles/basic-use-case.html">First Use-Case</a>
-    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early Stopping</a>
-    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile Regression</a>
-    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference Based Objects of Compboost</a>
-    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing Compboost</a>
+    <a class="dropdown-item" href="../articles/basic-about-cwb.html">About component-wise boosting</a>
+    <a class="dropdown-item" href="../articles/basic-use-case.html">First use-case</a>
+    <a class="dropdown-item" href="../articles/basic-early-stopping.html">Early stopping</a>
+    <a class="dropdown-item" href="../articles/basic-robust-reg.html">Quantile regression</a>
+    <a class="dropdown-item" href="../articles/basic-obj-refs.html">Reference-based objects in compboost</a>
+    <a class="dropdown-item" href="../articles/basic-viz.html">Visualizing compboost</a>
+    <a class="dropdown-item" href="../articles/basic-mlr-learners.html">mlr3 learners</a>
     <a class="dropdown-item" href="../articles/basic-production-model.html">Production model</a>
   </div>
 </li>
@@ -53,8 +54,8 @@ object to instantiate categorical base learner."><meta property="og:image" conte
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-functionality">Functionality</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-functionality">
-    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base-Learner</a>
-    <a class="dropdown-item" href="../articles/fct-loss.html">Loss Functions</a>
+    <a class="dropdown-item" href="../articles/fct-baselearner.html">Base learner</a>
+    <a class="dropdown-item" href="../articles/fct-loss.html">Loss functions</a>
   </div>
 </li>
 <li class="active nav-item">
@@ -146,9 +147,9 @@ Data id, e.g. a feature name.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get data and identifier:</span></span></span>
 <span class="r-in"><span><span class="va">data_obj</span><span class="op">$</span><span class="fu">getRawData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "two"   "two"   "three" "two"   "one"   "three" "three" "two"   "three"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "three" "two"   "two"   "three" "two"   "two"   "one"   "three" "three"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "one"   "three"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "one"   "one"   "one"   "three" "two"   "one"   "one"   "one"   "three"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "one"   "two"   "three" "one"   "three" "two"   "two"   "two"   "three"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "two"   "three"</span>
 <span class="r-in"><span><span class="va">data_obj</span><span class="op">$</span><span class="fu">getIdentifier</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cat_raw"</span>
 <span class="r-in"><span></span></span>
