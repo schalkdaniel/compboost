@@ -41,10 +41,6 @@ cboost_without_data = Compboost$new(file = file)
 cboost_without_data$data
 ```
 
-```{r, include=FALSE}
-file.remove(file)
-```
-
 __Note:__ It is not possible to use any functionality that requires the training data when storing and loading the object without data. For example, `cboost$predict()` now throws an error:
 ```{r, error=TRUE}
 cboost_without_data$predict()
@@ -110,9 +106,6 @@ file.info(file)$size / 1024^2
 file.info(file_full)$size / 1024^2
 ```
 
-```{r, include=FALSE}
-file.remove(file_full)
-```
 
 ### Loading
 
@@ -126,7 +119,6 @@ system.time(Compboost$new(file = file_full))
 ### Privacy
 
 Raw data is not shared unintentionally with third parties. This is especially striking for domains that works with sensitive data.
-
 
 ```{r, include=FALSE}
 file.remove(file, file_full)
