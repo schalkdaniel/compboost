@@ -81,12 +81,14 @@ For more extensive examples and how to use the `R6` interface visit the [project
 
 ## mlr learner
 
-Compboost also ships an [`mlr3`](https://mlr3.mlr-org.com/) learner that can be used to apply `compboost` within the whole [`mlr3verse`](https://mlr3.mlr-org.com/):
+Compboost also ships an [`mlr3`](https://mlr3.mlr-org.com/) learners for regression and binary classification which can be used to apply `compboost` within the whole [`mlr3verse`](https://mlr3.mlr-org.com/):
 
 ```{r}
-lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
 ts = tsk("spam")
+lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
 lcboost$train(ts)
+lcboost$predict_type = "prob"
+lcboost$predict(ts)
 
 # Access the `$model` field to access all the `compboost` functionality:
 plotBaselearnerTraces(lcboost$model) +

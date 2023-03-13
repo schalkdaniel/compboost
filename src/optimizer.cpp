@@ -202,7 +202,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerCoordinateDescent::findBestBasel
     std::shared_ptr<blearner::Baselearner> blearner_temp;
     std::shared_ptr<blearner::Baselearner> blearner_best;
 
-    #pragma omp for schedule(dynamic)
+    #pragma omp for schedule(static)
     for (unsigned int i = 0; i < factory_map.size(); i++) {
 
       // increment iterator to "index map elements by index" (https://stackoverflow.com/questions/8848870/use-openmp-in-iterating-over-a-map):
@@ -543,7 +543,7 @@ std::shared_ptr<blearner::Baselearner> OptimizerAGBM::findBestBaselearner (std::
     std::shared_ptr<blearner::Baselearner> blearner_temp;
     std::shared_ptr<blearner::Baselearner> blearner_best;
 
-    #pragma omp for schedule(dynamic)
+    #pragma omp for schedule(static)
     for (unsigned int i = 0; i < factory_map.size(); i++) {
 
       // increment iterator to "index map elements by index" (https://stackoverflow.com/questions/8848870/use-openmp-in-iterating-over-a-map):

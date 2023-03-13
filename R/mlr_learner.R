@@ -12,7 +12,7 @@ ochecker = function(x) {
 }
 
 lchecker = function(x) {
-  ccheck = grepl("Rcpp_Optimizer", class(x))
+  ccheck = grepl("Rcpp_Loss", class(x))
   if (ccheck || is.null(x)) {
     return(TRUE)
   } else {
@@ -24,26 +24,23 @@ ichecker = function(x) {
   checkmate::checkDataFrame(x, col.names = c("feat1", "feat2"), null.ok = TRUE)
 }
 
-#' @title Classification component-wise boosting learner
+#' @title Component-wise boosting learner
 #'
-#' @name mlr_learners_classif.compboost
+#' @name mlr_learners.compboost
 #'
 #' @description
-#' A [LearnerClassif] for a component-wise boosting model implemented in [compboost::Compboost]
+#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
 #' in package \CRANpkg{compboost}.
 #'
-#' @section Initial parameter values:
-#' * Parameter `xval` is initialized to 0 in order to save some computation time.
-#'
-#' @importFrom mlr3 mlr_learners LearnerClassif
-#' @export
-LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = LearnerClassif,
+#' @importFrom mlr3 mlr_learners Learner
+LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function() {
+    initialize = function(mode) {
+      checkmate::assertChoice(mode, c("regr", "classif"))
       ps = paradox::ps(
-        show_output = paradox::p_lgl(default = TRUE),
+        show_output = paradox::p_lgl(default = FALSE),
 
         baselearner   = paradox::p_fct(c("linear", "spline", "components"), default = "spline"),
         learning_rate = paradox::p_dbl(0, Inf, default = 0.05, tags = "train"),
@@ -61,7 +58,7 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
         loss         = paradox::p_uty(default = NULL, tags = "train", custom_check = lchecker),
         interactions = paradox::p_uty(default = NULL),
 
-        val_fraction = paradox::p_dbl(0, 1, default = 0.3),
+        oob_fraction = paradox::p_dbl(0, 1, default = 0.3, tags = "train"),
         early_stop   = paradox::p_lgl(default = FALSE, tags = "early_stop"),
         patience     = paradox::p_int(1, Inf, default = 5, depends = early_stop == TRUE, tags = "early_stop"),
         eps_for_break = paradox::p_dbl(-Inf, Inf, default = 0, depends = early_stop == TRUE, tags = "early_stop")
@@ -73,16 +70,24 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
       ps$values$df_cat = 2
       ps$values$early_stop = FALSE
 
+      ptypes = "response"
+      props = c("importance", "selected_features")
+      if (mode == "classif") {
+        ptypes = c("prob", ptypes)
+        props = c("twoclass", props)
+      }
+
       super$initialize(
-        id = "classif.compboost",
+        id = sprintf("%s.compboost", mode),
+        task_type = mode,
         packages = "compboost",
         feature_types = c("integer", "numeric", "factor", "ordered"),
-        predict_types = c("response", "prob"),
+        predict_types = ptypes,
         param_set = ps,
-        properties = c("twoclass", "missings", "importance", "selected_features"),
+        properties = props,
         label = "Component-wise boosting",
-        man = "mlr3::mlr_learners_classif.compboost"
-      )
+        man = sprintf("mlr3::mlr_learners_%s.compboost", mode))
+        # data_format is set by super class `Learner`.
     },
 
     #' @description
@@ -129,8 +134,8 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
         f = compboost::boostSplines
       }
       if (self$param_set$values$early_stop) {
-        if (is.null(self$param_set$values$val_fraction) || (self$param_set$values$val_fraction == 0)) {
-          stop("`val_fraction > 0` required for early stopping.")
+        if (is.null(self$param_set$values$oob_fraction) || (self$param_set$values$oob_fraction == 0)) {
+          stop("`oob_fraction > 0` required for early stopping.")
         }
         pv_es = self$param_set$default[tagIndex(self$param_set, "early_stop")]
         mlr3misc::insert_named(pv_es, self$param_set$get_values(tags = "early_stop"))
@@ -165,13 +170,64 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
       newdata = task$data(cols = task$feature_names)
       response = prob = NULL
 
-      if ("response" %in% self$predict_type) {
-        return(self$model$predict(newdata, as_response = TRUE))
-      } else if ("prob" %in% self$predict_type) {
-        return(self$model$predict(newdata, as_response = FALSE))
-      }
+      # The score are probabilities in classification and predictions in regression:
+      score = as.numeric(self$model$predict(newdata, TRUE))
 
-      list(response = response, prob = prob)
+      # In regression, just return the score:
+      if (task$task_type == "regr") {
+        return(list(response = score))
+      # For classification distinguish between response and prob type:
+      } else if (task$task_type == "classif") {
+        cnames = names(self$model$response$getClassTable())
+        pos = self$model$response$getPositiveClass()
+        neg = setdiff(cnames, pos)
+        if ("response" %in% self$predict_type) {
+          return(list(response = ifelse(score > self$model$response$getThreshold(), pos, neg)))
+        } else if ("prob" %in% self$predict_type) {
+          pmat = cbind(score, 1 - score)
+          colnames(pmat) = c(pos, neg)
+          return(list(prob = pmat))
+        }
+      }
     }
   )
 )
+
+#' @title Classification component-wise boosting learner
+#'
+#' @name mlr_learners_classif.compboost
+#'
+#' @description
+#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
+#' in package \CRANpkg{compboost}.
+#'
+#' @export
+LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = LearnerCompboost,
+  public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function() {
+      super$initialize("classif")
+    }
+  )
+)
+
+#' @title Regression component-wise boosting learner
+#'
+#' @name mlr_learners_regr.compboost
+#'
+#' @description
+#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
+#' in package \CRANpkg{compboost}.
+#'
+#' @export
+LearnerRegrCompboost = R6::R6Class("LearnerRegrCompboost", inherit = LearnerCompboost,
+  public = list(
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    initialize = function() {
+      super$initialize("regr")
+    }
+  )
+)
+

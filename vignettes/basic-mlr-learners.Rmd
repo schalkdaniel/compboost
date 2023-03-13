@@ -1,0 +1,93 @@
+---
+title: "mlr3 learners"
+output: html_vignette
+vignette: >
+  %\VignetteIndexEntry{mlr3 learners}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+  # fig.path = "Readme_files/"
+)
+library(compboost)
+```
+
+[Compboost] contains two [`mlr3`](https://github.com/mlr-org/mlr3) learners for regression `regr.compboost` and binary classification `classif.compboost`.
+See [https://mlr3.mlr-org.com/](https://mlr3.mlr-org.com/) For an introduction to `mlr3`.
+Here, we show the two learners in small examples.
+
+## Regression
+
+As task, we use the Boston housing task that is accessible via `tsk("boston_housing")`:
+```{r}
+task = tsk("boston_housing")
+task
+```
+
+The key `regr.compboost` gives the regression learner:
+```{r}
+lcb = lrn("regr.compboost")
+lcb$param_set
+
+lcb$train(task)
+lcb$model
+```
+
+The most important features of `Compboost` can be controlled via the parameters.
+For example, using early stopping requires to set the value `oob_fraction` to a number bigger than 0.
+Just in this case, the learner can be trained with early stopping:
+```{r, error=TRUE}
+lcb = lrn("regr.compboost", early_stop = TRUE)
+lcb$train(task)
+
+lcb = lrn("regr.compboost", oob_fraction = 0.3, early_stop = TRUE)
+lcb$train(task)
+head(lcb$model$logs)
+```
+
+## Binary classification
+
+Binary classification works in the same way. We use the `spam` data set for the demo:
+
+```{r}
+task = tsk("spam")
+task
+```
+
+Then, the usual methods and fields are accessible:
+```{r}
+lcb = lrn("classif.compboost", iterations = 500L)
+lcb$train(task)
+
+lcb$predict_type = "prob"
+pred = lcb$predict(task)
+pred$confusion
+pred$score(msr("classif.auc"))
+```
+
+## Using compboost in parallel
+
+The parallel execution in `compboost` is controlled by the optimizers.
+With `mlr3`, optimizers can defined in the construction of the learner.
+Thus, if compboost should be run in parallel, define an optimizer in advance and use it in the construction:
+```{r}
+lcb$timings["train"]
+
+lcb_2c = lrn("classif.compboost", iterations = 500L, optimizer = OptimizerCoordinateDescent$new(2))
+lcb_2c$train(task)
+lcb_2c$timings["train"]
+```
+
+## Using different losses
+
+As for the parallel execution, losses can be defined by the `loss` parameter value in the construction:
+```{r}
+task = tsk("boston_housing")
+lcb_quantiles = lrn("regr.compboost", loss = LossQuantile$new(0.1))
+lcb_quantiles$train(task)
+lcb_quantiles$predict(task)
+```

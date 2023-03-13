@@ -9,7 +9,7 @@ register_mlr3 = function () {
   x = utils::getFromNamespace("mlr_learners", ns = "mlr3")
 
   x$add("classif.compboost", LearnerClassifCompboost)
-  #x$add("regr.compboost", LearnerRegrCompboost)
+  x$add("regr.compboost", LearnerRegrCompboost)
 }
 
 .onLoad = function(libname, pkgname) { # nolint
