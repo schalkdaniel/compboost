@@ -9,18 +9,20 @@ navbar:
   left:
   - text: Getting Started
     menu:
-      - text: About Component-Wise Boosting
+      - text: About component-wise boosting
         href: articles/basic-about-cwb.html
-      - text: First Use-Case
+      - text: First use-case
         href: articles/basic-use-case.html
-      - text: Early Stopping
+      - text: Early stopping
         href: articles/basic-early-stopping.html
-      - text: Quantile Regression
+      - text: Quantile regression
         href: articles/basic-robust-reg.html
-      - text: Reference Based Objects of Compboost
+      - text: Reference-based objects in compboost
         href: articles/basic-obj-refs.html
-      - text: Visualizing Compboost
+      - text: Visualizing compboost
         href: articles/basic-viz.html
+      - text: mlr3 learners
+        href: articles/basic-mlr-learners.html
       - text: Production model
         href: articles/basic-production-model.html
   - text: Advanced Topics
@@ -29,9 +31,9 @@ navbar:
         href: articles/adv-extending-losses.html
   - text: Functionality
     menu:
-    - text: Base-Learner
+    - text: Base learner
       href: articles/fct-baselearner.html
-    - text: Loss Functions
+    - text: Loss functions
       href: articles/fct-loss.html
   - text: "Reference"
     href: "reference/index.html"
