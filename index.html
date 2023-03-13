@@ -174,11 +174,22 @@
 <div class="section level2">
 <h2 id="mlr-learner">mlr learner<a class="anchor" aria-label="anchor" href="#mlr-learner"></a>
 </h2>
-<p>Compboost also ships an <a href="https://mlr3.mlr-org.com/" class="external-link"><code>mlr3</code></a> learner that can be used to apply <code>compboost</code> within the whole <a href="https://mlr3.mlr-org.com/" class="external-link"><code>mlr3verse</code></a>:</p>
+<p>Compboost also ships an <a href="https://mlr3.mlr-org.com/" class="external-link"><code>mlr3</code></a> learners for regression and binary classification which can be used to apply <code>compboost</code> within the whole <a href="https://mlr3.mlr-org.com/" class="external-link"><code>mlr3verse</code></a>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lcboost</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, bin_root <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
-<span><span class="va">ts</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"spam"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">ts</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"spam"</span><span class="op">)</span></span>
+<span><span class="va">lcboost</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, bin_root <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="va">lcboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">ts</span><span class="op">)</span></span>
+<span><span class="va">lcboost</span><span class="op">$</span><span class="va">predict_type</span> <span class="op">=</span> <span class="st">"prob"</span></span>
+<span><span class="va">lcboost</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">ts</span><span class="op">)</span></span>
+<span><span class="co">#&gt; &lt;PredictionClassif&gt; for 4601 observations:</span></span>
+<span><span class="co">#&gt;     row_ids   truth response prob.spam prob.nonspam</span></span>
+<span><span class="co">#&gt;           1    spam     spam 0.5541776    0.4458224</span></span>
+<span><span class="co">#&gt;           2    spam     spam 0.8637144    0.1362856</span></span>
+<span><span class="co">#&gt;           3    spam     spam 0.8242054    0.1757946</span></span>
+<span><span class="co">#&gt; ---                                                </span></span>
+<span><span class="co">#&gt;        4599 nonspam  nonspam 0.2052921    0.7947079</span></span>
+<span><span class="co">#&gt;        4600 nonspam  nonspam 0.2326375    0.7673625</span></span>
+<span><span class="co">#&gt;        4601 nonspam  nonspam 0.2624331    0.7375669</span></span>
 <span></span>
 <span><span class="co"># Access the `$model` field to access all the `compboost` functionality:</span></span>
 <span><span class="fu"><a href="reference/plotBaselearnerTraces.html">plotBaselearnerTraces</a></span><span class="op">(</span><span class="va">lcboost</span><span class="op">$</span><span class="va">model</span><span class="op">)</span> <span class="op">+</span></span>
