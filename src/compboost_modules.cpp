@@ -1690,6 +1690,21 @@ class LossWrapper
       return sh_ptr_loss->calculatePseudoResiduals(response, pred);
     }
 
+    arma::mat loss (const arma::mat& response, const arma::mat& pred) const
+    {
+      return sh_ptr_loss->loss(response, pred);
+    }
+
+    arma::mat gradient (const arma::mat& response, const arma::mat& pred) const
+    {
+      return sh_ptr_loss->gradient(response, pred);
+    }
+
+    arma::mat constInit (const arma::mat& response) const
+    {
+      return sh_ptr_loss->constantInitializer(response);
+    }
+
     std::string getLossType ()
     {
       return sh_ptr_loss->getType();
@@ -1733,6 +1748,7 @@ class LossWrapper
 //' LossQuadratic$new(offset)
 //' }
 //'
+//' @template section-loss-base-methods
 //' @template param-offset
 //'
 //' @examples
@@ -1788,6 +1804,7 @@ class LossQuadraticWrapper : public LossWrapper
 //' LossAbsolute$new(offset)
 //' }
 //'
+//' @template section-loss-base-methods
 //' @template param-offset
 //'
 //' @examples
@@ -1841,6 +1858,7 @@ class LossAbsoluteWrapper : public LossWrapper
 //' LossAbsolute$new(offset, quantile)
 //' }
 //'
+//' @template section-loss-base-methods
 //' @template param-offset
 //' @param quantile (`numeric(1)`)\cr
 //' Numerical value between 0 and 1 that defines the quantile that is modeled.
@@ -1907,6 +1925,7 @@ class LossQuantileWrapper : public LossWrapper
 //' LossHuber$new(offset, delta)
 //' }
 //'
+//' @template section-loss-base-methods
 //' @template param-offset
 //' @param delta (`numeric(1)`)\cr
 //' Numerical value greater than 0 to specify the interval around 0 for the
@@ -1976,6 +1995,7 @@ class LossHuberWrapper : public LossWrapper
 //' LossBinomial$new(offset)
 //' }
 //'
+//' @template section-loss-base-methods
 //' @template param-offset
 //'
 //' @examples
@@ -2019,6 +2039,7 @@ class LossBinomialWrapper : public LossWrapper
 //' LossCustom$new(lossFun, gradientFun, initFun)
 //' }
 //'
+//' @template section-loss-base-methods
 //' @param lossFun (`function`)\cr
 //' `R` function to calculate the loss.
 //' @param gradientFun (`function`)\cr
@@ -2128,6 +2149,9 @@ RCPP_MODULE (loss_module)
     .constructor ()
     .method("calculatePseudoResiduals", &LossWrapper::calculatePseudoResiduals)
     .method ("getLossType", &LossWrapper::getLossType)
+    .method ("loss", &LossWrapper::loss)
+    .method ("gradient", &LossWrapper::gradient)
+    .method ("constInit", &LossWrapper::constInit)
   ;
 
   class_<LossQuadraticWrapper> ("LossQuadratic")

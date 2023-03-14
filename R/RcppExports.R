@@ -755,6 +755,7 @@ NULL
 #' LossQuadratic$new(offset)
 #' }
 #'
+#' @template section-loss-base-methods
 #' @template param-offset
 #'
 #' @examples
@@ -792,6 +793,7 @@ NULL
 #' LossAbsolute$new(offset)
 #' }
 #'
+#' @template section-loss-base-methods
 #' @template param-offset
 #'
 #' @examples
@@ -831,6 +833,7 @@ NULL
 #' LossAbsolute$new(offset, quantile)
 #' }
 #'
+#' @template section-loss-base-methods
 #' @template param-offset
 #' @param quantile (`numeric(1)`)\cr
 #' Numerical value between 0 and 1 that defines the quantile that is modeled.
@@ -873,6 +876,7 @@ NULL
 #' LossHuber$new(offset, delta)
 #' }
 #'
+#' @template section-loss-base-methods
 #' @template param-offset
 #' @param delta (`numeric(1)`)\cr
 #' Numerical value greater than 0 to specify the interval around 0 for the
@@ -919,6 +923,7 @@ NULL
 #' LossBinomial$new(offset)
 #' }
 #'
+#' @template section-loss-base-methods
 #' @template param-offset
 #'
 #' @examples
@@ -943,6 +948,7 @@ NULL
 #' LossCustom$new(lossFun, gradientFun, initFun)
 #' }
 #'
+#' @template section-loss-base-methods
 #' @param lossFun (`function`)\cr
 #' `R` function to calculate the loss.
 #' @param gradientFun (`function`)\cr

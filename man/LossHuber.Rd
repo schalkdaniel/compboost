@@ -43,6 +43,17 @@ LossHuber$new(offset, delta)
 }
 }
 
+\section{Inherited methods from Loss}{
+
+\itemize{
+\item \verb{$loss()}: \verb{matrix(), matrix() -> matrix()}
+\item \verb{$gradient()}: \verb{matrix(), matrix() -> matrix()}
+\item \verb{$constInit()}: \code{matrix() -> matrix()}
+\item \verb{$calculatePseudoResiduals()}: \verb{matrix(), matrix() -> matrix()}
+\item \verb{$getLossType()}: \verb{() -> character(1)}
+}
+}
+
 \examples{
 
 # Create new loss object:
