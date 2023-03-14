@@ -19,10 +19,6 @@ There was 1 NOTE:
   sub-directories of 1Mb or more:
     doc    1.9Mb
     libs   4.6Mb
-  Shared object created by Rcpp is greater than 1Mb.
 
-
-## Downstream dependencies
-I have also run R CMD check on downstream dependencies of compboost using `devtools::revdep_check()`
-(https://github.com/schalkdaniel/compboost/revdep).
-All packages that I could install passed.
+* Shared object created by Rcpp is greater than 1Mb.
+* Using math equations in the vignettes increases the size of two vignettes to ~800 kB and ~600 kB.
