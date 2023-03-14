@@ -32,12 +32,12 @@ This function visualizes the contribution of a bivariate tensor product.
 }
 \examples{
 cboost = Compboost$new(data = iris, target = "Petal.Length",
-  loss = LossQuadratic$new())
+  loss = LossQuadratic$new(), learning_rate = 0.2)
 
 cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
 cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
 
-cboost$train(150L)
+cboost$train(50L)
 
 plotTensor(cboost, "Sepal.Width_Species_tensor")
 plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")
