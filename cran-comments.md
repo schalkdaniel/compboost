@@ -1,24 +1,22 @@
 ## Test environments
-* local ubuntu 18.04, R 3.5.1
-* ubuntu 14.04 (on travis-ci), R 3.5.0
-* local Windows 10, R 3.5.1
-* Windows Server 2012 (on Appveyor), R 3.5.1
-* win-builder
+* local arch linux (kernel 6.1.4-arch1-1), R 4.2.2
+
+Remote environments via GitHub Actions, checks are run with `--as-cran`
+* macOS-latest (release), R 4.2.2
+* windows-latest (release), R 4.2.2
+* ubuntu-latest (devel), R Under development (unstable) (2023-03-12 r83975)
+* ubuntu-latest (release), R 4.2.2
+* ubuntu-latest (oldrel-1), R 4.1.3
+* ubuntu-latest (oldrel-2), R 4.0.5
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
+There were no ERRORs or WARNINGs.
 
 There was 1 NOTE:
 
 * checking installed package size ... NOTE
-  installed size is 24.7Mb
+  installed size is  7.5Mb
   sub-directories of 1Mb or more:
-    libs  21.5Mb
-
+    doc    1.9Mb
+    libs   4.6Mb
   Shared object created by Rcpp is greater than 1Mb.
-
-
-## Downstream dependencies
-I have also run R CMD check on downstream dependencies of compboost using `devtools::revdep_check()`
-(https://github.com/schalkdaniel/compboost/revdep). 
-All packages that I could install passed.
