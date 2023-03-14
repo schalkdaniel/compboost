@@ -20,5 +20,6 @@ There was 1 NOTE:
     doc    1.9Mb
     libs   4.6Mb
 
+* This is a new release.
 * Shared object created by Rcpp is greater than 1Mb.
 * Using math equations in the vignettes increases the size of two vignettes to ~800 kB and ~600 kB.
