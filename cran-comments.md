@@ -20,3 +20,9 @@ There was 1 NOTE:
     doc    1.9Mb
     libs   4.6Mb
   Shared object created by Rcpp is greater than 1Mb.
+
+
+## Downstream dependencies
+I have also run R CMD check on downstream dependencies of compboost using `devtools::revdep_check()`
+(https://github.com/schalkdaniel/compboost/revdep).
+All packages that I could install passed.
