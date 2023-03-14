@@ -60,12 +60,14 @@ cboost$addBaselearner("Age", "spline", BaselearnerPSpline)
 cboost$addBaselearner("Age", "linear", BaselearnerPolynomial)
 ```
 
-Additional arguments can be specified after naming the base-learner. For a complete list see the [functionality](https://compboost.org/functionality.html) at the project page:
+Additional arguments can be specified after naming the base-learner:
 ```{r}
 # Spline base-learner of fare:
 cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
   n_knots = 14, penalty = 10, differences = 2)
 ```
+
+For references to the base learner documentation see [functionality](https://danielschalk.com/compboost/articles/functionality/fct-baselearner.html) at the project page.
 
 ### Categorical Features
 
