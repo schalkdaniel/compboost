@@ -299,7 +299,7 @@ sdata initTensorData (const sdata& data1, const sdata& data2)
   arma::sp_mat tensor_sp;
 
   auto sh_ptr_data = std::make_shared<data::InMemoryData>(data1->getDataIdentifier() + "_" + data2->getDataIdentifier());
-  if (data1->usesSparseMatrix() | data2->usesSparseMatrix()) {
+  if (data1->usesSparseMatrix() || data2->usesSparseMatrix()) {
 
       arma::sp_mat bl1_mat;
     if (data1->usesSparseMatrix()) {

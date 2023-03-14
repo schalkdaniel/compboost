@@ -512,7 +512,7 @@ BaselearnerTensorFactory::BaselearnerTensorFactory (const json& j, const mdata& 
 
 bool BaselearnerTensorFactory::usesSparse () const
 {
-  return _blearner1->usesSparse() | _blearner2->usesSparse();
+  return _blearner1->usesSparse() || _blearner2->usesSparse();
 }
 
 sdata BaselearnerTensorFactory::getInstantiatedData () const
