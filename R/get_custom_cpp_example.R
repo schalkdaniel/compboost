@@ -1,3 +1,4 @@
+
 #' @title Get C++ example script to define a custom cpp logger
 #'
 #' @description This function can be used to print the trace of the parameters

@@ -33,13 +33,13 @@
 Compboost = R6::R6Class("Compboost",
   public = list(
 
-    #' @field data (`data.frame`)\cr
+    #' @field data (`data.frame()`)\cr
     #' The data used for training the model. Note: If `oob_fraction` is set, the
     #' input data is split into `data` and `data_oob`. Hence, `data` contains a
     #' subset of the input data to train the model.
     data = NULL,
 
-    #' @field data_oob (`data.frame`)\cr
+    #' @field data_oob (`data.frame()`)\cr
     #' An out-of-bag data set used for risk logging or early stopping. `data_oob`
     #' is split from the input data (see the `data` field).
     data_oob = NULL,
@@ -281,8 +281,7 @@ Compboost = R6::R6Class("Compboost",
     #' Indicator defining the logger as stopper considering it for early stopping.
     #' @param logger_id (`character(1)`)\cr
     #' The id of the logger. This allows to define two logger of the same type (`e.g. risk logging`) but with different arguments.
-    #' @param ... \cr
-    #' Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.
+    #' @param ... Additional arguments passed to `loger$new(logger_id, use_as_stopper, ...)`.
     addLogger = function(logger, use_as_stopper = FALSE, logger_id, ...) {
       if (! is.null(self$model)) {
         stop("Logger can not be added after training was started")
@@ -334,8 +333,7 @@ Compboost = R6::R6Class("Compboost",
     #' The name of the base learner.
     #' @template param-bl_factory
     #' @template param-data_source
-    #' @param ... \cr
-    #' Further argument spassed to the `$new(...)` constructor of `bl_factory`.
+    #' @param ... Further argument spassed to the `$new(...)` constructor of `bl_factory`.
     addBaselearner = function(feature, id, bl_factory, data_source = InMemoryData, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -405,8 +403,7 @@ Compboost = R6::R6Class("Compboost",
     #' Indicator how the two penalties should be combined, if `isotrop == TRUE`,
     #' the total degrees of freedom are uniformly distributed over the dimensions while
     #' `isotrop == FALSE` allows to define how strong each of the two dimensions is penalized.
-    #' @param ... \cr
-    #' Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
+    #' @param ... Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
     addTensor = function(feature1, feature2, df = NULL, df1 = NULL, df2 = NULL, isotrop = FALSE, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -490,8 +487,7 @@ Compboost = R6::R6Class("Compboost",
     #' Considering binning may be an option to reduce the memory consumption.
     #'
     #' @template param-feature
-    #' @param ... \cr
-    #' Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
+    #' @param ... Additional arguments passed to the `$new()` constructor of the [BaselearnerPSpline] class.
     addComponents = function(feature, ...) {
       if (!is.null(self$model)) {
         stop("No base-learners can be added after training is started")
@@ -1057,8 +1053,7 @@ Compboost = R6::R6Class("Compboost",
     # The identifier of the base learner used to define the raw factory.
     # @template param-bl_factory
     # @template param-data_source
-    # @param ... \cr
-    # Additional arguments passed to the `$new(...)` call of `bl_factory`.
+    # @param ... Additional arguments passed to the `$new(...)` call of `bl_factory`.
     addSingleNumericBl = function(data_columns, feature, id_fac, bl_factory, data_source, ...) {
 
       dsource = data_source$new(as.matrix(data_columns), paste(feature, collapse = "_"))
@@ -1082,8 +1077,7 @@ Compboost = R6::R6Class("Compboost",
     # The identifier of the base learner used to define the raw factory.
     # @template param-bl_factory
     # @template param-data_source
-    # @param ... \cr
-    # Additional arguments passed to the `$new(...)` call of `bl_factory`.
+    # @param ... Additional arguments passed to the `$new(...)` call of `bl_factory`.
     addSingleCatBl = function(data_column, feature, id_fac, bl_factory, data_source, ...) {
       raw_dsource = CategoricalDataRaw$new(as.character(data_column[[feature]]), feature)
       if (bl_factory@.Data == "Rcpp_BaselearnerCategoricalRidge") {

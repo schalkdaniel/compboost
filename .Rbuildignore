@@ -49,3 +49,4 @@ man/figures/*
 ^codecov\.yml$
 ^doc$
 ^Meta$
+^CRAN-SUBMISSION$

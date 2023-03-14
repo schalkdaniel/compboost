@@ -80,7 +80,7 @@ just in memory training is supported.}
 Fraction of how much data are used to track the out of bag risk.}
 
 \item{bin_root}{(\code{integer(1)})\cr
-The binning root to reduce the data to \eqn{n^{1/\text{bin_root}}}$ data points
+The binning root to reduce the data to \eqn{n^{1/\text{binroot}}} data points
 (default \code{bin_root = 1}, which means no binning is applied).
 A value of \code{bin_root = 2} is suggested for the best approximation
 error (cf. \emph{Wood et al. (2017) Generalized additive models for gigadata:

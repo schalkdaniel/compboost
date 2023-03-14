@@ -39,12 +39,12 @@ Buehlmann, Peter, Yu, Bin (2003).
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{data}}{(\code{data.frame})\cr
+\item{\code{data}}{(\code{data.frame()})\cr
 The data used for training the model. Note: If \code{oob_fraction} is set, the
 input data is split into \code{data} and \code{data_oob}. Hence, \code{data} contains a
 subset of the input data to train the model.}
 
-\item{\code{data_oob}}{(\code{data.frame})\cr
+\item{\code{data_oob}}{(\code{data.frame()})\cr
 An out-of-bag data set used for risk logging or early stopping. \code{data_oob}
 is split from the input data (see the \code{data} field).}
 
@@ -245,8 +245,7 @@ Indicator defining the logger as stopper considering it for early stopping.}
 \item{\code{logger_id}}{(\code{character(1)})\cr
 The id of the logger. This allows to define two logger of the same type (\verb{e.g. risk logging}) but with different arguments.}
 
-\item{\code{...}}{\cr
-Additional arguments passed to \code{loger$new(logger_id, use_as_stopper, ...)}.}
+\item{\code{...}}{Additional arguments passed to \code{loger$new(logger_id, use_as_stopper, ...)}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -332,8 +331,7 @@ storing is supported, see \code{?InMemorydata} for details.}
 Uninitialized data object used to store the meta data. Note: At the moment, just in memory
 storing is supported, see \code{?InMemorydata} for details.}
 
-\item{\code{...}}{\cr
-Further argument spassed to the \verb{$new(...)} constructor of \code{bl_factory}.}
+\item{\code{...}}{Further argument spassed to the \verb{$new(...)} constructor of \code{bl_factory}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -400,8 +398,7 @@ Indicator how the two penalties should be combined, if \code{isotrop == TRUE},
 the total degrees of freedom are uniformly distributed over the dimensions while
 \code{isotrop == FALSE} allows to define how strong each of the two dimensions is penalized.}
 
-\item{\code{...}}{\cr
-Additional arguments passed to the \verb{$new()} constructor of the \link{BaselearnerPSpline} class.}
+\item{\code{...}}{Additional arguments passed to the \verb{$new()} constructor of the \link{BaselearnerPSpline} class.}
 }
 \if{html}{\out{</div>}}
 }
@@ -431,8 +428,7 @@ Name of the feature, must be a column in \code{data}.}
 \item{\code{feature}}{(\code{character(1)})\cr
 Name of the feature, must be a column in \code{data}.}
 
-\item{\code{...}}{\cr
-Additional arguments passed to the \verb{$new()} constructor of the \link{BaselearnerPSpline} class.}
+\item{\code{...}}{Additional arguments passed to the \verb{$new()} constructor of the \link{BaselearnerPSpline} class.}
 }
 \if{html}{\out{</div>}}
 }
