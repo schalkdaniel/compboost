@@ -143,57 +143,57 @@ it is the more practical case when running the model in production.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">=</span> <span class="fu">mlr3</span><span class="fu">::</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"sonar"</span><span class="op">)</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span><span class="va">dat</span>, <span class="st">"Class"</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span><span class="op">)</span></span>
-<span><span class="co">#&gt;   1/100   risk = 0.69  oob_risk = 0.68   time = 0   </span></span>
-<span><span class="co">#&gt;   2/100   risk = 0.68  oob_risk = 0.68   time = 1058   </span></span>
-<span><span class="co">#&gt;   4/100   risk = 0.68  oob_risk = 0.67   time = 2816   </span></span>
-<span><span class="co">#&gt;   6/100   risk = 0.67  oob_risk = 0.67   time = 4586   </span></span>
-<span><span class="co">#&gt;   8/100   risk = 0.66  oob_risk = 0.66   time = 6351   </span></span>
-<span><span class="co">#&gt;  10/100   risk = 0.66  oob_risk = 0.65   time = 8145   </span></span>
-<span><span class="co">#&gt;  12/100   risk = 0.65  oob_risk = 0.65   time = 9965   </span></span>
-<span><span class="co">#&gt;  14/100   risk = 0.65  oob_risk = 0.64   time = 11766   </span></span>
-<span><span class="co">#&gt;  16/100   risk = 0.64  oob_risk = 0.64   time = 13558   </span></span>
-<span><span class="co">#&gt;  18/100   risk = 0.64  oob_risk = 0.63   time = 15320   </span></span>
-<span><span class="co">#&gt;  20/100   risk = 0.63  oob_risk = 0.63   time = 17094   </span></span>
-<span><span class="co">#&gt;  22/100   risk = 0.63  oob_risk = 0.62   time = 18845   </span></span>
-<span><span class="co">#&gt;  24/100   risk = 0.62  oob_risk = 0.62   time = 20617   </span></span>
-<span><span class="co">#&gt;  26/100   risk = 0.62  oob_risk = 0.61   time = 22350   </span></span>
-<span><span class="co">#&gt;  28/100   risk = 0.61  oob_risk = 0.61   time = 24109   </span></span>
-<span><span class="co">#&gt;  30/100   risk = 0.61  oob_risk = 0.61   time = 25864   </span></span>
-<span><span class="co">#&gt;  32/100   risk = 0.6  oob_risk = 0.6   time = 27620   </span></span>
-<span><span class="co">#&gt;  34/100   risk = 0.6  oob_risk = 0.6   time = 29362   </span></span>
-<span><span class="co">#&gt;  36/100   risk = 0.6  oob_risk = 0.59   time = 31099   </span></span>
-<span><span class="co">#&gt;  38/100   risk = 0.59  oob_risk = 0.59   time = 32919   </span></span>
-<span><span class="co">#&gt;  40/100   risk = 0.59  oob_risk = 0.59   time = 34697   </span></span>
-<span><span class="co">#&gt;  42/100   risk = 0.59  oob_risk = 0.59   time = 36484   </span></span>
-<span><span class="co">#&gt;  44/100   risk = 0.58  oob_risk = 0.58   time = 38222   </span></span>
-<span><span class="co">#&gt;  46/100   risk = 0.58  oob_risk = 0.58   time = 39971   </span></span>
-<span><span class="co">#&gt;  48/100   risk = 0.58  oob_risk = 0.58   time = 41705   </span></span>
-<span><span class="co">#&gt;  50/100   risk = 0.57  oob_risk = 0.58   time = 43513   </span></span>
-<span><span class="co">#&gt;  52/100   risk = 0.57  oob_risk = 0.58   time = 45233   </span></span>
-<span><span class="co">#&gt;  54/100   risk = 0.57  oob_risk = 0.58   time = 46952   </span></span>
-<span><span class="co">#&gt;  56/100   risk = 0.56  oob_risk = 0.57   time = 48711   </span></span>
-<span><span class="co">#&gt;  58/100   risk = 0.56  oob_risk = 0.57   time = 50483   </span></span>
-<span><span class="co">#&gt;  60/100   risk = 0.56  oob_risk = 0.57   time = 52288   </span></span>
-<span><span class="co">#&gt;  62/100   risk = 0.56  oob_risk = 0.57   time = 54107   </span></span>
-<span><span class="co">#&gt;  64/100   risk = 0.55  oob_risk = 0.57   time = 55899   </span></span>
-<span><span class="co">#&gt;  66/100   risk = 0.55  oob_risk = 0.57   time = 57700   </span></span>
-<span><span class="co">#&gt;  68/100   risk = 0.55  oob_risk = 0.56   time = 59489   </span></span>
-<span><span class="co">#&gt;  70/100   risk = 0.55  oob_risk = 0.56   time = 61272   </span></span>
-<span><span class="co">#&gt;  72/100   risk = 0.54  oob_risk = 0.56   time = 63033   </span></span>
-<span><span class="co">#&gt;  74/100   risk = 0.54  oob_risk = 0.56   time = 64894   </span></span>
-<span><span class="co">#&gt;  76/100   risk = 0.54  oob_risk = 0.56   time = 66725   </span></span>
-<span><span class="co">#&gt;  78/100   risk = 0.54  oob_risk = 0.56   time = 68562   </span></span>
-<span><span class="co">#&gt;  80/100   risk = 0.53  oob_risk = 0.56   time = 70347   </span></span>
-<span><span class="co">#&gt;  82/100   risk = 0.53  oob_risk = 0.56   time = 72125   </span></span>
-<span><span class="co">#&gt;  84/100   risk = 0.53  oob_risk = 0.56   time = 73905   </span></span>
-<span><span class="co">#&gt;  86/100   risk = 0.53  oob_risk = 0.56   time = 75692   </span></span>
-<span><span class="co">#&gt;  88/100   risk = 0.52  oob_risk = 0.56   time = 77474   </span></span>
-<span><span class="co">#&gt;  90/100   risk = 0.52  oob_risk = 0.55   time = 79302   </span></span>
-<span><span class="co">#&gt;  92/100   risk = 0.52  oob_risk = 0.55   time = 81123   </span></span>
-<span><span class="co">#&gt;  94/100   risk = 0.52  oob_risk = 0.55   time = 82947   </span></span>
-<span><span class="co">#&gt;  96/100   risk = 0.51  oob_risk = 0.55   time = 84791   </span></span>
-<span><span class="co">#&gt;  98/100   risk = 0.51  oob_risk = 0.55   time = 86615   </span></span>
-<span><span class="co">#&gt; 100/100   risk = 0.51  oob_risk = 0.55   time = 88413   </span></span>
+<span><span class="co">#&gt;   1/100   risk = 0.68  oob_risk = 0.69   time = 0   </span></span>
+<span><span class="co">#&gt;   2/100   risk = 0.68  oob_risk = 0.69   time = 1127   </span></span>
+<span><span class="co">#&gt;   4/100   risk = 0.67  oob_risk = 0.68   time = 2980   </span></span>
+<span><span class="co">#&gt;   6/100   risk = 0.67  oob_risk = 0.67   time = 5038   </span></span>
+<span><span class="co">#&gt;   8/100   risk = 0.66  oob_risk = 0.67   time = 6919   </span></span>
+<span><span class="co">#&gt;  10/100   risk = 0.65  oob_risk = 0.66   time = 8967   </span></span>
+<span><span class="co">#&gt;  12/100   risk = 0.65  oob_risk = 0.66   time = 10876   </span></span>
+<span><span class="co">#&gt;  14/100   risk = 0.64  oob_risk = 0.65   time = 12665   </span></span>
+<span><span class="co">#&gt;  16/100   risk = 0.64  oob_risk = 0.65   time = 14486   </span></span>
+<span><span class="co">#&gt;  18/100   risk = 0.63  oob_risk = 0.65   time = 16428   </span></span>
+<span><span class="co">#&gt;  20/100   risk = 0.63  oob_risk = 0.64   time = 18268   </span></span>
+<span><span class="co">#&gt;  22/100   risk = 0.62  oob_risk = 0.64   time = 20106   </span></span>
+<span><span class="co">#&gt;  24/100   risk = 0.62  oob_risk = 0.64   time = 21951   </span></span>
+<span><span class="co">#&gt;  26/100   risk = 0.62  oob_risk = 0.63   time = 23850   </span></span>
+<span><span class="co">#&gt;  28/100   risk = 0.61  oob_risk = 0.63   time = 25810   </span></span>
+<span><span class="co">#&gt;  30/100   risk = 0.61  oob_risk = 0.62   time = 27788   </span></span>
+<span><span class="co">#&gt;  32/100   risk = 0.6  oob_risk = 0.62   time = 29707   </span></span>
+<span><span class="co">#&gt;  34/100   risk = 0.6  oob_risk = 0.62   time = 31514   </span></span>
+<span><span class="co">#&gt;  36/100   risk = 0.6  oob_risk = 0.62   time = 33372   </span></span>
+<span><span class="co">#&gt;  38/100   risk = 0.59  oob_risk = 0.61   time = 35281   </span></span>
+<span><span class="co">#&gt;  40/100   risk = 0.59  oob_risk = 0.61   time = 37167   </span></span>
+<span><span class="co">#&gt;  42/100   risk = 0.59  oob_risk = 0.61   time = 38949   </span></span>
+<span><span class="co">#&gt;  44/100   risk = 0.58  oob_risk = 0.6   time = 40874   </span></span>
+<span><span class="co">#&gt;  46/100   risk = 0.58  oob_risk = 0.6   time = 42624   </span></span>
+<span><span class="co">#&gt;  48/100   risk = 0.58  oob_risk = 0.6   time = 44580   </span></span>
+<span><span class="co">#&gt;  50/100   risk = 0.57  oob_risk = 0.6   time = 46426   </span></span>
+<span><span class="co">#&gt;  52/100   risk = 0.57  oob_risk = 0.59   time = 48210   </span></span>
+<span><span class="co">#&gt;  54/100   risk = 0.57  oob_risk = 0.59   time = 50043   </span></span>
+<span><span class="co">#&gt;  56/100   risk = 0.56  oob_risk = 0.59   time = 52128   </span></span>
+<span><span class="co">#&gt;  58/100   risk = 0.56  oob_risk = 0.59   time = 54068   </span></span>
+<span><span class="co">#&gt;  60/100   risk = 0.56  oob_risk = 0.59   time = 56277   </span></span>
+<span><span class="co">#&gt;  62/100   risk = 0.56  oob_risk = 0.59   time = 58198   </span></span>
+<span><span class="co">#&gt;  64/100   risk = 0.55  oob_risk = 0.59   time = 60105   </span></span>
+<span><span class="co">#&gt;  66/100   risk = 0.55  oob_risk = 0.58   time = 61922   </span></span>
+<span><span class="co">#&gt;  68/100   risk = 0.55  oob_risk = 0.58   time = 63751   </span></span>
+<span><span class="co">#&gt;  70/100   risk = 0.55  oob_risk = 0.58   time = 65714   </span></span>
+<span><span class="co">#&gt;  72/100   risk = 0.54  oob_risk = 0.58   time = 67533   </span></span>
+<span><span class="co">#&gt;  74/100   risk = 0.54  oob_risk = 0.58   time = 69393   </span></span>
+<span><span class="co">#&gt;  76/100   risk = 0.54  oob_risk = 0.58   time = 71357   </span></span>
+<span><span class="co">#&gt;  78/100   risk = 0.54  oob_risk = 0.58   time = 73269   </span></span>
+<span><span class="co">#&gt;  80/100   risk = 0.53  oob_risk = 0.58   time = 75164   </span></span>
+<span><span class="co">#&gt;  82/100   risk = 0.53  oob_risk = 0.57   time = 77633   </span></span>
+<span><span class="co">#&gt;  84/100   risk = 0.53  oob_risk = 0.57   time = 79637   </span></span>
+<span><span class="co">#&gt;  86/100   risk = 0.53  oob_risk = 0.57   time = 81616   </span></span>
+<span><span class="co">#&gt;  88/100   risk = 0.52  oob_risk = 0.57   time = 83515   </span></span>
+<span><span class="co">#&gt;  90/100   risk = 0.52  oob_risk = 0.57   time = 85336   </span></span>
+<span><span class="co">#&gt;  92/100   risk = 0.52  oob_risk = 0.57   time = 87426   </span></span>
+<span><span class="co">#&gt;  94/100   risk = 0.52  oob_risk = 0.57   time = 89205   </span></span>
+<span><span class="co">#&gt;  96/100   risk = 0.51  oob_risk = 0.57   time = 90958   </span></span>
+<span><span class="co">#&gt;  98/100   risk = 0.51  oob_risk = 0.57   time = 92779   </span></span>
+<span><span class="co">#&gt; 100/100   risk = 0.51  oob_risk = 0.56   time = 95456   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Train 100 iterations in 0 Seconds.</span></span>
@@ -237,16 +237,16 @@ error:</p>
 <code class="sourceCode R"><span><span class="va">ndat</span> <span class="op">=</span> <span class="va">dat</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">]</span></span>
 <span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">ndat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              [,1]</span></span>
-<span><span class="co">#&gt;  [1,] -0.25674040</span></span>
-<span><span class="co">#&gt;  [2,] -0.13890593</span></span>
-<span><span class="co">#&gt;  [3,] -0.77699144</span></span>
-<span><span class="co">#&gt;  [4,] -0.29027926</span></span>
-<span><span class="co">#&gt;  [5,]  0.03988315</span></span>
-<span><span class="co">#&gt;  [6,]  0.21973285</span></span>
-<span><span class="co">#&gt;  [7,] -0.75034437</span></span>
-<span><span class="co">#&gt;  [8,]  0.69861632</span></span>
-<span><span class="co">#&gt;  [9,] -0.03198216</span></span>
-<span><span class="co">#&gt; [10,] -0.86592875</span></span></code></pre></div>
+<span><span class="co">#&gt;  [1,] -0.17241329</span></span>
+<span><span class="co">#&gt;  [2,]  0.73287175</span></span>
+<span><span class="co">#&gt;  [3,]  0.89632757</span></span>
+<span><span class="co">#&gt;  [4,]  0.11470819</span></span>
+<span><span class="co">#&gt;  [5,] -0.08366479</span></span>
+<span><span class="co">#&gt;  [6,]  0.48555102</span></span>
+<span><span class="co">#&gt;  [7,] -0.16612785</span></span>
+<span><span class="co">#&gt;  [8,]  0.56773632</span></span>
+<span><span class="co">#&gt;  [9,] -0.05624007</span></span>
+<span><span class="co">#&gt; [10,] -0.79627580</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="visualize-partial-feature-effects-">Visualize partial feature effects.<a class="anchor" aria-label="anchor" href="#visualize-partial-feature-effects-"></a>
@@ -266,12 +266,12 @@ error:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   _iterations  oob_risk time baselearner train_risk</span></span>
-<span><span class="co">#&gt; 1           0        NA   NA   intercept  0.6916452</span></span>
-<span><span class="co">#&gt; 2           1 0.6846202    0  V12_spline  0.6879285</span></span>
-<span><span class="co">#&gt; 3           2 0.6808838 1058  V12_spline  0.6843004</span></span>
-<span><span class="co">#&gt; 4           3 0.6772454 1941  V12_spline  0.6807587</span></span>
-<span><span class="co">#&gt; 5           4 0.6737024 2816  V12_spline  0.6773013</span></span>
-<span><span class="co">#&gt; 6           5 0.6702526 3714  V12_spline  0.6739261</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0        NA   NA   intercept  0.6871302</span></span>
+<span><span class="co">#&gt; 2           1 0.6893877    0  V12_spline  0.6834992</span></span>
+<span><span class="co">#&gt; 3           2 0.6862343 1127  V12_spline  0.6799552</span></span>
+<span><span class="co">#&gt; 4           3 0.6831645 2078  V12_spline  0.6764964</span></span>
+<span><span class="co">#&gt; 5           4 0.6801761 2980  V12_spline  0.6731205</span></span>
+<span><span class="co">#&gt; 6           5 0.6772672 3955  V12_spline  0.6698255</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="setting-the-model-to-a-previous-iteration-">Setting the model to a previous iteration.<a class="anchor" aria-label="anchor" href="#setting-the-model-to-a-previous-iteration-"></a>
@@ -279,41 +279,41 @@ error:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; V10_spline V11_spline V12_spline V20_spline V21_spline V27_spline V31_spline </span></span>
-<span><span class="co">#&gt;          3         15         34          9          1          5          5 </span></span>
-<span><span class="co">#&gt; V36_spline V49_spline  V5_spline </span></span>
-<span><span class="co">#&gt;         12         14          2</span></span>
+<span><span class="co">#&gt; V11_spline V12_spline V21_spline V27_spline V31_spline V47_spline V48_spline </span></span>
+<span><span class="co">#&gt;         10         36          1         12          1          4          5 </span></span>
+<span><span class="co">#&gt; V49_spline V52_spline  V9_spline </span></span>
+<span><span class="co">#&gt;         11          2         18</span></span>
 <span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">ndat</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              [,1]</span></span>
-<span><span class="co">#&gt;  [1,] -0.25674040</span></span>
-<span><span class="co">#&gt;  [2,] -0.13890593</span></span>
-<span><span class="co">#&gt;  [3,] -0.77699144</span></span>
-<span><span class="co">#&gt;  [4,] -0.29027926</span></span>
-<span><span class="co">#&gt;  [5,]  0.03988315</span></span>
-<span><span class="co">#&gt;  [6,]  0.21973285</span></span>
-<span><span class="co">#&gt;  [7,] -0.75034437</span></span>
-<span><span class="co">#&gt;  [8,]  0.69861632</span></span>
-<span><span class="co">#&gt;  [9,] -0.03198216</span></span>
-<span><span class="co">#&gt; [10,] -0.86592875</span></span>
+<span><span class="co">#&gt;  [1,] -0.17241329</span></span>
+<span><span class="co">#&gt;  [2,]  0.73287175</span></span>
+<span><span class="co">#&gt;  [3,]  0.89632757</span></span>
+<span><span class="co">#&gt;  [4,]  0.11470819</span></span>
+<span><span class="co">#&gt;  [5,] -0.08366479</span></span>
+<span><span class="co">#&gt;  [6,]  0.48555102</span></span>
+<span><span class="co">#&gt;  [7,] -0.16612785</span></span>
+<span><span class="co">#&gt;  [8,]  0.56773632</span></span>
+<span><span class="co">#&gt;  [9,] -0.05624007</span></span>
+<span><span class="co">#&gt; [10,] -0.79627580</span></span>
 <span></span>
 <span><span class="co"># State after 50 iteration:</span></span>
 <span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">50</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; V11_spline V12_spline V20_spline V36_spline V49_spline </span></span>
-<span><span class="co">#&gt;         15         27          1          4          3</span></span>
+<span><span class="co">#&gt; V11_spline V12_spline V48_spline V49_spline  V9_spline </span></span>
+<span><span class="co">#&gt;          4         29          1          4         12</span></span>
 <span><span class="va">cboost_without_data</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">ndat</span><span class="op">)</span></span>
-<span><span class="co">#&gt;             [,1]</span></span>
-<span><span class="co">#&gt;  [1,] -0.1959079</span></span>
-<span><span class="co">#&gt;  [2,] -0.1082549</span></span>
-<span><span class="co">#&gt;  [3,] -0.5394862</span></span>
-<span><span class="co">#&gt;  [4,] -0.1878602</span></span>
-<span><span class="co">#&gt;  [5,]  0.3083494</span></span>
-<span><span class="co">#&gt;  [6,]  0.3807286</span></span>
-<span><span class="co">#&gt;  [7,] -0.3911869</span></span>
-<span><span class="co">#&gt;  [8,]  0.4836299</span></span>
-<span><span class="co">#&gt;  [9,] -0.2503406</span></span>
-<span><span class="co">#&gt; [10,] -0.5752143</span></span></code></pre></div>
+<span><span class="co">#&gt;               [,1]</span></span>
+<span><span class="co">#&gt;  [1,]  0.004318996</span></span>
+<span><span class="co">#&gt;  [2,]  0.644279673</span></span>
+<span><span class="co">#&gt;  [3,]  0.747932919</span></span>
+<span><span class="co">#&gt;  [4,]  0.091696174</span></span>
+<span><span class="co">#&gt;  [5,]  0.193346749</span></span>
+<span><span class="co">#&gt;  [6,]  0.544682920</span></span>
+<span><span class="co">#&gt;  [7,] -0.089337079</span></span>
+<span><span class="co">#&gt;  [8,]  0.471178683</span></span>
+<span><span class="co">#&gt;  [9,] -0.158870349</span></span>
+<span><span class="co">#&gt; [10,] -0.479800735</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -329,9 +329,9 @@ the data is not stored.</p>
 <span><span class="va">cboost</span><span class="op">$</span><span class="fu">saveToJson</span><span class="op">(</span><span class="va">file_full</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">file</span><span class="op">)</span><span class="op">$</span><span class="va">size</span> <span class="op">/</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span></span>
-<span><span class="co">#&gt; [1] 1.327436</span></span>
+<span><span class="co">#&gt; [1] 1.327245</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/file.info.html" class="external-link">file.info</a></span><span class="op">(</span><span class="va">file_full</span><span class="op">)</span><span class="op">$</span><span class="va">size</span> <span class="op">/</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">2</span></span>
-<span><span class="co">#&gt; [1] 3.369695</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 3.369558</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="loading">Loading<a class="anchor" aria-label="anchor" href="#loading"></a>
@@ -341,10 +341,10 @@ models):</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va"><a href="../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>file <span class="op">=</span> <span class="va">file</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   0.119   0.000   0.119</span></span>
+<span><span class="co">#&gt;   0.117   0.000   0.117</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va"><a href="../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>file <span class="op">=</span> <span class="va">file_full</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;   0.169   0.000   0.168</span></span></code></pre></div>
+<span><span class="co">#&gt;   0.167   0.000   0.167</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="privacy">Privacy<a class="anchor" aria-label="anchor" href="#privacy"></a>

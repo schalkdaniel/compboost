@@ -200,12 +200,12 @@ stopping:</p>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lcb</span><span class="op">$</span><span class="va">model</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   _iterations oob_risk time  baselearner train_risk</span></span>
-<span><span class="co">#&gt; 1           0       NA   NA    intercept   45.65278</span></span>
-<span><span class="co">#&gt; 2           1 30.72079    0 cmedv_spline   41.21602</span></span>
-<span><span class="co">#&gt; 3           2 27.72378  287 cmedv_spline   37.21183</span></span>
-<span><span class="co">#&gt; 4           3 25.02007  540 cmedv_spline   33.59805</span></span>
-<span><span class="co">#&gt; 5           4 22.58102  783 cmedv_spline   30.33661</span></span>
-<span><span class="co">#&gt; 6           5 20.38076 1029 cmedv_spline   27.39317</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0       NA   NA    intercept   47.11209</span></span>
+<span><span class="co">#&gt; 2           1 26.86124    0 cmedv_spline   42.52773</span></span>
+<span><span class="co">#&gt; 3           2 24.26686  290 cmedv_spline   38.39035</span></span>
+<span><span class="co">#&gt; 4           3 21.93152  546 cmedv_spline   34.65636</span></span>
+<span><span class="co">#&gt; 5           4 19.82968  790 cmedv_spline   31.28644</span></span>
+<span><span class="co">#&gt; 6           5 17.93827 1036 cmedv_spline   28.24508</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="binary-classification">Binary classification<a class="anchor" aria-label="anchor" href="#binary-classification"></a>
@@ -254,13 +254,13 @@ construction:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lcb</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 4.434</span></span>
+<span><span class="co">#&gt; 4.641</span></span>
 <span></span>
 <span><span class="va">lcb_2c</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, optimizer <span class="op">=</span> <span class="va"><a href="../reference/OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 2.541</span></span></code></pre></div>
+<span><span class="co">#&gt; 2.594</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using-different-losses">Using different losses<a class="anchor" aria-label="anchor" href="#using-different-losses"></a>
