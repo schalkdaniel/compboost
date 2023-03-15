@@ -53,8 +53,10 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    initialize = function(mode) {
-      checkmate::assertChoice(mode, c("regr", "classif"))
+    #' @param ttype (`character(1)`) \cr
+    #' The task type of the learner. Must be `regr` or `classif`.
+    initialize = function(ttype) {
+      checkmate::assertChoice(ttype, c("regr", "classif"))
       ps = paradox::ps(
         show_output = paradox::p_lgl(default = FALSE),
 
@@ -90,21 +92,21 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
 
       ptypes = "response"
       props = c("importance", "selected_features")
-      if (mode == "classif") {
+      if (ttype == "classif") {
         ptypes = c("prob", ptypes)
         props = c("twoclass", props)
       }
 
       super$initialize(
-        id = sprintf("%s.compboost", mode),
-        task_type = mode,
+        id = sprintf("%s.compboost", ttype),
+        task_type = ttype,
         packages = "compboost",
         feature_types = c("integer", "numeric", "factor", "ordered"),
         predict_types = ptypes,
         param_set = ps,
         properties = props,
         label = "Component-wise boosting",
-        man = sprintf("mlr3::mlr_learners_%s.compboost", mode))
+        man = sprintf("mlr3::mlr_learners_%s.compboost", ttype))
         # data_format is set by super class `Learner`.
     },
 
@@ -244,11 +246,11 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
 #' in package \CRANpkg{compboost}.
 #'
 #' @examples
-#' l = lrn("classif.compboost", baselearner = "components", df = 5)
-#' task = tsk("spam")
+#' l = lrn("classif.compboost", baselearner = "components",
+#'   df = 5, iterations = 20)
+#' task = tsk("")
 #' l$train(task)
-#' table(l$model$getSelectedBaselearner())
-#' plotPEUni(l$model, "your")
+#' l$selected_features()
 #' @export
 LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = LearnerCompboost,
   public = list(
@@ -269,7 +271,7 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
 #' in package \CRANpkg{compboost}.
 #'
 #' @examples
-#' l = lrn("regr.compboost", baselearner = "linear", iterations = 500)
+#' l = lrn("regr.compboost", baselearner = "linear", iterations = 50)
 #' task = tsk("mtcars")
 #' l$train(task)
 #' l$importance()

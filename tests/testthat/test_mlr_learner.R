@@ -1,9 +1,5 @@
 context("mlr learners")
 
-if (FALSE) {
-  devtools::load_all()
-}
-
 test_that("Basic parameter are working", {
   task = tsk("german_credit")
 

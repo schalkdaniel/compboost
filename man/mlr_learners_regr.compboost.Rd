@@ -9,7 +9,7 @@ A \link{Learner} for a component-wise boosting model implemented in \link{Compbo
 in package \CRANpkg{compboost}.
 }
 \examples{
-l = lrn("regr.compboost", baselearner = "linear", iterations = 500)
+l = lrn("regr.compboost", baselearner = "linear", iterations = 50)
 task = tsk("mtcars")
 l$train(task)
 l$importance()

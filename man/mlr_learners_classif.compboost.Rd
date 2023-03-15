@@ -9,11 +9,11 @@ A \link{Learner} for a component-wise boosting model implemented in \link{Compbo
 in package \CRANpkg{compboost}.
 }
 \examples{
-l = lrn("classif.compboost", baselearner = "components", df = 5)
-task = tsk("spam")
+l = lrn("classif.compboost", baselearner = "components",
+  df = 5, iterations = 20)
+task = tsk("")
 l$train(task)
-table(l$model$getSelectedBaselearner())
-plotPEUni(l$model, "your")
+l$selected_features()
 }
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[compboost:LearnerCompboost]{compboost::LearnerCompboost}} -> \code{LearnerClassifCompboost}
