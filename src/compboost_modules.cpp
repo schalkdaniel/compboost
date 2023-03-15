@@ -2405,9 +2405,7 @@ class LoggerWrapper
 {
   public:
 
-    LoggerWrapper () {
-      Rcpp::stop("Cannot create empty logger");
-    }
+    LoggerWrapper () {}
 
     std::shared_ptr<logger::Logger> getLogger ()
     {
@@ -2463,7 +2461,9 @@ class LoggerIterationWrapper : public LoggerWrapper
     bool use_as_stopper;
 
   public:
-    LoggerIterationWrapper () : LoggerWrapper() {}
+    LoggerIterationWrapper () {
+      Rcpp::stop("Cannot create empty logger");
+    }
 
     LoggerIterationWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_iterations)
       : max_iterations ( max_iterations ),
@@ -2548,7 +2548,9 @@ class LoggerInbagRiskWrapper : public LoggerWrapper
     bool use_as_stopper;
 
   public:
-    LoggerInbagRiskWrapper () : LoggerWrapper() {}
+    LoggerInbagRiskWrapper () {
+      Rcpp::stop("Cannot create empty logger");
+    }
 
     LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& loss, double eps_for_break,
       unsigned int patience)
@@ -2659,7 +2661,9 @@ class LoggerOobRiskWrapper : public LoggerWrapper
     bool use_as_stopper;
 
   public:
-    LoggerOobRiskWrapper () : LoggerWrapper() {}
+    LoggerOobRiskWrapper () {
+      Rcpp::stop("Cannot create empty logger");
+    }
 
     LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& loss, double eps_for_break,
       unsigned int patience, Rcpp::List oob_data, ResponseWrapper& oob_response)
@@ -2748,7 +2752,9 @@ class LoggerTimeWrapper : public LoggerWrapper
     std::string time_unit;
 
   public:
-    LoggerTimeWrapper () : LoggerWrapper() {}
+    LoggerTimeWrapper () {
+      Rcpp::stop("Cannot create empty logger");
+    }
 
     LoggerTimeWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_time,
       std::string time_unit)
