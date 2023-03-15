@@ -21,10 +21,10 @@
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",
 #'   loss = LossQuadratic$new(), learning_rate = 0.2)
 #'
-#' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4)
-#' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2)
+#' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4, n_knots = 10)
+#' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2, n_knots = 10)
 #'
-#' cboost$train(50L)
+#' cboost$train(40L)
 #'
 #' plotTensor(cboost, "Sepal.Width_Species_tensor")
 #' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")
@@ -44,7 +44,7 @@ plotTensor = function(cboost, tname, npoints = 100L, nbins = 15L) {
   if (! checkmate::testChoice(x = tname, choices = blsel)) {
     stop("Tensor base learner '", tname, "' was not selected. The selected base learner are {",
       paste(paste0("'", blsel, "'"), collapse = ","), "}. Maybe you misspelled the base learner",
-      "or did not train long enough.")
+      " or did not train long enough.")
   }
 
   checkmate::assertIntegerish(x = npoints, len = 1L, lower = 10L)

@@ -40,13 +40,10 @@ ichecker = function(x) {
   }
 }
 
-#' @title Component-wise boosting learner
-#'
-#' @name mlr_learners.compboost
+#' @title Component-wise gradient boosting learner
 #'
 #' @description
-#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
-#' in package \CRANpkg{compboost}.
+#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
 #'
 #' @importFrom mlr3 mlr_learners Learner
 LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
@@ -237,13 +234,10 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
   )
 )
 
-#' @title Classification component-wise boosting learner
-#'
-#' @name mlr_learners_classif.compboost
+#' @title Component-wise gradient boosting classification learner
 #'
 #' @description
-#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
-#' in package \CRANpkg{compboost}.
+#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
 #'
 #' @examples
 #' l = lrn("classif.compboost", baselearner = "components",
@@ -262,13 +256,10 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
   )
 )
 
-#' @title Regression component-wise boosting learner
-#'
-#' @name mlr_learners_regr.compboost
+#' @title Component-wise gradient boosting regression learner
 #'
 #' @description
-#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
-#' in package \CRANpkg{compboost}.
+#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
 #'
 #' @examples
 #' l = lrn("regr.compboost", baselearner = "linear", iterations = 50)
