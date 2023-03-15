@@ -100,7 +100,7 @@
 Identifier of the logger.</p></dd>
 
 
-<dt>param-use_as_stopper</dt>
+<dt>use_as_stopper</dt>
 <dd><p>(<code>logical(1)</code>)<br>
 Boolean to indicate if the logger should also be used as a stopper.</p></dd>
 
@@ -116,6 +116,12 @@ See the respective help page for further information.</p></dd>
 This argument becomes active if the loss is also used as stopper. If the relative
 improvement of the logged inbag risk falls above this boundary the stopper
 returns <code>TRUE</code>.</p></dd>
+
+
+<dt>patience</dt>
+<dd><p>(<code>integer(1)</code>)<br>
+The number of consecutive conditions that must be true to return
+a stop signal.</p></dd>
 
 </dl></div>
     <div class="section level2">

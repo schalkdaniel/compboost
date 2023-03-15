@@ -115,7 +115,9 @@ used for further analyses (see <code><a href="Compboost.html">?Compboost</a></co
 <span>  trace <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
 <span>  intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  data_source <span class="op">=</span> <span class="va">InMemoryData</span>,</span>
-<span>  oob_fraction <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  df_cat <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  oob_fraction <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stop_args <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -174,9 +176,21 @@ Uninitialized <code>Data*</code> object which is used to store the data. At the 
 just in memory training is supported.</p></dd>
 
 
+<dt>df_cat</dt>
+<dd><p>(<code>numeric(1)</code>)<br>
+Degrees of freedom of the categorical base-learner.</p></dd>
+
+
 <dt>oob_fraction</dt>
 <dd><p>(<code>numeric(1)</code>)<br>
 Fraction of how much data are used to track the out of bag risk.</p></dd>
+
+
+<dt>stop_args</dt>
+<dd><p>(<code>list(2)</code>)<br>
+List containing two elements <code>patience</code> and <code>eps_for_break</code> which can be set
+to use early stopping on the left out data from setting <code>oob_fraction</code>.
+If <code>! is.null(stop_args)</code>, early stopping is triggered.</p></dd>
 
 </dl></div>
     <div class="section level2">

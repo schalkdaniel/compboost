@@ -194,11 +194,11 @@ define and train a new <code>Compboost</code> object:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost_quantile50</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va">loss_quantile50</span>, iterations <span class="op">=</span> <span class="fl">1000L</span>, trace <span class="op">=</span> <span class="fl">200L</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    1/1000   risk = 2e+04  time = 0   </span></span>
-<span><span class="co">#&gt;  200/1000   risk = 2e+04  time = 11990   </span></span>
-<span><span class="co">#&gt;  400/1000   risk = 2e+04  time = 24985   </span></span>
-<span><span class="co">#&gt;  600/1000   risk = 2e+04  time = 39218   </span></span>
-<span><span class="co">#&gt;  800/1000   risk = 2e+04  time = 54723   </span></span>
-<span><span class="co">#&gt; 1000/1000   risk = 2e+04  time = 71513   </span></span>
+<span><span class="co">#&gt;  200/1000   risk = 2e+04  time = 14372   </span></span>
+<span><span class="co">#&gt;  400/1000   risk = 2e+04  time = 29288   </span></span>
+<span><span class="co">#&gt;  600/1000   risk = 2e+04  time = 45484   </span></span>
+<span><span class="co">#&gt;  800/1000   risk = 2e+04  time = 62982   </span></span>
+<span><span class="co">#&gt; 1000/1000   risk = 2e+04  time = 81085   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
@@ -210,7 +210,7 @@ regression, we also train a model with the
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost_mean</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, iterations <span class="op">=</span> <span class="fl">1000L</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 9.7e+09</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 9.8e+09</span></span>
 <span></span>
 <span><span class="va">df_plot</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  feature <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="va">x</span>, times <span class="op">=</span> <span class="fl">2</span><span class="op">)</span>,</span>
@@ -256,7 +256,7 @@ tighten the boundaries:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 9.7e+09</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 9.8e+09</span></span>
 <span><span class="va">cboost_10</span> <span class="op">=</span> <span class="fu"><a href="../reference/boostSplines.html">boostSplines</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, target <span class="op">=</span> <span class="st">"y"</span>, loss <span class="op">=</span> <span class="va"><a href="../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, iterations <span class="op">=</span> <span class="fl">1000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Train 1000 iterations in 0 Seconds.</span></span>
 <span><span class="co">#&gt; Final risk based on the train set: 1.8e+04</span></span>

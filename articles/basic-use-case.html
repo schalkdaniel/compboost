@@ -229,19 +229,19 @@ that logger as stopper here:</p>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
-<span><span class="co">#&gt;    1/2000   risk = 0.67  oob_risk = 0.66   time = 0   </span></span>
-<span><span class="co">#&gt;  250/2000   risk = 0.49  oob_risk = 0.52   time = 19075   </span></span>
-<span><span class="co">#&gt;  500/2000   risk = 0.46  oob_risk = 0.52   time = 39908   </span></span>
-<span><span class="co">#&gt;  750/2000   risk = 0.46  oob_risk = 0.53   time = 62819   </span></span>
-<span><span class="co">#&gt; 1000/2000   risk = 0.45  oob_risk = 0.54   time = 87836   </span></span>
-<span><span class="co">#&gt; 1250/2000   risk = 0.45  oob_risk = 0.54   time = 115113   </span></span>
-<span><span class="co">#&gt; 1500/2000   risk = 0.45  oob_risk = 0.55   time = 145126   </span></span>
-<span><span class="co">#&gt; 1750/2000   risk = 0.45  oob_risk = 0.55   time = 176787   </span></span>
-<span><span class="co">#&gt; 2000/2000   risk = 0.45  oob_risk = 0.55   time = 210832   </span></span>
+<span><span class="co">#&gt;    1/2000   risk = 0.68  oob_risk = 0.66   time = 0   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.49  oob_risk = 0.5   time = 20930   </span></span>
+<span><span class="co">#&gt;  500/2000   risk = 0.47  oob_risk = 0.49   time = 44815   </span></span>
+<span><span class="co">#&gt;  750/2000   risk = 0.47  oob_risk = 0.49   time = 70607   </span></span>
+<span><span class="co">#&gt; 1000/2000   risk = 0.46  oob_risk = 0.5   time = 97614   </span></span>
+<span><span class="co">#&gt; 1250/2000   risk = 0.46  oob_risk = 0.5   time = 126248   </span></span>
+<span><span class="co">#&gt; 1500/2000   risk = 0.46  oob_risk = 0.5   time = 158354   </span></span>
+<span><span class="co">#&gt; 1750/2000   risk = 0.46  oob_risk = 0.5   time = 190503   </span></span>
+<span><span class="co">#&gt; 2000/2000   risk = 0.46  oob_risk = 0.5   time = 223987   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Train 2000 iterations in 0 Seconds.</span></span>
-<span><span class="co">#&gt; Final risk based on the train set: 0.45</span></span>
+<span><span class="co">#&gt; Final risk based on the train set: 0.46</span></span>
 <span><span class="va">cboost</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -252,7 +252,7 @@ that logger as stopper here:</p>
 <span><span class="co">#&gt; Learning rate: 0.05</span></span>
 <span><span class="co">#&gt; Iterations: 2000</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Offset: 0.3475</span></span>
+<span><span class="co">#&gt; Offset: 0.3228</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; LossBinomial: L(y,x) = log(1 + exp(-2yf(x))</span></span></code></pre></div>
 <p>Objects of the <code>Compboost</code> class do have member functions
@@ -261,27 +261,27 @@ such as <code>getCoef()</code>, <code>getInbagRisk()</code> or
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ Age_spline     : num [1:24, 1] -3.78 -1.82 -1.87 1.43 2.67 ...</span></span>
+<span><span class="co">#&gt;  $ Age_spline     : num [1:24, 1] -3.038 -1.276 -1.219 1.569 0.259 ...</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
-<span><span class="co">#&gt;  $ Fare_spline    : num [1:17, 1] 1.357 0.207 -0.632 -1.507 -1.373 ...</span></span>
+<span><span class="co">#&gt;  $ Fare_spline    : num [1:17, 1] 1.613 0.212 -0.51 -1.725 -2 ...</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
-<span><span class="co">#&gt;  $ Sex_categorical: num [1:2, 1] 0.918 -1.596</span></span>
+<span><span class="co">#&gt;  $ Sex_categorical: num [1:2, 1] -1.412 0.894</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#&gt;   .. ..$ : chr [1:2] "male" "female"</span></span>
+<span><span class="co">#&gt;   .. ..$ : chr [1:2] "female" "male"</span></span>
 <span><span class="co">#&gt;   .. ..$ : NULL</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span></span>
-<span><span class="co">#&gt;  $ offset         : num 0.347</span></span>
+<span><span class="co">#&gt;  $ offset         : num 0.323</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  num [1:2001] 0.678 0.675 0.671 0.668 0.664 ...</span></span>
+<span><span class="co">#&gt;  num [1:2001] 0.68 0.677 0.673 0.67 0.667 ...</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  num [1:500, 1] 2.29 -2.35 -0.99 -2.25 1.47 ...</span></span></code></pre></div>
+<span><span class="co">#&gt;  num [1:500, 1] -2.085 -0.459 0.761 -0.639 -1.366 ...</span></span></code></pre></div>
 <p>To obtain a vector of selected base learners use
 <code>getSelectedBaselearner()</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;      Age_spline     Fare_spline Sex_categorical </span></span>
-<span><span class="co">#&gt;            1093             520             387</span></span></code></pre></div>
+<span><span class="co">#&gt;            1109             533             358</span></span></code></pre></div>
 <p>We can also access predictions directly from the response object
 <code>cboost$response</code> and <code>cboost$response_oob</code>. Note
 that <code>$response_oob</code> was created automatically when defining
@@ -292,8 +292,8 @@ an <code>oob_fraction</code> within the constructor:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span>true_label <span class="op">=</span> <span class="va">oob_label</span>, predicted <span class="op">=</span> <span class="va">oob_pred</span><span class="op">)</span></span>
 <span><span class="co">#&gt;           predicted</span></span>
 <span><span class="co">#&gt; true_label  -1   1</span></span>
-<span><span class="co">#&gt;         -1  59  24</span></span>
-<span><span class="co">#&gt;         1   25 106</span></span></code></pre></div>
+<span><span class="co">#&gt;         -1  53  27</span></span>
+<span><span class="co">#&gt;         1   23 111</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="retrain-the-model">Retrain the Model<a class="anchor" aria-label="anchor" href="#retrain-the-model"></a>
@@ -306,39 +306,39 @@ simply re-call <code>train()</code>:</p>
 <span><span class="co">#&gt; You have already trained 2000 iterations.</span></span>
 <span><span class="co">#&gt; Train 1000 additional iterations.</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; 2025/3000   risk = 0.45  oob_risk = 0.55   time = 214429   </span></span>
-<span><span class="co">#&gt; 2100/3000   risk = 0.45  oob_risk = 0.55   time = 224931   </span></span>
-<span><span class="co">#&gt; 2175/3000   risk = 0.45  oob_risk = 0.55   time = 235661   </span></span>
-<span><span class="co">#&gt; 2250/3000   risk = 0.45  oob_risk = 0.55   time = 246526   </span></span>
-<span><span class="co">#&gt; 2325/3000   risk = 0.45  oob_risk = 0.56   time = 257594   </span></span>
-<span><span class="co">#&gt; 2400/3000   risk = 0.45  oob_risk = 0.56   time = 268851   </span></span>
-<span><span class="co">#&gt; 2475/3000   risk = 0.45  oob_risk = 0.56   time = 280303   </span></span>
-<span><span class="co">#&gt; 2550/3000   risk = 0.45  oob_risk = 0.56   time = 292549   </span></span>
-<span><span class="co">#&gt; 2625/3000   risk = 0.45  oob_risk = 0.56   time = 304316   </span></span>
-<span><span class="co">#&gt; 2700/3000   risk = 0.45  oob_risk = 0.56   time = 316296   </span></span>
-<span><span class="co">#&gt; 2775/3000   risk = 0.45  oob_risk = 0.56   time = 328477   </span></span>
-<span><span class="co">#&gt; 2850/3000   risk = 0.45  oob_risk = 0.56   time = 340836   </span></span>
-<span><span class="co">#&gt; 2925/3000   risk = 0.45  oob_risk = 0.56   time = 353364   </span></span>
-<span><span class="co">#&gt; 3000/3000   risk = 0.45  oob_risk = 0.56   time = 366679</span></span>
+<span><span class="co">#&gt; 2025/3000   risk = 0.46  oob_risk = 0.5   time = 227910   </span></span>
+<span><span class="co">#&gt; 2100/3000   risk = 0.46  oob_risk = 0.5   time = 239623   </span></span>
+<span><span class="co">#&gt; 2175/3000   risk = 0.46  oob_risk = 0.5   time = 249841   </span></span>
+<span><span class="co">#&gt; 2250/3000   risk = 0.46  oob_risk = 0.5   time = 261736   </span></span>
+<span><span class="co">#&gt; 2325/3000   risk = 0.46  oob_risk = 0.5   time = 273576   </span></span>
+<span><span class="co">#&gt; 2400/3000   risk = 0.46  oob_risk = 0.5   time = 285118   </span></span>
+<span><span class="co">#&gt; 2475/3000   risk = 0.46  oob_risk = 0.5   time = 297403   </span></span>
+<span><span class="co">#&gt; 2550/3000   risk = 0.46  oob_risk = 0.5   time = 311857   </span></span>
+<span><span class="co">#&gt; 2625/3000   risk = 0.46  oob_risk = 0.5   time = 323392   </span></span>
+<span><span class="co">#&gt; 2700/3000   risk = 0.46  oob_risk = 0.5   time = 336989   </span></span>
+<span><span class="co">#&gt; 2775/3000   risk = 0.46  oob_risk = 0.5   time = 349201   </span></span>
+<span><span class="co">#&gt; 2850/3000   risk = 0.46  oob_risk = 0.5   time = 360981   </span></span>
+<span><span class="co">#&gt; 2925/3000   risk = 0.46  oob_risk = 0.5   time = 373597   </span></span>
+<span><span class="co">#&gt; 3000/3000   risk = 0.46  oob_risk = 0.5   time = 385801</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getCoef</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 4</span></span>
-<span><span class="co">#&gt;  $ Age_spline     : num [1:24, 1] -4.55 -1.6 -2.15 1.44 3.06 ...</span></span>
+<span><span class="co">#&gt;  $ Age_spline     : num [1:24, 1] -3.622 -1.012 -1.476 1.78 0.226 ...</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
-<span><span class="co">#&gt;  $ Fare_spline    : num [1:17, 1] 1.39 0.209 -0.599 -1.646 -1.467 ...</span></span>
+<span><span class="co">#&gt;  $ Fare_spline    : num [1:17, 1] 1.694 0.2 -0.457 -1.854 -2.138 ...</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerPSpline"</span></span>
-<span><span class="co">#&gt;  $ Sex_categorical: num [1:2, 1] 0.933 -1.624</span></span>
+<span><span class="co">#&gt;  $ Sex_categorical: num [1:2, 1] -1.439 0.911</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#&gt;   .. ..$ : chr [1:2] "male" "female"</span></span>
+<span><span class="co">#&gt;   .. ..$ : chr [1:2] "female" "male"</span></span>
 <span><span class="co">#&gt;   .. ..$ : NULL</span></span>
 <span><span class="co">#&gt;   ..- attr(*, "blclass")= chr "Rcpp_BaselearnerCategoricalRidge"</span></span>
-<span><span class="co">#&gt;  $ offset         : num 0.347</span></span>
+<span><span class="co">#&gt;  $ offset         : num 0.323</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getInbagRisk</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;  num [1:3001] 0.678 0.675 0.671 0.668 0.664 ...</span></span>
+<span><span class="co">#&gt;  num [1:3001] 0.68 0.677 0.673 0.67 0.667 ...</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;      Age_spline     Fare_spline Sex_categorical </span></span>
-<span><span class="co">#&gt;            1739             829             432</span></span></code></pre></div>
+<span><span class="co">#&gt;            1793             798             409</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="next-steps">Next steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>

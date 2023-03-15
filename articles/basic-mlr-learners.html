@@ -152,25 +152,25 @@ small examples.</p>
 <code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span><span class="op">)</span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="va">param_set</span></span>
 <span><span class="co">#&gt; &lt;ParamSet&gt;</span></span>
-<span><span class="co">#&gt;                id    class lower upper nlevels default     parents  value</span></span>
-<span><span class="co">#&gt;  1:   baselearner ParamFct    NA    NA       3  spline             spline</span></span>
-<span><span class="co">#&gt;  2:      bin_root ParamInt     0   Inf     Inf       0                   </span></span>
-<span><span class="co">#&gt;  3:        degree ParamInt     1   Inf     Inf       3 baselearner       </span></span>
-<span><span class="co">#&gt;  4:            df ParamDbl     1   Inf     Inf       5                  5</span></span>
-<span><span class="co">#&gt;  5:        df_cat ParamDbl     1   Inf     Inf       2                  2</span></span>
-<span><span class="co">#&gt;  6:   differences ParamInt     1   Inf     Inf       2 baselearner       </span></span>
-<span><span class="co">#&gt;  7:    early_stop ParamLgl    NA    NA       2   FALSE              FALSE</span></span>
-<span><span class="co">#&gt;  8: eps_for_break ParamDbl  -Inf   Inf     Inf       0  early_stop       </span></span>
-<span><span class="co">#&gt;  9:  interactions ParamUty    NA    NA     Inf                           </span></span>
-<span><span class="co">#&gt; 10:    iterations ParamInt     1   Inf     Inf     100                100</span></span>
-<span><span class="co">#&gt; 11: learning_rate ParamDbl     0   Inf     Inf    0.05                   </span></span>
-<span><span class="co">#&gt; 12:          loss ParamUty    NA    NA     Inf                           </span></span>
-<span><span class="co">#&gt; 13:       n_knots ParamInt     1   Inf     Inf      20 baselearner       </span></span>
-<span><span class="co">#&gt; 14:  oob_fraction ParamDbl     0     1     Inf     0.3                   </span></span>
-<span><span class="co">#&gt; 15:     optimizer ParamUty    NA    NA     Inf                           </span></span>
-<span><span class="co">#&gt; 16:      patience ParamInt     1   Inf     Inf       5  early_stop       </span></span>
-<span><span class="co">#&gt; 17:       penalty ParamDbl     0   Inf     Inf       0 baselearner       </span></span>
-<span><span class="co">#&gt; 18:   show_output ParamLgl    NA    NA       2   FALSE              FALSE</span></span>
+<span><span class="co">#&gt;                    id    class lower upper nlevels default     parents  value</span></span>
+<span><span class="co">#&gt;  1:       baselearner ParamFct    NA    NA       3  spline             spline</span></span>
+<span><span class="co">#&gt;  2:          bin_root ParamInt     0   Inf     Inf       0                   </span></span>
+<span><span class="co">#&gt;  3:            degree ParamInt     1   Inf     Inf       3 baselearner       </span></span>
+<span><span class="co">#&gt;  4:                df ParamDbl     1   Inf     Inf       5                  5</span></span>
+<span><span class="co">#&gt;  5:            df_cat ParamDbl     1   Inf     Inf       2                  2</span></span>
+<span><span class="co">#&gt;  6:       differences ParamInt     1   Inf     Inf       2 baselearner       </span></span>
+<span><span class="co">#&gt;  7:        early_stop ParamLgl    NA    NA       2   FALSE              FALSE</span></span>
+<span><span class="co">#&gt;  8:     eps_for_break ParamDbl  -Inf   Inf     Inf       0  early_stop       </span></span>
+<span><span class="co">#&gt;  9:      interactions ParamUty    NA    NA     Inf                           </span></span>
+<span><span class="co">#&gt; 10:        iterations ParamInt     1   Inf     Inf     100                100</span></span>
+<span><span class="co">#&gt; 11: just_interactions ParamLgl    NA    NA       2   FALSE              FALSE</span></span>
+<span><span class="co">#&gt; 12:     learning_rate ParamDbl     0   Inf     Inf    0.05                   </span></span>
+<span><span class="co">#&gt; 13:              loss ParamUty    NA    NA     Inf                           </span></span>
+<span><span class="co">#&gt; 14:           n_knots ParamInt     1   Inf     Inf      20 baselearner       </span></span>
+<span><span class="co">#&gt; 15:      oob_fraction ParamDbl     0     1     Inf     0.3                   </span></span>
+<span><span class="co">#&gt; 16:         optimizer ParamUty    NA    NA     Inf                           </span></span>
+<span><span class="co">#&gt; 17:          patience ParamInt     1   Inf     Inf       5  early_stop       </span></span>
+<span><span class="co">#&gt; 18:       show_output ParamLgl    NA    NA       2   FALSE              FALSE</span></span>
 <span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="va">model</span></span>
@@ -200,12 +200,12 @@ stopping:</p>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lcb</span><span class="op">$</span><span class="va">model</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   _iterations oob_risk time  baselearner train_risk</span></span>
-<span><span class="co">#&gt; 1           0       NA   NA    intercept   38.92751</span></span>
-<span><span class="co">#&gt; 2           1 44.64355    0 cmedv_spline   35.13774</span></span>
-<span><span class="co">#&gt; 3           2 40.31621  269 cmedv_spline   31.71748</span></span>
-<span><span class="co">#&gt; 4           3 36.41481  504 cmedv_spline   28.63069</span></span>
-<span><span class="co">#&gt; 5           4 32.89763  729 cmedv_spline   25.84486</span></span>
-<span><span class="co">#&gt; 6           5 29.72701  959 cmedv_spline   23.33065</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0       NA   NA    intercept   45.40434</span></span>
+<span><span class="co">#&gt; 2           1 31.33773    0 cmedv_spline   40.99303</span></span>
+<span><span class="co">#&gt; 3           2 28.30314  271 cmedv_spline   37.01182</span></span>
+<span><span class="co">#&gt; 4           3 25.56365  539 cmedv_spline   33.41877</span></span>
+<span><span class="co">#&gt; 5           4 23.09052  809 cmedv_spline   30.17605</span></span>
+<span><span class="co">#&gt; 6           5 20.85782 1117 cmedv_spline   27.24949</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="binary-classification">Binary classification<a class="anchor" aria-label="anchor" href="#binary-classification"></a>
@@ -254,13 +254,13 @@ construction:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lcb</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 4.136</span></span>
+<span><span class="co">#&gt; 4.474</span></span>
 <span></span>
 <span><span class="va">lcb_2c</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, optimizer <span class="op">=</span> <span class="va"><a href="../reference/OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 2.314</span></span></code></pre></div>
+<span><span class="co">#&gt; 2.564</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using-different-losses">Using different losses<a class="anchor" aria-label="anchor" href="#using-different-losses"></a>
@@ -281,6 +281,66 @@ construction:</p>
 <span><span class="co">#&gt;         504  23.9 13.94210</span></span>
 <span><span class="co">#&gt;         505  22.0 13.89905</span></span>
 <span><span class="co">#&gt;         506  11.9 13.62323</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="adding-interactions">Adding interactions<a class="anchor" aria-label="anchor" href="#adding-interactions"></a>
+</h2>
+<p>Interactions can be added in the constructor by specifying a
+<code>data.frame</code> with columns <code>feat1</code> and
+<code>feat2</code>. For each row, one row-wise tensor product base
+learner is added to the model:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"german_credit"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ints</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feat1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"amount"</span><span class="op">)</span>, feat2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"job"</span>, <span class="st">"duration"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ints</span></span>
+<span><span class="co">#&gt;    feat1    feat2</span></span>
+<span><span class="co">#&gt; 1    age      job</span></span>
+<span><span class="co">#&gt; 2 amount duration</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">31415</span><span class="op">)</span></span>
+<span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, interactions <span class="op">=</span> <span class="va">ints</span><span class="op">)</span></span>
+<span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="va">l</span><span class="op">$</span><span class="fu">importance</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;              baselearner risk_reduction</span></span>
+<span><span class="co">#&gt; 2           status_ridge     0.02703527</span></span>
+<span><span class="co">#&gt; 1 amount_duration_tensor     0.01305659</span></span>
+<span><span class="fu"><a href="../reference/plotTensor.html">plotTensor</a></span><span class="op">(</span><span class="va">l</span><span class="op">$</span><span class="va">model</span>, <span class="st">"amount_duration_tensor"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basic-mlr-learners_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+</div>
+<div class="section level2">
+<h2 id="use-early-stopping">Use early stopping<a class="anchor" aria-label="anchor" href="#use-early-stopping"></a>
+</h2>
+<p>Early stopping is also controlled by the constructor. Use
+<code>early_stop = TRUE</code> to use early stopping with the default
+values <code>patience = 5</code> and <code>eps_for_break = 0</code> (see
+<code><a href="../reference/LoggerOobRisk.html">?LoggerOobRisk</a></code>). In <code>compboost</code>, early stopping
+requires a validation set and hence to set
+<code>oob_fraction &gt; 0</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">314</span><span class="op">)</span></span>
+<span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, iterations <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plotRisk.html">plotRisk</a></span><span class="op">(</span><span class="va">l</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basic-mlr-learners_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p>A more aggressive early stopping is achieved by setting
+<code>patience = 1</code>:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">314</span><span class="op">)</span></span>
+<span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, iterations <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span>  patience <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/plotRisk.html">plotRisk</a></span><span class="op">(</span><span class="va">l</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
+<p><img src="basic-mlr-learners_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p>Though, this is not recommended as it can stop too early without
+reaching the best validation risk. Note that
+<code>oob_fraction &gt; 0</code> must be true to use early stopping:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Error in get_private(learner)$.train(task): `oob_fraction &gt; 0` required for early stopping.</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
