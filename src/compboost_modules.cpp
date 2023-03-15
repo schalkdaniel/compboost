@@ -2405,7 +2405,9 @@ class LoggerWrapper
 {
   public:
 
-    LoggerWrapper () {};
+    LoggerWrapper () {
+      Rcpp::stop("Cannot create empty logger");
+    }
 
     std::shared_ptr<logger::Logger> getLogger ()
     {
@@ -2461,6 +2463,8 @@ class LoggerIterationWrapper : public LoggerWrapper
     bool use_as_stopper;
 
   public:
+    LoggerIterationWrapper () : LoggerWrapper() {}
+
     LoggerIterationWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_iterations)
       : max_iterations ( max_iterations ),
         use_as_stopper ( use_as_stopper )
@@ -2544,6 +2548,8 @@ class LoggerInbagRiskWrapper : public LoggerWrapper
     bool use_as_stopper;
 
   public:
+    LoggerInbagRiskWrapper () : LoggerWrapper() {}
+
     LoggerInbagRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& loss, double eps_for_break,
       unsigned int patience)
       : eps_for_break ( eps_for_break ),
@@ -2653,6 +2659,8 @@ class LoggerOobRiskWrapper : public LoggerWrapper
     bool use_as_stopper;
 
   public:
+    LoggerOobRiskWrapper () : LoggerWrapper() {}
+
     LoggerOobRiskWrapper (std::string logger_id0, bool use_as_stopper, LossWrapper& loss, double eps_for_break,
       unsigned int patience, Rcpp::List oob_data, ResponseWrapper& oob_response)
     {
@@ -2740,6 +2748,8 @@ class LoggerTimeWrapper : public LoggerWrapper
     std::string time_unit;
 
   public:
+    LoggerTimeWrapper () : LoggerWrapper() {}
+
     LoggerTimeWrapper (std::string logger_id0, bool use_as_stopper, unsigned int max_time,
       std::string time_unit)
       : use_as_stopper ( use_as_stopper ),
@@ -2882,24 +2892,28 @@ RCPP_MODULE(logger_module)
 
   class_<LoggerIterationWrapper> ("LoggerIteration")
     .derives<LoggerWrapper> ("Logger")
+    .constructor ()
     .constructor<std::string, bool, unsigned int> ()
     .method("summarizeLogger", &LoggerIterationWrapper::summarizeLogger)
   ;
 
   class_<LoggerInbagRiskWrapper> ("LoggerInbagRisk")
     .derives<LoggerWrapper> ("Logger")
+    .constructor ()
     .constructor<std::string, bool, LossWrapper&, double, unsigned int> ()
     .method("summarizeLogger", &LoggerInbagRiskWrapper::summarizeLogger)
   ;
 
   class_<LoggerOobRiskWrapper> ("LoggerOobRisk")
     .derives<LoggerWrapper> ("Logger")
+    .constructor ()
     .constructor<std::string, bool, LossWrapper&, double, unsigned int, Rcpp::List, ResponseWrapper&> ()
     .method("summarizeLogger", &LoggerOobRiskWrapper::summarizeLogger)
   ;
 
   class_<LoggerTimeWrapper> ("LoggerTime")
     .derives<LoggerWrapper> ("Logger")
+    .constructor ()
     .constructor<std::string, bool, unsigned int, std::string> ()
     .method("summarizeLogger", &LoggerTimeWrapper::summarizeLogger)
   ;

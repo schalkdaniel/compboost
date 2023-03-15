@@ -11,7 +11,7 @@ in package \CRANpkg{compboost}.
 \examples{
 l = lrn("classif.compboost", baselearner = "components",
   df = 5, iterations = 20)
-task = tsk("")
+task = tsk("german_credit")
 l$train(task)
 l$selected_features()
 }
