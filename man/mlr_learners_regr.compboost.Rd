@@ -8,6 +8,12 @@
 A \link{Learner} for a component-wise boosting model implemented in \link{Compboost}
 in package \CRANpkg{compboost}.
 }
+\examples{
+l = lrn("regr.compboost", baselearner = "linear", iterations = 500)
+task = tsk("mtcars")
+l$train(task)
+l$importance()
+}
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[compboost:LearnerCompboost]{compboost::LearnerCompboost}} -> \code{LearnerRegrCompboost}
 }

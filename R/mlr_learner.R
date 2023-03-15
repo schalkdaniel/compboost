@@ -21,7 +21,23 @@ lchecker = function(x) {
 }
 
 ichecker = function(x) {
-  checkmate::checkDataFrame(x, col.names = c("feat1", "feat2"), null.ok = TRUE)
+  if (is.null(x)) return(TRUE)
+  if (checkmate::testDataFrame(x, col.names = "named")) {
+    cnames = c("feat1", "feat2")
+    if (any(! vapply(cnames, checkmate::testChoice, logical(1), choices = names(x)))) {
+      return("x must have column names {'feat1', 'feat2'}")
+    } else {
+      n = nrow(x)
+      if (! checkmate::testCharacter(x$feat1)) return(checkmate::checkCharacter(x$feat1))
+      if (! checkmate::testCharacter(x$feat2)) return(checkmate::checkCharacter(x$feat2))
+      if ("isotrop" %in% names(x)) {
+        if (! checkmate::testLogical(x$isotrop)) return(checkmate::checkLogical(x$isotrop))
+      }
+      return(TRUE)
+    }
+  } else {
+    return(checkmate::checkDataFrame(x, col.names = "named"))
+  }
 }
 
 #' @title Component-wise boosting learner
@@ -49,17 +65,18 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
         df_cat        = paradox::p_dbl(1, Inf, default = 2, tags = "train"),
         bin_root      = paradox::p_int(0, Inf, default = 0, tags = "train"),
 
-        degree      = paradox::p_int(1, Inf, default = 3, tags = "train", depends = baselearner == "spline"),
-        n_knots     = paradox::p_int(1, Inf, default = 20, tags = "train", depends = baselearner == "spline"),
-        penalty     = paradox::p_dbl(0, Inf, default = 0, tags = "train", depends = baselearner == "spline"),
-        differences = paradox::p_int(1, Inf, default = 2, tags = "train", depends = baselearner == "spline"),
+        degree      = paradox::p_int(1, Inf, default = 3, tags = "train", depends = baselearner %in% c("spline", "components")),
+        n_knots     = paradox::p_int(1, Inf, default = 20, tags = "train", depends = baselearner %in% c("spline", "components")),
+        differences = paradox::p_int(1, Inf, default = 2, tags = "train", depends = baselearner %in% c("spline", "components")),
 
         optimizer    = paradox::p_uty(default = NULL, tags = "train", custom_check = ochecker),
         loss         = paradox::p_uty(default = NULL, tags = "train", custom_check = lchecker),
-        interactions = paradox::p_uty(default = NULL),
+
+        interactions = paradox::p_uty(default = NULL, custom_check = ichecker),
+        just_interactions = paradox::p_lgl(default = FALSE),
 
         oob_fraction = paradox::p_dbl(0, 1, default = 0.3, tags = "train"),
-        early_stop   = paradox::p_lgl(default = FALSE, tags = "early_stop"),
+        early_stop   = paradox::p_lgl(default = FALSE),
         patience     = paradox::p_int(1, Inf, default = 5, depends = early_stop == TRUE, tags = "early_stop"),
         eps_for_break = paradox::p_dbl(-Inf, Inf, default = 0, depends = early_stop == TRUE, tags = "early_stop")
       )
@@ -69,6 +86,7 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
       ps$values$df = 5
       ps$values$df_cat = 2
       ps$values$early_stop = FALSE
+      ps$values$just_interactions = FALSE
 
       ptypes = "response"
       props = c("importance", "selected_features")
@@ -129,18 +147,21 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
       if (self$param_set$values$baselearner == "linear") {
-        f = compboost::pboostLinear
+        f = compboost::boostLinear
       } else if (self$param_set$values$baselearner == "spline") {
         f = compboost::boostSplines
+      } else if (self$param_set$values$baselearner == "components") {
+        f = compboost::boostComponents
       }
       if (self$param_set$values$early_stop) {
         if (is.null(self$param_set$values$oob_fraction) || (self$param_set$values$oob_fraction == 0)) {
           stop("`oob_fraction > 0` required for early stopping.")
         }
         pv_es = self$param_set$default[tagIndex(self$param_set, "early_stop")]
-        mlr3misc::insert_named(pv_es, self$param_set$get_values(tags = "early_stop"))
+        pv_es = mlr3misc::insert_named(pv_es, self$param_set$get_values(tags = "early_stop"))
         pv$stop_args = pv_es
       }
+      pv = pv[intersect(names(pv), formalArgs(f))]
       if (! self$param_set$values$show_output) {
         tmp = capture.output({
           cboost = mlr3misc::invoke(f, data = task$data(), target = task$target_names, .args = pv)
@@ -150,13 +171,34 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
       }
       if (! is.null(self$param_set$values$interactions)) {
         iters = pv$iterations
-        pv = insert_named(pv, list(iterations = 0))
-        cboost = mlr3misc::invoke(f, data = task$data(), target = task$target_names, .args = pv)
+        pv = mlr3misc::insert_named(pv, list(iterations = 0))
+        pvs = pv[intersect(names(pv), c("degree", "n_knots", "differences"))]
+        if (self$param_set$values$just_interactions) {
+          pv = pv[setdiff(names(pv), c(names(pvs), "iterations", "df", "df_cat"))]
+          cboost = mlr3misc::invoke(Compboost$new, data = task$data(), target = task$target_names, .args = pv)
+        } else {
+          cboost = mlr3misc::invoke(f, data = task$data(), target = task$target_names, .args = pv)
+        }
 
-        # Add tensors here:
-        #idat = self$param_set$values$interactions
-        #for (i in seq_len(nrow(idat)))
-        #cboost$addTensor(idat$feat1[i], idat$feat2[i])
+        invisible(lapply(seq_len(nrow(self$param_set$values$interactions)), function(k) {
+          i = self$param_set$values$interactions[k, ]
+          checkmate::assertChoice(i$feat1, choices = task$feature_names)
+          checkmate::assertChoice(i$feat2, choices = task$feature_names)
+          if (is.null(i$isotrop)) i$isotrop = FALSE
+          if (task$feature_types$type[task$feature_types$id == i$feat1] %in% c("integer", "numeric")) {
+            df1 = self$param_set$values$df
+          } else {
+            df1 = self$param_set$values$df_cat
+          }
+          if (task$feature_types$type[task$feature_types$id == i$feat2] %in% c("integer", "numeric")) {
+            df2 = self$param_set$values$df
+          } else {
+            df2 = self$param_set$values$df_cat
+          }
+          mlr3misc::invoke(cboost$addTensor, feature1 = i$feat1, feature2 = i$feat2,
+            isotrop = i$isotrop, df1 = df1, df2 = df2, .args = pvs)
+        }))
+
         if (! self$param_set$values$show_output) {
           tmp = capture.output(cboost$train(iters))
         } else {
@@ -201,6 +243,12 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
 #' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
 #' in package \CRANpkg{compboost}.
 #'
+#' @examples
+#' l = lrn("classif.compboost", baselearner = "components", df = 5)
+#' task = tsk("spam")
+#' l$train(task)
+#' table(l$model$getSelectedBaselearner())
+#' plotPEUni(l$model, "your")
 #' @export
 LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = LearnerCompboost,
   public = list(
@@ -220,6 +268,11 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
 #' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost]
 #' in package \CRANpkg{compboost}.
 #'
+#' @examples
+#' l = lrn("regr.compboost", baselearner = "linear", iterations = 500)
+#' task = tsk("mtcars")
+#' l$train(task)
+#' l$importance()
 #' @export
 LearnerRegrCompboost = R6::R6Class("LearnerRegrCompboost", inherit = LearnerCompboost,
   public = list(

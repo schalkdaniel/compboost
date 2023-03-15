@@ -10,7 +10,7 @@
 \item{logger_id}{(\code{character(1)})\cr
 Identifier of the logger.}
 
-\item{param-use_as_stopper}{(\code{logical(1)})\cr
+\item{use_as_stopper}{(\code{logical(1)})\cr
 Boolean to indicate if the logger should also be used as a stopper.}
 
 \item{loss}{(\link{LossQuadratic} | \link{LossBinomial} | \link{LossHuber} | \link{LossAbsolute} | \link{LossQuantile})\cr
@@ -21,6 +21,10 @@ See the respective help page for further information.}
 This argument becomes active if the loss is also used as stopper. If the relative
 improvement of the logged inbag risk falls above this boundary the stopper
 returns \code{TRUE}.}
+
+\item{patience}{(\code{integer(1)})\cr
+The number of consecutive conditions that must be true to return
+a stop signal.}
 }
 \description{
 This class logs the train risk for a specific loss function.

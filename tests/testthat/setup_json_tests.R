@@ -21,7 +21,8 @@ testCboostJson = function(cboost, cboost2, new_iter = NULL, blp = "Petal.Length_
   expect_equal(cboost$model$getPrediction(TRUE), cboost2$getPrediction(TRUE))
   expect_equal(cboost$model$getEstimatedParameter(), cboost2$getEstimatedParameter())
   for (i in seq(10, 90, 10)) {
-    expect_equal(cboost$model$getParameterAtIteration(i), cboost2$getParameterAtIteration(i))
+    if (i <= old_iter)
+      expect_equal(cboost$model$getParameterAtIteration(i), cboost2$getParameterAtIteration(i))
   }
 
   if (! is.null(new_iter)) {

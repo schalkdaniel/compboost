@@ -31,11 +31,14 @@
 #' @param intercept (`logical(1)`)\cr
 #'   Internally used by [BaselearnerPolynomial]. This logical value indicates if
 #'   each feature should get an intercept or not (default is `TRUE`).
+#' @param df_cat (`numeric(1)`)\cr
+#'   Degrees of freedom of the categorical base-learner.
 #' @param data_source (`Data*`)\cr
 #'   Uninitialized `Data*` object which is used to store the data. At the moment
 #'   just in memory training is supported.
 #' @param oob_fraction (`numeric(1)`)\cr
 #'   Fraction of how much data are used to track the out of bag risk.
+#' @template param-stop_args
 #' @examples
 #' mod = boostLinear(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
 #'   oob_fraction = 0.3)
@@ -46,10 +49,20 @@
 #' @export
 boostLinear = function(data, target, optimizer = NULL, loss = NULL, learning_rate = 0.05,
   iterations = 100, trace = -1, intercept = TRUE, data_source = InMemoryData,
-  oob_fraction = NULL)
+  df_cat = 2, oob_fraction = NULL, stop_args = NULL)
 {
+  if (is.null(oob_fraction) || (oob_fraction == 0)) {
+    stop_args = NULL
+  }
+  if (checkmate::testList(stop_args)) {
+    early_stop = TRUE
+  } else {
+    early_stop = FALSE
+    stop_args = list()
+  }
 	model = Compboost$new(data = data, target = target, optimizer = optimizer, loss = loss,
-		learning_rate = learning_rate, oob_fraction = oob_fraction)
+		learning_rate = learning_rate, oob_fraction = oob_fraction, stop_args = stop_args,
+    early_stop = early_stop)
 	features = setdiff(colnames(data), model$response$getTargetName())
 
 	for (feat in features) {
@@ -57,7 +70,7 @@ boostLinear = function(data, target, optimizer = NULL, loss = NULL, learning_rat
 			model$addBaselearner(feat, "linear", BaselearnerPolynomial, data_source,
 				degree = 1, intercept = intercept)
 		} else {
-			model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source)
+			model$addBaselearner(feat, "ridge", BaselearnerCategoricalRidge, data_source, df = df_cat)
 		}
 	}
   if (iterations == 0) return(model)

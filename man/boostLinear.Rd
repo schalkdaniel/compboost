@@ -14,7 +14,9 @@ boostLinear(
   trace = -1,
   intercept = TRUE,
   data_source = InMemoryData,
-  oob_fraction = NULL
+  df_cat = 2,
+  oob_fraction = NULL,
+  stop_args = NULL
 )
 }
 \arguments{
@@ -53,8 +55,16 @@ each feature should get an intercept or not (default is \code{TRUE}).}
 Uninitialized \verb{Data*} object which is used to store the data. At the moment
 just in memory training is supported.}
 
+\item{df_cat}{(\code{numeric(1)})\cr
+Degrees of freedom of the categorical base-learner.}
+
 \item{oob_fraction}{(\code{numeric(1)})\cr
 Fraction of how much data are used to track the out of bag risk.}
+
+\item{stop_args}{(\code{list(2)})\cr
+List containing two elements \code{patience} and \code{eps_for_break} which can be set
+to use early stopping on the left out data from setting \code{oob_fraction}.
+If \code{! is.null(stop_args)}, early stopping is triggered.}
 }
 \value{
 A model of the \link{Compboost} class. This model is an \link{R6} object

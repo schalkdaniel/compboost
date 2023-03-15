@@ -1102,6 +1102,7 @@ NULL
 #' This argument becomes active if the loss is also used as stopper. If the relative
 #' improvement of the logged inbag risk falls above this boundary the stopper
 #' returns `TRUE`.
+#' @template param-patience
 #'
 #' @section Details:
 #' This logger computes the risk for the training data
@@ -1164,6 +1165,7 @@ NULL
 #' This argument is used if the loss is also used as stopper. If the relative
 #' improvement of the logged inbag risk falls above this boundary the stopper
 #' returns `TRUE`.
+#' @template param-patience
 #' @param oob_data (`list()`)\cr
 #' A list which contains data source objects which corresponds to the
 #' source data of each registered factory. The source data objects should

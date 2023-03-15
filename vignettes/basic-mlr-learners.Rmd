@@ -91,3 +91,52 @@ lcb_quantiles = lrn("regr.compboost", loss = LossQuantile$new(0.1))
 lcb_quantiles$train(task)
 lcb_quantiles$predict(task)
 ```
+
+## Adding interactions
+
+Interactions can be added in the constructor by specifying a `data.frame` with columns `feat1` and `feat2`.
+For each row, one row-wise tensor product base learner is added to the model:
+
+```{r}
+task = tsk("german_credit")
+
+ints = data.frame(feat1 = c("age", "amount"), feat2 = c("job", "duration"))
+ints
+
+set.seed(31415)
+l = lrn("classif.compboost", interactions = ints)
+l$train(task)
+l$importance()
+plotTensor(l$model, "amount_duration_tensor")
+```
+
+## Use early stopping
+
+Early stopping is also controlled by the constructor. Use `early_stop = TRUE` to use
+early stopping with the default values `patience = 5` and `eps_for_break = 0` (see `?LoggerOobRisk`).
+In `compboost`, early stopping requires a validation set and hence to set `oob_fraction > 0`:
+
+```{r}
+task = tsk("mtcars")
+
+set.seed(314)
+l = lrn("regr.compboost", early_stop = TRUE, oob_fraction = 0.3, iterations = 1000)
+l$train(task)
+plotRisk(l$model)
+```
+
+A more aggressive early stopping is achieved by setting `patience = 1`:
+```{r}
+set.seed(314)
+l = lrn("regr.compboost", early_stop = TRUE, oob_fraction = 0.3, iterations = 1000,
+  patience = 1)
+l$train(task)
+plotRisk(l$model)
+```
+
+Though, this is not recommended as it can stop too early without reaching the best validation risk.
+Note that `oob_fraction > 0` must be true to use early stopping:
+```{r, error=TRUE}
+l = lrn("regr.compboost", early_stop = TRUE)
+l$train(task)
+```

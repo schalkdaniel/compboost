@@ -10,7 +10,7 @@
 \item{logger_id}{(\code{character(1)})\cr
 Identifier of the logger.}
 
-\item{param-use_as_stopper}{(\code{logical(1)})\cr
+\item{use_as_stopper}{(\code{logical(1)})\cr
 Boolean to indicate if the logger should also be used as a stopper.}
 
 \item{max_iterations}{(\code{integer(1)})\cr

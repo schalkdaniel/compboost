@@ -1,10 +1,12 @@
-#' @title Wrapper to boost general additive models for each feature.
+#' @title Wrapper to boost general additive models using components
 #'
 #' @description
 #' This wrapper function automatically initializes the model by adding all numerical
-#' features as spline base-learner. Categorical features are dummy encoded and inserted
-#' using another linear base-learners without intercept. The function `boostSplines`
-#' does also train the model.
+#' features as components. This means, that for each numerical feature a linear effect
+#' and non-linear spline base-learner is added. The non-linear part is constructed in way
+#' that it cannot model the linear part. Hence, it is just selected if a non-linear
+#' base learner is really necessary. Categorical features are dummy encoded and inserted
+#' using another linear base-learners without intercept.
 #'
 #' The returned object is an object of the [Compboost] class. This object can be
 #' used for further analyses (see `?Compboost` for details).
@@ -58,18 +60,17 @@
 #' @param additional_risk_logs (`list(Logger)`)\cr
 #'   Additional logger passed to the `Compboost` object.
 #' @examples
-#' mod = boostSplines(data = iris, target = "Sepal.Length", loss = LossQuadratic$new(),
-#'   oob_fraction = 0.3)
+#' mod = boostComponents(data = iris, target = "Sepal.Length", df = 4)
 #' mod$getBaselearnerNames()
-#' mod$getEstimatedCoef()
 #' table(mod$getSelectedBaselearner())
+#' plotPEUni(mod, "Petal.Length")
 #' mod$predict()
 #' @export
-boostSplines = function(data, target, optimizer = NULL, loss = NULL,
+boostComponents = function(data, target, optimizer = NULL, loss = NULL,
   learning_rate = 0.05, iterations = 100, trace = -1, degree = 3, n_knots = 20,
   penalty = 2, df = 0, differences = 2, data_source = InMemoryData,
   oob_fraction = NULL, bin_root = 0, cache_type = "inverse",
-  stop_args = NULL, df_cat = 1, stop_time = "microseconds", additional_risk_logs = list())
+  stop_args = list(), df_cat = 1, stop_time = "microseconds", additional_risk_logs = list())
 {
   if (is.null(oob_fraction) || (oob_fraction == 0)) {
     stop_args = NULL
@@ -87,13 +88,10 @@ boostSplines = function(data, target, optimizer = NULL, loss = NULL,
 
   checkmate::assertChoice(stop_time, choices = c("minuts", "seconds", "microseconds"), null.ok = TRUE)
 
-  # This loop could be replaced with foreach???
-  # Issue:
   for (feat in features) {
     if (is.numeric(data[[feat]])) {
-      model$addBaselearner(feat, "spline", BaselearnerPSpline, data_source,
-        degree = degree, n_knots = n_knots, penalty = penalty, df = df,  differences = differences,
-        bin_root = bin_root, cache_type = cache_type)
+      model$addComponents(feat, degree = degree, n_knots = n_knots, penalty = penalty,
+        df = df,  differences = differences, bin_root = bin_root, cache_type = cache_type)
     } else {
       checkmate::assertNumeric(df_cat, len = 1L, lower = 1)
       if (length(unique(feat)) > df_cat) stop("Categorical degree of freedom must be smaller than the number of classes (here <", length(unique(feat)), ")")
