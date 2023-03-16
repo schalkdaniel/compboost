@@ -78,6 +78,8 @@ regression and binary classification which can be used to apply
 `compboost` within the whole [`mlr3verse`](https://mlr3.mlr-org.com/):
 
 ``` r
+library(mlr3)
+
 ts = tsk("spam")
 lcboost = lrn("classif.compboost", iterations = 500L, bin_root = 2)
 lcboost$train(ts)
