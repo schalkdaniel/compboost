@@ -1,7 +1,7 @@
 context("mlr learners")
 
 test_that("Basic parameter are working", {
-  task = tsk("german_credit")
+  task = mlr3::tsk("german_credit")
 
   l = expect_silent(lrn("classif.compboost"))
   expect_silent(l$train(task))
@@ -52,7 +52,7 @@ test_that("Basic parameter are working", {
 })
 
 test_that("Interactions can be included correctly", {
-  task = tsk("german_credit")
+  task = mlr3::tsk("german_credit")
   ints = data.frame(feat1 = rep("duration", 2), feat2 = c("age", "job"))
 
   l = expect_silent(lrn("classif.compboost", interactions = ints))
@@ -70,7 +70,7 @@ test_that("Interactions can be included correctly", {
 })
 
 test_that("Early stopping works", {
-  task = tsk("mtcars")
+  task = mlr3::tsk("mtcars")
 
   l = expect_silent(lrn("regr.compboost", oob_fraction = 0, iterations = 1000, early_stop = TRUE))
   expect_error(l$train(task))
@@ -91,7 +91,7 @@ test_that("Early stopping works", {
 })
 
 test_that("Custom loss for oob works", {
-  task = tsk("mtcars")
+  task = mlr3::tsk("mtcars")
 
   # patience = 100 ensures that all learners are trained at least 100 iterations.
 

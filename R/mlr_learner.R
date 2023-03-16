@@ -249,7 +249,7 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
 #' @examples
 #' l = lrn("classif.compboost", baselearner = "components",
 #'   df = 5, iterations = 20)
-#' task = tsk("german_credit")
+#' task = mlr3::tsk("german_credit")
 #' l$train(task)
 #' l$selected_features()
 #' @export
@@ -270,7 +270,7 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
 #'
 #' @examples
 #' l = lrn("regr.compboost", baselearner = "linear", iterations = 50)
-#' task = tsk("mtcars")
+#' task = mlr3::tsk("mtcars")
 #' l$train(task)
 #' l$importance()
 #' @export
