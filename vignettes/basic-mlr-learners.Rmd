@@ -24,6 +24,8 @@ Here, we show the two learners in small examples.
 
 As task, we use the Boston housing task that is accessible via `tsk("boston_housing")`:
 ```{r}
+library(mlr3)
+
 task = tsk("boston_housing")
 task
 ```
