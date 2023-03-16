@@ -7,8 +7,8 @@
 A \link{Learner} for a component-wise boosting model implemented in \link{Compboost}.
 }
 \examples{
-l = lrn("regr.compboost", baselearner = "linear", iterations = 50)
-task = tsk("mtcars")
+task = mlr3::tsk("mtcars")
+l = mlr3::lrn("regr.compboost", baselearner = "linear", iterations = 50)
 l$train(task)
 l$importance()
 }

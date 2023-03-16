@@ -7,9 +7,9 @@
 A \link{Learner} for a component-wise boosting model implemented in \link{Compboost}.
 }
 \examples{
-l = lrn("classif.compboost", baselearner = "components",
+task = mlr3::tsk("german_credit")
+l = mlr3::lrn("classif.compboost", baselearner = "components",
   df = 5, iterations = 20)
-task = tsk("german_credit")
 l$train(task)
 l$selected_features()
 }
