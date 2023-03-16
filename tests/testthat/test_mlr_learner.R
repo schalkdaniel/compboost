@@ -100,7 +100,7 @@ test_that("Custom loss for oob works", {
   l1 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
     patience = 100, loss_oob = loss_oob)})
   expect_silent(l1$train(task))
-  offset = l$model$getCoef()$offset
+  offset = l1$model$getCoef()$offset
   pmat = cbind(l1$predict_newdata(l1$model$data_oob)$response)
   expect_equal(l1$model$response_oob$getPrediction() + offset, pmat)
 
