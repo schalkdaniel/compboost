@@ -233,53 +233,47 @@ returns the raw data matrix as p x n matrix.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">bl_sp_df2</span><span class="op">$</span><span class="fu">getMeta</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 8</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ df         : num 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num 977744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty    : num 794502</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ penalty_mat: num [1:14, 1:14] 1 -2 1 0 0 0 0 0 0 0 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ degree     : num 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ n_knots    : num 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ differences: num 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ bin_root   : num 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots      : num [1:18, 1] -2.69292 -1.79323 -0.89354 0.00615 0.90584 ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ knots      : num [1:18, 1] -2.5755 -1.698 -0.8205 0.0569 0.9344 ...</span>
 <span class="r-in"><span><span class="va">bl_sp_df2</span><span class="op">$</span><span class="fu">getPenalty</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 977743.9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 794502.2</span>
 <span class="r-in"><span><span class="va">bl_sp_df5</span><span class="op">$</span><span class="fu">getPenalty</span><span class="op">(</span><span class="op">)</span> <span class="co"># The penalty here is smaller due to more flexibility</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 50.17646</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 51.66133</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Transform "new data":</span></span></span>
 <span class="r-in"><span><span class="va">newdata</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va"><a href="InMemoryData.html">InMemoryData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, <span class="st">"my_data_name"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bl_sp_df2</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="va">newdata</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 x 14 sparse Matrix of class "dgCMatrix"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] .         0.02280893 0.48868734 4.695285e-01 0.018975240 .           . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] .         .          0.08760028 6.330196e-01 0.278182376 0.001197759 . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] .         0.07975572 0.62438687 2.941349e-01 0.001722532 .           . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.1666667 0.66666667 0.16666667 .            .           .           . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.1588820 0.66641843 0.17469893 6.596692e-07 .           .           . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                               </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] .            0.03648202 0.5401568 0.412906387 0.0104548 . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0062701963 0.37153256 0.5732009 0.048996331 .         . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0003128748 0.23501682 0.6523876 0.112282679 .         . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.0129634053 0.43231542 0.5233435 0.031377656 .         . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.0741594200 0.61732342 0.3063107 0.002206459 .         . . . . . . . . .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">bl_sp_df5</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="va">newdata</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 x 19 sparse Matrix of class "dgCMatrix"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] .         .           0.09895342 6.432496e-01 0.25712040 0.0006765419</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] .         .           .          8.864385e-02 0.63406599 0.2761508645</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] .         0.001991533 0.30113513 6.203745e-01 0.07649887 .           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.1666667 0.666666667 0.16666667 .            .          .           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.1554251 0.666143370 0.17842947 2.030056e-06 .          .           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] .           . . . . . . . . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.001139302 . . . . . . . . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] .           . . . . . . . . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] .           . . . . . . . . . . . .</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] .           . . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                                                                                </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] .            .          0.1509457 0.665628483 0.183420076 5.713846e-06 . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 5.902114e-06 0.18360751 0.6656060 0.150780593 .           .            . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] .            0.06348336 0.6013908 0.331655414 0.003470416 .            . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 7.671940e-04 0.26137523 0.6412964 0.096561143 .           .            . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 4.702998e-02 0.56863679 0.3775431 0.006790124 .           .            . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                           </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] . . . . . . . . . . .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] . . . . . . . . . . .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># R6 wrapper</span></span></span>
@@ -297,7 +291,7 @@ returns the raw data matrix as p x n matrix.</p>
 <span class="r-in"><span>  n_knots <span class="op">=</span> <span class="fl">15</span>, df <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost_df5</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">200</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 200 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.023</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Access base learner directly from the API (n = sqrt(100) = 10 with binning):</span></span></span>
