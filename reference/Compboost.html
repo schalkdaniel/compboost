@@ -988,21 +988,21 @@ predictions based on the training data throws an error.</p></dd>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"wt"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 1000 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.61</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 1.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> hp_spline wt_spline </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       603       397 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       530       470 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   _iterations oob_risk baselearner train_risk</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           0       NA   intercept  14.709546</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           1 17.82079   wt_spline  13.511744</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2 16.47349   wt_spline  12.428259</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           3 15.28536   wt_spline  11.448030</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           4 14.23994   wt_spline  10.561073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           5 13.32238   wt_spline   9.758372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           0       NA   intercept   20.32868</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           1 8.427168   wt_spline   18.61294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2 8.109816   wt_spline   17.06317</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           3 7.839308   wt_spline   15.66323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           4 7.610136   wt_spline   14.39857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6           5 7.417380   wt_spline   13.25605</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hp_spline" "wt_spline"</span>
 <span class="r-in"><span></span></span>
@@ -1012,7 +1012,7 @@ predictions based on the training data throws an error.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    3</span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">$</span><span class="va">hp_spline</span><span class="op">$</span><span class="va">factory</span><span class="op">$</span><span class="fu">getPenalty</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 73.01218</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 66.68165</span>
 <span class="r-in"><span><span class="fu"><a href="plotBaselearner.html">plotBaselearner</a></span><span class="op">(</span><span class="va">cboost</span>, <span class="st">"hp_spline"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="Compboost-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>

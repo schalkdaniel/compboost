@@ -125,7 +125,6 @@
 
     
     
-<pre><code><span><span class="co">## Loading required package: mlr3</span></span></code></pre>
 <div class="section level2">
 <h2 id="before-starting">Before Starting<a class="anchor" aria-label="anchor" href="#before-starting"></a>
 </h2>
@@ -142,12 +141,12 @@ to get to know how to define a <code>Compboost</code> object using the
 dataset</a> with binary classification on <code>Survived</code>. First
 of all we store the train and test data into two data frames and remove
 all rows that contains missing values (<code>NA</code>s):</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Store train and test data:</span></span>
 <span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html" class="external-link">titanic_train</a></span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>For the later stopping we split the dataset into train and test:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
 <span><span class="va">idx_train</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">*</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="va">idx_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sets.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span>, <span class="va">idx_train</span><span class="op">)</span></span></code></pre></div>
@@ -158,7 +157,7 @@ all rows that contains missing values (<code>NA</code>s):</p>
 <p>We define the same model as in the <a href="https://danielschalk.com/compboost/articles/getting_started/use_case.html" class="external-link">use-case</a>
 but just on the train index without specifying an out-of-bag
 fraction:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span> <span class="op">=</span> <span class="va"><a href="../reference/Compboost.html">Compboost</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span><span class="op">[</span><span class="va">idx_train</span>, <span class="op">]</span>, target <span class="op">=</span> <span class="st">"Survived"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"Age"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span>
@@ -187,17 +186,17 @@ algorithm after a pre-defined runtime is reached.</p>
 above, we set <code>use_as_stopper = TRUE</code>. By setting the
 <code>max_time</code> we define how long we want to train the model,
 here 50000 microseconds:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerTime</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"time"</span>,</span>
 <span>  max_time <span class="op">=</span> <span class="fl">50000</span>, time_unit <span class="op">=</span> <span class="st">"microseconds"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">250</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    1/2000   risk = 0.67  time = 0   </span></span>
-<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 18251   </span></span>
-<span><span class="co">#&gt;  500/2000   risk = 0.48  time = 38450   </span></span>
+<span><span class="co">#&gt;  250/2000   risk = 0.5  time = 21418   </span></span>
+<span><span class="co">#&gt;  500/2000   risk = 0.48  time = 45210   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Train 632 iterations in 0 Seconds.</span></span>
+<span><span class="co">#&gt; Train 549 iterations in 0 Seconds.</span></span>
 <span><span class="co">#&gt; Final risk based on the train set: 0.48</span></span>
 <span><span class="va">cboost</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -207,23 +206,23 @@ here 50000 microseconds:</p>
 <span><span class="co">#&gt; Target variable: Survived</span></span>
 <span><span class="co">#&gt; Number of base-learners: 3</span></span>
 <span><span class="co">#&gt; Learning rate: 0.05</span></span>
-<span><span class="co">#&gt; Iterations: 632</span></span>
+<span><span class="co">#&gt; Iterations: 549</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Offset: 0.423</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; LossBinomial: L(y,x) = log(1 + exp(-2yf(x))</span></span></code></pre></div>
-<p>As we can see, the fittings is stopped early after 632 and does not
+<p>As we can see, the fittings is stopped early after 549 and does not
 train the full 2000 iterations. The logger data can be accessed by
 calling <code>$getLoggerData()</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     _iterations  time baselearner train_risk</span></span>
-<span><span class="co">#&gt; 628         627 49608 Fare_spline  0.4781271</span></span>
-<span><span class="co">#&gt; 629         628 49700  Age_spline  0.4781073</span></span>
-<span><span class="co">#&gt; 630         629 49791  Age_spline  0.4780877</span></span>
-<span><span class="co">#&gt; 631         630 49875   Sex_ridge  0.4780584</span></span>
-<span><span class="co">#&gt; 632         631 49966 Fare_spline  0.4780336</span></span>
-<span><span class="co">#&gt; 633         632 50056  Age_spline  0.4780141</span></span></code></pre></div>
+<span><span class="co">#&gt; 545         544 49551   Sex_ridge  0.4803666</span></span>
+<span><span class="co">#&gt; 546         545 49650  Age_spline  0.4803393</span></span>
+<span><span class="co">#&gt; 547         546 49753 Fare_spline  0.4803061</span></span>
+<span><span class="co">#&gt; 548         547 49851  Age_spline  0.4802790</span></span>
+<span><span class="co">#&gt; 549         548 49945   Sex_ridge  0.4802408</span></span>
+<span><span class="co">#&gt; 550         549 50044  Age_spline  0.4802140</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -254,12 +253,12 @@ prepare the oob data and response for <code>compboost</code>. Therefore,
 it is possible to use the <code>$prepareResponse()</code> and
 <code>$prepareData()</code> member functions to create suitable
 objects:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oob_response</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareResponse</span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span><span class="op">[</span><span class="va">idx_test</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">oob_data</span> <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">prepareData</span><span class="op">(</span><span class="va">df</span><span class="op">[</span><span class="va">idx_test</span>,<span class="op">]</span><span class="op">)</span></span></code></pre></div>
 <p>With these objects we can add the oob risk logger, declare it as
 stopper, and train the model:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addLogger</span><span class="op">(</span>logger <span class="op">=</span> <span class="va">LoggerOobRisk</span>, use_as_stopper <span class="op">=</span> <span class="cn">TRUE</span>, logger_id <span class="op">=</span> <span class="st">"oob"</span>,</span>
 <span>  used_loss <span class="op">=</span> <span class="va"><a href="../reference/LossBinomial.html">LossBinomial</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="op">)</span>, eps_for_break <span class="op">=</span> <span class="fl">0</span>, patience <span class="op">=</span> <span class="fl">5</span>, oob_data <span class="op">=</span> <span class="va">oob_data</span>,</span>
 <span>  oob_response <span class="op">=</span> <span class="va">oob_response</span><span class="op">)</span></span>
@@ -278,7 +277,7 @@ increase.</p>
 <p>Taking a look at the logger data tells us that we stopped exactly
 after the first five differences are bigger than zero (the oob risk of
 these iterations is bigger than the previous ones):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">#&gt;     _iterations       oob baselearner train_risk</span></span>
 <span><span class="co">#&gt; 535         534 0.4784209   Sex_ridge  0.4806872</span></span>
@@ -294,7 +293,7 @@ these iterations is bigger than the previous ones):</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">oob</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1]  1.180302e-05  5.400260e-07  1.179882e-05 -1.163699e-04  1.187324e-05</span></span>
 <span><span class="co">#&gt; [6]  9.532968e-07  1.186647e-05  1.321357e-06  1.185917e-05</span></span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">cboost</span><span class="op">$</span><span class="fu">getLoggerData</span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">`_iterations`</span>, y <span class="op">=</span> <span class="va">oob</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -305,7 +304,7 @@ these iterations is bigger than the previous ones):</p>
 <p><img src="basic-early-stopping_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <p>Taking a look at 2000 iterations shows that we have stopped quite
 good:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">2000</span>, trace <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; You have already trained 543 iterations.</span></span>
@@ -323,7 +322,7 @@ again. To capture this, we need the “patience” parameter which waits
 for, let’s say, 5 iterations and stops the algorithm only if the
 improvement in all 5 iterations is smaller than our criteria. Setting
 this parameter to one can lead to unstable results:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">na.omit</a></span><span class="op">(</span><span class="fu">titanic</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/titanic/man/titanic_train.html" class="external-link">titanic_train</a></span><span class="op">)</span></span>
 <span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">df</span><span class="op">$</span><span class="va">Survived</span>, labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"yes"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>

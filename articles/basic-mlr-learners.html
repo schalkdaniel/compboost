@@ -125,7 +125,6 @@
 
     
     
-<pre><code><span><span class="co">## Loading required package: mlr3</span></span></code></pre>
 <p>[Compboost] contains two <a href="https://github.com/mlr-org/mlr3" class="external-link"><code>mlr3</code></a> learners
 for regression <code>regr.compboost</code> and binary classification
 <code>classif.compboost</code>. See <a href="https://mlr3.mlr-org.com/" class="external-link">https://mlr3.mlr-org.com/</a> For an
@@ -136,8 +135,10 @@ small examples.</p>
 </h2>
 <p>As task, we use the Boston housing task that is accessible via
 <code>tsk("boston_housing")</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"boston_housing"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3.mlr-org.com" class="external-link">mlr3</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"boston_housing"</span><span class="op">)</span></span>
 <span><span class="va">task</span></span>
 <span><span class="co">#&gt; &lt;TaskRegr:boston_housing&gt; (506 x 19): Boston Housing Prices</span></span>
 <span><span class="co">#&gt; * Target: medv</span></span>
@@ -148,8 +149,8 @@ small examples.</p>
 <span><span class="co">#&gt;   - int (3): rad, tax, tract</span></span>
 <span><span class="co">#&gt;   - fct (2): chas, town</span></span></code></pre></div>
 <p>The key <code>regr.compboost</code> gives the regression learner:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span><span class="op">)</span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="va">param_set</span></span>
 <span><span class="co">#&gt; &lt;ParamSet&gt;</span></span>
 <span><span class="co">#&gt;                    id    class lower upper nlevels default     parents  value</span></span>
@@ -192,29 +193,29 @@ controlled via the parameters. For example, using early stopping
 requires to set the value <code>oob_fraction</code> to a number bigger
 than 0. Just in this case, the learner can be trained with early
 stopping:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in get_private(learner)$.train(task): `oob_fraction &gt; 0` required for early stopping.</span></span>
 <span></span>
-<span><span class="va">lcb</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">lcb</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lcb</span><span class="op">$</span><span class="va">model</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   _iterations oob_risk time  baselearner train_risk</span></span>
-<span><span class="co">#&gt; 1           0       NA   NA    intercept   37.65601</span></span>
-<span><span class="co">#&gt; 2           1 46.58148    0 cmedv_spline   34.00016</span></span>
-<span><span class="co">#&gt; 3           2 42.07048  279 cmedv_spline   30.70075</span></span>
-<span><span class="co">#&gt; 4           3 38.00687  521 cmedv_spline   27.72304</span></span>
-<span><span class="co">#&gt; 5           4 34.34667  746 cmedv_spline   25.03565</span></span>
-<span><span class="co">#&gt; 6           5 31.05019  980 cmedv_spline   22.61029</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0       NA   NA    intercept   41.07782</span></span>
+<span><span class="co">#&gt; 2           1 40.45820    0 cmedv_spline   37.09054</span></span>
+<span><span class="co">#&gt; 3           2 36.51209  306 cmedv_spline   33.49201</span></span>
+<span><span class="co">#&gt; 4           3 32.95109  568 cmedv_spline   30.24434</span></span>
+<span><span class="co">#&gt; 5           4 29.73764  820 cmedv_spline   27.31332</span></span>
+<span><span class="co">#&gt; 6           5 26.83783 1078 cmedv_spline   24.66807</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="binary-classification">Binary classification<a class="anchor" aria-label="anchor" href="#binary-classification"></a>
 </h2>
 <p>Binary classification works in the same way. We use the
 <code>spam</code> data set for the demo:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"spam"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"spam"</span><span class="op">)</span></span>
 <span><span class="va">task</span></span>
 <span><span class="co">#&gt; &lt;TaskClassif:spam&gt; (4601 x 58): HP Spam Detection</span></span>
 <span><span class="co">#&gt; * Target: type</span></span>
@@ -229,8 +230,8 @@ stopping:</p>
 <span><span class="co">#&gt;     parts, people, pm, project, re, receive, remove, report, table,</span></span>
 <span><span class="co">#&gt;     technology, telnet, will, you, your</span></span></code></pre></div>
 <p>Then, the usual methods and fields are accessible:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lcb</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span><span class="op">)</span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">lcb</span><span class="op">$</span><span class="va">predict_type</span> <span class="op">=</span> <span class="st">"prob"</span></span>
@@ -240,7 +241,7 @@ stopping:</p>
 <span><span class="co">#&gt; response  spam nonspam</span></span>
 <span><span class="co">#&gt;   spam    1415      82</span></span>
 <span><span class="co">#&gt;   nonspam  398    2706</span></span>
-<span><span class="va">pred</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu">msr</span><span class="op">(</span><span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pred</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"classif.auc"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; classif.auc </span></span>
 <span><span class="co">#&gt;   0.9597973</span></span></code></pre></div>
 </div>
@@ -252,25 +253,25 @@ optimizers. With <code>mlr3</code>, optimizers can defined in the
 construction of the learner. Thus, if compboost should be run in
 parallel, define an optimizer in advance and use it in the
 construction:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lcb</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 4.134</span></span>
+<span><span class="co">#&gt; 4.481</span></span>
 <span></span>
-<span><span class="va">lcb_2c</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, optimizer <span class="op">=</span> <span class="va"><a href="../reference/OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">lcb_2c</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, optimizer <span class="op">=</span> <span class="va"><a href="../reference/OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 2.335</span></span></code></pre></div>
+<span><span class="co">#&gt; 2.485</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using-different-losses">Using different losses<a class="anchor" aria-label="anchor" href="#using-different-losses"></a>
 </h2>
 <p>As for the parallel execution, losses can be defined by the
 <code>loss</code> parameter value in the construction:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"boston_housing"</span><span class="op">)</span></span>
-<span><span class="va">lcb_quantiles</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, loss <span class="op">=</span> <span class="va"><a href="../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"boston_housing"</span><span class="op">)</span></span>
+<span><span class="va">lcb_quantiles</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span>, loss <span class="op">=</span> <span class="va"><a href="../reference/LossQuantile.html">LossQuantile</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">lcb_quantiles</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">lcb_quantiles</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="co">#&gt; &lt;PredictionRegr&gt; for 506 observations:</span></span>
@@ -290,8 +291,8 @@ construction:</p>
 <code>data.frame</code> with columns <code>feat1</code> and
 <code>feat2</code>. For each row, one row-wise tensor product base
 learner is added to the model:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"german_credit"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"german_credit"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">ints</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>feat1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"age"</span>, <span class="st">"amount"</span><span class="op">)</span>, feat2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"job"</span>, <span class="st">"duration"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">ints</span></span>
@@ -300,7 +301,7 @@ learner is added to the model:</p>
 <span><span class="co">#&gt; 2 amount duration</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">31415</span><span class="op">)</span></span>
-<span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"classif.compboost"</span>, interactions <span class="op">=</span> <span class="va">ints</span><span class="op">)</span></span>
+<span><span class="va">l</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"classif.compboost"</span>, interactions <span class="op">=</span> <span class="va">ints</span><span class="op">)</span></span>
 <span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">l</span><span class="op">$</span><span class="fu">importance</span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;              baselearner risk_reduction</span></span>
@@ -318,19 +319,19 @@ values <code>patience = 5</code> and <code>eps_for_break = 0</code> (see
 <code><a href="../reference/LoggerOobRisk.html">?LoggerOobRisk</a></code>). In <code>compboost</code>, early stopping
 requires a validation set and hence to set
 <code>oob_fraction &gt; 0</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsk</span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"mtcars"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">314</span><span class="op">)</span></span>
-<span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, iterations <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">l</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, iterations <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
 <span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotRisk.html">plotRisk</a></span><span class="op">(</span><span class="va">l</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
 <p><img src="basic-mlr-learners_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>A more aggressive early stopping is achieved by setting
 <code>patience = 1</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">314</span><span class="op">)</span></span>
-<span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, iterations <span class="op">=</span> <span class="fl">1000</span>,</span>
+<span><span class="va">l</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span>, oob_fraction <span class="op">=</span> <span class="fl">0.3</span>, iterations <span class="op">=</span> <span class="fl">1000</span>,</span>
 <span>  patience <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/plotRisk.html">plotRisk</a></span><span class="op">(</span><span class="va">l</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
@@ -338,8 +339,8 @@ requires a validation set and hence to set
 <p>Though, this is not recommended as it can stop too early without
 reaching the best validation risk. Note that
 <code>oob_fraction &gt; 0</code> must be true to use early stopping:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">l</span> <span class="op">=</span> <span class="fu">lrn</span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">l</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.compboost"</span>, early_stop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">l</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Error in get_private(learner)$.train(task): `oob_fraction &gt; 0` required for early stopping.</span></span></code></pre></div>
 </div>
