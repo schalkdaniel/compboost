@@ -40,6 +40,13 @@ ichecker = function(x) {
   }
 }
 
+cleanList = function(ll) {
+  for (i in seq_along(ll)) {
+    if (is.null(ll[[i]])) ll[i] = NULL
+  }
+  return(ll)
+}
+
 #' @title Component-wise gradient boosting learner
 #'
 #' @description
@@ -74,11 +81,11 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
         interactions = paradox::p_uty(default = NULL, custom_check = ichecker),
         just_interactions = paradox::p_lgl(default = FALSE),
 
-        oob_fraction = paradox::p_dbl(0, 1, default = 0.3, tags = "train"),
-        early_stop   = paradox::p_lgl(default = FALSE),
-        patience     = paradox::p_int(1, Inf, default = 5, depends = early_stop == TRUE, tags = "early_stop"),
-        eps_for_break = paradox::p_dbl(-Inf, Inf, default = 0, depends = early_stop == TRUE, tags = "early_stop")
-      )
+        oob_fraction  = paradox::p_dbl(0, 1, default = 0.3, tags = "train"),
+        early_stop    = paradox::p_lgl(default = FALSE),
+        patience      = paradox::p_int(1, Inf, default = 5, depends = early_stop == TRUE, tags = "early_stop"),
+        eps_for_break = paradox::p_dbl(-Inf, Inf, default = 0, depends = early_stop == TRUE, tags = "early_stop"),
+        loss_oob      = paradox::p_uty(default = NULL, depends = early_stop == TRUE, custom_check = lchecker, tags = "early_stop"))
       ps$values$show_output = FALSE
       ps$values$iterations = 100L
       ps$values$baselearner = "spline"
@@ -158,7 +165,7 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
         }
         pv_es = self$param_set$default[tagIndex(self$param_set, "early_stop")]
         pv_es = mlr3misc::insert_named(pv_es, self$param_set$get_values(tags = "early_stop"))
-        pv$stop_args = pv_es
+        pv$stop_args = cleanList(pv_es)
       }
       pv = pv[intersect(names(pv), formalArgs(f))]
       if (! self$param_set$values$show_output) {

@@ -89,3 +89,36 @@ test_that("Early stopping works", {
 
   l = expect_error(lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, patience = 10))
 })
+
+test_that("Custom loss for oob works", {
+  task = tsk("mtcars")
+
+  # patience = 100 ensures that all learners are trained at least 100 iterations.
+
+  loss_oob = expect_silent(LossQuadratic$new(0))
+  set.seed(31415)
+  l1 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
+    patience = 100, loss_oob = loss_oob)})
+  expect_silent(l1$train(task))
+  offset = l$model$getCoef()$offset
+  pmat = cbind(l1$predict_newdata(l1$model$data_oob)$response)
+  expect_equal(l1$model$response_oob$getPrediction() + offset, pmat)
+
+  loss_oob = expect_silent(LossQuadratic$new(offset[1]))
+  set.seed(31415)
+  l2 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
+    patience = 100, loss_oob = loss_oob)})
+  expect_silent(l2$train(task))
+  expect_equal(l2$model$response_oob$getPrediction(), pmat)
+  expect_equal(l1$model$data_oob, l2$model$data_oob)
+  expect_equal(l1$predict(task), l2$predict(task))
+
+  loss_oob = expect_silent(LossQuadratic$new(pmat, TRUE))
+  set.seed(31415)
+  l3 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
+    patience = 100, loss_oob = loss_oob)})
+  expect_silent(l3$train(task))
+  expect_equal(l3$model$response_oob$getPrediction() - pmat + offset, pmat)
+  expect_equal(l1$model$data_oob, l3$model$data_oob)
+  expect_equal(l1$predict(task), l3$predict(task))
+})
