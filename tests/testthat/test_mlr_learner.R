@@ -3,11 +3,11 @@ context("mlr learners")
 test_that("Basic parameter are working", {
   task = mlr3::tsk("german_credit")
 
-  l = expect_silent(lrn("classif.compboost"))
+  l = expect_silent(mlr3::lrn("classif.compboost"))
   expect_silent(l$train(task))
   expect_true(checkmate::testR6(l$model, "Compboost"))
 
-  l = expect_silent(lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
+  l = expect_silent(mlr3::lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
     n_knots = 10, learning_rate = 0.01, show_output = TRUE))
   expect_output(l$train(task))
   sp = expect_silent(l$model$baselearner_list$duration_spline$factory)
@@ -25,9 +25,9 @@ test_that("Basic parameter are working", {
   pred = expect_silent(l$predict(task))
   expect_true(checkmate::checkMatrix(pred$prob, any.missing = FALSE, nrows = task$nrow))
 
-  l = expect_error(lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
+  l = expect_error(mlr3::lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
     n_knots = 10, learning_rate = 0.01, baselearner = "linear"))
-  l = expect_silent(lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
+  l = expect_silent(mlr3::lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
     learning_rate = 0.01, baselearner = "linear"))
   expect_silent(l$train(task))
   li = expect_silent(l$model$baselearner_list$duration_linear$factory)
@@ -39,7 +39,7 @@ test_that("Basic parameter are working", {
   expect_equal(length(l$model$getBaselearnerNames()), length(task$feature_names))
 
   ## Components:
-  l = expect_silent(lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
+  l = expect_silent(mlr3::lrn("classif.compboost", bin_root = 2, df = 3, df_cat = 2,
     n_knots = 10, learning_rate = 0.01, baselearner = "components"))
   expect_silent(l$train(task))
   expect_equal(length(l$model$getBaselearnerNames()),
@@ -55,7 +55,7 @@ test_that("Interactions can be included correctly", {
   task = mlr3::tsk("german_credit")
   ints = data.frame(feat1 = rep("duration", 2), feat2 = c("age", "job"))
 
-  l = expect_silent(lrn("classif.compboost", interactions = ints))
+  l = expect_silent(mlr3::lrn("classif.compboost", interactions = ints))
   expect_silent(l$train(task))
   expect_equal(length(l$model$getBaselearnerNames()), length(task$feature_names) + 2)
   t1 = expect_silent(l$model$baselearner_list$duration_age_tensor$factory)
@@ -64,7 +64,7 @@ test_that("Interactions can be included correctly", {
   expect_equal(nrow(t1$getData()), 24^2)
   expect_equal(nrow(t2$getData()), 24 * nlevels(task$data(cols = "job")[[1]]))
 
-  l = expect_silent(lrn("classif.compboost", interactions = ints, just_interactions = TRUE))
+  l = expect_silent(mlr3::lrn("classif.compboost", interactions = ints, just_interactions = TRUE))
   expect_silent(l$train(task))
   expect_equal(length(l$model$getBaselearnerNames()), 2)
 })
@@ -72,22 +72,22 @@ test_that("Interactions can be included correctly", {
 test_that("Early stopping works", {
   task = mlr3::tsk("mtcars")
 
-  l = expect_silent(lrn("regr.compboost", oob_fraction = 0, iterations = 1000, early_stop = TRUE))
+  l = expect_silent(mlr3::lrn("regr.compboost", oob_fraction = 0, iterations = 1000, early_stop = TRUE))
   expect_error(l$train(task))
 
   set.seed(314)
-  l = lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, early_stop = TRUE, patience = 1)
+  l = mlr3::lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, early_stop = TRUE, patience = 1)
   expect_silent(l$train(task))
   lgs = expect_silent(l$model$logs)
   expect_true(nrow(lgs) < 1000)
 
   set.seed(314)
-  l = lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, early_stop = TRUE, patience = 10)
+  l = mlr3::lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, early_stop = TRUE, patience = 10)
   expect_silent(l$train(task))
   lgs2 = expect_silent(l$model$logs)
   expect_true(nrow(lgs2) > nrow(lgs))
 
-  l = expect_error(lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, patience = 10))
+  l = expect_error(mlr3::lrn("regr.compboost", oob_fraction = 0.3, iterations = 1000, patience = 10))
 })
 
 test_that("Custom loss for oob works", {
@@ -97,7 +97,7 @@ test_that("Custom loss for oob works", {
 
   loss_oob = expect_silent(LossQuadratic$new(0))
   set.seed(31415)
-  l1 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
+  l1 = expect_silent({mlr3::lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
     patience = 100, loss_oob = loss_oob)})
   expect_silent(l1$train(task))
   offset = l1$model$getCoef()$offset
@@ -106,7 +106,7 @@ test_that("Custom loss for oob works", {
 
   loss_oob = expect_silent(LossQuadratic$new(offset[1]))
   set.seed(31415)
-  l2 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
+  l2 = expect_silent({mlr3::lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
     patience = 100, loss_oob = loss_oob)})
   expect_silent(l2$train(task))
   expect_equal(l2$model$response_oob$getPrediction(), pmat)
@@ -115,7 +115,7 @@ test_that("Custom loss for oob works", {
 
   loss_oob = expect_silent(LossQuadratic$new(pmat, TRUE))
   set.seed(31415)
-  l3 = expect_silent({lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
+  l3 = expect_silent({mlr3::lrn("regr.compboost", oob_fraction = 0.3, iterations = 100, early_stop = TRUE,
     patience = 100, loss_oob = loss_oob)})
   expect_silent(l3$train(task))
   expect_equal(l3$model$response_oob$getPrediction() - pmat + offset, pmat)

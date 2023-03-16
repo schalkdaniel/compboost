@@ -247,9 +247,9 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
 #' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
 #'
 #' @examples
-#' l = lrn("classif.compboost", baselearner = "components",
-#'   df = 5, iterations = 20)
 #' task = mlr3::tsk("german_credit")
+#' l = mlr3::lrn("classif.compboost", baselearner = "components",
+#'   df = 5, iterations = 20)
 #' l$train(task)
 #' l$selected_features()
 #' @export
@@ -269,8 +269,8 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
 #' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
 #'
 #' @examples
-#' l = lrn("regr.compboost", baselearner = "linear", iterations = 50)
 #' task = mlr3::tsk("mtcars")
+#' l = mlr3::lrn("regr.compboost", baselearner = "linear", iterations = 50)
 #' l$train(task)
 #' l$importance()
 #' @export
