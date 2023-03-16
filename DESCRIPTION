@@ -19,14 +19,14 @@ LazyData: true
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.1.1
 Depends:
-  R (>= 3.4.0),
-  mlr3
+  R (>= 3.4.0)
 Imports:
   Rcpp (>= 0.11.2),
   methods,
   R6,
   checkmate,
-  Matrix
+  Matrix,
+  mlr3
 LinkingTo:
   Rcpp,
   RcppArmadillo,
