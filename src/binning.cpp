@@ -84,11 +84,15 @@ arma::vec binVector (const arma::vec& x)
 arma::uvec calculateIndexVector (const arma::vec& x, const arma::vec& x_bins)
 {
   arma::uvec idx(x.size(), arma::fill::zeros);
-  const double delta = (x_bins(1) - x_bins(0)) / 2;
+  std::vector<double> brks;
+  for (unsigned int i = 0; i < x_bins.size() - 1; i++) {
+    brks.push_back(x_bins(i) + (x_bins(i + 1) - x_bins(i)) / 2);
+  }
+  brks.push_back(arma::max(x_bins) + 1);
 
   for (unsigned int i = 0; i < x.size(); i++) {
     unsigned int j = 0;
-    while ((x_bins(j) + delta) < x(i)) { j += 1; }
+    while (x(i) > brks.at(j)) { j += 1; }
     idx(i) = j;
   }
   return idx;
