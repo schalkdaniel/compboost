@@ -98,6 +98,24 @@ arma::uvec calculateIndexVector (const arma::vec& x, const arma::vec& x_bins)
   return idx;
 }
 
+/**
+ * \brief Calculate index vector for binned vector
+ *
+ * This function returns the indexes of the unique values to the complete binned vector.
+ *
+ * \param x `arma::vec` Vector that should be discretized.
+ *
+ * \param x_bins `arma::vec` Vector of unique values for binning.
+ *
+ * \returns `arma::uvec' Index vector.
+ */
+arma::uvec calculateIndexVectorLin (const arma::vec& x, const arma::vec& x_bins)
+{
+  double delta = x_bins(1) - x_bins(0);
+  return arma::conv_to<arma::uvec>::from(arma::round((x - arma::min(x)) / delta));
+}
+
+
 
 /**
  * \brief Calculating binned matrix product

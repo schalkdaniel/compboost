@@ -28,9 +28,10 @@
 namespace binning {
 
 // Calculate binned vector and index vector:
-arma::vec  binVectorCustom      (const arma::vec&, const unsigned int, const std::string);
-arma::vec  binVector            (const arma::vec&);
-arma::uvec calculateIndexVector (const arma::vec&, const arma::vec&);
+arma::vec  binVectorCustom         (const arma::vec&, const unsigned int, const std::string);
+arma::vec  binVector               (const arma::vec&);
+arma::uvec calculateIndexVector    (const arma::vec&, const arma::vec&);
+arma::uvec calculateIndexVectorLin (const arma::vec&, const arma::vec&);
 
 // Matrix multiplication on binned vectors:
 arma::mat binnedMatMult                (const arma::mat&, const arma::uvec&, const arma::vec&);

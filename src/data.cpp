@@ -339,7 +339,7 @@ BinnedData::BinnedData (const std::string data_identifier, const unsigned int bi
     _bin_root  ( bin_root )
 {
   _use_binning = bin_root > 0;
-  _bin_idx     = binning::calculateIndexVector(x, x_bins);
+  _bin_idx     = binning::calculateIndexVectorLin(x, x_bins);
 }
 
 BinnedData::BinnedData (const json& j)
