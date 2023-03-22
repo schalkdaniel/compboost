@@ -87,13 +87,13 @@ lcboost$predict_type = "prob"
 lcboost$predict(ts)
 #> <PredictionClassif> for 4601 observations:
 #>     row_ids   truth response prob.spam prob.nonspam
-#>           1    spam     spam 0.5541776    0.4458224
-#>           2    spam     spam 0.8637144    0.1362856
-#>           3    spam     spam 0.8242054    0.1757946
+#>           1    spam     spam 0.5540564    0.4459436
+#>           2    spam     spam 0.8636362    0.1363638
+#>           3    spam     spam 0.8241109    0.1758891
 #> ---                                                
-#>        4599 nonspam  nonspam 0.2052921    0.7947079
-#>        4600 nonspam  nonspam 0.2326375    0.7673625
-#>        4601 nonspam  nonspam 0.2624331    0.7375669
+#>        4599 nonspam  nonspam 0.2052605    0.7947395
+#>        4600 nonspam  nonspam 0.2326108    0.7673892
+#>        4601 nonspam  nonspam 0.2624187    0.7375813
 
 # Access the `$model` field to access all the `compboost` functionality:
 plotBaselearnerTraces(lcboost$model) +
