@@ -33,11 +33,13 @@ For an introduction and overview about the functionality visit the
 
 ## Installation
 
+<!--
 #### CRAN version:
 
-``` r
+```r
 install.packages("compboost")
 ```
+-->
 
 #### Developer version:
 
