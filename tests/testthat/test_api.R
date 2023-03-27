@@ -32,6 +32,10 @@ test_that("train works", {
   expect_output(cboost$train(4000))
   expect_output(cboost$print())
 
+  expect_error(expect_warning(cboost$predict(iris)))
+  expect_error(expect_warning(cboost$predict(mtcars[, 1, FALSE])))
+  expect_error(cboost$predict(data.frame()))
+
   expect_error(cboost$addBaselearner("wt", "spline", BaselearnerPSpline, degree = 3,
     n_knots = 10, penalty = 2, differences = 2))
 
@@ -46,6 +50,7 @@ test_that("train works", {
   expect_equal(cboost$bl_factory_list$getNumberOfRegisteredFactories(), 3L)
   expect_equal(sort(cboost$getBaselearnerNames()), sort(c("mpg_cat_A_binary", "mpg_cat_B_binary", "hp_spline")))
   expect_equal(cboost$bl_factory_list$getRegisteredFactoryNames(), sort(c("mpg_cat_A_binary", "mpg_cat_B_binary", "hp_spline")))
+
 
   expect_equal(cboost$getCurrentIteration(), 4000)
   expect_length(cboost$getInbagRisk(), 4001)

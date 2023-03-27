@@ -50,7 +50,7 @@ cleanList = function(ll) {
 #' @title Component-wise gradient boosting learner
 #'
 #' @description
-#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
+#' A [Learner][mlr3::Learner] for a component-wise boosting model implemented in [Compboost].
 #'
 #' @importFrom mlr3 mlr_learners Learner
 LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
@@ -244,7 +244,7 @@ LearnerCompboost = R6::R6Class("LearnerCompboost", inherit = Learner,
 #' @title Component-wise gradient boosting classification learner
 #'
 #' @description
-#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
+#' A [Learner][mlr3::Learner] for a component-wise boosting model implemented in [Compboost].
 #'
 #' @examples
 #' task = mlr3::tsk("german_credit")
@@ -266,7 +266,7 @@ LearnerClassifCompboost = R6::R6Class("LearnerClassifCompboost", inherit = Learn
 #' @title Component-wise gradient boosting regression learner
 #'
 #' @description
-#' A [Learner] for a component-wise boosting model implemented in [compboost::Compboost].
+#' A [Learner][mlr3::Learner] for a component-wise boosting model implemented in [Compboost].
 #'
 #' @examples
 #' task = mlr3::tsk("mtcars")
@@ -283,4 +283,3 @@ LearnerRegrCompboost = R6::R6Class("LearnerRegrCompboost", inherit = LearnerComp
     }
   )
 )
-

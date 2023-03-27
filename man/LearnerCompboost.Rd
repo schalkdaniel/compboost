@@ -4,7 +4,7 @@
 \alias{LearnerCompboost}
 \title{Component-wise gradient boosting learner}
 \description{
-A \link{Learner} for a component-wise boosting model implemented in \link{Compboost}.
+A \link[mlr3:Learner]{Learner} for a component-wise boosting model implemented in \link{Compboost}.
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{LearnerCompboost}

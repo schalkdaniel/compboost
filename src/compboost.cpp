@@ -304,6 +304,9 @@ std::map<std::string, arma::mat> Compboost::predictIndividual (const std::map<st
 
 arma::vec Compboost::predict (const std::map<std::string, std::shared_ptr<data::Data>>& data_map, const bool& as_response) const
 {
+  if (data_map.size() == 0) {
+    throw std::range_error("Require data in 'data_map' for prediction.");
+  }
   arma::mat pred(data_map.begin()->second->getNObs(), _sh_ptr_response->getResponse().n_cols, arma::fill::zeros);
 
   if (_sh_ptr_response->getInitialization().n_rows == 1)

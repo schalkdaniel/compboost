@@ -4,7 +4,7 @@
 \alias{LearnerRegrCompboost}
 \title{Component-wise gradient boosting regression learner}
 \description{
-A \link{Learner} for a component-wise boosting model implemented in \link{Compboost}.
+A \link[mlr3:Learner]{Learner} for a component-wise boosting model implemented in \link{Compboost}.
 }
 \examples{
 task = mlr3::tsk("mtcars")

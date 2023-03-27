@@ -41,7 +41,7 @@ cran-comments.md
 ^revdep$
 ^README\.Rmd$
 ^README-.*\.png$
-^LICENSE\.md$
+^LICENSE$
 ^cran-comments\.md$
 man/figures/*
 .lintr
