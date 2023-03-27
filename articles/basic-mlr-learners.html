@@ -119,7 +119,7 @@
       <img src="../logo.png" class="logo" alt=""><h1>mlr3 learners</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/schalkdaniel/compboost/blob/HEAD/vignettes/basic-mlr-learners.Rmd" class="external-link"><code>vignettes/basic-mlr-learners.Rmd</code></a></small>
       <div class="d-none name"><code>basic-mlr-learners.Rmd</code></div>
     </div>
 
@@ -202,12 +202,12 @@ stopping:</p>
 <span><span class="va">lcb</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">lcb</span><span class="op">$</span><span class="va">model</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   _iterations oob_risk time  baselearner train_risk</span></span>
-<span><span class="co">#&gt; 1           0       NA   NA    intercept   46.78504</span></span>
-<span><span class="co">#&gt; 2           1 28.23248    0 cmedv_spline   42.23572</span></span>
-<span><span class="co">#&gt; 3           2 25.50193  443 cmedv_spline   38.12996</span></span>
-<span><span class="co">#&gt; 4           3 23.03846  808 cmedv_spline   34.42452</span></span>
-<span><span class="co">#&gt; 5           4 20.81600 1124 cmedv_spline   31.08035</span></span>
-<span><span class="co">#&gt; 6           5 18.81099 1451 cmedv_spline   28.06224</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           0       NA   NA    intercept   40.86230</span></span>
+<span><span class="co">#&gt; 2           1 40.36041    0 cmedv_spline   36.89428</span></span>
+<span><span class="co">#&gt; 3           2 36.42020  319 cmedv_spline   33.31314</span></span>
+<span><span class="co">#&gt; 4           3 32.86892  592 cmedv_spline   30.08116</span></span>
+<span><span class="co">#&gt; 5           4 29.66841  879 cmedv_spline   27.16429</span></span>
+<span><span class="co">#&gt; 6           5 26.78424 1202 cmedv_spline   24.53182</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="binary-classification">Binary classification<a class="anchor" aria-label="anchor" href="#binary-classification"></a>
@@ -256,13 +256,13 @@ construction:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lcb</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 6.322</span></span>
+<span><span class="co">#&gt; 5.362</span></span>
 <span></span>
 <span><span class="va">lcb_2c</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"classif.compboost"</span>, iterations <span class="op">=</span> <span class="fl">500L</span>, optimizer <span class="op">=</span> <span class="va"><a href="../reference/OptimizerCoordinateDescent.html">OptimizerCoordinateDescent</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">lcb_2c</span><span class="op">$</span><span class="va">timings</span><span class="op">[</span><span class="st">"train"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; train </span></span>
-<span><span class="co">#&gt; 3.397</span></span></code></pre></div>
+<span><span class="co">#&gt; 2.897</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="using-different-losses">Using different losses<a class="anchor" aria-label="anchor" href="#using-different-losses"></a>
