@@ -50,3 +50,4 @@ man/figures/*
 ^doc$
 ^Meta$
 ^CRAN-SUBMISSION$
+^LICENSE\.md$

@@ -67,7 +67,7 @@ cboost$addBaselearner("Fare", "spline", BaselearnerPSpline, degree = 2,
   n_knots = 14, penalty = 10, differences = 2)
 ```
 
-For references to the base learner documentation see [functionality](https://danielschalk.com/compboost/articles/functionality/fct-baselearner.html) at the project page.
+For references to the base learner documentation see [functionality](https://danielschalk.com/compboost/articles/fct-baselearner.html) at the project page.
 
 ### Categorical Features
 
