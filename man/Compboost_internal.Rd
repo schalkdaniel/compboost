@@ -2,12 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{Compboost_internal}
 \alias{Compboost_internal}
-\title{Internal Compboost Class
-
-This class is the raw \verb{C++} pendant and still at a very high-level.
-It is the base for the \link{Compboost} \link{R6} class and provides
-many convenient wrapper to access data and execute methods by calling
-the \verb{C++} methods.}
+\title{Internal Compboost Class}
 \format{
 \link{S4} object.
 }
@@ -38,8 +33,6 @@ An initialized \code{S4} optimizer object (requires to call \code{Optimizer*.new
 See the respective help page for further information.}
 }
 \description{
-Internal Compboost Class
-
 This class is the raw \verb{C++} pendant and still at a very high-level.
 It is the base for the \link{Compboost} \link{R6} class and provides
 many convenient wrapper to access data and execute methods by calling

@@ -133,35 +133,35 @@ Note: \code{oob_fraction} is ignored if this argument is set.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Compboost$new()}}
-\item \href{#method-addLogger}{\code{Compboost$addLogger()}}
-\item \href{#method-getCurrentIteration}{\code{Compboost$getCurrentIteration()}}
-\item \href{#method-addIntercept}{\code{Compboost$addIntercept()}}
-\item \href{#method-addBaselearner}{\code{Compboost$addBaselearner()}}
-\item \href{#method-rmBaselearner}{\code{Compboost$rmBaselearner()}}
-\item \href{#method-addTensor}{\code{Compboost$addTensor()}}
-\item \href{#method-addComponents}{\code{Compboost$addComponents()}}
-\item \href{#method-train}{\code{Compboost$train()}}
-\item \href{#method-prepareData}{\code{Compboost$prepareData()}}
-\item \href{#method-prepareResponse}{\code{Compboost$prepareResponse()}}
-\item \href{#method-predict}{\code{Compboost$predict()}}
-\item \href{#method-predictIndividual}{\code{Compboost$predictIndividual()}}
-\item \href{#method-transformData}{\code{Compboost$transformData()}}
-\item \href{#method-getInbagRisk}{\code{Compboost$getInbagRisk()}}
-\item \href{#method-getSelectedBaselearner}{\code{Compboost$getSelectedBaselearner()}}
-\item \href{#method-print}{\code{Compboost$print()}}
-\item \href{#method-getCoef}{\code{Compboost$getCoef()}}
-\item \href{#method-getEstimatedCoef}{\code{Compboost$getEstimatedCoef()}}
-\item \href{#method-getBaselearnerNames}{\code{Compboost$getBaselearnerNames()}}
-\item \href{#method-getLoggerData}{\code{Compboost$getLoggerData()}}
-\item \href{#method-calculateFeatureImportance}{\code{Compboost$calculateFeatureImportance()}}
-\item \href{#method-saveToJson}{\code{Compboost$saveToJson()}}
-\item \href{#method-clone}{\code{Compboost$clone()}}
+\item \href{#method-Compboost-new}{\code{Compboost$new()}}
+\item \href{#method-Compboost-addLogger}{\code{Compboost$addLogger()}}
+\item \href{#method-Compboost-getCurrentIteration}{\code{Compboost$getCurrentIteration()}}
+\item \href{#method-Compboost-addIntercept}{\code{Compboost$addIntercept()}}
+\item \href{#method-Compboost-addBaselearner}{\code{Compboost$addBaselearner()}}
+\item \href{#method-Compboost-rmBaselearner}{\code{Compboost$rmBaselearner()}}
+\item \href{#method-Compboost-addTensor}{\code{Compboost$addTensor()}}
+\item \href{#method-Compboost-addComponents}{\code{Compboost$addComponents()}}
+\item \href{#method-Compboost-train}{\code{Compboost$train()}}
+\item \href{#method-Compboost-prepareData}{\code{Compboost$prepareData()}}
+\item \href{#method-Compboost-prepareResponse}{\code{Compboost$prepareResponse()}}
+\item \href{#method-Compboost-predict}{\code{Compboost$predict()}}
+\item \href{#method-Compboost-predictIndividual}{\code{Compboost$predictIndividual()}}
+\item \href{#method-Compboost-transformData}{\code{Compboost$transformData()}}
+\item \href{#method-Compboost-getInbagRisk}{\code{Compboost$getInbagRisk()}}
+\item \href{#method-Compboost-getSelectedBaselearner}{\code{Compboost$getSelectedBaselearner()}}
+\item \href{#method-Compboost-print}{\code{Compboost$print()}}
+\item \href{#method-Compboost-getCoef}{\code{Compboost$getCoef()}}
+\item \href{#method-Compboost-getEstimatedCoef}{\code{Compboost$getEstimatedCoef()}}
+\item \href{#method-Compboost-getBaselearnerNames}{\code{Compboost$getBaselearnerNames()}}
+\item \href{#method-Compboost-getLoggerData}{\code{Compboost$getLoggerData()}}
+\item \href{#method-Compboost-calculateFeatureImportance}{\code{Compboost$calculateFeatureImportance()}}
+\item \href{#method-Compboost-saveToJson}{\code{Compboost$saveToJson()}}
+\item \href{#method-Compboost-clone}{\code{Compboost$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Compboost-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
@@ -225,8 +225,8 @@ File from which a model should be loaded. If \code{NULL}, \code{data} and \code{
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-addLogger"></a>}}
-\if{latex}{\out{\hypertarget{method-addLogger}{}}}
+\if{html}{\out{<a id="method-Compboost-addLogger"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-addLogger}{}}}
 \subsection{Method \code{addLogger()}}{
 Add a logger to the model.
 \subsection{Usage}{
@@ -251,8 +251,8 @@ The id of the logger. This allows to define two logger of the same type (\verb{e
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getCurrentIteration"></a>}}
-\if{latex}{\out{\hypertarget{method-getCurrentIteration}{}}}
+\if{html}{\out{<a id="method-Compboost-getCurrentIteration"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getCurrentIteration}{}}}
 \subsection{Method \code{getCurrentIteration()}}{
 Get the number of the current iteration.
 \subsection{Usage}{
@@ -264,8 +264,8 @@ Get the number of the current iteration.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-addIntercept"></a>}}
-\if{latex}{\out{\hypertarget{method-addIntercept}{}}}
+\if{html}{\out{<a id="method-Compboost-addIntercept"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-addIntercept}{}}}
 \subsection{Method \code{addIntercept()}}{
 This functions adds a base learner that adjusts the intercept (if selected).
 Adding an intercept base learner may be necessary, e.g., when adding linear effects
@@ -292,8 +292,8 @@ storing is supported, see \code{?InMemorydata} for details.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-addBaselearner"></a>}}
-\if{latex}{\out{\hypertarget{method-addBaselearner}{}}}
+\if{html}{\out{<a id="method-Compboost-addBaselearner"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-addBaselearner}{}}}
 \subsection{Method \code{addBaselearner()}}{
 Add a base learner of one feature to the model that is considered in each iteration.
 Using \verb{$addBaselearner()} just allows including univariate features. See \verb{$addTensor()} for
@@ -337,8 +337,8 @@ storing is supported, see \code{?InMemorydata} for details.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-rmBaselearner"></a>}}
-\if{latex}{\out{\hypertarget{method-rmBaselearner}{}}}
+\if{html}{\out{<a id="method-Compboost-rmBaselearner"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-rmBaselearner}{}}}
 \subsection{Method \code{rmBaselearner()}}{
 Remove a base learner from the model.
 \subsection{Usage}{
@@ -355,8 +355,8 @@ Name of the base learner that should be removed. Must be an element of \verb{$ge
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-addTensor"></a>}}
-\if{latex}{\out{\hypertarget{method-addTensor}{}}}
+\if{html}{\out{<a id="method-Compboost-addTensor"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-addTensor}{}}}
 \subsection{Method \code{addTensor()}}{
 Add a row-wise tensor product of features. Note: The base learner are pre-defined
 by the type of the feature. Numerical features uses a \code{BaselearnerPSpline} while categorical
@@ -404,8 +404,8 @@ the total degrees of freedom are uniformly distributed over the dimensions while
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-addComponents"></a>}}
-\if{latex}{\out{\hypertarget{method-addComponents}{}}}
+\if{html}{\out{<a id="method-Compboost-addComponents"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-addComponents}{}}}
 \subsection{Method \code{addComponents()}}{
 Add an effect with individual components. A linear term is added as well as
 a non-linear term without the linear effect. This ensures that the linear
@@ -434,8 +434,8 @@ Name of the feature, must be a column in \code{data}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-train"></a>}}
-\if{latex}{\out{\hypertarget{method-train}{}}}
+\if{html}{\out{<a id="method-Compboost-train"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-train}{}}}
 \subsection{Method \code{train()}}{
 Start fitting a model.
 \subsection{Usage}{
@@ -458,8 +458,8 @@ To silently fit the model use \code{trace = 0}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-prepareData"></a>}}
-\if{latex}{\out{\hypertarget{method-prepareData}{}}}
+\if{html}{\out{<a id="method-Compboost-prepareData"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-prepareData}{}}}
 \subsection{Method \code{prepareData()}}{
 Internally, each base learner is build on a \link{InMemoryData} object. Some
 methods (e.g. adding a \link{LoggerOobRisk}) requires to pass the data as
@@ -493,8 +493,8 @@ are included with \link{CategoricalDataRaw}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-prepareResponse"></a>}}
-\if{latex}{\out{\hypertarget{method-prepareResponse}{}}}
+\if{html}{\out{<a id="method-Compboost-prepareResponse"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-prepareResponse}{}}}
 \subsection{Method \code{prepareResponse()}}{
 Same as for \verb{$prepareData()} but for the response. Internally, \code{vectorToResponse()} is
 used to generate a \link{ResponseRegr} or \link{ResponseBinaryClassif} object.
@@ -516,8 +516,8 @@ response object.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-Compboost-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-predict}{}}}
 \subsection{Method \code{predict()}}{
 Calculate predictions.
 \subsection{Usage}{
@@ -550,8 +550,8 @@ Vector of predictions.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predictIndividual"></a>}}
-\if{latex}{\out{\hypertarget{method-predictIndividual}{}}}
+\if{html}{\out{<a id="method-Compboost-predictIndividual"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-predictIndividual}{}}}
 \subsection{Method \code{predictIndividual()}}{
 While \verb{$predict()} returns the sum of all base learner predictions, this function
 returns a \code{list} with the predictions for each base learner.
@@ -582,8 +582,8 @@ predictions as elements.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-transformData"></a>}}
-\if{latex}{\out{\hypertarget{method-transformData}{}}}
+\if{html}{\out{<a id="method-Compboost-transformData"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-transformData}{}}}
 \subsection{Method \code{transformData()}}{
 Get design matrices of all (or a subset) base learners for a new \code{data.frame}.
 \subsection{Usage}{
@@ -617,8 +617,8 @@ constructed based on the feature names of \code{newdata}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getInbagRisk"></a>}}
-\if{latex}{\out{\hypertarget{method-getInbagRisk}{}}}
+\if{html}{\out{<a id="method-Compboost-getInbagRisk"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getInbagRisk}{}}}
 \subsection{Method \code{getInbagRisk()}}{
 Return the training risk of each iteration.
 \subsection{Usage}{
@@ -630,8 +630,8 @@ Return the training risk of each iteration.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getSelectedBaselearner"></a>}}
-\if{latex}{\out{\hypertarget{method-getSelectedBaselearner}{}}}
+\if{html}{\out{<a id="method-Compboost-getSelectedBaselearner"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getSelectedBaselearner}{}}}
 \subsection{Method \code{getSelectedBaselearner()}}{
 Get a vector with the name of the selected base learner of each iteration.
 \subsection{Usage}{
@@ -643,8 +643,8 @@ Get a vector with the name of the selected base learner of each iteration.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-Compboost-print"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-print}{}}}
 \subsection{Method \code{print()}}{
 Printer of the object.
 \subsection{Usage}{
@@ -656,8 +656,8 @@ Invisibly returns the object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getCoef"></a>}}
-\if{latex}{\out{\hypertarget{method-getCoef}{}}}
+\if{html}{\out{<a id="method-Compboost-getCoef"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getCoef}{}}}
 \subsection{Method \code{getCoef()}}{
 Get the estimated coefficients.
 \subsection{Usage}{
@@ -669,8 +669,8 @@ Get the estimated coefficients.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getEstimatedCoef"></a>}}
-\if{latex}{\out{\hypertarget{method-getEstimatedCoef}{}}}
+\if{html}{\out{<a id="method-Compboost-getEstimatedCoef"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getEstimatedCoef}{}}}
 \subsection{Method \code{getEstimatedCoef()}}{
 DEPRICATED use \verb{$getCoef()} instead.
 Get the estimated coefficients.
@@ -683,8 +683,8 @@ Get the estimated coefficients.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getBaselearnerNames"></a>}}
-\if{latex}{\out{\hypertarget{method-getBaselearnerNames}{}}}
+\if{html}{\out{<a id="method-Compboost-getBaselearnerNames"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getBaselearnerNames}{}}}
 \subsection{Method \code{getBaselearnerNames()}}{
 Get the names of the registered base learners.
 \subsection{Usage}{
@@ -696,8 +696,8 @@ Get the names of the registered base learners.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getLoggerData"></a>}}
-\if{latex}{\out{\hypertarget{method-getLoggerData}{}}}
+\if{html}{\out{<a id="method-Compboost-getLoggerData"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-getLoggerData}{}}}
 \subsection{Method \code{getLoggerData()}}{
 Get the logged information.
 \subsection{Usage}{
@@ -709,8 +709,8 @@ Get the logged information.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-calculateFeatureImportance"></a>}}
-\if{latex}{\out{\hypertarget{method-calculateFeatureImportance}{}}}
+\if{html}{\out{<a id="method-Compboost-calculateFeatureImportance"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-calculateFeatureImportance}{}}}
 \subsection{Method \code{calculateFeatureImportance()}}{
 Calculate feature important based on the training risk. Note that early
 stopping should be used to get adequate importance measures.
@@ -742,8 +742,8 @@ with importance values as elements.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-saveToJson"></a>}}
-\if{latex}{\out{\hypertarget{method-saveToJson}{}}}
+\if{html}{\out{<a id="method-Compboost-saveToJson"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-saveToJson}{}}}
 \subsection{Method \code{saveToJson()}}{
 Save a \link{Compboost} object to a JSON file. Because of the underlying \code{C++} objects,
 it is not possible to use \code{R}'s native load and save methods.
@@ -767,8 +767,8 @@ predictions based on the training data throws an error.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Compboost-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Compboost-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

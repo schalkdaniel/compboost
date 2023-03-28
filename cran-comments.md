@@ -13,7 +13,7 @@ Remote environments via GitHub Actions, checks are run with `--as-cran`
 ## R CMD check results
 There were no ERRORs or WARNINGs.
 
-There was 2 NOTE:
+There were 2 NOTEs:
 
 ```
 checking installed package size ... NOTE
@@ -26,14 +26,3 @@ sub-directories of 1Mb or more:
 * This is a new release.
 * Shared object created by Rcpp is greater than 1Mb.
 * Using math equations in the vignettes increases the size of two vignettes to ~800 kB and ~600 kB.
-
-```
-checking HTML version of manual ... [10s] NOTE
-Found the following HTML validation problems:
-mlr_learners.compboost.html:63:6 (mlr_learners.compboost.Rd:27): Warning: missing </span> before <p>
-mlr_learners.compboost.html:63:92 (mlr_learners.compboost.Rd:27): Warning: inserting implicit <span>
-mlr_learners.compboost.html:66:6 (mlr_learners.compboost.Rd:28): Warning: missing </span> before <p>
-...
-```
-
-* I was not able to reproduce the error on my machine. Hence it is tough to debug the problem here.

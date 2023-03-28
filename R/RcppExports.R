@@ -1466,6 +1466,7 @@ NULL
 
 #' @title Internal Compboost Class
 #'
+#' @description
 #' This class is the raw `C++` pendant and still at a very high-level.
 #' It is the base for the [Compboost] [R6] class and provides
 #' many convenient wrapper to access data and execute methods by calling

@@ -6,7 +6,7 @@ Authors@R: c(
   person(given = "Daniel", family = "Schalk", email = "schalkdaniel242@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0950-1947")),
   person(given = "Janek", family = "Thomas", email = "janek.thomas@stat.uni-muenchen.de", role = "aut", comment = c(ORCID = "0000-0003-4511-6245")),
   person(given = "Bernd", family = "Bischl", email = "bernd_bischl@gmx.net", role = "aut", comment = c(ORCID = "0000-0001-6002-6980")))
-Maintainer: Daniel Schalk <daniel.schalk@stat.uni-muenchen.de>
+Maintainer: Daniel Schalk <schalkdaniel242@gmail.com>
 Description: Efficient implementation of component-wise gradient boosting.
   The package applies the boosting framework to statistical models, e.g.,
   general additive models using component-wise smoothing splines.
@@ -18,7 +18,7 @@ BugReports: https://github.com/schalkdaniel/compboost/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, r6 = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Depends:
   R (>= 3.4.0)
 Imports:
