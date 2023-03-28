@@ -256,31 +256,31 @@ Note: <code>oob_fraction</code> is ignored if this argument is set.</p></dd>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-new"><code>Compboost$new()</code></a></p></li>
-<li><p><a href="#method-addLogger"><code>Compboost$addLogger()</code></a></p></li>
-<li><p><a href="#method-getCurrentIteration"><code>Compboost$getCurrentIteration()</code></a></p></li>
-<li><p><a href="#method-addIntercept"><code>Compboost$addIntercept()</code></a></p></li>
-<li><p><a href="#method-addBaselearner"><code>Compboost$addBaselearner()</code></a></p></li>
-<li><p><a href="#method-rmBaselearner"><code>Compboost$rmBaselearner()</code></a></p></li>
-<li><p><a href="#method-addTensor"><code>Compboost$addTensor()</code></a></p></li>
-<li><p><a href="#method-addComponents"><code>Compboost$addComponents()</code></a></p></li>
-<li><p><a href="#method-train"><code>Compboost$train()</code></a></p></li>
-<li><p><a href="#method-prepareData"><code>Compboost$prepareData()</code></a></p></li>
-<li><p><a href="#method-prepareResponse"><code>Compboost$prepareResponse()</code></a></p></li>
-<li><p><a href="#method-predict"><code>Compboost$predict()</code></a></p></li>
-<li><p><a href="#method-predictIndividual"><code>Compboost$predictIndividual()</code></a></p></li>
-<li><p><a href="#method-transformData"><code>Compboost$transformData()</code></a></p></li>
-<li><p><a href="#method-getInbagRisk"><code>Compboost$getInbagRisk()</code></a></p></li>
-<li><p><a href="#method-getSelectedBaselearner"><code>Compboost$getSelectedBaselearner()</code></a></p></li>
-<li><p><a href="#method-print"><code>Compboost$print()</code></a></p></li>
-<li><p><a href="#method-getCoef"><code>Compboost$getCoef()</code></a></p></li>
-<li><p><a href="#method-getEstimatedCoef"><code>Compboost$getEstimatedCoef()</code></a></p></li>
-<li><p><a href="#method-getBaselearnerNames"><code>Compboost$getBaselearnerNames()</code></a></p></li>
-<li><p><a href="#method-getLoggerData"><code>Compboost$getLoggerData()</code></a></p></li>
-<li><p><a href="#method-calculateFeatureImportance"><code>Compboost$calculateFeatureImportance()</code></a></p></li>
-<li><p><a href="#method-saveToJson"><code>Compboost$saveToJson()</code></a></p></li>
-<li><p><a href="#method-clone"><code>Compboost$clone()</code></a></p></li>
-</ul></div><p></p><hr><a id="method-new"></a><div class="section">
+<ul><li><p><a href="#method-Compboost-new"><code>Compboost$new()</code></a></p></li>
+<li><p><a href="#method-Compboost-addLogger"><code>Compboost$addLogger()</code></a></p></li>
+<li><p><a href="#method-Compboost-getCurrentIteration"><code>Compboost$getCurrentIteration()</code></a></p></li>
+<li><p><a href="#method-Compboost-addIntercept"><code>Compboost$addIntercept()</code></a></p></li>
+<li><p><a href="#method-Compboost-addBaselearner"><code>Compboost$addBaselearner()</code></a></p></li>
+<li><p><a href="#method-Compboost-rmBaselearner"><code>Compboost$rmBaselearner()</code></a></p></li>
+<li><p><a href="#method-Compboost-addTensor"><code>Compboost$addTensor()</code></a></p></li>
+<li><p><a href="#method-Compboost-addComponents"><code>Compboost$addComponents()</code></a></p></li>
+<li><p><a href="#method-Compboost-train"><code>Compboost$train()</code></a></p></li>
+<li><p><a href="#method-Compboost-prepareData"><code>Compboost$prepareData()</code></a></p></li>
+<li><p><a href="#method-Compboost-prepareResponse"><code>Compboost$prepareResponse()</code></a></p></li>
+<li><p><a href="#method-Compboost-predict"><code>Compboost$predict()</code></a></p></li>
+<li><p><a href="#method-Compboost-predictIndividual"><code>Compboost$predictIndividual()</code></a></p></li>
+<li><p><a href="#method-Compboost-transformData"><code>Compboost$transformData()</code></a></p></li>
+<li><p><a href="#method-Compboost-getInbagRisk"><code>Compboost$getInbagRisk()</code></a></p></li>
+<li><p><a href="#method-Compboost-getSelectedBaselearner"><code>Compboost$getSelectedBaselearner()</code></a></p></li>
+<li><p><a href="#method-Compboost-print"><code>Compboost$print()</code></a></p></li>
+<li><p><a href="#method-Compboost-getCoef"><code>Compboost$getCoef()</code></a></p></li>
+<li><p><a href="#method-Compboost-getEstimatedCoef"><code>Compboost$getEstimatedCoef()</code></a></p></li>
+<li><p><a href="#method-Compboost-getBaselearnerNames"><code>Compboost$getBaselearnerNames()</code></a></p></li>
+<li><p><a href="#method-Compboost-getLoggerData"><code>Compboost$getLoggerData()</code></a></p></li>
+<li><p><a href="#method-Compboost-calculateFeatureImportance"><code>Compboost$calculateFeatureImportance()</code></a></p></li>
+<li><p><a href="#method-Compboost-saveToJson"><code>Compboost$saveToJson()</code></a></p></li>
+<li><p><a href="#method-Compboost-clone"><code>Compboost$clone()</code></a></p></li>
+</ul></div><p></p><hr><a id="method-Compboost-new"></a><div class="section">
 <h3 id="method-new-">Method <code>new()</code><a class="anchor" aria-label="anchor" href="#method-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
 <h4 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a></h4>
@@ -363,7 +363,7 @@ File from which a model should be loaded. If <code>NULL</code>, <code>data</code
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-addLogger"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-addLogger"></a><div class="section">
 <h3 id="method-addlogger-">Method <code>addLogger()</code><a class="anchor" aria-label="anchor" href="#method-addlogger-"></a></h3>
 <p>Add a logger to the model.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
@@ -394,7 +394,7 @@ The id of the logger. This allows to define two logger of the same type (<code>e
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-getCurrentIteration"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getCurrentIteration"></a><div class="section">
 <h3 id="method-getcurrentiteration-">Method <code>getCurrentIteration()</code><a class="anchor" aria-label="anchor" href="#method-getcurrentiteration-"></a></h3>
 <p>Get the number of the current iteration.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
@@ -406,7 +406,7 @@ The id of the logger. This allows to define two logger of the same type (<code>e
 <p><code>integer(1)</code> value.</p>
 </div>
 
-</div><p></p><hr><a id="method-addIntercept"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-addIntercept"></a><div class="section">
 <h3 id="method-addintercept-">Method <code>addIntercept()</code><a class="anchor" aria-label="anchor" href="#method-addintercept-"></a></h3>
 <p>This functions adds a base learner that adjusts the intercept (if selected).
 Adding an intercept base learner may be necessary, e.g., when adding linear effects
@@ -437,7 +437,7 @@ storing is supported, see <code>?InMemorydata</code> for details.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-addBaselearner"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-addBaselearner"></a><div class="section">
 <h3 id="method-addbaselearner-">Method <code>addBaselearner()</code><a class="anchor" aria-label="anchor" href="#method-addbaselearner-"></a></h3>
 <p>Add a base learner of one feature to the model that is considered in each iteration.
 Using <code>$addBaselearner()</code> just allows including univariate features. See <code>$addTensor()</code> for
@@ -493,7 +493,7 @@ storing is supported, see <code>?InMemorydata</code> for details.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-rmBaselearner"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-rmBaselearner"></a><div class="section">
 <h3 id="method-rmbaselearner-">Method <code>rmBaselearner()</code><a class="anchor" aria-label="anchor" href="#method-rmbaselearner-"></a></h3>
 <p>Remove a base learner from the model.</p><div class="section">
 <h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
@@ -510,7 +510,7 @@ Name of the base learner that should be removed. Must be an element of <code>$ge
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-addTensor"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-addTensor"></a><div class="section">
 <h3 id="method-addtensor-">Method <code>addTensor()</code><a class="anchor" aria-label="anchor" href="#method-addtensor-"></a></h3>
 <p>Add a row-wise tensor product of features. Note: The base learner are pre-defined
 by the type of the feature. Numerical features uses a <code>BaselearnerPSpline</code> while categorical
@@ -570,7 +570,7 @@ the total degrees of freedom are uniformly distributed over the dimensions while
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-addComponents"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-addComponents"></a><div class="section">
 <h3 id="method-addcomponents-">Method <code>addComponents()</code><a class="anchor" aria-label="anchor" href="#method-addcomponents-"></a></h3>
 <p>Add an effect with individual components. A linear term is added as well as
 a non-linear term without the linear effect. This ensures that the linear
@@ -602,7 +602,7 @@ Name of the feature, must be a column in <code>data</code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-train"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-train"></a><div class="section">
 <h3 id="method-train-">Method <code>train()</code><a class="anchor" aria-label="anchor" href="#method-train-"></a></h3>
 <p>Start fitting a model.</p><div class="section">
 <h4 id="usage-8">Usage<a class="anchor" aria-label="anchor" href="#usage-8"></a></h4>
@@ -627,7 +627,7 @@ To silently fit the model use <code>trace = 0</code>.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-prepareData"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-prepareData"></a><div class="section">
 <h3 id="method-preparedata-">Method <code>prepareData()</code><a class="anchor" aria-label="anchor" href="#method-preparedata-"></a></h3>
 <p>Internally, each base learner is build on a <a href="InMemoryData.html">InMemoryData</a> object. Some
 methods (e.g. adding a <a href="LoggerOobRisk.html">LoggerOobRisk</a>) requires to pass the data as
@@ -668,7 +668,7 @@ Numeric features are wrapped by <a href="InMemoryData.html">InMemoryData</a> whi
 are included with <a href="CategoricalDataRaw.html">CategoricalDataRaw</a>.</p>
 </div>
 
-</div><p></p><hr><a id="method-prepareResponse"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-prepareResponse"></a><div class="section">
 <h3 id="method-prepareresponse-">Method <code>prepareResponse()</code><a class="anchor" aria-label="anchor" href="#method-prepareresponse-"></a></h3>
 <p>Same as for <code>$prepareData()</code> but for the response. Internally, <code>vectorToResponse()</code> is
 used to generate a <a href="ResponseRegr.html">ResponseRegr</a> or <a href="ResponseBinaryClassif.html">ResponseBinaryClassif</a> object.</p><div class="section">
@@ -691,7 +691,7 @@ response object.</p></dd>
 <p><a href="ResponseRegr.html">ResponseRegr</a> | <a href="ResponseBinaryClassif.html">ResponseBinaryClassif</a> object.</p>
 </div>
 
-</div><p></p><hr><a id="method-predict"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-predict"></a><div class="section">
 <h3 id="method-predict-">Method <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code><a class="anchor" aria-label="anchor" href="#method-predict-"></a></h3>
 <p>Calculate predictions.</p><div class="section">
 <h4 id="usage-11">Usage<a class="anchor" aria-label="anchor" href="#usage-11"></a></h4>
@@ -733,7 +733,7 @@ response, i.e. classes.</p></dd>
 <p>Vector of predictions.</p>
 </div>
 
-</div><p></p><hr><a id="method-predictIndividual"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-predictIndividual"></a><div class="section">
 <h3 id="method-predictindividual-">Method <code>predictIndividual()</code><a class="anchor" aria-label="anchor" href="#method-predictindividual-"></a></h3>
 <p>While <code>$predict()</code> returns the sum of all base learner predictions, this function
 returns a <code>list</code> with the predictions for each base learner.</p><div class="section">
@@ -771,7 +771,7 @@ New data set of the same structure as <code>data</code>.</p></dd>
 predictions as elements.</p>
 </div>
 
-</div><p></p><hr><a id="method-transformData"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-transformData"></a><div class="section">
 <h3 id="method-transformdata-">Method <code>transformData()</code><a class="anchor" aria-label="anchor" href="#method-transformdata-"></a></h3>
 <p>Get design matrices of all (or a subset) base learners for a new <code>data.frame</code>.</p><div class="section">
 <h4 id="usage-13">Usage<a class="anchor" aria-label="anchor" href="#usage-13"></a></h4>
@@ -814,7 +814,7 @@ constructed based on the feature names of <code>newdata</code>.</p></dd>
 <p><code>list(matrix | Matrix::Matrix)</code> matrices as elements.</p>
 </div>
 
-</div><p></p><hr><a id="method-getInbagRisk"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getInbagRisk"></a><div class="section">
 <h3 id="method-getinbagrisk-">Method <code>getInbagRisk()</code><a class="anchor" aria-label="anchor" href="#method-getinbagrisk-"></a></h3>
 <p>Return the training risk of each iteration.</p><div class="section">
 <h4 id="usage-14">Usage<a class="anchor" aria-label="anchor" href="#usage-14"></a></h4>
@@ -826,7 +826,7 @@ constructed based on the feature names of <code>newdata</code>.</p></dd>
 <p><code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code> vector of risk values or <code>NULL</code> if <code>$train()</code> was not called previously.</p>
 </div>
 
-</div><p></p><hr><a id="method-getSelectedBaselearner"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getSelectedBaselearner"></a><div class="section">
 <h3 id="method-getselectedbaselearner-">Method <code>getSelectedBaselearner()</code><a class="anchor" aria-label="anchor" href="#method-getselectedbaselearner-"></a></h3>
 <p>Get a vector with the name of the selected base learner of each iteration.</p><div class="section">
 <h4 id="usage-15">Usage<a class="anchor" aria-label="anchor" href="#usage-15"></a></h4>
@@ -838,7 +838,7 @@ constructed based on the feature names of <code>newdata</code>.</p></dd>
 <p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> vector of base learner names.</p>
 </div>
 
-</div><p></p><hr><a id="method-print"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-print"></a><div class="section">
 <h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
 <p>Printer of the object.</p><div class="section">
 <h4 id="usage-16">Usage<a class="anchor" aria-label="anchor" href="#usage-16"></a></h4>
@@ -850,7 +850,7 @@ constructed based on the feature names of <code>newdata</code>.</p></dd>
 <p>Invisibly returns the object.</p>
 </div>
 
-</div><p></p><hr><a id="method-getCoef"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getCoef"></a><div class="section">
 <h3 id="method-getcoef-">Method <code>getCoef()</code><a class="anchor" aria-label="anchor" href="#method-getcoef-"></a></h3>
 <p>Get the estimated coefficients.</p><div class="section">
 <h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
@@ -862,7 +862,7 @@ constructed based on the feature names of <code>newdata</code>.</p></dd>
 <p><code>list(pars, offset)</code> with estimated coefficients/parameters and intercept/offset.</p>
 </div>
 
-</div><p></p><hr><a id="method-getEstimatedCoef"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getEstimatedCoef"></a><div class="section">
 <h3 id="method-getestimatedcoef-">Method <code>getEstimatedCoef()</code><a class="anchor" aria-label="anchor" href="#method-getestimatedcoef-"></a></h3>
 <p>DEPRICATED use <code>$getCoef()</code> instead.
 Get the estimated coefficients.</p><div class="section">
@@ -875,7 +875,7 @@ Get the estimated coefficients.</p><div class="section">
 <p><code>list(pars, offset)</code> with estimated coefficients/parameters and intercept/offset.</p>
 </div>
 
-</div><p></p><hr><a id="method-getBaselearnerNames"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getBaselearnerNames"></a><div class="section">
 <h3 id="method-getbaselearnernames-">Method <code>getBaselearnerNames()</code><a class="anchor" aria-label="anchor" href="#method-getbaselearnernames-"></a></h3>
 <p>Get the names of the registered base learners.</p><div class="section">
 <h4 id="usage-19">Usage<a class="anchor" aria-label="anchor" href="#usage-19"></a></h4>
@@ -887,7 +887,7 @@ Get the estimated coefficients.</p><div class="section">
 <p><code>charcter()</code> of base learner names.</p>
 </div>
 
-</div><p></p><hr><a id="method-getLoggerData"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-getLoggerData"></a><div class="section">
 <h3 id="method-getloggerdata-">Method <code>getLoggerData()</code><a class="anchor" aria-label="anchor" href="#method-getloggerdata-"></a></h3>
 <p>Get the logged information.</p><div class="section">
 <h4 id="usage-20">Usage<a class="anchor" aria-label="anchor" href="#usage-20"></a></h4>
@@ -899,7 +899,7 @@ Get the estimated coefficients.</p><div class="section">
 <p><code>data.frame</code> of logging information.</p>
 </div>
 
-</div><p></p><hr><a id="method-calculateFeatureImportance"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-calculateFeatureImportance"></a><div class="section">
 <h3 id="method-calculatefeatureimportance-">Method <code>calculateFeatureImportance()</code><a class="anchor" aria-label="anchor" href="#method-calculatefeatureimportance-"></a></h3>
 <p>Calculate feature important based on the training risk. Note that early
 stopping should be used to get adequate importance measures.</p><div class="section">
@@ -934,7 +934,7 @@ instead of considering them individually.</p></dd>
 with importance values as elements.</p>
 </div>
 
-</div><p></p><hr><a id="method-saveToJson"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-saveToJson"></a><div class="section">
 <h3 id="method-savetojson-">Method <code>saveToJson()</code><a class="anchor" aria-label="anchor" href="#method-savetojson-"></a></h3>
 <p>Save a Compboost object to a JSON file. Because of the underlying <code>C++</code> objects,
 it is not possible to use <code>R</code>'s native load and save methods.</p><div class="section">
@@ -960,7 +960,7 @@ predictions based on the training data throws an error.</p></dd>
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-Compboost-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-23">Usage<a class="anchor" aria-label="anchor" href="#usage-23"></a></h4>
@@ -988,21 +988,21 @@ predictions based on the training data throws an error.</p></dd>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">addBaselearner</span><span class="op">(</span><span class="st">"wt"</span>, <span class="st">"spline"</span>, <span class="va">BaselearnerPSpline</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">1000</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 1000 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 1.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.84</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="fu">getSelectedBaselearner</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> hp_spline wt_spline </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       568       432 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       152       848 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="va">logs</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   _iterations oob_risk baselearner train_risk</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1           0       NA   intercept   19.79236</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2           1 6.353205   wt_spline   18.12226</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2 5.592196   wt_spline   16.61335</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4           3 4.943666   wt_spline   15.24999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5           4 4.394708   wt_spline   14.01805</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6           5 3.933773   wt_spline   12.90476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   _iterations  oob_risk baselearner train_risk</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1           0        NA   intercept   19.82499</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2           1 10.470349   wt_spline   18.18820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3           2  9.259999   wt_spline   16.70937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4           3  8.195526   wt_spline   15.37317</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5           4  7.261122   wt_spline   14.16571</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6           5  6.442615   wt_spline   13.07449</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">cboost</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hp_spline" "wt_spline"</span>
 <span class="r-in"><span></span></span>
@@ -1011,8 +1011,8 @@ predictions based on the training data throws an error.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    3</span>
 <span class="r-in"><span><span class="va">cboost</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">$</span><span class="va">hp_spline</span><span class="op">$</span><span class="va">factory</span><span class="op">$</span><span class="fu">getPenalty</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 68.65406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 68.7999</span>
 <span class="r-in"><span><span class="fu"><a href="plotBaselearner.html">plotBaselearner</a></span><span class="op">(</span><span class="va">cboost</span>, <span class="st">"hp_spline"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="Compboost-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
