@@ -2,9 +2,9 @@
 * local arch linux (kernel 6.1.4-arch1-1), R 4.2.2
 
 Remote environments via GitHub Actions, checks are run with `--as-cran`
-* macOS-latest (release), R 4.2.2
-* windows-latest (release), R 4.2.2
-* ubuntu-latest (devel), R Under development (unstable) (2023-03-13 r83977)
+* macOS-latest (release), R 4.2.3
+* windows-latest (release), R 4.2.3
+* ubuntu-latest (devel), R Under development (unstable) (2023-03-27 r84084)
 * ubuntu-latest (release), R 4.2.3
 * ubuntu-latest (oldrel-1), R 4.1.3
 * ubuntu-latest (oldrel-2), R 4.0.5
