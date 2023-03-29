@@ -7,12 +7,13 @@ Authors@R: c(
   person(given = "Janek", family = "Thomas", email = "janek.thomas@stat.uni-muenchen.de", role = "aut", comment = c(ORCID = "0000-0003-4511-6245")),
   person(given = "Bernd", family = "Bischl", email = "bernd_bischl@gmx.net", role = "aut", comment = c(ORCID = "0000-0001-6002-6980")))
 Maintainer: Daniel Schalk <schalkdaniel242@gmail.com>
-Description: Efficient implementation of component-wise gradient boosting.
+Description: Efficient implementation of component-wise gradient boosting
+  (Buehlmann, P., Hothorn, T. (2007) <doi:10.1214/07-STS242>).
   The package applies the boosting framework to statistical models, e.g.,
   general additive models using component-wise smoothing splines.
   Boosting these kinds of base components enables interpretation of the
-  model and enables (unbiased) model selection in high-dimensional feature spaces.
-  Daniel Schalk, Janek Thomas, Bernd Bischl (2018) <doi:10.21105/joss.00967>
+  model and enables (unbiased) model selection in high-dimensional feature spaces
+  (Hofner et al. (2011) <doi:10.1198/jcgs.2011.09220>).
 License: LGPL (>= 3)
 Copyright: inst/COPYRIGHTS file
 URL: https://danielschalk.com/compboost/, https://github.com/schalkdaniel/compboost/

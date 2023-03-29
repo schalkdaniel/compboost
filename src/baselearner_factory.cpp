@@ -959,10 +959,6 @@ BaselearnerCategoricalRidgeFactory::BaselearnerCategoricalRidgeFactory (const st
   }
   _sh_ptr_data = init::initRidgeData(cdata_source, _attributes);
 
-  // Calculate and set penalty
-  unsigned int nrows = chr_classes.size();
-
-
   _attributes->penalty_mat = arma::diagmat(arma::vec(_attributes->dictionary.size(), arma::fill::ones));
   arma::vec xtx_diag(arma::diagvec((_sh_ptr_data->getSparseData() * _sh_ptr_data->getSparseData().t())));
 

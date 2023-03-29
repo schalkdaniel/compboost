@@ -14,7 +14,7 @@ A trained \code{Compboost} object.}
 Name of the tensor base learner.}
 
 \item{npoints}{(\code{integer(1L)})\cr
-Number of grid points per numerical feature. Note: For two numerical features
+Number of grid points per numerical feature. Note: For two numerical features,
 the overall number of grid points is \code{npoints^2}. For a numerical and
 categorical feature it is \code{npoints * ncat} with \code{ncat} the number
 of categories. For two categorical features \code{ncat^2} grid points are
