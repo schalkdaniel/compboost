@@ -31,14 +31,16 @@ A smooth surface is drawn if \code{nbins = NULL}.}
 This function visualizes the contribution of a bivariate tensor product.
 }
 \examples{
+\donttest{
 cboost = Compboost$new(data = iris, target = "Petal.Length",
   learning_rate = 0.1)
 
-cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4, n_knots = 7)
-cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2, n_knots = 7)
+cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4, n_knots = 10)
+cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2, n_knots = 10)
 
 cboost$train(100L)
 
-plotTensor(cboost, "Sepal.Width_Species_tensor", npoints = 10L)
-plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor", npoints = 10L)
+plotTensor(cboost, "Sepal.Width_Species_tensor")
+plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")
+}
 }
