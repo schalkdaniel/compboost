@@ -189,21 +189,21 @@ modeling the UK black smoke network daily data</em>).</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Get the transformed data:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">bl_lin</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1 0.9214850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1 0.9232200</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1 0.6618037</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1 0.1310561</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1 0.6341594</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]    1 0.6668823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1 0.70828422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1 0.70091819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1 0.22057668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1 0.07709625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1 0.58647345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]    1 0.35549948</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">bl_cub</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]         [,2]         [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.02162964 0.0004678415 1.011925e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.12885796 0.0166043739 2.139606e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.23608628 0.0557367294 1.315868e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.34331459 0.1178649080 4.046474e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.45054291 0.2029889099 9.145521e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.55777122 0.3111087349 1.735275e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]         [,2]         [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.003279946 1.075805e-05 3.528582e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.110713932 1.225757e-02 1.357084e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.218147917 4.758851e-02 1.038134e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.325581902 1.060036e-01 3.451285e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.433015887 1.875028e-01 8.119167e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.540449873 2.920861e-01 1.578579e-01</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Summarize factory:</span></span></span>
 <span class="r-in"><span><span class="va">bl_lin</span><span class="op">$</span><span class="fu">summarizeFactory</span><span class="op">(</span><span class="op">)</span></span></span>
@@ -215,21 +215,21 @@ modeling the UK black smoke network daily data</em>).</p></dd>
 <span class="r-in"><span><span class="va">newdata</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va"><a href="InMemoryData.html">InMemoryData</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span>, <span class="st">"my_data_name"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bl_lin</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="va">newdata</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1 1.0230085</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1 1.2688249</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1 0.5574628</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1 0.9314704</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1 0.3656063</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1 -1.1363869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1 -0.6597606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1  0.1988824</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1 -0.5206944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1  0.8838683</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">bl_cub</span><span class="op">$</span><span class="fu">transformData</span><span class="op">(</span><span class="va">newdata</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $design</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           [,1]      [,2]       [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 1.0230085 1.0465464 1.07062592</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 1.2688249 1.6099166 2.04270233</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.5574628 0.3107648 0.17323983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.9314704 0.8676372 0.80817839</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.3656063 0.1336680 0.04886984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]         [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -1.1363869 1.2913752 -1.467501849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.6597606 0.4352841 -0.287183303</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.1988824 0.0395542  0.007866632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] -0.5206944 0.2711226 -0.141172025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.8838683 0.7812231  0.690498330</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># R6 wrapper</span></span></span>
@@ -246,30 +246,30 @@ modeling the UK black smoke network daily data</em>).</p></dd>
 <span class="r-in"><span>  intercept <span class="op">=</span> <span class="cn">FALSE</span>, degree <span class="op">=</span> <span class="fl">3</span>, bin_root <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cboost_cub</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fl">100</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Train 100 iterations in 0 Seconds.</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.037</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Final risk based on the train set: 0.065</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Access base learner directly from the API (n = sqrt(100) = 10 with binning):</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cboost_lin</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">$</span><span class="va">x_lin</span><span class="op">$</span><span class="va">factory</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]      [,2]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1 0.9214850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1 0.9232200</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1 0.6618037</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1 0.1310561</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1 0.6341594</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]    1 0.6668823</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]       [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1 0.70828422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    1 0.70091819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    1 0.22057668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    1 0.07709625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    1 0.58647345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]    1 0.35549948</span>
 <span class="r-in"><span><span class="va">cboost_cub</span><span class="op">$</span><span class="va">baselearner_list</span><span class="op">$</span><span class="va">x_cubic</span><span class="op">$</span><span class="va">factory</span><span class="op">$</span><span class="fu">getData</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             [,1]         [,2]         [,3]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.02162964 0.0004678415 1.011925e-05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.12885796 0.0166043739 2.139606e-03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 0.23608628 0.0557367294 1.315868e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 0.34331459 0.1178649080 4.046474e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 0.45054291 0.2029889099 9.145521e-02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 0.55777122 0.3111087349 1.735275e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 0.66499954 0.4422243831 2.940790e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 0.77222785 0.5963358545 4.605072e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 0.87945617 0.7734431490 6.802093e-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 0.98668448 0.9735462667 9.605830e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              [,1]         [,2]         [,3]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.003279946 1.075805e-05 3.528582e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.110713932 1.225757e-02 1.357084e-03</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 0.218147917 4.758851e-02 1.038134e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 0.325581902 1.060036e-01 3.451285e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 0.433015887 1.875028e-01 8.119167e-02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 0.540449873 2.920861e-01 1.578579e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 0.647883858 4.197535e-01 2.719515e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 0.755317843 5.705050e-01 4.309126e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 0.862751829 7.443407e-01 6.421813e-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 0.970185814 9.412605e-01 9.131976e-01</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">gg_lin</span> <span class="op">=</span> <span class="fu"><a href="plotPEUni.html">plotPEUni</a></span><span class="op">(</span><span class="va">cboost_lin</span>, <span class="st">"x"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">gg_cub</span> <span class="op">=</span> <span class="fu"><a href="plotPEUni.html">plotPEUni</a></span><span class="op">(</span><span class="va">cboost_cub</span>, <span class="st">"x"</span><span class="op">)</span></span></span>
