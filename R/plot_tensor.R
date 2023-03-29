@@ -9,7 +9,7 @@
 #' @param tname (`character(2L)`)\cr
 #'   Name of the tensor base learner.
 #' @param npoints (`integer(1L)`)\cr
-#'   Number of grid points per numerical feature. Note: For two numerical features
+#'   Number of grid points per numerical feature. Note: For two numerical features,
 #'   the overall number of grid points is `npoints^2`. For a numerical and
 #'   categorical feature it is `npoints * ncat` with `ncat` the number
 #'   of categories. For two categorical features `ncat^2` grid points are
@@ -19,16 +19,15 @@
 #'   A smooth surface is drawn if `nbins = NULL`.
 #' @examples
 #' cboost = Compboost$new(data = iris, target = "Petal.Length",
-#'   loss = LossQuadratic$new(), learning_rate = 0.2)
+#'   learning_rate = 0.1)
 #'
-#' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4, n_knots = 10)
-#' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2, n_knots = 10)
+#' cboost$addTensor("Sepal.Width", "Sepal.Length", df1 = 4, df2 = 4, n_knots = 7)
+#' cboost$addTensor("Sepal.Width", "Species", df1 = 4, df2 = 2, n_knots = 7)
 #'
-#' cboost$train(40L)
+#' cboost$train(100L)
 #'
-#' plotTensor(cboost, "Sepal.Width_Species_tensor")
-#' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor")
-#' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor", nbins = NULL)
+#' plotTensor(cboost, "Sepal.Width_Species_tensor", npoints = 10L)
+#' plotTensor(cboost, "Sepal.Width_Sepal.Length_tensor", npoints = 10L)
 #' @export
 plotTensor = function(cboost, tname, npoints = 100L, nbins = 15L) {
   if (! requireNamespace("ggplot2", quietly = TRUE)) stop("Please install ggplot2 to create plots.")

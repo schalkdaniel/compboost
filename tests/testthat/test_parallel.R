@@ -1,7 +1,7 @@
 context("Compboost parallel")
 
 test_that("If parallel execution speeds up the algorithm", {
-  if ((parallel::detectCores() > 2) && (Sys.info()["sysname"] != "Darwin")) {
+  if ((parallel::detectCores() >= 2) && (Sys.info()["sysname"] != "Darwin")) {
 
     feats = 40
     n = 10000
@@ -9,7 +9,7 @@ test_that("If parallel execution speeds up the algorithm", {
     mydata = as.data.frame(do.call(cbind, lapply(seq_len(feats + 1), function (x) { rnorm(n) })))
     names(mydata) = c("target", paste0("feat", seq_len(feats)))
 
-     optimizer = expect_silent(OptimizerCoordinateDescent$new())
+    optimizer = expect_silent(OptimizerCoordinateDescent$new())
 
     time1 = proc.time()
 

@@ -9,12 +9,12 @@
 // ========================================================================== //
 //
 // Compboost is free software: you can redistribute it and/or modify
-// it under the terms of the MIT License.
+// it under the terms of the LGPL-3 License.
 // Compboost is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-// MIT License for more details. You should have received a copy of
-// the MIT License along with compboost.
+// LGPL-3 License for more details. You should have received a copy of
+// the license along with compboost.
 //
 // =========================================================================== #
 

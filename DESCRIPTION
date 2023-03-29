@@ -1,6 +1,6 @@
 Package: compboost
 Type: Package
-Title: Efficient implementation of component-wise boosting
+Title: Efficient Component-Wise Boosting Implementation
 Version: 0.1.2
 Authors@R: c(
   person(given = "Daniel", family = "Schalk", email = "schalkdaniel242@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-0950-1947")),
@@ -12,9 +12,11 @@ Description: Efficient implementation of component-wise gradient boosting.
   general additive models using component-wise smoothing splines.
   Boosting these kinds of base components enables interpretation of the
   model and enables (unbiased) model selection in high-dimensional feature spaces.
+  Daniel Schalk, Janek Thomas, Bernd Bischl (2018) <doi:10.21105/joss.00967>
 License: LGPL (>= 3)
-URL: https://schalkdaniel.github.io/compboost, https://github.com/schalkdaniel/compboost
-BugReports: https://github.com/schalkdaniel/compboost/issues
+Copyright: inst/COPYRIGHTS file
+URL: https://danielschalk.com/compboost/, https://github.com/schalkdaniel/compboost/
+BugReports: https://github.com/schalkdaniel/compboost/issues/
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, r6 = TRUE)

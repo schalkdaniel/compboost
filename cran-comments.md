@@ -26,3 +26,24 @@ sub-directories of 1Mb or more:
 * This is a new release.
 * Shared object created by Rcpp is greater than 1Mb.
 * Using math equations in the vignettes increases the size of two vignettes to ~800 kB and ~600 kB.
+
+## CRAN submission notes
+* Note from CRAN:
+  | Please always add all authors, contributors and copyright holders in the
+  | Authors@R field with the appropriate roles.
+  |  From CRAN policies you agreed to:
+  | "The ownership of copyright and intellectual property rights of all
+  | components of the package must be clear and unambiguous (including from
+  | the authors specification in the DESCRIPTION file). Where code is copied
+  | (or derived) from the work of others (including from R itself), care
+  | must be taken that any copyright/license statements are preserved and
+  | authorship is not misrepresented.
+  | Preferably, an ‘Authors@R’ would be used with ‘ctb’ roles for the
+  | authors of such code. Alternatively, the ‘Author’ field should list
+  | these authors as contributors. Where copyrights are held by an entity
+  | other than the package authors, this should preferably be indicated via
+  | ‘cph’ roles in the ‘Authors@R’ field, or using a ‘Copyright’ field (if
+  | necessary referring to an inst/COPYRIGHTS file)." e.g.: Copyrightholders
+  | of 'date.h'
+  | Please explain in the submission comments what you did about this issue.
+* Copyright holders of `date.h` and `json.hpp` were added within a `inst/COPYRIGHTS` file that is referenced in the `Copyright` field of the `DESCRIPTION` file.

@@ -1,0 +1,11 @@
+* `date.h` in `src/single_include/` is licensed under the MIT license and copyrighted by:
+  Copyright (c) 2015, 2016, 2017 Howard Hinnant
+  Copyright (c) 2016 Adrian Colomitchi
+  Copyright (c) 2017 Florian Dang
+  Copyright (c) 2017 Paul Thompson
+  Copyright (c) 2018, 2019 Tomasz Kamiński
+  Copyright (c) 2019 Jiangang Zhuang
+
+* `json.hpp` in `src/single_include/nlohmann/` is licensed under the MIT license and copyrighted by:
+  Copyright (c) 2013-2019 Niels Lohmann <http://nlohmann.me>.
+
