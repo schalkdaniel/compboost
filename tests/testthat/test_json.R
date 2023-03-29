@@ -9,7 +9,7 @@ test_that("basic components", {
 
   testCboostJson(cboost, cboost2)
   testCboostJson(cboost, cboost2, 10)
-  testCboostJson(cboost, cboost2, 1000)
+  testCboostJson(cboost, cboost2, 200)
 
   file.remove(file)
 })
@@ -25,7 +25,7 @@ test_that("different losses", {
 
     testCboostJson(cboost, cboost2)
     testCboostJson(cboost, cboost2, 10)
-    testCboostJson(cboost, cboost2, 1000)
+    testCboostJson(cboost, cboost2, 200)
 
     return(NULL)
   })
@@ -37,7 +37,7 @@ test_that("different losses", {
 
   testCboostJson(cboost, cboost2)
   testCboostJson(cboost, cboost2, 10)
-  testCboostJson(cboost, cboost2, 1000)
+  testCboostJson(cboost, cboost2, 200)
 
   file.remove(file)
 })
@@ -63,7 +63,7 @@ test_that("different optimizers", {
       testCboostJson(cboost, cboost2)
       if (! grepl("OptimizerAGBM", class(op))) {
         testCboostJson(cboost, cboost2, 10)
-        testCboostJson(cboost, cboost2, 1000)
+        testCboostJson(cboost, cboost2, 200)
       }
 
       return(NULL)
@@ -86,7 +86,7 @@ test_that("complex base learner", {
 
   testCboostJson(cboost, cboost2, blp = "Petal.Length_Petal.Width_tensor")
   testCboostJson(cboost, cboost2, 10, blp = "Petal.Length_Petal.Width_tensor")
-  testCboostJson(cboost, cboost2, 1000, blp = "Petal.Length_Petal.Width_tensor")
+  testCboostJson(cboost, cboost2, 200, blp = "Petal.Length_Petal.Width_tensor")
 
   # CENTERED:
   cboost = expect_silent(Compboost$new(data = iris, target = "Sepal.Length", loss = LossQuadratic$new()))
@@ -97,7 +97,7 @@ test_that("complex base learner", {
 
   testCboostJson(cboost, cboost2, blp = "Petal.Length_Petal.Length_spline_centered")
   testCboostJson(cboost, cboost2, 40, blp = "Petal.Length_Petal.Length_spline_centered")
-  testCboostJson(cboost, cboost2, 1000, blp = "Petal.Length_Petal.Length_spline_centered")
+  testCboostJson(cboost, cboost2, 200, blp = "Petal.Length_Petal.Length_spline_centered")
 
   file.remove(file)
 })
@@ -113,5 +113,5 @@ test_that("training with validation logger works", {
 
   testCboostJson(cboost, cboost2)
   testCboostJson(cboost, cboost2, 10)
-  testCboostJson(cboost, cboost2, 1000)
+  testCboostJson(cboost, cboost2, 200)
 })

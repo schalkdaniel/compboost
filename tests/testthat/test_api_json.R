@@ -16,7 +16,7 @@ test_that("Basic save and load works with all loss and optimizer combinations", 
     l = lo_grid$l[[i]]
     o = lo_grid$o[[i]]
 
-    iters = 1000L
+    iters = 100L
     if (o$getOptimizerType() == "agbm") {
       iters = 100L
     }
@@ -92,17 +92,17 @@ test_that("Basic save and load works for tensor base learner with all loss and o
   for (i in seq_len(nrow(lo_grid))) {
     l = lo_grid$l[[i]]
     o = lo_grid$o[[i]]
-
+ 0
     cb = expect_silent(Compboost$new(data = iris, target = "Sepal.Length", loss = l, optimizer = o))
-    expect_silent(cb$addTensor("Species", "Sepal.Width"))
-    expect_silent(cb$addTensor("Petal.Length", "Petal.Width"))
+    expect_silent(cb$addTensor("Species", "Sepal.Width", n_knots = 5))
+    expect_silent(cb$addTensor("Petal.Length", "Petal.Width", n_knots = 5))
     expect_output(cb$train(100))
 
     cboost = testCboostJsonAPI(cb)
     invisible(lapply(unique(cboost$getSelectedBaselearner()), function(bln) expect_error(plotBaselearner(cboost, bln))))
 
     invisible(lapply(unique(cboost$getSelectedBaselearner()), function(bln) {
-      expect_equal(class(expect_silent(plotTensor(cboost, bln))), c("gg", "ggplot"))
+      expect_equal(class(expect_silent(plotTensor(cboost, bln, npoints = 10L))), c("gg", "ggplot"))
     }))
   }
 

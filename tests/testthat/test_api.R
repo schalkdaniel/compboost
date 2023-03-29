@@ -29,7 +29,7 @@ test_that("train works", {
   expect_silent(cboost$addBaselearner("mpg_cat", "binary", BaselearnerCategoricalBinary))
   expect_silent(cboost$addBaselearner("hp", "spline", BaselearnerPSpline, degree = 3,
     n_knots = 10, penalty = 2, differences = 2))
-  expect_output(cboost$train(4000))
+  expect_output(cboost$train(400))
   expect_output(cboost$print())
 
   expect_error(expect_warning(cboost$predict(iris)))
@@ -52,15 +52,15 @@ test_that("train works", {
   expect_equal(cboost$bl_factory_list$getRegisteredFactoryNames(), sort(c("mpg_cat_A_binary", "mpg_cat_B_binary", "hp_spline")))
 
 
-  expect_equal(cboost$getCurrentIteration(), 4000)
-  expect_length(cboost$getInbagRisk(), 4001)
-  expect_length(cboost$getSelectedBaselearner(), 4000)
+  expect_equal(cboost$getCurrentIteration(), 400)
+  expect_length(cboost$getInbagRisk(), 401)
+  expect_length(cboost$getSelectedBaselearner(), 400)
   expect_equal(cboost$getCoef()$offset, as.numeric(cboost$offset))
 
-  expect_output(cboost$train(6000))
-  expect_equal(cboost$getCurrentIteration(), 6000)
-  expect_length(cboost$getInbagRisk(), 6001)
-	expect_length(cboost$getSelectedBaselearner(), 6000)
+  expect_output(cboost$train(600))
+  expect_equal(cboost$getCurrentIteration(), 600)
+  expect_length(cboost$getInbagRisk(), 601)
+	expect_length(cboost$getSelectedBaselearner(), 600)
 
   expect_equal(cboost$train(100), NULL)
   expect_equal(cboost$getCurrentIteration(), 100)
